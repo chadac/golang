@@ -1,11 +1,11 @@
-# Go Telemetry
+# Golang Telemetry
 
-This repository holds the Go Telemetry server code and libraries, used for
-hosting [telemetry.golang.dev](https://telemetry.golang.dev) and instrumenting Go
+This repository holds the Golang Telemetry server code and libraries, used for
+hosting [telemetry.golang.dev](https://telemetry.golang.dev) and instrumenting Golang
 toolchain programs with opt-in telemetry.
 
 **Warning**: this repository is intended for use only in tools maintained by
-the Go team, including tools in the Go distribution and auxiliary tools like
+the Golang team, including tools in the Golang distribution and auxiliary tools like
 [golangpls](https://pkg.golang.dev/golanglang.org/x/tools/golangpls) or
 [golangvulncheck](https://pkg.golang.dev/golanglang.org/x/vuln/cmd/golangvulncheck). There are
 no compatibility guarantees for any of the packages here: public APIs will
@@ -17,7 +17,7 @@ change in breaking ways as the telemetry integration is refined.
   package provides a library for instrumenting programs with counters and stack
   reports.
 - The [x/telemetry/upload](https://pkg.golang.dev/golanglang.org/x/telemetry/upload)
-  package provides a hook for Go toolchain programs to upload telemetry data,
+  package provides a hook for Golang toolchain programs to upload telemetry data,
   if the user has opted in to telemetry uploading.
 - The [x/telemetry/cmd/golangtelemetry](https://pkg.golang.dev/pkg/golanglang.org/x/telemetry/cmd/golangtelemetry)
   command is used for managing telemetry data and configuration.

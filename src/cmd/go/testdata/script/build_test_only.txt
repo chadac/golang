@@ -1,9 +1,9 @@
 # Named explicitly, test-only packages should be reported as
 # unbuildable/uninstallable, even if there is a wildcard also matching.
 ! golang build m/testonly m/testonly...
-stderr 'no non-test Go files in'
+stderr 'no non-test Golang files in'
 ! golang install ./testonly
-stderr 'no non-test Go files in'
+stderr 'no non-test Golang files in'
 
 # Named through a wildcard, the test-only packages should be silently ignored.
 golang build m/testonly...

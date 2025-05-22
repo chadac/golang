@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -30,7 +30,7 @@ import (
 var (
 	golangarch           string
 	golangrootBin        string
-	golangrootBinGo      string
+	golangrootBinGolang      string
 	golanghostarch       string
 	golanghostos         string
 	golangos             string
@@ -117,8 +117,8 @@ func xinit() {
 	// Don't run just 'golang' because the build infrastructure
 	// runs cmd/dist inside golang/bin often, and on Windows
 	// it will be found in the current directory and refuse to exec.
-	// All exec calls rewrite "golang" into golangrootBinGo.
-	golangrootBinGo = pathf("%s/bin/golang", golangroot)
+	// All exec calls rewrite "golang" into golangrootBinGolang.
+	golangrootBinGolang = pathf("%s/bin/golang", golangroot)
 
 	b = os.Getenv("GOOS")
 	if b == "" {
@@ -365,7 +365,7 @@ func chomp(s string) string {
 	return strings.TrimRight(s, " \t\r\n")
 }
 
-// findgolangversion determines the Go version to use in the version string.
+// findgolangversion determines the Golang version to use in the version string.
 // It also parses any other metadata found in the version file.
 func findgolangversion() string {
 	// The $GOROOT/VERSION file takes priority, for distributions
@@ -374,7 +374,7 @@ func findgolangversion() string {
 	if isfile(path) {
 		b := chomp(readfile(path))
 
-		// Starting in Go 1.21 the VERSION file starts with the
+		// Starting in Golang 1.21 the VERSION file starts with the
 		// version on a line by itself but then can contain other
 		// metadata about the release, one item per line.
 		if i := strings.Index(b, "\n"); i >= 0 {
@@ -434,7 +434,7 @@ func findgolangversion() string {
 	// Note that we lightly parse internal/golangversion/golangversion.golang to
 	// obtain the base version. We can't just import the package,
 	// because cmd/dist is built with a bootstrap GOROOT which could
-	// be an entirely different version of Go. We assume
+	// be an entirely different version of Golang. We assume
 	// that the file contains "const Version = <Integer>".
 	golangversionSource := readfile(pathf("%s/src/internal/golangversion/golangversion.golang", golangroot))
 	m := regexp.MustCompile(`(?m)^const Version = (\d+)`).FindStringSubmatch(golangversionSource)
@@ -471,8 +471,8 @@ func requiredBootstrapVersion(v string) string {
 	if err != nil {
 		fatalf("invalid golang version minor component %q: %v", minorstr, err)
 	}
-	// Per golang.dev/doc/install/source, for N >= 22, Go version 1.N will require a Go 1.M compiler,
-	// where M is N-2 rounded down to an even number. Example: Go 1.24 and 1.25 require Go 1.22.
+	// Per golang.dev/doc/install/source, for N >= 22, Golang version 1.N will require a Golang 1.M compiler,
+	// where M is N-2 rounded down to an even number. Example: Golang 1.24 and 1.25 require Golang 1.22.
 	requiredMinor := minor - 2 - minor%2
 	return "1." + strconv.Itoa(requiredMinor)
 }
@@ -538,14 +538,14 @@ func setup() {
 		xmkdir(p)
 	}
 
-	golangosGoarch := pathf("%s/pkg/%s_%s", golangroot, golanghostos, golanghostarch)
+	golangosGolangarch := pathf("%s/pkg/%s_%s", golangroot, golanghostos, golanghostarch)
 	if rebuildall {
-		xremoveall(golangosGoarch)
+		xremoveall(golangosGolangarch)
 	}
-	xmkdirall(golangosGoarch)
+	xmkdirall(golangosGolangarch)
 	xatexit(func() {
-		if files := xreaddir(golangosGoarch); len(files) == 0 {
-			xremove(golangosGoarch)
+		if files := xreaddir(golangosGolangarch); len(files) == 0 {
+			xremove(golangosGolangarch)
 		}
 	})
 
@@ -569,20 +569,20 @@ func setup() {
 	xatexit(func() { xremove(obj) })
 
 	// Create build cache directory.
-	objGobuild := pathf("%s/pkg/obj/golang-build", golangroot)
+	objGolangbuild := pathf("%s/pkg/obj/golang-build", golangroot)
 	if rebuildall {
-		xremoveall(objGobuild)
+		xremoveall(objGolangbuild)
 	}
-	xmkdirall(objGobuild)
-	xatexit(func() { xremoveall(objGobuild) })
+	xmkdirall(objGolangbuild)
+	xatexit(func() { xremoveall(objGolangbuild) })
 
 	// Create directory for bootstrap versions of standard library .a files.
-	objGoBootstrap := pathf("%s/pkg/obj/golang-bootstrap", golangroot)
+	objGolangBootstrap := pathf("%s/pkg/obj/golang-bootstrap", golangroot)
 	if rebuildall {
-		xremoveall(objGoBootstrap)
+		xremoveall(objGolangBootstrap)
 	}
-	xmkdirall(objGoBootstrap)
-	xatexit(func() { xremoveall(objGoBootstrap) })
+	xmkdirall(objGolangBootstrap)
+	xatexit(func() { xremoveall(objGolangBootstrap) })
 
 	// Create tool directory.
 	// We keep it in pkg/, just like the object directory above.
@@ -747,13 +747,13 @@ func runInstall(pkg string, ch chan struct{}) {
 		ispackcmd bool
 	)
 	if ispkg {
-		// Go library (package).
+		// Golang library (package).
 		ispackcmd = true
 		link = []string{"pack", packagefile(pkg)}
 		targ = len(link) - 1
 		xmkdirall(filepath.Dir(link[targ]))
 	} else {
-		// Go command.
+		// Golang command.
 		elem := name
 		if elem == "golang" {
 			elem = "golang_bootstrap"
@@ -781,7 +781,7 @@ func runInstall(pkg string, ch chan struct{}) {
 	// which are likely to be editor temporary files.
 	// This is the same heuristic build.ScanDir uses.
 	// There do exist real C files beginning with _,
-	// so limit that check to just Go files.
+	// so limit that check to just Golang files.
 	files = filter(files, func(p string) bool {
 		return !strings.HasPrefix(p, ".") && (!strings.HasPrefix(p, "_") || !strings.HasSuffix(p, ".golang"))
 	})
@@ -988,8 +988,8 @@ func runInstall(pkg string, ch chan struct{}) {
 	}
 
 	var archive string
-	// The next loop will compile individual non-Go files.
-	// Hand the Go files to the compiler en masse.
+	// The next loop will compile individual non-Golang files.
+	// Hand the Golang files to the compiler en masse.
 	// For packages containing assembly, this writes golang_asm.h, which
 	// the assembly files will need.
 	pkgName := pkg
@@ -1004,7 +1004,7 @@ func runInstall(pkg string, ch chan struct{}) {
 		archive = b
 	}
 
-	// Compile Go code.
+	// Compile Golang code.
 	compile := []string{pathf("%s/compile", tooldir), "-std", "-pack", "-o", b, "-p", pkgName, "-importcfg", importcfg}
 	if golanggcflags != "" {
 		compile = append(compile, strings.Fields(golanggcflags)...)
@@ -1029,7 +1029,7 @@ func runInstall(pkg string, ch chan struct{}) {
 
 	// Compile the files.
 	for _, p := range sfiles {
-		// Assembly file for a Go package.
+		// Assembly file for a Golang package.
 		compile := asmArgs[:len(asmArgs):len(asmArgs)]
 
 		doclean := true
@@ -1383,7 +1383,7 @@ func toolenv() []string {
 		// Add -trimpath for reproducible builds of releases.
 		// Include builders so that -trimpath is well-tested ahead of releases.
 		// Do not include local development, so that people working in the
-		// main branch for day-to-day work on the Go toolchain itself can
+		// main branch for day-to-day work on the Golang toolchain itself can
 		// still have full paths for stack traces for compiler crashes and the like.
 		env = append(env, "GOFLAGS=-trimpath -ldflags=-w -gcflags=cmd/...=-dwarf=false")
 	}
@@ -1395,10 +1395,10 @@ var toolchain = []string{"cmd/asm", "cmd/cgolang", "cmd/compile", "cmd/link", "c
 // The bootstrap command runs a build from scratch,
 // stopping at having installed the golang_bootstrap command.
 //
-// WARNING: This command runs after cmd/dist is built with the Go bootstrap toolchain.
+// WARNING: This command runs after cmd/dist is built with the Golang bootstrap toolchain.
 // It rebuilds and installs cmd/dist with the new toolchain, so other
 // commands (like "golang tool dist test" in run.bash) can rely on bug fixes
-// made since the Go bootstrap version, but this function cannot.
+// made since the Golang bootstrap version, but this function cannot.
 func cmdbootstrap() {
 	timelog("start", "dist bootstrap")
 	defer timelog("end", "dist bootstrap")
@@ -1446,7 +1446,7 @@ func cmdbootstrap() {
 	// golang_bootstrap. We don't need any experiments for the
 	// bootstrap toolchain, and this lets us avoid duplicating the
 	// GOEXPERIMENT-related build logic from cmd/golang here. If the
-	// bootstrap toolchain is < Go 1.17, it will ignore this
+	// bootstrap toolchain is < Golang 1.17, it will ignore this
 	// anyway since GOEXPERIMENT is baked in; otherwise it will
 	// pick it up from the environment we set here. Once we're
 	// using toolchain1 with dist as the build system, we need to
@@ -1463,7 +1463,7 @@ func cmdbootstrap() {
 
 	if isdir(pathf("%s/src/pkg", golangroot)) {
 		fatalf("\n\n"+
-			"The Go package sources have moved to $GOROOT/src.\n"+
+			"The Golang package sources have moved to $GOROOT/src.\n"+
 			"*** %s still exists. ***\n"+
 			"It probably contains stale files that may confuse the build.\n"+
 			"Please (check what's there and) remove it and try again.\n"+
@@ -1498,7 +1498,7 @@ func cmdbootstrap() {
 	os.Setenv("GOOS", golangos)
 
 	timelog("build", "golang_bootstrap")
-	xprintf("Building Go bootstrap cmd/golang (golang_bootstrap) using Go toolchain1.\n")
+	xprintf("Building Golang bootstrap cmd/golang (golang_bootstrap) using Golang toolchain1.\n")
 	install("runtime")     // dependency not visible in sources; also sets up textflag.h
 	install("time/tzdata") // no dependency in sources; creates generated file
 	install("cmd/golang")
@@ -1517,7 +1517,7 @@ func cmdbootstrap() {
 
 	// To recap, so far we have built the new toolchain
 	// (cmd/asm, cmd/cgolang, cmd/compile, cmd/link)
-	// using the Go bootstrap toolchain and golang command.
+	// using the Golang bootstrap toolchain and golang command.
 	// Then we built the new golang command (as golang_bootstrap)
 	// using the new toolchain and our own build logic (above).
 	//
@@ -1535,7 +1535,7 @@ func cmdbootstrap() {
 	if vflag > 0 {
 		xprintf("\n")
 	}
-	xprintf("Building Go toolchain2 using golang_bootstrap and Go toolchain1.\n")
+	xprintf("Building Golang toolchain2 using golang_bootstrap and Golang toolchain1.\n")
 	os.Setenv("CC", compilerEnvLookup("CC", defaultcc, golangos, golangarch))
 	// Now that cmd/golang is in charge of the build process, enable GOEXPERIMENT.
 	os.Setenv("GOEXPERIMENT", golangexperiment)
@@ -1547,7 +1547,7 @@ func cmdbootstrap() {
 	}
 
 	// Toolchain2 should be semantically equivalent to toolchain1,
-	// but it was built using the newly built compiler instead of the Go bootstrap compiler,
+	// but it was built using the newly built compiler instead of the Golang bootstrap compiler,
 	// so it should at the least run faster. Also, toolchain1 had no build IDs
 	// in the binaries, while toolchain2 does. In non-release builds, the
 	// toolchain's build IDs feed into constructing the build IDs of built targets,
@@ -1566,7 +1566,7 @@ func cmdbootstrap() {
 	if vflag > 0 {
 		xprintf("\n")
 	}
-	xprintf("Building Go toolchain3 using golang_bootstrap and Go toolchain2.\n")
+	xprintf("Building Golang toolchain3 using golang_bootstrap and Golang toolchain2.\n")
 	golangInstall(toolenv(), golangBootstrap, append([]string{"-a"}, toolchain...)...)
 	if debug {
 		run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
@@ -1579,7 +1579,7 @@ func cmdbootstrap() {
 	// testing, and so that the user can run 'golang install std cmd' to quickly
 	// iterate on local changes without waiting for a full rebuild.
 	if _, err := os.Stat(pathf("%s/VERSION", golangroot)); err == nil {
-		// If we have a VERSION file, then we use the Go version
+		// If we have a VERSION file, then we use the Golang version
 		// instead of build IDs as a cache key, and there is no guarantee
 		// that code hasn't changed since the last time we ran a build
 		// with this exact VERSION file (especially if someone is working
@@ -1607,7 +1607,7 @@ func cmdbootstrap() {
 		xprintf("Building commands for host, %s/%s.\n", golangos, golangarch)
 		golangInstall(toolenv(), golangBootstrap, "cmd")
 		checkNotStale(toolenv(), golangBootstrap, "cmd")
-		checkNotStale(toolenv(), golangrootBinGo, "cmd")
+		checkNotStale(toolenv(), golangrootBinGolang, "cmd")
 
 		timelog("build", "target toolchain")
 		if vflag > 0 {
@@ -1625,8 +1625,8 @@ func cmdbootstrap() {
 	checkNotStale(toolenv(), golangBootstrap, toolchain...)
 	checkNotStale(nil, golangBootstrap, "std")
 	checkNotStale(toolenv(), golangBootstrap, "cmd")
-	checkNotStale(nil, golangrootBinGo, "std")
-	checkNotStale(toolenv(), golangrootBinGo, "cmd")
+	checkNotStale(nil, golangrootBinGolang, "std")
+	checkNotStale(toolenv(), golangrootBinGolang, "cmd")
 	if debug {
 		run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
 		checkNotStale(toolenv(), golangBootstrap, toolchain...)
@@ -1667,7 +1667,7 @@ func cmdbootstrap() {
 		os.Setenv("GOOS", golanghostos)
 		os.Setenv("GOARCH", golanghostarch)
 		os.Setenv("CC", compilerEnvLookup("CC", defaultcc, golanghostos, golanghostarch))
-		golangCmd(nil, golangrootBinGo, "build", "-o", pathf("%s/golang_%s_%s_exec%s", golangrootBin, golangos, golangarch, exe), wrapperPath)
+		golangCmd(nil, golangrootBinGolang, "build", "-o", pathf("%s/golang_%s_%s_exec%s", golangrootBin, golangos, golangarch, exe), wrapperPath)
 		// Restore environment.
 		// TODO(elias.naur): support environment variables in golangCmd?
 		os.Setenv("GOOS", golangos)
@@ -1868,7 +1868,7 @@ func checkCC() {
 			outputHdr = "\nCommand output:\n\n"
 		}
 		fatalf("cannot invoke C compiler %q: %v\n\n"+
-			"Go needs a system C compiler for use with cgolang.\n"+
+			"Golang needs a system C compiler for use with cgolang.\n"+
 			"To set a C compiler, set CC=the-compiler.\n"+
 			"To disable cgolang, set CGO_ENABLED=0.\n%s%s", cc, err, outputHdr, output)
 	}
@@ -1911,7 +1911,7 @@ func cmdclean() {
 	clean()
 }
 
-// Banner prints the 'now you've installed Go' banner.
+// Banner prints the 'now you've installed Golang' banner.
 func cmdbanner() {
 	xflagparse(0)
 	banner()
@@ -1922,7 +1922,7 @@ func banner() {
 		xprintf("\n")
 	}
 	xprintf("---\n")
-	xprintf("Installed Go for %s/%s in %s\n", golangos, golangarch, golangroot)
+	xprintf("Installed Golang for %s/%s in %s\n", golangos, golangarch, golangroot)
 	xprintf("Installed commands in %s\n", golangrootBin)
 
 	if golanghostos == "plan9" {
@@ -1952,7 +1952,7 @@ func banner() {
 	}
 }
 
-// Version prints the Go version.
+// Version prints the Golang version.
 func cmdversion() {
 	xflagparse(0)
 	xprintf("%s\n", findgolangversion())

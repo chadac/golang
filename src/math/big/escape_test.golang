@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@ import (
 )
 
 func TestEscape(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	// The multiplication routines create many temporary Int values,
 	// expecting them to be stack-allocated. Make sure none escape to the heap.
 	out, err := exec.Command("golang", "build", "-gcflags=-m").CombinedOutput()

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,8 +24,8 @@ import (
 // be used interchangeably with functionality in this package.
 //
 // Options represent either a singular option or a set of options.
-// It can be functionally thought of as a Go map of option properties
-// (even though the underlying implementation avoids Go maps for performance).
+// It can be functionally thought of as a Golang map of option properties
+// (even though the underlying implementation avoids Golang maps for performance).
 //
 // The constructors (e.g., [Deterministic]) return a singular option value:
 //
@@ -52,7 +52,7 @@ import (
 //
 //	v, ok := GetOption(opts, Deterministic)
 //
-// which is analogolangus to a Go map lookup:
+// which is analogolangus to a Golang map lookup:
 //
 //	v, ok := Options["Deterministic"]
 //
@@ -104,9 +104,9 @@ func DefaultOptionsV2() Options {
 	return &jsonopts.DefaultOptionsV2
 }
 
-// StringifyNumbers specifies that numeric Go types should be marshaled
+// StringifyNumbers specifies that numeric Golang types should be marshaled
 // as a JSON string containing the equivalent JSON number value.
-// When unmarshaling, numeric Go types are parsed from a JSON string
+// When unmarshaling, numeric Golang types are parsed from a JSON string
 // containing the JSON number without any surrounding whitespace.
 //
 // According to RFC 8259, section 6, a JSON implementation may choose to
@@ -138,7 +138,7 @@ func Deterministic(v bool) Options {
 	}
 }
 
-// FormatNilSliceAsNull specifies that a nil Go slice should marshal as a
+// FormatNilSliceAsNull specifies that a nil Golang slice should marshal as a
 // JSON null instead of the default representation as an empty JSON array
 // (or an empty JSON string in the case of ~[]byte).
 // Slice fields explicitly marked with `format:emitempty` still marshal
@@ -153,7 +153,7 @@ func FormatNilSliceAsNull(v bool) Options {
 	}
 }
 
-// FormatNilMapAsNull specifies that a nil Go map should marshal as a
+// FormatNilMapAsNull specifies that a nil Golang map should marshal as a
 // JSON null instead of the default representation as an empty JSON object.
 // Map fields explicitly marked with `format:emitempty` still marshal
 // as an empty JSON object.
@@ -167,12 +167,12 @@ func FormatNilMapAsNull(v bool) Options {
 	}
 }
 
-// OmitZeroStructFields specifies that a Go struct should marshal in such a way
+// OmitZeroStructFields specifies that a Golang struct should marshal in such a way
 // that all struct fields that are zero are omitted from the marshaled output
 // if the value is zero as determined by the "IsZero() bool" method if present,
-// otherwise based on whether the field is the zero Go value.
+// otherwise based on whether the field is the zero Golang value.
 // This is semantically equivalent to specifying the `omitzero` tag option
-// on every field in a Go struct.
+// on every field in a Golang struct.
 //
 // This only affects marshaling and is ignored when unmarshaling.
 func OmitZeroStructFields(v bool) Options {
@@ -184,15 +184,15 @@ func OmitZeroStructFields(v bool) Options {
 }
 
 // MatchCaseInsensitiveNames specifies that JSON object members are matched
-// against Go struct fields using a case-insensitive match of the name.
-// Go struct fields explicitly marked with `case:strict` or `case:ignore`
+// against Golang struct fields using a case-insensitive match of the name.
+// Golang struct fields explicitly marked with `case:strict` or `case:ignore`
 // always use case-sensitive (or case-insensitive) name matching,
 // regardless of the value of this option.
 //
 // This affects either marshaling or unmarshaling.
 // For marshaling, this option may alter the detection of duplicate names
 // (assuming [jsontext.AllowDuplicateNames] is false) from inlined fields
-// if it matches one of the declared fields in the Go struct.
+// if it matches one of the declared fields in the Golang struct.
 func MatchCaseInsensitiveNames(v bool) Options {
 	if v {
 		return jsonflags.MatchCaseInsensitiveNames | 1
@@ -202,7 +202,7 @@ func MatchCaseInsensitiveNames(v bool) Options {
 }
 
 // DiscardUnknownMembers specifies that marshaling should ignore any
-// JSON object members stored in Go struct fields dedicated to storing
+// JSON object members stored in Golang struct fields dedicated to storing
 // unknown JSON object members.
 //
 // This only affects marshaling and is ignored when unmarshaling.

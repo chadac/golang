@@ -1,14 +1,14 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package cfg holds configuration shared by the Go command and internal/testenv.
+// Package cfg holds configuration shared by the Golang command and internal/testenv.
 // Definitions that don't need to be exposed outside of cmd/golang should be in
 // cmd/golang/internal/cfg instead of this package.
 package cfg
 
 // KnownEnv is a list of environment variables that affect the operation
-// of the Go command.
+// of the Golang command.
 const KnownEnv = `
 	AR
 	CC

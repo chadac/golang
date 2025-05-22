@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,45 +10,45 @@ import (
 	"internal/golangversion"
 )
 
-// A golangVersion is a Go language version string of the form "golang1.%d"
+// A golangVersion is a Golang language version string of the form "golang1.%d"
 // where d is the minor version number. golangVersion strings don't
 // contain release numbers ("golang1.20.1" is not a valid golangVersion).
 type golangVersion string
 
-// asGoVersion returns v as a golangVersion (e.g., "golang1.20.1" becomes "golang1.20").
-// If v is not a valid Go version, the result is the empty string.
-func asGoVersion(v string) golangVersion {
+// asGolangVersion returns v as a golangVersion (e.g., "golang1.20.1" becomes "golang1.20").
+// If v is not a valid Golang version, the result is the empty string.
+func asGolangVersion(v string) golangVersion {
 	return golangVersion(version.Lang(v))
 }
 
-// isValid reports whether v is a valid Go version.
+// isValid reports whether v is a valid Golang version.
 func (v golangVersion) isValid() bool {
 	return v != ""
 }
 
 // cmp returns -1, 0, or +1 depending on whether x < y, x == y, or x > y,
-// interpreted as Go versions.
+// interpreted as Golang versions.
 func (x golangVersion) cmp(y golangVersion) int {
 	return version.Compare(string(x), string(y))
 }
 
 var (
-	// Go versions that introduced language changes
-	golang1_9  = asGoVersion("golang1.9")
-	golang1_13 = asGoVersion("golang1.13")
-	golang1_14 = asGoVersion("golang1.14")
-	golang1_17 = asGoVersion("golang1.17")
-	golang1_18 = asGoVersion("golang1.18")
-	golang1_20 = asGoVersion("golang1.20")
-	golang1_21 = asGoVersion("golang1.21")
-	golang1_22 = asGoVersion("golang1.22")
-	golang1_23 = asGoVersion("golang1.23")
+	// Golang versions that introduced language changes
+	golang1_9  = asGolangVersion("golang1.9")
+	golang1_13 = asGolangVersion("golang1.13")
+	golang1_14 = asGolangVersion("golang1.14")
+	golang1_17 = asGolangVersion("golang1.17")
+	golang1_18 = asGolangVersion("golang1.18")
+	golang1_20 = asGolangVersion("golang1.20")
+	golang1_21 = asGolangVersion("golang1.21")
+	golang1_22 = asGolangVersion("golang1.22")
+	golang1_23 = asGolangVersion("golang1.23")
 
-	// current (deployed) Go version
-	golang_current = asGoVersion(fmt.Sprintf("golang1.%d", golangversion.Version))
+	// current (deployed) Golang version
+	golang_current = asGolangVersion(fmt.Sprintf("golang1.%d", golangversion.Version))
 )
 
-// allowVersion reports whether the current effective Go version
+// allowVersion reports whether the current effective Golang version
 // (which may vary from one file to another) is allowed to use the
 // feature version (want).
 func (check *Checker) allowVersion(want golangVersion) bool {

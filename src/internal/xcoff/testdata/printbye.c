@@ -1,5 +1,5 @@
 #include <stdio.h>
 
 void printbye(){
-	printf("Goodbye\n");
+	printf("Golangodbye\n");
 }

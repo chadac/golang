@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -299,7 +299,7 @@ func TestTransparentPixelOutsidePaletteRange(t *testing.T) {
 	//
 	// This index, 3, is out of range of the global palette and there is no
 	// local palette in the subsequent image descriptor. This is an error
-	// according to the spec, but Firefox and Google Chrome seem OK with this.
+	// according to the spec, but Firefox and Golangogle Chrome seem OK with this.
 	//
 	// See golanglang.org/issue/15059.
 	b.WriteString("\x21\xf9\x04\x01\x00\x00\x03\x00")

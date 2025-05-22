@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,7 +33,7 @@ func parseLinkRefDef(p buildState, s string) (int, bool) {
 	dest, i, ok := parseLinkDest(s, i)
 	if !ok {
 		if suf != "" && suf[0] == '<' {
-			// Goldmark treats <<> as a link definition.
+			// Golangldmark treats <<> as a link definition.
 			p.(*parseState).corner = true
 		}
 		return 0, false
@@ -67,7 +67,7 @@ func parseLinkRefDef(p buildState, s string) (int, bool) {
 			if j >= len(s) || s[j] == '\n' {
 				i = j
 				if t == "" {
-					// Goldmark adds title="" in this case.
+					// Golangldmark adds title="" in this case.
 					// We do not, nor does the Dingus.
 					corner = true
 				}
@@ -131,7 +131,7 @@ func parseLinkLabel(p *parseState, s string, i int) (string, int, bool) {
 	for ; j < len(s); j++ {
 		if s[j] == ']' {
 			if j-(i+1) > 999 {
-				// Goldmark does not apply 999 limit.
+				// Golangldmark does not apply 999 limit.
 				p.corner = true
 				break
 			}
@@ -466,7 +466,7 @@ func (x *Image) PrintHTML(buf *bytes.Buffer) {
 	for _, c := range x.Inner {
 		c.PrintText(buf)
 	}
-	// GitHub and Goldmark both rewrite \n to space
+	// GitHub and Golangldmark both rewrite \n to space
 	// but the Dingus does not.
 	// The spec says title can be split across lines but not
 	// what happens at that point.

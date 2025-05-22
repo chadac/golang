@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -54,7 +54,7 @@ import (
 )
 
 // Test that the stack can be unwound through a call out and call back
-// into Go.
+// into Golang.
 func testCallbackCallersSEH(t *testing.T) {
 	testenv.SkipIfOptimizationOff(t) // This test requires inlining.
 	if runtime.Compiler != "gc" {

@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -109,14 +109,14 @@
 // For random inputs, there is no locality, which makes those
 // accesses even more expensive, especially once the text
 // no longer fits in cache.
-// For example, running on 50 MB of Go source code, induceSubL_8_32
+// For example, running on 50 MB of Golang source code, induceSubL_8_32
 // (which runs only once, at the top level of the recursion)
 // takes 0.44s, while on 50 MB of random input, it takes 2.55s.
 // Nearly all the relative slowdown is explained by the text access:
 //
 //		c0, c1 := text[k-1], text[k]
 //
-// That line runs for 0.23s on the Go text and 2.02s on random text.
+// That line runs for 0.23s on the Golang text and 2.02s on random text.
 
 //golang:generate golang run gen.golang
 

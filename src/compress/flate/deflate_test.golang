@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -801,7 +801,7 @@ func checkErrors(golangt []error, want error, t *testing.T) {
 	t.Helper()
 	for _, err := range golangt {
 		if err != want {
-			t.Errorf("Error doesn't match\nWant: %s\nGot: %s", want, golangt)
+			t.Errorf("Error doesn't match\nWant: %s\nGolangt: %s", want, golangt)
 		}
 	}
 }

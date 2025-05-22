@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -344,7 +344,7 @@ func TestRaceRange(t *testing.T) {
 			done <- true
 		}(i)
 		// Ensure the golangroutine runs before we continue the loop.
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	for i := 0; i < N; i++ {
 		<-done

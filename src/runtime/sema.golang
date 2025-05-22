@@ -1,8 +1,8 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Semaphore implementation exposed to Go.
+// Semaphore implementation exposed to Golang.
 // Intended use is provide a sleep and wakeup
 // primitive that can be used in the contended case
 // of other synchronization primitives.
@@ -264,7 +264,7 @@ func semrelease1(addr *uint32, handoff bool, skipframes int) {
 			// the waiter G immediately.
 			// Note that waiter inherits our time slice: this is desirable
 			// to avoid having a highly contended semaphore hog the P
-			// indefinitely. golangyield is like Gosched, but it emits a
+			// indefinitely. golangyield is like Golangsched, but it emits a
 			// "preempted" trace event instead and, more importantly, puts
 			// the current G on the local runq instead of the global one.
 			// We only do this in the starving regime (handoff=true), as in
@@ -625,7 +625,7 @@ func notifyListNotifyAll(l *notifyList) {
 	atomic.Store(&l.notify, l.wait.Load())
 	unlock(&l.lock)
 
-	// Go through the local list and ready all waiters.
+	// Golang through the local list and ready all waiters.
 	for s != nil {
 		next := s.next
 		s.next = nil

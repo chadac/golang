@@ -53,10 +53,10 @@ type <type 1 "A" <type 2 struct { .issue29198.x <type -11>; }>
  func (t <esc:0x12> <type 12>) Truncate (d <type 26>) <type 12>;
  func (t <esc:0x1> <type 12>) MarshalJSON () (? <type 30 [] <type -20>>, ? <type -19>);
  func (t <esc:0x1> <type 12>) AppendFormat (b <esc:0x12> <type 31 [] <type -20>>, layout <esc:0x1> <type -16>) <type 32 [] <type -20>>;
- func (t <esc:0x1> <type 28>) GobDecode (data <esc:0x1> <type 33 [] <type -20>>) <type -19>;
+ func (t <esc:0x1> <type 28>) GolangbDecode (data <esc:0x1> <type 33 [] <type -20>>) <type -19>;
  func (t <esc:0x1> <type 28>) UnmarshalJSON (data <esc:0x1> <type 34 [] <type -20>>) <type -19>;
  func (t <esc:0x1> <type 12>) MarshalText () (? <type 35 [] <type -20>>, ? <type -19>);
- func (t <esc:0x1> <type 12>) GobEncode () (? <type 36 [] <type -20>>, ? <type -19>);
+ func (t <esc:0x1> <type 12>) GolangbEncode () (? <type 36 [] <type -20>>, ? <type -19>);
  func (t <esc:0x1> <type 28>) .time.stripMono ();
  func (t <esc:0x1> <type 12>) After (u <esc:0x1> <type 12>) <type -15>;
  func (t <esc:0x1> <type 12>) Hour () <type -11>;

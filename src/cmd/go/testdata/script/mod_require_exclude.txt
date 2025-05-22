@@ -22,7 +22,7 @@ cmp golang.mod golang.mod.orig
 golang mod edit -golang=1.14
 ! golang list -m rsc.io/sampler
 stderr '^golang: ignoring requirement on excluded version rsc.io/sampler v1\.99\.99$'
-stderr '^golang: updates to golang.mod needed, disabled by -mod=vendor\n\t\(Go version in golang.mod is at least 1.14 and vendor directory exists\.\)\n\tto update it:\n\tgolang mod tidy$'
+stderr '^golang: updates to golang.mod needed, disabled by -mod=vendor\n\t\(Golang version in golang.mod is at least 1.14 and vendor directory exists\.\)\n\tto update it:\n\tgolang mod tidy$'
 ! stdout '^rsc.io/sampler v1.99.99'
 golang mod edit -golang=1.13
 cmp golang.mod golang.mod.orig

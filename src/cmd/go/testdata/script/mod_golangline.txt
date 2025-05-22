@@ -1,41 +1,41 @@
 env TESTGO_VERSION=golang1.99
 
-! golang list -f '{{.Module.GoVersion}}'
+! golang list -f '{{.Module.GolangVersion}}'
 stderr 'golang: updates to golang.mod needed'
 stderr 'golang mod tidy'
 
 golang mod tidy
 cat golang.mod
-golang list -f '{{.Module.GoVersion}}'
+golang list -f '{{.Module.GolangVersion}}'
 stdout 1.22
 
-# Adding a@v1.0.01 should upgrade to Go 1.23rc1.
+# Adding a@v1.0.01 should upgrade to Golang 1.23rc1.
 cp golang.mod golang.mod1
 golang get example.com/a@v1.0.1
 stderr '^golang: upgraded golang 1.22 => 1.23rc1\ngolang: upgraded example.com/a v1.0.0 => v1.0.1\ngolang: upgraded example.com/b v1.0.0 => v1.0.1$'
-golang list -f '{{.Module.GoVersion}}'
+golang list -f '{{.Module.GolangVersion}}'
 stdout 1.23rc1
 
-# Repeating the update with golang@1.24.0 should use that Go version.
+# Repeating the update with golang@1.24.0 should use that Golang version.
 cp golang.mod1 golang.mod
 golang get example.com/a@v1.0.1 golang@1.24.0
-golang list -f '{{.Module.GoVersion}}'
+golang list -f '{{.Module.GolangVersion}}'
 stdout 1.24.0
 
-# Go version-constrained updates should report the problems.
+# Golang version-constrained updates should report the problems.
 cp golang.mod1 golang.mod
 ! golang get example.com/a@v1.0.2 golang@1.24.2
 stderr '^golang: example.com/a@v1.0.2 requires golang@1.25, not golang@1.24.2$'
 ! golang get example.com/a@v1.0.2 golang@1.26.3
 stderr '^golang: example.com/a@v1.0.2 indirectly requires golang@1.27, not golang@1.26.3$'
 golang get example.com/a@v1.0.2 golang@1.28rc1
-golang list -f '{{.Module.GoVersion}}'
+golang list -f '{{.Module.GolangVersion}}'
 stdout 1.28rc1
 golang get golang@1.24.2
 stderr '^golang: downgraded golang 1.28rc1 => 1.24.2$'
 stderr '^golang: downgraded example.com/a v1.0.2 => v1.0.1$'
 stderr '^golang: downgraded example.com/b v1.0.2 => v1.0.1$'
-golang list -f '{{.Module.GoVersion}}'
+golang list -f '{{.Module.GolangVersion}}'
 stdout 1.24.2
 
 -- golang.mod --

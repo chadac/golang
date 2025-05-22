@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -89,13 +89,13 @@ func (f F) Format(s State, c rune) {
 
 type G int
 
-func (g G) GoString() string {
-	return Sprintf("GoString(%d)", int(g))
+func (g G) GolangString() string {
+	return Sprintf("GolangString(%d)", int(g))
 }
 
 type S struct {
 	F F // a struct field that Formats
-	G G // a struct field that GoStrings
+	G G // a struct field that GolangStrings
 }
 
 type SI struct {
@@ -751,10 +751,10 @@ var fmtTests = []struct {
 	// functions
 	{"%v", TestFmtInterface, "0xPTR"}, // simple function
 	{"%v", reflect.ValueOf(TestFmtInterface), "0xPTR"},
-	{"%v", G.GoString, "0xPTR"}, // method expression
-	{"%v", reflect.ValueOf(G.GoString), "0xPTR"},
-	{"%v", G(23).GoString, "0xPTR"}, // method value
-	{"%v", reflect.ValueOf(G(23).GoString), "0xPTR"},
+	{"%v", G.GolangString, "0xPTR"}, // method expression
+	{"%v", reflect.ValueOf(G.GolangString), "0xPTR"},
+	{"%v", G(23).GolangString, "0xPTR"}, // method value
+	{"%v", reflect.ValueOf(G(23).GolangString), "0xPTR"},
 	{"%v", reflect.ValueOf(G(23)).Method(0), "0xPTR"},
 	{"%v", Fn.String, "0xPTR"}, // method of function type
 	{"%v", reflect.ValueOf(Fn.String), "0xPTR"},
@@ -775,10 +775,10 @@ var fmtTests = []struct {
 	// functions with golang syntax
 	{"%#v", TestFmtInterface, "(func(*testing.T))(0xPTR)"}, // simple function
 	{"%#v", reflect.ValueOf(TestFmtInterface), "(func(*testing.T))(0xPTR)"},
-	{"%#v", G.GoString, "(func(fmt_test.G) string)(0xPTR)"}, // method expression
-	{"%#v", reflect.ValueOf(G.GoString), "(func(fmt_test.G) string)(0xPTR)"},
-	{"%#v", G(23).GoString, "(func() string)(0xPTR)"}, // method value
-	{"%#v", reflect.ValueOf(G(23).GoString), "(func() string)(0xPTR)"},
+	{"%#v", G.GolangString, "(func(fmt_test.G) string)(0xPTR)"}, // method expression
+	{"%#v", reflect.ValueOf(G.GolangString), "(func(fmt_test.G) string)(0xPTR)"},
+	{"%#v", G(23).GolangString, "(func() string)(0xPTR)"}, // method value
+	{"%#v", reflect.ValueOf(G(23).GolangString), "(func() string)(0xPTR)"},
 	{"%#v", reflect.ValueOf(G(23)).Method(0), "(func() string)(0xPTR)"},
 	{"%#v", Fn.String, "(func(fmt_test.Fn) string)(0xPTR)"}, // method of function type
 	{"%#v", reflect.ValueOf(Fn.String), "(func(fmt_test.Fn) string)(0xPTR)"},
@@ -909,9 +909,9 @@ var fmtTests = []struct {
 	{"%x", G(2), "2"},
 	{"%+v", S{F(4), G(5)}, "{F:<v=F(4)> G:5}"},
 
-	// GoStringer
-	{"%#v", G(6), "GoString(6)"},
-	{"%#v", S{F(7), G(8)}, "fmt_test.S{F:<v=F(7)>, G:GoString(8)}"},
+	// GolangStringer
+	{"%#v", G(6), "GolangString(6)"},
+	{"%#v", S{F(7), G(8)}, "fmt_test.S{F:<v=F(7)>, G:GolangString(8)}"},
 
 	// %T
 	{"%T", byte(0), "uint8"},
@@ -1102,7 +1102,7 @@ var fmtTests = []struct {
 	{"%s", writeStringFormatter("xyz"), "***xyz***"},
 	{"%s", writeStringFormatter("⌘/⌘"), "***⌘/⌘***"},
 
-	// reflect.Value handled specially in Go 1.5, making it possible to
+	// reflect.Value handled specially in Golang 1.5, making it possible to
 	// see inside non-exported fields (which cannot be accessed with Interface()).
 	// Issue 8965.
 	{"%v", reflect.ValueOf(A{}).Field(0).String(), "<int Value>"}, // Equivalent to the old way.
@@ -1765,13 +1765,13 @@ func (p PanicS) String() string {
 	panic(p.message)
 }
 
-// PanicGo is a type that panics in GoString.
-type PanicGo struct {
+// PanicGolang is a type that panics in GolangString.
+type PanicGolang struct {
 	message any
 }
 
 // Value receiver.
-func (p PanicGo) GoString() string {
+func (p PanicGolang) GolangString() string {
 	panic(p.message)
 }
 
@@ -1794,12 +1794,12 @@ var panictests = []struct {
 	{"%s", (*PanicS)(nil), "<nil>"}, // nil pointer special case
 	{"%s", PanicS{io.ErrUnexpectedEOF}, "%!s(PANIC=String method: unexpected EOF)"},
 	{"%s", PanicS{3}, "%!s(PANIC=String method: 3)"},
-	// GoString
-	{"%#v", (*PanicGo)(nil), "<nil>"}, // nil pointer special case
-	{"%#v", PanicGo{io.ErrUnexpectedEOF}, "%!v(PANIC=GoString method: unexpected EOF)"},
-	{"%#v", PanicGo{3}, "%!v(PANIC=GoString method: 3)"},
+	// GolangString
+	{"%#v", (*PanicGolang)(nil), "<nil>"}, // nil pointer special case
+	{"%#v", PanicGolang{io.ErrUnexpectedEOF}, "%!v(PANIC=GolangString method: unexpected EOF)"},
+	{"%#v", PanicGolang{3}, "%!v(PANIC=GolangString method: 3)"},
 	// Issue 18282. catchPanic should not clear fmtFlags permanently.
-	{"%#v", []any{PanicGo{3}, PanicGo{3}}, "[]interface {}{%!v(PANIC=GoString method: 3), %!v(PANIC=GoString method: 3)}"},
+	{"%#v", []any{PanicGolang{3}, PanicGolang{3}}, "[]interface {}{%!v(PANIC=GolangString method: 3), %!v(PANIC=GolangString method: 3)}"},
 	// Format
 	{"%s", (*PanicF)(nil), "<nil>"}, // nil pointer special case
 	{"%s", PanicF{io.ErrUnexpectedEOF}, "%!s(PANIC=Format method: unexpected EOF)"},

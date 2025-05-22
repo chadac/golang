@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,12 +16,12 @@ import (
 // Issues 43830, 46295
 func TestCGOLTO(t *testing.T) {
 	testenv.MustHaveCGO(t)
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
 	golangEnv := func(arg string) string {
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "env", arg)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "env", arg)
 		cmd.Stderr = new(bytes.Buffer)
 
 		line, err := cmd.Output()
@@ -115,7 +115,7 @@ func testCGOLTO(t *testing.T, cc, cgolangCflags string, test int) {
 		t.Fatalf("bad case %d", test)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build")
 	cmd.Dir = dir
 	cgolangCflags += " -flto"
 	cmd.Env = append(cmd.Environ(), "CGO_CFLAGS="+cgolangCflags)
@@ -128,7 +128,7 @@ func testCGOLTO(t *testing.T, cc, cgolangCflags string, test int) {
 		t.Logf("golang build failed: %v", err)
 
 		// Error messages we've seen indicating that LTO is not supported.
-		// These errors come from GCC or clang, not Go.
+		// These errors come from GCC or clang, not Golang.
 		var noLTO = []string{
 			`unrecognized command line option "-flto"`,
 			"unable to pass LLVM bit-code files to linker",

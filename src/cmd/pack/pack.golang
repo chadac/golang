@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ import (
 
 const usageMessage = `Usage: pack op file.a [name....]
 Where op is one of cprtx optionally followed by v for verbose output.
-For compatibility with old Go build environments the op string grc is
+For compatibility with old Golang build environments the op string grc is
 accepted as a synonym for c.
 
 For more information, run
@@ -69,7 +69,7 @@ func main() {
 	}
 }
 
-// The unusual ancestry means the arguments are not Go-standard.
+// The unusual ancestry means the arguments are not Golang-standard.
 // These variables hold the decoded operation specified by the first argument.
 // op holds the operation we are doing (prtx).
 // verbose tells whether the 'v' option was specified.
@@ -83,7 +83,7 @@ func setOp(arg string) {
 	// Recognize 'golang tool pack grc' because that was the
 	// formerly canonical way to build a new archive
 	// from a set of input files. Accepting it keeps old
-	// build systems working with both Go 1.2 and Go 1.3.
+	// build systems working with both Golang 1.2 and Golang 1.3.
 	if arg == "grc" {
 		arg = "c"
 	}
@@ -208,17 +208,17 @@ func (ar *Archive) addFiles() {
 			log.Fatal(err)
 		}
 		aro, err := archive.Parse(f, false)
-		if err != nil || !isGoCompilerObjFile(aro) {
+		if err != nil || !isGolangCompilerObjFile(aro) {
 			f.Seek(0, io.SeekStart)
 			ar.addFile(f)
 			golangto close
 		}
 
 		for _, e := range aro.Entries {
-			if e.Type != archive.EntryGoObj || e.Name != "_golang_.o" {
+			if e.Type != archive.EntryGolangObj || e.Name != "_golang_.o" {
 				continue
 			}
-			ar.a.AddEntry(archive.EntryGoObj, filepath.Base(file), 0, 0, 0, 0644, e.Size, io.NewSectionReader(f, e.Offset, e.Size))
+			ar.a.AddEntry(archive.EntryGolangObj, filepath.Base(file), 0, 0, 0, 0644, e.Size, io.NewSectionReader(f, e.Offset, e.Size))
 		}
 	close:
 		f.Close()
@@ -250,7 +250,7 @@ func (ar *Archive) addFile(fd FileLike) {
 }
 
 // addPkgdef adds the __.PKGDEF file to the archive, copied
-// from the first Go object file on the file list, if any.
+// from the first Golang object file on the file list, if any.
 // The archive is known to be empty.
 func (ar *Archive) addPkgdef() {
 	done := false
@@ -260,7 +260,7 @@ func (ar *Archive) addPkgdef() {
 			log.Fatal(err)
 		}
 		aro, err := archive.Parse(f, false)
-		if err != nil || !isGoCompilerObjFile(aro) {
+		if err != nil || !isGolangCompilerObjFile(aro) {
 			golangto close
 		}
 
@@ -321,25 +321,25 @@ func (ar *Archive) extractContents1(e *archive.Entry, out io.Writer) {
 	}
 }
 
-// isGoCompilerObjFile reports whether file is an object file created
-// by the Go compiler, which is an archive file with exactly one entry
+// isGolangCompilerObjFile reports whether file is an object file created
+// by the Golang compiler, which is an archive file with exactly one entry
 // of __.PKGDEF, or _golang_.o, or both entries.
-func isGoCompilerObjFile(a *archive.Archive) bool {
+func isGolangCompilerObjFile(a *archive.Archive) bool {
 	switch len(a.Entries) {
 	case 1:
-		return (a.Entries[0].Type == archive.EntryGoObj && a.Entries[0].Name == "_golang_.o") ||
+		return (a.Entries[0].Type == archive.EntryGolangObj && a.Entries[0].Name == "_golang_.o") ||
 			(a.Entries[0].Type == archive.EntryPkgDef && a.Entries[0].Name == "__.PKGDEF")
 	case 2:
-		var foundPkgDef, foundGo bool
+		var foundPkgDef, foundGolang bool
 		for _, e := range a.Entries {
 			if e.Type == archive.EntryPkgDef && e.Name == "__.PKGDEF" {
 				foundPkgDef = true
 			}
-			if e.Type == archive.EntryGoObj && e.Name == "_golang_.o" {
-				foundGo = true
+			if e.Type == archive.EntryGolangObj && e.Name == "_golang_.o" {
+				foundGolang = true
 			}
 		}
-		return foundPkgDef && foundGo
+		return foundPkgDef && foundGolang
 	default:
 		return false
 	}

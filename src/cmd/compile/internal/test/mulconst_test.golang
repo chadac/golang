@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ import (
 )
 
 func TestConstantMultiplies(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	signs := []string{"", "u"}
 	widths := []int{8, 16, 32, 64}
@@ -85,7 +85,7 @@ func TestConstantMultiplies(t *testing.T) {
 		t.Fatalf("write file failed: %v", err)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "run", src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "run", src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang run failed: %v\n%s", err, out)

@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ import (
 
 // Smhasher is a torture test for hash functions.
 // https://code.golangogle.com/p/smhasher/
-// This code is a port of some of the Smhasher tests to Go.
+// This code is a port of some of the Smhasher tests to Golang.
 
 // Note: due to the long running time of these tests, they are
 // currently disabled in -race mode.

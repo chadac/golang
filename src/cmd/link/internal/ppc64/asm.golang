@@ -8,7 +8,7 @@
 //	Portions Copyright © 2004,2006 Bruce Ellis
 //	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 //	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-//	Portions Copyright © 2009 The Go Authors. All rights reserved.
+//	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -221,9 +221,9 @@ func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loa
 	// An R_PPC64_REL24_NOTOC relocation does not use or maintain
 	// a TOC pointer, and almost always implies a Power10 target.
 	//
-	// For dynamic calls made from a Go caller, a TOC relative stub is
+	// For dynamic calls made from a Golang caller, a TOC relative stub is
 	// always needed when a TOC pointer is maintained (specifically, if
-	// the Go caller is PIC, and cannot use PCrel instructions).
+	// the Golang caller is PIC, and cannot use PCrel instructions).
 	if (r.Type() == objabi.ElfRelocOffset+objabi.RelocType(elf.R_PPC64_REL24)) || (!ldr.AttrExternal(s) && ldr.AttrShared(s) && !hasPCrel) {
 		stubTypeStr = "_tocrel"
 		stubType = 1
@@ -293,7 +293,7 @@ func genstubs(ctxt *ld.Link, ldr *loader.Loader) {
 					targ := r.Sym()
 					if (ldr.AttrExternal(targ) && ldr.SymLocalentry(targ) != 1) || !ldr.AttrExternal(targ) {
 						// All local symbols share the same TOC pointer. This caller has a valid TOC
-						// pointer in R2. Calls into a Go symbol preserve R2. No call stub is needed.
+						// pointer in R2. Calls into a Golang symbol preserve R2. No call stub is needed.
 					} else {
 						// This caller has a TOC pointer. The callee might clobber it. R2 needs to be saved
 						// and restored.
@@ -397,7 +397,7 @@ func genaddmoduledata(ctxt *ld.Link, ldr *loader.Loader) {
 		initfunc.SetUint32(ctxt.Arch, sz-4, 0x38420000) // addi r2, r2, .TOC.-func@l
 	}
 
-	// This is Go ABI. Stack a frame and save LR.
+	// This is Golang ABI. Stack a frame and save LR.
 	o(OP_MFLR_R0) // mflr r0
 	o(0xf801ffe1) // stdu r0, -32(r1)
 
@@ -482,7 +482,7 @@ func rewriteABIFuncReloc(ctxt *ld.Link, ldr *loader.Loader, tname string, r load
 }
 
 func gentext(ctxt *ld.Link, ldr *loader.Loader) {
-	if ctxt.DynlinkingGo() {
+	if ctxt.DynlinkingGolang() {
 		genaddmoduledata(ctxt, ldr)
 	}
 
@@ -502,7 +502,7 @@ func gentext(ctxt *ld.Link, ldr *loader.Loader) {
 //
 //  3. R2 does not hold the TOC pointer on entry. The caller has no expectations of R2.
 //
-// Go only needs case 1 and 3 today. Go symbols which have AttrShare set could use case 2, but case 1 always
+// Golang only needs case 1 and 3 today. Golang symbols which have AttrShare set could use case 2, but case 1 always
 // works in those cases too.
 func gencallstub(ctxt *ld.Link, ldr *loader.Loader, stubType int, stub *loader.SymbolBuilder, targ loader.Sym) {
 	plt := ctxt.PLT
@@ -632,9 +632,9 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 		su := ldr.MakeSymbolUpdater(s)
 		su.SetRelocType(rIdx, objabi.R_ADDRPOWER_PCREL34)
 		if !targType.IsText() {
-			ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_PPC64_GLOB_DAT))
+			ld.AddGolangtSym(target, ldr, syms, targ, uint32(elf.R_PPC64_GLOB_DAT))
 			su.SetRelocSym(rIdx, syms.GOT)
-			su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGot(targ)))
+			su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGolangt(targ)))
 		} else {
 			// The address of targ is known at link time. Rewrite to "pla rt,targ" from "pld rt,targ@golangt"
 			rewritetoinsn(target, ldr, su, int64(r.Off()), MASK_PLD_PFX, OP_PLD_PFX_PCREL, OP_PLA_PFX)
@@ -754,9 +754,9 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 		su.SetRelocType(rIdx, objabi.R_POWER_TOC)
 		if targType == sym.SDYNIMPORT {
 			// This is an external symbol, make space in the GOT and retarget the reloc.
-			ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_PPC64_GLOB_DAT))
+			ld.AddGolangtSym(target, ldr, syms, targ, uint32(elf.R_PPC64_GLOB_DAT))
 			su.SetRelocSym(rIdx, syms.GOT)
-			su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGot(targ)))
+			su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGolangt(targ)))
 		} else if targType.IsText() {
 			if isPLT16_LO_DS {
 				// Expect an ld opcode to nop
@@ -988,7 +988,7 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 		if !hasPCrel {
 			out.Write64(uint64(elf.R_PPC64_REL24) | uint64(elfsym)<<32)
 		} else {
-			// TOC is not used in PCrel compiled Go code.
+			// TOC is not used in PCrel compiled Golang code.
 			out.Write64(uint64(elf.R_PPC64_REL24_NOTOC) | uint64(elfsym)<<32)
 		}
 
@@ -1163,7 +1163,7 @@ func isLinkingPIC(ctxt *ld.Link) bool {
 		return true
 	}
 	// -linkshared option
-	return ctxt.IsSharedGoLink()
+	return ctxt.IsSharedGolangLink()
 }
 
 // resolve direct jump relocation r in s, and add trampoline if necessary.

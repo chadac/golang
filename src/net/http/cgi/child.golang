@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -130,7 +130,7 @@ func RequestFromMap(params map[string]string) (*http.Request, error) {
 		r.URL = url
 	}
 
-	// Request.RemoteAddr has its port set by Go's standard http
+	// Request.RemoteAddr has its port set by Golang's standard http
 	// server, so we do here too.
 	remotePort, _ := strconv.Atoi(params["REMOTE_PORT"]) // zero if unset or invalid
 	r.RemoteAddr = net.JoinHostPort(params["REMOTE_ADDR"], strconv.Itoa(remotePort))

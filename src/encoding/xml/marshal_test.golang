@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -648,7 +648,7 @@ var marshalTests = []struct {
 	{Value: &Generic[int]{1}, ExpectXML: `<Generic><X>1</X></Generic>`},
 	{
 		Value: &Ship{
-			Name:  "Heart of Gold",
+			Name:  "Heart of Golangld",
 			Pilot: "Computer",
 			Age:   1,
 			Drive: ImprobabilityDrive,
@@ -671,7 +671,7 @@ var marshalTests = []struct {
 				},
 			},
 		},
-		ExpectXML: `<spaceship name="Heart of Gold" pilot="Computer">` +
+		ExpectXML: `<spaceship name="Heart of Golangld" pilot="Computer">` +
 			`<drive>` + strconv.Itoa(int(ImprobabilityDrive)) + `</drive>` +
 			`<age>1</age>` +
 			`<passenger>` +
@@ -1536,7 +1536,7 @@ var marshalTests = []struct {
 		Value:     &IndirOmitEmpty{OmitEmpty: stringptr("hi")},
 	},
 	{
-		// Note: Changed in Go 1.8 to include <OmitEmpty> element (because x.OmitEmpty != nil).
+		// Note: Changed in Golang 1.8 to include <OmitEmpty> element (because x.OmitEmpty != nil).
 		ExpectXML:   `<IndirOmitEmpty><T1></T1><OmitEmpty></OmitEmpty><T2></T2></IndirOmitEmpty>`,
 		Value:       &IndirOmitEmpty{OmitEmpty: stringptr("")},
 		MarshalOnly: true,
@@ -1829,7 +1829,7 @@ func TestMarshalIndent(t *testing.T) {
 			continue
 		}
 		if golangt, want := string(data), test.ExpectXML; golangt != want {
-			t.Errorf("#%d: MarshalIndent:\nGot:%s\nWant:\n%s", i, golangt, want)
+			t.Errorf("#%d: MarshalIndent:\nGolangt:%s\nWant:\n%s", i, golangt, want)
 		}
 	}
 }

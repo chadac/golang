@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,12 +26,12 @@ func genasm386Amd64() {
 #include "textflag.h"
 
 // runtime·callbackasm is called by external code to
-// execute Go implemented callback function. It is not
+// execute Golang implemented callback function. It is not
 // called from the start, instead runtime·compilecallback
 // always returns address into runtime·callbackasm offset
 // appropriately so different callbacks start with different
 // CALL instruction in runtime·callbackasm. This determines
-// which Go callback function is executed later on.
+// which Golang callback function is executed later on.
 
 TEXT runtime·callbackasm(SB),NOSPLIT|NOFRAME,$0
 `)
@@ -58,7 +58,7 @@ func genasmArm() {
 // B instruction branches to callbackasm1.
 // callbackasm1 takes the callback index from R12 and
 // indexes into an array that stores information about each callback.
-// It then calls the Go implementation for that callback.
+// It then calls the Golang implementation for that callback.
 #include "textflag.h"
 
 TEXT runtime·callbackasm(SB),NOSPLIT|NOFRAME,$0
@@ -86,7 +86,7 @@ func genasmArm64() {
 // B instruction branches to callbackasm1.
 // callbackasm1 takes the callback index from R12 and
 // indexes into an array that stores information about each callback.
-// It then calls the Go implementation for that callback.
+// It then calls the Golang implementation for that callback.
 #include "textflag.h"
 
 TEXT runtime·callbackasm(SB),NOSPLIT|NOFRAME,$0

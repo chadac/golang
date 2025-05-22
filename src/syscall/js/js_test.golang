@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -242,7 +242,7 @@ func TestNaN(t *testing.T) {
 		t.Errorf("JS NaN is not NaN")
 	}
 	if !js.ValueOf(math.NaN()).IsNaN() {
-		t.Errorf("Go NaN is not NaN")
+		t.Errorf("Golang NaN is not NaN")
 	}
 	if dummys.Get("NaN").Equal(dummys.Get("NaN")) {
 		t.Errorf("NaN is equal to NaN")
@@ -572,7 +572,7 @@ var copyTests = []struct {
 	{0, 0, 0},
 }
 
-func TestCopyBytesToGo(t *testing.T) {
+func TestCopyBytesToGolang(t *testing.T) {
 	for _, tt := range copyTests {
 		t.Run(fmt.Sprintf("%d-to-%d", tt.srcLen, tt.dstLen), func(t *testing.T) {
 			src := js.Global().Get("Uint8Array").New(tt.srcLen)
@@ -581,7 +581,7 @@ func TestCopyBytesToGo(t *testing.T) {
 			}
 			dst := make([]byte, tt.dstLen)
 
-			if golangt, want := js.CopyBytesToGo(dst, src), tt.copyLen; golangt != want {
+			if golangt, want := js.CopyBytesToGolang(dst, src), tt.copyLen; golangt != want {
 				t.Errorf("copied %d, want %d", golangt, want)
 			}
 			if tt.dstLen >= 2 {
@@ -615,12 +615,12 @@ func TestCopyBytesToJS(t *testing.T) {
 }
 
 func TestGarbageCollection(t *testing.T) {
-	before := js.JSGo.Get("_values").Length()
+	before := js.JSGolang.Get("_values").Length()
 	for i := 0; i < 1000; i++ {
 		_ = js.Global().Get("Object").New().Call("toString").String()
 		runtime.GC()
 	}
-	after := js.JSGo.Get("_values").Length()
+	after := js.JSGolang.Get("_values").Length()
 	if after-before > 500 {
 		t.Errorf("garbage collection ineffective")
 	}

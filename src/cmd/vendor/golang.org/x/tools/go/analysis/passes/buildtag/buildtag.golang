@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ var Analyzer = &analysis.Analyzer{
 
 func runBuildTag(pass *analysis.Pass) (any, error) {
 	for _, f := range pass.Files {
-		checkGoFile(pass, f)
+		checkGolangFile(pass, f)
 	}
 	for _, name := range pass.OtherFiles {
 		if err := checkOtherFile(pass, name); err != nil {
@@ -39,10 +39,10 @@ func runBuildTag(pass *analysis.Pass) (any, error) {
 		if strings.HasSuffix(name, ".golang") {
 			f, err := parser.ParseFile(pass.Fset, name, nil, parser.ParseComments|parser.SkipObjectResolution)
 			if err != nil {
-				// Not valid Go source code - not our job to diagnose, so ignore.
+				// Not valid Golang source code - not our job to diagnose, so ignore.
 				return nil, nil
 			}
-			checkGoFile(pass, f)
+			checkGolangFile(pass, f)
 		} else {
 			if err := checkOtherFile(pass, name); err != nil {
 				return nil, err
@@ -52,7 +52,7 @@ func runBuildTag(pass *analysis.Pass) (any, error) {
 	return nil, nil
 }
 
-func checkGoFile(pass *analysis.Pass, f *ast.File) {
+func checkGolangFile(pass *analysis.Pass, f *ast.File) {
 	var check checker
 	check.init(pass)
 	defer check.finish()
@@ -84,7 +84,7 @@ func checkOtherFile(pass *analysis.Pass, filename string) error {
 	check.init(pass)
 	defer check.finish()
 
-	// We cannot use the Go parser, since this may not be a Go source file.
+	// We cannot use the Golang parser, since this may not be a Golang source file.
 	// Read the raw bytes instead.
 	content, tf, err := analysisutil.ReadFile(pass, filename)
 	if err != nil {
@@ -191,7 +191,7 @@ func (check *checker) file(pos token.Pos, text string) {
 			// reliably parse. From this point on we might
 			// incorrectly flag "comments" inside multiline
 			// string constants or anything else (this might
-			// not even be a Go program). So stop.
+			// not even be a Golang program). So stop.
 			break
 		}
 	}
@@ -233,8 +233,8 @@ func (check *checker) comment(pos token.Pos, text string) {
 }
 
 func (check *checker) golangBuildLine(pos token.Pos, line string) {
-	if !constraint.IsGoBuild(line) {
-		if !strings.HasPrefix(line, "//golang:build") && constraint.IsGoBuild("//"+strings.TrimSpace(line[len("//"):])) {
+	if !constraint.IsGolangBuild(line) {
+		if !strings.HasPrefix(line, "//golang:build") && constraint.IsGolangBuild("//"+strings.TrimSpace(line[len("//"):])) {
 			check.pass.Reportf(pos, "malformed //golang:build line (space between // and golang:build)")
 		}
 		return
@@ -372,34 +372,34 @@ func (check *checker) finish() {
 func (check *checker) tags(pos token.Pos, e constraint.Expr) {
 	// Use Eval to visit each tag.
 	_ = e.Eval(func(tag string) bool {
-		if malformedGoTag(tag) {
+		if malformedGolangTag(tag) {
 			check.pass.Reportf(pos, "invalid golang version %q in build constraint", tag)
 		}
 		return false // result is immaterial as Eval does not short-circuit
 	})
 }
 
-// malformedGoTag returns true if a tag is likely to be a malformed
+// malformedGolangTag returns true if a tag is likely to be a malformed
 // golang version constraint.
-func malformedGoTag(tag string) bool {
+func malformedGolangTag(tag string) bool {
 	// Not a golang version?
 	if !strings.HasPrefix(tag, "golang1") {
 		// Check for close misspellings of the "golang1." prefix.
 		for _, pre := range []string{"golang.", "g1.", "golang"} {
 			suffix := strings.TrimPrefix(tag, pre)
-			if suffix != tag && validGoVersion("golang1."+suffix) {
+			if suffix != tag && validGolangVersion("golang1."+suffix) {
 				return true
 			}
 		}
 		return false
 	}
 
-	// The tag starts with "golang1" so it is almost certainly a GoVersion.
+	// The tag starts with "golang1" so it is almost certainly a GolangVersion.
 	// Report it if it is not a valid build constraint.
-	return !validGoVersion(tag)
+	return !validGolangVersion(tag)
 }
 
-// validGoVersion reports when a tag is a valid golang version.
-func validGoVersion(tag string) bool {
-	return constraint.GoVersion(&constraint.TagExpr{Tag: tag}) != ""
+// validGolangVersion reports when a tag is a valid golang version.
+func validGolangVersion(tag string) bool {
+	return constraint.GolangVersion(&constraint.TagExpr{Tag: tag}) != ""
 }

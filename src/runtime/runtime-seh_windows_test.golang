@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ func TestSehLookupFunctionEntry(t *testing.T) {
 	}
 	// This test checks that Win32 is able to retrieve
 	// function metadata stored in the .pdata section
-	// by the Go linker.
+	// by the Golang linker.
 	// Win32 unwinding will fail if this test fails,
 	// as RtlUnwindEx uses RtlLookupFunctionEntry internally.
 	// If that's the case, don't bother investigating further,

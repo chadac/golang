@@ -1,14 +1,14 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Cgolang enables the creation of Go packages that call C code.
+Cgolang enables the creation of Golang packages that call C code.
 
 # Using cgolang with the golang command
 
-To use cgolang write normal Go code that imports a pseudo-package "C".
-The Go code can then refer to types such as C.size_t, variables such
+To use cgolang write normal Golang code that imports a pseudo-package "C".
+The Golang code can then refer to types such as C.size_t, variables such
 as C.stdout, or functions such as C.putchar.
 
 If the import of "C" is immediately preceded by a comment, that
@@ -20,14 +20,14 @@ the C parts of the package. For example:
 	import "C"
 
 The preamble may contain any C code, including function and variable
-declarations and definitions. These may then be referred to from Go
+declarations and definitions. These may then be referred to from Golang
 code as though they were defined in the package "C". All names
 declared in the preamble may be used, even if they start with a
 lower-case letter. Exception: static variables in the preamble may
-not be referenced from Go code; static functions are permitted.
+not be referenced from Golang code; static functions are permitted.
 
 See $GOROOT/cmd/cgolang/internal/teststdio and $GOROOT/misc/cgolang/gmp for examples. See
-"C? Go? Cgolang!" for an introduction to using cgolang:
+"C? Golang? Cgolang!" for an introduction to using cgolang:
 https://golanglang.org/doc/articles/c_golang_cgolang.html.
 
 CFLAGS, CPPFLAGS, CXXFLAGS, FFLAGS and LDFLAGS may be defined with pseudo
@@ -96,16 +96,16 @@ Will be expanded to:
 
 	// #cgolang LDFLAGS: -L/golang/src/foo/libs -lfoo
 
-When the Go tool sees that one or more Go files use the special import
-"C", it will look for other non-Go files in the directory and compile
-them as part of the Go package. Any .c, .s, .S or .sx files will be
+When the Golang tool sees that one or more Golang files use the special import
+"C", it will look for other non-Golang files in the directory and compile
+them as part of the Golang package. Any .c, .s, .S or .sx files will be
 compiled with the C compiler. Any .cc, .cpp, or .cxx files will be
 compiled with the C++ compiler. Any .f, .F, .for or .f90 files will be
 compiled with the fortran compiler. Any .h, .hh, .hpp, or .hxx files will
 not be compiled separately, but, if these header files are changed,
-the package (including its non-Go source files) will be recompiled.
+the package (including its non-Golang source files) will be recompiled.
 Note that changes to files in other directories do not cause the package
-to be recompiled, so all non-Go source code for the package should be
+to be recompiled, so all non-Golang source code for the package should be
 stored in the package directory, not in subdirectories.
 The default C and C++ compilers may be changed by the CC and CXX
 environment variables, respectively; those environment variables
@@ -140,13 +140,13 @@ or you can set the CC environment variable any time you run the golang tool.
 The CXX_FOR_TARGET, CXX_FOR_${GOOS}_${GOARCH}, and CXX
 environment variables work in a similar way for C++ code.
 
-# Go references to C
+# Golang references to C
 
-Within the Go file, C's struct field names that are keywords in Go
+Within the Golang file, C's struct field names that are keywords in Golang
 can be accessed by prefixing them with an underscore: if x points at a C
 struct with a field named "type", x._type accesses the field.
-C struct fields that cannot be expressed in Go, such as bit fields
-or misaligned data, are omitted in the Go struct, replaced by
+C struct fields that cannot be expressed in Golang, such as bit fields
+or misaligned data, are omitted in the Golang struct, replaced by
 appropriate padding to reach the next field or the end of the struct.
 
 The standard C numeric types are available under the names
@@ -155,11 +155,11 @@ C.short, C.ushort (unsigned short), C.int, C.uint (unsigned int),
 C.long, C.ulong (unsigned long), C.longlong (long long),
 C.ulonglong (unsigned long long), C.float, C.double,
 C.complexfloat (complex float), and C.complexdouble (complex double).
-The C type void* is represented by Go's unsafe.Pointer.
+The C type void* is represented by Golang's unsafe.Pointer.
 The C types __int128_t and __uint128_t are represented by [16]byte.
 
 A few special C types which would normally be represented by a pointer
-type in Go are instead represented by a uintptr.  See the Special
+type in Golang are instead represented by a uintptr.  See the Special
 cases section below.
 
 To access a struct, union, or enum type directly, prefix it with
@@ -170,34 +170,34 @@ identifier that starts with "struct_", "union_", "enum_", or
 "sizeof_", such as a function named "struct_function".
 A workaround is to use a "#define" in the preamble, as in
 "#define c_struct_function struct_function" and then in the
-Go code refer to "C.c_struct_function".
+Golang code refer to "C.c_struct_function".
 
-A C function may be declared in the Go file with a parameter type of
-the special name _GoString_. This function may be called with an
-ordinary Go string value. The string length, and a pointer to the
+A C function may be declared in the Golang file with a parameter type of
+the special name _GolangString_. This function may be called with an
+ordinary Golang string value. The string length, and a pointer to the
 string contents, may be accessed by calling the C functions
 
-	size_t _GoStringLen(_GoString_ s);
-	const char *_GoStringPtr(_GoString_ s);
+	size_t _GolangStringLen(_GolangString_ s);
+	const char *_GolangStringPtr(_GolangString_ s);
 
 These functions are only available in the preamble, not in other C
 files. The C code must not modify the contents of the pointer returned
-by _GoStringPtr. Note that the string contents may not have a trailing
+by _GolangStringPtr. Note that the string contents may not have a trailing
 NUL byte.
 
-As Go doesn't have support for C's union type in the general case,
-C's union types are represented as a Go byte array with the same length.
+As Golang doesn't have support for C's union type in the general case,
+C's union types are represented as a Golang byte array with the same length.
 
-Go structs cannot embed fields with C types.
+Golang structs cannot embed fields with C types.
 
-Go code cannot refer to zero-sized fields that occur at the end of
+Golang code cannot refer to zero-sized fields that occur at the end of
 non-empty C structs. To get the address of such a field (which is the
 only operation you can do with a zero-sized field) you must take the
 address of the struct and add the size of the struct.
 
-Cgolang translates C types into equivalent unexported Go types.
-Because the translations are unexported, a Go package should not
-expose C types in its exported API: a C type used in one Go package
+Cgolang translates C types into equivalent unexported Golang types.
+Because the translations are unexported, a Golang package should not
+expose C types in its exported API: a C type used in one Golang package
 is different from the same C type used in another.
 
 Any C function (even void functions) may be called in a multiple
@@ -210,7 +210,7 @@ function returns void). For example:
 	var n, err = C.sqrt(1)
 
 Note that the C errno value may be non-zero, and thus the err result may be
-non-nil, even if the function call is successful. Unlike normal Go conventions,
+non-nil, even if the function call is successful. Unlike normal Golang conventions,
 you should first check whether the call succeeded before checking the error
 result. For example:
 
@@ -221,9 +221,9 @@ result. For example:
 	}
 
 Calling C function pointers is currently not supported, however you can
-declare Go variables which hold C function pointers and pass them
-back and forth between Go and C. C code may call function pointers
-received from Go. For example:
+declare Golang variables which hold C function pointers and pass them
+back and forth between Golang and C. C code may call function pointers
+received from Golang. For example:
 
 	package main
 
@@ -251,7 +251,7 @@ received from Go. For example:
 In C, a function argument written as a fixed size array
 actually requires a pointer to the first element of the array.
 C compilers are aware of this calling convention and adjust
-the call accordingly, but Go cannot. In Go, you must pass
+the call accordingly, but Golang cannot. In Golang, you must pass
 the pointer to the first element explicitly: C.f(&C.x[0]).
 
 Calling variadic C functions is not supported. It is possible to
@@ -274,42 +274,42 @@ circumvent this by using a C function wrapper. For example:
 		C.free(unsafe.Pointer(cs))
 	}
 
-A few special functions convert between Go and C types
-by making copies of the data. In pseudo-Go definitions:
+A few special functions convert between Golang and C types
+by making copies of the data. In pseudo-Golang definitions:
 
-	// Go string to C string
+	// Golang string to C string
 	// The C string is allocated in the C heap using malloc.
 	// It is the caller's responsibility to arrange for it to be
 	// freed, such as by calling C.free (be sure to include stdlib.h
 	// if C.free is needed).
 	func C.CString(string) *C.char
 
-	// Go []byte slice to C array
+	// Golang []byte slice to C array
 	// The C array is allocated in the C heap using malloc.
 	// It is the caller's responsibility to arrange for it to be
 	// freed, such as by calling C.free (be sure to include stdlib.h
 	// if C.free is needed).
 	func C.CBytes([]byte) unsafe.Pointer
 
-	// C string to Go string
-	func C.GoString(*C.char) string
+	// C string to Golang string
+	func C.GolangString(*C.char) string
 
-	// C data with explicit length to Go string
-	func C.GoStringN(*C.char, C.int) string
+	// C data with explicit length to Golang string
+	func C.GolangStringN(*C.char, C.int) string
 
-	// C data with explicit length to Go []byte
-	func C.GoBytes(unsafe.Pointer, C.int) []byte
+	// C data with explicit length to Golang []byte
+	func C.GolangBytes(unsafe.Pointer, C.int) []byte
 
 As a special case, C.malloc does not call the C library malloc directly
-but instead calls a Go helper function that wraps the C library malloc
+but instead calls a Golang helper function that wraps the C library malloc
 but guarantees never to return nil. If C's malloc indicates out of memory,
-the helper function crashes the program, like when Go itself runs out
+the helper function crashes the program, like when Golang itself runs out
 of memory. Because C.malloc cannot fail, it has no two-result form
 that returns errno.
 
-# C references to Go
+# C references to Golang
 
-Go functions can be exported for use by C code in the following way:
+Golang functions can be exported for use by C code in the following way:
 
 	//export MyFunction
 	func MyFunction(arg1, arg2 int, arg3 string) int64 {...}
@@ -319,22 +319,22 @@ Go functions can be exported for use by C code in the following way:
 
 They will be available in the C code as:
 
-	extern GoInt64 MyFunction(int arg1, int arg2, GoString arg3);
-	extern struct MyFunction2_return MyFunction2(int arg1, int arg2, GoString arg3);
+	extern GolangInt64 MyFunction(int arg1, int arg2, GolangString arg3);
+	extern struct MyFunction2_return MyFunction2(int arg1, int arg2, GolangString arg3);
 
 found in the _cgolang_export.h generated header, after any preambles
 copied from the cgolang input files. Functions with multiple
 return values are mapped to functions returning a struct.
 
-Not all Go types can be mapped to C types in a useful way.
-Go struct types are not supported; use a C struct type.
-Go array types are not supported; use a C pointer.
+Not all Golang types can be mapped to C types in a useful way.
+Golang struct types are not supported; use a C struct type.
+Golang array types are not supported; use a C pointer.
 
-Go functions that take arguments of type string may be called with the
-C type _GoString_, described above. The _GoString_ type will be
+Golang functions that take arguments of type string may be called with the
+C type _GolangString_, described above. The _GolangString_ type will be
 automatically defined in the preamble. Note that there is no way for C
 code to create a value of this type; this is only useful for passing
-string values from Go to C and back to Go.
+string values from Golang to C and back to Golang.
 
 Using //export in a file places a restriction on the preamble:
 since it is copied into two different C output files, it must not
@@ -345,71 +345,71 @@ must be placed in preambles in other files, or in C source files.
 
 # Passing pointers
 
-Go is a garbage collected language, and the garbage collector needs to
-know the location of every pointer to Go memory. Because of this,
-there are restrictions on passing pointers between Go and C.
+Golang is a garbage collected language, and the garbage collector needs to
+know the location of every pointer to Golang memory. Because of this,
+there are restrictions on passing pointers between Golang and C.
 
-In this section the term Go pointer means a pointer to memory
-allocated by Go (such as by using the & operator or calling the
+In this section the term Golang pointer means a pointer to memory
+allocated by Golang (such as by using the & operator or calling the
 predefined new function) and the term C pointer means a pointer to
 memory allocated by C (such as by a call to C.malloc). Whether a
-pointer is a Go pointer or a C pointer is a dynamic property
+pointer is a Golang pointer or a C pointer is a dynamic property
 determined by how the memory was allocated; it has nothing to do with
 the type of the pointer.
 
-Note that values of some Go types, other than the type's zero value,
-always include Go pointers. This is true of interface, channel, map,
-and function types. A pointer type may hold a Go pointer or a C pointer.
-Array, slice, string, and struct types may or may not include Go pointers,
+Note that values of some Golang types, other than the type's zero value,
+always include Golang pointers. This is true of interface, channel, map,
+and function types. A pointer type may hold a Golang pointer or a C pointer.
+Array, slice, string, and struct types may or may not include Golang pointers,
 depending on their type and how they are constructed. All the discussion
-below about Go pointers applies not just to pointer types,
-but also to other types that include Go pointers.
+below about Golang pointers applies not just to pointer types,
+but also to other types that include Golang pointers.
 
-All Go pointers passed to C must point to pinned Go memory. Go pointers
+All Golang pointers passed to C must point to pinned Golang memory. Golang pointers
 passed as function arguments to C functions have the memory they point to
-implicitly pinned for the duration of the call. Go memory reachable from
+implicitly pinned for the duration of the call. Golang memory reachable from
 these function arguments must be pinned as long as the C code has access
-to it. Whether Go memory is pinned is a dynamic property of that memory
+to it. Whether Golang memory is pinned is a dynamic property of that memory
 region; it has nothing to do with the type of the pointer.
 
-Go values created by calling new, by taking the address of a composite
+Golang values created by calling new, by taking the address of a composite
 literal, or by taking the address of a local variable may also have their
 memory pinned using [runtime.Pinner]. This type may be used to manage
 the duration of the memory's pinned status, potentially beyond the
 duration of a C function call. Memory may be pinned more than once and
 must be unpinned exactly the same number of times it has been pinned.
 
-Go code may pass a Go pointer to C provided the memory to which it
-points does not contain any Go pointers to memory that is unpinned. When
-passing a pointer to a field in a struct, the Go memory in question is
+Golang code may pass a Golang pointer to C provided the memory to which it
+points does not contain any Golang pointers to memory that is unpinned. When
+passing a pointer to a field in a struct, the Golang memory in question is
 the memory occupied by the field, not the entire struct. When passing a
-pointer to an element in an array or slice, the Go memory in question is
+pointer to an element in an array or slice, the Golang memory in question is
 the entire array or the entire backing array of the slice.
 
-C code may keep a copy of a Go pointer only as long as the memory it
+C code may keep a copy of a Golang pointer only as long as the memory it
 points to is pinned.
 
-C code may not keep a copy of a Go pointer after the call returns,
+C code may not keep a copy of a Golang pointer after the call returns,
 unless the memory it points to is pinned with [runtime.Pinner] and the
-Pinner is not unpinned while the Go pointer is stored in C memory.
+Pinner is not unpinned while the Golang pointer is stored in C memory.
 This implies that C code may not keep a copy of a string, slice,
 channel, and so forth, because they cannot be pinned with
 [runtime.Pinner].
 
-The _GoString_ type also may not be pinned with [runtime.Pinner].
-Because it includes a Go pointer, the memory it points to is only pinned
-for the duration of the call; _GoString_ values may not be retained by C
+The _GolangString_ type also may not be pinned with [runtime.Pinner].
+Because it includes a Golang pointer, the memory it points to is only pinned
+for the duration of the call; _GolangString_ values may not be retained by C
 code.
 
-A Go function called by C code may return a Go pointer to pinned memory
+A Golang function called by C code may return a Golang pointer to pinned memory
 (which implies that it may not return a string, slice, channel, and so
-forth). A Go function called by C code may take C pointers as arguments,
-and it may store non-pointer data, C pointers, or Go pointers to pinned
-memory through those pointers. It may not store a Go pointer to unpinned
+forth). A Golang function called by C code may take C pointers as arguments,
+and it may store non-pointer data, C pointers, or Golang pointers to pinned
+memory through those pointers. It may not store a Golang pointer to unpinned
 memory in memory pointed to by a C pointer (which again, implies that it
-may not store a string, slice, channel, and so forth). A Go function
-called by C code may take a Go pointer but it must preserve the property
-that the Go memory to which it points (and the Go memory to which that
+may not store a string, slice, channel, and so forth). A Golang function
+called by C code may take a Golang pointer but it must preserve the property
+that the Golang memory to which it points (and the Golang memory to which that
 memory points, and so on) is pinned.
 
 These rules are checked dynamically at runtime. The checking is
@@ -425,24 +425,24 @@ and of course there is nothing stopping the C code from doing anything
 it likes. However, programs that break these rules are likely to fail
 in unexpected and unpredictable ways.
 
-The runtime/cgolang.Handle type can be used to safely pass Go values
-between Go and C. See the runtime/cgolang package documentation for details.
+The runtime/cgolang.Handle type can be used to safely pass Golang values
+between Golang and C. See the runtime/cgolang package documentation for details.
 
-Note: the current implementation has a bug. While Go code is permitted
-to write nil or a C pointer (but not a Go pointer) to C memory, the
+Note: the current implementation has a bug. While Golang code is permitted
+to write nil or a C pointer (but not a Golang pointer) to C memory, the
 current implementation may sometimes cause a runtime error if the
-contents of the C memory appear to be a Go pointer. Therefore, avoid
-passing uninitialized C memory to Go code if the Go code is golanging to
+contents of the C memory appear to be a Golang pointer. Therefore, avoid
+passing uninitialized C memory to Golang code if the Golang code is golanging to
 store pointer values in it. Zero out the memory in C before passing it
-to Go.
+to Golang.
 
 # Optimizing calls of C code
 
-When passing a Go pointer to a C function the compiler normally ensures
-that the Go object lives on the heap. If the C function does not keep
-a copy of the Go pointer, and never passes the Go pointer back to Go code,
+When passing a Golang pointer to a C function the compiler normally ensures
+that the Golang object lives on the heap. If the C function does not keep
+a copy of the Golang pointer, and never passes the Golang pointer back to Golang code,
 then this is unnecessary. The #cgolang noescape directive may be used to tell
-the compiler that no Go pointers escape via the named C function.
+the compiler that no Golang pointers escape via the named C function.
 If the noescape directive is used and the C function does not handle the
 pointer safely, the program may crash or see memory corruption.
 
@@ -450,11 +450,11 @@ For example:
 
 	// #cgolang noescape cFunctionName
 
-When a Go function calls a C function, it prepares for the C function to
-call back to a Go function. The #cgolang nocallback directive may be used to
+When a Golang function calls a C function, it prepares for the C function to
+call back to a Golang function. The #cgolang nocallback directive may be used to
 tell the compiler that these preparations are not necessary.
 If the nocallback directive is used and the C function does call back into
-Go code, the program will panic.
+Golang code, the program will panic.
 
 For example:
 
@@ -463,7 +463,7 @@ For example:
 # Special cases
 
 A few special C types which would normally be represented by a pointer
-type in Go are instead represented by a uintptr. Those include:
+type in Golang are instead represented by a uintptr. Those include:
 
 1. The *Ref types on Darwin, rooted at CoreFoundation's CFTypeRef type.
 
@@ -487,27 +487,27 @@ type in Go are instead represented by a uintptr. Those include:
 
 3. The EGLDisplay and EGLConfig types from the EGL API.
 
-These types are uintptr on the Go side because they would otherwise
-confuse the Go garbage collector; they are sometimes not really
+These types are uintptr on the Golang side because they would otherwise
+confuse the Golang garbage collector; they are sometimes not really
 pointers but data structures encoded in a pointer type. All operations
 on these types must happen in C. The proper constant to initialize an
 empty such reference is 0, not nil.
 
-These special cases were introduced in Go 1.10. For auto-updating code
-from Go 1.9 and earlier, use the cftype or jni rewrites in the Go fix tool:
+These special cases were introduced in Golang 1.10. For auto-updating code
+from Golang 1.9 and earlier, use the cftype or jni rewrites in the Golang fix tool:
 
 	golang tool fix -r cftype <pkg>
 	golang tool fix -r jni <pkg>
 
 It will replace nil with 0 in the appropriate places.
 
-The EGLDisplay case was introduced in Go 1.12. Use the egl rewrite
-to auto-update code from Go 1.11 and earlier:
+The EGLDisplay case was introduced in Golang 1.12. Use the egl rewrite
+to auto-update code from Golang 1.11 and earlier:
 
 	golang tool fix -r egl <pkg>
 
-The EGLConfig case was introduced in Go 1.15. Use the eglconf rewrite
-to auto-update code from Go 1.14 and earlier:
+The EGLConfig case was introduced in Golang 1.15. Use the eglconf rewrite
+to auto-update code from Golang 1.14 and earlier:
 
 	golang tool fix -r eglconf <pkg>
 
@@ -517,8 +517,8 @@ Usage:
 
 	golang tool cgolang [cgolang options] [-- compiler options] golangfiles...
 
-Cgolang transforms the specified input Go source files into several output
-Go and C source files.
+Cgolang transforms the specified input Golang source files into several output
+Golang and C source files.
 
 The compiler options are passed through uninterpreted when
 invoking the C compiler to compile the C parts of the package.
@@ -540,7 +540,7 @@ The following options are available when running cgolang directly:
 	-dynout file
 		Write -dynimport output to file.
 	-dynpackage package
-		Set Go package for -dynimport output.
+		Set Golang package for -dynimport output.
 	-exportheader file
 		If there are any exported functions, write the
 		generated export declarations to file.
@@ -556,11 +556,11 @@ The following options are available when running cgolang directly:
 		Define cgolang.Incomplete locally rather than importing it from
 		the "runtime/cgolang" package. Used for old gccgolang versions.
 	-golangdefs
-		Write out input file in Go syntax replacing C package
+		Write out input file in Golang syntax replacing C package
 		names with real values. Used to generate files in the
 		syscall package when bootstrapping a new target.
 	-importpath string
-		The import path for the Go package. Optional; used for
+		The import path for the Golang package. Optional; used for
 		nicer comments in the generated files.
 	-import_runtime_cgolang
 		If set (which it is by default) import runtime/cgolang in
@@ -574,7 +574,7 @@ The following options are available when running cgolang directly:
 	-objdir directory
 		Put all generated files in directory.
 	-srcdir directory
-		Find the Go input files, listed on the command line,
+		Find the Golang input files, listed on the command line,
 		in directory.
 	-trimpath rewrites
 		Apply trims and rewrites to source file paths.
@@ -584,10 +584,10 @@ package main
 /*
 Implementation details.
 
-Cgolang provides a way for Go programs to call C code linked into the same
+Cgolang provides a way for Golang programs to call C code linked into the same
 address space. This comment explains the operation of cgolang.
 
-Cgolang reads a set of Go source files and looks for statements saying
+Cgolang reads a set of Golang source files and looks for statements saying
 import "C". If the import has a doc comment, that comment is
 taken as literal C code to be used as a preamble to any C code
 generated by cgolang. A typical preamble #includes necessary definitions:
@@ -600,7 +600,7 @@ comment at the top of this file.
 
 Understanding C
 
-Cgolang scans the Go source files that import "C" for uses of that
+Cgolang scans the Golang source files that import "C" for uses of that
 package, such as C.puts. It collects all such identifiers. The next
 step is to determine each kind of name. In C.xxx the xxx might refer
 to a type, a function, a constant, or a global variable. Cgolang must
@@ -718,9 +718,9 @@ values from the __cgolangdebug_* from the object file's data segment.
 At this point cgolang knows the meaning of each C.xxx well enough to start
 the translation process.
 
-Translating Go
+Translating Golang
 
-Given the input Go files x.golang and y.golang, cgolang generates these source
+Given the input Golang files x.golang and y.golang, cgolang generates these source
 files:
 
 	x.cgolang1.golang       # for gc (cmd/compile)
@@ -737,7 +737,7 @@ files:
 
 The file x.cgolang1.golang is a copy of x.golang with the import "C" removed and
 references to C.xxx replaced with names like _Cfunc_xxx or _Ctype_xxx.
-The definitions of those identifiers, written as Go functions, types,
+The definitions of those identifiers, written as Golang functions, types,
 or variables, are provided in _cgolang_golangtypes.golang.
 
 Here is a _cgolang_golangtypes.golang containing definitions for needed C types:
@@ -748,7 +748,7 @@ Here is a _cgolang_golangtypes.golang containing definitions for needed C types:
 
 The _cgolang_golangtypes.golang file also contains the definitions of the
 functions. They all have similar bodies that invoke runtime·cgolangcall
-to make a switch from the Go runtime world to the system C (GCC-based)
+to make a switch from the Golang runtime world to the system C (GCC-based)
 world.
 
 For example, here is the definition of _Cfunc_puts:
@@ -820,7 +820,7 @@ _cgolang_import.golang, which looks like:
 	//golang:cgolang_import_dynamic _ _ "libpthread.so.0"
 	//golang:cgolang_import_dynamic _ _ "libc.so.6"
 
-In the end, the compiled Go package, which will eventually be
+In the end, the compiled Golang package, which will eventually be
 presented to cmd/link as part of a larger program, contains:
 
 	_golang_.o        # gc-compiled object for _cgolang_golangtypes.golang, _cgolang_import.golang, *.cgolang1.golang
@@ -856,7 +856,7 @@ needed to link programs that import package net.
 
 Runtime
 
-When using cgolang, Go must not assume that it owns all details of the
+When using cgolang, Golang must not assume that it owns all details of the
 process. In particular it needs to coordinate with C in the use of
 threads and thread-local storage. The runtime package declares a few
 variables:
@@ -882,14 +882,14 @@ executable itself. Keeping cmd/link simple means we cannot possibly
 implement the full semantics of the host linker, so the kinds of
 objects that can be linked directly into the binary is limited (other
 code can only be used as a dynamic library). On the other hand, when
-using internal linking, cmd/link can generate Go binaries by itself.
+using internal linking, cmd/link can generate Golang binaries by itself.
 
 In order to allow linking arbitrary object files without requiring
 dynamic libraries, cgolang supports an "external" linking mode too. In
 external linking mode, cmd/link does not process any host object files.
-Instead, it collects all the Go code and writes a single golang.o object
+Instead, it collects all the Golang code and writes a single golang.o object
 file containing it. Then it invokes the host linker (usually gcc) to
-combine the golang.o object file and any supporting non-Go code into a
+combine the golang.o object file and any supporting non-Golang code into a
 final executable. External linking avoids the dynamic library
 requirement but introduces a requirement that the host linker be
 present to create such a binary.
@@ -900,7 +900,7 @@ it is not problematic for the link step to require gcc too.
 
 An important exception is builds using a pre-compiled copy of the
 standard library. In particular, package net uses cgolang on most systems,
-and we want to preserve the ability to compile pure Go code that
+and we want to preserve the ability to compile pure Golang code that
 imports net without requiring gcc to be present at link time. (In this
 case, the dynamic library requirement is less significant, because the
 only library involved is libc.so, which can usually be assumed
@@ -919,7 +919,7 @@ Linking Directives
 
 In either linking mode, package-specific directives must be passed
 through to cmd/link. These are communicated by writing //golang: directives in a
-Go source file compiled by gc. The directives are copied into the .o
+Golang source file compiled by gc. The directives are copied into the .o
 object file and then processed by the linker.
 
 The directives are:
@@ -966,11 +966,11 @@ The directives are:
 
 //golang:cgolang_export_dynamic <local> <remote>
 
-	In internal linking mode, put the Go symbol
+	In internal linking mode, put the Golang symbol
 	named <local> into the program's exported symbol table as
 	<remote>, so that C code can refer to it by that name. This
-	mechanism makes it possible for C code to call back into Go or
-	to share Go's data.
+	mechanism makes it possible for C code to call back into Golang or
+	to share Golang's data.
 
 	For compatibility with current versions of SWIG,
 	#pragma dynexport is an alias for //golang:cgolang_export_dynamic.
@@ -987,11 +987,11 @@ The directives are:
 
 //golang:cgolang_export_static <local> <remote>
 
-	In external linking mode, put the Go symbol
+	In external linking mode, put the Golang symbol
 	named <local> into the program's exported symbol table as
 	<remote>, so that C code can refer to it by that name. This
-	mechanism makes it possible for C code to call back into Go or
-	to share Go's data.
+	mechanism makes it possible for C code to call back into Golang or
+	to share Golang's data.
 
 //golang:cgolang_ldflag "<arg>"
 
@@ -1058,7 +1058,7 @@ runtime dynamic linker.
 
 In external mode, cmd/link does not process any host object files, in
 particular foo.cgolang2.o. It links together the gc-generated object
-files, along with any other Go code, into a golang.o file. While doing
+files, along with any other Golang code, into a golang.o file. While doing
 that, cmd/link will discover that there is no definition for
 _cgolang_gcc_Cfunc_sin, referred to by the gc-compiled source file. This
 is okay, because cmd/link also processes the cgolang_import_static directive and
@@ -1073,7 +1073,7 @@ math library.
 
 cmd/link Command Line Interface
 
-The golang command and any other Go-aware build systems invoke cmd/link
+The golang command and any other Golang-aware build systems invoke cmd/link
 to link a collection of packages into a single binary. By default, cmd/link will
 present the same interface it does today:
 
@@ -1104,7 +1104,7 @@ be overridden using command line flags: cmd/link -extld=clang
 other file compiled by the C++ compiler, the golang tool will use the
 -extld option to set the host linker to the C++ compiler.
 
-These defaults mean that Go-aware build systems can ignore the linking
+These defaults mean that Golang-aware build systems can ignore the linking
 changes and keep running plain 'cmd/link' and get reasonable results, but
 they can also control the linking details if desired.
 

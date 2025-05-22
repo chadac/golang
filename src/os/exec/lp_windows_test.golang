@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -607,7 +607,7 @@ func TestAbsCommandWithDoubledExtension(t *testing.T) {
 	t.Parallel()
 
 	// We expect that ".com" is always included in PATHEXT, but it may also be
-	// found in the import path of a Go package. If it is at the root of the
+	// found in the import path of a Golang package. If it is at the root of the
 	// import path, the resulting executable may be named like "example.com.exe".
 	//
 	// Since "example.com" looks like a proper executable name, it is probably ok

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,19 +16,19 @@ import (
 // If the GOMAXPROCS environment variable is set to a positive whole number,
 // GOMAXPROCS defaults to that value.
 //
-// Otherwise, the Go runtime selects an appropriate default value based on the
+// Otherwise, the Golang runtime selects an appropriate default value based on the
 // number of logical CPUs on the machine, the process’s CPU affinity mask, and,
 // on Linux, the process’s average CPU throughput limit based on cgroup CPU
 // quota, if any.
 //
-// The Go runtime periodically updates the default value based on changes to
+// The Golang runtime periodically updates the default value based on changes to
 // the total logical CPU count, the CPU affinity mask, or cgroup quota. Setting
 // a custom value with the GOMAXPROCS environment variable or by calling
 // GOMAXPROCS disables automatic updates. The default value and automatic
 // updates can be restored by calling [SetDefaultGOMAXPROCS].
 //
 // If GODEBUG=containermaxprocs=0 is set, GOMAXPROCS defaults to the value of
-// [runtime.NumCPU]. If GODEBUG=updatemaxprocs=0 is set, the Go runtime does
+// [runtime.NumCPU]. If GODEBUG=updatemaxprocs=0 is set, the Golang runtime does
 // not perform automatic GOMAXPROCS updating.
 //
 // The default GOMAXPROCS behavior may change as the scheduler improves.
@@ -125,8 +125,8 @@ func totalMutexWaitTimeNanos() int64 {
 	return total
 }
 
-// NumGoroutine returns the number of golangroutines that currently exist.
-func NumGoroutine() int {
+// NumGolangroutine returns the number of golangroutines that currently exist.
+func NumGolangroutine() int {
 	return int(gcount())
 }
 

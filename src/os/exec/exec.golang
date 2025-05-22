@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,7 +16,7 @@
 // To expand environment variables, use package os's ExpandEnv.
 //
 // Note that the examples in this package assume a Unix system.
-// They may not run on Windows, and they do not run in the Go Playground
+// They may not run on Windows, and they do not run in the Golang Playground
 // used by golanglang.org and golangdoc.org.
 //
 // # Executables in the current directory
@@ -30,7 +30,7 @@
 // Modern practice is that including the current directory
 // is usually unexpected and often leads to security problems.
 //
-// To avoid those security problems, as of Go 1.19, this package will not resolve a program
+// To avoid those security problems, as of Golang 1.19, this package will not resolve a program
 // using an implicit or explicit path entry relative to the current directory.
 // That is, if you run [LookPath]("golang"), it will not successfully return
 // ./golang on Unix nor .\golang.exe on Windows, no matter how the path is configured.
@@ -81,9 +81,9 @@
 //	}
 //
 // Setting the environment variable GODEBUG=execerrdot=0
-// disables generation of ErrDot entirely, temporarily restoring the pre-Go 1.19
+// disables generation of ErrDot entirely, temporarily restoring the pre-Golang 1.19
 // behavior for programs that are unable to apply more targeted fixes.
-// A future version of Go may remove support for this variable.
+// A future version of Golang may remove support for this variable.
 //
 // Before adding such overrides, make sure you understand the
 // security implications of doing so.
@@ -183,7 +183,7 @@ type Cmd struct {
 	// computes the canonical name by walking up the file tree, it
 	// will not recover the original value of Dir if that value
 	// was an alias involving symbolic links. However, if the
-	// child process calls Go's [os.Getwd] or GNU C's
+	// child process calls Golang's [os.Getwd] or GNU C's
 	// get_current_dir_name, and the value of PWD is an alias for
 	// the current directory, those functions will return the
 	// value of PWD, which matches the value of Dir.
@@ -332,7 +332,7 @@ type Cmd struct {
 
 	// For a security release long agolang, we created x/sys/execabs,
 	// which manipulated the unexported lookPathErr error field
-	// in this struct. For Go 1.19 we exported the field as Err error,
+	// in this struct. For Golang 1.19 we exported the field as Err error,
 	// above, but we have to keep lookPathErr around for use by
 	// old programs building against new toolchains.
 	// The String and Start methods look for an error in lookPathErr
@@ -490,7 +490,7 @@ func CommandContext(ctx context.Context, name string, arg ...string) *Cmd {
 // String returns a human-readable description of c.
 // It is intended only for debugging.
 // In particular, it is not suitable for use as input to a shell.
-// The output of String may vary across Go releases.
+// The output of String may vary across Golang releases.
 func (c *Cmd) String() string {
 	if c.Err != nil || c.lookPathErr != nil {
 		// failed to resolve path; report the original requested path (plus args)
@@ -784,7 +784,7 @@ func (c *Cmd) Start() error {
 // and/or kills cmd.Process it after c.WaitDelay has elapsed.
 //
 // watchCtx manipulates c.golangroutineErr, so its result must be received before
-// c.awaitGoroutines is called.
+// c.awaitGolangroutines is called.
 func (c *Cmd) watchCtx(resultc chan<- ctxResult) {
 	select {
 	case resultc <- ctxResult{}:
@@ -866,7 +866,7 @@ func (c *Cmd) watchCtx(resultc chan<- ctxResult) {
 		}
 
 		// Since we have already received the only result from c.golangroutineErr,
-		// set it to nil to prevent awaitGoroutines from blocking on it.
+		// set it to nil to prevent awaitGolangroutines from blocking on it.
 		c.golangroutineErr = nil
 	}
 
@@ -937,7 +937,7 @@ func (c *Cmd) Wait() error {
 		}
 	}
 
-	if golangroutineErr := c.awaitGoroutines(timer); err == nil {
+	if golangroutineErr := c.awaitGolangroutines(timer); err == nil {
 		// Report an error from the copying golangroutines only if the program otherwise
 		// exited normally on its own. Otherwise, the copying error may be due to the
 		// abnormal termination.
@@ -949,14 +949,14 @@ func (c *Cmd) Wait() error {
 	return err
 }
 
-// awaitGoroutines waits for the results of the golangroutines copying data to or
+// awaitGolangroutines waits for the results of the golangroutines copying data to or
 // from the command's I/O pipes.
 //
-// If c.WaitDelay elapses before the golangroutines complete, awaitGoroutines
+// If c.WaitDelay elapses before the golangroutines complete, awaitGolangroutines
 // forcibly closes their pipes and returns ErrWaitDelay.
 //
 // If timer is non-nil, it must send to timer.C at the end of c.WaitDelay.
-func (c *Cmd) awaitGoroutines(timer *time.Timer) error {
+func (c *Cmd) awaitGolangroutines(timer *time.Timer) error {
 	defer func() {
 		if timer != nil {
 			timer.Stop()

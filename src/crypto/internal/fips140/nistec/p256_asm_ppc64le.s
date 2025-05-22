@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@
 // to ppc64le.
 
 // Some changes were needed due to differences in
-// the Go opcodes and/or available instructions
+// the Golang opcodes and/or available instructions
 // between s390x and ppc64le.
 
 // 1. There were operand order differences in the

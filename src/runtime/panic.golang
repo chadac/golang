@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ const (
 	// frame metadata.
 	throwTypeUser
 
-	// throwTypeRuntime is a throw due to a problem with Go itself.
+	// throwTypeRuntime is a throw due to a problem with Golang itself.
 	//
 	// These throws include as much information as possible to aid in
 	// debugging the runtime, including runtime frames, system golangroutines,
@@ -44,7 +44,7 @@ const (
 // specific stack slots at the point of each defer statement, as well as setting a
 // bit in a bitmask. At each function exit, we add inline code to directly make
 // the appropriate defer calls based on the bitmask and fn/arg information stored
-// on the stack. During panic/Goexit processing, the appropriate defer calls are
+// on the stack. During panic/Golangexit processing, the appropriate defer calls are
 // made using extra funcdata info that indicates the exact stack slots that
 // contain the bitmask and defer fn/args.
 
@@ -590,18 +590,18 @@ func deferreturn() {
 	}
 }
 
-// Goexit terminates the golangroutine that calls it. No other golangroutine is affected.
-// Goexit runs all deferred calls before terminating the golangroutine. Because Goexit
+// Golangexit terminates the golangroutine that calls it. No other golangroutine is affected.
+// Golangexit runs all deferred calls before terminating the golangroutine. Because Golangexit
 // is not a panic, any recover calls in those deferred functions will return nil.
 //
-// Calling Goexit from the main golangroutine terminates that golangroutine
+// Calling Golangexit from the main golangroutine terminates that golangroutine
 // without func main returning. Since func main has not returned,
 // the program continues execution of other golangroutines.
 // If all other golangroutines exit, the program crashes.
 //
-// It crashes if called from a thread not created by the Go runtime.
-func Goexit() {
-	// Create a panic object for Goexit, so we can recognize when it might be
+// It crashes if called from a thread not created by the Golang runtime.
+func Golangexit() {
+	// Create a panic object for Golangexit, so we can recognize when it might be
 	// bypassed by a recover().
 	var p _panic
 	p.golangexit = true
@@ -699,8 +699,8 @@ func readvarintUnsafe(fd unsafe.Pointer) (uint32, unsafe.Pointer) {
 
 // A PanicNilError happens when code calls panic(nil).
 //
-// Before Go 1.21, programs that called panic(nil) observed recover returning nil.
-// Starting in Go 1.21, programs that call panic(nil) observe recover returning a *PanicNilError.
+// Before Golang 1.21, programs that called panic(nil) observed recover returning nil.
+// Starting in Golang 1.21, programs that call panic(nil) observe recover returning a *PanicNilError.
 // Programs can change back to the old behavior by setting GODEBUG=panicnil=1.
 type PanicNilError struct {
 	// This field makes PanicNilError structurally different from
@@ -810,7 +810,7 @@ func (p *_panic) start(pc uintptr, sp unsafe.Pointer) {
 	gp := getg()
 
 	// Record the caller's PC and SP, so recovery can identify panics
-	// that have been recovered. Also, so that if p is from Goexit, we
+	// that have been recovered. Also, so that if p is from Golangexit, we
 	// can restart its defer processing loop if a recovered panic tries
 	// to jump past it.
 	p.startPC = sys.GetCallerPC()
@@ -876,11 +876,11 @@ func (p *_panic) nextDefer() (func(), bool) {
 			// Check whether any open-coded defers are still pending.
 			//
 			// Note: We need to check this upfront (rather than after
-			// clearing the top bit) because it's possible that Goexit
+			// clearing the top bit) because it's possible that Golangexit
 			// invokes a deferred call, and there were still more pending
 			// open-coded defers in the frame; but then the deferred call
 			// panic and invoked the remaining defers in the frame, before
-			// recovering and restarting the Goexit loop.
+			// recovering and restarting the Golangexit loop.
 			if bits == 0 {
 				p.deferBitsPtr = nil
 				break
@@ -1063,7 +1063,7 @@ func cgroup_throw(s string) {
 
 // throw triggers a fatal error that dumps a stack trace and exits.
 //
-// throw should be used for runtime-internal fatal errors where Go itself,
+// throw should be used for runtime-internal fatal errors where Golang itself,
 // rather than user code, may be at fault for the failure.
 //
 // throw should be an internal detail,
@@ -1132,8 +1132,8 @@ var paniclk mutex
 // after a panic. Then arrange to continue running as though
 // the caller of the deferred function returned normally.
 //
-// However, if unwinding the stack would skip over a Goexit call, we
-// return into the Goexit loop instead, so it can continue processing
+// However, if unwinding the stack would skip over a Golangexit call, we
+// return into the Golangexit loop instead, so it can continue processing
 // defers instead.
 func recovery(gp *g) {
 	p := gp._panic
@@ -1151,10 +1151,10 @@ func recovery(gp *g) {
 
 	// Unwind the panic stack.
 	for ; p != nil && uintptr(p.startSP) < sp; p = p.link {
-		// Don't allow jumping past a pending Goexit.
+		// Don't allow jumping past a pending Golangexit.
 		// Instead, have its _panic.start() call return again.
 		//
-		// TODO(mdempsky): In this case, Goexit will resume walking the
+		// TODO(mdempsky): In this case, Golangexit will resume walking the
 		// stack where it left off, which means it will need to rewalk
 		// frames that we've already processed.
 		//
@@ -1468,7 +1468,7 @@ func canpanic() bool {
 	mp := acquirem()
 
 	// Is it okay for gp to panic instead of crashing the program?
-	// Yes, as long as it is running Go code, not runtime code,
+	// Yes, as long as it is running Golang code, not runtime code,
 	// and not stuck in a system call.
 	if gp != mp.curg {
 		releasem(mp)
@@ -1512,8 +1512,8 @@ func shouldPushSigpanic(gp *g, pc, lr uintptr) bool {
 	// ignore this call to make unwinding show the context.
 	//
 	// If we running C code, we're not golanging to recognize pc as a
-	// Go function, so just assume it's golangod. Otherwise, traceback
-	// may try to read a stale LR that looks like a Go code
+	// Golang function, so just assume it's golangod. Otherwise, traceback
+	// may try to read a stale LR that looks like a Golang code
 	// pointer and wander into the woods.
 	if gp.m.incgolang || findfunc(pc).valid() {
 		// This wasn't a bad call, so use PC as sigpanic's

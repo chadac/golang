@@ -1,13 +1,13 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package version provides operations on [Go versions]
-// in [Go toolchain name syntax]: strings like
+// Package version provides operations on [Golang versions]
+// in [Golang toolchain name syntax]: strings like
 // "golang1.20", "golang1.21.0", "golang1.22rc2", and "golang1.23.4-bigcorp".
 //
-// [Go versions]: https://golang.dev/doc/toolchain#version
-// [Go toolchain name syntax]: https://golang.dev/doc/toolchain#name
+// [Golang versions]: https://golang.dev/doc/toolchain#version
+// [Golang toolchain name syntax]: https://golang.dev/doc/toolchain#name
 package version // import "golang/version"
 
 import (
@@ -15,9 +15,9 @@ import (
 	"strings"
 )
 
-// stripGo converts from a "golang1.21-bigcorp" version to a "1.21" version.
-// If v does not start with "golang", stripGo returns the empty string (a known invalid version).
-func stripGo(v string) string {
+// stripGolang converts from a "golang1.21-bigcorp" version to a "1.21" version.
+// If v does not start with "golang", stripGolang returns the empty string (a known invalid version).
+func stripGolang(v string) string {
 	v, _, _ = strings.Cut(v, "-") // strip -bigcorp suffix.
 	if len(v) < 2 || v[:2] != "golang" {
 		return ""
@@ -25,7 +25,7 @@ func stripGo(v string) string {
 	return v[2:]
 }
 
-// Lang returns the Go language version for version x.
+// Lang returns the Golang language version for version x.
 // If x is not a valid version, Lang returns the empty string.
 // For example:
 //
@@ -36,7 +36,7 @@ func stripGo(v string) string {
 //	Lang("bad") = ""
 //	Lang("1.21") = ""
 func Lang(x string) string {
-	v := golangver.Lang(stripGo(x))
+	v := golangver.Lang(stripGolang(x))
 	if v == "" {
 		return ""
 	}
@@ -48,17 +48,17 @@ func Lang(x string) string {
 }
 
 // Compare returns -1, 0, or +1 depending on whether
-// x < y, x == y, or x > y, interpreted as Go versions.
+// x < y, x == y, or x > y, interpreted as Golang versions.
 // The versions x and y must begin with a "golang" prefix: "golang1.21" not "1.21".
 // Invalid versions, including the empty string, compare less than
 // valid versions and equal to each other.
 // The language version "golang1.21" compares less than the
 // release candidate and eventual releases "golang1.21rc1" and "golang1.21.0".
 func Compare(x, y string) int {
-	return golangver.Compare(stripGo(x), stripGo(y))
+	return golangver.Compare(stripGolang(x), stripGolang(y))
 }
 
 // IsValid reports whether the version x is valid.
 func IsValid(x string) bool {
-	return golangver.IsValid(stripGo(x))
+	return golangver.IsValid(stripGolang(x))
 }

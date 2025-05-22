@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,7 +23,7 @@ type synctestBubble struct {
 	// The bubble is active (not blocked) so long as running > 0 || active > 0.
 	//
 	// running is the number of golangroutines which are not "durably blocked":
-	// Goroutines which are either running, runnable, or non-durably blocked
+	// Golangroutines which are either running, runnable, or non-durably blocked
 	// (for example, blocked in a syscall).
 	//
 	// active is used to keep the bubble from becoming blocked,

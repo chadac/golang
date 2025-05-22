@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -421,7 +421,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$12-16
 	MOVL	BX, 0(SP)
 	MOVL	CX, 4(SP)
 	MOVL	DX, 8(SP)
-	MOVL	SI, 12(SP)	// save SI: handler might be a Go function
+	MOVL	SI, 12(SP)	// save SI: handler might be a Golang function
 	CALL	AX
 	MOVL	12(SP), AX
 	MOVL	AX, SP

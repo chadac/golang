@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,14 +16,14 @@ import (
 )
 
 func TestBuffers_read(t *testing.T) {
-	const story = "once upon a time in Gopherland ... "
+	const story = "once upon a time in Golangpherland ... "
 	buffers := Buffers{
 		[]byte("once "),
 		[]byte("upon "),
 		[]byte("a "),
 		[]byte("time "),
 		[]byte("in "),
-		[]byte("Gopherland ... "),
+		[]byte("Golangpherland ... "),
 	}
 	golangt, err := io.ReadAll(&buffers)
 	if err != nil {

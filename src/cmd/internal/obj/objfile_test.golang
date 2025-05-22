@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -89,7 +89,7 @@ func TestContentHash(t *testing.T) {
 }
 
 func TestSymbolTooLarge(t *testing.T) { // Issue 42054
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	if unsafe.Sizeof(uintptr(0)) < 8 {
 		t.Skip("skip on 32-bit architectures")
 	}
@@ -102,7 +102,7 @@ func TestSymbolTooLarge(t *testing.T) { // Issue 42054
 		t.Fatalf("failed to write source file: %v\n", err)
 	}
 	obj := filepath.Join(tmpdir, "p.o")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-p=p", "-o", obj, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-p=p", "-o", obj, src)
 	out, err := cmd.CombinedOutput()
 	if err == nil {
 		t.Fatalf("did not fail\noutput: %s", out)
@@ -115,7 +115,7 @@ func TestSymbolTooLarge(t *testing.T) { // Issue 42054
 
 func TestNoRefName(t *testing.T) {
 	// Test that the norefname flag works.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	tmpdir := t.TempDir()
 
@@ -128,7 +128,7 @@ func TestNoRefName(t *testing.T) {
 
 	// Build the fmt package with norefname. Not rebuilding all packages to save time.
 	// Also testing that norefname and non-norefname packages can link together.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-gcflags=fmt=-d=norefname", "-o", exe, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-gcflags=fmt=-d=norefname", "-o", exe, src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("build failed: %v, output:\n%s", err, out)

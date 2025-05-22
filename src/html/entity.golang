@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -183,7 +183,7 @@ var entityMaps = sync.OnceValues(func() (entity map[string]rune, entity2 map[str
 		"Gdot;":                            '\U00000120',
 		"Gfr;":                             '\U0001D50A',
 		"Gg;":                              '\U000022D9',
-		"Gopf;":                            '\U0001D53E',
+		"Golangpf;":                            '\U0001D53E',
 		"GreaterEqual;":                    '\U00002265',
 		"GreaterEqualLess;":                '\U000022DB',
 		"GreaterFullEqual;":                '\U00002267',

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -63,10 +63,10 @@ var templMain = template.Must(template.New("").Parse(`
 <html>
 <style>` + CommonStyle + `</style>
 <body>
-<h1>cmd/trace: the Go trace event viewer</h1>
+<h1>cmd/trace: the Golang trace event viewer</h1>
 <p>
   This web server provides various visualizations of an event log gathered during
-  the execution of a Go program that uses the <a href='https://pkg.golang.dev/runtime/trace'>runtime/trace</a> package.
+  the execution of a Golang program that uses the <a href='https://pkg.golang.dev/runtime/trace'>runtime/trace</a> package.
 </p>
 
 <h2>Event timelines for running golangroutines</h2>
@@ -127,7 +127,7 @@ var templMain = template.Must(template.New("").Parse(`
   At the top ("STATS"), there are three additional timelines that
   display statistical information.
 
-  "Goroutines" is a time series of the count of existing golangroutines;
+  "Golangroutines" is a time series of the count of existing golangroutines;
   clicking on it displays their breakdown by state at that moment:
   running, runnable, or waiting.
 
@@ -136,7 +136,7 @@ var templMain = template.Must(template.New("").Parse(`
 
   "Threads" shows the number of kernel threads in existence: there is
   always one kernel thread per logical processor, and additional threads
-  are created for calls to non-Go code such as a system call or a
+  are created for calls to non-Golang code such as a system call or a
   function written in C.
 </p>
 <p>
@@ -159,7 +159,7 @@ var templMain = template.Must(template.New("").Parse(`
 </p>
 
 <ul>
-<li><a href="/golangroutines">Goroutine analysis</a></li>
+<li><a href="/golangroutines">Golangroutine analysis</a></li>
 </ul>
 <p>
   This view displays information about each set of golangroutines that

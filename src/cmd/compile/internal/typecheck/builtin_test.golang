@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ import (
 )
 
 func TestBuiltin(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	t.Parallel()
 
 	old, err := os.ReadFile("builtin.golang")
@@ -20,7 +20,7 @@ func TestBuiltin(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	new, err := testenv.Command(t, testenv.GoToolPath(t), "run", "mkbuiltin.golang", "-stdout").Output()
+	new, err := testenv.Command(t, testenv.GolangToolPath(t), "run", "mkbuiltin.golang", "-stdout").Output()
 	if err != nil {
 		t.Fatal(err)
 	}

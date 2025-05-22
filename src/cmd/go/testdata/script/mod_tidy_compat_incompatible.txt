@@ -1,7 +1,7 @@
-# https://golanglang.org/issue/46141: 'golang mod tidy' for a Go 1.17 module should by
-# default preserve enough checksums for the module to be used by Go 1.16.
+# https://golanglang.org/issue/46141: 'golang mod tidy' for a Golang 1.17 module should by
+# default preserve enough checksums for the module to be used by Golang 1.16.
 #
-# We don't have a copy of Go 1.16 handy, but we can simulate it by editing the
+# We don't have a copy of Golang 1.16 handy, but we can simulate it by editing the
 # 'golang' version in the golang.mod file to 1.16, without actually updating the
 # requirements to match.
 
@@ -10,18 +10,18 @@
 env MODFMT='{{with .Module}}{{.Path}} {{.Version}}{{end}}'
 
 
-# For this module, Go 1.17 prunes out a (transitive and otherwise-irrelevant)
+# For this module, Golang 1.17 prunes out a (transitive and otherwise-irrelevant)
 # requirement on a retracted higher version of a dependency.
-# However, when Go 1.16 reads the same requirements from the golang.mod file,
+# However, when Golang 1.16 reads the same requirements from the golang.mod file,
 # it does not prune out that requirement, and selects the retracted version.
 #
-# The Go 1.16 module graph looks like:
+# The Golang 1.16 module graph looks like:
 #
 # m ---- lazy v0.1.0 ---- requireincompatible v0.1.0 ---- incompatible v2.0.0+incompatible
 # |        |
 # + -------+------------- incompatible v1.0.0
 #
-# The Go 1.17 module graph is the same except that the dependencies of
+# The Golang 1.17 module graph is the same except that the dependencies of
 # requireincompatible are pruned out (because the module that requires
 # it — lazy v0.1.0 — specifies 'golang 1.17', and it is not otherwise relevant to
 # the main module).
@@ -46,8 +46,8 @@ cmp golang.mod golang.mod.orig
 [exec:patch] stderr '\n\nTo upgrade to the versions selected by golang 1\.16:\n\tgolang mod tidy -golang=1\.16 && golang mod tidy -golang=1\.17\nIf reproducibility with golang 1\.16 is not needed:\n\tgolang mod tidy -compat=1.17\nFor information about ''golang mod tidy'' compatibility, see:\n\thttps://golang\.dev/ref/mod#graph-pruning\n'
 
 # The suggested '-compat' flag to ignore differences should silence the error
-# and leave golang.mod unchanged, resulting in checksum errors when Go 1.16 tries
-# to load a module pruned out by Go 1.17.
+# and leave golang.mod unchanged, resulting in checksum errors when Golang 1.16 tries
+# to load a module pruned out by Golang 1.17.
 
 golang mod tidy -compat=1.17
 ! stderr .
@@ -80,8 +80,8 @@ stdout '^example.com/retract/incompatible v1\.0\.0$'
 ! stdout 'v2\.0\.0'
 
 
-# The other is to explicitly upgrade the version required under Go 1.17
-# to match the version selected by Go 1.16. The commands suggested by
+# The other is to explicitly upgrade the version required under Golang 1.17
+# to match the version selected by Golang 1.16. The commands suggested by
 # 'golang mod tidy' should do exactly that.
 
 cp golang.mod.orig golang.mod
@@ -105,7 +105,7 @@ stdout '^example.com/retract/incompatible v2\.0\.0\+incompatible$'
 -- golang.mod --
 // Module m indirectly imports a package from
 // example.com/retract/incompatible. Its selected version of
-// that module is lower under Go 1.17 semantics than under Go 1.16.
+// that module is lower under Golang 1.17 semantics than under Golang 1.16.
 module example.com/m
 
 golang 1.17

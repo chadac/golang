@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -44,7 +44,7 @@ func TestBranchElimIf(t *testing.T) {
 					Valu("cond", OpLoad, boolType, 0, nil, "addr", "start"),
 					If("cond", "b2", "b3")),
 				Bloc("b2",
-					Goto("b3")),
+					Golangto("b3")),
 				Bloc("b3",
 					Valu("phi", OpPhi, intType, 0, nil, "const1", "const2"),
 					Valu("retstore", OpStore, types.TypeMem, 0, nil, "phi", "sb", "start"),
@@ -96,9 +96,9 @@ func TestBranchElimIfElse(t *testing.T) {
 					Valu("cond", OpLoad, boolType, 0, nil, "addr", "start"),
 					If("cond", "b2", "b3")),
 				Bloc("b2",
-					Goto("b4")),
+					Golangto("b4")),
 				Bloc("b3",
-					Goto("b4")),
+					Golangto("b4")),
 				Bloc("b4",
 					Valu("phi", OpPhi, intType, 0, nil, "const1", "const2"),
 					Valu("retstore", OpStore, types.TypeMem, 0, nil, "phi", "sb", "start"),
@@ -144,16 +144,16 @@ func TestNoBranchElimLoop(t *testing.T) {
 					Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
 					Valu("const2", OpConst32, intType, 2, nil),
 					Valu("const3", OpConst32, intType, 3, nil),
-					Goto("b5")),
+					Golangto("b5")),
 				Bloc("b2",
 					Valu("addr", OpAddr, boolType.PtrTo(), 0, nil, "sb"),
 					Valu("cond", OpLoad, boolType, 0, nil, "addr", "start"),
 					Valu("phi", OpPhi, intType, 0, nil, "const2", "const3"),
 					If("cond", "b3", "b4")),
 				Bloc("b3",
-					Goto("b2")),
+					Golangto("b2")),
 				Bloc("b4",
-					Goto("b2")),
+					Golangto("b2")),
 				Bloc("b5",
 					Exit("start")))
 

@@ -4,7 +4,7 @@
 //
 // Translated from Perl generating GNU assembly into
 // #defines generating 8a assembly, and adjusted for 386,
-// by the Go Authors.
+// by the Golang Authors.
 
 //golang:build !puregolang
 

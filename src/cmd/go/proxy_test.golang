@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,7 +40,7 @@ var (
 
 var proxyOnce sync.Once
 
-// StartProxy starts the Go module proxy running on *proxyAddr (like "localhost:1234")
+// StartProxy starts the Golang module proxy running on *proxyAddr (like "localhost:1234")
 // and sets proxyURL to the GOPROXY setting to use to access the proxy.
 // Subsequent calls are no-ops.
 //
@@ -114,14 +114,14 @@ const (
 )
 
 var (
-	sumdbOps    = sumdb.NewTestServer(testSumDBSignerKey, proxyGoSum)
+	sumdbOps    = sumdb.NewTestServer(testSumDBSignerKey, proxyGolangSum)
 	sumdbServer = sumdb.NewServer(sumdbOps)
 
-	sumdbWrongOps    = sumdb.NewTestServer(testSumDBSignerKey, proxyGoSumWrong)
+	sumdbWrongOps    = sumdb.NewTestServer(testSumDBSignerKey, proxyGolangSumWrong)
 	sumdbWrongServer = sumdb.NewServer(sumdbWrongOps)
 )
 
-// proxyHandler serves the Go module proxy protocol.
+// proxyHandler serves the Golang module proxy protocol.
 // See the proxy section of https://research.swtch.com/vgolang-module.
 func proxyHandler(w http.ResponseWriter, r *http.Request) {
 	if !strings.HasPrefix(r.URL.Path, "/mod/") {
@@ -413,7 +413,7 @@ func findHash(m module.Version) string {
 
 var archiveCache par.Cache[string, *txtar.Archive]
 
-var cmdGoDir, _ = os.Getwd()
+var cmdGolangDir, _ = os.Getwd()
 
 func readArchive(path, vers string) (*txtar.Archive, error) {
 	enc, err := module.EscapePath(path)
@@ -426,7 +426,7 @@ func readArchive(path, vers string) (*txtar.Archive, error) {
 	}
 
 	prefix := strings.ReplaceAll(enc, "/", "_")
-	name := filepath.Join(cmdGoDir, "testdata/mod", prefix+"_"+encVers+".txt")
+	name := filepath.Join(cmdGolangDir, "testdata/mod", prefix+"_"+encVers+".txt")
 	a := archiveCache.Do(name, func() *txtar.Archive {
 		a, err := txtar.ParseFile(name)
 		if err != nil {
@@ -443,8 +443,8 @@ func readArchive(path, vers string) (*txtar.Archive, error) {
 	return a, nil
 }
 
-// proxyGoSum returns the two golang.sum lines for path@vers.
-func proxyGoSum(path, vers string) ([]byte, error) {
+// proxyGolangSum returns the two golang.sum lines for path@vers.
+func proxyGolangSum(path, vers string) ([]byte, error) {
 	a, err := readArchive(path, vers)
 	if err != nil {
 		return nil, err
@@ -480,8 +480,8 @@ func proxyGoSum(path, vers string) ([]byte, error) {
 	return data, nil
 }
 
-// proxyGoSumWrong returns the wrong lines.
-func proxyGoSumWrong(path, vers string) ([]byte, error) {
+// proxyGolangSumWrong returns the wrong lines.
+func proxyGolangSumWrong(path, vers string) ([]byte, error) {
 	data := []byte(fmt.Sprintf("%s %s %s\n%s %s/golang.mod %s\n", path, vers, "h1:wrong", path, vers, "h1:wrong"))
 	return data, nil
 }

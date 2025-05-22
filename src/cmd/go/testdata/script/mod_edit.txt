@@ -171,7 +171,7 @@ require x.3 v1.99.0
 	"Module": {
 		"Path": "x.x/y/z"
 	},
-	"Go": "$golangversion",
+	"Golang": "$golangversion",
 	"Require": [
 		{
 			"Path": "x.3",
@@ -323,7 +323,7 @@ retract (
 	"Module": {
 		"Path": "x.x/y/z"
 	},
-	"Go": "1.15",
+	"Golang": "1.15",
 	"Require": null,
 	"Exclude": null,
 	"Replace": null,

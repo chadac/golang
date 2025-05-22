@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -414,9 +414,9 @@ func Sendmsg(fd int, p, oob []byte, to Sockaddr, flags int) (err error) {
 // underlying socket type is not SOCK_DGRAM, p will be treated as containing a
 // single '\0' and the return value will indicate zero bytes sent.
 //
-// The Go function Recvmsg, if called with an empty p and a non-empty oob,
+// The Golang function Recvmsg, if called with an empty p and a non-empty oob,
 // will read and ignore this additional '\0'.  If the message is received by
-// code that does not use Recvmsg, or that does not use Go at all, that code
+// code that does not use Recvmsg, or that does not use Golang at all, that code
 // will need to be written to expect and ignore the additional '\0'.
 //
 // If you need to send non-empty oob with p actually empty, and if the
@@ -609,7 +609,7 @@ func emptyIovecs(iov []Iovec) bool {
 
 // Setrlimit sets a resource limit.
 func Setrlimit(resource int, rlim *Rlimit) error {
-	// Just call the syscall version, because as of Go 1.21
+	// Just call the syscall version, because as of Golang 1.21
 	// it will affect starting a new process.
 	return syscall.Setrlimit(resource, (*syscall.Rlimit)(rlim))
 }

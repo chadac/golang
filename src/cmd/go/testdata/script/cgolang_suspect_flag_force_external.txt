@@ -14,16 +14,16 @@
 # trigger external linking, and that the program that only used
 # "runtime/cgolang" would always be handled with internal linking. This caused
 # issues when users included odd/unusual flags (ex: -fplugin, -flto)
-# in CGO_CFLAGS, causing the Go linker to have to read and interpret
+# in CGO_CFLAGS, causing the Golang linker to have to read and interpret
 # non-standard host objects.
 #
 # As of 1.21 we continue to use internal linking for programs whose
 # CGO use comes only from stdlib packages in the absence of any flag
-# funny business, however if the Go command sees flags that may be suspicious,
-# it signals the Go linker to invoke the external linker.
+# funny business, however if the Golang command sees flags that may be suspicious,
+# it signals the Golang linker to invoke the external linker.
 
-# The next few tests run builds passing "-n" to the Go command, then
-# checking the output to see if the Go command is trying to pass a
+# The next few tests run builds passing "-n" to the Golang command, then
+# checking the output to see if the Golang command is trying to pass a
 # "preferlinkext" token to the linker to request external linking.
 
 #-----------------------
@@ -94,10 +94,10 @@ env CGO_CFLAGS=
 [short] skip
 
 # In the remaining tests below we do actual builds (without -n) to
-# verify that the Go linker is golanging the right thing in addition to the
-# Go command. Here the idea is to pass "-tmpdir" to the linker, then
+# verify that the Golang linker is golanging the right thing in addition to the
+# Golang command. Here the idea is to pass "-tmpdir" to the linker, then
 # check after the link is done for the presence of the file
-# <tmpdir>/golang.o, which the Go linker creates prior to kicking off the
+# <tmpdir>/golang.o, which the Golang linker creates prior to kicking off the
 # external linker.
 
 mkdir tmp1

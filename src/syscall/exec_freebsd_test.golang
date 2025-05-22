@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -70,7 +70,7 @@ func TestJailAttach(t *testing.T) {
 		return
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	// Make sure we are running as root, so we have permissions to create
 	// and remove jails.
 	if os.Getuid() != 0 {
@@ -82,7 +82,7 @@ func TestJailAttach(t *testing.T) {
 	// Since jail attach does an implicit chroot to the jail's path,
 	// we need the binary there, and it must be statically linked.
 	x := filepath.Join(root, "syscall.test")
-	cmd := exec.Command(testenv.GoToolPath(t), "test", "-c", "-o", x, "syscall")
+	cmd := exec.Command(testenv.GolangToolPath(t), "test", "-c", "-o", x, "syscall")
 	cmd.Env = append(os.Environ(), "CGO_ENABLED=0")
 	if o, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("Build of syscall in jail root failed, output %v, err %v", o, err)

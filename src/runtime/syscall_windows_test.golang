@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -164,7 +164,7 @@ func callback(timeFormatString unsafe.Pointer, lparam uintptr) uintptr {
 	return 0 // stop enumeration
 }
 
-// nestedCall calls into Windows, back into Go, and finally to f.
+// nestedCall calls into Windows, back into Golang, and finally to f.
 func nestedCall(t *testing.T, f func()) {
 	c := syscall.NewCallback(callback)
 	d := GetDLL(t, "kernel32.dll")
@@ -1169,7 +1169,7 @@ uintptr_t cfunc(void) {
 }
 
 // Test that C code called via a DLL can use large Windows thread
-// stacks and call back in to Go without crashing. See issue #20975.
+// stacks and call back in to Golang without crashing. See issue #20975.
 //
 // See also TestBigStackCallbackCgolang.
 func TestBigStackCallbackSyscall(t *testing.T) {
@@ -1315,17 +1315,17 @@ func BenchmarkOsYield(b *testing.B) {
 	}
 }
 
-func BenchmarkRunningGoProgram(b *testing.B) {
+func BenchmarkRunningGolangProgram(b *testing.B) {
 	tmpdir := b.TempDir()
 
 	src := filepath.Join(tmpdir, "main.golang")
-	err := os.WriteFile(src, []byte(benchmarkRunningGoProgram), 0666)
+	err := os.WriteFile(src, []byte(benchmarkRunningGolangProgram), 0666)
 	if err != nil {
 		b.Fatal(err)
 	}
 
 	exe := filepath.Join(tmpdir, "main.exe")
-	cmd := exec.Command(testenv.GoToolPath(b), "build", "-o", exe, src)
+	cmd := exec.Command(testenv.GolangToolPath(b), "build", "-o", exe, src)
 	cmd.Dir = tmpdir
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -1342,10 +1342,10 @@ func BenchmarkRunningGoProgram(b *testing.B) {
 	}
 }
 
-const benchmarkRunningGoProgram = `
+const benchmarkRunningGolangProgram = `
 package main
 
-import _ "os" // average Go program will use "os" package, do the same here
+import _ "os" // average Golang program will use "os" package, do the same here
 
 func main() {
 }

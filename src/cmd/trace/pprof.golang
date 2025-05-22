@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,10 +17,10 @@ import (
 	"time"
 )
 
-func pprofByGoroutine(compute computePprofFunc, t *parsedTrace) traceviewer.ProfileFunc {
+func pprofByGolangroutine(compute computePprofFunc, t *parsedTrace) traceviewer.ProfileFunc {
 	return func(r *http.Request) ([]traceviewer.ProfileRecord, error) {
 		name := r.FormValue("name")
-		gToIntervals, err := pprofMatchingGoroutines(name, t)
+		gToIntervals, err := pprofMatchingGolangroutines(name, t)
 		if err != nil {
 			return nil, err
 		}
@@ -42,11 +42,11 @@ func pprofByRegion(compute computePprofFunc, t *parsedTrace) traceviewer.Profile
 	}
 }
 
-// pprofMatchingGoroutines returns the ids of golangroutines of the matching name and its interval.
+// pprofMatchingGolangroutines returns the ids of golangroutines of the matching name and its interval.
 // If the id string is empty, returns nil without an error.
-func pprofMatchingGoroutines(name string, t *parsedTrace) (map[trace.GoID][]interval, error) {
-	res := make(map[trace.GoID][]interval)
-	for _, g := range t.summary.Goroutines {
+func pprofMatchingGolangroutines(name string, t *parsedTrace) (map[trace.GolangID][]interval, error) {
+	res := make(map[trace.GolangID][]interval)
+	for _, g := range t.summary.Golangroutines {
 		if name != "" && g.Name != name {
 			continue
 		}
@@ -64,13 +64,13 @@ func pprofMatchingGoroutines(name string, t *parsedTrace) (map[trace.GoID][]inte
 
 // pprofMatchingRegions returns the time intervals of matching regions
 // grouped by the golangroutine id. If the filter is nil, returns nil without an error.
-func pprofMatchingRegions(filter *regionFilter, t *parsedTrace) (map[trace.GoID][]interval, error) {
+func pprofMatchingRegions(filter *regionFilter, t *parsedTrace) (map[trace.GolangID][]interval, error) {
 	if filter == nil {
 		return nil, nil
 	}
 
-	gToIntervals := make(map[trace.GoID][]interval)
-	for _, g := range t.summary.Goroutines {
+	gToIntervals := make(map[trace.GolangID][]interval)
+	for _, g := range t.summary.Golangroutines {
 		for _, r := range g.Regions {
 			if !filter.match(t, r) {
 				continue
@@ -106,12 +106,12 @@ func pprofMatchingRegions(filter *regionFilter, t *parsedTrace) (map[trace.GoID]
 	return gToIntervals, nil
 }
 
-type computePprofFunc func(gToIntervals map[trace.GoID][]interval, events []trace.Event) ([]traceviewer.ProfileRecord, error)
+type computePprofFunc func(gToIntervals map[trace.GolangID][]interval, events []trace.Event) ([]traceviewer.ProfileRecord, error)
 
 // computePprofIO returns a computePprofFunc that generates IO pprof-like profile (time spent in
 // IO wait, currently only network blocking event).
 func computePprofIO() computePprofFunc {
-	return makeComputePprofFunc(trace.GoWaiting, func(reason string) bool {
+	return makeComputePprofFunc(trace.GolangWaiting, func(reason string) bool {
 		return reason == "network"
 	})
 }
@@ -119,7 +119,7 @@ func computePprofIO() computePprofFunc {
 // computePprofBlock returns a computePprofFunc that generates blocking pprof-like profile
 // (time spent blocked on synchronization primitives).
 func computePprofBlock() computePprofFunc {
-	return makeComputePprofFunc(trace.GoWaiting, func(reason string) bool {
+	return makeComputePprofFunc(trace.GolangWaiting, func(reason string) bool {
 		return strings.Contains(reason, "chan") || strings.Contains(reason, "sync") || strings.Contains(reason, "select")
 	})
 }
@@ -127,7 +127,7 @@ func computePprofBlock() computePprofFunc {
 // computePprofSyscall returns a computePprofFunc that generates a syscall pprof-like
 // profile (time spent in syscalls).
 func computePprofSyscall() computePprofFunc {
-	return makeComputePprofFunc(trace.GoSyscall, func(_ string) bool {
+	return makeComputePprofFunc(trace.GolangSyscall, func(_ string) bool {
 		return true
 	})
 }
@@ -135,17 +135,17 @@ func computePprofSyscall() computePprofFunc {
 // computePprofSched returns a computePprofFunc that generates a scheduler latency pprof-like profile
 // (time between a golangroutine become runnable and actually scheduled for execution).
 func computePprofSched() computePprofFunc {
-	return makeComputePprofFunc(trace.GoRunnable, func(_ string) bool {
+	return makeComputePprofFunc(trace.GolangRunnable, func(_ string) bool {
 		return true
 	})
 }
 
 // makeComputePprofFunc returns a computePprofFunc that generates a profile of time golangroutines spend
 // in a particular state for the specified reasons.
-func makeComputePprofFunc(state trace.GoState, trackReason func(string) bool) computePprofFunc {
-	return func(gToIntervals map[trace.GoID][]interval, events []trace.Event) ([]traceviewer.ProfileRecord, error) {
+func makeComputePprofFunc(state trace.GolangState, trackReason func(string) bool) computePprofFunc {
+	return func(gToIntervals map[trace.GolangID][]interval, events []trace.Event) ([]traceviewer.ProfileRecord, error) {
 		stacks := newStackMap()
-		tracking := make(map[trace.GoID]*trace.Event)
+		tracking := make(map[trace.GolangID]*trace.Event)
 		for i := range events {
 			ev := &events[i]
 
@@ -160,11 +160,11 @@ func makeComputePprofFunc(state trace.GoState, trackReason func(string) bool) co
 
 			// The state transition has to apply to a golangroutine.
 			st := ev.StateTransition()
-			if st.Resource.Kind != trace.ResourceGoroutine {
+			if st.Resource.Kind != trace.ResourceGolangroutine {
 				continue
 			}
-			id := st.Resource.Goroutine()
-			_, new := st.Goroutine()
+			id := st.Resource.Golangroutine()
+			_, new := st.Golangroutine()
 
 			// Check if we're tracking this golangroutine.
 			startEv := tracking[id]
@@ -201,7 +201,7 @@ func makeComputePprofFunc(state trace.GoState, trackReason func(string) bool) co
 // pprofOverlappingDuration returns the overlapping duration between
 // the time intervals in gToIntervals and the specified event.
 // If gToIntervals is nil, this simply returns the event's duration.
-func pprofOverlappingDuration(gToIntervals map[trace.GoID][]interval, id trace.GoID, sample interval) time.Duration {
+func pprofOverlappingDuration(gToIntervals map[trace.GolangID][]interval, id trace.GolangID, sample interval) time.Duration {
 	if gToIntervals == nil { // No filtering.
 		return sample.duration()
 	}

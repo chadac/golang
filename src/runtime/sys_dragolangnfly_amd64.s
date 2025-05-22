@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
@@ -221,7 +221,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 
 // Called using C ABI.
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
-	// Transition from C ABI to Go ABI.
+	// Transition from C ABI to Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Set up ABIInternal environment: g in R14, cleared X15.
@@ -233,7 +233,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	NOP	SP		// disable vet stack checking
 	ADJSP   $24
 
-	// Call into the Go signal handler
+	// Call into the Golang signal handler
 	MOVQ	DI, AX	// sig
 	MOVQ	SI, BX	// info
 	MOVQ	DX, CX	// ctx

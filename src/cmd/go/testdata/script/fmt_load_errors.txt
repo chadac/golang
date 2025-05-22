@@ -35,4 +35,4 @@ package x
 package x
 -- empty.golang --
 -- nopackage.golang --
-not the proper start to a Go file
+not the proper start to a Golang file

@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ func checkMono(t *testing.T, body string) error {
 	return errors.New(strings.TrimRight(buf.String(), "\n"))
 }
 
-func TestMonoGood(t *testing.T) {
+func TestMonoGolangod(t *testing.T) {
 	for i, golangod := range golangods {
 		if err := checkMono(t, golangod); err != nil {
 			t.Errorf("%d: unexpected failure: %v", i, err)

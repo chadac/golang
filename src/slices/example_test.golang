@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -31,7 +31,7 @@ func ExampleBinarySearchFunc() {
 	people := []Person{
 		{"Alice", 55},
 		{"Bob", 24},
-		{"Gopher", 13},
+		{"Golangpher", 13},
 	}
 	n, found := slices.BinarySearchFunc(people, Person{"Bob", 0}, func(a, b Person) int {
 		return strings.Compare(a.Name, b.Name)
@@ -203,7 +203,7 @@ func ExampleMaxFunc() {
 		Age  int
 	}
 	people := []Person{
-		{"Gopher", 13},
+		{"Golangpher", 13},
 		{"Alice", 55},
 		{"Vera", 24},
 		{"Bob", 55},
@@ -229,7 +229,7 @@ func ExampleMinFunc() {
 		Age  int
 	}
 	people := []Person{
-		{"Gopher", 13},
+		{"Golangpher", 13},
 		{"Bob", 5},
 		{"Vera", 24},
 		{"Bill", 5},
@@ -282,7 +282,7 @@ func ExampleSortFunc_multiField() {
 		Age  int
 	}
 	people := []Person{
-		{"Gopher", 13},
+		{"Golangpher", 13},
 		{"Alice", 55},
 		{"Bob", 24},
 		{"Alice", 20},
@@ -296,7 +296,7 @@ func ExampleSortFunc_multiField() {
 	})
 	fmt.Println(people)
 	// Output:
-	// [{Alice 20} {Alice 55} {Bob 24} {Gopher 13}]
+	// [{Alice 20} {Alice 55} {Bob 24} {Golangpher 13}]
 }
 
 func ExampleSortStableFunc() {
@@ -305,7 +305,7 @@ func ExampleSortStableFunc() {
 		Age  int
 	}
 	people := []Person{
-		{"Gopher", 13},
+		{"Golangpher", 13},
 		{"Alice", 20},
 		{"Bob", 24},
 		{"Alice", 55},
@@ -316,7 +316,7 @@ func ExampleSortStableFunc() {
 	})
 	fmt.Println(people)
 	// Output:
-	// [{Alice 20} {Alice 55} {Bob 24} {Gopher 13}]
+	// [{Alice 20} {Alice 55} {Bob 24} {Golangpher 13}]
 }
 
 func ExampleClone() {
@@ -497,7 +497,7 @@ func ExampleSortedStableFunc() {
 	}
 
 	people := []Person{
-		{"Gopher", 13},
+		{"Golangpher", 13},
 		{"Alice", 20},
 		{"Bob", 5},
 		{"Vera", 24},
@@ -511,7 +511,7 @@ func ExampleSortedStableFunc() {
 	s := slices.SortedStableFunc(slices.Values(people), sortFunc)
 	fmt.Println(s)
 	// Output:
-	// [{Bob 5} {Gopher 13} {Alice 20} {Zac 20} {Vera 24}]
+	// [{Bob 5} {Golangpher 13} {Alice 20} {Zac 20} {Vera 24}]
 }
 
 func ExampleChunk() {
@@ -523,7 +523,7 @@ func ExampleChunk() {
 	type People []Person
 
 	people := People{
-		{"Gopher", 13},
+		{"Golangpher", 13},
 		{"Alice", 20},
 		{"Bob", 5},
 		{"Vera", 24},
@@ -536,7 +536,7 @@ func ExampleChunk() {
 	}
 
 	// Output:
-	// [{Gopher 13} {Alice 20}]
+	// [{Golangpher 13} {Alice 20}]
 	// [{Bob 5} {Vera 24}]
 	// [{Zac 15}]
 }

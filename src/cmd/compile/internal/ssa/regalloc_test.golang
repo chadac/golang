@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,7 +24,7 @@ func TestLiveControlOps(t *testing.T) {
 			Eq("b", "plain", "exit"),
 		),
 		Bloc("plain",
-			Goto("exit"),
+			Golangto("exit"),
 		),
 		Bloc("exit",
 			Exit("mem"),
@@ -58,7 +58,7 @@ func TestNoGetgLoadReg(t *testing.T) {
 			Eq("v11", "b2", "b4"),
 		),
 		Bloc("b4",
-			Goto("b3"),
+			Golangto("b3"),
 		),
 		Bloc("b3",
 			Valu("v14", OpPhi, types.TypeMem, 0, nil, "v1", "v12"),
@@ -68,7 +68,7 @@ func TestNoGetgLoadReg(t *testing.T) {
 		),
 		Bloc("b2",
 			Valu("v12", OpARM64CALLstatic, types.TypeMem, 0, AuxCallLSym("_"), "v1"),
-			Goto("b3"),
+			Golangto("b3"),
 		),
 	)
 	regalloc(f.f)
@@ -94,7 +94,7 @@ func TestSpillWithLoop(t *testing.T) {
 			Valu("ptr", OpArg, c.config.Types.Int64.PtrTo(), 0, c.Temp(c.config.Types.Int64)),
 			Valu("cond", OpArg, c.config.Types.Bool, 0, c.Temp(c.config.Types.Bool)),
 			Valu("ld", OpAMD64MOVQload, c.config.Types.Int64, 0, nil, "ptr", "mem"), // this value needs a spill
-			Goto("loop"),
+			Golangto("loop"),
 		),
 		Bloc("loop",
 			Valu("memphi", OpPhi, types.TypeMem, 0, nil, "mem", "call"),
@@ -103,7 +103,7 @@ func TestSpillWithLoop(t *testing.T) {
 			Eq("test", "next", "exit"),
 		),
 		Bloc("next",
-			Goto("loop"),
+			Golangto("loop"),
 		),
 		Bloc("exit",
 			Valu("store", OpAMD64MOVQstore, types.TypeMem, 0, nil, "ptr", "ld", "call"),
@@ -127,7 +127,7 @@ func TestSpillMove1(t *testing.T) {
 			Valu("x", OpArg, c.config.Types.Int64, 0, c.Temp(c.config.Types.Int64)),
 			Valu("p", OpArg, c.config.Types.Int64.PtrTo(), 0, c.Temp(c.config.Types.Int64.PtrTo())),
 			Valu("a", OpAMD64TESTQ, types.TypeFlags, 0, nil, "x", "x"),
-			Goto("loop1"),
+			Golangto("loop1"),
 		),
 		Bloc("loop1",
 			Valu("y", OpAMD64MULQ, c.config.Types.Int64, 0, nil, "x", "x"),
@@ -176,7 +176,7 @@ func TestSpillMove2(t *testing.T) {
 			Valu("x", OpArg, c.config.Types.Int64, 0, c.Temp(c.config.Types.Int64)),
 			Valu("p", OpArg, c.config.Types.Int64.PtrTo(), 0, c.Temp(c.config.Types.Int64.PtrTo())),
 			Valu("a", OpAMD64TESTQ, types.TypeFlags, 0, nil, "x", "x"),
-			Goto("loop1"),
+			Golangto("loop1"),
 		),
 		Bloc("loop1",
 			Valu("y", OpAMD64MULQ, c.config.Types.Int64, 0, nil, "x", "x"),

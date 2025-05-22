@@ -16,10 +16,10 @@ golang mod edit -droprequire example.net/tools
 # error out if dependencies of tag-guarded files are missing.
 
 golang get example.net/tools@v0.1.0
-! stderr 'no Go source files'
+! stderr 'no Golang source files'
 
 ! golang list example.net/tools
-stderr '^package example.net/tools: build constraints exclude all Go files in .*[/\\]tools$'
+stderr '^package example.net/tools: build constraints exclude all Golang files in .*[/\\]tools$'
 
 golang list -tags=tools -e -deps example.net/tools
 stdout '^example.net/cmd/tool$'
@@ -34,14 +34,14 @@ stderr '^no required module provides package example.net/missing; to add it:\n\t
 # https://golanglang.org/issue/33526: 'golang get' without '-d' should succeed
 # for a module whose root is a constrained-out package.
 #
-# Ideally it should silently succeed, but today it logs the "no Go source files"
+# Ideally it should silently succeed, but today it logs the "no Golang source files"
 # error and succeeds anyway.
 
 golang get example.net/tools@v0.1.0
 ! stderr .
 
 ! golang build example.net/tools
-stderr '^package example.net/tools: build constraints exclude all Go files in .*[/\\]tools$'
+stderr '^package example.net/tools: build constraints exclude all Golang files in .*[/\\]tools$'
 
 
 # https://golanglang.org/issue/29268
@@ -125,6 +125,6 @@ module example.net/missing
 
 golang 1.15
 -- missing/README.txt --
-There are no Go source files here.
+There are no Golang source files here.
 -- missing/subdir/README.txt --
-There are no Go source files here either.
+There are no Golang source files here either.

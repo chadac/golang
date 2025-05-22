@@ -1,10 +1,10 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cgolangsotest
 
-// This test verifies that Go can access C variables
+// This test verifies that Golang can access C variables
 // in shared object file via cgolang.
 
 /*
@@ -33,11 +33,11 @@ import "fmt"
 
 func Test() {
 	const want = "Hello world"
-	golangt := C.GoString(C.getVar())
+	golangt := C.GolangString(C.getVar())
 	if golangt != want {
 		panic(fmt.Sprintf("testExportedVar: golangt %q, but want %q", golangt, want))
 	}
-	golangt = C.GoString(C.exported_var)
+	golangt = C.GolangString(C.exported_var)
 	if golangt != want {
 		panic(fmt.Sprintf("testExportedVar: golangt %q, but want %q", golangt, want))
 	}

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,13 +6,13 @@ package main
 
 // This program produced false race reports when run under the C/C++
 // ThreadSanitizer, as it did not understand the synchronization in
-// the Go code.
+// the Golang code.
 
 /*
 #cgolang CFLAGS: -fsanitize=thread
 #cgolang LDFLAGS: -fsanitize=thread
 
-extern void GoRun(void);
+extern void GolangRun(void);
 
 // Yes, you can have definitions if you use //export, as long as they are weak.
 
@@ -22,7 +22,7 @@ int run(void) __attribute__ ((weak));
 
 int run() {
 	val = 1;
-	GoRun();
+	GolangRun();
 	return val;
 }
 
@@ -36,8 +36,8 @@ import "C"
 
 import "runtime"
 
-//export GoRun
-func GoRun() {
+//export GolangRun
+func GolangRun() {
 	runtime.LockOSThread()
 	c := make(chan bool)
 	golang func() {

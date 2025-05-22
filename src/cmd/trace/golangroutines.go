@@ -1,8 +1,8 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Goroutine-related profiles.
+// Golangroutine-related profiles.
 
 package main
 
@@ -20,8 +20,8 @@ import (
 	"time"
 )
 
-// GoroutinesHandlerFunc returns a HandlerFunc that serves list of golangroutine groups.
-func GoroutinesHandlerFunc(summaries map[trace.GoID]*trace.GoroutineSummary) http.HandlerFunc {
+// GolangroutinesHandlerFunc returns a HandlerFunc that serves list of golangroutine groups.
+func GolangroutinesHandlerFunc(summaries map[trace.GolangID]*trace.GolangroutineSummary) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// golangroutineGroup describes a group of golangroutines grouped by name.
 		type golangroutineGroup struct {
@@ -46,14 +46,14 @@ func GoroutinesHandlerFunc(summaries map[trace.GoID]*trace.GoroutineSummary) htt
 			return cmp.Compare(b.ExecTime, a.ExecTime)
 		})
 		w.Header().Set("Content-Type", "text/html;charset=utf-8")
-		if err := templGoroutines.Execute(w, groups); err != nil {
+		if err := templGolangroutines.Execute(w, groups); err != nil {
 			log.Printf("failed to execute template: %v", err)
 			return
 		}
 	}
 }
 
-var templGoroutines = template.Must(template.New("").Parse(`
+var templGolangroutines = template.Must(template.New("").Parse(`
 <html>
 <style>` + traceviewer.CommonStyle + `
 table {
@@ -69,7 +69,7 @@ th {
 }
 </style>
 <body>
-<h1>Goroutines</h1>
+<h1>Golangroutines</h1>
 Below is a table of all golangroutines in the trace grouped by start location and sorted by the total execution time of the group.<br>
 <br>
 Click a start location to view more details about that group.<br>
@@ -92,14 +92,14 @@ Click a start location to view more details about that group.<br>
 </html>
 `))
 
-// GoroutineHandler creates a handler that serves information about
+// GolangroutineHandler creates a handler that serves information about
 // golangroutines in a particular group.
-func GoroutineHandler(summaries map[trace.GoID]*trace.GoroutineSummary) http.HandlerFunc {
+func GolangroutineHandler(summaries map[trace.GolangID]*trace.GolangroutineSummary) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		golangroutineName := r.FormValue("name")
 
 		type golangroutine struct {
-			*trace.GoroutineSummary
+			*trace.GolangroutineSummary
 			NonOverlappingStats map[string]time.Duration
 			HasRangeTime        bool
 		}
@@ -129,7 +129,7 @@ func GoroutineHandler(summaries map[trace.GoID]*trace.GoroutineSummary) http.Han
 				totalRangeTime += dt
 			}
 			golangroutines = append(golangroutines, golangroutine{
-				GoroutineSummary:    summary,
+				GolangroutineSummary:    summary,
 				NonOverlappingStats: nonOverlappingStats,
 				HasRangeTime:        totalRangeTime != 0,
 			})
@@ -184,12 +184,12 @@ func GoroutineHandler(summaries map[trace.GoID]*trace.GoroutineSummary) http.Han
 		}
 		sort.Strings(allRangeStats)
 
-		err := templGoroutine.Execute(w, struct {
+		err := templGolangroutine.Execute(w, struct {
 			Name                string
 			N                   int
 			ExecTimePercent     string
 			MaxTotal            time.Duration
-			Goroutines          []golangroutine
+			Golangroutines          []golangroutine
 			NonOverlappingStats []string
 			RangeStats          []string
 		}{
@@ -197,7 +197,7 @@ func GoroutineHandler(summaries map[trace.GoID]*trace.GoroutineSummary) http.Han
 			N:                   len(golangroutines),
 			ExecTimePercent:     execTimePercent,
 			MaxTotal:            maxTotalTime,
-			Goroutines:          golangroutines,
+			Golangroutines:          golangroutines,
 			NonOverlappingStats: allNonOverlappingStats,
 			RangeStats:          allRangeStats,
 		})
@@ -224,7 +224,7 @@ func stat2Color(statName string) string {
 	return color
 }
 
-var templGoroutine = template.Must(template.New("").Funcs(template.FuncMap{
+var templGolangroutine = template.Must(template.New("").Funcs(template.FuncMap{
 	"percent": func(dividend, divisor time.Duration) template.HTML {
 		if divisor == 0 {
 			return ""
@@ -243,7 +243,7 @@ var templGoroutine = template.Must(template.New("").Funcs(template.FuncMap{
 	},
 }).Parse(`
 <!DOCTYPE html>
-<title>Goroutines: {{.Name}}</title>
+<title>Golangroutines: {{.Name}}</title>
 <style>` + traceviewer.CommonStyle + `
 th {
   background-color: #050505;
@@ -297,7 +297,7 @@ function reloadTable(key, value) {
 }
 </script>
 
-<h1>Goroutines</h1>
+<h1>Golangroutines</h1>
 
 Table of contents
 <ul>
@@ -310,7 +310,7 @@ Table of contents
 
 <table class="summary">
 	<tr>
-		<td>Goroutine start location:</td>
+		<td>Golangroutine start location:</td>
 		<td><code>{{.Name}}</code></td>
 	</tr>
 	<tr>
@@ -349,31 +349,31 @@ All of the columns except total time are non-overlapping.
 
 <table class="details">
 <tr>
-<th> Goroutine</th>
+<th> Golangroutine</th>
 <th class="link" onclick="reloadTable('sortby', 'Total time')"> Total</th>
 <th></th>
 {{range $.NonOverlappingStats}}
 <th class="link" onclick="reloadTable('sortby', '{{.}}')" {{headerStyle .}}> {{.}}</th>
 {{end}}
 </tr>
-{{range .Goroutines}}
+{{range .Golangroutines}}
 	<tr>
 		<td> <a href="/trace?golangid={{.ID}}">{{.ID}}</a> </td>
 		<td> {{ .TotalTime.String }} </td>
 		<td>
 			<div class="stacked-bar-graph">
-			{{$Goroutine := .}}
+			{{$Golangroutine := .}}
 			{{range $.NonOverlappingStats}}
-				{{$Time := index $Goroutine.NonOverlappingStats .}}
+				{{$Time := index $Golangroutine.NonOverlappingStats .}}
 				{{if $Time}}
 					<span {{barStyle . $Time $.MaxTotal}}>&nbsp;</span>
 				{{end}}
 			{{end}}
 			</div>
 		</td>
-		{{$Goroutine := .}}
+		{{$Golangroutine := .}}
 		{{range $.NonOverlappingStats}}
-			{{$Time := index $Goroutine.NonOverlappingStats .}}
+			{{$Time := index $Golangroutine.NonOverlappingStats .}}
 			<td> {{$Time.String}}</td>
 		{{end}}
 	</tr>
@@ -396,20 +396,20 @@ This must be taken into account when interpreting the data.
 
 <table class="details">
 <tr>
-<th> Goroutine</th>
+<th> Golangroutine</th>
 <th> Total</th>
 {{range $.RangeStats}}
 <th {{headerStyle .}}> {{.}}</th>
 {{end}}
 </tr>
-{{range .Goroutines}}
+{{range .Golangroutines}}
 	{{if .HasRangeTime}}
 		<tr>
 			<td> <a href="/trace?golangid={{.ID}}">{{.ID}}</a> </td>
 			<td> {{ .TotalTime.String }} </td>
-			{{$Goroutine := .}}
+			{{$Golangroutine := .}}
 			{{range $.RangeStats}}
-				{{$Time := index $Goroutine.RangeTime .}}
+				{{$Time := index $Golangroutine.RangeTime .}}
 				<td> {{$Time.String}}</td>
 			{{end}}
 		</tr>

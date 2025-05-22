@@ -3,7 +3,7 @@
 
 env ROOT=$WORK${/}golangpath${/}src
 
-# Lists all packages known to the Go toolchain.
+# Lists all packages known to the Golang toolchain.
 # Since golang list already does not traverse into other modules found in
 # subdirectories, it should only ignore the root node_modules.
 golang list -x all
@@ -12,7 +12,7 @@ stdout 'example/depA'
 stderr 'ignoring directory '$ROOT''${/}'node_modules'
 ! stderr 'ignoring directory '$ROOT''${/}'depA'${/}'node_modules'
 
-# Lists all packages within the current Go module.
+# Lists all packages within the current Golang module.
 # Since golang list already does not traverse into other modules found in
 # subdirectories, it should only ignore the root node_modules.
 golang list -x ./...

@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ func TestMain(m *testing.M) {
 }
 
 func loadSyms(t *testing.T, dbgExePath string) map[string]string {
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "nm", dbgExePath)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "nm", dbgExePath)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("%v: %v\n%s", cmd, err, string(out))
@@ -100,14 +100,14 @@ func testAddr2Line(t *testing.T, dbgExePath, addr string) {
 
 // This is line 101. The test depends on that.
 func TestAddr2Line(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	tmpDir := t.TempDir()
 
 	// Build copy of test binary with debug symbols,
 	// since the one running now may not have them.
 	exepath := filepath.Join(tmpDir, "testaddr2line_test.exe")
-	out, err := testenv.Command(t, testenv.GoToolPath(t), "test", "-c", "-o", exepath, "cmd/addr2line").CombinedOutput()
+	out, err := testenv.Command(t, testenv.GolangToolPath(t), "test", "-c", "-o", exepath, "cmd/addr2line").CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang test -c -o %v cmd/addr2line: %v\n%s", exepath, err, string(out))
 	}

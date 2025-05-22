@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -100,7 +100,7 @@ func main() {
 
 	time.Sleep(100 * time.Millisecond)
 	runtime.GC()
-	runtime.Gosched()
+	runtime.Golangsched()
 	time.Sleep(100 * time.Millisecond) // the last chance for the golangroutines above to block
 	done1 <- true
 	<-done2
@@ -120,10 +120,10 @@ func main() {
 	wp.Write(data[:])
 	<-pipeReadDone
 
-	oldGoMaxProcs := runtime.GOMAXPROCS(0)
-	runtime.GOMAXPROCS(oldGoMaxProcs + 1)
+	oldGolangMaxProcs := runtime.GOMAXPROCS(0)
+	runtime.GOMAXPROCS(oldGolangMaxProcs + 1)
 
 	trace.Stop()
 
-	runtime.GOMAXPROCS(oldGoMaxProcs)
+	runtime.GOMAXPROCS(oldGolangMaxProcs)
 }

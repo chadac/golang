@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,8 +15,8 @@ import (
 	"testing"
 )
 
-// We are testing cgolang -golangdefs, which translates Go files that use
-// import "C" into Go files with Go definitions of types defined in the
+// We are testing cgolang -golangdefs, which translates Golang files that use
+// import "C" into Golang files with Golang definitions of types defined in the
 // import "C" block.  Add more tests here.
 var filePrefixes = []string{
 	"anonunion",
@@ -30,8 +30,8 @@ var filePrefixes = []string{
 	"issue48396",
 }
 
-func TestGoDefs(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+func TestGolangDefs(t *testing.T) {
+	testenv.MustHaveGolangRun(t)
 	testenv.MustHaveCGO(t)
 
 	testdata, err := filepath.Abs("testdata")
@@ -51,7 +51,7 @@ func TestGoDefs(t *testing.T) {
 	}
 
 	for _, fp := range filePrefixes {
-		cmd := exec.Command(testenv.GoToolPath(t), "tool", "cgolang",
+		cmd := exec.Command(testenv.GolangToolPath(t), "tool", "cgolang",
 			"-golangdefs",
 			"-srcdir", testdata,
 			"-objdir", dir,
@@ -107,7 +107,7 @@ func TestGoDefs(t *testing.T) {
 	// instead of invoking 'golang build' and the resulting binary separately, so that
 	// this test can pass on mobile builders, which do not copy artifacts back
 	// from remote invocations.
-	cmd := exec.Command(testenv.GoToolPath(t), "run", ".")
+	cmd := exec.Command(testenv.GolangToolPath(t), "run", ".")
 	cmd.Env = append(os.Environ(), "GOPATH="+golangpath)
 	cmd.Dir = dir
 	if out, err := cmd.CombinedOutput(); err != nil {

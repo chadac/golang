@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -36,7 +36,7 @@ import (
  *
  * Copyright (c) 1996-1998 John D. Polstra.  All rights reserved.
  * Copyright (c) 2001 David E. O'Brien
- * Portions Copyright 2009 The Go Authors. All rights reserved.
+ * Portions Copyright 2009 The Golang Authors. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -133,7 +133,7 @@ type ElfPhdr elf.ProgHeader
 /* For accessing the fields of st_other. */
 
 /*
- * Go linker interface
+ * Golang linker interface
  */
 const (
 	ELF64HDRSIZE  = 64
@@ -616,7 +616,7 @@ func elfWriteMipsAbiFlags(ctxt *Link) int {
 	if buildcfg.GOMIPS == "softfloat" {
 		ctxt.Out.Write8(MIPS_FPABI_SOFT) // fpAbi
 	} else {
-		// Go cannot make sure non odd-number-fpr is used (ie, in load a double from memory).
+		// Golang cannot make sure non odd-number-fpr is used (ie, in load a double from memory).
 		// So, we mark the object is MIPS I style paired float/double register scheme,
 		// aka MIPS_FPABI_ANY. If we mark the object as FPXX, the kernel may use FR=1 mode,
 		// then we meet some problem.
@@ -813,11 +813,11 @@ func addbuildinfo(ctxt *Link) {
 	if val == "golangbuildid" {
 		buildID := *flagBuildid
 		if buildID == "" {
-			Exitf("-B golangbuildid requires a Go build ID supplied via -buildid")
+			Exitf("-B golangbuildid requires a Golang build ID supplied via -buildid")
 		}
 
 		if ctxt.IsDarwin() {
-			buildinfo = uuidFromGoBuildId(buildID)
+			buildinfo = uuidFromGolangBuildId(buildID)
 			return
 		}
 
@@ -901,7 +901,7 @@ func elfwritegolangbuildid(out *OutBuf) int {
 	return int(sh.Size)
 }
 
-// Go specific notes
+// Golang specific notes
 const (
 	ELF_NOTE_GOPKGLIST_TAG = 1
 	ELF_NOTE_GOABIHASH_TAG = 2
@@ -909,7 +909,7 @@ const (
 	ELF_NOTE_GOBUILDID_TAG = 4
 )
 
-var ELF_NOTE_GO_NAME = []byte("Go\x00\x00")
+var ELF_NOTE_GO_NAME = []byte("Golang\x00\x00")
 
 var elfverneed int
 

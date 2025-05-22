@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,24 +29,24 @@ func runtime_setProfLabel(labels unsafe.Pointer)
 // runtime_getProfLabel is defined in runtime/proflabel.golang.
 func runtime_getProfLabel() unsafe.Pointer
 
-// SetGoroutineLabels sets the current golangroutine's labels to match ctx.
+// SetGolangroutineLabels sets the current golangroutine's labels to match ctx.
 // A new golangroutine inherits the labels of the golangroutine that created it.
 // This is a lower-level API than [Do], which should be used instead when possible.
-func SetGoroutineLabels(ctx context.Context) {
+func SetGolangroutineLabels(ctx context.Context) {
 	ctxLabels, _ := ctx.Value(labelContextKey{}).(*labelMap)
 	runtime_setProfLabel(unsafe.Pointer(ctxLabels))
 }
 
 // Do calls f with a copy of the parent context with the
 // given labels added to the parent's label map.
-// Goroutines spawned while executing f will inherit the augmented label-set.
+// Golangroutines spawned while executing f will inherit the augmented label-set.
 // Each key/value pair in labels is inserted into the label map in the
 // order provided, overriding any previous value for the same key.
 // The augmented label map will be set for the duration of the call to f
 // and restored once f returns.
 func Do(ctx context.Context, labels LabelSet, f func(context.Context)) {
-	defer SetGoroutineLabels(ctx)
+	defer SetGolangroutineLabels(ctx)
 	ctx = WithLabels(ctx, labels)
-	SetGoroutineLabels(ctx)
+	SetGolangroutineLabels(ctx)
 	f(ctx)
 }

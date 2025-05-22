@@ -1,9 +1,9 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Simplifications that apply to all backend architectures. As an example, this
-// Go source code
+// Golang source code
 //
 // y := 0 * x
 //
@@ -2689,7 +2689,7 @@
 
 // Non-constant rotate detection.
 // We use shiftIsBounded to make sure that neither of the shifts are >64.
-// Note: these rules are subtle when the shift amounts are 0/64, as Go shifts
+// Note: these rules are subtle when the shift amounts are 0/64, as Golang shifts
 // are different from most native shifts. But it works out.
 ((Add64|Or64|Xor64) left:(Lsh64x64 x y) right:(Rsh64Ux64 x (Sub64 (Const64 [64]) y))) && (shiftIsBounded(left) || shiftIsBounded(right)) && canRotate(config, 64) => (RotateLeft64 x y)
 ((Add64|Or64|Xor64) left:(Lsh64x32 x y) right:(Rsh64Ux32 x (Sub32 (Const32 [64]) y))) && (shiftIsBounded(left) || shiftIsBounded(right)) && canRotate(config, 64) => (RotateLeft64 x y)

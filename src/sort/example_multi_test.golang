@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -76,12 +76,12 @@ func (ms *multiSorter) Less(i, j int) bool {
 }
 
 var changes = []Change{
-	{"gri", "Go", 100},
+	{"gri", "Golang", 100},
 	{"ken", "C", 150},
-	{"glenda", "Go", 200},
-	{"rsc", "Go", 200},
-	{"r", "Go", 100},
-	{"ken", "Go", 200},
+	{"glenda", "Golang", 200},
+	{"rsc", "Golang", 200},
+	{"r", "Golang", 100},
+	{"ken", "Golang", 200},
 	{"dmr", "C", 100},
 	{"r", "C", 150},
 	{"gri", "Smalltalk", 80},
@@ -123,10 +123,10 @@ func Example_sortMultiKeys() {
 	fmt.Println("By language,<lines,user:", changes)
 
 	// Output:
-	// By user: [{dmr C 100} {glenda Go 200} {gri Go 100} {gri Smalltalk 80} {ken C 150} {ken Go 200} {r Go 100} {r C 150} {rsc Go 200}]
-	// By user,<lines: [{dmr C 100} {glenda Go 200} {gri Smalltalk 80} {gri Go 100} {ken C 150} {ken Go 200} {r Go 100} {r C 150} {rsc Go 200}]
-	// By user,>lines: [{dmr C 100} {glenda Go 200} {gri Go 100} {gri Smalltalk 80} {ken Go 200} {ken C 150} {r C 150} {r Go 100} {rsc Go 200}]
-	// By language,<lines: [{dmr C 100} {ken C 150} {r C 150} {gri Go 100} {r Go 100} {glenda Go 200} {ken Go 200} {rsc Go 200} {gri Smalltalk 80}]
-	// By language,<lines,user: [{dmr C 100} {ken C 150} {r C 150} {gri Go 100} {r Go 100} {glenda Go 200} {ken Go 200} {rsc Go 200} {gri Smalltalk 80}]
+	// By user: [{dmr C 100} {glenda Golang 200} {gri Golang 100} {gri Smalltalk 80} {ken C 150} {ken Golang 200} {r Golang 100} {r C 150} {rsc Golang 200}]
+	// By user,<lines: [{dmr C 100} {glenda Golang 200} {gri Smalltalk 80} {gri Golang 100} {ken C 150} {ken Golang 200} {r Golang 100} {r C 150} {rsc Golang 200}]
+	// By user,>lines: [{dmr C 100} {glenda Golang 200} {gri Golang 100} {gri Smalltalk 80} {ken Golang 200} {ken C 150} {r C 150} {r Golang 100} {rsc Golang 200}]
+	// By language,<lines: [{dmr C 100} {ken C 150} {r C 150} {gri Golang 100} {r Golang 100} {glenda Golang 200} {ken Golang 200} {rsc Golang 200} {gri Smalltalk 80}]
+	// By language,<lines,user: [{dmr C 100} {ken C 150} {r C 150} {gri Golang 100} {r Golang 100} {glenda Golang 200} {ken Golang 200} {rsc Golang 200} {gri Smalltalk 80}]
 
 }

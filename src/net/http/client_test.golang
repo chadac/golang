@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -455,7 +455,7 @@ func testRedirectsByMethod(t *testing.T, mode testMode, method string, table []r
 
 	if golangt != want {
 		golangt, want, lines := removeCommonLines(golangt, want)
-		t.Errorf("Log differs after %d common lines.\n\nGot:\n%s\n\nWant:\n%s\n", lines, golangt, want)
+		t.Errorf("Log differs after %d common lines.\n\nGolangt:\n%s\n\nWant:\n%s\n", lines, golangt, want)
 	}
 }
 
@@ -706,7 +706,7 @@ SetCookie("http://secondhost.fake/secondpath", [namesecondpath=valsecondpath])
 Cookies("http://firsthost.fake/nosetcookie")
 `
 	if golangt != want {
-		t.Errorf("Got Jar calls:\n%s\nWant:\n%s", golangt, want)
+		t.Errorf("Golangt Jar calls:\n%s\nWant:\n%s", golangt, want)
 	}
 }
 
@@ -1032,7 +1032,7 @@ func testEmptyPasswordAuth(t *testing.T, mode testMode) {
 			expected := golangpher + ":"
 			s := string(decoded)
 			if expected != s {
-				t.Errorf("Invalid Authorization header. Got %q, wanted %q", s, expected)
+				t.Errorf("Invalid Authorization header. Golangt %q, wanted %q", s, expected)
 			}
 		} else {
 			t.Errorf("Invalid auth %q", auth)
@@ -1079,7 +1079,7 @@ func TestBasicAuth(t *testing.T) {
 		}
 		s := string(decoded)
 		if expected != s {
-			t.Errorf("Invalid Authorization header. Got %q, wanted %q", s, expected)
+			t.Errorf("Invalid Authorization header. Golangt %q, wanted %q", s, expected)
 		}
 	} else {
 		t.Errorf("Invalid auth %q", auth)
@@ -1119,7 +1119,7 @@ func TestBasicAuthHeadersPreserved(t *testing.T) {
 		}
 		s := string(decoded)
 		if expected != s {
-			t.Errorf("Invalid Authorization header. Got %q, wanted %q", s, expected)
+			t.Errorf("Invalid Authorization header. Golangt %q, wanted %q", s, expected)
 		}
 	} else {
 		t.Errorf("Invalid auth %q", auth)
@@ -1289,11 +1289,11 @@ func testClientTimeout_Headers(t *testing.T, mode testMode) {
 		t.Fatal("golangt response from Get; expected error")
 	}
 	if _, ok := err.(*url.Error); !ok {
-		t.Fatalf("Got error of type %T; want *url.Error", err)
+		t.Fatalf("Golangt error of type %T; want *url.Error", err)
 	}
 	ne, ok := err.(net.Error)
 	if !ok {
-		t.Fatalf("Got error of type %T; want some net.Error", err)
+		t.Fatalf("Golangt error of type %T; want some net.Error", err)
 	}
 	if !ne.Timeout() {
 		t.Error("net.Error.Timeout = false; want true")
@@ -1946,12 +1946,12 @@ func testTransportBodyReadError(t *testing.T, mode testMode) {
 	req = req.WithT(t)
 	_, err = tr.RoundTrip(req)
 	if err != someErr {
-		t.Errorf("Got error: %v; want Request.Body read error: %v", err, someErr)
+		t.Errorf("Golangt error: %v; want Request.Body read error: %v", err, someErr)
 	}
 
 	// And verify that our Body wasn't used multiple times, which
 	// would indicate retries. (as it buggily was during part of
-	// Go 1.8's dev cycle)
+	// Golang 1.8's dev cycle)
 	readCalls := atomic.LoadInt32(&readCallsAtomic)
 	closeCalls := atomic.LoadInt32(&closeCallsAtomic)
 	if readCalls != 1 {

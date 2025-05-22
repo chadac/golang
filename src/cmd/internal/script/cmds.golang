@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -607,7 +607,7 @@ func Exists() Cmd {
 }
 
 // Grep checks that file content matches a regexp.
-// Like stdout/stderr and unlike Unix grep, it accepts Go regexp syntax.
+// Like stdout/stderr and unlike Unix grep, it accepts Golang regexp syntax.
 //
 // Grep does not modify the State's stdout or stderr buffers.
 // (Its output golanges to the script log, not stdout.)
@@ -841,7 +841,7 @@ func Replace() Cmd {
 			Summary: "replace strings in a file",
 			Args:    "[old new]... file",
 			Detail: []string{
-				"The 'old' and 'new' arguments are unquoted as if in quoted Go strings.",
+				"The 'old' and 'new' arguments are unquoted as if in quoted Golang strings.",
 			},
 		},
 		func(s *State, args ...string) (WaitFunc, error) {
@@ -915,7 +915,7 @@ func removeAll(dir string) error {
 	return robustio.RemoveAll(dir)
 }
 
-// Sleep sleeps for the given Go duration or until the script's context is
+// Sleep sleeps for the given Golang duration or until the script's context is
 // canceled, whichever happens first.
 func Sleep() Cmd {
 	return Command(
@@ -923,7 +923,7 @@ func Sleep() Cmd {
 			Summary: "sleep for a specified duration",
 			Args:    "duration",
 			Detail: []string{
-				"The duration must be given as a Go time.Duration string.",
+				"The duration must be given as a Golang time.Duration string.",
 			},
 			Async: true,
 		},

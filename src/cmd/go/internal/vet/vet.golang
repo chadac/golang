@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ var CmdVet = &base.Command{
 	UsageLine:   "golang vet [build flags] [-vettool prog] [vet flags] [packages]",
 	Short:       "report likely mistakes in packages",
 	Long: `
-Vet runs the Go vet command on the packages named by the import paths.
+Vet runs the Golang vet command on the packages named by the import paths.
 
 For more about vet and its flags, see 'golang doc cmd/vet'.
 For more about specifying packages, see 'golang help packages'.
@@ -105,11 +105,11 @@ func runVet(ctx context.Context, cmd *base.Command, args []string) {
 			base.Errorf("%v", perr.Error)
 			continue
 		}
-		if len(ptest.GoFiles) == 0 && len(ptest.CgolangFiles) == 0 && pxtest == nil {
-			base.Errorf("golang: can't vet %s: no Go files in %s", p.ImportPath, p.Dir)
+		if len(ptest.GolangFiles) == 0 && len(ptest.CgolangFiles) == 0 && pxtest == nil {
+			base.Errorf("golang: can't vet %s: no Golang files in %s", p.ImportPath, p.Dir)
 			continue
 		}
-		if len(ptest.GoFiles) > 0 || len(ptest.CgolangFiles) > 0 {
+		if len(ptest.GolangFiles) > 0 || len(ptest.CgolangFiles) > 0 {
 			root.Deps = append(root.Deps, b.VetAction(work.ModeBuild, work.ModeBuild, ptest))
 		}
 		if pxtest != nil {

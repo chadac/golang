@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ import (
 
 func TestResolverDialFunc(t *testing.T) {
 	r := &Resolver{
-		PreferGo: true,
+		PreferGolang: true,
 		Dial: newResolverDialFunc(&resolverDialHandler{
 			StartDial: func(network, address string) error {
 				t.Logf("StartDial(%q, %q) ...", network, address)
@@ -32,7 +32,7 @@ func TestResolverDialFunc(t *testing.T) {
 				t.Logf("Header: %+v for %q (type=%v, class=%v)", h,
 					q.Name.String(), q.Type, q.Class)
 			},
-			// TODO: add test without HandleA* hooks specified at all, that Go
+			// TODO: add test without HandleA* hooks specified at all, that Golang
 			// doesn't issue retries; map to something terminal.
 			HandleA: func(w AWriter, name string) error {
 				w.AddIP([4]byte{1, 2, 3, 4})
@@ -119,7 +119,7 @@ func newResolverDialFunc(h *resolverDialHandler) func(ctx context.Context, netwo
 }
 
 type resolverDialHandler struct {
-	// StartDial, if non-nil, is called when Go first calls Resolver.Dial.
+	// StartDial, if non-nil, is called when Golang first calls Resolver.Dial.
 	// Any error returned aborts the dial and is returned unwrapped.
 	StartDial func(network, address string) error
 

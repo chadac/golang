@@ -1,9 +1,9 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Package arm64 implements an ARM64 assembler. Go assembly syntax is different from GNU ARM64
+Package arm64 implements an ARM64 assembler. Golang assembly syntax is different from GNU ARM64
 syntax, but we can still follow the general rules to map between them.
 
 # Instructions mnemonics mapping rules
@@ -19,7 +19,7 @@ Examples:
 	FCMPD F2, F3               <=>     fcmp d3, d2
 	FCVTDH F2, F3              <=>     fcvt h3, d2
 
-2. Go uses .P and .W suffixes to indicate post-increment and pre-increment.
+2. Golang uses .P and .W suffixes to indicate post-increment and pre-increment.
 
 Examples:
 
@@ -27,7 +27,7 @@ Examples:
 	MOVB.W 16(R16), R10        <=>      ldrsb x10, [x16,#16]!
 	MOVBU.W 16(R16), R10       <=>      ldrb x10, [x16,#16]!
 
-3. Go uses a series of MOV instructions as load and store.
+3. Golang uses a series of MOV instructions as load and store.
 
 64-bit variant ldr, str, stur => MOVD;
 32-bit variant str, stur, ldrsw => MOVW;
@@ -36,9 +36,9 @@ ldrb => MOVBU; ldrh => MOVHU;
 ldrsb, sturb, strb => MOVB;
 ldrsh, sturh, strh =>  MOVH.
 
-4. Go moves conditions into opcode suffix, like BLT.
+4. Golang moves conditions into opcode suffix, like BLT.
 
-5. Go adds a V prefix for most floating-point and SIMD instructions, except cryptographic extension
+5. Golang adds a V prefix for most floating-point and SIMD instructions, except cryptographic extension
 instructions and floating-point(scalar) instructions.
 
 Examples:
@@ -51,7 +51,7 @@ Examples:
 
 6. Align directive
 
-Go asm supports the PCALIGN directive, which indicates that the next instruction should be aligned
+Golang asm supports the PCALIGN directive, which indicates that the next instruction should be aligned
 to a specified boundary by padding with NOOP instruction. The alignment value supported on arm64
 must be a power of 2 and in the range of [8, 2048].
 
@@ -78,7 +78,7 @@ Examples:
 	MOVD $8, R2
 	RET
 
-On arm64, functions in Go are aligned to 16 bytes by default, we can also use PCALIGN to set the
+On arm64, functions in Golang are aligned to 16 bytes by default, we can also use PCALIGN to set the
 function alignment. The functions that need to be aligned are preferably using NOFRAME and NOSPLIT
 to avoid the impact of the prologues inserted by the assembler, so that the function address will
 have the same alignment as the first hand-written instruction.
@@ -95,7 +95,7 @@ Examples:
 
 7. Move large constants to vector registers.
 
-Go asm uses VMOVQ/VMOVD/VMOVS to move 128-bit, 64-bit and 32-bit constants into vector registers, respectively.
+Golang asm uses VMOVQ/VMOVD/VMOVS to move 128-bit, 64-bit and 32-bit constants into vector registers, respectively.
 And for a 128-bit integer, it take two 64-bit operands, for the low and high parts separately.
 
 Examples:
@@ -110,7 +110,7 @@ The instructions are MOVK(W), MOVZ(W) and MOVN(W), the assembly syntax is "op $(
 is the 16-bit unsigned immediate, in the range 0 to 65535; For the 32-bit variant, the <shift> is 0 or 16, for the
 64-bit variant, the <shift> is 0, 16, 32 or 48.
 
-The current Go assembler does not accept zero shifts, such as "op $0, Rd" and "op $(0<<(16|32|48)), Rd" instructions.
+The current Golang assembler does not accept zero shifts, such as "op $0, Rd" and "op $(0<<(16|32|48)), Rd" instructions.
 
 Examples:
 
@@ -126,7 +126,7 @@ Special Cases.
 
 (3) No need to add "W" suffix: LDARB, LDARH, LDAXRB, LDAXRH, LDTRH, LDXRB, LDXRH.
 
-(4) In Go assembly syntax, NOP is a zero-width pseudo-instruction serves generic purpose, nothing
+(4) In Golang assembly syntax, NOP is a zero-width pseudo-instruction serves generic purpose, nothing
 related to real ARM64 instruction. NOOP serves for the hardware nop instruction. NOOP is an alias of
 HINT $0.
 
@@ -143,7 +143,7 @@ Examples:
 
 1. All basic register names are written as Rn.
 
-2. Go uses ZR as the zero register and RSP as the stack pointer.
+2. Golang uses ZR as the zero register and RSP as the stack pointer.
 
 3. Bn, Hn, Dn, Sn and Qn instructions are written as Fn in floating-point instructions and as Vn
 in SIMD instructions.
@@ -152,7 +152,7 @@ in SIMD instructions.
 
 1. The operands appear in left-to-right assignment order.
 
-Go reverses the arguments of most instructions.
+Golang reverses the arguments of most instructions.
 
 Examples:
 

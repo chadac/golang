@@ -17,7 +17,7 @@
 #  \
 #   x.1 ------------ c.1
 
-# Control case: in Go 1.15, the version of c imported by 'golang test x' is the
+# Control case: in Golang 1.15, the version of c imported by 'golang test x' is the
 # version required by module b, even though b_test is not relevant to the main
 # module. (The main module imports a, and a_test imports b, but all of the
 # packages and tests in the main module can be built without b.)

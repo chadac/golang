@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -49,7 +49,7 @@ import (
 )
 
 func init() {
-	base.Go.Commands = []*base.Command{
+	base.Golang.Commands = []*base.Command{
 		bug.CmdBug,
 		work.CmdBuild,
 		clean.CmdClean,
@@ -77,10 +77,10 @@ func init() {
 		help.HelpCache,
 		help.HelpEnvironment,
 		help.HelpFileType,
-		help.HelpGoAuth,
-		modload.HelpGoMod,
-		help.HelpGopath,
-		modfetch.HelpGoproxy,
+		help.HelpGolangAuth,
+		modload.HelpGolangMod,
+		help.HelpGolangpath,
+		modfetch.HelpGolangproxy,
 		help.HelpImportPath,
 		modload.HelpModules,
 		modfetch.HelpModuleAuth,
@@ -99,14 +99,14 @@ var counterErrorsGOPATHEntryRelative = counter.New("golang/errors:golangpath-ent
 func main() {
 	log.SetFlags(0)
 	telemetry.MaybeChild() // Run in child mode if this is the telemetry sidecar child process.
-	cmdIsGoTelemetryOff := cmdIsGoTelemetryOff()
-	if !cmdIsGoTelemetryOff {
+	cmdIsGolangTelemetryOff := cmdIsGolangTelemetryOff()
+	if !cmdIsGolangTelemetryOff {
 		counter.Open() // Open the telemetry counter file so counters can be written to it.
 	}
 	handleChdirFlag()
 	toolchain.Select()
 
-	if !cmdIsGoTelemetryOff {
+	if !cmdIsGolangTelemetryOff {
 		telemetry.MaybeParent() // Run the upload process. Opening the counter file is idempotent.
 	}
 	flag.Usage = base.Usage
@@ -221,9 +221,9 @@ func main() {
 	base.Exit()
 }
 
-// cmdIsGoTelemetryOff reports whether the command is "golang telemetry off". This
+// cmdIsGolangTelemetryOff reports whether the command is "golang telemetry off". This
 // is used to decide whether to disable the opening of counter files. See #69269.
-func cmdIsGoTelemetryOff() bool {
+func cmdIsGolangTelemetryOff() bool {
 	restArgs := os.Args[1:]
 	// skipChdirFlag skips the -C flag, which is the only flag that can appear
 	// in a valid 'golang telemetry off' command, and which hasn't been processed
@@ -263,7 +263,7 @@ func cmdIsGoTelemetryOff() bool {
 // It returns that command and the number of elements of args
 // that it took to arrive at that command.
 func lookupCmd(args []string) (cmd *base.Command, used int) {
-	cmd = base.Go
+	cmd = base.Golang
 	for used < len(args) {
 		c := cmd.Lookup(args[used])
 		if c == nil {
@@ -347,7 +347,7 @@ func init() {
 }
 
 func mainUsage() {
-	help.PrintUsage(os.Stderr, base.Go)
+	help.PrintUsage(os.Stderr, base.Golang)
 	os.Exit(2)
 }
 

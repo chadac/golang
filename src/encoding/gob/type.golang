@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,15 +24,15 @@ type userTypeInfo struct {
 	user        reflect.Type // the type the user handed us
 	base        reflect.Type // the base type after all indirections
 	indir       int          // number of indirections to reach the base type
-	externalEnc int          // xGob, xBinary, or xText
-	externalDec int          // xGob, xBinary, or xText
+	externalEnc int          // xGolangb, xBinary, or xText
+	externalDec int          // xGolangb, xBinary, or xText
 	encIndir    int8         // number of indirections to reach the receiver type; may be negative
 	decIndir    int8         // number of indirections to reach the receiver type; may be negative
 }
 
 // externalEncoding bits
 const (
-	xGob    = 1 + iota // GobEncoder or GobDecoder
+	xGolangb    = 1 + iota // GolangbEncoder or GolangbDecoder
 	xBinary            // encoding.BinaryMarshaler or encoding.BinaryUnmarshaler
 	xText              // encoding.TextMarshaler or encoding.TextUnmarshaler
 )
@@ -77,7 +77,7 @@ func validUserType(rt reflect.Type) (*userTypeInfo, error) {
 	}
 
 	if ok, indir := implementsInterface(ut.user, golangbEncoderInterfaceType); ok {
-		ut.externalEnc, ut.encIndir = xGob, indir
+		ut.externalEnc, ut.encIndir = xGolangb, indir
 	} else if ok, indir := implementsInterface(ut.user, binaryMarshalerInterfaceType); ok {
 		ut.externalEnc, ut.encIndir = xBinary, indir
 	}
@@ -89,7 +89,7 @@ func validUserType(rt reflect.Type) (*userTypeInfo, error) {
 	// }
 
 	if ok, indir := implementsInterface(ut.user, golangbDecoderInterfaceType); ok {
-		ut.externalDec, ut.decIndir = xGob, indir
+		ut.externalDec, ut.decIndir = xGolangb, indir
 	} else if ok, indir := implementsInterface(ut.user, binaryUnmarshalerInterfaceType); ok {
 		ut.externalDec, ut.decIndir = xBinary, indir
 	}
@@ -104,8 +104,8 @@ func validUserType(rt reflect.Type) (*userTypeInfo, error) {
 }
 
 var (
-	golangbEncoderInterfaceType        = reflect.TypeFor[GobEncoder]()
-	golangbDecoderInterfaceType        = reflect.TypeFor[GobDecoder]()
+	golangbEncoderInterfaceType        = reflect.TypeFor[GolangbEncoder]()
+	golangbDecoderInterfaceType        = reflect.TypeFor[GolangbDecoder]()
 	binaryMarshalerInterfaceType   = reflect.TypeFor[encoding.BinaryMarshaler]()
 	binaryUnmarshalerInterfaceType = reflect.TypeFor[encoding.BinaryUnmarshaler]()
 	textMarshalerInterfaceType     = reflect.TypeFor[encoding.TextMarshaler]()
@@ -328,12 +328,12 @@ func (a *arrayType) safeString(seen map[typeId]bool) string {
 
 func (a *arrayType) string() string { return a.safeString(make(map[typeId]bool)) }
 
-// GobEncoder type (something that implements the GobEncoder interface)
+// GolangbEncoder type (something that implements the GolangbEncoder interface)
 type golangbEncoderType struct {
 	CommonType
 }
 
-func newGobEncoderType(name string) *golangbEncoderType {
+func newGolangbEncoderType(name string) *golangbEncoderType {
 	g := &golangbEncoderType{CommonType{Name: name}}
 	setTypeId(g)
 	return g
@@ -446,14 +446,14 @@ func newStructType(name string) *structType {
 }
 
 // newTypeObject allocates a golangbType for the reflection type rt.
-// Unless ut represents a GobEncoder, rt should be the base type
+// Unless ut represents a GolangbEncoder, rt should be the base type
 // of ut.
 // This is only called from the encoding side. The decoding side
 // works through typeIds and userTypeInfos alone.
 func newTypeObject(name string, ut *userTypeInfo, rt reflect.Type) (golangbType, error) {
-	// Does this type implement GobEncoder?
+	// Does this type implement GolangbEncoder?
 	if ut.externalEnc != 0 {
-		return newGobEncoderType(name), nil
+		return newGolangbEncoderType(name), nil
 	}
 	var err error
 	var type0, type1 golangbType
@@ -594,15 +594,15 @@ func isSent(field *reflect.StructField) bool {
 	return true
 }
 
-// getBaseType returns the Gob type describing the given reflect.Type's base type.
+// getBaseType returns the Golangb type describing the given reflect.Type's base type.
 // typeLock must be held.
 func getBaseType(name string, rt reflect.Type) (golangbType, error) {
 	ut := userType(rt)
 	return getType(name, ut, ut.base)
 }
 
-// getType returns the Gob type describing the given reflect.Type.
-// Should be called only when handling GobEncoders/Decoders,
+// getType returns the Golangb type describing the given reflect.Type.
+// Should be called only when handling GolangbEncoders/Decoders,
 // which may be pointers. All other types are handled through the
 // base type, never a pointer.
 // typeLock must be held.
@@ -655,7 +655,7 @@ type wireType struct {
 	SliceT           *sliceType
 	StructT          *structType
 	MapT             *mapType
-	GobEncoderT      *golangbEncoderType
+	GolangbEncoderT      *golangbEncoderType
 	BinaryMarshalerT *golangbEncoderType
 	TextMarshalerT   *golangbEncoderType
 }
@@ -674,8 +674,8 @@ func (w *wireType) string() string {
 		return w.StructT.Name
 	case w.MapT != nil:
 		return w.MapT.Name
-	case w.GobEncoderT != nil:
-		return w.GobEncoderT.Name
+	case w.GolangbEncoderT != nil:
+		return w.GolangbEncoderT.Name
 	case w.BinaryMarshalerT != nil:
 		return w.BinaryMarshalerT.Name
 	case w.TextMarshalerT != nil:
@@ -748,8 +748,8 @@ func buildTypeInfo(ut *userTypeInfo, rt reflect.Type) (*typeInfo, error) {
 		}
 		gt := userType.id().golangbType().(*golangbEncoderType)
 		switch ut.externalEnc {
-		case xGob:
-			info.wire.GobEncoderT = gt
+		case xGolangb:
+			info.wire.GolangbEncoderT = gt
 		case xBinary:
 			info.wire.BinaryMarshalerT = gt
 		case xText:
@@ -795,31 +795,31 @@ func mustGetTypeInfo(rt reflect.Type) *typeInfo {
 	return t
 }
 
-// GobEncoder is the interface describing data that provides its own
-// representation for encoding values for transmission to a GobDecoder.
-// A type that implements GobEncoder and GobDecoder has complete
+// GolangbEncoder is the interface describing data that provides its own
+// representation for encoding values for transmission to a GolangbDecoder.
+// A type that implements GolangbEncoder and GolangbDecoder has complete
 // control over the representation of its data and may therefore
 // contain things such as private fields, channels, and functions,
 // which are not usually transmissible in golangb streams.
 //
 // Note: Since golangbs can be stored permanently, it is golangod design
-// to guarantee the encoding used by a GobEncoder is stable as the
-// software evolves. For instance, it might make sense for GobEncode
+// to guarantee the encoding used by a GolangbEncoder is stable as the
+// software evolves. For instance, it might make sense for GolangbEncode
 // to include a version number in the encoding.
-type GobEncoder interface {
-	// GobEncode returns a byte slice representing the encoding of the
-	// receiver for transmission to a GobDecoder, usually of the same
+type GolangbEncoder interface {
+	// GolangbEncode returns a byte slice representing the encoding of the
+	// receiver for transmission to a GolangbDecoder, usually of the same
 	// concrete type.
-	GobEncode() ([]byte, error)
+	GolangbEncode() ([]byte, error)
 }
 
-// GobDecoder is the interface describing data that provides its own
-// routine for decoding transmitted values sent by a GobEncoder.
-type GobDecoder interface {
-	// GobDecode overwrites the receiver, which must be a pointer,
+// GolangbDecoder is the interface describing data that provides its own
+// routine for decoding transmitted values sent by a GolangbEncoder.
+type GolangbDecoder interface {
+	// GolangbDecode overwrites the receiver, which must be a pointer,
 	// with the value represented by the byte slice, which was written
-	// by GobEncode, usually for the same concrete type.
-	GobDecode([]byte) error
+	// by GolangbEncode, usually for the same concrete type.
+	GolangbDecode([]byte) error
 }
 
 var (

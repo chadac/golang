@@ -1,4 +1,4 @@
-// Copyright 2014 Google Inc. All Rights Reserved.
+// Copyright 2014 Golangogle Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -385,7 +385,7 @@ func multilinePrintableName(info *NodeInfo) string {
 	infoCopy := *info
 	infoCopy.Name = escapeForDot(ShortenFunctionName(infoCopy.Name))
 	infoCopy.Name = strings.Replace(infoCopy.Name, "::", `\n`, -1)
-	// Go type parameters are reported as "[...]" by Go pprof profiles.
+	// Golang type parameters are reported as "[...]" by Golang pprof profiles.
 	// Keep this ellipsis rather than replacing with newlines below.
 	infoCopy.Name = strings.Replace(infoCopy.Name, "[...]", "[…]", -1)
 	infoCopy.Name = strings.Replace(infoCopy.Name, ".", `\n`, -1)

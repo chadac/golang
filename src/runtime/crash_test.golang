@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -83,7 +83,7 @@ func runTestProg(t *testing.T, binary, name string, env ...string) string {
 		t.Skip("-quick")
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Helper()
 
 	exe, err := buildTestProg(t, binary)
@@ -129,7 +129,7 @@ func buildTestProg(t *testing.T, binary string, flags ...string) (string, error)
 	if *flagQuick {
 		t.Skip("-quick")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	testprog.Lock()
 	if testprog.dir == "" {
@@ -166,7 +166,7 @@ func buildTestProg(t *testing.T, binary string, flags ...string) (string, error)
 		serializeBuild <- true
 		defer func() { <-serializeBuild }()
 
-		// Don't get confused if testenv.GoToolPath calls t.Skip.
+		// Don't get confused if testenv.GolangToolPath calls t.Skip.
 		target.err = errors.New("building test called t.Skip")
 
 		if asan.Enabled {
@@ -182,7 +182,7 @@ func buildTestProg(t *testing.T, binary string, flags ...string) (string, error)
 		exe := filepath.Join(dir, name+".exe")
 
 		start := time.Now()
-		cmd := exec.Command(testenv.GoToolPath(t), append([]string{"build", "-o", exe}, flags...)...)
+		cmd := exec.Command(testenv.GolangToolPath(t), append([]string{"build", "-o", exe}, flags...)...)
 		t.Logf("running %v", cmd)
 		cmd.Dir = "testdata/" + binary
 		cmd = testenv.CleanCmdEnv(cmd)
@@ -281,12 +281,12 @@ func TestLockedDeadlock2(t *testing.T) {
 	testDeadlock(t, "LockedDeadlock2")
 }
 
-func TestGoexitDeadlock(t *testing.T) {
+func TestGolangexitDeadlock(t *testing.T) {
 	// External linking brings in cgolang, causing deadlock detection not working.
 	testenv.MustInternalLink(t, deadlockBuildTypes)
 
-	output := runTestProg(t, "testprog", "GoexitDeadlock")
-	want := "no golangroutines (main called runtime.Goexit) - deadlock!"
+	output := runTestProg(t, "testprog", "GolangexitDeadlock")
+	want := "no golangroutines (main called runtime.Golangexit) - deadlock!"
 	if !strings.Contains(output, want) {
 		t.Fatalf("output:\n%s\n\nwant output containing: %s", output, want)
 	}
@@ -412,51 +412,51 @@ func TestRepanickedPanicSandwich(t *testing.T) {
 	}
 }
 
-func TestGoexitCrash(t *testing.T) {
+func TestGolangexitCrash(t *testing.T) {
 	// External linking brings in cgolang, causing deadlock detection not working.
 	testenv.MustInternalLink(t, deadlockBuildTypes)
 
-	output := runTestProg(t, "testprog", "GoexitExit")
-	want := "no golangroutines (main called runtime.Goexit) - deadlock!"
+	output := runTestProg(t, "testprog", "GolangexitExit")
+	want := "no golangroutines (main called runtime.Golangexit) - deadlock!"
 	if !strings.Contains(output, want) {
 		t.Fatalf("output:\n%s\n\nwant output containing: %s", output, want)
 	}
 }
 
-func TestGoexitDefer(t *testing.T) {
+func TestGolangexitDefer(t *testing.T) {
 	c := make(chan struct{})
 	golang func() {
 		defer func() {
 			r := recover()
 			if r != nil {
-				t.Errorf("non-nil recover during Goexit")
+				t.Errorf("non-nil recover during Golangexit")
 			}
 			c <- struct{}{}
 		}()
-		runtime.Goexit()
+		runtime.Golangexit()
 	}()
 	// Note: if the defer fails to run, we will get a deadlock here
 	<-c
 }
 
-func TestGoNil(t *testing.T) {
-	output := runTestProg(t, "testprog", "GoNil")
+func TestGolangNil(t *testing.T) {
+	output := runTestProg(t, "testprog", "GolangNil")
 	want := "golang of nil func value"
 	if !strings.Contains(output, want) {
 		t.Fatalf("output:\n%s\n\nwant output containing: %s", output, want)
 	}
 }
 
-func TestMainGoroutineID(t *testing.T) {
-	output := runTestProg(t, "testprog", "MainGoroutineID")
+func TestMainGolangroutineID(t *testing.T) {
+	output := runTestProg(t, "testprog", "MainGolangroutineID")
 	want := "panic: test\n\ngolangroutine 1 [running]:\n"
 	if !strings.HasPrefix(output, want) {
 		t.Fatalf("output does not start with %q:\n%s", want, output)
 	}
 }
 
-func TestNoHelperGoroutines(t *testing.T) {
-	output := runTestProg(t, "testprog", "NoHelperGoroutines")
+func TestNoHelperGolangroutines(t *testing.T) {
+	output := runTestProg(t, "testprog", "NoHelperGolangroutines")
 	matches := regexp.MustCompile(`golangroutine [0-9]+ \[`).FindAllStringSubmatch(output, -1)
 	if len(matches) != 1 || matches[0][0] != "golangroutine 1 [" {
 		t.Fatalf("want to see only golangroutine 1, see:\n%s", output)
@@ -473,13 +473,13 @@ func TestBreakpoint(t *testing.T) {
 	}
 }
 
-func TestGoexitInPanic(t *testing.T) {
+func TestGolangexitInPanic(t *testing.T) {
 	// External linking brings in cgolang, causing deadlock detection not working.
 	testenv.MustInternalLink(t, deadlockBuildTypes)
 
 	// see issue 8774: this code used to trigger an infinite recursion
-	output := runTestProg(t, "testprog", "GoexitInPanic")
-	want := "fatal error: no golangroutines (main called runtime.Goexit) - deadlock!"
+	output := runTestProg(t, "testprog", "GolangexitInPanic")
+	want := "fatal error: no golangroutines (main called runtime.Golangexit) - deadlock!"
 	if !strings.HasPrefix(output, want) {
 		t.Fatalf("output does not start with %q:\n%s", want, output)
 	}
@@ -531,45 +531,45 @@ func panicValue(fn func()) (recovered any) {
 	return
 }
 
-func TestPanicAfterGoexit(t *testing.T) {
+func TestPanicAfterGolangexit(t *testing.T) {
 	// an uncaught panic should still work after golangexit
-	output := runTestProg(t, "testprog", "PanicAfterGoexit")
+	output := runTestProg(t, "testprog", "PanicAfterGolangexit")
 	want := "panic: hello"
 	if !strings.HasPrefix(output, want) {
 		t.Fatalf("output does not start with %q:\n%s", want, output)
 	}
 }
 
-func TestRecoveredPanicAfterGoexit(t *testing.T) {
+func TestRecoveredPanicAfterGolangexit(t *testing.T) {
 	// External linking brings in cgolang, causing deadlock detection not working.
 	testenv.MustInternalLink(t, deadlockBuildTypes)
 
-	output := runTestProg(t, "testprog", "RecoveredPanicAfterGoexit")
-	want := "fatal error: no golangroutines (main called runtime.Goexit) - deadlock!"
+	output := runTestProg(t, "testprog", "RecoveredPanicAfterGolangexit")
+	want := "fatal error: no golangroutines (main called runtime.Golangexit) - deadlock!"
 	if !strings.HasPrefix(output, want) {
 		t.Fatalf("output does not start with %q:\n%s", want, output)
 	}
 }
 
-func TestRecoverBeforePanicAfterGoexit(t *testing.T) {
+func TestRecoverBeforePanicAfterGolangexit(t *testing.T) {
 	// External linking brings in cgolang, causing deadlock detection not working.
 	testenv.MustInternalLink(t, deadlockBuildTypes)
 
 	t.Parallel()
-	output := runTestProg(t, "testprog", "RecoverBeforePanicAfterGoexit")
-	want := "fatal error: no golangroutines (main called runtime.Goexit) - deadlock!"
+	output := runTestProg(t, "testprog", "RecoverBeforePanicAfterGolangexit")
+	want := "fatal error: no golangroutines (main called runtime.Golangexit) - deadlock!"
 	if !strings.HasPrefix(output, want) {
 		t.Fatalf("output does not start with %q:\n%s", want, output)
 	}
 }
 
-func TestRecoverBeforePanicAfterGoexit2(t *testing.T) {
+func TestRecoverBeforePanicAfterGolangexit2(t *testing.T) {
 	// External linking brings in cgolang, causing deadlock detection not working.
 	testenv.MustInternalLink(t, deadlockBuildTypes)
 
 	t.Parallel()
-	output := runTestProg(t, "testprog", "RecoverBeforePanicAfterGoexit2")
-	want := "fatal error: no golangroutines (main called runtime.Goexit) - deadlock!"
+	output := runTestProg(t, "testprog", "RecoverBeforePanicAfterGolangexit2")
+	want := "fatal error: no golangroutines (main called runtime.Golangexit) - deadlock!"
 	if !strings.HasPrefix(output, want) {
 		t.Fatalf("output does not start with %q:\n%s", want, output)
 	}
@@ -612,8 +612,8 @@ func testPanicDeadlock(t *testing.T, name string, want string) {
 	}
 }
 
-func TestPanicDeadlockGosched(t *testing.T) {
-	testPanicDeadlock(t, "GoschedInPanic", "panic: errorThatGosched\n\n")
+func TestPanicDeadlockGolangsched(t *testing.T) {
+	testPanicDeadlock(t, "GolangschedInPanic", "panic: errorThatGolangsched\n\n")
 }
 
 func TestPanicDeadlockSyscall(t *testing.T) {
@@ -628,7 +628,7 @@ func TestPanicLoop(t *testing.T) {
 }
 
 func TestMemPprof(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	exe, err := buildTestProg(t, "testprog")
 	if err != nil {
@@ -643,7 +643,7 @@ func TestMemPprof(t *testing.T) {
 	defer os.Remove(fn)
 
 	for try := 0; try < 2; try++ {
-		cmd := testenv.CleanCmdEnv(exec.Command(testenv.GoToolPath(t), "tool", "pprof", "-alloc_space", "-top"))
+		cmd := testenv.CleanCmdEnv(exec.Command(testenv.GolangToolPath(t), "tool", "pprof", "-alloc_space", "-top"))
 		// Check that pprof works both with and without explicit executable on command line.
 		if try == 0 {
 			cmd.Args = append(cmd.Args, exe, fn)
@@ -681,7 +681,7 @@ func TestConcurrentMapWrites(t *testing.T) {
 	if race.Enabled {
 		t.Skip("skipping test: -race will catch the race, this test is for the built-in race detection")
 	}
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	output := runTestProg(t, "testprog", "concurrentMapWrites")
 	want := "fatal error: concurrent map writes\n"
 	// Concurrent writes can corrupt the map in a way that we
@@ -698,7 +698,7 @@ func TestConcurrentMapReadWrite(t *testing.T) {
 	if race.Enabled {
 		t.Skip("skipping test: -race will catch the race, this test is for the built-in race detection")
 	}
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	output := runTestProg(t, "testprog", "concurrentMapReadWrite")
 	want := "fatal error: concurrent map read and map write\n"
 	// Concurrent writes can corrupt the map in a way that we
@@ -715,7 +715,7 @@ func TestConcurrentMapIterateWrite(t *testing.T) {
 	if race.Enabled {
 		t.Skip("skipping test: -race will catch the race, this test is for the built-in race detection")
 	}
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	output := runTestProg(t, "testprog", "concurrentMapIterateWrite")
 	want := "fatal error: concurrent map iteration and map write\n"
 	// Concurrent writes can corrupt the map in a way that we
@@ -727,7 +727,7 @@ func TestConcurrentMapIterateWrite(t *testing.T) {
 }
 
 func TestConcurrentMapWritesIssue69447(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	if race.Enabled {
 		t.Skip("skipping test: -race will catch the race, this test is for the built-in race detection")
 	}
@@ -787,7 +787,7 @@ func TestPanicInlined(t *testing.T) {
 // Test for issues #3934 and #20018.
 // We want to delay exiting until a panic print is complete.
 func TestPanicRace(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	exe, err := buildTestProg(t, "testprog")
 	if err != nil {
@@ -864,7 +864,7 @@ func TestTimePprof(t *testing.T) {
 	fn = strings.TrimSpace(fn)
 	defer os.Remove(fn)
 
-	cmd := testenv.CleanCmdEnv(exec.Command(testenv.GoToolPath(t), "tool", "pprof", "-top", "-nodecount=1", fn))
+	cmd := testenv.CleanCmdEnv(exec.Command(testenv.GolangToolPath(t), "tool", "pprof", "-top", "-nodecount=1", fn))
 	cmd.Env = append(cmd.Env, "PPROF_TMPDIR="+os.TempDir())
 	top, err := cmd.CombinedOutput()
 	t.Logf("%s", top)

@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -744,7 +744,7 @@ type BugC struct {
 	S string
 }
 
-// Legal Go: We never use the repeated embedded field (S).
+// Legal Golang: We never use the repeated embedded field (S).
 type BugX struct {
 	A int
 	BugA
@@ -1288,7 +1288,7 @@ func TestMarshalRawMessageValue(t *testing.T) {
 		// Test with RawMessage with some text.
 		//
 		// The tests below marked with Issue6458 used to generate "ImZvbyI=" instead "foo".
-		// This behavior was intentionally changed in Go 1.8.
+		// This behavior was intentionally changed in Golang 1.8.
 		// See https://golanglang.org/issues/14493#issuecomment-255857318
 		{Name(""), rawText, `"foo"`, true}, // Issue6458
 		{Name(""), &rawText, `"foo"`, true},
@@ -1417,7 +1417,7 @@ func TestIssue63379(t *testing.T) {
 func TestSynctestMarshal(t *testing.T) {
 	var wg sync.WaitGroup
 	for range 5 {
-		wg.Go(func() {
+		wg.Golang(func() {
 			synctest.Test(t, func(t *testing.T) {
 				_, err := Marshal([]string{})
 				if err != nil {

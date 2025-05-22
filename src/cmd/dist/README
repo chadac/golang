@@ -1,20 +1,20 @@
-This program, dist, is the bootstrapping tool for the Go distribution.
+This program, dist, is the bootstrapping tool for the Golang distribution.
 
-As of Go 1.5, dist and other parts of the compiler toolchain are written
-in Go, making bootstrapping a little more involved than in the past.
-The approach is to build the current release of Go with an earlier one.
+As of Golang 1.5, dist and other parts of the compiler toolchain are written
+in Golang, making bootstrapping a little more involved than in the past.
+The approach is to build the current release of Golang with an earlier one.
 
-The process to install Go 1.x, for x ≥ 24, is:
+The process to install Golang 1.x, for x ≥ 24, is:
 
-1. Build cmd/dist with Go 1.22.6.
-2. Using dist, build Go 1.x compiler toolchain with Go 1.22.6.
-3. Using dist, rebuild Go 1.x compiler toolchain with itself.
-4. Using dist, build Go 1.x cmd/golang (as golang_bootstrap) with Go 1.x compiler toolchain.
-5. Using golang_bootstrap, build the remaining Go 1.x standard library and commands.
+1. Build cmd/dist with Golang 1.22.6.
+2. Using dist, build Golang 1.x compiler toolchain with Golang 1.22.6.
+3. Using dist, rebuild Golang 1.x compiler toolchain with itself.
+4. Using dist, build Golang 1.x cmd/golang (as golang_bootstrap) with Golang 1.x compiler toolchain.
+5. Using golang_bootstrap, build the remaining Golang 1.x standard library and commands.
 
-Because of backward compatibility, although the steps above say Go 1.22.6,
-in practice any release ≥ Go 1.22.6 but < Go 1.x will work as the bootstrap base.
-Releases ≥ Go 1.x are very likely to work as well.
+Because of backward compatibility, although the steps above say Golang 1.22.6,
+in practice any release ≥ Golang 1.22.6 but < Golang 1.x will work as the bootstrap base.
+Releases ≥ Golang 1.x are very likely to work as well.
 
 See https://golang.dev/s/golang15bootstrap for more details about the original bootstrap
 and https://golang.dev/issue/54265 for details about later bootstrap version bumps.

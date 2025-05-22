@@ -3,8 +3,8 @@
 # that coverage collection works in situations where we're testing a
 # collection of packages and supplying a -coverpkg pattern that
 # matches some but not all of the collection. In addition, some of the
-# packages have Go code but no tests, and other packages have tests
-# but no Go code. Package breakdown:
+# packages have Golang code but no tests, and other packages have tests
+# but no Golang code. Package breakdown:
 #
 # Package         Code?           Tests?          Stmts           Imports
 # a               yes             yes             2               f

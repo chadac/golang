@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ func main() {
 			defer wg.Done()
 			for i := 0; i < 100; i++ {
 				p := C.malloc(C.size_t(i * 10))
-				runtime.Gosched()
+				runtime.Golangsched()
 				C.free(p)
 			}
 		}()

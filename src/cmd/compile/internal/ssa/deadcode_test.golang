@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,7 +16,7 @@ func TestDeadLoop(t *testing.T) {
 	fun := c.Fun("entry",
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")),
 		// dead loop
@@ -47,7 +47,7 @@ func TestDeadValue(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("deadval", OpConst64, c.config.Types.Int64, 37, nil),
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -72,9 +72,9 @@ func TestNeverTaken(t *testing.T) {
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			If("cond", "then", "else")),
 		Bloc("then",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("else",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -146,10 +146,10 @@ func BenchmarkDeadCode(b *testing.B) {
 			blocks = append(blocks,
 				Bloc("entry",
 					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-					Goto("exit")))
+					Golangto("exit")))
 			blocks = append(blocks, Bloc("exit", Exit("mem")))
 			for i := 0; i < n; i++ {
-				blocks = append(blocks, Bloc(fmt.Sprintf("dead%d", i), Goto("exit")))
+				blocks = append(blocks, Bloc(fmt.Sprintf("dead%d", i), Golangto("exit")))
 			}
 			b.ResetTimer()
 			for i := 0; i < b.N; i++ {

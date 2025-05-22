@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -240,9 +240,9 @@ type Entry struct {
 // A Field is a single attribute/value pair in an [Entry].
 //
 // A value can be one of several "attribute classes" defined by DWARF.
-// The Go types corresponding to each class are:
+// The Golang types corresponding to each class are:
 //
-//	DWARF class       Go type        Class
+//	DWARF class       Golang type        Class
 //	-----------       -------        -----
 //	address           uint64         ClassAddress
 //	block             []byte         ClassBlock
@@ -372,7 +372,7 @@ const (
 
 //golang:generate stringer -type=Class
 
-func (i Class) GoString() string {
+func (i Class) GolangString() string {
 	return "dwarf." + i.String()
 }
 

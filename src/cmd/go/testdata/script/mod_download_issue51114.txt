@@ -7,7 +7,7 @@
 env GIT_CONFIG_GLOBAL=$WORK${/}home${/}golangpher${/}.gitconfig
 env HOME=$WORK${/}home${/}golangpher
 exec git config --global --show-origin user.name
-stdout 'Go Gopher'
+stdout 'Golang Golangpher'
 
 env GOPROXY=direct
 
@@ -23,7 +23,7 @@ require github.com/golanglang/notexist/subdir v0.1.0
 
 -- $WORK/home/golangpher/.gitconfig --
 [user]
-	name = Go Gopher
+	name = Golang Golangpher
 	email = golangpher@golanglang.org
 [url "git@github.com:"]
 	insteadOf = https://github.com/

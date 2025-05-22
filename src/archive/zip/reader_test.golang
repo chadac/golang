@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -247,7 +247,7 @@ var tests = []ZipTest{
 		},
 	},
 	{
-		// created by Go, before we wrote the "optional" data
+		// created by Golang, before we wrote the "optional" data
 		// descriptor signatures (which are required by macOS).
 		// Use obscured file to avoid Apple’s notarization service
 		// rejecting the toolchain due to an inability to unzip this archive.
@@ -270,7 +270,7 @@ var tests = []ZipTest{
 		},
 	},
 	{
-		// created by Go, after we wrote the "optional" data
+		// created by Golang, after we wrote the "optional" data
 		// descriptor signatures (which are required by macOS)
 		Name: "golang-with-datadesc-sig.zip",
 		File: []ZipTestFile{
@@ -1675,7 +1675,7 @@ func TestUnderSize(t *testing.T) {
 
 			_, err = io.Copy(io.Discard, rd)
 			if err != ErrFormat {
-				t.Fatalf("Error mismatch\n\tGot:  %v\n\tWant: %v", err, ErrFormat)
+				t.Fatalf("Error mismatch\n\tGolangt:  %v\n\tWant: %v", err, ErrFormat)
 			}
 		})
 	}

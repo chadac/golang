@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -430,7 +430,7 @@ TEXT runtime·callCgolangSigaction(SB),NOSPLIT,$0
 	SUB     $48, R1                 // reserve 32 (frame) + 16 bytes for sp-8 where fp may be saved.
 	RLDICR  $0, R1, $59, R1         // Align to 16 bytes for C code
 	BL      (CTR)
-	XOR     R0, R0, R0              // Clear R0 as Go expects
+	XOR     R0, R0, R0              // Clear R0 as Golang expects
 	MOVD    R15, R1                 // Restore R1
 	MOVD    24(R1), R2              // Restore R2
 	MOVW    R3, ret+24(FP)          // Return result
@@ -462,7 +462,7 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 // function. In those cases, the caller preserves their R2.
 TEXT runtime·sigtramp(SB),NOSPLIT|NOFRAME,$0
 #endif
-	// This is called with ELF calling conventions. Convert to Go.
+	// This is called with ELF calling conventions. Convert to Golang.
 	// Allocate space for argument storage to call runtime.sigtrampgolang.
 	STACK_AND_SAVE_HOST_TO_GO_ABI(32)
 
@@ -475,7 +475,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|NOFRAME,$0
 
 	// R3,R4,R5 already hold the arguments. Forward them on.
 	// TODO: Indirectly call runtime.sigtrampgolang to avoid the linker's static NOSPLIT stack
-	// overflow detection. It thinks this might be called on a small Go stack, but this is only
+	// overflow detection. It thinks this might be called on a small Golang stack, but this is only
 	// called from a larger pthread or sigaltstack stack. Can the checker be improved to not
 	// flag a direct call here?
 	MOVD	$runtime·sigtrampgolang<ABIInternal>(SB), R12
@@ -491,7 +491,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|NOFRAME,$0
 #ifdef GOARCH_ppc64le
 TEXT runtime·cgolangSigtramp(SB),NOSPLIT|NOFRAME,$0
 	// The stack unwinder, presumably written in C, may not be able to
-	// handle Go frame correctly. So, this function is NOFRAME, and we
+	// handle Golang frame correctly. So, this function is NOFRAME, and we
 	// save/restore LR manually, and obey ELFv2 calling conventions.
 	MOVD	LR, R10
 
@@ -556,7 +556,7 @@ sigtramp:
 	JMP	runtime·sigtramp(SB)
 
 sigtrampnog:
-	// Signal arrived on a non-Go thread. If this is SIGPROF, get a
+	// Signal arrived on a non-Golang thread. If this is SIGPROF, get a
 	// stack trace.
 	CMPW	R3, $27 // 27 == SIGPROF
 	BNE	sigtramp
@@ -573,12 +573,12 @@ sigtrampnog:
 	ISYNC
 
 	// Jump to the traceback function in runtime/cgolang.
-	// It will call back to sigprofNonGo, which will ignore the
+	// It will call back to sigprofNonGolang, which will ignore the
 	// arguments passed in registers.
 	// First three arguments to traceback function are in registers already.
 	MOVD	runtime·cgolangTraceback(SB), R6
 	MOVD	$runtime·sigprofCallers(SB), R7
-	MOVD	$runtime·sigprofNonGoWrapper<>(SB), R8
+	MOVD	$runtime·sigprofNonGolangWrapper<>(SB), R8
 	MOVD	_cgolang_callers(SB), R12
 	MOVD	R12, CTR
 	MOVD	R10, LR // restore LR
@@ -588,12 +588,12 @@ sigtrampnog:
 // Used by cgolangSigtramp to inspect without clobbering R30/R31 via runtime.load_g.
 GLOBL runtime·tls_g+0(SB), TLSBSS+DUPOK, $8
 
-TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·sigprofNonGolangWrapper<>(SB),NOSPLIT|NOFRAME,$0
 	// This is called from C code. Callee save registers must be saved.
-	// R3,R4,R5 hold arguments, and allocate argument space to call sigprofNonGo.
+	// R3,R4,R5 hold arguments, and allocate argument space to call sigprofNonGolang.
 	STACK_AND_SAVE_HOST_TO_GO_ABI(32)
 
-	CALL	runtime·sigprofNonGo<ABIInternal>(SB)
+	CALL	runtime·sigprofNonGolang<ABIInternal>(SB)
 
 	UNSTACK_AND_RESTORE_GO_TO_HOST_ABI(32)
 	RET

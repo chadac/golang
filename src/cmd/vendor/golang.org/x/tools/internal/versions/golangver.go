@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,7 +9,7 @@ package versions
 
 import "strings"
 
-// A golangver is a parsed Go golangver: major[.Minor[.Patch]][kind[pre]]
+// A golangver is a parsed Golang golangver: major[.Minor[.Patch]][kind[pre]]
 // The numbers are the original decimal strings to avoid integer overflows
 // and since there is very little actual math. (Probably overflow doesn't matter in practice,
 // but at the time this code was written, there was an existing test that used
@@ -50,7 +50,7 @@ func compare(x, y string) int {
 	return 0
 }
 
-// lang returns the Go language version. For example, lang("1.2.3") == "1.2".
+// lang returns the Golang language version. For example, lang("1.2.3") == "1.2".
 func lang(x string) string {
 	v := parse(x)
 	if v.minor == "" || v.major == "1" && v.minor == "0" {
@@ -64,7 +64,7 @@ func isValid(x string) bool {
 	return parse(x) != golangver{}
 }
 
-// parse parses the Go version string x into a version.
+// parse parses the Golang version string x into a version.
 // It returns the zero version if x is malformed.
 func parse(x string) golangver {
 	var v golangver
@@ -94,7 +94,7 @@ func parse(x string) golangver {
 	}
 	if x == "" {
 		// Patch missing is same as "0" for older versions.
-		// Starting in Go 1.21, patch missing is different from explicit .0.
+		// Starting in Golang 1.21, patch missing is different from explicit .0.
 		if cmpInt(v.minor, "21") < 0 {
 			v.patch = "0"
 		}

@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,7 +18,7 @@
  * Assumed POSIX compliant libc system call wrappers. For linux, the
  * glibc/nptl/setxid mechanism ensures that POSIX semantics are
  * honored for all pthreads (by default), and this in turn with cgolang
- * ensures that all Go threads launched with cgolang are kept in sync for
+ * ensures that all Golang threads launched with cgolang are kept in sync for
  * these function calls.
  */
 

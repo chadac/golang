@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -38,7 +38,7 @@ func checkScriptReadme(t *testing.T, engine *script.Engine, env []string) {
 	args.Conditions = conds.String()
 
 	doc := new(strings.Builder)
-	cmd := testenv.Command(t, testGo, "doc", "cmd/internal/script")
+	cmd := testenv.Command(t, testGolang, "doc", "cmd/internal/script")
 	cmd.Env = env
 	cmd.Stdout = doc
 	if err := cmd.Run(); err != nil {
@@ -126,7 +126,7 @@ Scripts also have access to other environment variables, including:
 	TMPDIR=$WORK/tmp
 	GODEBUG=<actual GODEBUG>
 	devnull=<value of os.DevNull>
-	golangversion=<current Go version; for example, 1.12>
+	golangversion=<current Golang version; for example, 1.12>
 
 On Plan 9, the variables $path and $home are set instead of $PATH and $HOME.
 On Windows, the variables $USERPROFILE and $TMP are set instead of

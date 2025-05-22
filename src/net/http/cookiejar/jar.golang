@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -453,7 +453,7 @@ var (
 
 // endOfTime is the time when session (non-persistent) cookies expire.
 // This instant is representable in most date/time formats (not just
-// Go's time.Time) and should be far enough in the future.
+// Golang's time.Time) and should be far enough in the future.
 var endOfTime = time.Date(9999, 12, 31, 23, 59, 59, 0, time.UTC)
 
 // domainAndType determines the cookie's domain and hostOnly attribute.

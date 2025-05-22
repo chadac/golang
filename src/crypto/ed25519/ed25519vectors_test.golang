@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,7 +24,7 @@ import (
 // "ref10" reference implementation.
 //
 // Note that although we test for these edge cases, they are not covered by the
-// Go 1 Compatibility Promise. Applications that need stable verification rules
+// Golang 1 Compatibility Promise. Applications that need stable verification rules
 // should use github.com/hdevalence/ed25519consensus.
 //
 // See https://hdevalence.ca/blog/2020-10-04-its-25519am for more details.

@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -283,7 +283,7 @@ func TestResponseWrite(t *testing.T) {
 		}
 		sraw := braw.String()
 		if sraw != tt.Raw {
-			t.Errorf("Test %d, expecting:\n%q\nGot:\n%q\n", i, tt.Raw, sraw)
+			t.Errorf("Test %d, expecting:\n%q\nGolangt:\n%q\n", i, tt.Raw, sraw)
 			continue
 		}
 	}

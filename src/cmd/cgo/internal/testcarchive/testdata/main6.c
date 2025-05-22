@@ -1,8 +1,8 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test that using the Go profiler in a C program does not crash.
+// Test that using the Golang profiler in a C program does not crash.
 
 #include <stddef.h>
 #include <sys/time.h>

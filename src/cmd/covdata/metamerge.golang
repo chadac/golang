@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -120,8 +120,8 @@ func (mm *metaMerge) visitMetaDataFile(mdf string, mfr *decodemeta.CoverageMetaF
 func (mm *metaMerge) beginCounterDataFile(cdr *decodecounter.CounterDataReader) {
 	state := argvalues{
 		osargs: cdr.OsArgs(),
-		golangos:   cdr.Goos(),
-		golangarch: cdr.Goarch(),
+		golangos:   cdr.Golangos(),
+		golangarch: cdr.Golangarch(),
 	}
 	mm.astate.Merge(state)
 }

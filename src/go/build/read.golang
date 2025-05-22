@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -399,14 +399,14 @@ func readComments(f io.Reader) ([]byte, error) {
 	return r.buf, r.err
 }
 
-// readGoInfo expects a Go file as input and reads the file up to and including the import section.
+// readGolangInfo expects a Golang file as input and reads the file up to and including the import section.
 // It records what it learned in *info.
-// If info.fset is non-nil, readGoInfo parses the file and sets info.parsed, info.parseErr,
+// If info.fset is non-nil, readGolangInfo parses the file and sets info.parsed, info.parseErr,
 // info.imports and info.embeds.
 //
 // It only returns an error if there are problems reading the file,
 // not for syntax errors in the file itself.
-func readGoInfo(f io.Reader, info *fileInfo) error {
+func readGolangInfo(f io.Reader, info *fileInfo) error {
 	r := newImportReader(info.name, f)
 
 	r.readKeyword("package")
@@ -525,7 +525,7 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 			// Add args if line is well-formed.
 			// Ignore badly-formed lines - the compiler will report them when it finds them,
 			// and we can pretend they are not there to help golang list succeed with what it knows.
-			embs, err := parseGoEmbed(string(line), pos)
+			embs, err := parseGolangEmbed(string(line), pos)
 			if err == nil {
 				info.embeds = append(info.embeds, embs...)
 			}
@@ -549,11 +549,11 @@ func isValidImport(s string) bool {
 	return s != ""
 }
 
-// parseGoEmbed parses the text following "//golang:embed" to extract the glob patterns.
-// It accepts unquoted space-separated patterns as well as double-quoted and back-quoted Go strings.
+// parseGolangEmbed parses the text following "//golang:embed" to extract the glob patterns.
+// It accepts unquoted space-separated patterns as well as double-quoted and back-quoted Golang strings.
 // This is based on a similar function in cmd/compile/internal/gc/noder.golang;
 // this version calculates position information as well.
-func parseGoEmbed(args string, pos token.Position) ([]fileEmbed, error) {
+func parseGolangEmbed(args string, pos token.Position) ([]fileEmbed, error) {
 	trimBytes := func(n int) {
 		pos.Offset += n
 		pos.Column += utf8.RuneCountInString(args[:n])

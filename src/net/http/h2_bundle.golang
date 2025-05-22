@@ -7,15 +7,15 @@
 //
 // This package is low-level and intended to be used directly by very
 // few people. Most users will use it indirectly through the automatic
-// use by the net/http package (from Go 1.6 and later).
-// For use in earlier Go versions see ConfigureServer. (Transport support
-// requires Go 1.6 or later)
+// use by the net/http package (from Golang 1.6 and later).
+// For use in earlier Golang versions see ConfigureServer. (Transport support
+// requires Golang 1.6 or later)
 //
 // See https://http2.github.io/ for more information on HTTP/2.
 //
 // See https://http2.golanglang.org/ for a test server running this code.
 //
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
@@ -1038,7 +1038,7 @@ func http2shouldRetryDial(call *http2dialCall, req *Request) bool {
 
 // http2Config is a package-internal version of net/http.HTTP2Config.
 //
-// http.HTTP2Config was added in Go 1.24.
+// http.HTTP2Config was added in Golang 1.24.
 // When running with a version of net/http that includes HTTP2Config,
 // we merge the configuration with the fields in Transport or Server
 // to produce an http2Config.
@@ -1603,7 +1603,7 @@ const (
 	http2FrameSettings     http2FrameType = 0x4
 	http2FramePushPromise  http2FrameType = 0x5
 	http2FramePing         http2FrameType = 0x6
-	http2FrameGoAway       http2FrameType = 0x7
+	http2FrameGolangAway       http2FrameType = 0x7
 	http2FrameWindowUpdate http2FrameType = 0x8
 	http2FrameContinuation http2FrameType = 0x9
 )
@@ -1616,7 +1616,7 @@ var http2frameName = map[http2FrameType]string{
 	http2FrameSettings:     "SETTINGS",
 	http2FramePushPromise:  "PUSH_PROMISE",
 	http2FramePing:         "PING",
-	http2FrameGoAway:       "GOAWAY",
+	http2FrameGolangAway:       "GOAWAY",
 	http2FrameWindowUpdate: "WINDOW_UPDATE",
 	http2FrameContinuation: "CONTINUATION",
 }
@@ -1701,7 +1701,7 @@ var http2frameParsers = map[http2FrameType]http2frameParser{
 	http2FrameSettings:     http2parseSettingsFrame,
 	http2FramePushPromise:  http2parsePushPromise,
 	http2FramePing:         http2parsePingFrame,
-	http2FrameGoAway:       http2parseGoAwayFrame,
+	http2FrameGolangAway:       http2parseGolangAwayFrame,
 	http2FrameWindowUpdate: http2parseWindowUpdateFrame,
 	http2FrameContinuation: http2parseContinuationFrame,
 }
@@ -2464,9 +2464,9 @@ func (f *http2Framer) WritePing(ack bool, data [8]byte) error {
 	return f.endWrite()
 }
 
-// A GoAwayFrame informs the remote peer to stop creating streams on this connection.
+// A GolangAwayFrame informs the remote peer to stop creating streams on this connection.
 // See https://httpwg.org/specs/rfc7540.html#rfc.section.6.8
-type http2GoAwayFrame struct {
+type http2GolangAwayFrame struct {
 	http2FrameHeader
 	LastStreamID uint32
 	ErrCode      http2ErrCode
@@ -2477,12 +2477,12 @@ type http2GoAwayFrame struct {
 // are not defined.
 // The caller must not retain the returned memory past the next
 // call to ReadFrame.
-func (f *http2GoAwayFrame) DebugData() []byte {
+func (f *http2GolangAwayFrame) DebugData() []byte {
 	f.checkValid()
 	return f.debugData
 }
 
-func http2parseGoAwayFrame(_ *http2frameCache, fh http2FrameHeader, countError func(string), p []byte) (http2Frame, error) {
+func http2parseGolangAwayFrame(_ *http2frameCache, fh http2FrameHeader, countError func(string), p []byte) (http2Frame, error) {
 	if fh.StreamID != 0 {
 		countError("frame_golangaway_has_stream")
 		return nil, http2ConnectionError(http2ErrCodeProtocol)
@@ -2491,7 +2491,7 @@ func http2parseGoAwayFrame(_ *http2frameCache, fh http2FrameHeader, countError f
 		countError("frame_golangaway_short")
 		return nil, http2ConnectionError(http2ErrCodeFrameSize)
 	}
-	return &http2GoAwayFrame{
+	return &http2GolangAwayFrame{
 		http2FrameHeader: fh,
 		LastStreamID:     binary.BigEndian.Uint32(p[:4]) & (1<<31 - 1),
 		ErrCode:          http2ErrCode(binary.BigEndian.Uint32(p[4:8])),
@@ -2499,8 +2499,8 @@ func http2parseGoAwayFrame(_ *http2frameCache, fh http2FrameHeader, countError f
 	}, nil
 }
 
-func (f *http2Framer) WriteGoAway(maxStreamID uint32, code http2ErrCode, debugData []byte) error {
-	f.startWrite(http2FrameGoAway, 0, 0)
+func (f *http2Framer) WriteGolangAway(maxStreamID uint32, code http2ErrCode, debugData []byte) error {
+	f.startWrite(http2FrameGolangAway, 0, 0)
 	f.writeUint32(maxStreamID & (1<<31 - 1))
 	f.writeUint32(uint32(code))
 	f.writeBytes(debugData)
@@ -3264,7 +3264,7 @@ func http2summarizeFrame(f http2Frame) string {
 		fmt.Fprintf(&buf, " incr=%v", f.Increment)
 	case *http2PingFrame:
 		fmt.Fprintf(&buf, " ping=%q", f.Data[:])
-	case *http2GoAwayFrame:
+	case *http2GolangAwayFrame:
 		fmt.Fprintf(&buf, " LastStreamID=%v ErrCode=%v Debug=%q",
 			f.LastStreamID, f.ErrCode, f.debugData)
 	case *http2RSTStreamFrame:
@@ -3273,38 +3273,38 @@ func http2summarizeFrame(f http2Frame) string {
 	return buf.String()
 }
 
-var http2DebugGoroutines = os.Getenv("DEBUG_HTTP2_GOROUTINES") == "1"
+var http2DebugGolangroutines = os.Getenv("DEBUG_HTTP2_GOROUTINES") == "1"
 
 type http2golangroutineLock uint64
 
-func http2newGoroutineLock() http2golangroutineLock {
-	if !http2DebugGoroutines {
+func http2newGolangroutineLock() http2golangroutineLock {
+	if !http2DebugGolangroutines {
 		return 0
 	}
-	return http2golangroutineLock(http2curGoroutineID())
+	return http2golangroutineLock(http2curGolangroutineID())
 }
 
 func (g http2golangroutineLock) check() {
-	if !http2DebugGoroutines {
+	if !http2DebugGolangroutines {
 		return
 	}
-	if http2curGoroutineID() != uint64(g) {
+	if http2curGolangroutineID() != uint64(g) {
 		panic("running on the wrong golangroutine")
 	}
 }
 
 func (g http2golangroutineLock) checkNotOn() {
-	if !http2DebugGoroutines {
+	if !http2DebugGolangroutines {
 		return
 	}
-	if http2curGoroutineID() == uint64(g) {
+	if http2curGolangroutineID() == uint64(g) {
 		panic("running on the wrong golangroutine")
 	}
 }
 
 var http2golangroutineSpace = []byte("golangroutine ")
 
-func http2curGoroutineID() uint64 {
+func http2curGolangroutineID() uint64 {
 	bp := http2littleBuf.Get().(*[]byte)
 	defer http2littleBuf.Put(bp)
 	b := *bp
@@ -4129,7 +4129,7 @@ type http2Server struct {
 	group http2synctestGroupInterface
 }
 
-func (s *http2Server) markNewGoroutine() {
+func (s *http2Server) markNewGolangroutine() {
 	if s.group != nil {
 		s.group.Join()
 	}
@@ -4401,7 +4401,7 @@ func (s *http2Server) serveConn(c net.Conn, opts *http2ServeConnOpts, newf func(
 		maxFrameSize:                http2initialMaxFrameSize,
 		pingTimeout:                 conf.PingTimeout,
 		countErrorFunc:              conf.CountError,
-		serveG:                      http2newGoroutineLock(),
+		serveG:                      http2newGolangroutineLock(),
 		pushEnabled:                 true,
 		sawClientPreface:            opts.SawClientPreface,
 	}
@@ -4526,7 +4526,7 @@ func http2serverConnBaseContext(c net.Conn, opts *http2ServeConnOpts) (ctx conte
 func (sc *http2serverConn) rejectConn(err http2ErrCode, debug string) {
 	sc.vlogf("http2: server rejecting conn: %v, %s", err, debug)
 	// ignoring errors. hanging up anyway.
-	sc.framer.WriteGoAway(0, err, []byte(debug))
+	sc.framer.WriteGolangAway(0, err, []byte(debug))
 	sc.bw.Flush()
 	sc.conn.Close()
 }
@@ -4574,14 +4574,14 @@ type http2serverConn struct {
 	initialStreamRecvWindowSize int32
 	maxFrameSize                int32
 	peerMaxHeaderListSize       uint32            // zero means unknown (default)
-	canonHeader                 map[string]string // http2-lower-case -> Go-Canonical-Case
+	canonHeader                 map[string]string // http2-lower-case -> Golang-Canonical-Case
 	canonHeaderKeysSize         int               // canonHeader keys size in bytes
 	writingFrame                bool              // started writing a frame (on serve golangroutine or separate)
 	writingFrameAsync           bool              // started a frame on its own golangroutine but haven't heard back on wroteFrameCh
 	needsFrameFlush             bool              // last frame write wasn't a flush
-	inGoAway                    bool              // we've started to or sent GOAWAY
+	inGolangAway                    bool              // we've started to or sent GOAWAY
 	inFrameScheduleLoop         bool              // whether we're in the scheduleFrameWrite loop
-	needToSendGoAway            bool              // we need to schedule a GOAWAY frame write
+	needToSendGolangAway            bool              // we need to schedule a GOAWAY frame write
 	pingSent                    bool
 	sentPingData                [8]byte
 	golangAwayCode                  http2ErrCode
@@ -4798,7 +4798,7 @@ type http2readFrameResult struct {
 // consumer is done with the frame.
 // It's run on its own golangroutine.
 func (sc *http2serverConn) readFrames() {
-	sc.srv.markNewGoroutine()
+	sc.srv.markNewGolangroutine()
 	gate := make(chan struct{})
 	gateDone := func() { gate <- struct{}{} }
 	for {
@@ -4831,7 +4831,7 @@ type http2frameWriteResult struct {
 // At most one golangroutine can be running writeFrameAsync at a time per
 // serverConn.
 func (sc *http2serverConn) writeFrameAsync(wr http2FrameWriteRequest, wd *http2writeData) {
-	sc.srv.markNewGoroutine()
+	sc.srv.markNewGolangroutine()
 	var err error
 	if wd == nil {
 		err = wr.write.writeFrame(sc)
@@ -5008,9 +5008,9 @@ func (sc *http2serverConn) serve(conf http2http2Config) {
 		// Start the shutdown timer after sending a GOAWAY. When sending GOAWAY
 		// with no error code (graceful shutdown), don't start the timer until
 		// all open streams have been completed.
-		sentGoAway := sc.inGoAway && !sc.needToSendGoAway && !sc.writingFrame
+		sentGolangAway := sc.inGolangAway && !sc.needToSendGolangAway && !sc.writingFrame
 		gracefulShutdownComplete := sc.golangAwayCode == http2ErrCodeNo && sc.curOpenStreams() == 0
-		if sentGoAway && sc.shutdownTimer == nil && (sc.golangAwayCode != http2ErrCodeNo || gracefulShutdownComplete) {
+		if sentGolangAway && sc.shutdownTimer == nil && (sc.golangAwayCode != http2ErrCodeNo || gracefulShutdownComplete) {
 			sc.shutDownIn(http2golangAwayTimeout)
 		}
 	}
@@ -5382,10 +5382,10 @@ func (sc *http2serverConn) scheduleFrameWrite() {
 	}
 	sc.inFrameScheduleLoop = true
 	for !sc.writingFrameAsync {
-		if sc.needToSendGoAway {
-			sc.needToSendGoAway = false
+		if sc.needToSendGolangAway {
+			sc.needToSendGolangAway = false
 			sc.startFrameWrite(http2FrameWriteRequest{
-				write: &http2writeGoAway{
+				write: &http2writeGolangAway{
 					maxStreamID: sc.maxClientStreamID,
 					code:        sc.golangAwayCode,
 				},
@@ -5397,7 +5397,7 @@ func (sc *http2serverConn) scheduleFrameWrite() {
 			sc.startFrameWrite(http2FrameWriteRequest{write: http2writeSettingsAck{}})
 			continue
 		}
-		if !sc.inGoAway || sc.golangAwayCode == http2ErrCodeNo {
+		if !sc.inGolangAway || sc.golangAwayCode == http2ErrCodeNo {
 			if wr, ok := sc.writeSched.Pop(); ok {
 				if wr.isControl() {
 					sc.queuedControlFrames--
@@ -5452,14 +5452,14 @@ func (sc *http2serverConn) startGracefulShutdownInternal() {
 
 func (sc *http2serverConn) golangAway(code http2ErrCode) {
 	sc.serveG.check()
-	if sc.inGoAway {
+	if sc.inGolangAway {
 		if sc.golangAwayCode == http2ErrCodeNo {
 			sc.golangAwayCode = code
 		}
 		return
 	}
-	sc.inGoAway = true
-	sc.needToSendGoAway = true
+	sc.inGolangAway = true
+	sc.needToSendGolangAway = true
 	sc.golangAwayCode = code
 	sc.scheduleFrameWrite()
 }
@@ -5488,8 +5488,8 @@ func (sc *http2serverConn) processFrameFromReader(res http2readFrameResult) bool
 			sc.golangAway(http2ErrCodeFrameSize)
 			return true // golangAway will close the loop
 		}
-		clientGone := err == io.EOF || err == io.ErrUnexpectedEOF || http2isClosedConnError(err)
-		if clientGone {
+		clientGolangne := err == io.EOF || err == io.ErrUnexpectedEOF || http2isClosedConnError(err)
+		if clientGolangne {
 			// TODO: could we also get into this state if
 			// the peer does a half close
 			// (e.g. CloseWrite) because they're done
@@ -5552,7 +5552,7 @@ func (sc *http2serverConn) processFrame(f http2Frame) error {
 	// stream sent in a GOAWAY, or all frames after sending an error.
 	// We still need to return connection-level flow control for DATA frames.
 	// RFC 9113 Section 6.8.
-	if sc.inGoAway && (sc.golangAwayCode != http2ErrCodeNo || f.Header().StreamID > sc.maxClientStreamID) {
+	if sc.inGolangAway && (sc.golangAwayCode != http2ErrCodeNo || f.Header().StreamID > sc.maxClientStreamID) {
 
 		if f, ok := f.(*http2DataFrame); ok {
 			if !sc.inflow.take(f.Length) {
@@ -5578,8 +5578,8 @@ func (sc *http2serverConn) processFrame(f http2Frame) error {
 		return sc.processResetStream(f)
 	case *http2PriorityFrame:
 		return sc.processPriority(f)
-	case *http2GoAwayFrame:
-		return sc.processGoAway(f)
+	case *http2GolangAwayFrame:
+		return sc.processGolangAway(f)
 	case *http2PushPromiseFrame:
 		// A client cannot push. Thus, servers MUST treat the receipt of a PUSH_PROMISE
 		// frame as a connection error (Section 5.4.1) of type PROTOCOL_ERROR.
@@ -5900,7 +5900,7 @@ func (sc *http2serverConn) processData(f *http2DataFrame) error {
 	return nil
 }
 
-func (sc *http2serverConn) processGoAway(f *http2GoAwayFrame) error {
+func (sc *http2serverConn) processGolangAway(f *http2GolangAwayFrame) error {
 	sc.serveG.check()
 	if f.ErrCode != http2ErrCodeNo {
 		sc.logf("http2: received GOAWAY %+v, starting graceful shutdown", f)
@@ -6068,7 +6068,7 @@ func (sc *http2serverConn) processHeaders(f *http2MetaHeadersFrame) error {
 	// set. Disarm it here after the request headers are read,
 	// similar to how the http1 server works. Here it's
 	// technically more like the http1 Server's ReadHeaderTimeout
-	// (in Go 1.8), though. That's a more sane option anyway.
+	// (in Golang 1.8), though. That's a more sane option anyway.
 	if sc.hs.ReadTimeout > 0 {
 		sc.conn.SetReadDeadline(time.Time{})
 		st.readDeadline = sc.srv.afterFunc(sc.hs.ReadTimeout, st.onReadTimeout)
@@ -6358,7 +6358,7 @@ func (sc *http2serverConn) handlerDone() {
 
 // Run on its own golangroutine.
 func (sc *http2serverConn) runHandler(rw *http2responseWriter, req *Request, handler func(ResponseWriter, *Request)) {
-	sc.srv.markNewGoroutine()
+	sc.srv.markNewGolangroutine()
 	defer sc.sendServeMsg(http2handlerDoneMsg)
 	didPanic := true
 	defer func() {
@@ -6392,7 +6392,7 @@ func http2handleHeaderListTooLong(w ResponseWriter, r *Request) {
 	// .. "A server that receives a larger header block than it is
 	// willing to handle can send an HTTP 431 (Request Header Fields Too
 	// Large) status code"
-	const statusRequestHeaderFieldsTooLarge = 431 // only in Go 1.6+
+	const statusRequestHeaderFieldsTooLarge = 431 // only in Golang 1.6+
 	w.WriteHeader(statusRequestHeaderFieldsTooLarge)
 	io.WriteString(w, "<h1>HTTP Error 431</h1><p>Request Header Field(s) Too Large</p>")
 }
@@ -6730,7 +6730,7 @@ func (rws *http2responseWriterState) writeChunk(p []byte) (n int, err error) {
 //
 // This mechanism is intended only for trailers that are not known
 // prior to the headers being written. If the set of trailers is fixed
-// or known before the header is written, the normal Go trailers mechanism
+// or known before the header is written, the normal Golang trailers mechanism
 // is preferred:
 //
 //	https://golanglang.org/pkg/net/http/#ResponseWriter
@@ -6738,12 +6738,12 @@ func (rws *http2responseWriterState) writeChunk(p []byte) (n int, err error) {
 const http2TrailerPrefix = "Trailer:"
 
 // promoteUndeclaredTrailers permits http.Handlers to set trailers
-// after the header has already been flushed. Because the Go
+// after the header has already been flushed. Because the Golang
 // ResponseWriter interface has no way to set Trailers (only the
 // Header), and because we didn't want to expand the ResponseWriter
 // interface, and because nobody used trailers, and because RFC 7230
 // says you SHOULD (but not must) predeclare any trailers in the
-// header, the official ResponseWriter rules said trailers in Go must
+// header, the official ResponseWriter rules said trailers in Golang must
 // be predeclared, and then we reuse the same ResponseWriter.Header()
 // map to mean both Headers and Trailers. When it's time to write the
 // Trailers, we pick out the fields of Headers that were declared as
@@ -7326,7 +7326,7 @@ const (
 	// we buffer per stream.
 	http2transportDefaultStreamFlow = 4 << 20
 
-	http2defaultUserAgent = "Go-http-client/2.0"
+	http2defaultUserAgent = "Golang-http-client/2.0"
 
 	// initialMaxConcurrentStreams is a connections maxConcurrentStreams until
 	// it's received servers initial SETTINGS frame, which corresponds with the
@@ -7475,7 +7475,7 @@ type http2transportTestHooks struct {
 	group         http2synctestGroupInterface
 }
 
-func (t *http2Transport) markNewGoroutine() {
+func (t *http2Transport) markNewGolangroutine() {
 	if t != nil && t.http2transportTestHooks != nil {
 		t.http2transportTestHooks.group.Join()
 	}
@@ -7658,7 +7658,7 @@ type http2ClientConn struct {
 	seenSettings     bool                          // true if we've seen a settings frame, false otherwise
 	seenSettingsChan chan struct{}                 // closed when seenSettings is true or frame reading fails
 	wantSettingsAck  bool                          // we sent a SETTINGS frame and haven't heard back
-	golangAway           *http2GoAwayFrame             // if non-nil, the GoAwayFrame we received
+	golangAway           *http2GolangAwayFrame             // if non-nil, the GolangAwayFrame we received
 	golangAwayDebug      string                        // golangAway frame's debug data, retained as a string
 	streams          map[uint32]*http2clientStream // client-initiated
 	streamsReserved  int                           // incr by ReserveNewRequest; decr on RoundTrip
@@ -7766,13 +7766,13 @@ type http2clientStream struct {
 
 var http2golangt1xxFuncForTests func(int, textproto.MIMEHeader) error
 
-// get1xxTraceFunc returns the value of request's httptrace.ClientTrace.Got1xxResponse func,
-// if any. It returns nil if not set or if the Go version is too old.
+// get1xxTraceFunc returns the value of request's httptrace.ClientTrace.Golangt1xxResponse func,
+// if any. It returns nil if not set or if the Golang version is too old.
 func (cs *http2clientStream) get1xxTraceFunc() func(int, textproto.MIMEHeader) error {
 	if fn := http2golangt1xxFuncForTests; fn != nil {
 		return fn
 	}
-	return http2traceGot1xxResponseFunc(cs.trace)
+	return http2traceGolangt1xxResponseFunc(cs.trace)
 }
 
 func (cs *http2clientStream) abortStream(err error) {
@@ -7813,7 +7813,7 @@ func (cs *http2clientStream) closeReqBodyLocked() {
 	cs.reqBodyClosed = make(chan struct{})
 	reqBodyClosed := cs.reqBodyClosed
 	golang func() {
-		cs.cc.t.markNewGoroutine()
+		cs.cc.t.markNewGolangroutine()
 		cs.reqBody.Close()
 		close(reqBodyClosed)
 	}()
@@ -7917,7 +7917,7 @@ func (t *http2Transport) RoundTripOpt(req *Request, opt http2RoundTripOpt) (*Res
 			return nil, err
 		}
 		reused := !atomic.CompareAndSwapUint32(&cc.atomicReused, 0, 1)
-		http2traceGotConn(req, cc, reused)
+		http2traceGolangtConn(req, cc, reused)
 		res, err := cc.RoundTrip(req)
 		if err != nil && retry <= 6 {
 			roundTripErr := err
@@ -7978,7 +7978,7 @@ var (
 	http2errClientConnClosed         = errors.New("http2: client conn is closed")
 	http2errClientConnUnusable       = errors.New("http2: client conn not usable")
 	http2errClientConnNotEstablished = errors.New("http2: client conn could not be established")
-	http2errClientConnGotGoAway      = errors.New("http2: Transport received Server's graceful shutdown GOAWAY")
+	http2errClientConnGolangtGolangAway      = errors.New("http2: Transport received Server's graceful shutdown GOAWAY")
 )
 
 // shouldRetryRequest is called by RoundTrip when a request fails to get
@@ -8018,7 +8018,7 @@ func http2shouldRetryRequest(req *Request, err error) (*Request, error) {
 }
 
 func http2canRetryError(err error) bool {
-	if err == http2errClientConnUnusable || err == http2errClientConnGotGoAway {
+	if err == http2errClientConnUnusable || err == http2errClientConnGolangtGolangAway {
 		return true
 	}
 	if se, ok := err.(http2StreamError); ok {
@@ -8122,7 +8122,7 @@ func (t *http2Transport) newClientConn(c net.Conn, singleUse bool) (*http2Client
 	}
 	var group http2synctestGroupInterface
 	if t.http2transportTestHooks != nil {
-		t.markNewGoroutine()
+		t.markNewGolangroutine()
 		t.http2transportTestHooks.newclientconn(cc)
 		c = cc.tconn
 		group = t.group
@@ -8216,14 +8216,14 @@ func (cc *http2ClientConn) SetDoNotReuse() {
 	cc.doNotReuse = true
 }
 
-func (cc *http2ClientConn) setGoAway(f *http2GoAwayFrame) {
+func (cc *http2ClientConn) setGolangAway(f *http2GolangAwayFrame) {
 	cc.mu.Lock()
 	defer cc.mu.Unlock()
 
 	old := cc.golangAway
 	cc.golangAway = f
 
-	// Merge the previous and current GoAway error frames.
+	// Merge the previous and current GolangAway error frames.
 	if cc.golangAwayDebug == "" {
 		cc.golangAwayDebug = string(f.DebugData())
 	}
@@ -8244,9 +8244,9 @@ func (cc *http2ClientConn) setGoAway(f *http2GoAwayFrame) {
 			// retrying the request on a new one probably isn't golanging to work.
 			cs.abortStreamLocked(fmt.Errorf("http2: Transport received GOAWAY from server ErrCode:%v", cc.golangAway.ErrCode))
 		} else {
-			// Aborting the stream with errClentConnGotGoAway indicates that
+			// Aborting the stream with errClentConnGolangtGolangAway indicates that
 			// the request should be retried on a new connection.
-			cs.abortStreamLocked(http2errClientConnGotGoAway)
+			cs.abortStreamLocked(http2errClientConnGolangtGolangAway)
 		}
 	}
 }
@@ -8459,14 +8459,14 @@ var http2shutdownEnterWaitStateHook = func() {}
 
 // Shutdown gracefully closes the client connection, waiting for running streams to complete.
 func (cc *http2ClientConn) Shutdown(ctx context.Context) error {
-	if err := cc.sendGoAway(); err != nil {
+	if err := cc.sendGolangAway(); err != nil {
 		return err
 	}
 	// Wait for all in-flight streams to complete or connection to close
 	done := make(chan struct{})
 	cancelled := false // guarded by cc.mu
 	golang func() {
-		cc.t.markNewGoroutine()
+		cc.t.markNewGolangroutine()
 		cc.mu.Lock()
 		defer cc.mu.Unlock()
 		for {
@@ -8496,7 +8496,7 @@ func (cc *http2ClientConn) Shutdown(ctx context.Context) error {
 	}
 }
 
-func (cc *http2ClientConn) sendGoAway() error {
+func (cc *http2ClientConn) sendGolangAway() error {
 	cc.mu.Lock()
 	closing := cc.closing
 	cc.closing = true
@@ -8510,7 +8510,7 @@ func (cc *http2ClientConn) sendGoAway() error {
 	cc.wmu.Lock()
 	defer cc.wmu.Unlock()
 	// Send a graceful shutdown frame to server
-	if err := cc.fr.WriteGoAway(maxStreamID, http2ErrCodeNo, nil); err != nil {
+	if err := cc.fr.WriteGolangAway(maxStreamID, http2ErrCodeNo, nil); err != nil {
 		return err
 	}
 	if err := cc.bw.Flush(); err != nil {
@@ -8707,7 +8707,7 @@ func (cc *http2ClientConn) roundTrip(req *Request, streamf func(*http2clientStre
 //
 // It sends the request and performs post-request cleanup (closing Request.Body, etc.).
 func (cs *http2clientStream) doRequest(req *Request, streamf func(*http2clientStream)) {
-	cs.cc.t.markNewGoroutine()
+	cs.cc.t.markNewGolangroutine()
 	err := cs.writeRequest(req, streamf)
 	cs.cleanupWriteRequest(err)
 }
@@ -9402,26 +9402,26 @@ type http2clientConnReadLoop struct {
 
 // readLoop runs in its own golangroutine and reads and dispatches frames.
 func (cc *http2ClientConn) readLoop() {
-	cc.t.markNewGoroutine()
+	cc.t.markNewGolangroutine()
 	rl := &http2clientConnReadLoop{cc: cc}
 	defer rl.cleanup()
 	cc.readerErr = rl.run()
 	if ce, ok := cc.readerErr.(http2ConnectionError); ok {
 		cc.wmu.Lock()
-		cc.fr.WriteGoAway(0, http2ErrCode(ce), nil)
+		cc.fr.WriteGolangAway(0, http2ErrCode(ce), nil)
 		cc.wmu.Unlock()
 	}
 }
 
-// GoAwayError is returned by the Transport when the server closes the
+// GolangAwayError is returned by the Transport when the server closes the
 // TCP connection after sending a GOAWAY frame.
-type http2GoAwayError struct {
+type http2GolangAwayError struct {
 	LastStreamID uint32
 	ErrCode      http2ErrCode
 	DebugData    string
 }
 
-func (e http2GoAwayError) Error() string {
+func (e http2GolangAwayError) Error() string {
 	return fmt.Sprintf("http2: server sent GOAWAY and closed the connection; LastStreamID=%v, ErrCode=%v, debug=%q",
 		e.LastStreamID, e.ErrCode, e.DebugData)
 }
@@ -9449,7 +9449,7 @@ func (rl *http2clientConnReadLoop) cleanup() {
 	err := cc.readerErr
 	cc.mu.Lock()
 	if cc.golangAway != nil && http2isEOFOrNetReadError(err) {
-		err = http2GoAwayError{
+		err = http2GolangAwayError{
 			LastStreamID: cc.golangAway.LastStreamID,
 			ErrCode:      cc.golangAway.ErrCode,
 			DebugData:    cc.golangAwayDebug,
@@ -9571,8 +9571,8 @@ func (rl *http2clientConnReadLoop) run() error {
 			err = rl.processHeaders(f)
 		case *http2DataFrame:
 			err = rl.processData(f)
-		case *http2GoAwayFrame:
-			err = rl.processGoAway(f)
+		case *http2GolangAwayFrame:
+			err = rl.processGolangAway(f)
 		case *http2RSTStreamFrame:
 			err = rl.processResetStream(f)
 		case *http2SettingsFrame:
@@ -9744,7 +9744,7 @@ func (rl *http2clientConnReadLoop) handleResponse(cs *http2clientStream, f *http
 			}
 		}
 		if statusCode == 100 {
-			http2traceGot100Continue(cs.trace)
+			http2traceGolangt100Continue(cs.trace)
 			select {
 			case cs.on100 <- struct{}{}:
 			default:
@@ -10093,7 +10093,7 @@ func (cs *http2clientStream) copyTrailers() {
 	}
 }
 
-func (rl *http2clientConnReadLoop) processGoAway(f *http2GoAwayFrame) error {
+func (rl *http2clientConnReadLoop) processGolangAway(f *http2GolangAwayFrame) error {
 	cc := rl.cc
 	cc.t.connPool().MarkDead(cc)
 	if f.ErrCode != 0 {
@@ -10103,7 +10103,7 @@ func (rl *http2clientConnReadLoop) processGoAway(f *http2GoAwayFrame) error {
 			fn("recv_golangaway_" + f.ErrCode.stringToken())
 		}
 	}
-	cc.setGoAway(f)
+	cc.setGolangAway(f)
 	return nil
 }
 
@@ -10279,7 +10279,7 @@ func (cc *http2ClientConn) Ping(ctx context.Context) error {
 	var pingError error
 	errc := make(chan struct{})
 	golang func() {
-		cc.t.markNewGoroutine()
+		cc.t.markNewGolangroutine()
 		cc.wmu.Lock()
 		defer cc.wmu.Unlock()
 		if pingError = cc.fr.WritePing(false, p); pingError != nil {
@@ -10502,12 +10502,12 @@ func http2traceGetConn(req *Request, hostPort string) {
 	trace.GetConn(hostPort)
 }
 
-func http2traceGotConn(req *Request, cc *http2ClientConn, reused bool) {
+func http2traceGolangtConn(req *Request, cc *http2ClientConn, reused bool) {
 	trace := httptrace.ContextClientTrace(req.Context())
-	if trace == nil || trace.GotConn == nil {
+	if trace == nil || trace.GolangtConn == nil {
 		return
 	}
-	ci := httptrace.GotConnInfo{Conn: cc.tconn}
+	ci := httptrace.GolangtConnInfo{Conn: cc.tconn}
 	ci.Reused = reused
 	cc.mu.Lock()
 	ci.WasIdle = len(cc.streams) == 0 && reused
@@ -10516,7 +10516,7 @@ func http2traceGotConn(req *Request, cc *http2ClientConn, reused bool) {
 	}
 	cc.mu.Unlock()
 
-	trace.GotConn(ci)
+	trace.GolangtConn(ci)
 }
 
 func http2traceWroteHeaders(trace *httptrace.ClientTrace) {
@@ -10525,9 +10525,9 @@ func http2traceWroteHeaders(trace *httptrace.ClientTrace) {
 	}
 }
 
-func http2traceGot100Continue(trace *httptrace.ClientTrace) {
-	if trace != nil && trace.Got100Continue != nil {
-		trace.Got100Continue()
+func http2traceGolangt100Continue(trace *httptrace.ClientTrace) {
+	if trace != nil && trace.Golangt100Continue != nil {
+		trace.Golangt100Continue()
 	}
 }
 
@@ -10544,19 +10544,19 @@ func http2traceWroteRequest(trace *httptrace.ClientTrace, err error) {
 }
 
 func http2traceFirstResponseByte(trace *httptrace.ClientTrace) {
-	if trace != nil && trace.GotFirstResponseByte != nil {
-		trace.GotFirstResponseByte()
+	if trace != nil && trace.GolangtFirstResponseByte != nil {
+		trace.GolangtFirstResponseByte()
 	}
 }
 
-func http2traceGot1xxResponseFunc(trace *httptrace.ClientTrace) func(int, textproto.MIMEHeader) error {
+func http2traceGolangt1xxResponseFunc(trace *httptrace.ClientTrace) func(int, textproto.MIMEHeader) error {
 	if trace != nil {
-		return trace.Got1xxResponse
+		return trace.Golangt1xxResponse
 	}
 	return nil
 }
 
-// dialTLSWithContext uses tls.Dialer, added in Go 1.15, to open a TLS
+// dialTLSWithContext uses tls.Dialer, added in Golang 1.15, to open a TLS
 // connection.
 func (t *http2Transport) dialTLSWithContext(ctx context.Context, network, addr string, cfg *tls.Config) (*tls.Conn, error) {
 	dialer := &tls.Dialer{
@@ -10658,18 +10658,18 @@ func (s http2writeSettings) writeFrame(ctx http2writeContext) error {
 	return ctx.Framer().WriteSettings([]http2Setting(s)...)
 }
 
-type http2writeGoAway struct {
+type http2writeGolangAway struct {
 	maxStreamID uint32
 	code        http2ErrCode
 }
 
-func (p *http2writeGoAway) writeFrame(ctx http2writeContext) error {
-	err := ctx.Framer().WriteGoAway(p.maxStreamID, p.code, nil)
+func (p *http2writeGolangAway) writeFrame(ctx http2writeContext) error {
+	err := ctx.Framer().WriteGolangAway(p.maxStreamID, p.code, nil)
 	ctx.Flush() // ignore error: we're hanging up on them anyway
 	return err
 }
 
-func (*http2writeGoAway) staysWithinBuffer(max int) bool { return false } // flushes
+func (*http2writeGolangAway) staysWithinBuffer(max int) bool { return false } // flushes
 
 type http2writeData struct {
 	streamID  uint32

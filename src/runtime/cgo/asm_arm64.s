@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -38,7 +38,7 @@ TEXT crosscall2(SB),NOSPLIT|NOFRAME,$0
 	STP	(R29, R30), (8*22)(RSP)
 
 
-	// Initialize Go ABI environment
+	// Initialize Golang ABI environment
 	BL	runtime·load_g(SB)
 	BL	runtime·cgolangcallback(SB)
 

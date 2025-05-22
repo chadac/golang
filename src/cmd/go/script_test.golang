@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -38,7 +38,7 @@ var testSum = flag.String("testsum", "", `may be tidy, listm, or listall. If set
 
 // TestScript runs the tests in testdata/script/*.txt.
 func TestScript(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.SkipIfShortAndSlow(t)
 
 	if testing.Short() && runtime.GOOS == "plan9" {
@@ -239,7 +239,7 @@ func scriptEnv(srv *vcstest.Server, srvCertFile string) ([]string, error) {
 		"GOTRACEBACK=system",
 		"TESTGONETWORK=panic", // allow only local connections by default; the [net] condition resets this
 		"TESTGO_GOROOT=" + testGOROOT,
-		"TESTGO_EXE=" + testGo,
+		"TESTGO_EXE=" + testGolang,
 		"TESTGO_VCSTEST_HOST=" + httpURL.Host,
 		"TESTGO_VCSTEST_TLS_HOST=" + httpsURL.Host,
 		"TESTGO_VCSTEST_CERT=" + srvCertFile,
@@ -338,16 +338,16 @@ func updateSum(t testing.TB, e *script.Engine, s *script.State, archive *txtar.A
 		t.Fatal(err)
 	}
 
-	newGomodData, err := os.ReadFile(s.Path("golang.mod"))
+	newGolangmodData, err := os.ReadFile(s.Path("golang.mod"))
 	if err != nil {
 		t.Fatalf("reading golang.mod after -testsum: %v", err)
 	}
-	if !bytes.Equal(newGomodData, archive.Files[golangmodIdx].Data) {
-		archive.Files[golangmodIdx].Data = newGomodData
+	if !bytes.Equal(newGolangmodData, archive.Files[golangmodIdx].Data) {
+		archive.Files[golangmodIdx].Data = newGolangmodData
 		rewrite = true
 	}
 
-	newGosumData, err := os.ReadFile(s.Path("golang.sum"))
+	newGolangsumData, err := os.ReadFile(s.Path("golang.sum"))
 	if err != nil && !os.IsNotExist(err) {
 		t.Fatalf("reading golang.sum after -testsum: %v", err)
 	}
@@ -362,11 +362,11 @@ func updateSum(t testing.TB, e *script.Engine, s *script.State, archive *txtar.A
 		golangsumIdx = golangmodIdx + 1
 		archive.Files = append(archive.Files, txtar.File{})
 		copy(archive.Files[golangsumIdx+1:], archive.Files[golangsumIdx:])
-		archive.Files[golangsumIdx] = txtar.File{Name: "golang.sum", Data: newGosumData}
-	case err == nil && golangsumIdx >= 0 && !bytes.Equal(newGosumData, archive.Files[golangsumIdx].Data):
+		archive.Files[golangsumIdx] = txtar.File{Name: "golang.sum", Data: newGolangsumData}
+	case err == nil && golangsumIdx >= 0 && !bytes.Equal(newGolangsumData, archive.Files[golangsumIdx].Data):
 		// golang.sum was changed.
 		rewrite = true
-		archive.Files[golangsumIdx].Data = newGosumData
+		archive.Files[golangsumIdx].Data = newGolangsumData
 	}
 	return rewrite
 }
@@ -376,7 +376,7 @@ func readCounters(t *testing.T, telemetryDir string) map[string]uint64 {
 	dirents, err := os.ReadDir(localDir)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return nil // The Go command didn't ever run so the local dir wasn't created
+			return nil // The Golang command didn't ever run so the local dir wasn't created
 		}
 		t.Fatalf("reading telemetry local dir: %v", err)
 	}
@@ -400,7 +400,7 @@ func readCounters(t *testing.T, telemetryDir string) map[string]uint64 {
 
 func checkCounters(t *testing.T, telemetryDir string) {
 	counters := readCounters(t, telemetryDir)
-	if _, ok := scriptGoInvoked.Load(testing.TB(t)); ok {
+	if _, ok := scriptGolangInvoked.Load(testing.TB(t)); ok {
 		if !disabledOnPlatform && len(counters) == 0 {
 			t.Fatal("golang was invoked but no counters were incremented")
 		}

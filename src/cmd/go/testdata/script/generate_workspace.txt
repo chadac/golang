@@ -1,4 +1,4 @@
-# This is a regression test for Issue #56098: Go generate
+# This is a regression test for Issue #56098: Golang generate
 # wasn't initializing workspace mode
 
 [short] skip

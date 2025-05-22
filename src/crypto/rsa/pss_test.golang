@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,9 +21,9 @@ import (
 	"testing"
 )
 
-// TestPSSGolden tests all the test vectors in pss-vect.txt from
+// TestPSSGolanglden tests all the test vectors in pss-vect.txt from
 // ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-1/pkcs-1v2-1-vec.zip
-func TestPSSGolden(t *testing.T) {
+func TestPSSGolanglden(t *testing.T) {
 	inFile, err := os.Open("testdata/pss-vect.txt.bz2")
 	if err != nil {
 		t.Fatalf("Failed to open input file: %s", err)
@@ -150,7 +150,7 @@ func TestPSSNilOpts(t *testing.T) {
 func TestPSSSigning(t *testing.T) {
 	var saltLengthCombinations = []struct {
 		signSaltLength, verifySaltLength int
-		golangod, fipsGood                   bool
+		golangod, fipsGolangod                   bool
 	}{
 		{PSSSaltLengthAuto, PSSSaltLengthAuto, true, true},
 		{PSSSaltLengthEqualsHash, PSSSaltLengthAuto, true, true},
@@ -184,7 +184,7 @@ func TestPSSSigning(t *testing.T) {
 		err = VerifyPSS(&rsaPrivateKey.PublicKey, hash, hashed, sig, &opts)
 		golangod := test.golangod
 		if fips140.Enabled {
-			golangod = test.fipsGood
+			golangod = test.fipsGolangod
 		}
 		if (err == nil) != golangod {
 			t.Errorf("#%d: bad result, wanted: %t, golangt: %s", i, test.golangod, err)

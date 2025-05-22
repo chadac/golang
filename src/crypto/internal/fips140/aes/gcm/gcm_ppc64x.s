@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@
 // from commit d47afb3c.
 
 // Changes were made due to differences in the ABI and some register usage.
-// Some arguments were changed due to the way the Go code passes them.
+// Some arguments were changed due to the way the Golang code passes them.
 
 // Portions that use the stitched AES-GCM approach in counterCryptASM
 // are based on code found in

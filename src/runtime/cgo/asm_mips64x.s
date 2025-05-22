@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -59,7 +59,7 @@ TEXT crosscall2(SB),NOSPLIT|NOFRAME,$0
 	MOVD	F30, (8*21)(R29)
 	MOVD	F31, (8*22)(R29)
 #endif
-	// Initialize Go ABI environment
+	// Initialize Golang ABI environment
 	// prepare SB register = PC & 0xffffffff00000000
 	BGEZAL	R0, 1(PC)
 	SRLV	$32, R31, RSB

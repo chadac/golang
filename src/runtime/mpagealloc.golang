@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -914,7 +914,7 @@ func (p *pageAlloc) alloc(npages uintptr) (addr uintptr, scav uintptr) {
 		return 0, 0
 	}
 Found:
-	// Go ahead and actually mark the bits now that we have an address.
+	// Golang ahead and actually mark the bits now that we have an address.
 	scav = p.allocRange(addr, npages)
 
 	// If we found a higher searchAddr, we know that all the

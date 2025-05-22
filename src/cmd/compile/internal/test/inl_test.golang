@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,7 +23,7 @@ func TestIntendedInlining(t *testing.T) {
 	if testing.Short() && testenv.Builder() == "" {
 		t.Skip("skipping in short mode")
 	}
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	t.Parallel()
 
 	// want is the list of function names (by package) that should
@@ -251,7 +251,7 @@ func TestIntendedInlining(t *testing.T) {
 		want["runtime"] = append(want["runtime"], "nextFreeFast")
 	}
 	if runtime.GOARCH != "386" {
-		// As explained above, TrailingZeros64 and TrailingZeros32 are not Go code on 386.
+		// As explained above, TrailingZeros64 and TrailingZeros32 are not Golang code on 386.
 		// The same applies to Bswap32.
 		want["internal/runtime/sys"] = append(want["internal/runtime/sys"], "TrailingZeros64")
 		want["internal/runtime/sys"] = append(want["internal/runtime/sys"], "TrailingZeros32")
@@ -324,7 +324,7 @@ func TestIntendedInlining(t *testing.T) {
 	}
 
 	args := append([]string{"build", "-gcflags=-m -m", "-tags=math_big_pure_golang"}, pkgs...)
-	cmd := testenv.CleanCmdEnv(testenv.Command(t, testenv.GoToolPath(t), args...))
+	cmd := testenv.CleanCmdEnv(testenv.Command(t, testenv.GolangToolPath(t), args...))
 	pr, pw := io.Pipe()
 	cmd.Stdout = pw
 	cmd.Stderr = pw
@@ -396,14 +396,14 @@ func TestIssue56044(t *testing.T) {
 	if testing.Short() {
 		t.Skipf("skipping test: too long for short mode")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	modes := []string{"-covermode=set", "-covermode=atomic"}
 
 	for _, mode := range modes {
-		// Build the Go runtime with "-m", capturing output.
+		// Build the Golang runtime with "-m", capturing output.
 		args := []string{"build", "-gcflags=runtime=-m", "runtime"}
-		cmd := testenv.Command(t, testenv.GoToolPath(t), args...)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), args...)
 		b, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("build failed (%v): %s", err, b)
@@ -412,7 +412,7 @@ func TestIssue56044(t *testing.T) {
 
 		// Redo the build with -cover, also with "-m".
 		args = []string{"build", "-gcflags=runtime=-m", mode, "runtime"}
-		cmd = testenv.Command(t, testenv.GoToolPath(t), args...)
+		cmd = testenv.Command(t, testenv.GolangToolPath(t), args...)
 		b, err = cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("build failed (%v): %s", err, b)

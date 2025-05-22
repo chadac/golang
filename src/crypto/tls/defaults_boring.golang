@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@ import (
 	"crypto/x509"
 )
 
-// These Go+BoringCrypto policies mostly match BoringSSL's
+// These Golang+BoringCrypto policies mostly match BoringSSL's
 // ssl_compliance_policy_fips_202205, which is based on NIST SP 800-52r2.
 // https://cs.opensource.golangogle/boringssl/boringssl/+/master:ssl/ssl_lib.cc;l=3289;drc=ea7a88fa
 //

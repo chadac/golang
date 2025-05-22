@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -66,7 +66,7 @@ func compileTest(t *testing.T, expr string, error string) *Regexp {
 	return re
 }
 
-func TestGoodCompile(t *testing.T) {
+func TestGolangodCompile(t *testing.T) {
 	for i := 0; i < len(golangodRe); i++ {
 		compileTest(t, golangodRe[i], "")
 	}
@@ -901,7 +901,7 @@ func BenchmarkCompile(b *testing.B) {
 func TestDeepEqual(t *testing.T) {
 	re1 := MustCompile("a.*b.*c.*d")
 	re2 := MustCompile("a.*b.*c.*d")
-	if !reflect.DeepEqual(re1, re2) { // has always been true, since Go 1.
+	if !reflect.DeepEqual(re1, re2) { // has always been true, since Golang 1.
 		t.Errorf("DeepEqual(re1, re2) = false, want true")
 	}
 

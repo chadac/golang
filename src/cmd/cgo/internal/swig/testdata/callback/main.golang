@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,10 +29,10 @@ func fatal(f string, args ...any) {
 	os.Exit(1)
 }
 
-type GoCallback struct{}
+type GolangCallback struct{}
 
-func (p *GoCallback) Run() string {
-	return "GoCallback.Run"
+func (p *GolangCallback) Run() string {
+	return "GolangCallback.Run"
 }
 
 func testCall() {
@@ -49,10 +49,10 @@ func testCall() {
 
 func testCallback() {
 	c := NewCaller()
-	cb := NewDirectorCallback(&GoCallback{})
+	cb := NewDirectorCallback(&GolangCallback{})
 	c.SetCallback(cb)
 	s := c.Call()
-	if s != "GoCallback.Run" {
+	if s != "GolangCallback.Run" {
 		fatal("unexpected string from Call with callback: %q", s)
 	}
 	c.DelCallback()

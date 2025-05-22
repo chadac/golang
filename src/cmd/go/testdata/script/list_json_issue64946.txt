@@ -1,6 +1,6 @@
 cd mod
 golang list -e -json=ImportPath,Error ./foo
-stdout '"Err": "no Go files in .*(/|\\\\)src(/|\\\\)mod(/|\\\\)foo"'
+stdout '"Err": "no Golang files in .*(/|\\\\)src(/|\\\\)mod(/|\\\\)foo"'
 
 -- mod/golang.mod --
 module example.com/foo

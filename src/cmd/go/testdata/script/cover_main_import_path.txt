@@ -24,7 +24,7 @@ golang tool covdata percent -i=$WORK/covdata
 stdout '\s*mainwithtest\s+coverage:'
 ! stdout 'main\s+coverage:'
 
-# Go test -cover should behave the same way.
+# Golang test -cover should behave the same way.
 golang test -cover .
 stdout 'ok\s+mainwithtest\s+\S+\s+coverage:'
 ! stdout 'ok\s+main\s+.*'

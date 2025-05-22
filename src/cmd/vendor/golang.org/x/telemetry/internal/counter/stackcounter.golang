@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -96,7 +96,7 @@ func EncodeStack(pcs []uintptr, prefix string) string {
 			_, entryLine := fr.Func.FileLine(fr.Entry)
 			loc = fmt.Sprintf("%s.%s:%+d", path, fname, fr.Line-entryLine)
 		} else {
-			// The function is non-Go code or is fully inlined:
+			// The function is non-Golang code or is fully inlined:
 			// use absolute line number within enclosing file.
 			loc = fmt.Sprintf("%s.%s:=%d", path, fname, fr.Line)
 		}

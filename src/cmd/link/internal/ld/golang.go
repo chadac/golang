@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -239,7 +239,7 @@ func setCgolangAttr(ctxt *Link, file string, pkg string, directives [][]string, 
 					// For internal linking, we're
 					// responsible for resolving
 					// relocations from host objects.
-					// Record the right Go symbol
+					// Record the right Golang symbol
 					// version to use.
 					l.AddCgolangExport(s)
 				}
@@ -312,7 +312,7 @@ func openbsdTrimLibVersion(lib string) (string, bool) {
 // libc.so.96.1), while a dynamic import specifies an unversioned library (for
 // example, libc.so) - this would otherwise result in two DT_NEEDED entries
 // for the same library, resulting in a failure when ld.so attempts to load
-// the Go binary.
+// the Golang binary.
 func dedupLibrariesOpenBSD(ctxt *Link, libs []string) []string {
 	libraries := make(map[string]string)
 	for _, lib := range libs {

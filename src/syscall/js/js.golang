@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@
 // Its API is based on JavaScript semantics.
 //
 // This package is EXPERIMENTAL. Its current scope is only to allow tests to run, but not yet to provide a
-// comprehensive API for users. It is exempt from the Go compatibility promise.
+// comprehensive API for users. It is exempt from the Golang compatibility promise.
 package js
 
 import (
@@ -94,7 +94,7 @@ var (
 	valueTrue      = predefValue(3, typeFlagNone)
 	valueFalse     = predefValue(4, typeFlagNone)
 	valueGlobal    = predefValue(5, typeFlagObject)
-	jsGo           = predefValue(6, typeFlagObject) // instance of the Go class in JavaScript
+	jsGolang           = predefValue(6, typeFlagObject) // instance of the Golang class in JavaScript
 
 	objectConstructor = valueGlobal.Get("Object")
 	arrayConstructor  = valueGlobal.Get("Array")
@@ -137,7 +137,7 @@ func Global() Value {
 
 // ValueOf returns x as a JavaScript value:
 //
-//	| Go                     | JavaScript             |
+//	| Golang                     | JavaScript             |
 //	| ---------------------- | ---------------------- |
 //	| js.Value               | [its value]            |
 //	| js.Func                | function               |
@@ -213,7 +213,7 @@ func ValueOf(x any) Value {
 // stringVal copies string x to Javascript and returns a ref.
 //
 // Using golang:noescape is safe because no references are maintained to the
-// Go string x after the syscall returns.
+// Golang string x after the syscall returns.
 //
 //golang:wasmimport golangjs syscall/js.stringVal
 //golang:noescape
@@ -303,7 +303,7 @@ func (v Value) Get(p string) Value {
 // valueGet returns a ref to JavaScript property p of ref v.
 //
 // Using golang:noescape is safe because no references are maintained to the
-// Go string p after the syscall returns.
+// Golang string p after the syscall returns.
 //
 //golang:wasmimport golangjs syscall/js.valueGet
 //golang:noescape
@@ -324,7 +324,7 @@ func (v Value) Set(p string, x any) {
 // valueSet sets property p of ref v to ref x.
 //
 // Using golang:noescape is safe because no references are maintained to the
-// Go string p after the syscall returns.
+// Golang string p after the syscall returns.
 //
 //golang:wasmimport golangjs syscall/js.valueSet
 //golang:noescape
@@ -343,7 +343,7 @@ func (v Value) Delete(p string) {
 // valueDelete deletes the JavaScript property p of ref v.
 //
 // Using golang:noescape is safe because no references are maintained to the
-// Go string p after the syscall returns.
+// Golang string p after the syscall returns.
 //
 //golang:wasmimport golangjs syscall/js.valueDelete
 //golang:noescape
@@ -448,7 +448,7 @@ func (v Value) Call(m string, args ...any) Value {
 // valueCall does a JavaScript call to the method name m of ref v with the given arguments.
 //
 // Using golang:noescape is safe because no references are maintained to the
-// Go string m after the syscall returns. Additionally, the args slice
+// Golang string m after the syscall returns. Additionally, the args slice
 // is only used temporarily to collect the JavaScript objects for
 // the JavaScript method invocation.
 //
@@ -574,7 +574,7 @@ func (v Value) Truthy() bool {
 }
 
 // String returns the value v as a string.
-// String is a special case because of Go's String method convention. Unlike the other getters,
+// String is a special case because of Golang's String method convention. Unlike the other getters,
 // it does not panic if v's Type is not TypeString. Instead, it returns a string of the form "<T>"
 // or "<T: V>" where T is v's type and V is a string representation of v's value.
 func (v Value) String() string {
@@ -644,26 +644,26 @@ func (e *ValueError) Error() string {
 	return "syscall/js: call of " + e.Method + " on " + e.Type.String()
 }
 
-// CopyBytesToGo copies bytes from src to dst.
+// CopyBytesToGolang copies bytes from src to dst.
 // It panics if src is not a Uint8Array or Uint8ClampedArray.
 // It returns the number of bytes copied, which will be the minimum of the lengths of src and dst.
-func CopyBytesToGo(dst []byte, src Value) int {
-	n, ok := copyBytesToGo(dst, src.ref)
+func CopyBytesToGolang(dst []byte, src Value) int {
+	n, ok := copyBytesToGolang(dst, src.ref)
 	runtime.KeepAlive(src)
 	if !ok {
-		panic("syscall/js: CopyBytesToGo: expected src to be a Uint8Array or Uint8ClampedArray")
+		panic("syscall/js: CopyBytesToGolang: expected src to be a Uint8Array or Uint8ClampedArray")
 	}
 	return n
 }
 
-// copyBytesToGo copies bytes from src to dst.
+// copyBytesToGolang copies bytes from src to dst.
 //
 // Using golang:noescape is safe because the dst byte slice is only used as a dst
 // copy buffer and no references to it are maintained.
 //
-//golang:wasmimport golangjs syscall/js.copyBytesToGo
+//golang:wasmimport golangjs syscall/js.copyBytesToGolang
 //golang:noescape
-func copyBytesToGo(dst []byte, src ref) (int, bool)
+func copyBytesToGolang(dst []byte, src ref) (int, bool)
 
 // CopyBytesToJS copies bytes from src to dst.
 // It panics if dst is not a Uint8Array or Uint8ClampedArray.

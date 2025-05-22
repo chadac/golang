@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -31,7 +31,7 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info, map[*
 	// setup and syntax error reporting
 	files := make([]*syntax.File, len(noders))
 	// fileBaseMap maps all file pos bases back to *syntax.File
-	// for checking Go version mismatched.
+	// for checking Golang version mismatched.
 	fileBaseMap := make(map[*syntax.PosBase]*syntax.File)
 	for i, p := range noders {
 		files[i] = p.file
@@ -52,7 +52,7 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info, map[*
 	}
 	conf := types2.Config{
 		Context:            ctxt,
-		GoVersion:          base.Flag.Lang,
+		GolangVersion:          base.Flag.Lang,
 		IgnoreBranchErrors: true, // parser already checked via syntax.CheckBranches mode
 		Importer:           &importer,
 		Sizes:              types2.SizesFor("gc", buildcfg.GOARCH),
@@ -81,7 +81,7 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info, map[*
 			file := fileBaseMap[fileBase]
 			if file == nil {
 				// This should never happen, but be careful and don't crash.
-			} else if file.GoVersion == fileVersion {
+			} else if file.GolangVersion == fileVersion {
 				// If we have a version error caused by //golang:build, report it.
 				msg = fmt.Sprintf("%s (file declares //golang:build %s)", msg, fileVersion)
 			} else {

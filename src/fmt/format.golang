@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -444,7 +444,7 @@ func (f *fmt) fmtBx(b []byte, digits string) {
 	f.fmtSbx("", b, digits)
 }
 
-// fmtQ formats a string as a double-quoted, escaped Go string constant.
+// fmtQ formats a string as a double-quoted, escaped Golang string constant.
 // If f.sharp is set a raw (backquoted) string may be returned instead
 // if the string does not contain any control characters other than tab.
 func (f *fmt) fmtQ(s string) {
@@ -474,7 +474,7 @@ func (f *fmt) fmtC(c uint64) {
 	f.pad(utf8.AppendRune(buf, r))
 }
 
-// fmtQc formats an integer as a single-quoted, escaped Go character constant.
+// fmtQc formats an integer as a single-quoted, escaped Golang character constant.
 // If the character is not valid Unicode, it will print '\ufffd'.
 func (f *fmt) fmtQc(c uint64) {
 	r := rune(c)

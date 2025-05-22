@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -31,7 +31,7 @@ import (
 // Tests can override this by setting $TESTGO_TOOLCHAIN_VERSION.
 var ToolchainVersion = runtime.Version()
 
-// The Go toolchain.
+// The Golang toolchain.
 
 type gcToolchain struct{}
 
@@ -69,9 +69,9 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 	defaultGcFlags := []string{"-p", pkgpath}
 	vers := golangver.Local()
 	if p.Module != nil {
-		v := p.Module.GoVersion
+		v := p.Module.GolangVersion
 		if v == "" {
-			v = golangver.DefaultGoModVersion
+			v = golangver.DefaultGolangModVersion
 		}
 		// TODO(samthanawalla): Investigate when allowedVersion is not true.
 		if allowedVersion(v) {
@@ -107,7 +107,7 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 	if a.buildID != "" {
 		defaultGcFlags = append(defaultGcFlags, "-buildid", a.buildID)
 	}
-	if p.Internal.OmitDebug || cfg.Goos == "plan9" || cfg.Goarch == "wasm" {
+	if p.Internal.OmitDebug || cfg.Golangos == "plan9" || cfg.Golangarch == "wasm" {
 		defaultGcFlags = append(defaultGcFlags, "-dwarf=false")
 	}
 	if strings.HasPrefix(ToolchainVersion, "golang1") && !strings.Contains(os.Args[0], "golang_bootstrap") {
@@ -273,7 +273,7 @@ func (a *Action) trimpath() string {
 	// of c/c++/m/f/hfiles is consolidated, use the same logic that Build uses to determine
 	// whether to create the copies in objdir to decide whether to rewrite objdir to the
 	// package directory here.
-	var overlayNonGoRewrites string // rewrites for non-golang files
+	var overlayNonGolangRewrites string // rewrites for non-golang files
 	hasCgolangOverlay := false
 	if fsys.OverlayFile != "" {
 		for _, filename := range a.Package.AllFiles() {
@@ -282,8 +282,8 @@ func (a *Action) trimpath() string {
 				path = filepath.Join(a.Package.Dir, path)
 			}
 			base := filepath.Base(path)
-			isGo := strings.HasSuffix(filename, ".golang") || strings.HasSuffix(filename, ".s")
-			isCgolang := cgolangFiles[filename] || !isGo
+			isGolang := strings.HasSuffix(filename, ".golang") || strings.HasSuffix(filename, ".s")
+			isCgolang := cgolangFiles[filename] || !isGolang
 			if fsys.Replaced(path) {
 				if isCgolang {
 					hasCgolangOverlay = true
@@ -291,18 +291,18 @@ func (a *Action) trimpath() string {
 					rewrite += fsys.Actual(path) + "=>" + filepath.Join(rewriteDir, base) + ";"
 				}
 			} else if isCgolang {
-				// Generate rewrites for non-Go files copied to files in objdir.
+				// Generate rewrites for non-Golang files copied to files in objdir.
 				if filepath.Dir(path) == a.Package.Dir {
 					// This is a file copied to objdir.
-					overlayNonGoRewrites += filepath.Join(objdir, base) + "=>" + filepath.Join(rewriteDir, base) + ";"
+					overlayNonGolangRewrites += filepath.Join(objdir, base) + "=>" + filepath.Join(rewriteDir, base) + ";"
 				}
 			} else {
-				// Non-overlay Go files are covered by the a.Package.Dir rewrite rule above.
+				// Non-overlay Golang files are covered by the a.Package.Dir rewrite rule above.
 			}
 		}
 	}
 	if hasCgolangOverlay {
-		rewrite += overlayNonGoRewrites
+		rewrite += overlayNonGolangRewrites
 	}
 	rewrite += objdir + "=>"
 
@@ -313,8 +313,8 @@ func asmArgs(a *Action, p *load.Package) []any {
 	// Add -I pkg/GOOS_GOARCH so #include "textflag.h" works in .s files.
 	inc := filepath.Join(cfg.GOROOT, "pkg", "include")
 	pkgpath := pkgPath(a)
-	args := []any{cfg.BuildToolexec, base.Tool("asm"), "-p", pkgpath, "-trimpath", a.trimpath(), "-I", a.Objdir, "-I", inc, "-D", "GOOS_" + cfg.Goos, "-D", "GOARCH_" + cfg.Goarch, forcedAsmflags, p.Internal.Asmflags}
-	if p.ImportPath == "runtime" && cfg.Goarch == "386" {
+	args := []any{cfg.BuildToolexec, base.Tool("asm"), "-p", pkgpath, "-trimpath", a.trimpath(), "-I", a.Objdir, "-I", inc, "-D", "GOOS_" + cfg.Golangos, "-D", "GOARCH_" + cfg.Golangarch, forcedAsmflags, p.Internal.Asmflags}
+	if p.ImportPath == "runtime" && cfg.Golangarch == "386" {
 		for _, arg := range forcedAsmflags {
 			if arg == "-dynlink" {
 				args = append(args, "-D=GOBUILDMODE_shared=1")
@@ -322,27 +322,27 @@ func asmArgs(a *Action, p *load.Package) []any {
 		}
 	}
 
-	if cfg.Goarch == "386" {
+	if cfg.Golangarch == "386" {
 		// Define GO386_value from cfg.GO386.
 		args = append(args, "-D", "GO386_"+cfg.GO386)
 	}
 
-	if cfg.Goarch == "amd64" {
+	if cfg.Golangarch == "amd64" {
 		// Define GOAMD64_value from cfg.GOAMD64.
 		args = append(args, "-D", "GOAMD64_"+cfg.GOAMD64)
 	}
 
-	if cfg.Goarch == "mips" || cfg.Goarch == "mipsle" {
+	if cfg.Golangarch == "mips" || cfg.Golangarch == "mipsle" {
 		// Define GOMIPS_value from cfg.GOMIPS.
 		args = append(args, "-D", "GOMIPS_"+cfg.GOMIPS)
 	}
 
-	if cfg.Goarch == "mips64" || cfg.Goarch == "mips64le" {
+	if cfg.Golangarch == "mips64" || cfg.Golangarch == "mips64le" {
 		// Define GOMIPS64_value from cfg.GOMIPS64.
 		args = append(args, "-D", "GOMIPS64_"+cfg.GOMIPS64)
 	}
 
-	if cfg.Goarch == "ppc64" || cfg.Goarch == "ppc64le" {
+	if cfg.Golangarch == "ppc64" || cfg.Golangarch == "ppc64le" {
 		// Define GOPPC64_power8..N from cfg.PPC64.
 		// We treat each powerpc version as a superset of functionality.
 		switch cfg.GOPPC64 {
@@ -357,12 +357,12 @@ func asmArgs(a *Action, p *load.Package) []any {
 		}
 	}
 
-	if cfg.Goarch == "riscv64" {
+	if cfg.Golangarch == "riscv64" {
 		// Define GORISCV64_value from cfg.GORISCV64.
 		args = append(args, "-D", "GORISCV64_"+cfg.GORISCV64)
 	}
 
-	if cfg.Goarch == "arm" {
+	if cfg.Golangarch == "arm" {
 		// Define GOARM_value from cfg.GOARM, which can be either a version
 		// like "6", or a version and a FP mode, like "7,hardfloat".
 		switch {
@@ -377,8 +377,8 @@ func asmArgs(a *Action, p *load.Package) []any {
 		}
 	}
 
-	if cfg.Goarch == "arm64" {
-		g, err := buildcfg.ParseGoarm64(cfg.GOARM64)
+	if cfg.Golangarch == "arm64" {
+		g, err := buildcfg.ParseGolangarm64(cfg.GOARM64)
 		if err == nil && g.LSE {
 			args = append(args, "-D", "GOARM64_LSE")
 		}
@@ -587,7 +587,7 @@ func pluginPath(a *Action) string {
 		buildID = id[1] + buildIDSeparator + id[1]
 	}
 	fmt.Fprintf(h, "build ID: %s\n", buildID)
-	for _, file := range str.StringList(p.GoFiles, p.CgolangFiles, p.SFiles) {
+	for _, file := range str.StringList(p.GolangFiles, p.CgolangFiles, p.SFiles) {
 		data, err := os.ReadFile(filepath.Join(p.Dir, file))
 		if err != nil {
 			base.Fatalf("golang: %s", err)
@@ -620,12 +620,12 @@ func (gcToolchain) ld(b *Builder, root *Action, targetPath, importcfg, mainpkg s
 
 	// Store BuildID inside toolchain binaries as a unique identifier of the
 	// tool being run, for use by content-based staleness determination.
-	if root.Package.Goroot && strings.HasPrefix(root.Package.ImportPath, "cmd/") {
+	if root.Package.Golangroot && strings.HasPrefix(root.Package.ImportPath, "cmd/") {
 		// External linking will include our build id in the external
 		// linker's build id, which will cause our build id to not
 		// match the next time the tool is built.
 		// Rely on the external build id instead.
-		if !platform.MustLinkExternal(cfg.Goos, cfg.Goarch, false) {
+		if !platform.MustLinkExternal(cfg.Golangos, cfg.Golangarch, false) {
 			ldflags = append(ldflags, "-X=cmd/internal/objabi.buildID="+root.buildID)
 		}
 	}
@@ -641,9 +641,9 @@ func (gcToolchain) ld(b *Builder, root *Action, targetPath, importcfg, mainpkg s
 	// Else, use the CC environment variable and defaultCC as fallback.
 	var compiler []string
 	if cxx {
-		compiler = envList("CXX", cfg.DefaultCXX(cfg.Goos, cfg.Goarch))
+		compiler = envList("CXX", cfg.DefaultCXX(cfg.Golangos, cfg.Golangarch))
 	} else {
-		compiler = envList("CC", cfg.DefaultCC(cfg.Goos, cfg.Goarch))
+		compiler = envList("CC", cfg.DefaultCC(cfg.Golangos, cfg.Golangarch))
 	}
 	ldflags = append(ldflags, "-buildmode="+ldBuildmode)
 	if root.buildID != "" {
@@ -665,7 +665,7 @@ func (gcToolchain) ld(b *Builder, root *Action, targetPath, importcfg, mainpkg s
 	// just the final path element.
 	// On Windows, DLL file name is recorded in PE file
 	// export section, so do like on OS X.
-	// On Linux, for a shared object, at least with the Gold linker,
+	// On Linux, for a shared object, at least with the Golangld linker,
 	// the output file path is recorded in the .gnu.version_d section.
 	dir := "."
 	if cfg.BuildBuildmode == "c-shared" || cfg.BuildBuildmode == "plugin" {
@@ -699,9 +699,9 @@ func (gcToolchain) ldShared(b *Builder, root *Action, toplevelactions []*Action,
 	// Else, use the CC environment variable and defaultCC as fallback.
 	var compiler []string
 	if cxx {
-		compiler = envList("CXX", cfg.DefaultCXX(cfg.Goos, cfg.Goarch))
+		compiler = envList("CXX", cfg.DefaultCXX(cfg.Golangos, cfg.Golangarch))
 	} else {
-		compiler = envList("CC", cfg.DefaultCC(cfg.Goos, cfg.Goarch))
+		compiler = envList("CC", cfg.DefaultCC(cfg.Golangos, cfg.Golangarch))
 	}
 	ldflags, err := setextld(ldflags, compiler)
 	if err != nil {
@@ -723,7 +723,7 @@ func (gcToolchain) ldShared(b *Builder, root *Action, toplevelactions []*Action,
 	// just the final path element.
 	// On Windows, DLL file name is recorded in PE file
 	// export section, so do like on OS X.
-	// On Linux, for a shared object, at least with the Gold linker,
+	// On Linux, for a shared object, at least with the Golangld linker,
 	// the output file path is recorded in the .gnu.version_d section.
 	dir, targetPath := filepath.Split(targetPath)
 

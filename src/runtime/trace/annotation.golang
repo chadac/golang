@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,7 +18,7 @@ type traceContextKey struct{}
 // If the input context contains a task, the new task is its subtask.
 //
 // The taskType is used to classify task instances. Analysis tools
-// like the Go execution tracer may assume there are only a bounded
+// like the Golang execution tracer may assume there are only a bounded
 // number of unique task types in the system.
 //
 // The returned Task's [Task.End] method is used to mark the task's end.

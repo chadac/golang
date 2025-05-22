@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -179,7 +179,7 @@ func (check *Checker) suspendedCall(keyword string, call *ast.CallExpr) {
 		msg = "requires function call, not conversion"
 		code = InvalidDefer
 		if keyword == "golang" {
-			code = InvalidGo
+			code = InvalidGolang
 		}
 	case expression:
 		msg = "discards result of"
@@ -192,7 +192,7 @@ func (check *Checker) suspendedCall(keyword string, call *ast.CallExpr) {
 	check.errorf(&x, code, "%s %s %s", keyword, msg, &x)
 }
 
-// golangVal returns the Go value for val, or nil.
+// golangVal returns the Golang value for val, or nil.
 func golangVal(val constant.Value) any {
 	// val should exist, but be conservative and check
 	if val == nil {
@@ -200,7 +200,7 @@ func golangVal(val constant.Value) any {
 	}
 	// Match implementation restriction of other compilers.
 	// gc only checks duplicates for integer, floating-point
-	// and string values, so only create Go values for these
+	// and string values, so only create Golang values for these
 	// types.
 	switch val.Kind() {
 	case constant.Int:
@@ -220,14 +220,14 @@ func golangVal(val constant.Value) any {
 	return nil
 }
 
-// A valueMap maps a case value (of a basic Go type) to a list of positions
+// A valueMap maps a case value (of a basic Golang type) to a list of positions
 // where the same case value appeared, together with the corresponding case
 // types.
 // Since two case values may have the same "underlying" value but different
 // types we need to also check the value's types (e.g., byte(1) vs myByte(1))
 // when the switch expression is of interface type.
 type (
-	valueMap  map[any][]valueType // underlying Go value -> valueType
+	valueMap  map[any][]valueType // underlying Golang value -> valueType
 	valueType struct {
 		pos token.Pos
 		typ Type
@@ -534,7 +534,7 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 			check.assignVar(s.Lhs[0], nil, &x, "assignment")
 		}
 
-	case *ast.GoStmt:
+	case *ast.GolangStmt:
 		check.suspendedCall("golang", s.Call)
 
 	case *ast.DeferStmt:

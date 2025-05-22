@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -60,7 +60,7 @@ func set(t *types.Type, off int64, bv bitvec.BitVec, skip bool) {
 		// 2. If it is an empty interface, the pointer points to a _type.
 		//   a. If it is a compile-time-allocated type, it points into
 		//      the read-only data section.
-		//   b. If it is a reflect-allocated type, it points into the Go heap.
+		//   b. If it is a reflect-allocated type, it points into the Golang heap.
 		//      Reflect is responsible for keeping a reference to
 		//      the underlying type so it won't be GCd.
 		// If we ever have a moving GC, we need to change this for 2b (as

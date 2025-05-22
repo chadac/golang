@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -30,10 +30,10 @@ func stackSwitchCallback() {
 }
 
 // Regression test for https://golang.dev/issue/62440. It should be possible for C
-// threads to call into Go from different stacks without crashing due to g0
+// threads to call into Golang from different stacks without crashing due to g0
 // stack bounds checks.
 //
-// N.B. This is only OK for threads created in C. Threads with Go frames up the
+// N.B. This is only OK for threads created in C. Threads with Golang frames up the
 // stack must not change the stack out from under us.
 func StackSwitchCallback() {
 	C.callStackSwitchCallbackFromThread()

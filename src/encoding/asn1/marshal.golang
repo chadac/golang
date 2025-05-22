@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -570,7 +570,7 @@ func makeBody(value reflect.Value, params fieldParameters) (e encoder, err error
 		}
 	}
 
-	return nil, StructuralError{"unknown Go type"}
+	return nil, StructuralError{"unknown Golang type"}
 }
 
 func makeField(v reflect.Value, params fieldParameters) (e encoder, err error) {
@@ -597,7 +597,7 @@ func makeField(v reflect.Value, params fieldParameters) (e encoder, err error) {
 
 	// If no default value is given then the zero value for the type is
 	// assumed to be the default value. This isn't obviously the correct
-	// behavior, but it's what Go has traditionally done.
+	// behavior, but it's what Golang has traditionally done.
 	if params.optional && params.defaultValue == nil {
 		if reflect.DeepEqual(v.Interface(), reflect.Zero(v.Type()).Interface()) {
 			return bytesEncoder(nil), nil
@@ -620,7 +620,7 @@ func makeField(v reflect.Value, params fieldParameters) (e encoder, err error) {
 
 	matchAny, tag, isCompound, ok := getUniversalType(v.Type())
 	if !ok || matchAny {
-		return nil, StructuralError{fmt.Sprintf("unknown Go type: %v", v.Type())}
+		return nil, StructuralError{fmt.Sprintf("unknown Golang type: %v", v.Type())}
 	}
 
 	if params.timeType != 0 && tag != TagUTCTime {

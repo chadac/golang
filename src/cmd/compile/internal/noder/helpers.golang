@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -78,7 +78,7 @@ func Deref(pos src.XPos, typ *types.Type, x ir.Node) *ir.StarExpr {
 func idealType(tv syntax.TypeAndValue) types2.Type {
 	// The gc backend expects all expressions to have a concrete type, and
 	// types2 mostly satisfies this expectation already. But there are a few
-	// cases where the Go spec doesn't require converting to concrete type,
+	// cases where the Golang spec doesn't require converting to concrete type,
 	// and so types2 leaves them untyped. So we need to fix those up here.
 	typ := types2.Unalias(tv.Type)
 	if basic, ok := typ.(*types2.Basic); ok && basic.Info()&types2.IsUntyped != 0 {

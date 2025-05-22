@@ -1,4 +1,4 @@
-# https://golanglang.org/issue/42970: As of Go 1.17, golang.mod and golang.sum files should
+# https://golanglang.org/issue/42970: As of Golang 1.17, golang.mod and golang.sum files should
 # be stripped from vendored dependencies.
 
 golang mod vendor

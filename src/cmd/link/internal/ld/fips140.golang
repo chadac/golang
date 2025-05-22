@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -138,7 +138,7 @@ var fipsSyms = []struct {
 var fipsinfo loader.Sym
 
 const (
-	fipsMagic    = "\xff Go fipsinfo \xff\x00"
+	fipsMagic    = "\xff Golang fipsinfo \xff\x00"
 	fipsMagicLen = 16
 	fipsSumLen   = 32
 )

@@ -1,13 +1,13 @@
 env GO111MODULE=on
 
-# Go 1.24 module should disable decoratemappings.
-golang list -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}'
+# Golang 1.24 module should disable decoratemappings.
+golang list -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}'
 stdout decoratemappings=0
 
 [!GOOS:linux] skip
 [short] skip
 
-# Programs in Go 1.24 module should never see annotations. This ensures that
+# Programs in Golang 1.24 module should never see annotations. This ensures that
 # the runtime has not overridden the default.
 golang run .
 
@@ -30,8 +30,8 @@ func main() {
 		log.Fatalf("Error reading: %v", err)
 	}
 
-	if strings.Contains(string(b), "[anon: Go:") {
+	if strings.Contains(string(b), "[anon: Golang:") {
 		log.Printf("/proc/self/maps:\n%s", string(b))
-		log.Fatalf("/proc/self/maps contains Go annotation")
+		log.Fatalf("/proc/self/maps contains Golang annotation")
 	}
 }

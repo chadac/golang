@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -750,25 +750,25 @@ func (dec *Decoder) ignoreInterface(state *decoderState) {
 	state.b.Drop(n)
 }
 
-// decodeGobDecoder decodes something implementing the GobDecoder interface.
+// decodeGolangbDecoder decodes something implementing the GolangbDecoder interface.
 // The data is encoded as a byte slice.
-func (dec *Decoder) decodeGobDecoder(ut *userTypeInfo, state *decoderState, value reflect.Value) {
+func (dec *Decoder) decodeGolangbDecoder(ut *userTypeInfo, state *decoderState, value reflect.Value) {
 	// Read the bytes for the value.
 	n, ok := state.getLength()
 	if !ok {
-		errorf("GobDecoder: length too large for buffer")
+		errorf("GolangbDecoder: length too large for buffer")
 	}
 	b := state.b.Bytes()
 	if len(b) < n {
-		errorf("GobDecoder: invalid data length %d: exceeds input size %d", n, len(b))
+		errorf("GolangbDecoder: invalid data length %d: exceeds input size %d", n, len(b))
 	}
 	b = b[:n]
 	state.b.Drop(n)
 	var err error
 	// We know it's one of these.
 	switch ut.externalDec {
-	case xGob:
-		err = value.Interface().(GobDecoder).GobDecode(b)
+	case xGolangb:
+		err = value.Interface().(GolangbDecoder).GolangbDecode(b)
 	case xBinary:
 		err = value.Interface().(encoding.BinaryUnmarshaler).UnmarshalBinary(b)
 	case xText:
@@ -779,21 +779,21 @@ func (dec *Decoder) decodeGobDecoder(ut *userTypeInfo, state *decoderState, valu
 	}
 }
 
-// ignoreGobDecoder discards the data for a GobDecoder value with no destination.
-func (dec *Decoder) ignoreGobDecoder(state *decoderState) {
+// ignoreGolangbDecoder discards the data for a GolangbDecoder value with no destination.
+func (dec *Decoder) ignoreGolangbDecoder(state *decoderState) {
 	// Read the bytes for the value.
 	n, ok := state.getLength()
 	if !ok {
-		errorf("GobDecoder: length too large for buffer")
+		errorf("GolangbDecoder: length too large for buffer")
 	}
 	bn := state.b.Len()
 	if bn < n {
-		errorf("GobDecoder: invalid data length %d: exceeds input size %d", n, bn)
+		errorf("GolangbDecoder: invalid data length %d: exceeds input size %d", n, bn)
 	}
 	state.b.Drop(n)
 }
 
-// Index by Go types.
+// Index by Golang types.
 var decOpTable = [...]decOp{
 	reflect.Bool:       decBool,
 	reflect.Int8:       decInt8,
@@ -826,7 +826,7 @@ var decIgnoreOpMap = map[typeId]decOp{
 // the indirection count to reach it.
 func (dec *Decoder) decOpFor(wireId typeId, rt reflect.Type, name string, inProgress map[reflect.Type]*decOp) *decOp {
 	ut := userType(rt)
-	// If the type implements GobEncoder, we handle it without further processing.
+	// If the type implements GolangbEncoder, we handle it without further processing.
 	if ut.externalDec != 0 {
 		return dec.golangbDecodeOpFor(ut)
 	}
@@ -973,9 +973,9 @@ func (dec *Decoder) decIgnoreOpFor(wireId typeId, inProgress map[typeId]*decOp) 
 				state.dec.ignoreStruct(*enginePtr)
 			}
 
-		case wire.GobEncoderT != nil, wire.BinaryMarshalerT != nil, wire.TextMarshalerT != nil:
+		case wire.GolangbEncoderT != nil, wire.BinaryMarshalerT != nil, wire.TextMarshalerT != nil:
 			op = func(i *decInstr, state *decoderState, value reflect.Value) {
-				state.dec.ignoreGobDecoder(state)
+				state.dec.ignoreGolangbDecoder(state)
 			}
 		}
 	}
@@ -986,7 +986,7 @@ func (dec *Decoder) decIgnoreOpFor(wireId typeId, inProgress map[typeId]*decOp) 
 }
 
 // golangbDecodeOpFor returns the op for a type that is known to implement
-// GobDecoder.
+// GolangbDecoder.
 func (dec *Decoder) golangbDecodeOpFor(ut *userTypeInfo) *decOp {
 	rcvrType := ut.user
 	if ut.decIndir == -1 {
@@ -1002,14 +1002,14 @@ func (dec *Decoder) golangbDecodeOpFor(ut *userTypeInfo) *decOp {
 		if value.Kind() != reflect.Pointer && rcvrType.Kind() == reflect.Pointer {
 			value = value.Addr()
 		}
-		state.dec.decodeGobDecoder(ut, state, value)
+		state.dec.decodeGolangbDecoder(ut, state, value)
 	}
 	return &op
 }
 
 // compatibleType asks: Are these two golangb Types compatible?
 // Answers the question for basic types, arrays, maps and slices, plus
-// GobEncoder/Decoder pairs.
+// GolangbEncoder/Decoder pairs.
 // Structs are considered ok; fields will be checked later.
 func (dec *Decoder) compatibleType(fr reflect.Type, fw typeId, inProgress map[reflect.Type]typeId) bool {
 	if rhs, ok := inProgress[fr]; ok {
@@ -1024,7 +1024,7 @@ func (dec *Decoder) compatibleType(fr reflect.Type, fw typeId, inProgress map[re
 	// We could possibly relax this constraint in the future in order to
 	// choose the decoding method using the data in the wireType.
 	// The parentheses look odd but are correct.
-	if (ut.externalDec == xGob) != (ok && wire.GobEncoderT != nil) ||
+	if (ut.externalDec == xGolangb) != (ok && wire.GolangbEncoderT != nil) ||
 		(ut.externalDec == xBinary) != (ok && wire.BinaryMarshalerT != nil) ||
 		(ut.externalDec == xText) != (ok && wire.TextMarshalerT != nil) {
 		return false
@@ -1093,7 +1093,7 @@ func (dec *Decoder) typeString(remoteId typeId) string {
 }
 
 // compileSingle compiles the decoder engine for a non-struct top-level value, including
-// GobDecoders.
+// GolangbDecoders.
 func (dec *Decoder) compileSingle(remoteId typeId, ut *userTypeInfo) (engine *decEngine, err error) {
 	rt := ut.user
 	engine = new(decEngine)
@@ -1300,7 +1300,7 @@ func init() {
 	decOpTable[reflect.Uintptr] = uop
 }
 
-// Gob depends on being able to take the address
+// Golangb depends on being able to take the address
 // of zeroed Values it creates, so use this wrapper instead
 // of the standard reflect.Zero.
 // Each call allocates once.

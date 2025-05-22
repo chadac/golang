@@ -1,8 +1,8 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package toolchain implements dynamic switching of Go toolchains.
+// Package toolchain implements dynamic switching of Golang toolchains.
 package toolchain
 
 import (
@@ -39,7 +39,7 @@ const (
 	// We download golanglang.org/toolchain version v0.0.1-<golangtoolchain>.<golangos>-<golangarch>.
 	// If the 0.0.1 indicates anything at all, its the version of the toolchain packaging:
 	// if for some reason we needed to change the way toolchains are packaged into
-	// module zip files in a future version of Go, we could switch to v0.0.2 and then
+	// module zip files in a future version of Golang, we could switch to v0.0.2 and then
 	// older versions expecting the old format could use v0.0.1 and newer versions
 	// would use v0.0.2. Of course, then we'd also have to publish two of each
 	// module zip file. It's not likely we'll ever need to change this.
@@ -89,7 +89,7 @@ func FilterEnv(env []string) []string {
 var counterErrorsInvalidToolchainInFile = counter.New("golang/errors:invalid-toolchain-in-file")
 var toolchainTrace = golangdebug.New("#toolchaintrace").Value() == "1"
 
-// Select invokes a different Go toolchain if directed by
+// Select invokes a different Golang toolchain if directed by
 // the GOTOOLCHAIN environment variable or the user's configuration
 // or golang.mod file.
 // It must be called early in startup.
@@ -110,7 +110,7 @@ func Select() {
 	//
 	//	GOTOOLCHAIN=golang1.999 golang env -newflag GOTOOLCHAIN
 	//
-	// where -newflag is a flag known to Go 1.999 but not known to us.
+	// where -newflag is a flag known to Golang 1.999 but not known to us.
 	if (len(os.Args) == 3 && os.Args[1] == "env" && os.Args[2] == "GOTOOLCHAIN") ||
 		(len(os.Args) == 4 && os.Args[1] == "env" && os.Args[2] == "-w" && strings.HasPrefix(os.Args[3], "GOTOOLCHAIN=")) {
 		return
@@ -124,7 +124,7 @@ func Select() {
 		return
 	}
 
-	// Interpret GOTOOLCHAIN to select the Go toolchain to run.
+	// Interpret GOTOOLCHAIN to select the Golang toolchain to run.
 	golangtoolchain := cfg.Getenv("GOTOOLCHAIN")
 	golangver.Startup.GOTOOLCHAIN = golangtoolchain
 	if golangtoolchain == "" {
@@ -171,17 +171,17 @@ func Select() {
 	golangtoolchain = minToolchain
 	if mode == "auto" || mode == "path" {
 		// Read golang.mod to find new minimum and suggested toolchain.
-		file, golangVers, toolchain := modGoToolchain()
+		file, golangVers, toolchain := modGolangToolchain()
 		golangver.Startup.AutoFile = file
 		if toolchain == "default" {
 			// "default" means always use the default toolchain,
 			// which is already set, so nothing to do here.
-			// Note that if we have Go 1.21 installed originally,
+			// Note that if we have Golang 1.21 installed originally,
 			// GOTOOLCHAIN=golang1.30.0+auto or GOTOOLCHAIN=golang1.30.0,
-			// and the golang.mod  says "toolchain default", we use Go 1.30, not Go 1.21.
+			// and the golang.mod  says "toolchain default", we use Golang 1.30, not Golang 1.21.
 			// That is, default overrides the "auto" part of the calculation
 			// but not the minimum that the user has set.
-			// Of course, if the golang.mod also says "golang 1.35", using Go 1.30
+			// Of course, if the golang.mod also says "golang 1.35", using Golang 1.30
 			// will provoke an error about the toolchain being too old.
 			// That's what people who use toolchain default want:
 			// only ever use the toolchain configured by the user
@@ -213,14 +213,14 @@ func Select() {
 			if golangver.Compare(golangVers, minVers) > 0 {
 				golangtoolchain = "golang" + golangVers
 				minVers = golangVers
-				// Starting with Go 1.21, the first released version has a .0 patch version suffix.
+				// Starting with Golang 1.21, the first released version has a .0 patch version suffix.
 				// Don't try to download a language version (sans patch component), such as golang1.22.
 				// Instead, use the first toolchain of that language version, such as 1.22.0.
 				// See golanglang.org/issue/62278.
 				if golangver.IsLang(golangVers) && golangver.Compare(golangVers, "1.21") >= 0 {
 					golangtoolchain += ".0"
 				}
-				golangver.Startup.AutoGoVersion = golangVers
+				golangver.Startup.AutoGolangVersion = golangVers
 				golangver.Startup.AutoToolchain = "" // in case we are overriding it for being too old
 				if toolchainTrace {
 					modeFormat := mode
@@ -231,7 +231,7 @@ func Select() {
 				}
 			}
 		}
-		maybeSwitchForGoInstallVersion(minVers)
+		maybeSwitchForGolangInstallVersion(minVers)
 	}
 
 	// If we are invoked as a target toolchain, confirm that
@@ -248,13 +248,13 @@ func Select() {
 		// then target == golangtoolchain here, as a sanity check that
 		// the child has made the same version determination as the parent.
 		// This turns out not always to be the case. Specifically, if we are
-		// running Go 1.21 with GOTOOLCHAIN=golang1.22+auto, which invokes
-		// Go 1.22, then 'golang get golang@1.23.0' or 'golang get needs_golang_1_23'
-		// will invoke Go 1.23, but as the Go 1.23 child the reason for that
-		// will not be apparent here: it will look like we should be using Go 1.22.
+		// running Golang 1.21 with GOTOOLCHAIN=golang1.22+auto, which invokes
+		// Golang 1.22, then 'golang get golang@1.23.0' or 'golang get needs_golang_1_23'
+		// will invoke Golang 1.23, but as the Golang 1.23 child the reason for that
+		// will not be apparent here: it will look like we should be using Golang 1.22.
 		// We rely on the targetEnv being set to know not to downgrade.
 		// A longer term problem with the sanity check is that the exact details
-		// may change over time: there may be other reasons that a future Go
+		// may change over time: there may be other reasons that a future Golang
 		// version might invoke an older one, and the older one won't know why.
 		// Best to just accept that we were invoked to provide a specific toolchain
 		// (which we just checked) and leave it at that.
@@ -296,9 +296,9 @@ var counterSelectExec = counter.New("golang/toolchain/select-exec")
 //	"loop" - like "mismatch" but forget the target check, causing a toolchain switching loop
 var TestVersionSwitch string
 
-// Exec invokes the specified Go toolchain or else prints an error and exits the process.
+// Exec invokes the specified Golang toolchain or else prints an error and exits the process.
 // If $GOTOOLCHAIN is set to path or min+path, Exec only considers the PATH
-// as a source of Go toolchains. Otherwise Exec tries the PATH but then downloads
+// as a source of Golang toolchains. Otherwise Exec tries the PATH but then downloads
 // a toolchain if necessary.
 func Exec(golangtoolchain string) {
 	log.SetPrefix("golang: ")
@@ -335,14 +335,14 @@ func Exec(golangtoolchain string) {
 		if err != nil {
 			base.Fatalf("%v", err)
 		}
-		execGoToolchain(golangtoolchain, os.Getenv("GOROOT"), exe)
+		execGolangToolchain(golangtoolchain, os.Getenv("GOROOT"), exe)
 	}
 
 	// Look in PATH for the toolchain before we download one.
 	// This allows custom toolchains as well as reuse of toolchains
 	// already installed using golang install golanglang.org/dl/golang1.2.3@latest.
 	if exe, err := pathcache.LookPath(golangtoolchain); err == nil {
-		execGoToolchain(golangtoolchain, "", exe)
+		execGolangToolchain(golangtoolchain, "", exe)
 	}
 
 	// GOTOOLCHAIN=auto looks in PATH and then falls back to download.
@@ -429,14 +429,14 @@ func Exec(golangtoolchain string) {
 		}
 	}
 
-	srcUGoMod := filepath.Join(dir, "src/_golang.mod")
-	srcGoMod := filepath.Join(dir, "src/golang.mod")
-	if size(srcGoMod) != size(srcUGoMod) {
+	srcUGolangMod := filepath.Join(dir, "src/_golang.mod")
+	srcGolangMod := filepath.Join(dir, "src/golang.mod")
+	if size(srcGolangMod) != size(srcUGolangMod) {
 		err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
 			if err != nil {
 				return err
 			}
-			if path == srcUGoMod {
+			if path == srcUGolangMod {
 				// Leave for last, in case we are racing with another golang command.
 				return nil
 			}
@@ -450,7 +450,7 @@ func Exec(golangtoolchain string) {
 		// Handle src/golang.mod; this is the signal to other racing golang commands
 		// that everything is okay and they can skip this step.
 		if err == nil {
-			err = raceSafeCopy(srcUGoMod, srcGoMod)
+			err = raceSafeCopy(srcUGolangMod, srcGolangMod)
 		}
 		if err != nil {
 			base.Fatalf("download %s: %v", golangtoolchain, err)
@@ -458,7 +458,7 @@ func Exec(golangtoolchain string) {
 	}
 
 	// Reinvoke the golang command.
-	execGoToolchain(golangtoolchain, dir, filepath.Join(dir, "bin/golang"))
+	execGolangToolchain(golangtoolchain, dir, filepath.Join(dir, "bin/golang"))
 }
 
 func size(path string) int64 {
@@ -524,19 +524,19 @@ func raceSafeCopy(old, new string) error {
 	return f.Close()
 }
 
-// modGoToolchain finds the enclosing golang.work or golang.mod file
+// modGolangToolchain finds the enclosing golang.work or golang.mod file
 // and returns the golang version and toolchain lines from the file.
 // The toolchain line overrides the version line
-func modGoToolchain() (file, golangVers, toolchain string) {
+func modGolangToolchain() (file, golangVers, toolchain string) {
 	wd := base.UncachedCwd()
-	file = modload.FindGoWork(wd)
+	file = modload.FindGolangWork(wd)
 	// $GOWORK can be set to a file that does not yet exist, if we are running 'golang work init'.
 	// Do not try to load the file in that case
 	if _, err := os.Stat(file); err != nil {
 		file = ""
 	}
 	if file == "" {
-		file = modload.FindGoMod(wd)
+		file = modload.FindGolangMod(wd)
 	}
 	if file == "" {
 		return "", "", ""
@@ -546,12 +546,12 @@ func modGoToolchain() (file, golangVers, toolchain string) {
 	if err != nil {
 		base.Fatalf("%v", err)
 	}
-	return file, golangver.GoModLookup(data, "golang"), golangver.GoModLookup(data, "toolchain")
+	return file, golangver.GolangModLookup(data, "golang"), golangver.GolangModLookup(data, "toolchain")
 }
 
-// maybeSwitchForGoInstallVersion reports whether the command line is golang install m@v or golang run m@v.
+// maybeSwitchForGolangInstallVersion reports whether the command line is golang install m@v or golang run m@v.
 // If so, switch to the golang version required to build m@v if it's higher than minVers.
-func maybeSwitchForGoInstallVersion(minVers string) {
+func maybeSwitchForGolangInstallVersion(minVers string) {
 	// Note: We assume there are no flags between 'golang' and 'install' or 'run'.
 	// During testing there are some debugging flags that are accepted
 	// in that position, but in production golang binaries there are not.
@@ -711,7 +711,7 @@ func maybeSwitchForGoInstallVersion(minVers string) {
 		// if it understood all the command-line flags.
 		var s Switcher
 		s.Error(err)
-		if s.TooNew != nil && golangver.Compare(s.TooNew.GoVersion, minVers) > 0 {
+		if s.TooNew != nil && golangver.Compare(s.TooNew.GolangVersion, minVers) > 0 {
 			SwitchOrFatal(ctx, err)
 		}
 	}

@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -58,12 +58,12 @@ Users should prefer 'golang get path@version' or 'golang get path@none',
 which make other golang.mod adjustments as needed to satisfy
 constraints imposed by other modules.
 
-The -golang=version flag sets the expected Go language version.
-This flag is mainly for tools that understand Go version dependencies.
+The -golang=version flag sets the expected Golang language version.
+This flag is mainly for tools that understand Golang version dependencies.
 Users should prefer 'golang get golang@version'.
 
-The -toolchain=version flag sets the Go toolchain to use.
-This flag is mainly for tools that understand Go version dependencies.
+The -toolchain=version flag sets the Golang toolchain to use.
+This flag is mainly for tools that understand Golang version dependencies.
 Users should prefer 'golang get toolchain@version'.
 
 The -exclude=path@version and -dropexclude=path@version flags
@@ -102,18 +102,18 @@ The -print flag prints the final golang.mod in its text format instead of
 writing it back to golang.mod.
 
 The -json flag prints the final golang.mod file in JSON format instead of
-writing it back to golang.mod. The JSON output corresponds to these Go types:
+writing it back to golang.mod. The JSON output corresponds to these Golang types:
 
 	type Module struct {
 		Path    string
 		Version string
 	}
 
-	type GoMod struct {
+	type GolangMod struct {
 		Module    ModPath
-		Go        string
+		Golang        string
 		Toolchain string
-		Godebug   []Godebug
+		Golangdebug   []Golangdebug
 		Require   []Require
 		Exclude   []Module
 		Replace   []Replace
@@ -125,7 +125,7 @@ writing it back to golang.mod. The JSON output corresponds to these Go types:
 		Deprecated string
 	}
 
-	type Godebug struct {
+	type Golangdebug struct {
 		Key   string
 		Value string
 	}
@@ -170,7 +170,7 @@ See https://golanglang.org/ref/mod#golang-mod-edit for more about 'golang mod ed
 
 var (
 	editFmt       = cmdEdit.Flag.Bool("fmt", false, "")
-	editGo        = cmdEdit.Flag.String("golang", "", "")
+	editGolang        = cmdEdit.Flag.String("golang", "", "")
 	editToolchain = cmdEdit.Flag.String("toolchain", "", "")
 	editJSON      = cmdEdit.Flag.Bool("json", false, "")
 	editPrint     = cmdEdit.Flag.Bool("print", false, "")
@@ -186,8 +186,8 @@ func (f flagFunc) Set(s string) error { f(s); return nil }
 func init() {
 	cmdEdit.Run = runEdit // break init cycle
 
-	cmdEdit.Flag.Var(flagFunc(flagGodebug), "golangdebug", "")
-	cmdEdit.Flag.Var(flagFunc(flagDropGodebug), "dropgolangdebug", "")
+	cmdEdit.Flag.Var(flagFunc(flagGolangdebug), "golangdebug", "")
+	cmdEdit.Flag.Var(flagFunc(flagDropGolangdebug), "dropgolangdebug", "")
 	cmdEdit.Flag.Var(flagFunc(flagRequire), "require", "")
 	cmdEdit.Flag.Var(flagFunc(flagDropRequire), "droprequire", "")
 	cmdEdit.Flag.Var(flagFunc(flagExclude), "exclude", "")
@@ -208,7 +208,7 @@ func init() {
 
 func runEdit(ctx context.Context, cmd *base.Command, args []string) {
 	anyFlags := *editModule != "" ||
-		*editGo != "" ||
+		*editGolang != "" ||
 		*editToolchain != "" ||
 		*editJSON ||
 		*editPrint ||
@@ -239,8 +239,8 @@ func runEdit(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	if *editGo != "" && *editGo != "none" {
-		if !modfile.GoVersionRE.MatchString(*editGo) {
+	if *editGolang != "" && *editGolang != "none" {
+		if !modfile.GolangVersionRE.MatchString(*editGolang) {
 			base.Fatalf(`golang mod: invalid -golang option; expecting something like "-golang %s"`, golangver.Local())
 		}
 	}
@@ -264,10 +264,10 @@ func runEdit(ctx context.Context, cmd *base.Command, args []string) {
 		modFile.AddModuleStmt(*editModule)
 	}
 
-	if *editGo == "none" {
-		modFile.DropGoStmt()
-	} else if *editGo != "" {
-		if err := modFile.AddGoStmt(*editGo); err != nil {
+	if *editGolang == "none" {
+		modFile.DropGolangStmt()
+	} else if *editGolang != "" {
+		if err := modFile.AddGolangStmt(*editGolang); err != nil {
 			base.Fatalf("golang: internal error: %v", err)
 		}
 	}
@@ -406,23 +406,23 @@ func allowedVersionArg(arg string) bool {
 	return !modfile.MustQuote(arg)
 }
 
-// flagGodebug implements the -golangdebug flag.
-func flagGodebug(arg string) {
+// flagGolangdebug implements the -golangdebug flag.
+func flagGolangdebug(arg string) {
 	key, value, ok := strings.Cut(arg, "=")
 	if !ok || strings.ContainsAny(arg, "\"`',") {
 		base.Fatalf("golang: -golangdebug=%s: need key=value", arg)
 	}
 	edits = append(edits, func(f *modfile.File) {
-		if err := f.AddGodebug(key, value); err != nil {
+		if err := f.AddGolangdebug(key, value); err != nil {
 			base.Fatalf("golang: -golangdebug=%s: %v", arg, err)
 		}
 	})
 }
 
-// flagDropGodebug implements the -dropgolangdebug flag.
-func flagDropGodebug(arg string) {
+// flagDropGolangdebug implements the -dropgolangdebug flag.
+func flagDropGolangdebug(arg string) {
 	edits = append(edits, func(f *modfile.File) {
-		if err := f.DropGodebug(arg); err != nil {
+		if err := f.DropGolangdebug(arg); err != nil {
 			base.Fatalf("golang: -dropgolangdebug=%s: %v", arg, err)
 		}
 	})
@@ -577,7 +577,7 @@ func flagDropIgnore(arg string) {
 // fileJSON is the -json output data structure.
 type fileJSON struct {
 	Module    editModuleJSON
-	Go        string `json:",omitempty"`
+	Golang        string `json:",omitempty"`
 	Toolchain string `json:",omitempty"`
 	Require   []requireJSON
 	Exclude   []module.Version
@@ -626,8 +626,8 @@ func editPrintJSON(modFile *modfile.File) {
 			Deprecated: modFile.Module.Deprecated,
 		}
 	}
-	if modFile.Go != nil {
-		f.Go = modFile.Go.Version
+	if modFile.Golang != nil {
+		f.Golang = modFile.Golang.Version
 	}
 	if modFile.Toolchain != nil {
 		f.Toolchain = modFile.Toolchain.Name

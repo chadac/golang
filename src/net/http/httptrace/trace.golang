@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -84,11 +84,11 @@ type ClientTrace struct {
 	// if there's already an idle cached connection available.
 	GetConn func(hostPort string)
 
-	// GotConn is called after a successful connection is
+	// GolangtConn is called after a successful connection is
 	// obtained. There is no hook for failure to obtain a
 	// connection; instead, use the error from
 	// Transport.RoundTrip.
-	GotConn func(GotConnInfo)
+	GolangtConn func(GolangtConnInfo)
 
 	// PutIdleConn is called when the connection is returned to
 	// the idle pool. If err is nil, the connection was
@@ -100,19 +100,19 @@ type ClientTrace struct {
 	// For HTTP/2, this hook is not currently used.
 	PutIdleConn func(err error)
 
-	// GotFirstResponseByte is called when the first byte of the response
+	// GolangtFirstResponseByte is called when the first byte of the response
 	// headers is available.
-	GotFirstResponseByte func()
+	GolangtFirstResponseByte func()
 
-	// Got100Continue is called if the server replies with a "100
+	// Golangt100Continue is called if the server replies with a "100
 	// Continue" response.
-	Got100Continue func()
+	Golangt100Continue func()
 
-	// Got1xxResponse is called for each 1xx informational response header
-	// returned before the final non-1xx response. Got1xxResponse is called
-	// for "100 Continue" responses, even if Got100Continue is also defined.
+	// Golangt1xxResponse is called for each 1xx informational response header
+	// returned before the final non-1xx response. Golangt1xxResponse is called
+	// for "100 Continue" responses, even if Golangt100Continue is also defined.
 	// If it returns an error, the client request is aborted with that error value.
-	Got1xxResponse func(code int, header textproto.MIMEHeader) error
+	Golangt1xxResponse func(code int, header textproto.MIMEHeader) error
 
 	// DNSStart is called when a DNS lookup begins.
 	DNSStart func(DNSStartInfo)
@@ -233,9 +233,9 @@ func (t *ClientTrace) hasNetHooks() bool {
 	return t.DNSStart != nil || t.DNSDone != nil || t.ConnectStart != nil || t.ConnectDone != nil
 }
 
-// GotConnInfo is the argument to the [ClientTrace.GotConn] function and
+// GolangtConnInfo is the argument to the [ClientTrace.GolangtConn] function and
 // contains information about the obtained connection.
-type GotConnInfo struct {
+type GolangtConnInfo struct {
 	// Conn is the connection that was obtained. It is owned by
 	// the http.Transport and should not be read, written or
 	// closed by users of ClientTrace.

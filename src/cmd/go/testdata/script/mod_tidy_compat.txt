@@ -1,7 +1,7 @@
-# https://golanglang.org/issue/46141: 'golang mod tidy' for a Go 1.17 module should by
-# default preserve enough checksums for the module to be used by Go 1.16.
+# https://golanglang.org/issue/46141: 'golang mod tidy' for a Golang 1.17 module should by
+# default preserve enough checksums for the module to be used by Golang 1.16.
 #
-# We don't have a copy of Go 1.16 handy, but we can simulate it by editing the
+# We don't have a copy of Golang 1.16 handy, but we can simulate it by editing the
 # 'golang' version in the golang.mod file to 1.16, without actually updating the
 # requirements to match.
 
@@ -10,7 +10,7 @@
 env MODFMT='{{with .Module}}{{.Path}} {{.Version}}{{end}}'
 
 
-# This module has the same module dependency graph in Go 1.16 as in Go 1.17,
+# This module has the same module dependency graph in Golang 1.16 as in Golang 1.17,
 # but in 1.16 requires (checksums for) additional (irrelevant) golang.mod files.
 #
 # The module graph under both versions looks like:
@@ -19,7 +19,7 @@ env MODFMT='{{with .Module}}{{.Path}} {{.Version}}{{end}}'
 # |
 # + ---- example.net/lazy v0.1.0 ---- example.com/version v1.0.1
 #
-# Go 1.17 avoids loading the golang.mod file for example.com/version v1.0.1
+# Golang 1.17 avoids loading the golang.mod file for example.com/version v1.0.1
 # (because it is lower than the version explicitly required by m,
 # and the module that requires it — m — specifies 'golang 1.17').
 #
@@ -77,7 +77,7 @@ stderr '^golang: example.net/lazy@v0.1.0 requires\n\texample.com/version@v1.0.1:
 
 -- golang.mod --
 // Module m happens to have the exact same build list as what would be
-// selected under Go 1.16, but computes that build list without looking at
+// selected under Golang 1.16, but computes that build list without looking at
 // as many golang.mod files.
 module example.com/m
 

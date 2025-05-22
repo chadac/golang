@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,11 +29,11 @@ crosscall_ppc64:
 	bl	saveregs
 	stdu	1, -296(1)
 
-	// Set up Go ABI constant registers
+	// Set up Golang ABI constant registers
 	// Must match _cgolang_reginit in runtime package.
 	xor 0, 0, 0
 
-	// Restore g pointer (r30 in Go ABI, which may have been clobbered by C)
+	// Restore g pointer (r30 in Golang ABI, which may have been clobbered by C)
 	mr	30, 4
 
 	// Call fn

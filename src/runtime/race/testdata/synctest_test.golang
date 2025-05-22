@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func TestRaceSynctestGoroutinesExit(t *testing.T) {
+func TestRaceSynctestGolangroutinesExit(t *testing.T) {
 	synctest.Run(func() {
 		x := 0
 		_ = x
@@ -22,7 +22,7 @@ func TestRaceSynctestGoroutinesExit(t *testing.T) {
 	})
 }
 
-func TestNoRaceSynctestGoroutinesExit(t *testing.T) {
+func TestNoRaceSynctestGolangroutinesExit(t *testing.T) {
 	synctest.Run(func() {
 		x := 0
 		_ = x
@@ -35,7 +35,7 @@ func TestNoRaceSynctestGoroutinesExit(t *testing.T) {
 	})
 }
 
-func TestRaceSynctestGoroutinesRecv(t *testing.T) {
+func TestRaceSynctestGolangroutinesRecv(t *testing.T) {
 	synctest.Run(func() {
 		x := 0
 		_ = x
@@ -50,7 +50,7 @@ func TestRaceSynctestGoroutinesRecv(t *testing.T) {
 	})
 }
 
-func TestRaceSynctestGoroutinesUnblocked(t *testing.T) {
+func TestRaceSynctestGolangroutinesUnblocked(t *testing.T) {
 	synctest.Run(func() {
 		x := 0
 		_ = x
@@ -65,7 +65,7 @@ func TestRaceSynctestGoroutinesUnblocked(t *testing.T) {
 	})
 }
 
-func TestRaceSynctestGoroutinesSleep(t *testing.T) {
+func TestRaceSynctestGolangroutinesSleep(t *testing.T) {
 	synctest.Run(func() {
 		x := 0
 		_ = x

@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -165,7 +165,7 @@ func (enc *Encoder) Indent(prefix, indent string) {
 // Encode writes the XML encoding of v to the stream.
 //
 // See the documentation for [Marshal] for details about the conversion
-// of Go values to XML.
+// of Golang values to XML.
 //
 // Encode calls [Encoder.Flush] before returning.
 func (enc *Encoder) Encode(v any) error {
@@ -180,7 +180,7 @@ func (enc *Encoder) Encode(v any) error {
 // using start as the outermost tag in the encoding.
 //
 // See the documentation for [Marshal] for details about the conversion
-// of Go values to XML.
+// of Golang values to XML.
 //
 // EncodeElement calls [Encoder.Flush] before returning.
 func (enc *Encoder) EncodeElement(v any, start StartElement) error {
@@ -438,7 +438,7 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 
 	// Drill into interfaces and pointers.
 	// This can turn into an infinite loop given a cyclic chain,
-	// but it matches the Go 1 behavior.
+	// but it matches the Golang 1 behavior.
 	for val.Kind() == reflect.Interface || val.Kind() == reflect.Pointer {
 		if val.IsNil() {
 			return nil
@@ -820,7 +820,7 @@ var ddBytes = []byte("--")
 // indirect drills into interfaces and pointers, returning the pointed-at value.
 // If it encounters a nil interface or pointer, indirect returns that nil value.
 // This can turn into an infinite loop given a cyclic chain,
-// but it matches the Go 1 behavior.
+// but it matches the Golang 1 behavior.
 func indirect(vf reflect.Value) reflect.Value {
 	for vf.Kind() == reflect.Interface || vf.Kind() == reflect.Pointer {
 		if vf.IsNil() {

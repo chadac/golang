@@ -1,7 +1,7 @@
 # Regression test for https://golanglang.org/issue/46462.
 #
 # The "runtime/cgolang" import found in synthesized .golang files (reported in
-# the CompiledGoFiles field) should have a corresponding entry in the
+# the CompiledGolangFiles field) should have a corresponding entry in the
 # ImportMap field when a runtime/cgolang variant (such as a test variant)
 # will be used.
 

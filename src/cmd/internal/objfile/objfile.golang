@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -73,9 +73,9 @@ func Open(name string) (*File, error) {
 	if err != nil {
 		return nil, err
 	}
-	if f, err := openGoFile(r); err == nil {
+	if f, err := openGolangFile(r); err == nil {
 		return f, nil
-	} else if _, ok := err.(archive.ErrGoObjOtherVersion); ok {
+	} else if _, ok := err.(archive.ErrGolangObjOtherVersion); ok {
 		return nil, fmt.Errorf("open %s: %v", name, err)
 	}
 	for _, try := range openers {
@@ -136,7 +136,7 @@ func (e *Entry) Symbols() ([]Sym, error) {
 
 func (e *Entry) PCLineTable() (Liner, error) {
 	// If the raw file implements Liner directly, use that.
-	// Currently, only Go intermediate objects and archives (golangobj) use this path.
+	// Currently, only Golang intermediate objects and archives (golangobj) use this path.
 	if pcln, ok := e.raw.(Liner); ok {
 		return pcln, nil
 	}

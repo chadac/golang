@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -121,14 +121,14 @@ int main(int argc, char** argv) {
 	}
 
 	// Start some golangroutines.
-	fn = (void(*)(void))dlsym(handle, "RunGoroutines");
+	fn = (void(*)(void))dlsym(handle, "RunGolangroutines");
 	if (fn == NULL) {
 		fprintf(stderr, "%s\n", dlerror());
 		exit(EXIT_FAILURE);
 	}
 
 	if (verbose) {
-		fprintf(stderr, "calling RunGoroutines\n");
+		fprintf(stderr, "calling RunGolangroutines\n");
 	}
 
 	fn();
@@ -197,7 +197,7 @@ int main(int argc, char** argv) {
 		fprintf(stderr, "calling dlsym\n");
 	}
 
-	// Make sure that a SIGSEGV in Go causes a run-time panic.
+	// Make sure that a SIGSEGV in Golang causes a run-time panic.
 	fn = (void (*)(void))dlsym(handle, "TestSEGV");
 	if (fn == NULL) {
 		fprintf(stderr, "%s\n", dlerror());

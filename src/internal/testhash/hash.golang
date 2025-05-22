@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -74,7 +74,7 @@ func TestHashWithoutClone(t *testing.T, mh MakeHash) {
 		// Set of example strings to append digest to
 		prefixes := [][]byte{nil, emptyBuff, shortBuff, longBuff}
 
-		// Go to each string and check digest gets appended to and is correct size.
+		// Golang to each string and check digest gets appended to and is correct size.
 		for _, prefix := range prefixes {
 			h.Reset()
 

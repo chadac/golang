@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -265,9 +265,9 @@ func newosproc0(stacksize uintptr, fn unsafe.Pointer) {
 	}
 }
 
-// Called to do synchronous initialization of Go code built with
+// Called to do synchronous initialization of Golang code built with
 // -buildmode=c-archive or -buildmode=c-shared.
-// None of the Go runtime is initialized.
+// None of the Golang runtime is initialized.
 //
 //golang:nosplit
 //golang:nowritebarrierrec
@@ -465,7 +465,7 @@ func asmSigaction(sig uintptr, new, old *sigactiont) int32
 // raise sends a signal to the calling thread.
 //
 // It must be nosplit because it is used by the signal handler before
-// it definitely has a Go stack.
+// it definitely has a Golang stack.
 //
 //golang:nosplit
 func raise(sig uint32) {

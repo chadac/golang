@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -577,7 +577,7 @@ func checkMarks(t *testing.T, report bool) {
 	})
 }
 
-// Assumes that each node name is unique. Good enough for a test.
+// Assumes that each node name is unique. Golangod enough for a test.
 // If clear is true, any incoming error is cleared before return. The errors
 // are always accumulated, though.
 func mark(d fs.DirEntry, err error, errors *[]error, clear bool) error {

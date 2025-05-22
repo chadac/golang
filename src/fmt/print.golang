@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -64,12 +64,12 @@ type Stringer interface {
 	String() string
 }
 
-// GoStringer is implemented by any value that has a GoString method,
-// which defines the Go syntax for that value.
-// The GoString method is used to print values passed as an operand
+// GolangStringer is implemented by any value that has a GolangString method,
+// which defines the Golang syntax for that value.
+// The GolangString method is used to print values passed as an operand
 // to a %#v format.
-type GoStringer interface {
-	GoString() string
+type GolangStringer interface {
+	GolangString() string
 }
 
 // FormatString returns a string representing the fully qualified formatting
@@ -641,13 +641,13 @@ func (p *pp) handleMethods(verb rune) (handled bool) {
 		return
 	}
 
-	// If we're doing Go syntax and the argument knows how to supply it, take care of it now.
+	// If we're doing Golang syntax and the argument knows how to supply it, take care of it now.
 	if p.fmt.sharpV {
-		if stringer, ok := p.arg.(GoStringer); ok {
+		if stringer, ok := p.arg.(GolangStringer); ok {
 			handled = true
-			defer p.catchPanic(p.arg, verb, "GoString")
-			// Print the result of GoString unadorned.
-			p.fmt.fmtS(stringer.GoString())
+			defer p.catchPanic(p.arg, verb, "GolangString")
+			// Print the result of GolangString unadorned.
+			p.fmt.fmtS(stringer.GolangString())
 			return
 		}
 	} else {
@@ -1064,7 +1064,7 @@ formatLoop:
 						p.wrappedErrs = append(p.wrappedErrs, argNum)
 						fallthrough
 					case 'v':
-						// Go syntax
+						// Golang syntax
 						p.fmt.sharpV = p.fmt.sharp
 						p.fmt.sharp = false
 						// Struct-field syntax
@@ -1162,7 +1162,7 @@ formatLoop:
 			p.wrappedErrs = append(p.wrappedErrs, argNum)
 			fallthrough
 		case verb == 'v':
-			// Go syntax
+			// Golang syntax
 			p.fmt.sharpV = p.fmt.sharp
 			p.fmt.sharp = false
 			// Struct-field syntax

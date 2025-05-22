@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -61,9 +61,9 @@ type Config struct {
 	Compiler                  string // gc or gccgolang, provided to MakeImporter
 	Dir                       string // (unused)
 	ImportPath                string // package path
-	GoVersion                 string // minimum required Go version, such as "golang1.21.0"
-	GoFiles                   []string
-	NonGoFiles                []string
+	GolangVersion                 string // minimum required Golang version, such as "golang1.21.0"
+	GolangFiles                   []string
+	NonGolangFiles                []string
 	IgnoredFiles              []string
 	ModulePath                string            // module path
 	ModuleVersion             string            // module version
@@ -95,7 +95,7 @@ func Main(analyzers ...*analysis.Analyzer) {
 	}
 
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, `%[1]s is a tool for static analysis of Go programs.
+		fmt.Fprintf(os.Stderr, `%[1]s is a tool for static analysis of Golang programs.
 
 Usage of %[1]s:
 	%.16[1]s unit.cfg	# execute analysis specified by config file
@@ -176,7 +176,7 @@ func readConfig(filename string) (*Config, error) {
 	if err := json.Unmarshal(data, cfg); err != nil {
 		return nil, fmt.Errorf("cannot decode JSON config file %s: %v", filename, err)
 	}
-	if len(cfg.GoFiles) == 0 {
+	if len(cfg.GolangFiles) == 0 {
 		// The golang command disallows packages with no files.
 		// The only exception is unsafe, but the golang command
 		// doesn't call vet on it.
@@ -238,7 +238,7 @@ var (
 func run(fset *token.FileSet, cfg *Config, analyzers []*analysis.Analyzer) ([]result, error) {
 	// Load, parse, typecheck.
 	var files []*ast.File
-	for _, name := range cfg.GoFiles {
+	for _, name := range cfg.GolangFiles {
 		f, err := parser.ParseFile(fset, name, nil, parser.ParseComments)
 		if err != nil {
 			if cfg.SucceedOnTypecheckFailure {
@@ -253,7 +253,7 @@ func run(fset *token.FileSet, cfg *Config, analyzers []*analysis.Analyzer) ([]re
 	tc := &types.Config{
 		Importer:  makeTypesImporter(cfg, fset),
 		Sizes:     types.SizesFor("gc", build.Default.GOARCH), // TODO(adonovan): use cfg.Compiler
-		GoVersion: cfg.GoVersion,
+		GolangVersion: cfg.GolangVersion,
 	}
 	info := &types.Info{
 		Types:        make(map[ast.Expr]types.TypeAndValue),
@@ -363,14 +363,14 @@ func run(fset *token.FileSet, cfg *Config, analyzers []*analysis.Analyzer) ([]re
 			module := &analysis.Module{
 				Path:      cfg.ModulePath,
 				Version:   cfg.ModuleVersion,
-				GoVersion: cfg.GoVersion,
+				GolangVersion: cfg.GolangVersion,
 			}
 
 			pass := &analysis.Pass{
 				Analyzer:     a,
 				Fset:         fset,
 				Files:        files,
-				OtherFiles:   cfg.NonGoFiles,
+				OtherFiles:   cfg.NonGolangFiles,
 				IgnoredFiles: cfg.IgnoredFiles,
 				Pkg:          pkg,
 				TypesInfo:    info,

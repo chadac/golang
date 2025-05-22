@@ -1,10 +1,10 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for 386, OpenBSD
 // System calls are implemented in libc/libpthread, this file
-// contains trampolines that convert from Go to C calling convention.
+// contains trampolines that convert from Golang to C calling convention.
 // Some direct system call implementations currently remain.
 //
 
@@ -45,7 +45,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$28
 	MOVL	bp-8(SP),  BP
 	MOVL	bx-4(SP),  BX
 
-	// Go is all done with this OS thread.
+	// Golang is all done with this OS thread.
 	// Tell pthread everything is ok (we never join with this thread, so
 	// the value here doesn't really matter).
 	MOVL	$0, AX
@@ -62,7 +62,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-16
 	MOVL	BX, 0(SP)
 	MOVL	CX, 4(SP)
 	MOVL	DX, 8(SP)
-	MOVL	SI, 12(SP)	// save SI: handler might be a Go function
+	MOVL	SI, 12(SP)	// save SI: handler might be a Golang function
 	CALL	AX
 	MOVL	12(SP), AX
 	MOVL	AX, SP
@@ -93,7 +93,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	MOVL	bx-4(SP),  BX
 	RET
 
-// These trampolines help convert from Go calling convention to C calling convention.
+// These trampolines help convert from Golang calling convention to C calling convention.
 // They should be called with asmcgolangcall - note that while asmcgolangcall does
 // stack alignment, creation of a frame undoes it again.
 // A pointer to the arguments is passed on the stack.

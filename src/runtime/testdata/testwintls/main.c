@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
         return 1;
     }
     // Allocate more than 64 TLS indices
-    // so the Go runtime doesn't find
+    // so the Golang runtime doesn't find
     // enough space in the TEB TLS slots.
     for (int i = 0; i < 65; i++) {
         TlsAlloc();

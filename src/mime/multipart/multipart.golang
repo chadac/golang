@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
@@ -51,7 +51,7 @@ const peekBufferSize = 4096
 // A Part represents a single part in a multipart body.
 type Part struct {
 	// The headers of the body, if any, with the keys canonicalized
-	// in the same fashion that the Go http.Request headers are.
+	// in the same fashion that the Golang http.Request headers are.
 	// For example, "foo-bar" changes case to "Foo-Bar"
 	Header textproto.MIMEHeader
 

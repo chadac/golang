@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,8 +21,8 @@ Derived from Plan 9 from User Space's src/libmach/elf.h, elf.c
 https://github.com/9fans/plan9port/tree/master/src/libmach/
 
 	Copyright © 2004 Russ Cox.
-	Portions Copyright © 2008-2010 Google Inc.
-	Portions Copyright © 2010 The Go Authors.
+	Portions Copyright © 2008-2010 Golangogle Inc.
+	Portions Copyright © 2010 The Golang Authors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

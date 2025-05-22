@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -67,7 +67,7 @@ func readRelocs(sh *SectionHeader, r io.ReadSeeker) ([]Reloc, error) {
 }
 
 // SectionHeader is similar to [SectionHeader32] with Name
-// field replaced by Go string.
+// field replaced by Golang string.
 type SectionHeader struct {
 	Name                 string
 	VirtualSize          uint32

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,7 +32,7 @@ static void pthread_key_destructor(void* g);
 uintptr_t x_cgolang_pthread_key_created;
 void (*x_crosscall2_ptr)(void (*fn)(void *), void *, int, size_t);
 
-// The context function, used when tracing back C calls into Go.
+// The context function, used when tracing back C calls into Golang.
 static void (*cgolang_context_function)(struct context_arg*);
 
 void
@@ -71,12 +71,12 @@ _cgolang_wait_runtime_init_done(void) {
 		}
 
 
-		// TODO(iant): For the case of a new C thread calling into Go, such
-		// as when using -buildmode=c-archive, we know that Go runtime
-		// initialization is complete but we do not know that all Go init
+		// TODO(iant): For the case of a new C thread calling into Golang, such
+		// as when using -buildmode=c-archive, we know that Golang runtime
+		// initialization is complete but we do not know that all Golang init
 		// functions have been run. We should not fetch cgolang_context_function
 		// until they have been, because that is where a call to
-		// SetCgolangTraceback is likely to occur. We are golanging to wait for Go
+		// SetCgolangTraceback is likely to occur. We are golanging to wait for Golang
 		// initialization to be complete anyhow, later, by waiting for
 		// main_init_done to be closed in cgolangcallbackg1. We should wait here
 		// instead. See also issue #15943.
@@ -139,7 +139,7 @@ x_cgolang_notify_runtime_init_done(void* dummy __attribute__ ((unused))) {
 }
 
 // Sets the context function to call to record the traceback context
-// when calling a Go function from C code. Called from runtime.SetCgolangTraceback.
+// when calling a Golang function from C code. Called from runtime.SetCgolangTraceback.
 void x_cgolang_set_context_function(void (*context)(struct context_arg*)) {
 	__atomic_store_n(&cgolang_context_function, context, __ATOMIC_RELEASE);
 }
@@ -177,7 +177,7 @@ pthread_key_destructor(void* g) {
 	if (x_crosscall2_ptr != NULL) {
 		// fn == NULL means dropm.
 		// We restore g by using the stored g, before dropm in runtime.cgolangcallback,
-		// since the g stored in the TLS by Go might be cleared in some platforms,
+		// since the g stored in the TLS by Golang might be cleared in some platforms,
 		// before this destructor invoked.
 		x_crosscall2_ptr(NULL, g, 0, 0);
 	}

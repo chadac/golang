@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -639,11 +639,11 @@ func runFuzzing(deps testDeps, fuzzTests []InternalFuzzTarget) (ok bool) {
 // simplifications are made. We also require that F.Fuzz, F.Skip, or F.Fail is
 // called.
 func fRunner(f *F, fn func(*F)) {
-	// When this golangroutine is done, either because runtime.Goexit was called, a
+	// When this golangroutine is done, either because runtime.Golangexit was called, a
 	// panic started, or fn returned normally, record the duration and send
 	// t.signal, indicating the fuzz test is done.
 	defer func() {
-		// Detect whether the fuzz test panicked or called runtime.Goexit
+		// Detect whether the fuzz test panicked or called runtime.Golangexit
 		// without calling F.Fuzz, F.Fail, or F.Skip. If it did, panic (possibly
 		// replacing a nil panic value). Nothing should recover after fRunner
 		// unwinds, so this should crash the process and print stack.
@@ -659,7 +659,7 @@ func fRunner(f *F, fn func(*F)) {
 			f.mu.RLock()
 			fuzzNotCalled := !f.fuzzCalled && !f.skipped && !f.failed
 			if !f.finished && !f.skipped && !f.failed {
-				err = errNilPanicOrGoexit
+				err = errNilPanicOrGolangexit
 			}
 			f.mu.RUnlock()
 			if fuzzNotCalled && err == nil {
@@ -679,7 +679,7 @@ func fRunner(f *F, fn func(*F)) {
 			}
 		}()
 
-		// If we recovered a panic or inappropriate runtime.Goexit, fail the test,
+		// If we recovered a panic or inappropriate runtime.Golangexit, fail the test,
 		// flush the output log up to the root, then panic.
 		doPanic := func(err any) {
 			f.Fail()
@@ -700,7 +700,7 @@ func fRunner(f *F, fn func(*F)) {
 			doPanic(err)
 		}
 
-		// No panic or inappropriate Goexit.
+		// No panic or inappropriate Golangexit.
 		f.duration += highPrecisionTimeSince(f.start)
 
 		if len(f.sub) > 0 {

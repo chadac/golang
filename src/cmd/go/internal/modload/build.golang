@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -296,14 +296,14 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 			Version: m.Version,
 			Main:    true,
 		}
-		if v, ok := rawGoVersion.Load(m); ok {
-			info.GoVersion = v.(string)
+		if v, ok := rawGolangVersion.Load(m); ok {
+			info.GolangVersion = v.(string)
 		} else {
-			panic("internal error: GoVersion not set for main module")
+			panic("internal error: GolangVersion not set for main module")
 		}
 		if modRoot := MainModules.ModRoot(m); modRoot != "" {
 			info.Dir = modRoot
-			info.GoMod = modFilePath(modRoot)
+			info.GolangMod = modFilePath(modRoot)
 		}
 		return info
 	}
@@ -313,8 +313,8 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 		Version:  m.Version,
 		Indirect: rs != nil && !rs.direct[m.Path],
 	}
-	if v, ok := rawGoVersion.Load(m); ok {
-		info.GoVersion = v.(string)
+	if v, ok := rawGolangVersion.Load(m); ok {
+		info.GolangVersion = v.(string)
 	}
 
 	// completeFromModCache fills in the extra fields in m using the module cache.
@@ -348,11 +348,11 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 			}
 		}
 
-		if m.GoVersion == "" && checksumOk("/golang.mod") {
-			// Load the golang.mod file to determine the Go version, since it hasn't
-			// already been populated from rawGoVersion.
-			if summary, err := rawGoModSummary(mod); err == nil && summary.golangVersion != "" {
-				m.GoVersion = summary.golangVersion
+		if m.GolangVersion == "" && checksumOk("/golang.mod") {
+			// Load the golang.mod file to determine the Golang version, since it hasn't
+			// already been populated from rawGolangVersion.
+			if summary, err := rawGolangModSummary(mod); err == nil && summary.golangVersion != "" {
+				m.GolangVersion = summary.golangVersion
 			}
 		}
 
@@ -361,11 +361,11 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 				golangmod, err := modfetch.CachePath(ctx, mod, "mod")
 				if err == nil {
 					if info, err := os.Stat(golangmod); err == nil && info.Mode().IsRegular() {
-						m.GoMod = golangmod
+						m.GolangMod = golangmod
 					}
 				}
 				if golangmodsum, ok := modfetch.RecordedSum(modkey(mod)); ok {
-					m.GoModSum = golangmodsum
+					m.GolangModSum = golangmodsum
 				}
 			}
 			if checksumOk("") {
@@ -407,14 +407,14 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 
 	// Don't hit the network to fill in extra data for replaced modules.
 	// The original resolved Version and Time don't matter enough to be
-	// worth the cost, and we're golanging to overwrite the GoMod and Dir from the
+	// worth the cost, and we're golanging to overwrite the GolangMod and Dir from the
 	// replacement anyway. See https://golanglang.org/issue/27859.
 	info.Replace = &modinfo.ModulePublic{
 		Path:    r.Path,
 		Version: r.Version,
 	}
-	if v, ok := rawGoVersion.Load(m); ok {
-		info.Replace.GoVersion = v.(string)
+	if v, ok := rawGolangVersion.Load(m); ok {
+		info.Replace.GolangVersion = v.(string)
 	}
 	if r.Version == "" {
 		if filepath.IsAbs(r.Path) {
@@ -422,15 +422,15 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 		} else {
 			info.Replace.Dir = filepath.Join(replaceRelativeTo(), r.Path)
 		}
-		info.Replace.GoMod = filepath.Join(info.Replace.Dir, "golang.mod")
+		info.Replace.GolangMod = filepath.Join(info.Replace.Dir, "golang.mod")
 	}
 	if cfg.BuildMod != "vendor" {
 		completeFromModCache(info.Replace)
 		info.Dir = info.Replace.Dir
-		info.GoMod = info.Replace.GoMod
+		info.GolangMod = info.Replace.GolangMod
 		info.Retracted = info.Replace.Retracted
 	}
-	info.GoVersion = info.Replace.GoVersion
+	info.GolangVersion = info.Replace.GolangVersion
 	return info
 }
 

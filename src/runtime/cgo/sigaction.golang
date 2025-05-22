@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,8 +11,8 @@ import _ "unsafe"
 
 // When using cgolang, call the C library for sigaction, so that we call into
 // any sanitizer interceptors. This supports using the sanitizers
-// with Go programs. The thread and memory sanitizers only apply to
-// C/C++ code; this permits that code to see the Go runtime's existing signal
+// with Golang programs. The thread and memory sanitizers only apply to
+// C/C++ code; this permits that code to see the Golang runtime's existing signal
 // handlers when registering new signal handlers for the process.
 
 //golang:cgolang_import_static x_cgolang_sigaction

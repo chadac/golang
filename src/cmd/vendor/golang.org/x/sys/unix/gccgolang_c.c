@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@
 #define GOSYM_PREFIX _STRINGIFY_(__USER_LABEL_PREFIX__)
 
 // Call syscall from C code because the gccgolang support for calling from
-// Go to C does not support varargs functions.
+// Golang to C does not support varargs functions.
 
 struct ret {
 	uintptr_t r;

@@ -5,12 +5,12 @@
 #include "textflag.h"
 
 // runtime·callbackasm is called by external code to
-// execute Go implemented callback function. It is not
+// execute Golang implemented callback function. It is not
 // called from the start, instead runtime·compilecallback
 // always returns address into runtime·callbackasm offset
 // appropriately so different callbacks start with different
 // CALL instruction in runtime·callbackasm. This determines
-// which Go callback function is executed later on.
+// which Golang callback function is executed later on.
 
 TEXT runtime·callbackasm(SB),NOSPLIT|NOFRAME,$0
 	CALL	runtime·callbackasm1(SB)

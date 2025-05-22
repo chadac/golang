@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,7 +9,7 @@ import (
 	. "internal/types/errors"
 )
 
-// This file implements a check to validate that a Go package doesn't
+// This file implements a check to validate that a Golang package doesn't
 // have unbounded recursive instantiation, which is not compatible
 // with compilers using static instantiation (such as
 // monomorphization).
@@ -181,7 +181,7 @@ func (w *monoGraph) recordInstance(pkg *Package, pos syntax.Pos, tparams []*Type
 
 // assign records that tpar was instantiated as targ at pos.
 func (w *monoGraph) assign(pkg *Package, pos syntax.Pos, tpar *TypeParam, targ Type) {
-	// Go generics do not have an analog to C++`s template-templates,
+	// Golang generics do not have an analog to C++`s template-templates,
 	// where a template parameter can itself be an instantiable
 	// template. So any instantiation cycles must occur within a single
 	// package. Accordingly, we can ignore instantiations of imported

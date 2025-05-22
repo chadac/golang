@@ -1,8 +1,8 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// When linking C ELFv2 objects, the Go linker may need to insert calling stubs.
+// When linking C ELFv2 objects, the Golang linker may need to insert calling stubs.
 // A call stub is usually needed when the ELFv2 st_other attribute is different
 // between caller and callee.
 //
@@ -15,7 +15,7 @@
 // call each other to test various calling combinations which require stubs.
 //
 // The call tree is as follows, starting from TestPPC64Stubs (A C function):
-// TestPPC64Stubs (compiled PIC by default by Go)
+// TestPPC64Stubs (compiled PIC by default by Golang)
 //   notoc_func          [called TOC -> NOTOC (but R2 is preserved)]
 //     toc_func          [called NOTOC -> TOC]
 //       notoc_nor2_func [called TOC -> NOTOC]

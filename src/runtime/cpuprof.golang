@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -39,16 +39,16 @@ type cpuProfile struct {
 	on   bool     // profiling is on
 	log  *profBuf // profile events written here
 
-	// extra holds extra stacks accumulated in addNonGo
+	// extra holds extra stacks accumulated in addNonGolang
 	// corresponding to profiling signals arriving on
-	// non-Go-created threads. Those stacks are written
-	// to log the next time a normal Go thread gets the
+	// non-Golang-created threads. Those stacks are written
+	// to log the next time a normal Golang thread gets the
 	// signal handler.
 	// Assuming the stacks are 2 words each (we don't get
 	// a full traceback from those threads), plus one word
 	// size for framing, 100 Hz profiling would generate
 	// 300 words per second.
-	// Hopefully a normal Go thread will get the profiling
+	// Hopefully a normal Golang thread will get the profiling
 	// signal at least once every few seconds.
 	extra      [1000]uintptr
 	numExtra   int
@@ -125,19 +125,19 @@ func (p *cpuProfile) add(tagPtr *unsafe.Pointer, stk []uintptr) {
 	prof.signalLock.Store(0)
 }
 
-// addNonGo adds the non-Go stack trace to the profile.
-// It is called from a non-Go thread, so we cannot use much stack at all,
+// addNonGolang adds the non-Golang stack trace to the profile.
+// It is called from a non-Golang thread, so we cannot use much stack at all,
 // nor do anything that needs a g or an m.
 // In particular, we can't call cpuprof.log.write.
 // Instead, we copy the stack into cpuprof.extra,
-// which will be drained the next time a Go thread
+// which will be drained the next time a Golang thread
 // gets the signal handling event.
 //
 //golang:nosplit
 //golang:nowritebarrierrec
-func (p *cpuProfile) addNonGo(stk []uintptr) {
+func (p *cpuProfile) addNonGolang(stk []uintptr) {
 	// Simple cas-lock to coordinate with SetCPUProfileRate.
-	// (Other calls to add or addNonGo should be blocked out
+	// (Other calls to add or addNonGolang should be blocked out
 	// by the fact that only one SIGPROF can be handled by the
 	// process at a time. If not, this lock will serialize those too.
 	// The use of timer_create(2) on Linux to request process-targeted
@@ -160,12 +160,12 @@ func (p *cpuProfile) addNonGo(stk []uintptr) {
 }
 
 // addExtra adds the "extra" profiling events,
-// queued by addNonGo, to the profile log.
-// addExtra is called either from a signal handler on a Go thread
+// queued by addNonGolang, to the profile log.
+// addExtra is called either from a signal handler on a Golang thread
 // or from an ordinary golangroutine; either way it can use stack
 // and has a g. The world may be stopped, though.
 func (p *cpuProfile) addExtra() {
-	// Copy accumulated non-Go profile events.
+	// Copy accumulated non-Golang profile events.
 	hdr := [1]uint64{1}
 	for i := 0; i < p.numExtra; {
 		p.log.write(nil, 0, hdr[:], p.extra[i+1:i+int(p.extra[i])])

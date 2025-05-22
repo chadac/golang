@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -89,7 +89,7 @@ func Test(t *testing.T) {
 		t.Setenv("GOARCH", golangarch)
 	}
 
-	golangTool = testenv.GoToolPath(t)
+	golangTool = testenv.GolangToolPath(t)
 	cmd := exec.Command(golangTool, "env", "-json")
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
@@ -326,13 +326,13 @@ func getPackageNameFromSource(fn string) (string, error) {
 	return pkgname[1], nil
 }
 
-// golangDirPkg represents a Go package in some directory.
+// golangDirPkg represents a Golang package in some directory.
 type golangDirPkg struct {
 	name  string
 	files []string
 }
 
-// golangDirPackages returns distinct Go packages in dir.
+// golangDirPackages returns distinct Golang packages in dir.
 // If singlefilepkgs is set, each file is considered a separate package
 // even if the package names are the same.
 func golangDirPackages(t *testing.T, dir string, singlefilepkgs bool) []*golangDirPkg {
@@ -400,7 +400,7 @@ func (ctxt *context) match(name string) bool {
 	}
 
 	// Tags must be letters, digits, underscores or dots.
-	// Unlike in Go identifiers, all digits are fine (e.g., "386").
+	// Unlike in Golang identifiers, all digits are fine (e.g., "386").
 	for _, c := range name {
 		if !unicode.IsLetter(c) && !unicode.IsDigit(c) && c != '_' && c != '.' {
 			return false
@@ -472,7 +472,7 @@ func (t test) run() error {
 	for actionSrc := src; action == "" && actionSrc != ""; {
 		var line string
 		line, actionSrc, _ = strings.Cut(actionSrc, "\n")
-		if constraint.IsGoBuild(line) || constraint.IsPlusBuild(line) {
+		if constraint.IsGolangBuild(line) || constraint.IsPlusBuild(line) {
 			continue
 		}
 		action = strings.TrimSpace(strings.TrimPrefix(line, "//"))
@@ -568,7 +568,7 @@ func (t test) run() error {
 			golangdebug += args[0]
 			runenv = append(runenv, "GODEBUG="+golangdebug)
 
-		case "-golangmodversion": // set the GoVersion in generated golang.mod files (just runindir ATM)
+		case "-golangmodversion": // set the GolangVersion in generated golang.mod files (just runindir ATM)
 			args = args[1:]
 			golangmodvers = args[0]
 
@@ -633,7 +633,7 @@ func (t test) run() error {
 		if tim != 0 {
 			err = cmd.Start()
 			// This command-timeout code adapted from cmd/golang/test.golang
-			// Note: the Go command uses a more sophisticated timeout
+			// Note: the Golang command uses a more sophisticated timeout
 			// strategy, first sending SIGQUIT (if appropriate for the
 			// OS in question) to try to trigger a stack trace, then
 			// finally much later SIGKILL. If timeouts prove to be a
@@ -688,7 +688,7 @@ func (t test) run() error {
 		panic("unreachable")
 
 	case "asmcheck":
-		// Compile Go file and match the generated assembly
+		// Compile Golang file and match the generated assembly
 		// against a set of regexps in comments.
 		ops := t.wantedAsmOpcodes(long)
 		self := runtime.GOOS + "/" + runtime.GOARCH
@@ -741,7 +741,7 @@ func (t test) run() error {
 		return nil
 
 	case "errorcheck":
-		// Compile Go file.
+		// Compile Golang file.
 		// Fail if wantError is true and compilation was successful and vice versa.
 		// Match errors produced by gc against errors in comments.
 		// TODO(gri) remove need for -C (disable printing of columns in error messages)
@@ -768,7 +768,7 @@ func (t test) run() error {
 		return t.errorCheck(string(out), wantAuto, long, t.golangFile)
 
 	case "compile":
-		// Compile Go file.
+		// Compile Golang file.
 		_, err := compileFile(runcmd, long, flags)
 		return err
 
@@ -911,7 +911,7 @@ func (t test) run() error {
 		return t.checkExpectedOutput(out)
 
 	case "build":
-		// Build Go file.
+		// Build Golang file.
 		cmd := []string{golangTool, "build", t.golangGcflags()}
 		cmd = append(cmd, flags...)
 		cmd = append(cmd, "-o", "a.exe", long)
@@ -991,16 +991,16 @@ func (t test) run() error {
 		return t.checkExpectedOutput(out)
 
 	case "buildrun":
-		// Build an executable from Go file, then run it, verify its output.
+		// Build an executable from Golang file, then run it, verify its output.
 		// Useful for timeout tests where failure mode is infinite loop.
 		// TODO: not supported on NaCl
 		cmd := []string{golangTool, "build", t.golangGcflags(), "-o", "a.exe"}
 		if *linkshared {
 			cmd = append(cmd, "-linkshared")
 		}
-		longDirGoFile := filepath.Join(filepath.Join(t.golangrootTestDir, t.dir), t.golangFile)
+		longDirGolangFile := filepath.Join(filepath.Join(t.golangrootTestDir, t.dir), t.golangFile)
 		cmd = append(cmd, flags...)
-		cmd = append(cmd, longDirGoFile)
+		cmd = append(cmd, longDirGolangFile)
 		_, err := runcmd(cmd...)
 		if err != nil {
 			return err
@@ -1014,7 +1014,7 @@ func (t test) run() error {
 		return t.checkExpectedOutput(out)
 
 	case "run":
-		// Run Go file if no special golang command flags are provided;
+		// Run Golang file if no special golang command flags are provided;
 		// otherwise build an executable and run it.
 		// Verify the output.
 		runInDir = ""
@@ -1054,8 +1054,8 @@ func (t test) run() error {
 		return t.checkExpectedOutput(out)
 
 	case "runoutput":
-		// Run Go file and write its output into temporary Go file.
-		// Run generated Go file and verify its output.
+		// Run Golang file and write its output into temporary Golang file.
+		// Run generated Golang file and verify its output.
 		t.runoutputGate <- true
 		defer func() {
 			<-t.runoutputGate
@@ -1086,8 +1086,8 @@ func (t test) run() error {
 		return t.checkExpectedOutput(out)
 
 	case "errorcheckoutput":
-		// Run Go file and write its output into temporary Go file.
-		// Compile and errorCheck generated Go file.
+		// Run Golang file and write its output into temporary Golang file.
+		// Compile and errorCheck generated Golang file.
 		runInDir = ""
 		cmd := []string{golangTool, "run", t.golangGcflags()}
 		if *linkshared {

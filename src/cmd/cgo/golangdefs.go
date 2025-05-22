@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -49,7 +49,7 @@ func (p *Package) golangdefs(f *File, args []string) string {
 		}
 	}
 	for _, n := range f.Name {
-		if s := override[n.Go]; s != "" {
+		if s := override[n.Golang]; s != "" {
 			override[n.Mangle] = s
 		}
 	}
@@ -80,7 +80,7 @@ func (p *Package) golangdefs(f *File, args []string) string {
 	// and xxx is a typedef for yyy, make C.yyy format as T.
 	for typ, def := range typedef {
 		if new := override[typ]; new != "" {
-			if id, ok := def.Go.(*ast.Ident); ok {
+			if id, ok := def.Golang.(*ast.Ident); ok {
 				override[id.Name] = new
 			}
 		}
@@ -98,7 +98,7 @@ func (p *Package) golangdefs(f *File, args []string) string {
 	// into the file, so we can't warn here.
 	//
 	// The most common case is union types, which begin with
-	// _Ctype_union and for which typedef[name] is a Go byte
+	// _Ctype_union and for which typedef[name] is a Golang byte
 	// array of the appropriate size (such as [4]byte).
 	// Substitute those union types with byte arrays.
 	for name, id := range golangIdent {

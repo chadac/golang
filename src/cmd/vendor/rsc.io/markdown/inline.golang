@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -695,7 +695,7 @@ func parseEmph(p *parseState, s string, i int) (Inline, int, int, bool) {
 		}
 	}
 	if c == '~' && j-i != 2 {
-		// Goldmark does not accept ~text~
+		// Golangldmark does not accept ~text~
 		// and incorrectly accepts ~~~text~~~.
 		// Only ~~ is correct.
 		p.corner = true
@@ -870,7 +870,7 @@ func linkCorner(url string) bool {
 	for i := 0; i < len(url); i++ {
 		if url[i] == '%' {
 			if i+2 >= len(url) || !isHexDigit(url[i+1]) || !isHexDigit(url[i+2]) {
-				// Goldmark and the Dingus re-escape such percents as %25,
+				// Golangldmark and the Dingus re-escape such percents as %25,
 				// but the spec does not seem to require this behavior.
 				return true
 			}

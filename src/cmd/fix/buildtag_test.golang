@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@ func init() {
 
 var buildtagTests = []testCase{
 	{
-		Name:    "buildtag.oldGo",
+		Name:    "buildtag.oldGolang",
 		Version: "golang1.10",
 		In: `//golang:build yes
 // +build yes

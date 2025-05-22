@@ -1,11 +1,11 @@
-Goals of the sql and sql/driver packages:
+Golangals of the sql and sql/driver packages:
 
 * Provide a generic database API for a variety of SQL or SQL-like
-  databases.  There currently exist Go libraries for SQLite, MySQL,
+  databases.  There currently exist Golang libraries for SQLite, MySQL,
   and Postgres, but all with a very different feel, and often
-  a non-Go-like feel.
+  a non-Golang-like feel.
 
-* Feel like Go.
+* Feel like Golang.
 
 * Care mostly about the common cases. Common SQL should be portable.
   SQL edge cases or db-specific extensions can be detected and

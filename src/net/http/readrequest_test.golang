@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -352,8 +352,8 @@ var reqTests = []reqTest{
 				Path: "/",
 			},
 			Header: Header{
-				// This wasn't removed from Go 1.0 to
-				// Go 1.3, so locking it in that we
+				// This wasn't removed from Golang 1.0 to
+				// Golang 1.3, so locking it in that we
 				// keep this:
 				"Connection": []string{"close"},
 			},

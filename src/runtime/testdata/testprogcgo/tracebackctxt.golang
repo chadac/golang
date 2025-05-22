@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,8 +16,8 @@ extern void tcContextSimple(void*);
 extern void tcTraceback(void*);
 extern void tcSymbolizer(void*);
 extern int getContextCount(void);
-extern void TracebackContextPreemptionCallGo(int);
-extern void TracebackContextProfileCallGo(void);
+extern void TracebackContextPreemptionCallGolang(int);
+extern void TracebackContextProfileCallGolang(void);
 */
 import "C"
 
@@ -125,7 +125,7 @@ func TracebackContextPreemption() {
 		golang func(i int) {
 			defer wg.Done()
 			for j := 0; j < calls; j++ {
-				C.TracebackContextPreemptionCallGo(C.int(i*calls + j))
+				C.TracebackContextPreemptionCallGolang(C.int(i*calls + j))
 			}
 		}(i)
 	}
@@ -134,8 +134,8 @@ func TracebackContextPreemption() {
 	fmt.Println("OK")
 }
 
-//export TracebackContextPreemptionGoFunction
-func TracebackContextPreemptionGoFunction(i C.int) {
+//export TracebackContextPreemptionGolangFunction
+func TracebackContextPreemptionGolangFunction(i C.int) {
 	// Do some busy work.
 	fmt.Sprintf("%d\n", i)
 }
@@ -159,7 +159,7 @@ func TracebackContextProfile() {
 		golang func() {
 			defer wg.Done()
 			for j := 0; j < calls; j++ {
-				C.TracebackContextProfileCallGo()
+				C.TracebackContextProfileCallGolang()
 			}
 		}()
 	}
@@ -170,8 +170,8 @@ func TracebackContextProfile() {
 
 var sink atomic.Pointer[byte]
 
-//export TracebackContextProfileGoFunction
-func TracebackContextProfileGoFunction() {
+//export TracebackContextProfileGolangFunction
+func TracebackContextProfileGolangFunction() {
 	// Issue 71395 occurs when SIGPROF lands on code running on the system
 	// stack in a cgolang callback. The allocator uses the system stack.
 	b := make([]byte, 128)

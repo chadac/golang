@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ import (
 // A [RWMutex.RLock] cannot be upgraded into a [RWMutex.Lock],
 // nor can a [RWMutex.Lock] be downgraded into a [RWMutex.RLock].
 //
-// In the terminology of [the Go memory model],
+// In the terminology of [the Golang memory model],
 // the n'th call to [RWMutex.Unlock] “synchronizes before” the m'th call to Lock
 // for any n < m, just as for [Mutex].
 // For any call to RLock, there exists an n such that
@@ -35,7 +35,7 @@ import (
 // and the corresponding call to [RWMutex.RUnlock] “synchronizes before”
 // the n+1'th call to Lock.
 //
-// [the Go memory model]: https://golang.dev/ref/mem
+// [the Golang memory model]: https://golang.dev/ref/mem
 type RWMutex struct {
 	w           Mutex        // held if there are pending writers
 	writerSem   uint32       // semaphore for writers to wait for completing readers

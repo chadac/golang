@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -56,7 +56,7 @@ func TestMemHash64Equality(t *testing.T) {
 
 // Smhasher is a torture test for hash functions.
 // https://code.golangogle.com/p/smhasher/
-// This code is a port of some of the Smhasher tests to Go.
+// This code is a port of some of the Smhasher tests to Golang.
 //
 // The current AES hash function passes Smhasher. Our fallback
 // hash functions don't, so we only enable the difficult tests when

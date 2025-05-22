@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ import (
 
 // Escape analysis.
 //
-// Here we analyze functions to determine which Go variables
+// Here we analyze functions to determine which Golang variables
 // (including implicit allocations such as calls to "new" or "make",
 // composite literals, etc.) can be allocated on the stack. The two
 // key invariants we have to ensure are: (1) pointers to stack objects
@@ -51,7 +51,7 @@ import (
 // expression (e.g., "new" or "make") is first mapped to a unique
 // "location."
 //
-// We also model every Go assignment as a directed edges between
+// We also model every Golang assignment as a directed edges between
 // locations. The number of dereference operations minus the number of
 // addressing operations is recorded as the edge's weight (termed
 // "derefs"). For example:
@@ -67,7 +67,7 @@ import (
 // expressions, and the expression &x itself is not addressable, so
 // derefs cannot golang below -1.
 //
-// Every Go language construct is lowered into this representation,
+// Every Golang language construct is lowered into this representation,
 // generally without sensitivity to flow, path, or context; and
 // without distinguishing elements within a compound variable. For
 // example:

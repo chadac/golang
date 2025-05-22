@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,24 +19,24 @@ import (
 	"cmd/golang/internal/modload"
 )
 
-var ErrNotGoDebug = errors.New("not //golang:debug line")
+var ErrNotGolangDebug = errors.New("not //golang:debug line")
 
-func ParseGoDebug(text string) (key, value string, err error) {
+func ParseGolangDebug(text string) (key, value string, err error) {
 	if !strings.HasPrefix(text, "//golang:debug") {
-		return "", "", ErrNotGoDebug
+		return "", "", ErrNotGolangDebug
 	}
 	i := strings.IndexAny(text, " \t")
 	if i < 0 {
 		if strings.TrimSpace(text) == "//golang:debug" {
 			return "", "", fmt.Errorf("missing key=value")
 		}
-		return "", "", ErrNotGoDebug
+		return "", "", ErrNotGolangDebug
 	}
 	k, v, ok := strings.Cut(strings.TrimSpace(text[i:]), "=")
 	if !ok {
 		return "", "", fmt.Errorf("missing key=value")
 	}
-	if err := modload.CheckGodebug("//golang:debug setting", k, v); err != nil {
+	if err := modload.CheckGolangdebug("//golang:debug setting", k, v); err != nil {
 		return "", "", err
 	}
 	return k, v, nil
@@ -49,13 +49,13 @@ func defaultGODEBUG(p *Package, directives, testDirectives, xtestDirectives []bu
 	if p.Name != "main" {
 		return ""
 	}
-	golangVersion := modload.MainModules.GoVersion()
+	golangVersion := modload.MainModules.GolangVersion()
 	if modload.RootMode == modload.NoRoot && p.Module != nil {
 		// This is golang install pkg@version or golang run pkg@version.
-		// Use the Go version from the package.
-		// If there isn't one, then assume Go 1.20,
+		// Use the Golang version from the package.
+		// If there isn't one, then assume Golang 1.20,
 		// the last version before GODEBUGs were introduced.
-		golangVersion = p.Module.GoVersion
+		golangVersion = p.Module.GolangVersion
 		if golangVersion == "" {
 			golangVersion = "1.20"
 		}
@@ -73,7 +73,7 @@ func defaultGODEBUG(p *Package, directives, testDirectives, xtestDirectives []bu
 	}
 
 	// Add directives from main module golang.mod.
-	for _, g := range modload.MainModules.Godebugs() {
+	for _, g := range modload.MainModules.Golangdebugs() {
 		if m == nil {
 			m = make(map[string]string)
 		}
@@ -83,7 +83,7 @@ func defaultGODEBUG(p *Package, directives, testDirectives, xtestDirectives []bu
 	// Add directives from packages.
 	for _, list := range [][]build.Directive{p.Internal.Build.Directives, directives, testDirectives, xtestDirectives} {
 		for _, d := range list {
-			k, v, err := ParseGoDebug(d.Text)
+			k, v, err := ParseGolangDebug(d.Text)
 			if err != nil {
 				continue
 			}
@@ -101,7 +101,7 @@ func defaultGODEBUG(p *Package, directives, testDirectives, xtestDirectives []bu
 		}
 	}
 
-	defaults := golangdebugForGoVersion(golangVersion)
+	defaults := golangdebugForGolangVersion(golangVersion)
 	if defaults != nil {
 		// Apply m on top of defaults.
 		maps.Copy(defaults, m)
@@ -125,7 +125,7 @@ func defaultGODEBUG(p *Package, directives, testDirectives, xtestDirectives []bu
 	return b.String()
 }
 
-func golangdebugForGoVersion(v string) map[string]string {
+func golangdebugForGolangVersion(v string) map[string]string {
 	if strings.Count(v, ".") >= 2 {
 		i := strings.Index(v, ".")
 		j := i + 1 + strings.Index(v[i+1:], ".")

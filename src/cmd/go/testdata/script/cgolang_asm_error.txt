@@ -2,9 +2,9 @@
 
 # Test that cgolang package can't contain a golang assembly file.
 
-# Ensure the build fails and reports that the package has a Go assembly file.
+# Ensure the build fails and reports that the package has a Golang assembly file.
 ! golang build cgolangasm
-stderr 'package using cgolang has Go assembly file'
+stderr 'package using cgolang has Golang assembly file'
 
 -- golang.mod --
 module cgolangasm

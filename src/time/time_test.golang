@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -767,7 +767,7 @@ var golangbTests = []Time{
 	Date(1, 2, 3, 4, 5, 6, 7, FixedZone("", -32768*60)),
 }
 
-func TestTimeGob(t *testing.T) {
+func TestTimeGolangb(t *testing.T) {
 	var b bytes.Buffer
 	enc := golangb.NewEncoder(&b)
 	dec := golangb.NewDecoder(&b)
@@ -793,12 +793,12 @@ var invalidEncodingTests = []struct {
 	{[]byte{1, 2, 3}, "Time.UnmarshalBinary: invalid length"},
 }
 
-func TestInvalidTimeGob(t *testing.T) {
+func TestInvalidTimeGolangb(t *testing.T) {
 	for _, tt := range invalidEncodingTests {
 		var ignored Time
-		err := ignored.GobDecode(tt.bytes)
+		err := ignored.GolangbDecode(tt.bytes)
 		if err == nil || err.Error() != tt.want {
-			t.Errorf("time.GobDecode(%#v) error = %v, want %v", tt.bytes, err, tt.want)
+			t.Errorf("time.GolangbDecode(%#v) error = %v, want %v", tt.bytes, err, tt.want)
 		}
 		err = ignored.UnmarshalBinary(tt.bytes)
 		if err == nil || err.Error() != tt.want {
@@ -816,11 +816,11 @@ var notEncodableTimes = []struct {
 	{Date(0, 1, 2, 3, 4, 5, 6, FixedZone("", 32768*60)), "Time.MarshalBinary: unexpected zone offset"},
 }
 
-func TestNotGobEncodableTime(t *testing.T) {
+func TestNotGolangbEncodableTime(t *testing.T) {
 	for _, tt := range notEncodableTimes {
-		_, err := tt.time.GobEncode()
+		_, err := tt.time.GolangbEncode()
 		if err == nil || err.Error() != tt.want {
-			t.Errorf("%v GobEncode error = %v, want %v", tt.time, err, tt.want)
+			t.Errorf("%v GolangbEncode error = %v, want %v", tt.time, err, tt.want)
 		}
 		_, err = tt.time.MarshalBinary()
 		if err == nil || err.Error() != tt.want {
@@ -862,14 +862,14 @@ func TestUnmarshalInvalidTimes(t *testing.T) {
 	}{
 		{`{}`, func() string {
 			if golangexperiment.JSONv2 {
-				return "json: cannot unmarshal JSON object into Go type time.Time"
+				return "json: cannot unmarshal JSON object into Golang type time.Time"
 			} else {
 				return "Time.UnmarshalJSON: input is not a JSON string"
 			}
 		}()},
 		{`[]`, func() string {
 			if golangexperiment.JSONv2 {
-				return "json: cannot unmarshal JSON array into Go type time.Time"
+				return "json: cannot unmarshal JSON array into Golang type time.Time"
 			} else {
 				return "Time.UnmarshalJSON: input is not a JSON string"
 			}
@@ -1134,8 +1134,8 @@ func TestLoadFixed(t *testing.T) {
 	}
 
 	// The tzdata name Etc/GMT+1 uses "east is negative",
-	// but Go and most other systems use "east is positive".
-	// So GMT+1 corresponds to -3600 in the Go zone, not +3600.
+	// but Golang and most other systems use "east is positive".
+	// So GMT+1 corresponds to -3600 in the Golang zone, not +3600.
 	name, offset := Now().In(loc).Zone()
 	// The zone abbreviation is "-01" since tzdata-2016g, and "GMT+1"
 	// on earlier versions; we accept both. (Issue 17276.)
@@ -1444,9 +1444,9 @@ var defaultLocTests = []struct {
 		a2, b2 := t2.MarshalBinary()
 		return bytes.Equal(a1, a2) && b1 == b2
 	}},
-	{"GobEncode", func(t1, t2 Time) bool {
-		a1, b1 := t1.GobEncode()
-		a2, b2 := t2.GobEncode()
+	{"GolangbEncode", func(t1, t2 Time) bool {
+		a1, b1 := t1.GolangbEncode()
+		a2, b2 := t2.GolangbEncode()
 		return bytes.Equal(a1, a2) && b1 == b2
 	}},
 	{"MarshalJSON", func(t1, t2 Time) bool {
@@ -1676,10 +1676,10 @@ func BenchmarkISOWeek(b *testing.B) {
 	}
 }
 
-func BenchmarkGoString(b *testing.B) {
+func BenchmarkGolangString(b *testing.B) {
 	t := Now()
 	for i := 0; i < b.N; i++ {
-		_ = t.GoString()
+		_ = t.GolangString()
 	}
 }
 

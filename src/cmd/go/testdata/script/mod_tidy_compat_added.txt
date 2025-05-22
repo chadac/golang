@@ -1,7 +1,7 @@
-# https://golanglang.org/issue/46141: 'golang mod tidy' for a Go 1.17 module should by
-# default preserve enough checksums for the module to be used by Go 1.16.
+# https://golanglang.org/issue/46141: 'golang mod tidy' for a Golang 1.17 module should by
+# default preserve enough checksums for the module to be used by Golang 1.16.
 #
-# We don't have a copy of Go 1.16 handy, but we can simulate it by editing the
+# We don't have a copy of Golang 1.16 handy, but we can simulate it by editing the
 # 'golang' version in the golang.mod file to 1.16, without actually updating the
 # requirements to match.
 
@@ -10,7 +10,7 @@
 env MODFMT='{{with .Module}}{{.Path}} {{.Version}}{{end}}'
 
 
-# For this module, Go 1.17 produces an error for one module, and Go 1.16
+# For this module, Golang 1.17 produces an error for one module, and Golang 1.16
 # produces a different error for a different module.
 
 cp golang.mod golang.mod.orig

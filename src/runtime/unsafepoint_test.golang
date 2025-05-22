@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,7 +40,7 @@ func TestUnsafePoint(t *testing.T) {
 	// and prevent this step from working. So there's a hack in
 	// cmd/golang/internal/test that exempts runtime tests from
 	// symbol stripping.
-	cmd := exec.Command(testenv.GoToolPath(t), "tool", "objdump", "-s", "setGlobalPointer", os.Args[0])
+	cmd := exec.Command(testenv.GolangToolPath(t), "tool", "objdump", "-s", "setGlobalPointer", os.Args[0])
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("can't objdump %v", err)

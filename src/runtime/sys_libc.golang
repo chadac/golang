@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -35,7 +35,7 @@ func libcCall(fn, arg unsafe.Pointer) int32 {
 		// libcCall reentrant; We remember the g/pc/sp for the
 		// first call on an M, until that libcCall instance
 		// returns.  Reentrance only matters for signals, as
-		// libc never calls back into Go.  The tricky case is
+		// libc never calls back into Golang.  The tricky case is
 		// where we call libcX from an M and record g/pc/sp.
 		// Before that call returns, a signal arrives on the
 		// same M and the signal handling code calls another

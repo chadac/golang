@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -52,7 +52,7 @@ func TestMain(m *testing.M) {
 
 	testHookUninstaller.Do(uninstallTestHooks)
 	if testing.Verbose() {
-		printRunningGoroutines()
+		printRunningGolangroutines()
 		printInflightSockets()
 		printSocketStats()
 	}
@@ -168,8 +168,8 @@ func setupTestData() {
 	}
 }
 
-func printRunningGoroutines() {
-	gss := runningGoroutines()
+func printRunningGolangroutines() {
+	gss := runningGolangroutines()
 	if len(gss) == 0 {
 		return
 	}
@@ -180,8 +180,8 @@ func printRunningGoroutines() {
 	fmt.Fprintf(os.Stderr, "\n")
 }
 
-// runningGoroutines returns a list of remaining golangroutines.
-func runningGoroutines() []string {
+// runningGolangroutines returns a list of remaining golangroutines.
+func runningGolangroutines() []string {
 	var gss []string
 	b := make([]byte, 2<<20)
 	b = b[:runtime.Stack(b, true)]

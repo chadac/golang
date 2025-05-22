@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -35,12 +35,12 @@ var (
 )
 
 // abiStep represents an ABI "instruction." Each instruction
-// describes one part of how to translate between a Go value
+// describes one part of how to translate between a Golang value
 // in memory and a call frame.
 type abiStep struct {
 	kind abiStepKind
 
-	// offset and size together describe a part of a Go value
+	// offset and size together describe a part of a Golang value
 	// in memory.
 	offset uintptr
 	size   uintptr // size in bytes of the part
@@ -72,13 +72,13 @@ type abiSeq struct {
 	//
 	// The instructions are grouped together by whole arguments,
 	// with the starting index for the instructions
-	// of the i'th Go value available in valueStart.
+	// of the i'th Golang value available in valueStart.
 	//
 	// For instance, if this abiSeq represents 3 arguments
 	// passed to a function, then the 2nd argument's steps
 	// begin at steps[valueStart[1]].
 	//
-	// Because reflect accepts Go arguments in distinct
+	// Because reflect accepts Golang arguments in distinct
 	// Values and each Value is stored separately, each abiStep
 	// that begins a new argument will have its offset
 	// field == 0.
@@ -104,8 +104,8 @@ func (a *abiSeq) dump() {
 }
 
 // stepsForValue returns the ABI instructions for translating
-// the i'th Go argument or return value represented by this
-// abiSeq to the Go ABI.
+// the i'th Golang argument or return value represented by this
+// abiSeq to the Golang ABI.
 func (a *abiSeq) stepsForValue(i int) []abiStep {
 	s := a.valueStart[i]
 	var e int
@@ -117,7 +117,7 @@ func (a *abiSeq) stepsForValue(i int) []abiStep {
 	return a.steps[s:e]
 }
 
-// addArg extends the abiSeq with a new Go value of type t.
+// addArg extends the abiSeq with a new Golang value of type t.
 //
 // If the value was stack-assigned, returns the single
 // abiStep describing that translation, and nil otherwise.
@@ -194,7 +194,7 @@ func (a *abiSeq) addRcvr(rcvr *abi.Type) (*abiStep, bool) {
 // must undo that work by adjusting a.steps if it fails.
 //
 // This method along with the assign* methods represent the
-// complete register-assignment algolangrithm for the Go ABI.
+// complete register-assignment algolangrithm for the Golang ABI.
 func (a *abiSeq) regAssign(t *abi.Type, offset uintptr) bool {
 	switch Kind(t.Kind()) {
 	case UnsafePointer, Pointer, Chan, Map, Func:
@@ -327,7 +327,7 @@ func (a *abiSeq) stackAssign(size, alignment uintptr) {
 // abiDesc describes the ABI for a function or method.
 type abiDesc struct {
 	// call and ret represent the translation steps for
-	// the call and return paths of a Go function.
+	// the call and return paths of a Golang function.
 	call, ret abiSeq
 
 	// These fields describe the stack space allocated

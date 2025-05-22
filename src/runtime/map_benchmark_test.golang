@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -415,7 +415,7 @@ func BenchmarkComplexAlgMap(b *testing.B) {
 	}
 }
 
-func BenchmarkGoMapClear(b *testing.B) {
+func BenchmarkGolangMapClear(b *testing.B) {
 	b.Run("Reflexive", func(b *testing.B) {
 		for size := 1; size < 100000; size *= 10 {
 			b.Run(strconv.Itoa(size), func(b *testing.B) {

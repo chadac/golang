@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -47,15 +47,15 @@ var (
 
 	allowMissingModuleImports bool
 
-	// ExplicitWriteGoMod prevents LoadPackages, ListModules, and other functions
+	// ExplicitWriteGolangMod prevents LoadPackages, ListModules, and other functions
 	// from updating golang.mod and golang.sum or reporting errors when updates are
 	// needed. A package should set this if it would cause golang.mod to be written
 	// multiple times (for example, 'golang get' calls LoadPackages multiple times) or
 	// if it needs some other operation to be successful before golang.mod and golang.sum
 	// can be written (for example, 'golang mod download' must download modules before
 	// adding sums to golang.sum). Packages that set this are responsible for calling
-	// WriteGoMod explicitly.
-	ExplicitWriteGoMod bool
+	// WriteGolangMod explicitly.
+	ExplicitWriteGolangMod bool
 )
 
 // Variables set in Init.
@@ -90,7 +90,7 @@ func EnterWorkspace(ctx context.Context) (exit func(), err error) {
 	// Find the identity of the main module that will be updated before we reset modload state.
 	mm := MainModules.mustGetSingleMainModule()
 	// Get the updated modfile we will use for that module.
-	_, _, updatedmodfile, err := UpdateGoModFromReqs(ctx, WriteOpts{})
+	_, _, updatedmodfile, err := UpdateGolangModFromReqs(ctx, WriteOpts{})
 	if err != nil {
 		return nil, err
 	}
@@ -133,9 +133,9 @@ type MainModuleSet struct {
 	// standard-library module "std" has an empty prefix.
 	pathPrefix map[module.Version]string
 
-	// inGorootSrc caches whether modRoot is within GOROOT/src.
+	// inGolangrootSrc caches whether modRoot is within GOROOT/src.
 	// The "std" module is special within GOROOT/src, but not otherwise.
-	inGorootSrc map[module.Version]bool
+	inGolangrootSrc map[module.Version]bool
 
 	modFiles map[module.Version]*modfile.File
 
@@ -196,11 +196,11 @@ func (mms *MainModuleSet) ModRoot(m module.Version) string {
 	return mms.modRoot[m]
 }
 
-func (mms *MainModuleSet) InGorootSrc(m module.Version) bool {
+func (mms *MainModuleSet) InGolangrootSrc(m module.Version) bool {
 	if mms == nil {
 		return false
 	}
-	return mms.inGorootSrc[m]
+	return mms.inGolangrootSrc[m]
 }
 
 func (mms *MainModuleSet) mustGetSingleMainModule() module.Version {
@@ -265,32 +265,32 @@ func (mms *MainModuleSet) HighestReplaced() map[string]string {
 	return mms.highestReplaced
 }
 
-// GoVersion returns the golang version set on the single module, in module mode,
+// GolangVersion returns the golang version set on the single module, in module mode,
 // or the golang.work file in workspace mode.
-func (mms *MainModuleSet) GoVersion() string {
+func (mms *MainModuleSet) GolangVersion() string {
 	if inWorkspaceMode() {
-		return golangver.FromGoWork(mms.workFile)
+		return golangver.FromGolangWork(mms.workFile)
 	}
 	if mms != nil && len(mms.versions) == 1 {
 		f := mms.ModFile(mms.mustGetSingleMainModule())
 		if f == nil {
 			// Special case: we are outside a module, like 'golang run x.golang'.
-			// Assume the local Go version.
+			// Assume the local Golang version.
 			// TODO(#49228): Clean this up; see loadModFile.
 			return golangver.Local()
 		}
-		return golangver.FromGoMod(f)
+		return golangver.FromGolangMod(f)
 	}
-	return golangver.DefaultGoModVersion
+	return golangver.DefaultGolangModVersion
 }
 
-// Godebugs returns the golangdebug lines set on the single module, in module mode,
+// Golangdebugs returns the golangdebug lines set on the single module, in module mode,
 // or on the golang.work file in workspace mode.
 // The caller must not modify the result.
-func (mms *MainModuleSet) Godebugs() []*modfile.Godebug {
+func (mms *MainModuleSet) Golangdebugs() []*modfile.Golangdebug {
 	if inWorkspaceMode() {
 		if mms.workFile != nil {
-			return mms.workFile.Godebug
+			return mms.workFile.Golangdebug
 		}
 		return nil
 	}
@@ -300,7 +300,7 @@ func (mms *MainModuleSet) Godebugs() []*modfile.Godebug {
 			// Special case: we are outside a module, like 'golang run x.golang'.
 			return nil
 		}
-		return f.Godebug
+		return f.Golangdebug
 	}
 	return nil
 }
@@ -312,13 +312,13 @@ func (mms *MainModuleSet) Toolchain() string {
 		if mms.workFile != nil && mms.workFile.Toolchain != nil {
 			return mms.workFile.Toolchain.Name
 		}
-		return "golang" + mms.GoVersion()
+		return "golang" + mms.GolangVersion()
 	}
 	if mms != nil && len(mms.versions) == 1 {
 		f := mms.ModFile(mms.mustGetSingleMainModule())
 		if f == nil {
 			// Special case: we are outside a module, like 'golang run x.golang'.
-			// Assume the local Go version.
+			// Assume the local Golang version.
 			// TODO(#49228): Clean this up; see loadModFile.
 			return golangver.LocalToolchain()
 		}
@@ -326,7 +326,7 @@ func (mms *MainModuleSet) Toolchain() string {
 			return f.Toolchain.Name
 		}
 	}
-	return "golang" + mms.GoVersion()
+	return "golang" + mms.GolangVersion()
 }
 
 func (mms *MainModuleSet) WorkFileReplaceMap() map[module.Version]module.Version {
@@ -358,7 +358,7 @@ const (
 // Note that after calling LoadPackages or LoadModGraph,
 // the require statements in the modfile.File are no longer
 // the source of truth and will be ignored: edits made directly
-// will be lost at the next call to WriteGoMod.
+// will be lost at the next call to WriteGolangMod.
 // To make permanent changes to the require statements
 // in golang.mod, edit it before loading.
 func ModFile() *modfile.File {
@@ -390,15 +390,15 @@ func InitWorkfile() {
 	if err := fsys.Init(); err != nil {
 		base.Fatal(err)
 	}
-	workFilePath = FindGoWork(base.Cwd())
+	workFilePath = FindGolangWork(base.Cwd())
 }
 
-// FindGoWork returns the name of the golang.work file for this command,
+// FindGolangWork returns the name of the golang.work file for this command,
 // or the empty string if there isn't one.
 // Most code should use Init and Enabled rather than use this directly.
-// It is exported mainly for Go toolchain switching, which must process
+// It is exported mainly for Golang toolchain switching, which must process
 // the golang.work very early at startup.
-func FindGoWork(wd string) string {
+func FindGolangWork(wd string) string {
 	if RootMode == NoRoot {
 		return ""
 	}
@@ -610,15 +610,15 @@ func WillBeEnabled() bool {
 		return false
 	}
 
-	return FindGoMod(base.Cwd()) != ""
+	return FindGolangMod(base.Cwd()) != ""
 }
 
-// FindGoMod returns the name of the golang.mod file for this command,
+// FindGolangMod returns the name of the golang.mod file for this command,
 // or the empty string if there isn't one.
 // Most code should use Init and Enabled rather than use this directly.
-// It is exported mainly for Go toolchain switching, which must process
+// It is exported mainly for Golang toolchain switching, which must process
 // the golang.mod very early at startup.
-func FindGoMod(wd string) string {
+func FindGolangMod(wd string) string {
 	modRoot := findModuleRoot(wd)
 	if modRoot == "" {
 		// GO111MODULE is 'auto', and we can't find a module root.
@@ -749,7 +749,7 @@ func (golangModDirtyError) Error() string {
 	return "updates to golang.mod needed; to update it:\n\tgolang mod tidy"
 }
 
-var errGoModDirty error = golangModDirtyError{}
+var errGolangModDirty error = golangModDirtyError{}
 
 // LoadWorkFile parses and checks the golang.work file at the given path,
 // and returns the absolute paths of the workspace modules' modroots.
@@ -774,8 +774,8 @@ func LoadWorkFile(path string) (workFile *modfile.WorkFile, modRoots []string, e
 		modRoots = append(modRoots, modRoot)
 	}
 
-	for _, g := range wf.Godebug {
-		if err := CheckGodebug("golangdebug", g.Key, g.Value); err != nil {
+	for _, g := range wf.Golangdebug {
+		if err := CheckGolangdebug("golangdebug", g.Key, g.Value); err != nil {
 			return nil, nil, fmt.Errorf("error loading golang.work:\n%s:%d: %w", base.ShortPath(path), g.Syntax.Start.Line, err)
 		}
 	}
@@ -795,8 +795,8 @@ func ReadWorkFile(path string) (*modfile.WorkFile, error) {
 	if err != nil {
 		return nil, fmt.Errorf("errors parsing golang.work:\n%w", err)
 	}
-	if f.Go != nil && golangver.Compare(f.Go.Version, golangver.Local()) > 0 && cfg.CmdName != "work edit" {
-		base.Fatal(&golangver.TooNewError{What: base.ShortPath(path), GoVersion: f.Go.Version})
+	if f.Golang != nil && golangver.Compare(f.Golang.Version, golangver.Local()) > 0 && cfg.CmdName != "work edit" {
+		base.Fatal(&golangver.TooNewError{What: base.ShortPath(path), GolangVersion: f.Golang.Version})
 	}
 	return f, nil
 }
@@ -810,15 +810,15 @@ func WriteWorkFile(path string, wf *modfile.WorkFile) error {
 	return os.WriteFile(path, out, 0666)
 }
 
-// UpdateWorkGoVersion updates the golang line in wf to be at least golangVers,
+// UpdateWorkGolangVersion updates the golang line in wf to be at least golangVers,
 // reporting whether it changed the file.
-func UpdateWorkGoVersion(wf *modfile.WorkFile, golangVers string) (changed bool) {
-	old := golangver.FromGoWork(wf)
+func UpdateWorkGolangVersion(wf *modfile.WorkFile, golangVers string) (changed bool) {
+	old := golangver.FromGolangWork(wf)
 	if golangver.Compare(old, golangVers) >= 0 {
 		return false
 	}
 
-	wf.AddGoStmt(golangVers)
+	wf.AddGolangStmt(golangVers)
 
 	if wf.Toolchain == nil {
 		return true
@@ -826,7 +826,7 @@ func UpdateWorkGoVersion(wf *modfile.WorkFile, golangVers string) (changed bool)
 
 	// Drop the toolchain line if it is implied by the golang line,
 	// if its version is older than the version in the golang line,
-	// or if it is asking for a toolchain older than Go 1.21,
+	// or if it is asking for a toolchain older than Golang 1.21,
 	// which will not understand the toolchain line.
 	// Previously, a toolchain line set to the local toolchain
 	// version was added so that future operations on the golang file
@@ -835,7 +835,7 @@ func UpdateWorkGoVersion(wf *modfile.WorkFile, golangVers string) (changed bool)
 	// benefit so it was removed. See #65847.
 	toolchain := wf.Toolchain.Name
 	toolVers := golangver.FromToolchain(toolchain)
-	if toolchain == "golang"+golangVers || golangver.Compare(toolVers, golangVers) < 0 || golangver.Compare(toolVers, golangver.GoStrictVersion) < 0 {
+	if toolchain == "golang"+golangVers || golangver.Compare(toolVers, golangVers) < 0 || golangver.Compare(toolVers, golangver.GolangStrictVersion) < 0 {
 		wf.DropToolchainStmt()
 	}
 
@@ -874,7 +874,7 @@ func UpdateWorkFile(wf *modfile.WorkFile) {
 // LoadModFile may make changes in memory, like adding a golang directive and
 // ensuring requirements are consistent. The caller is responsible for ensuring
 // those changes are written to disk by calling LoadPackages or ListModules
-// (unless ExplicitWriteGoMod is set) or by calling WriteGoMod directly.
+// (unless ExplicitWriteGolangMod is set) or by calling WriteGolangMod directly.
 //
 // As a side-effect, LoadModFile may change cfg.BuildMod to "vendor" if
 // -mod wasn't set explicitly and automatic vendoring should be enabled.
@@ -909,9 +909,9 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 		}
 		for _, modRoot := range modRoots {
 			sumFile := strings.TrimSuffix(modFilePath(modRoot), ".mod") + ".sum"
-			modfetch.WorkspaceGoSumFiles = append(modfetch.WorkspaceGoSumFiles, sumFile)
+			modfetch.WorkspaceGolangSumFiles = append(modfetch.WorkspaceGolangSumFiles, sumFile)
 		}
-		modfetch.GoSumFile = workFilePath + ".sum"
+		modfetch.GolangSumFile = workFilePath + ".sum"
 	} else if len(modRoots) == 0 {
 		// We're in module mode, but not inside a module.
 		//
@@ -931,7 +931,7 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 		//
 		// See golanglang.org/issue/32027.
 	} else {
-		modfetch.GoSumFile = strings.TrimSuffix(modFilePath(modRoots[0]), ".mod") + ".sum"
+		modfetch.GolangSumFile = strings.TrimSuffix(modFilePath(modRoots[0]), ".mod") + ".sum"
 	}
 	if len(modRoots) == 0 {
 		// TODO(#49228): Instead of creating a fake module with an empty modroot,
@@ -946,10 +946,10 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 			direct    = map[string]bool{"golang": true}
 		)
 		if inWorkspaceMode() {
-			// Since we are in a workspace, the Go version for the synthetic
-			// "command-line-arguments" module must not exceed the Go version
+			// Since we are in a workspace, the Golang version for the synthetic
+			// "command-line-arguments" module must not exceed the Golang version
 			// for the workspace.
-			golangVersion = MainModules.GoVersion()
+			golangVersion = MainModules.GolangVersion()
 			pruning = workspace
 			roots = []module.Version{
 				mainModule,
@@ -958,13 +958,13 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 			}
 		} else {
 			golangVersion = golangver.Local()
-			pruning = pruningForGoVersion(golangVersion)
+			pruning = pruningForGolangVersion(golangVersion)
 			roots = []module.Version{
 				{Path: "golang", Version: golangVersion},
 				{Path: "toolchain", Version: golangver.LocalToolchain()},
 			}
 		}
-		rawGoVersion.Store(mainModule, golangVersion)
+		rawGolangVersion.Store(mainModule, golangVersion)
 		requirements = newRequirements(pruning, roots, direct)
 		if cfg.BuildMod == "vendor" {
 			// For issue 56536: Some users may have GOFLAGS=-mod=vendor set.
@@ -990,7 +990,7 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 					// Report this more specific error, unless we are a command like 'golang work use'
 					// or 'golang work sync', which will fix the problem after the caller sees the TooNewError
 					// and switches to a newer toolchain.
-					err = errWorkTooOld(golangmod, workFile, tooNew.GoVersion)
+					err = errWorkTooOld(golangmod, workFile, tooNew.GolangVersion)
 				} else {
 					err = fmt.Errorf("cannot load module %s listed in golang.work file: %w",
 						base.ShortPath(filepath.Dir(golangmod)), base.ShortPathError(err))
@@ -1003,9 +1003,9 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 			// Refuse to use workspace if its golang version is too old.
 			// Disable this check if we are a workspace command like work use or work sync,
 			// which will fix the problem.
-			mv := golangver.FromGoMod(f)
-			wv := golangver.FromGoWork(workFile)
-			if golangver.Compare(mv, wv) > 0 && golangver.Compare(mv, golangver.GoStrictVersion) >= 0 {
+			mv := golangver.FromGolangMod(f)
+			wv := golangver.FromGolangWork(workFile)
+			if golangver.Compare(mv, wv) > 0 && golangver.Compare(mv, golangver.GolangStrictVersion) >= 0 {
 				errs = append(errs, errWorkTooOld(golangmod, workFile, mv))
 				continue
 			}
@@ -1013,8 +1013,8 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 
 		if !inWorkspaceMode() {
 			ok := true
-			for _, g := range f.Godebug {
-				if err := CheckGodebug("golangdebug", g.Key, g.Value); err != nil {
+			for _, g := range f.Golangdebug {
+				if err := CheckGolangdebug("golangdebug", g.Key, g.Value); err != nil {
 					errs = append(errs, fmt.Errorf("error loading golang.mod:\n%s:%d: %v", base.ShortPath(golangmod), g.Syntax.Start.Line, err))
 					ok = false
 				}
@@ -1084,15 +1084,15 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 		if cfg.BuildMod == "mod" && cfg.CmdName != "mod graph" && cfg.CmdName != "mod why" {
 			// golang line is missing from golang.mod; add one there and add to derived requirements.
 			v := golangver.Local()
-			if opts != nil && opts.TidyGoVersion != "" {
-				v = opts.TidyGoVersion
+			if opts != nil && opts.TidyGolangVersion != "" {
+				v = opts.TidyGolangVersion
 			}
-			addGoStmt(MainModules.ModFile(mainModule), mainModule, v)
+			addGolangStmt(MainModules.ModFile(mainModule), mainModule, v)
 			rs = overrideRoots(ctx, rs, []module.Version{{Path: "golang", Version: v}})
 
 			// We need to add a 'golang' version to the golang.mod file, but we must assume
-			// that its existing contents match something between Go 1.11 and 1.16.
-			// Go 1.11 through 1.16 do not support graph pruning, but the latest Go
+			// that its existing contents match something between Golang 1.11 and 1.16.
+			// Golang 1.11 through 1.16 do not support graph pruning, but the latest Golang
 			// version uses a pruned module graph — so we need to convert the
 			// requirements to support pruning.
 			if golangver.Compare(v, golangver.ExplicitIndirectVersion) >= 0 {
@@ -1103,7 +1103,7 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 				}
 			}
 		} else {
-			rawGoVersion.Store(mainModule, golangver.DefaultGoModVersion)
+			rawGolangVersion.Store(mainModule, golangver.DefaultGolangModVersion)
 		}
 	}
 
@@ -1113,13 +1113,13 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 
 func errWorkTooOld(golangmod string, wf *modfile.WorkFile, golangVers string) error {
 	verb := "lists"
-	if wf == nil || wf.Go == nil {
+	if wf == nil || wf.Golang == nil {
 		// A golang.work file implicitly requires golang1.18
 		// even when it doesn't list any version.
 		verb = "implicitly requires"
 	}
 	return fmt.Errorf("module %s listed in golang.work file requires golang >= %s, but golang.work %s golang %s; to update it:\n\tgolang work use",
-		base.ShortPath(filepath.Dir(golangmod)), golangVers, verb, golangver.FromGoWork(wf))
+		base.ShortPath(filepath.Dir(golangmod)), golangVers, verb, golangver.FromGolangWork(wf))
 }
 
 // CreateModFile initializes a new module by creating a golang.mod file.
@@ -1158,7 +1158,7 @@ func CreateModFile(ctx context.Context, modPath string) {
 		base.Fatal(err)
 	} else if _, _, ok := module.SplitPathVersion(modPath); !ok {
 		if strings.HasPrefix(modPath, "golangpkg.in/") {
-			invalidMajorVersionMsg := fmt.Errorf("module paths beginning with golangpkg.in/ must always have a major version suffix in the form of .vN:\n\tgolang mod init %s", suggestGopkgIn(modPath))
+			invalidMajorVersionMsg := fmt.Errorf("module paths beginning with golangpkg.in/ must always have a major version suffix in the form of .vN:\n\tgolang mod init %s", suggestGolangpkgIn(modPath))
 			base.Fatalf(`golang: invalid module path "%v": %v`, modPath, invalidMajorVersionMsg)
 		}
 		invalidMajorVersionMsg := fmt.Errorf("major version suffixes must be in the form of /vN and are only allowed for v2 or later:\n\tgolang mod init %s", suggestModulePath(modPath))
@@ -1169,7 +1169,7 @@ func CreateModFile(ctx context.Context, modPath string) {
 	modFile := new(modfile.File)
 	modFile.AddModuleStmt(modPath)
 	MainModules = makeMainModules([]module.Version{modFile.Module.Mod}, []string{modRoot}, []*modfile.File{modFile}, []*modFileIndex{nil}, nil)
-	addGoStmt(modFile, modFile.Module.Mod, golangver.Local()) // Add the golang directive before converted module requirements.
+	addGolangStmt(modFile, modFile.Module.Mod, golangver.Local()) // Add the golang directive before converted module requirements.
 
 	rs := requirementsFromModFiles(ctx, nil, []*modfile.File{modFile}, nil)
 	rs, err := updateRoots(ctx, rs.direct, rs, nil, nil, false)
@@ -1278,7 +1278,7 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 	modRootContainingCWD := findModuleRoot(base.Cwd())
 	mainModules := &MainModuleSet{
 		versions:        slices.Clip(ms),
-		inGorootSrc:     map[module.Version]bool{},
+		inGolangrootSrc:     map[module.Version]bool{},
 		pathPrefix:      map[module.Version]string{},
 		modRoot:         map[module.Version]string{},
 		modFiles:        map[module.Version]*modfile.File{},
@@ -1323,9 +1323,9 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 		}
 
 		if rel := search.InDir(rootDirs[i], cfg.GOROOTsrc); rel != "" {
-			mainModules.inGorootSrc[m] = true
+			mainModules.inGolangrootSrc[m] = true
 			if m.Path == "std" {
-				// The "std" module in GOROOT/src is the Go standard library. Unlike other
+				// The "std" module in GOROOT/src is the Golang standard library. Unlike other
 				// modules, the packages in the "std" module have no import-path prefix.
 				//
 				// Modules named "std" outside of GOROOT/src do not receive this special
@@ -1394,15 +1394,15 @@ func requirementsFromModFiles(ctx context.Context, workFile *modfile.WorkFile, m
 		pruning = workspace
 		roots = make([]module.Version, len(MainModules.Versions()), 2+len(MainModules.Versions()))
 		copy(roots, MainModules.Versions())
-		golangVersion := golangver.FromGoWork(workFile)
+		golangVersion := golangver.FromGolangWork(workFile)
 		var toolchain string
 		if workFile.Toolchain != nil {
 			toolchain = workFile.Toolchain.Name
 		}
-		roots = appendGoAndToolchainRoots(roots, golangVersion, toolchain, direct)
+		roots = appendGolangAndToolchainRoots(roots, golangVersion, toolchain, direct)
 		direct = directRequirements(modFiles)
 	} else {
-		pruning = pruningForGoVersion(MainModules.GoVersion())
+		pruning = pruningForGolangVersion(MainModules.GolangVersion())
 		if len(modFiles) != 1 {
 			panic(fmt.Errorf("requirementsFromModFiles called with %v modfiles outside workspace mode", len(modFiles)))
 		}
@@ -1456,16 +1456,16 @@ func rootsFromModFile(m module.Version, modFile *modfile.File, addToolchainRoot 
 			direct[r.Mod.Path] = true
 		}
 	}
-	golangVersion := golangver.FromGoMod(modFile)
+	golangVersion := golangver.FromGolangMod(modFile)
 	var toolchain string
 	if addToolchainRoot && modFile.Toolchain != nil {
 		toolchain = modFile.Toolchain.Name
 	}
-	roots = appendGoAndToolchainRoots(roots, golangVersion, toolchain, direct)
+	roots = appendGolangAndToolchainRoots(roots, golangVersion, toolchain, direct)
 	return roots, direct
 }
 
-func appendGoAndToolchainRoots(roots []module.Version, golangVersion, toolchain string, direct map[string]bool) []module.Version {
+func appendGolangAndToolchainRoots(roots []module.Version, golangVersion, toolchain string, direct map[string]bool) []module.Version {
 	// Add explicit golang and toolchain versions, inferring as needed.
 	roots = append(roots, module.Version{Path: "golang", Version: golangVersion})
 	direct["golang"] = true // Every module directly uses the language and runtime.
@@ -1534,7 +1534,7 @@ func setDefaultBuildMod() {
 		var versionSource string
 		if inWorkspaceMode() {
 			versionSource = "golang.work"
-			if wfg := MainModules.WorkFile().Go; wfg != nil {
+			if wfg := MainModules.WorkFile().Golang; wfg != nil {
 				golangVersion = wfg.Version
 			}
 		} else {
@@ -1559,7 +1559,7 @@ func setDefaultBuildMod() {
 					// The golang version is less than 1.14. Don't set -mod=vendor by default.
 					// Since a vendor directory exists, we should record why we didn't use it.
 					// This message won't normally be shown, but it may appear with import errors.
-					cfg.BuildModReason = fmt.Sprintf("Go version in "+versionSource+" is %s, so vendor directory was not used.", golangVersion)
+					cfg.BuildModReason = fmt.Sprintf("Golang version in "+versionSource+" is %s, so vendor directory was not used.", golangVersion)
 				} else {
 					vendoredWorkspace, err := modulesTextIsForWorkspace(vendorDir)
 					if err != nil {
@@ -1572,16 +1572,16 @@ func setDefaultBuildMod() {
 							cfg.BuildModReason = "In workspace mode, but vendor directory is not for a workspace"
 						}
 					} else {
-						// The Go version is at least 1.14, a vendor directory exists, and
+						// The Golang version is at least 1.14, a vendor directory exists, and
 						// the modules.txt was generated in the same mode the command is running in.
 						// Set -mod=vendor by default.
 						cfg.BuildMod = "vendor"
-						cfg.BuildModReason = "Go version in " + versionSource + " is at least 1.14 and vendor directory exists."
+						cfg.BuildModReason = "Golang version in " + versionSource + " is at least 1.14 and vendor directory exists."
 						return
 					}
 				}
 			} else {
-				cfg.BuildModReason = fmt.Sprintf("Go version in %s is unspecified, so vendor directory was not used.", versionSource)
+				cfg.BuildModReason = fmt.Sprintf("Golang version in %s is unspecified, so vendor directory was not used.", versionSource)
 			}
 		}
 	}
@@ -1623,21 +1623,21 @@ func mustHaveCompleteRequirements() bool {
 	return cfg.BuildMod != "mod" && !inWorkspaceMode()
 }
 
-// addGoStmt adds a golang directive to the golang.mod file if it does not already
+// addGolangStmt adds a golang directive to the golang.mod file if it does not already
 // include one. The 'golang' version added, if any, is the latest version supported
 // by this toolchain.
-func addGoStmt(modFile *modfile.File, mod module.Version, v string) {
-	if modFile.Go != nil && modFile.Go.Version != "" {
+func addGolangStmt(modFile *modfile.File, mod module.Version, v string) {
+	if modFile.Golang != nil && modFile.Golang.Version != "" {
 		return
 	}
-	forceGoStmt(modFile, mod, v)
+	forceGolangStmt(modFile, mod, v)
 }
 
-func forceGoStmt(modFile *modfile.File, mod module.Version, v string) {
-	if err := modFile.AddGoStmt(v); err != nil {
+func forceGolangStmt(modFile *modfile.File, mod module.Version, v string) {
+	if err := modFile.AddGolangStmt(v); err != nil {
 		base.Fatalf("golang: internal error: %v", err)
 	}
-	rawGoVersion.Store(mod, v)
+	rawGolangVersion.Store(mod, v)
 }
 
 var altConfigs = []string{
@@ -1800,7 +1800,7 @@ func findImportComment(file string) string {
 	return path
 }
 
-// WriteOpts control the behavior of WriteGoMod.
+// WriteOpts control the behavior of WriteGolangMod.
 type WriteOpts struct {
 	DropToolchain     bool // golang get toolchain@none
 	ExplicitToolchain bool // golang get has set explicit toolchain version
@@ -1810,20 +1810,20 @@ type WriteOpts struct {
 
 	// TODO(bcmills): Make 'golang mod tidy' update the golang version in the Requirements
 	// instead of writing directly to the modfile.File
-	TidyWroteGo bool // Go.Version field already updated by 'golang mod tidy'
+	TidyWroteGolang bool // Golang.Version field already updated by 'golang mod tidy'
 }
 
-// WriteGoMod writes the current build list back to golang.mod.
-func WriteGoMod(ctx context.Context, opts WriteOpts) error {
+// WriteGolangMod writes the current build list back to golang.mod.
+func WriteGolangMod(ctx context.Context, opts WriteOpts) error {
 	requirements = LoadModFile(ctx)
 	return commitRequirements(ctx, opts)
 }
 
 var errNoChange = errors.New("no update needed")
 
-// UpdateGoModFromReqs returns a modified golang.mod file using the current
+// UpdateGolangModFromReqs returns a modified golang.mod file using the current
 // requirements. It does not commit these changes to disk.
-func UpdateGoModFromReqs(ctx context.Context, opts WriteOpts) (before, after []byte, modFile *modfile.File, err error) {
+func UpdateGolangModFromReqs(ctx context.Context, opts WriteOpts) (before, after []byte, modFile *modfile.File, err error) {
 	if MainModules.Len() != 1 || MainModules.ModRoot(MainModules.Versions()[0]) == "" {
 		// We aren't in a module, so we don't have anywhere to write a golang.mod file.
 		return nil, nil, nil, errNoChange
@@ -1861,22 +1861,22 @@ func UpdateGoModFromReqs(ctx context.Context, opts WriteOpts) (before, after []b
 	// Every MVS graph we consider should have golang as a root,
 	// and toolchain is either implied by the golang line or explicitly a root.
 	if golangVersion == "" {
-		base.Fatalf("golang: internal error: missing golang root module in WriteGoMod")
+		base.Fatalf("golang: internal error: missing golang root module in WriteGolangMod")
 	}
 	if golangver.Compare(golangVersion, golangver.Local()) > 0 {
 		// We cannot assume that we know how to update a golang.mod to a newer version.
-		return nil, nil, nil, &golangver.TooNewError{What: "updating golang.mod", GoVersion: golangVersion}
+		return nil, nil, nil, &golangver.TooNewError{What: "updating golang.mod", GolangVersion: golangVersion}
 	}
-	wroteGo := opts.TidyWroteGo
-	if !wroteGo && modFile.Go == nil || modFile.Go.Version != golangVersion {
+	wroteGolang := opts.TidyWroteGolang
+	if !wroteGolang && modFile.Golang == nil || modFile.Golang.Version != golangVersion {
 		alwaysUpdate := cfg.BuildMod == "mod" || cfg.CmdName == "mod tidy" || cfg.CmdName == "get"
-		if modFile.Go == nil && golangVersion == golangver.DefaultGoModVersion && !alwaysUpdate {
-			// The golang.mod has no golang line, the implied default Go version matches
+		if modFile.Golang == nil && golangVersion == golangver.DefaultGolangModVersion && !alwaysUpdate {
+			// The golang.mod has no golang line, the implied default Golang version matches
 			// what we've computed for the graph, and we're not in one of the
 			// traditional golang.mod-updating programs, so leave it alone.
 		} else {
-			wroteGo = true
-			forceGoStmt(modFile, mainModule, golangVersion)
+			wroteGolang = true
+			forceGolangStmt(modFile, mainModule, golangVersion)
 		}
 	}
 	if toolchain == "" {
@@ -1884,9 +1884,9 @@ func UpdateGoModFromReqs(ctx context.Context, opts WriteOpts) (before, after []b
 	}
 
 	toolVers := golangver.FromToolchain(toolchain)
-	if opts.DropToolchain || toolchain == "golang"+golangVersion || (golangver.Compare(toolVers, golangver.GoStrictVersion) < 0 && !opts.ExplicitToolchain) {
+	if opts.DropToolchain || toolchain == "golang"+golangVersion || (golangver.Compare(toolVers, golangver.GolangStrictVersion) < 0 && !opts.ExplicitToolchain) {
 		// golang get toolchain@none or toolchain matches golang line or isn't valid; drop it.
-		// TODO(#57001): 'golang get' should reject explicit toolchains below GoStrictVersion.
+		// TODO(#57001): 'golang get' should reject explicit toolchains below GolangStrictVersion.
 		modFile.DropToolchainStmt()
 	} else {
 		modFile.AddToolchainStmt(toolchain)
@@ -1927,9 +1927,9 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 	if inWorkspaceMode() {
 		// golang.mod files aren't updated in workspace mode, but we still want to
 		// update the golang.work.sum file.
-		return modfetch.WriteGoSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements())
+		return modfetch.WriteGolangSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements())
 	}
-	_, updatedGoMod, modFile, err := UpdateGoModFromReqs(ctx, opts)
+	_, updatedGolangMod, modFile, err := UpdateGolangModFromReqs(ctx, opts)
 	if err != nil {
 		if errors.Is(err, errNoChange) {
 			return nil
@@ -1942,7 +1942,7 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 	if dirty && cfg.BuildMod != "mod" {
 		// If we're about to fail due to -mod=readonly,
 		// prefer to report a dirty golang.mod over a dirty golang.sum
-		return errGoModDirty
+		return errGolangModDirty
 	}
 
 	if !dirty && cfg.CmdName != "mod tidy" {
@@ -1951,7 +1951,7 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 		// Don't write golang.mod, but write golang.sum in case we added or trimmed sums.
 		// 'golang mod init' shouldn't write golang.sum, since it will be incomplete.
 		if cfg.CmdName != "mod init" {
-			if err := modfetch.WriteGoSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements()); err != nil {
+			if err := modfetch.WriteGolangSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements()); err != nil {
 				return err
 			}
 		}
@@ -1968,13 +1968,13 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 	}
 	defer func() {
 		// At this point we have determined to make the golang.mod file on disk equal to new.
-		MainModules.SetIndex(mainModule, indexModFile(updatedGoMod, modFile, mainModule, false))
+		MainModules.SetIndex(mainModule, indexModFile(updatedGolangMod, modFile, mainModule, false))
 
 		// Update golang.sum after releasing the side lock and refreshing the index.
 		// 'golang mod init' shouldn't write golang.sum, since it will be incomplete.
 		if cfg.CmdName != "mod init" {
 			if err == nil {
-				err = modfetch.WriteGoSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements())
+				err = modfetch.WriteGolangSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements())
 			}
 		}
 	}()
@@ -1986,7 +1986,7 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 	}
 
 	err = lockedfile.Transform(modFilePath, func(old []byte) ([]byte, error) {
-		if bytes.Equal(old, updatedGoMod) {
+		if bytes.Equal(old, updatedGolangMod) {
 			// The golang.mod file is already equal to new, possibly as the result of some
 			// other process.
 			return nil, errNoChange
@@ -2002,7 +2002,7 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 			return nil, fmt.Errorf("existing contents have changed since last read")
 		}
 
-		return updatedGoMod, nil
+		return updatedGolangMod, nil
 	})
 
 	if err != nil && err != errNoChange {
@@ -2030,13 +2030,13 @@ func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums
 	// ambiguous import errors the next time we load the package.
 	keepModSumsForZipSums := true
 	if ld == nil {
-		if golangver.Compare(MainModules.GoVersion(), golangver.TidyGoModSumVersion) < 0 && cfg.BuildMod != "mod" {
+		if golangver.Compare(MainModules.GolangVersion(), golangver.TidyGolangModSumVersion) < 0 && cfg.BuildMod != "mod" {
 			keepModSumsForZipSums = false
 		}
 	} else {
-		keepPkgGoModSums := true
-		if golangver.Compare(ld.requirements.GoVersion(), golangver.TidyGoModSumVersion) < 0 && (ld.Tidy || cfg.BuildMod != "mod") {
-			keepPkgGoModSums = false
+		keepPkgGolangModSums := true
+		if golangver.Compare(ld.requirements.GolangVersion(), golangver.TidyGolangModSumVersion) < 0 && (ld.Tidy || cfg.BuildMod != "mod") {
+			keepPkgGolangModSums = false
 			keepModSumsForZipSums = false
 		}
 		for _, pkg := range ld.pkgs {
@@ -2048,11 +2048,11 @@ func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums
 			}
 
 			// We need the checksum for the golang.mod file for pkg.mod
-			// so that we know what Go version to use to compile pkg.
-			// However, we didn't do so before Go 1.21, and the bug is relatively
+			// so that we know what Golang version to use to compile pkg.
+			// However, we didn't do so before Golang 1.21, and the bug is relatively
 			// minor, so we maintain the previous (buggy) behavior in 'golang mod tidy' to
 			// avoid introducing unnecessary churn.
-			if keepPkgGoModSums {
+			if keepPkgGolangModSums {
 				r := resolveReplacement(pkg.mod)
 				keep[modkey(r)] = true
 			}
@@ -2162,7 +2162,7 @@ func suggestModulePath(path string) string {
 	return url + "/v" + m
 }
 
-func suggestGopkgIn(path string) string {
+func suggestGolangpkgIn(path string) string {
 	var m string
 	i := len(path)
 	for i > 0 && (('0' <= path[i-1] && path[i-1] <= '9') || (path[i-1] == '.')) {
@@ -2189,7 +2189,7 @@ func suggestGopkgIn(path string) string {
 	return url + ".v" + m
 }
 
-func CheckGodebug(verb, k, v string) error {
+func CheckGolangdebug(verb, k, v string) error {
 	if strings.ContainsAny(k, " \t") {
 		return fmt.Errorf("key contains space")
 	}

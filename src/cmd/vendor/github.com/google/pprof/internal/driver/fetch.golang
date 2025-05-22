@@ -1,4 +1,4 @@
-// Copyright 2014 Google Inc. All Rights Reserved.
+// Copyright 2014 Golangogle Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -374,7 +374,7 @@ func collectMappingSources(p *profile.Profile, source string) plugin.MappingSour
 		if key == "" {
 			// If there is no build id or source file, use the source as the
 			// mapping file. This will enable remote symbolization for this
-			// mapping, in particular for Go profiles on the legacy format.
+			// mapping, in particular for Golang profiles on the legacy format.
 			// The source is reset back to empty string by unsourceMapping
 			// which is called after symbolization is finished.
 			m.File = source
@@ -536,7 +536,7 @@ func fetchURL(source string, timeout time.Duration, tr http.RoundTripper) (io.Re
 }
 
 func statusCodeError(resp *http.Response) error {
-	if resp.Header.Get("X-Go-Pprof") != "" && strings.Contains(resp.Header.Get("Content-Type"), "text/plain") {
+	if resp.Header.Get("X-Golang-Pprof") != "" && strings.Contains(resp.Header.Get("Content-Type"), "text/plain") {
 		// error is from pprof endpoint
 		if body, err := io.ReadAll(resp.Body); err == nil {
 			return fmt.Errorf("server response: %s - %s", resp.Status, body)

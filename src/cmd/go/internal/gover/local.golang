@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ import (
 // golang command's idea of its own version as returned by Local.
 var TestVersion string
 
-// Local returns the local Go version, the one implemented by this golang command.
+// Local returns the local Golang version, the one implemented by this golang command.
 func Local() string {
 	v, _ := local()
 	return v

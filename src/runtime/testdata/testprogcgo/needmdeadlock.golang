@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ package main
 #include <sched.h>
 #include <unistd.h>
 
-extern void GoNeedM();
+extern void GolangNeedM();
 
 #define SIGNALERS 10
 
@@ -46,7 +46,7 @@ static void* needmCallbackThread(void* p) {
 		sched_yield(); // Help the signal threads get started.
 	}
 	for (i = 0; i < CALLS; i++) {
-		GoNeedM();
+		GolangNeedM();
 	}
 	return NULL;
 }
@@ -78,8 +78,8 @@ func init() {
 	register("NeedmDeadlock", NeedmDeadlock)
 }
 
-//export GoNeedM
-func GoNeedM() {
+//export GolangNeedM
+func GolangNeedM() {
 }
 
 func NeedmDeadlock() {

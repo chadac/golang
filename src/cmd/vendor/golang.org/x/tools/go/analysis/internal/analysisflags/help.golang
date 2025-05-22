@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,9 +15,9 @@ import (
 	"golanglang.org/x/tools/golang/analysis"
 )
 
-const help = `PROGNAME is a tool for static analysis of Go programs.
+const help = `PROGNAME is a tool for static analysis of Golang programs.
 
-PROGNAME examines Go source code and reports suspicious constructs,
+PROGNAME examines Golang source code and reports suspicious constructs,
 such as Printf calls whose arguments do not align with the format
 string. It uses heuristics that do not guarantee all reports are
 genuine problems, but it can find errors not caught by the compilers.

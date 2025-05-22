@@ -1,4 +1,4 @@
-golang list -compiled -f {{.CompiledGoFiles}} .
+golang list -compiled -f {{.CompiledGolangFiles}} .
 ! stdout 'foo.s'
 
 -- golang.mod --

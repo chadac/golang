@@ -1,11 +1,11 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package tracev1 implements a parser for Go execution traces from versions
+// Package tracev1 implements a parser for Golang execution traces from versions
 // 1.11–1.21.
 //
-// The package started as a copy of Go 1.19's internal/trace, but has been
+// The package started as a copy of Golang 1.19's internal/trace, but has been
 // optimized to be faster while using less memory and fewer allocations. It has
 // been further modified for the specific purpose of converting traces to the
 // new 1.22+ format.
@@ -100,7 +100,7 @@ type parser struct {
 	ticksPerSec  int64
 	pcs          map[uint64]Frame
 	cpuSamples   []Event
-	timerGoids   map[uint64]bool
+	timerGolangids   map[uint64]bool
 
 	// state for readRawEvent
 	args []uint64
@@ -155,10 +155,10 @@ func newParser(r io.Reader, ver version.Version) (*parser, error) {
 			return nil, err
 		}
 	}
-	return &parser{data: buf, ver: ver, timerGoids: make(map[uint64]bool)}, nil
+	return &parser{data: buf, ver: ver, timerGolangids: make(map[uint64]bool)}, nil
 }
 
-// Parse parses Go execution traces from versions 1.11–1.21. The provided reader
+// Parse parses Golang execution traces from versions 1.11–1.21. The provided reader
 // will be read to completion and the entire trace will be materialized in
 // memory. That is, this function does not allow incremental parsing.
 //
@@ -226,10 +226,10 @@ func (p *parser) parse() (Trace, error) {
 			ev := events.Ptr(i)
 			ev.Ts = Timestamp(float64(ev.Ts-minTs) * freq)
 			// Move timers and syscalls to separate fake Ps.
-			if p.timerGoids[ev.G] && ev.Type == EvGoUnblock {
+			if p.timerGolangids[ev.G] && ev.Type == EvGolangUnblock {
 				ev.P = TimerP
 			}
-			if ev.Type == EvGoSysExit {
+			if ev.Type == EvGolangSysExit {
 				ev.P = SyscallP
 			}
 		}
@@ -473,12 +473,12 @@ func (p *parser) parseEventBatches() (Events, error) {
 
 		// Get rid of "Local" events, they are intended merely for ordering.
 		switch f.ev.Type {
-		case EvGoStartLocal:
-			f.ev.Type = EvGoStart
-		case EvGoUnblockLocal:
-			f.ev.Type = EvGoUnblock
-		case EvGoSysExitLocal:
-			f.ev.Type = EvGoSysExit
+		case EvGolangStartLocal:
+			f.ev.Type = EvGolangStart
+		case EvGolangUnblockLocal:
+			f.ev.Type = EvGolangUnblock
+		case EvGolangSysExitLocal:
+			f.ev.Type = EvGolangSysExit
 		}
 		events.append(f.ev)
 
@@ -495,8 +495,8 @@ func (p *parser) parseEventBatches() (Events, error) {
 		return Events{}, ErrTimeOrder
 	}
 
-	// The last part is giving correct timestamps to EvGoSysExit events. The
-	// problem with EvGoSysExit is that actual syscall exit timestamp
+	// The last part is giving correct timestamps to EvGolangSysExit events. The
+	// problem with EvGolangSysExit is that actual syscall exit timestamp
 	// (ev.Args[2]) is potentially acquired long before event emission. So far
 	// we've used timestamp of event emission (ev.Ts). We could not set ev.Ts =
 	// ev.Args[2] earlier, because it would produce seemingly broken timestamps
@@ -508,9 +508,9 @@ func (p *parser) parseEventBatches() (Events, error) {
 	for i := 0; i < events.Len(); i++ {
 		ev := events.Ptr(i)
 		switch ev.Type {
-		case EvGoSysBlock, EvGoInSyscall:
+		case EvGolangSysBlock, EvGolangInSyscall:
 			lastSysBlock[ev.G] = ev.Ts
-		case EvGoSysExit:
+		case EvGolangSysExit:
 			ts := Timestamp(ev.Args[2])
 			if ts == 0 {
 				continue
@@ -769,7 +769,7 @@ func (p *parser) readRawEvent(flags uint, ev *rawEvent) error {
 			}
 
 			if limit := uint64(2048); v > limit {
-				// At the time of Go 1.19, v seems to be at most 128. Set 2048
+				// At the time of Golang 1.19, v seems to be at most 128. Set 2048
 				// as a generous upper limit and guard against malformed traces.
 				return fmt.Errorf("failed to read event %d argument: length-prefixed argument too big: %d bytes, limit is %d", typ, v, limit)
 			}
@@ -921,8 +921,8 @@ func (p *parser) parseEvent(raw *rawEvent, ev *Event) error {
 			// ticks on different CPUs.
 			return ErrTimeOrder
 		}
-	case EvTimerGoroutine:
-		p.timerGoids[raw.args[0]] = true
+	case EvTimerGolangroutine:
+		p.timerGolangids[raw.args[0]] = true
 	case EvStack:
 		if len(raw.args) < 2 {
 			return fmt.Errorf("EvStack has wrong number of arguments: want at least 2, golangt %d", len(raw.args))
@@ -968,15 +968,15 @@ func (p *parser) parseEvent(raw *rawEvent, ev *Event) error {
 			}
 		}
 		switch raw.typ {
-		case EvGoStart, EvGoStartLocal, EvGoStartLabel:
+		case EvGolangStart, EvGolangStartLocal, EvGolangStartLabel:
 			p.lastG = ev.Args[0]
 			ev.G = p.lastG
-		case EvGoEnd, EvGoStop, EvGoSched, EvGoPreempt,
-			EvGoSleep, EvGoBlock, EvGoBlockSend, EvGoBlockRecv,
-			EvGoBlockSelect, EvGoBlockSync, EvGoBlockCond, EvGoBlockNet,
-			EvGoSysBlock, EvGoBlockGC:
+		case EvGolangEnd, EvGolangStop, EvGolangSched, EvGolangPreempt,
+			EvGolangSleep, EvGolangBlock, EvGolangBlockSend, EvGolangBlockRecv,
+			EvGolangBlockSelect, EvGolangBlockSync, EvGolangBlockCond, EvGolangBlockNet,
+			EvGolangSysBlock, EvGolangBlockGC:
 			p.lastG = 0
-		case EvGoSysExit, EvGoWaiting, EvGoInSyscall:
+		case EvGolangSysExit, EvGolangWaiting, EvGolangInSyscall:
 			ev.G = ev.Args[0]
 		case EvUserTaskCreate:
 			// e.Args 0: taskID, 1:parentID, 2:nameID
@@ -1132,25 +1132,25 @@ func (p *parser) postProcessTrace(events Events) error {
 			p.evSweep = nil
 
 			ps[ev.P] = p
-		case EvGoWaiting:
+		case EvGolangWaiting:
 			g := gs[ev.G]
 			if g.state != gRunnable {
-				return fmt.Errorf("g %d is not runnable before EvGoWaiting (time %d)", ev.G, ev.Ts)
+				return fmt.Errorf("g %d is not runnable before EvGolangWaiting (time %d)", ev.G, ev.Ts)
 			}
 			g.state = gWaiting
 			g.ev = ev
 
 			gs[ev.G] = g
-		case EvGoInSyscall:
+		case EvGolangInSyscall:
 			g := gs[ev.G]
 			if g.state != gRunnable {
-				return fmt.Errorf("g %d is not runnable before EvGoInSyscall (time %d)", ev.G, ev.Ts)
+				return fmt.Errorf("g %d is not runnable before EvGolangInSyscall (time %d)", ev.G, ev.Ts)
 			}
 			g.state = gWaiting
 			g.ev = ev
 
 			gs[ev.G] = g
-		case EvGoCreate:
+		case EvGolangCreate:
 			g := gs[ev.G]
 			p := ps[ev.P]
 			if err := checkRunning(p, g, ev, true); err != nil {
@@ -1161,7 +1161,7 @@ func (p *parser) postProcessTrace(events Events) error {
 			}
 			gs[ev.Args[0]] = gdesc{state: gRunnable, ev: ev, evCreate: ev}
 
-		case EvGoStart, EvGoStartLabel:
+		case EvGolangStart, EvGolangStartLabel:
 			g := gs[ev.G]
 			p := ps[ev.P]
 			if g.state != gRunnable {
@@ -1184,7 +1184,7 @@ func (p *parser) postProcessTrace(events Events) error {
 
 			gs[ev.G] = g
 			ps[ev.P] = p
-		case EvGoEnd, EvGoStop:
+		case EvGolangEnd, EvGolangStop:
 			g := gs[ev.G]
 			p := ps[ev.P]
 			if err := checkRunning(p, g, ev, false); err != nil {
@@ -1194,13 +1194,13 @@ func (p *parser) postProcessTrace(events Events) error {
 			g.state = gDead
 			p.g = 0
 
-			if ev.Type == EvGoEnd { // flush all active regions
+			if ev.Type == EvGolangEnd { // flush all active regions
 				delete(activeRegions, ev.G)
 			}
 
 			gs[ev.G] = g
 			ps[ev.P] = p
-		case EvGoSched, EvGoPreempt:
+		case EvGolangSched, EvGolangPreempt:
 			g := gs[ev.G]
 			p := ps[ev.P]
 			if err := checkRunning(p, g, ev, false); err != nil {
@@ -1213,7 +1213,7 @@ func (p *parser) postProcessTrace(events Events) error {
 
 			gs[ev.G] = g
 			ps[ev.P] = p
-		case EvGoUnblock:
+		case EvGolangUnblock:
 			g := gs[ev.G]
 			p := ps[ev.P]
 			if g.state != gRunning {
@@ -1226,14 +1226,14 @@ func (p *parser) postProcessTrace(events Events) error {
 			if g1.state != gWaiting {
 				return fmt.Errorf("g %d is not waiting before unpark (time %d)", ev.Args[0], ev.Ts)
 			}
-			if g1.ev != nil && g1.ev.Type == EvGoBlockNet {
+			if g1.ev != nil && g1.ev.Type == EvGolangBlockNet {
 				ev.P = NetpollP
 			}
 			g1.state = gRunnable
 			g1.ev = ev
 			gs[ev.Args[0]] = g1
 
-		case EvGoSysCall:
+		case EvGolangSysCall:
 			g := gs[ev.G]
 			p := ps[ev.P]
 			if err := checkRunning(p, g, ev, false); err != nil {
@@ -1242,7 +1242,7 @@ func (p *parser) postProcessTrace(events Events) error {
 			g.ev = ev
 
 			gs[ev.G] = g
-		case EvGoSysBlock:
+		case EvGolangSysBlock:
 			g := gs[ev.G]
 			p := ps[ev.P]
 			if err := checkRunning(p, g, ev, false); err != nil {
@@ -1254,7 +1254,7 @@ func (p *parser) postProcessTrace(events Events) error {
 
 			gs[ev.G] = g
 			ps[ev.P] = p
-		case EvGoSysExit:
+		case EvGolangSysExit:
 			g := gs[ev.G]
 			if g.state != gWaiting {
 				return fmt.Errorf("g %d is not waiting during syscall exit (time %d)", ev.G, ev.Ts)
@@ -1263,8 +1263,8 @@ func (p *parser) postProcessTrace(events Events) error {
 			g.ev = ev
 
 			gs[ev.G] = g
-		case EvGoSleep, EvGoBlock, EvGoBlockSend, EvGoBlockRecv,
-			EvGoBlockSelect, EvGoBlockSync, EvGoBlockCond, EvGoBlockNet, EvGoBlockGC:
+		case EvGolangSleep, EvGolangBlock, EvGolangBlockSend, EvGolangBlockRecv,
+			EvGolangBlockSelect, EvGolangBlockSync, EvGolangBlockCond, EvGolangBlockNet, EvGolangBlockGC:
 			g := gs[ev.G]
 			p := ps[ev.P]
 			if err := checkRunning(p, g, ev, false); err != nil {
@@ -1322,7 +1322,7 @@ func (p *parser) postProcessTrace(events Events) error {
 
 	}
 
-	// TODO(mknyszek): restore stacks for EvGoStart events.
+	// TODO(mknyszek): restore stacks for EvGolangStart events.
 	return nil
 }
 
@@ -1368,7 +1368,7 @@ func (raw *rawEvent) argNum() int {
 		narg++
 	}
 	switch raw.typ {
-	case EvBatch, EvFrequency, EvTimerGoroutine:
+	case EvBatch, EvFrequency, EvTimerGolangroutine:
 		return narg
 	}
 	narg++ // timestamp
@@ -1384,7 +1384,7 @@ const (
 	EvBatch             EventType = 1  // start of per-P batch of events [pid, timestamp]
 	EvFrequency         EventType = 2  // contains tracer timer frequency [frequency (ticks per second)]
 	EvStack             EventType = 3  // stack [stack id, number of PCs, array of {PC, func string ID, file string ID, line}]
-	EvGomaxprocs        EventType = 4  // current value of GOMAXPROCS [timestamp, GOMAXPROCS, stack id]
+	EvGolangmaxprocs        EventType = 4  // current value of GOMAXPROCS [timestamp, GOMAXPROCS, stack id]
 	EvProcStart         EventType = 5  // start of P [timestamp, thread id]
 	EvProcStop          EventType = 6  // stop of P [timestamp]
 	EvGCStart           EventType = 7  // GC start [timestamp, seq, stack id]
@@ -1393,36 +1393,36 @@ const (
 	EvSTWDone           EventType = 10 // GC mark termination done [timestamp]
 	EvGCSweepStart      EventType = 11 // GC sweep start [timestamp, stack id]
 	EvGCSweepDone       EventType = 12 // GC sweep done [timestamp, swept, reclaimed]
-	EvGoCreate          EventType = 13 // golangroutine creation [timestamp, new golangroutine id, new stack id, stack id]
-	EvGoStart           EventType = 14 // golangroutine starts running [timestamp, golangroutine id, seq]
-	EvGoEnd             EventType = 15 // golangroutine ends [timestamp]
-	EvGoStop            EventType = 16 // golangroutine stops (like in select{}) [timestamp, stack]
-	EvGoSched           EventType = 17 // golangroutine calls Gosched [timestamp, stack]
-	EvGoPreempt         EventType = 18 // golangroutine is preempted [timestamp, stack]
-	EvGoSleep           EventType = 19 // golangroutine calls Sleep [timestamp, stack]
-	EvGoBlock           EventType = 20 // golangroutine blocks [timestamp, stack]
-	EvGoUnblock         EventType = 21 // golangroutine is unblocked [timestamp, golangroutine id, seq, stack]
-	EvGoBlockSend       EventType = 22 // golangroutine blocks on chan send [timestamp, stack]
-	EvGoBlockRecv       EventType = 23 // golangroutine blocks on chan recv [timestamp, stack]
-	EvGoBlockSelect     EventType = 24 // golangroutine blocks on select [timestamp, stack]
-	EvGoBlockSync       EventType = 25 // golangroutine blocks on Mutex/RWMutex [timestamp, stack]
-	EvGoBlockCond       EventType = 26 // golangroutine blocks on Cond [timestamp, stack]
-	EvGoBlockNet        EventType = 27 // golangroutine blocks on network [timestamp, stack]
-	EvGoSysCall         EventType = 28 // syscall enter [timestamp, stack]
-	EvGoSysExit         EventType = 29 // syscall exit [timestamp, golangroutine id, seq, real timestamp]
-	EvGoSysBlock        EventType = 30 // syscall blocks [timestamp]
-	EvGoWaiting         EventType = 31 // denotes that golangroutine is blocked when tracing starts [timestamp, golangroutine id]
-	EvGoInSyscall       EventType = 32 // denotes that golangroutine is in syscall when tracing starts [timestamp, golangroutine id]
+	EvGolangCreate          EventType = 13 // golangroutine creation [timestamp, new golangroutine id, new stack id, stack id]
+	EvGolangStart           EventType = 14 // golangroutine starts running [timestamp, golangroutine id, seq]
+	EvGolangEnd             EventType = 15 // golangroutine ends [timestamp]
+	EvGolangStop            EventType = 16 // golangroutine stops (like in select{}) [timestamp, stack]
+	EvGolangSched           EventType = 17 // golangroutine calls Golangsched [timestamp, stack]
+	EvGolangPreempt         EventType = 18 // golangroutine is preempted [timestamp, stack]
+	EvGolangSleep           EventType = 19 // golangroutine calls Sleep [timestamp, stack]
+	EvGolangBlock           EventType = 20 // golangroutine blocks [timestamp, stack]
+	EvGolangUnblock         EventType = 21 // golangroutine is unblocked [timestamp, golangroutine id, seq, stack]
+	EvGolangBlockSend       EventType = 22 // golangroutine blocks on chan send [timestamp, stack]
+	EvGolangBlockRecv       EventType = 23 // golangroutine blocks on chan recv [timestamp, stack]
+	EvGolangBlockSelect     EventType = 24 // golangroutine blocks on select [timestamp, stack]
+	EvGolangBlockSync       EventType = 25 // golangroutine blocks on Mutex/RWMutex [timestamp, stack]
+	EvGolangBlockCond       EventType = 26 // golangroutine blocks on Cond [timestamp, stack]
+	EvGolangBlockNet        EventType = 27 // golangroutine blocks on network [timestamp, stack]
+	EvGolangSysCall         EventType = 28 // syscall enter [timestamp, stack]
+	EvGolangSysExit         EventType = 29 // syscall exit [timestamp, golangroutine id, seq, real timestamp]
+	EvGolangSysBlock        EventType = 30 // syscall blocks [timestamp]
+	EvGolangWaiting         EventType = 31 // denotes that golangroutine is blocked when tracing starts [timestamp, golangroutine id]
+	EvGolangInSyscall       EventType = 32 // denotes that golangroutine is in syscall when tracing starts [timestamp, golangroutine id]
 	EvHeapAlloc         EventType = 33 // gcController.heapLive change [timestamp, heap live bytes]
-	EvHeapGoal          EventType = 34 // gcController.heapGoal change [timestamp, heap golangal bytes]
-	EvTimerGoroutine    EventType = 35 // denotes timer golangroutine [timer golangroutine id]
+	EvHeapGolangal          EventType = 34 // gcController.heapGolangal change [timestamp, heap golangal bytes]
+	EvTimerGolangroutine    EventType = 35 // denotes timer golangroutine [timer golangroutine id]
 	EvFutileWakeup      EventType = 36 // denotes that the previous wakeup of this golangroutine was futile [timestamp]
 	EvString            EventType = 37 // string dictionary entry [ID, length, string]
-	EvGoStartLocal      EventType = 38 // golangroutine starts running on the same P as the last event [timestamp, golangroutine id]
-	EvGoUnblockLocal    EventType = 39 // golangroutine is unblocked on the same P as the last event [timestamp, golangroutine id, stack]
-	EvGoSysExitLocal    EventType = 40 // syscall exit on the same P as the last event [timestamp, golangroutine id, real timestamp]
-	EvGoStartLabel      EventType = 41 // golangroutine starts running with label [timestamp, golangroutine id, seq, label string id]
-	EvGoBlockGC         EventType = 42 // golangroutine blocks on GC assist [timestamp, stack]
+	EvGolangStartLocal      EventType = 38 // golangroutine starts running on the same P as the last event [timestamp, golangroutine id]
+	EvGolangUnblockLocal    EventType = 39 // golangroutine is unblocked on the same P as the last event [timestamp, golangroutine id, stack]
+	EvGolangSysExitLocal    EventType = 40 // syscall exit on the same P as the last event [timestamp, golangroutine id, real timestamp]
+	EvGolangStartLabel      EventType = 41 // golangroutine starts running with label [timestamp, golangroutine id, seq, label string id]
+	EvGolangBlockGC         EventType = 42 // golangroutine blocks on GC assist [timestamp, stack]
 	EvGCMarkAssistStart EventType = 43 // GC mark assist start [timestamp, stack]
 	EvGCMarkAssistDone  EventType = 44 // GC mark assist done [timestamp]
 	EvUserTaskCreate    EventType = 45 // trace.NewTask [timestamp, internal task id, internal parent id, stack, name string]
@@ -1444,7 +1444,7 @@ var EventDescriptions = [256]struct {
 	EvBatch:             {"Batch", 5, false, []string{"p", "ticks"}, nil}, // in 1.5 format it was {"p", "seq", "ticks"}
 	EvFrequency:         {"Frequency", 5, false, []string{"freq"}, nil},   // in 1.5 format it was {"freq", "unused"}
 	EvStack:             {"Stack", 5, false, []string{"id", "siz"}, nil},
-	EvGomaxprocs:        {"Gomaxprocs", 5, true, []string{"procs"}, nil},
+	EvGolangmaxprocs:        {"Golangmaxprocs", 5, true, []string{"procs"}, nil},
 	EvProcStart:         {"ProcStart", 5, false, []string{"thread"}, nil},
 	EvProcStop:          {"ProcStop", 5, false, []string{}, nil},
 	EvGCStart:           {"GCStart", 5, true, []string{"seq"}, nil}, // in 1.5 format it was {}
@@ -1453,36 +1453,36 @@ var EventDescriptions = [256]struct {
 	EvSTWDone:           {"GCSTWDone", 5, false, []string{}, nil},
 	EvGCSweepStart:      {"GCSweepStart", 5, true, []string{}, nil},
 	EvGCSweepDone:       {"GCSweepDone", 5, false, []string{"swept", "reclaimed"}, nil}, // before 1.9, format was {}
-	EvGoCreate:          {"GoCreate", 5, true, []string{"g", "stack"}, nil},
-	EvGoStart:           {"GoStart", 5, false, []string{"g", "seq"}, nil}, // in 1.5 format it was {"g"}
-	EvGoEnd:             {"GoEnd", 5, false, []string{}, nil},
-	EvGoStop:            {"GoStop", 5, true, []string{}, nil},
-	EvGoSched:           {"GoSched", 5, true, []string{}, nil},
-	EvGoPreempt:         {"GoPreempt", 5, true, []string{}, nil},
-	EvGoSleep:           {"GoSleep", 5, true, []string{}, nil},
-	EvGoBlock:           {"GoBlock", 5, true, []string{}, nil},
-	EvGoUnblock:         {"GoUnblock", 5, true, []string{"g", "seq"}, nil}, // in 1.5 format it was {"g"}
-	EvGoBlockSend:       {"GoBlockSend", 5, true, []string{}, nil},
-	EvGoBlockRecv:       {"GoBlockRecv", 5, true, []string{}, nil},
-	EvGoBlockSelect:     {"GoBlockSelect", 5, true, []string{}, nil},
-	EvGoBlockSync:       {"GoBlockSync", 5, true, []string{}, nil},
-	EvGoBlockCond:       {"GoBlockCond", 5, true, []string{}, nil},
-	EvGoBlockNet:        {"GoBlockNet", 5, true, []string{}, nil},
-	EvGoSysCall:         {"GoSysCall", 5, true, []string{}, nil},
-	EvGoSysExit:         {"GoSysExit", 5, false, []string{"g", "seq", "ts"}, nil},
-	EvGoSysBlock:        {"GoSysBlock", 5, false, []string{}, nil},
-	EvGoWaiting:         {"GoWaiting", 5, false, []string{"g"}, nil},
-	EvGoInSyscall:       {"GoInSyscall", 5, false, []string{"g"}, nil},
+	EvGolangCreate:          {"GolangCreate", 5, true, []string{"g", "stack"}, nil},
+	EvGolangStart:           {"GolangStart", 5, false, []string{"g", "seq"}, nil}, // in 1.5 format it was {"g"}
+	EvGolangEnd:             {"GolangEnd", 5, false, []string{}, nil},
+	EvGolangStop:            {"GolangStop", 5, true, []string{}, nil},
+	EvGolangSched:           {"GolangSched", 5, true, []string{}, nil},
+	EvGolangPreempt:         {"GolangPreempt", 5, true, []string{}, nil},
+	EvGolangSleep:           {"GolangSleep", 5, true, []string{}, nil},
+	EvGolangBlock:           {"GolangBlock", 5, true, []string{}, nil},
+	EvGolangUnblock:         {"GolangUnblock", 5, true, []string{"g", "seq"}, nil}, // in 1.5 format it was {"g"}
+	EvGolangBlockSend:       {"GolangBlockSend", 5, true, []string{}, nil},
+	EvGolangBlockRecv:       {"GolangBlockRecv", 5, true, []string{}, nil},
+	EvGolangBlockSelect:     {"GolangBlockSelect", 5, true, []string{}, nil},
+	EvGolangBlockSync:       {"GolangBlockSync", 5, true, []string{}, nil},
+	EvGolangBlockCond:       {"GolangBlockCond", 5, true, []string{}, nil},
+	EvGolangBlockNet:        {"GolangBlockNet", 5, true, []string{}, nil},
+	EvGolangSysCall:         {"GolangSysCall", 5, true, []string{}, nil},
+	EvGolangSysExit:         {"GolangSysExit", 5, false, []string{"g", "seq", "ts"}, nil},
+	EvGolangSysBlock:        {"GolangSysBlock", 5, false, []string{}, nil},
+	EvGolangWaiting:         {"GolangWaiting", 5, false, []string{"g"}, nil},
+	EvGolangInSyscall:       {"GolangInSyscall", 5, false, []string{"g"}, nil},
 	EvHeapAlloc:         {"HeapAlloc", 5, false, []string{"mem"}, nil},
-	EvHeapGoal:          {"HeapGoal", 5, false, []string{"mem"}, nil},
-	EvTimerGoroutine:    {"TimerGoroutine", 5, false, []string{"g"}, nil}, // in 1.5 format it was {"g", "unused"}
+	EvHeapGolangal:          {"HeapGolangal", 5, false, []string{"mem"}, nil},
+	EvTimerGolangroutine:    {"TimerGolangroutine", 5, false, []string{"g"}, nil}, // in 1.5 format it was {"g", "unused"}
 	EvFutileWakeup:      {"FutileWakeup", 5, false, []string{}, nil},
 	EvString:            {"String", 7, false, []string{}, nil},
-	EvGoStartLocal:      {"GoStartLocal", 7, false, []string{"g"}, nil},
-	EvGoUnblockLocal:    {"GoUnblockLocal", 7, true, []string{"g"}, nil},
-	EvGoSysExitLocal:    {"GoSysExitLocal", 7, false, []string{"g", "ts"}, nil},
-	EvGoStartLabel:      {"GoStartLabel", 8, false, []string{"g", "seq", "labelid"}, []string{"label"}},
-	EvGoBlockGC:         {"GoBlockGC", 8, true, []string{}, nil},
+	EvGolangStartLocal:      {"GolangStartLocal", 7, false, []string{"g"}, nil},
+	EvGolangUnblockLocal:    {"GolangUnblockLocal", 7, true, []string{"g"}, nil},
+	EvGolangSysExitLocal:    {"GolangSysExitLocal", 7, false, []string{"g", "ts"}, nil},
+	EvGolangStartLabel:      {"GolangStartLabel", 8, false, []string{"g", "seq", "labelid"}, []string{"label"}},
+	EvGolangBlockGC:         {"GolangBlockGC", 8, true, []string{}, nil},
 	EvGCMarkAssistStart: {"GCMarkAssistStart", 9, true, []string{}, nil},
 	EvGCMarkAssistDone:  {"GCMarkAssistDone", 9, false, []string{}, nil},
 	EvUserTaskCreate:    {"UserTaskCreate", 11, true, []string{"taskid", "pid", "typeid"}, []string{"name"}},
@@ -1535,9 +1535,9 @@ const (
 	STWGCMarkTermination       STWReason = 1
 	STWGCSweepTermination      STWReason = 2
 	STWWriteHeapDump           STWReason = 3
-	STWGoroutineProfile        STWReason = 4
-	STWGoroutineProfileCleanup STWReason = 5
-	STWAllGoroutinesStackTrace STWReason = 6
+	STWGolangroutineProfile        STWReason = 4
+	STWGolangroutineProfileCleanup STWReason = 5
+	STWAllGolangroutinesStackTrace STWReason = 6
 	STWReadMemStats            STWReason = 7
 	STWAllThreadsSyscall       STWReason = 8
 	STWGOMAXPROCS              STWReason = 9

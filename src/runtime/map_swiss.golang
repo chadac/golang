@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -31,7 +31,7 @@ func makemap64(t *abi.SwissMapType, hint int64, m *maps.Map) *maps.Map {
 	return makemap(t, int(hint), m)
 }
 
-// makemap_small implements Go map creation for make(map[k]v) and
+// makemap_small implements Golang map creation for make(map[k]v) and
 // make(map[k]v, hint) when hint is known to be at most abi.SwissMapGroupSlots
 // at compile time and the map needs to be allocated on the heap.
 //
@@ -48,7 +48,7 @@ func makemap_small() *maps.Map {
 	return maps.NewEmptyMap()
 }
 
-// makemap implements Go map creation for make(map[k]v, hint).
+// makemap implements Golang map creation for make(map[k]v, hint).
 // If the compiler has determined that the map or the first group
 // can be created on the stack, m and optionally m.dirPtr may be non-nil.
 // If m != nil, the map can be created directly in m.
@@ -313,7 +313,7 @@ func reflectlite_maplen(m *maps.Map) int {
 	return int(m.Used())
 }
 
-// mapinitnoop is a no-op function known the Go linker; if a given global
+// mapinitnoop is a no-op function known the Golang linker; if a given global
 // map (of the right size) is determined to be dead, the linker will
 // rewrite the relocation (from the package init func) from the outlined
 // map init function to this symbol. Defined in assembly so as to avoid

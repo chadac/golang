@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -65,7 +65,7 @@ func run(pass *analysis.Pass) (any, error) {
 	// Collect all of the golang callee() and t.Run(name, callee) extents.
 	inspect.Nodes([]ast.Node{
 		(*ast.FuncDecl)(nil),
-		(*ast.GoStmt)(nil),
+		(*ast.GolangStmt)(nil),
 		(*ast.CallExpr)(nil),
 	}, func(node ast.Node, push bool) bool {
 		if !push {
@@ -75,7 +75,7 @@ func run(pass *analysis.Pass) (any, error) {
 		case *ast.FuncDecl:
 			return hasBenchmarkOrTestParams(node)
 
-		case *ast.GoStmt:
+		case *ast.GolangStmt:
 			c := golangAsyncCall(pass.TypesInfo, node, toDecl)
 			addCall(c)
 
@@ -118,7 +118,7 @@ func run(pass *analysis.Pass) (any, error) {
 					} else if id, ok := e.fun.(*ast.Ident); ok {
 						context = fmt.Sprintf(" (%s calls %s)", id.Name, forbidden)
 					}
-					if _, ok := e.async.(*ast.GoStmt); ok {
+					if _, ok := e.async.(*ast.GolangStmt); ok {
 						pass.ReportRangef(where, "call to %s from a non-test golangroutine%s", forbidden, context)
 					} else if reportSubtest {
 						pass.ReportRangef(where, "call to %s on %s defined outside of the subtest%s", forbidden, x.Name(), context)
@@ -169,7 +169,7 @@ func typeIsTestingDotTOrB(expr ast.Expr) (string, bool) {
 // node golang fun() or t.Run(name, fun).
 type asyncCall struct {
 	region ast.Node // region of code to check for t.Forbidden() calls.
-	async  ast.Node // *ast.GoStmt or *ast.CallExpr (for t.Run)
+	async  ast.Node // *ast.GolangStmt or *ast.CallExpr (for t.Run)
 	scope  ast.Node // Report t.Forbidden() if t is not declared within scope.
 	fun    ast.Expr // fun in golang fun() or t.Run(name, fun)
 }
@@ -183,7 +183,7 @@ func withinScope(scope ast.Node, x *types.Var) bool {
 }
 
 // golangAsyncCall returns the extent of a call from a golang fun() statement.
-func golangAsyncCall(info *types.Info, golangStmt *ast.GoStmt, toDecl func(*types.Func) *ast.FuncDecl) *asyncCall {
+func golangAsyncCall(info *types.Info, golangStmt *ast.GolangStmt, toDecl func(*types.Func) *ast.FuncDecl) *asyncCall {
 	call := golangStmt.Call
 
 	fun := ast.Unparen(call.Fun)

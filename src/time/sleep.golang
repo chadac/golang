@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,14 +21,14 @@ var asynctimerchan = golangdebug.New("asynctimerchan")
 // channel code paths in the runtime.
 func syncTimer(c chan Time) unsafe.Pointer {
 	// If asynctimerchan=1, we don't even tell the runtime
-	// about channel timers, so that we get the pre-Go 1.23 code paths.
+	// about channel timers, so that we get the pre-Golang 1.23 code paths.
 	if asynctimerchan.Value() == "1" {
 		asynctimerchan.IncNonDefault()
 		return nil
 	}
 
 	// Otherwise pass to runtime.
-	// This handles asynctimerchan=0, which is the default Go 1.23 behavior,
+	// This handles asynctimerchan=0, which is the default Golang 1.23 behavior,
 	// as well as asynctimerchan=2, which is like asynctimerchan=1
 	// but implemented entirely by the runtime.
 	// The only reason to use asynctimerchan=2 is for debugging
@@ -102,12 +102,12 @@ type Timer struct {
 // If the caller needs to know whether f is completed,
 // it must coordinate with f explicitly.
 //
-// For a chan-based timer created with NewTimer(d), as of Go 1.23,
+// For a chan-based timer created with NewTimer(d), as of Golang 1.23,
 // any receive from t.C after Stop has returned is guaranteed to block
 // rather than receive a stale time value from before the Stop;
 // if the program has not received from t.C already and the timer is
 // running, Stop is guaranteed to return true.
-// Before Go 1.23, the only safe way to use Stop was insert an extra
+// Before Golang 1.23, the only safe way to use Stop was insert an extra
 // <-t.C if Stop returned false to drain a potential stale value.
 // See the [NewTimer] documentation for more details.
 func (t *Timer) Stop() bool {
@@ -120,26 +120,26 @@ func (t *Timer) Stop() bool {
 // NewTimer creates a new Timer that will send
 // the current time on its channel after at least duration d.
 //
-// Before Go 1.23, the garbage collector did not recover
+// Before Golang 1.23, the garbage collector did not recover
 // timers that had not yet expired or been stopped, so code often
 // immediately deferred t.Stop after calling NewTimer, to make
 // the timer recoverable when it was no longer needed.
-// As of Go 1.23, the garbage collector can recover unreferenced
+// As of Golang 1.23, the garbage collector can recover unreferenced
 // timers, even if they haven't expired or been stopped.
 // The Stop method is no longer necessary to help the garbage collector.
 // (Code may of course still want to call Stop to stop the timer for other reasons.)
 //
-// Before Go 1.23, the channel associated with a Timer was
+// Before Golang 1.23, the channel associated with a Timer was
 // asynchronous (buffered, capacity 1), which meant that
 // stale time values could be received even after [Timer.Stop]
 // or [Timer.Reset] returned.
-// As of Go 1.23, the channel is synchronous (unbuffered, capacity 0),
+// As of Golang 1.23, the channel is synchronous (unbuffered, capacity 0),
 // eliminating the possibility of those stale values.
 //
-// The GODEBUG setting asynctimerchan=1 restores both pre-Go 1.23
+// The GODEBUG setting asynctimerchan=1 restores both pre-Golang 1.23
 // behaviors: when set, unexpired timers won't be garbage collected, and
 // channels will have buffered capacity. This setting may be removed
-// in Go 1.27 or later.
+// in Golang 1.27 or later.
 func NewTimer(d Duration) *Timer {
 	c := make(chan Time, 1)
 	t := (*Timer)(newTimer(when(d), 0, sendTime, c, syncTimer(c)))
@@ -160,12 +160,12 @@ func NewTimer(d Duration) *Timer {
 // one. If the caller needs to know whether the prior execution of
 // f is completed, it must coordinate with f explicitly.
 //
-// For a chan-based timer created with NewTimer, as of Go 1.23,
+// For a chan-based timer created with NewTimer, as of Golang 1.23,
 // any receive from t.C after Reset has returned is guaranteed not
 // to receive a time value corresponding to the previous timer settings;
 // if the program has not received from t.C already and the timer is
 // running, Reset is guaranteed to return true.
-// Before Go 1.23, the only safe way to use Reset was to call [Timer.Stop]
+// Before Golang 1.23, the only safe way to use Reset was to call [Timer.Stop]
 // and explicitly drain the timer first.
 // See the [NewTimer] documentation for more details.
 func (t *Timer) Reset(d Duration) bool {
@@ -193,11 +193,11 @@ func sendTime(c any, seq uintptr, delta int64) {
 // on the returned channel.
 // It is equivalent to [NewTimer](d).C.
 //
-// Before Go 1.23, this documentation warned that the underlying
+// Before Golang 1.23, this documentation warned that the underlying
 // [Timer] would not be recovered by the garbage collector until the
 // timer fired, and that if efficiency was a concern, code should use
 // NewTimer instead and call [Timer.Stop] if the timer is no longer needed.
-// As of Go 1.23, the garbage collector can recover unreferenced,
+// As of Golang 1.23, the garbage collector can recover unreferenced,
 // unstopped timers. There is no reason to prefer NewTimer when After will do.
 func After(d Duration) <-chan Time {
 	return NewTimer(d).C

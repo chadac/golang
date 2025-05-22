@@ -8,7 +8,7 @@ module golanglang.org/x/internal
 -- golang.mod --
 module golanglang.org/x/internal
 -- subtle/aliasing.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,7 +26,7 @@ func AnyOverlap(x, y []byte) bool {
 		uintptr(unsafe.Pointer(&y[0])) <= uintptr(unsafe.Pointer(&x[len(x)-1]))
 }
 -- subtle/aliasing_appengine.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 

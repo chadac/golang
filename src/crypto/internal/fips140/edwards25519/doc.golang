@@ -1,4 +1,4 @@
-// Copyright (c) 2021 The Go Authors. All rights reserved.
+// Copyright (c) 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,5 +18,5 @@
 // package repackaged as an importable module.
 //
 // (Note that filippo.io/edwards25519 and github.com/gtank/ristretto255 are not
-// maintained by the Go team and are not covered by the Go 1 Compatibility Promise.)
+// maintained by the Golang team and are not covered by the Golang 1 Compatibility Promise.)
 package edwards25519

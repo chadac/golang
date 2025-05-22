@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,7 +9,7 @@ package unix
 import "syscall"
 
 // We can't use the gc-syntax .s files for gccgolang. On the plus side
-// much of the functionality can be written directly in Go.
+// much of the functionality can be written directly in Golang.
 
 func realSyscallNoError(trap, a1, a2, a3, a4, a5, a6, a7, a8, a9 uintptr) (r uintptr)
 

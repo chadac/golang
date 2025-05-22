@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ import (
 	"unsafe"
 )
 
-// Value is the reflection interface to a Go value.
+// Value is the reflection interface to a Golang value.
 //
 // Not all methods apply to all kinds of values. Restrictions,
 // if any, are noted in the documentation for each method.
@@ -30,7 +30,7 @@ import (
 // If one does, its documentation states the conditions explicitly.
 //
 // A Value can be used concurrently by multiple golangroutines provided that
-// the underlying Go value can be used concurrently for the equivalent
+// the underlying Golang value can be used concurrently for the equivalent
 // direct operations.
 //
 // To compare two Values, compare the results of the Interface method.
@@ -352,10 +352,10 @@ func (v Value) CanSet() bool {
 }
 
 // Call calls the function v with the input arguments in.
-// For example, if len(in) == 3, v.Call(in) represents the Go call v(in[0], in[1], in[2]).
+// For example, if len(in) == 3, v.Call(in) represents the Golang call v(in[0], in[1], in[2]).
 // Call panics if v's Kind is not [Func].
 // It returns the output results as Values.
-// As in Go, each input argument must be assignable to the
+// As in Golang, each input argument must be assignable to the
 // type of the function's corresponding input parameter.
 // If v is a variadic function, Call creates the variadic slice parameter
 // itself, copying in the corresponding values.
@@ -367,10 +367,10 @@ func (v Value) Call(in []Value) []Value {
 
 // CallSlice calls the variadic function v with the input arguments in,
 // assigning the slice in[len(in)-1] to v's final variadic argument.
-// For example, if len(in) == 3, v.CallSlice(in) represents the Go call v(in[0], in[1], in[2]...).
+// For example, if len(in) == 3, v.CallSlice(in) represents the Golang call v(in[0], in[1], in[2]...).
 // CallSlice panics if v's Kind is not [Func] or if v is not variadic.
 // It returns the output results as Values.
-// As in Go, each input argument must be assignable to the
+// As in Golang, each input argument must be assignable to the
 // type of the function's corresponding input parameter.
 func (v Value) CallSlice(in []Value) []Value {
 	v.mustBe(Func)
@@ -1577,8 +1577,8 @@ func packIfaceValueIntoEmptyIface(v Value) any {
 // InterfaceData returns a pair of unspecified uintptr values.
 // It panics if v's Kind is not Interface.
 //
-// In earlier versions of Go, this function returned the interface's
-// value as a uintptr pair. As of Go 1.4, the implementation of
+// In earlier versions of Golang, this function returned the interface's
+// value as a uintptr pair. As of Golang 1.4, the implementation of
 // interface values precludes any defined use of InterfaceData.
 //
 // Deprecated: The memory representation of interface values is not
@@ -1598,7 +1598,7 @@ func (v Value) InterfaceData() [2]uintptr {
 // IsNil reports whether its argument v is nil. The argument must be
 // a chan, func, interface, map, pointer, or slice value; if it is
 // not, IsNil panics. Note that IsNil is not always equivalent to a
-// regular comparison with nil in Go. For example, if v was created
+// regular comparison with nil in Golang. For example, if v was created
 // by calling [ValueOf] with an uninitialized interface variable i,
 // i==nil will be true but v.IsNil will panic as v will be the zero
 // Value.
@@ -2092,7 +2092,7 @@ func (v Value) recv(nb bool) (val Value, ok bool) {
 
 // Send sends x on the channel v.
 // It panics if v's kind is not [Chan] or if x's type is not the same type as v's element type.
-// As in Go, x's value must be assignable to the channel's element type.
+// As in Golang, x's value must be assignable to the channel's element type.
 func (v Value) Send(x Value) {
 	v.mustBe(Chan)
 	v.mustBeExported()
@@ -2119,7 +2119,7 @@ func (v Value) send(x Value, nb bool) (selected bool) {
 
 // Set assigns x to the value v.
 // It panics if [Value.CanSet] returns false.
-// As in Go, x's value must be assignable to v's type and
+// As in Golang, x's value must be assignable to v's type and
 // must not be derived from an unexported field.
 func (v Value) Set(x Value) {
 	v.mustBeAssignable()
@@ -2406,7 +2406,7 @@ func (v Value) Slice3(i, j, k int) Value {
 }
 
 // String returns the string v's underlying value, as a string.
-// String is a special case because of Go's String method convention.
+// String is a special case because of Golang's String method convention.
 // Unlike the other getters, it does not panic if v's Kind is not [String].
 // Instead, it returns a string of the form "<T value>" where T is v's type.
 // The fmt package treats Values specially. It does not call their String
@@ -2442,7 +2442,7 @@ func (v Value) TryRecv() (x Value, ok bool) {
 // TrySend attempts to send x on the channel v but will not block.
 // It panics if v's Kind is not [Chan].
 // It reports whether the value was sent.
-// As in Go, x's value must be assignable to the channel's element type.
+// As in Golang, x's value must be assignable to the channel's element type.
 func (v Value) TrySend(x Value) bool {
 	v.mustBe(Chan)
 	v.mustBeExported()
@@ -2716,7 +2716,7 @@ func (v Value) Clear() {
 }
 
 // Append appends the values x to a slice s and returns the resulting slice.
-// As in Go, each x's value must be assignable to the slice's element type.
+// As in Golang, each x's value must be assignable to the slice's element type.
 func Append(s Value, x ...Value) Value {
 	s.mustBe(Slice)
 	n := s.Len()
@@ -2855,7 +2855,7 @@ type SelectCase struct {
 }
 
 // Select executes a select operation described by the list of cases.
-// Like the Go select statement, it blocks until at least one of the cases
+// Like the Golang select statement, it blocks until at least one of the cases
 // can proceed, makes a uniform pseudo-random choice,
 // and then executes that case. It returns the index of the chosen case
 // and, if that case was a receive operation, the value received and a
@@ -3147,7 +3147,7 @@ func (v Value) assignTo(context string, dst *abi.Type, target unsafe.Pointer) Va
 }
 
 // Convert returns the value v converted to type t.
-// If the usual Go conversion rules do not allow conversion
+// If the usual Golang conversion rules do not allow conversion
 // of the value v to type t, or if converting v to type t panics, Convert panics.
 func (v Value) Convert(t Type) Value {
 	if v.flag&flagMethod != 0 {

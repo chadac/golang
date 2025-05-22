@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,8 +14,8 @@ import (
 	"testing"
 )
 
-func TestGoToolLocation(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+func TestGolangToolLocation(t *testing.T) {
+	testenv.MustHaveGolangBuild(t)
 
 	var exeSuffix string
 	if runtime.GOOS == "windows" {
@@ -25,7 +25,7 @@ func TestGoToolLocation(t *testing.T) {
 	// Tests are defined to run within their package source directory,
 	// and this package's source directory is $GOROOT/src/internal/testenv.
 	// The 'golang' command is installed at $GOROOT/bin/golang, so if the environment
-	// is correct then testenv.GoTool() should be identical to ../../../bin/golang.
+	// is correct then testenv.GolangTool() should be identical to ../../../bin/golang.
 
 	relWant := "../../../bin/golang" + exeSuffix
 	absWant, err := filepath.Abs(relWant)
@@ -39,11 +39,11 @@ func TestGoToolLocation(t *testing.T) {
 	}
 	t.Logf("found golang tool at %q (%q)", relWant, absWant)
 
-	golangTool, err := testenv.GoTool()
+	golangTool, err := testenv.GolangTool()
 	if err != nil {
-		t.Fatalf("testenv.GoTool(): %v", err)
+		t.Fatalf("testenv.GolangTool(): %v", err)
 	}
-	t.Logf("testenv.GoTool() = %q", golangTool)
+	t.Logf("testenv.GolangTool() = %q", golangTool)
 
 	golangtInfo, err := os.Stat(golangTool)
 	if err != nil {
@@ -54,23 +54,23 @@ func TestGoToolLocation(t *testing.T) {
 	}
 }
 
-func TestHasGoBuild(t *testing.T) {
-	if !testenv.HasGoBuild() {
+func TestHasGolangBuild(t *testing.T) {
+	if !testenv.HasGolangBuild() {
 		switch runtime.GOOS {
 		case "js", "wasip1":
 			// No exec syscall, so these shouldn't be able to 'golang build'.
-			t.Logf("HasGoBuild is false on %s", runtime.GOOS)
+			t.Logf("HasGolangBuild is false on %s", runtime.GOOS)
 			return
 		}
 
 		b := testenv.Builder()
 		if b == "" {
 			// We shouldn't make assumptions about what kind of sandbox or build
-			// environment external Go users may be running in.
+			// environment external Golang users may be running in.
 			t.Skipf("skipping: 'golang build' unavailable")
 		}
 
-		// Since we control the Go builders, we know which ones ought
+		// Since we control the Golang builders, we know which ones ought
 		// to be able to run 'golang build'. Check that they can.
 		//
 		// (Note that we don't verify that any builders *can't* run 'golang build'.
@@ -85,14 +85,14 @@ func TestHasGoBuild(t *testing.T) {
 				// The usual iOS sandbox does not allow the app to start another
 				// process. If we add builders on stock iOS devices, they presumably
 				// will not be able to exec, so we may as well allow that now.
-				t.Logf("HasGoBuild is false on %s", b)
+				t.Logf("HasGolangBuild is false on %s", b)
 				return
 			}
 		case "android":
 			if isEmulatedBuilder(b) && platform.MustLinkExternal(runtime.GOOS, runtime.GOARCH, false) {
 				// As of 2023-05-02, the test environment on the emulated builders is
 				// missing a C linker.
-				t.Logf("HasGoBuild is false on %s", b)
+				t.Logf("HasGolangBuild is false on %s", b)
 				return
 			}
 		}
@@ -100,38 +100,38 @@ func TestHasGoBuild(t *testing.T) {
 		if strings.Contains(b, "-noopt") {
 			// The -noopt builder sets GO_GCFLAGS, which causes tests of 'golang build' to
 			// be skipped.
-			t.Logf("HasGoBuild is false on %s", b)
+			t.Logf("HasGolangBuild is false on %s", b)
 			return
 		}
 
-		t.Fatalf("HasGoBuild unexpectedly false on %s", b)
+		t.Fatalf("HasGolangBuild unexpectedly false on %s", b)
 	}
 
-	t.Logf("HasGoBuild is true; checking consistency with other functions")
+	t.Logf("HasGolangBuild is true; checking consistency with other functions")
 
 	hasExec := false
-	hasExecGo := false
+	hasExecGolang := false
 	t.Run("MustHaveExec", func(t *testing.T) {
 		testenv.MustHaveExec(t)
 		hasExec = true
 	})
 	t.Run("MustHaveExecPath", func(t *testing.T) {
 		testenv.MustHaveExecPath(t, "golang")
-		hasExecGo = true
+		hasExecGolang = true
 	})
 	if !hasExec {
 		t.Errorf(`MustHaveExec(t) skipped unexpectedly`)
 	}
-	if !hasExecGo {
+	if !hasExecGolang {
 		t.Errorf(`MustHaveExecPath(t, "golang") skipped unexpectedly`)
 	}
 
 	dir := t.TempDir()
-	mainGo := filepath.Join(dir, "main.golang")
-	if err := os.WriteFile(mainGo, []byte("package main\nfunc main() {}\n"), 0644); err != nil {
+	mainGolang := filepath.Join(dir, "main.golang")
+	if err := os.WriteFile(mainGolang, []byte("package main\nfunc main() {}\n"), 0644); err != nil {
 		t.Fatal(err)
 	}
-	cmd := testenv.Command(t, "golang", "build", "-o", os.DevNull, mainGo)
+	cmd := testenv.Command(t, "golang", "build", "-o", os.DevNull, mainGolang)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("%v: %v\n%s", cmd, err, out)
@@ -171,7 +171,7 @@ func TestCleanCmdEnvPWD(t *testing.T) {
 		t.Skipf("PWD is not used on %s", runtime.GOOS)
 	}
 	dir := t.TempDir()
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "help")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "help")
 	cmd.Dir = dir
 	cmd = testenv.CleanCmdEnv(cmd)
 

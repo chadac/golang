@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ const (
 
 // Note: These functions make many loops over all the words in a Nat.
 // These loops used to be in assembly, invisible to -race, -asan, and -msan,
-// but now they are in Go and incur significant overhead in those modes.
+// but now they are in Golang and incur significant overhead in those modes.
 // To bring the old performance back, we mark all functions that loop
 // over Nat words with //golang:norace. Because //golang:norace does not
 // propagate across inlining, we must also mark functions that inline

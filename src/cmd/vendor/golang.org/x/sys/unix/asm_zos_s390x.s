@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -72,7 +72,7 @@ TEXT addrerrno<>(SB), NOSPLIT|NOFRAME, $0-0
 	LE_CALL
 	NOPH
 
-	// Switch back to Go stack.
+	// Switch back to Golang stack.
 	XOR  R0, R0    // Restore R0 to $0.
 	MOVD R4, 0(R9) // Save stack pointer.
 	RET

@@ -1,5 +1,5 @@
 # Regression test for https://golanglang.org/issue/45127:
-# Goroutines for completed parallel subtests should exit immediately,
+# Golangroutines for completed parallel subtests should exit immediately,
 # not block until earlier subtests have finished.
 
 [short] skip
@@ -23,7 +23,7 @@ import (
 	"testing"
 )
 
-func TestTestingGoroutineLeak(t *testing.T) {
+func TestTestingGolangroutineLeak(t *testing.T) {
 	debug.SetTraceback("all")
 
 	var wg sync.WaitGroup
@@ -37,7 +37,7 @@ func TestTestingGoroutineLeak(t *testing.T) {
 			// send, allow them to park now. If they're not golanging to park,
 			// make sure they have had a chance to run to completion so
 			// that they aren't spuriously parked when we panic.
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 		panic("slow failure")
 	})

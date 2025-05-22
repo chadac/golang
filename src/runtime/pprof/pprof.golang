@@ -1,13 +1,13 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package pprof writes runtime profiling data in the format expected
 // by the pprof visualization tool.
 //
-// # Profiling a Go program
+// # Profiling a Golang program
 //
-// The first step to profiling a Go program is to enable profiling.
+// The first step to profiling a Golang program is to enable profiling.
 // Support for profiling benchmarks built with the standard testing
 // package is built into golang test. For example, the following command
 // runs benchmarks in the current directory and writes the CPU and
@@ -185,8 +185,8 @@ var profiles struct {
 
 var golangroutineProfile = &Profile{
 	name:  "golangroutine",
-	count: countGoroutine,
-	write: writeGoroutine,
+	count: countGolangroutine,
+	write: writeGolangroutine,
 }
 
 var threadcreateProfile = &Profile{
@@ -361,7 +361,7 @@ func (p *Profile) Remove(value any) {
 //
 // The predefined profiles may assign meaning to other debug values;
 // for example, when printing the "golangroutine" profile, debug=2 means to
-// print the golangroutine stacks in the same form that a Go program uses
+// print the golangroutine stacks in the same form that a Golang program uses
 // when dying due to an unrecovered panic.
 func (p *Profile) WriteTo(w io.Writer, debug int) error {
 	if p.name == "" {
@@ -734,20 +734,20 @@ func writeThreadCreate(w io.Writer, debug int) error {
 	})
 }
 
-// countGoroutine returns the number of golangroutines.
-func countGoroutine() int {
-	return runtime.NumGoroutine()
+// countGolangroutine returns the number of golangroutines.
+func countGolangroutine() int {
+	return runtime.NumGolangroutine()
 }
 
-// writeGoroutine writes the current runtime GoroutineProfile to w.
-func writeGoroutine(w io.Writer, debug int) error {
+// writeGolangroutine writes the current runtime GolangroutineProfile to w.
+func writeGolangroutine(w io.Writer, debug int) error {
 	if debug >= 2 {
-		return writeGoroutineStacks(w)
+		return writeGolangroutineStacks(w)
 	}
 	return writeRuntimeProfile(w, debug, "golangroutine", pprof_golangroutineProfileWithLabels)
 }
 
-func writeGoroutineStacks(w io.Writer) error {
+func writeGolangroutineStacks(w io.Writer) error {
 	// We don't know how big the buffer needs to be to collect
 	// all the golangroutines. Start with 1 MB and try a few times, doubling each time.
 	// Give up and use a truncated trace if 64 MB is not enough.
@@ -816,10 +816,10 @@ var cpu struct {
 // StartCPUProfile returns an error if profiling is already enabled.
 //
 // On Unix-like systems, StartCPUProfile does not work by default for
-// Go code built with -buildmode=c-archive or -buildmode=c-shared.
+// Golang code built with -buildmode=c-archive or -buildmode=c-shared.
 // StartCPUProfile relies on the SIGPROF signal, but that signal will
 // be delivered to the main program's SIGPROF signal handler (if any)
-// not to the one used by Go. To make it work, call [os/signal.Notify]
+// not to the one used by Golang. To make it work, call [os/signal.Notify]
 // for [syscall.SIGPROF], but note that doing so may break any profiling
 // being done by the main program.
 func StartCPUProfile(w io.Writer) error {

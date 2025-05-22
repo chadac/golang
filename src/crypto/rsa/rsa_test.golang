@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -170,7 +170,7 @@ func testKeyBasics(t *testing.T, priv *PrivateKey) {
 func TestAllocations(t *testing.T) {
 	cryptotest.SkipTestAllocations(t)
 
-	m := []byte("Hello Gophers")
+	m := []byte("Hello Golangphers")
 	c, err := EncryptPKCS1v15(rand.Reader, &test2048Key.PublicKey, m)
 	if err != nil {
 		t.Fatal(err)
@@ -490,9 +490,9 @@ var test2048KeyPEM = testingKey(`-----BEGIN TESTING KEY-----
 MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDNoyFUYeDuqw+k
 iyv47iBy/udbWmQdpbUZ8JobHv8uQrvL7sQN6l83teHgNJsXqtiLF3MC+K+XI6Dq
 hxUWfQwLip8WEnv7Jx/+53S8yp/CS4Jw86Q1bQHbZjFDpcoqSuwAxlegw18HNZCY
-fpipYnA1lYCm+MTjtgXJQbjA0dwUGCf4BDMqt+76Jk3XZF5975rftbkGoT9eu8Jt
+fpipYnA1lYCm+MTjtgXJQbjA0dwUGCf4BDMqt+76Jk3XZF5975rftbkGolangT9eu8Jt
 Xs5F5Xkwd8q3fkQz+fpLW4u9jrfFyQ61RRFkYrCjlhtGjYIzBHGgQM4n/sNXhiy5
-h0tA7Xa6NyYrN/OXe/Y1K8Rz/tzlvbMoxgZgtBuKo1N3m8ckFi7hUVK2eNv7GoAb
+h0tA7Xa6NyYrN/OXe/Y1K8Rz/tzlvbMoxgZgtBuKo1N3m8ckFi7hUVK2eNv7GolangAb
 teTTPrg/AgMBAAECggEAAnfsVpmsL3R0Bh4gXRpPeM63H6e1a8B8kyVwiO9o0cXX
 gKp9+P39izfB0Kt6lyCj/Wg+wOQT7rg5qy1yIw7fBHGmcjquxh3uN0s3YZ+Vcym6
 SAY5f0vh/OyJN9r3Uv8+Pc4jtb7So7QDzdWeZurssBmUB0avAMRdGNFGP5SyILcz
@@ -560,7 +560,7 @@ Fh4jJb+4zwSML9R6iJu/LH5B7Fre2Te8QrYP+k/jIHPYJtGesVt/WlAtpDCNsC3j
 
 var test4096Key = parseKey(testingKey(`-----BEGIN TESTING KEY-----
 MIIJQQIBADANBgkqhkiG9w0BAQEFAASCCSswggknAgEAAoICAQCmH55T2e8fdUaL
-iWVL2yI7d/wOu/sxI4nVGoiRMiSMlMZlOEZ4oJY6l2y9N/b8ftwoIpjYO8CBk5au
+iWVL2yI7d/wOu/sxI4nVGolangiRMiSMlMZlOEZ4oJY6l2y9N/b8ftwoIpjYO8CBk5au
 x2Odgpuz+FJyHppvKakUIeAn4940zoNkRe/iptybIuH5tCBygjs0y1617TlR/c5+
 FF5YRkzsEJrGcLqXzj0hDyrwdplBOv1xz2oHYlvKWWcVMR/qgwoRuj65Ef262t/Q
 ELH3+fFLzIIstFTk2co2WaALquOsOB6xGOJSAAr8cIAWe+3MqWM8DOcgBuhABA42
@@ -594,7 +594,7 @@ yTvoCLLxJPiLIg9PgvbMF+RiYyomIg75gwfx4zWvIvWdXifQBC88fE7lP2u5gtWL
 JUJaMy6LNKHn8YezvwQp0dRecvvoqzoApOuHfsPASHb9cfvcy/BxDXFMJO4QWCi1
 6WLaR835nKLPAoIBAFw7IHSjxNRl3b/FaJ6k/yEoZpdRVaIQHF+y/uo2j10IJCqw
 p2SbfQjErLNcI/jCCadwhKkzpUVoMs8LO73v/IF79aZ7JR4pYRWNWQ/N+VhGLDCb
-dVAL8x9b4DZeK7gGoE34SfsUfY1S5wmiyiHeHIOazs/ikjsxvwmJh3X2j20klafR
+dVAL8x9b4DZeK7gGolangE34SfsUfY1S5wmiyiHeHIOazs/ikjsxvwmJh3X2j20klafR
 8AJe9/InY2plunHz5tTfxQIQ+8iaaNbzntcXsrPRSZol2/9bX231uR4wHQGQGVj6
 A+HMwsOT0is5Pt7S8WCCl4b13vdf2eKD9xgK4a3emYEWzG985PwYqiXzOYs7RMEV
 cgr8ji57aPbRiJHtPbJ/7ob3z5BA07yR2aDz/0kCggEAZDyajHYNLAhHr98AIuGy
@@ -620,7 +620,7 @@ func BenchmarkDecryptPKCS1v15(b *testing.B) {
 func benchmarkDecryptPKCS1v15(b *testing.B, k *PrivateKey) {
 	r := bufio.NewReaderSize(rand.Reader, 1<<15)
 
-	m := []byte("Hello Gophers")
+	m := []byte("Hello Golangphers")
 	c, err := EncryptPKCS1v15(r, &k.PublicKey, m)
 	if err != nil {
 		b.Fatal(err)
@@ -643,7 +643,7 @@ func benchmarkDecryptPKCS1v15(b *testing.B, k *PrivateKey) {
 func BenchmarkEncryptPKCS1v15(b *testing.B) {
 	b.Run("2048", func(b *testing.B) {
 		r := bufio.NewReaderSize(rand.Reader, 1<<15)
-		m := []byte("Hello Gophers")
+		m := []byte("Hello Golangphers")
 
 		var sink byte
 		for i := 0; i < b.N; i++ {
@@ -660,7 +660,7 @@ func BenchmarkDecryptOAEP(b *testing.B) {
 	b.Run("2048", func(b *testing.B) {
 		r := bufio.NewReaderSize(rand.Reader, 1<<15)
 
-		m := []byte("Hello Gophers")
+		m := []byte("Hello Golangphers")
 		c, err := EncryptOAEP(sha256.New(), r, &test2048Key.PublicKey, m, nil)
 		if err != nil {
 			b.Fatal(err)
@@ -684,7 +684,7 @@ func BenchmarkDecryptOAEP(b *testing.B) {
 func BenchmarkEncryptOAEP(b *testing.B) {
 	b.Run("2048", func(b *testing.B) {
 		r := bufio.NewReaderSize(rand.Reader, 1<<15)
-		m := []byte("Hello Gophers")
+		m := []byte("Hello Golangphers")
 
 		var sink byte
 		for i := 0; i < b.N; i++ {
@@ -1160,7 +1160,7 @@ RE/OSpHi57dyrxgnBkczt56hOksJFzwmgk4wEM8n/JDOXwIzvAH4w4JWhu169gCW
 8LgxCzJ71xv8+wUUouUTLwIhAOHwcdEAKyLo3K7X1nlYcUOX61yQ1GXRgIROGrsh
 NNjpAmEAuW1nu4k4QmEXLpJB7nyWic3q4T0SsatN5HrMAL1To/U3sDHDHIxbvNiG
 mcXBBuDFp4cC9rY+0OOFtDfH2SveKzW1/uX11T4iT/6Bx9cORCnEe5GNBxVOH6IQ
-34hGo1WTAiEAyCYALW1AyUQPerOpQwWeEIrb7Lw/65KTjqDB/VOFRUECYQCPcc07
+34hGolang1WTAiEAyCYALW1AyUQPerOpQwWeEIrb7Lw/65KTjqDB/VOFRUECYQCPcc07
 D19OB593kGklAtk1XwGt1W8OmfGIKhGMKzlYhb9MezjaX/3zpO19msSUmSNKszMX
 RpZX4LYz9Ity0nxQ3qZYN6XYNwvr7dCV0E5eS+mgbGWRrf3utdbUkZUNwYE=
 -----END TESTING KEY-----`))

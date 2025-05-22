@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -68,8 +68,8 @@ func (t Type) String() string {
 	return printUint16(uint16(t))
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (t Type) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (t Type) GolangString() string {
 	if n, ok := typeNames[t]; ok {
 		return "dnsmessage." + n
 	}
@@ -106,8 +106,8 @@ func (c Class) String() string {
 	return printUint16(uint16(c))
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (c Class) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (c Class) GolangString() string {
 	if n, ok := classNames[c]; ok {
 		return "dnsmessage." + n
 	}
@@ -117,8 +117,8 @@ func (c Class) GoString() string {
 // An OpCode is a DNS operation code.
 type OpCode uint16
 
-// GoString implements fmt.GoStringer.GoString.
-func (o OpCode) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (o OpCode) GolangString() string {
 	return printUint16(uint16(o))
 }
 
@@ -152,8 +152,8 @@ func (r RCode) String() string {
 	return printUint16(uint16(r))
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r RCode) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r RCode) GolangString() string {
 	if n, ok := rCodeNames[r]; ok {
 		return "dnsmessage." + n
 	}
@@ -350,19 +350,19 @@ func (m *Header) pack() (id uint16, bits uint16) {
 	return
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (m *Header) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (m *Header) GolangString() string {
 	return "dnsmessage.Header{" +
 		"ID: " + printUint16(m.ID) + ", " +
 		"Response: " + printBool(m.Response) + ", " +
-		"OpCode: " + m.OpCode.GoString() + ", " +
+		"OpCode: " + m.OpCode.GolangString() + ", " +
 		"Authoritative: " + printBool(m.Authoritative) + ", " +
 		"Truncated: " + printBool(m.Truncated) + ", " +
 		"RecursionDesired: " + printBool(m.RecursionDesired) + ", " +
 		"RecursionAvailable: " + printBool(m.RecursionAvailable) + ", " +
 		"AuthenticData: " + printBool(m.AuthenticData) + ", " +
 		"CheckingDisabled: " + printBool(m.CheckingDisabled) + ", " +
-		"RCode: " + m.RCode.GoString() + "}"
+		"RCode: " + m.RCode.GolangString() + "}"
 }
 
 // Message is a representation of a DNS message.
@@ -481,10 +481,10 @@ type Resource struct {
 	Body   ResourceBody
 }
 
-func (r *Resource) GoString() string {
+func (r *Resource) GolangString() string {
 	return "dnsmessage.Resource{" +
-		"Header: " + r.Header.GoString() +
-		", Body: &" + r.Body.GoString() +
+		"Header: " + r.Header.GolangString() +
+		", Body: &" + r.Body.GolangString() +
 		"}"
 }
 
@@ -497,8 +497,8 @@ type ResourceBody interface {
 	// fill in the header Type field.
 	realType() Type
 
-	// GoString implements fmt.GoStringer.GoString.
-	GoString() string
+	// GolangString implements fmt.GolangStringer.GolangString.
+	GolangString() string
 }
 
 // pack appends the wire format of the Resource to msg.
@@ -1167,35 +1167,35 @@ func (m *Message) AppendPack(b []byte) ([]byte, error) {
 	return msg, nil
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (m *Message) GoString() string {
-	s := "dnsmessage.Message{Header: " + m.Header.GoString() + ", " +
+// GolangString implements fmt.GolangStringer.GolangString.
+func (m *Message) GolangString() string {
+	s := "dnsmessage.Message{Header: " + m.Header.GolangString() + ", " +
 		"Questions: []dnsmessage.Question{"
 	if len(m.Questions) > 0 {
-		s += m.Questions[0].GoString()
+		s += m.Questions[0].GolangString()
 		for _, q := range m.Questions[1:] {
-			s += ", " + q.GoString()
+			s += ", " + q.GolangString()
 		}
 	}
 	s += "}, Answers: []dnsmessage.Resource{"
 	if len(m.Answers) > 0 {
-		s += m.Answers[0].GoString()
+		s += m.Answers[0].GolangString()
 		for _, a := range m.Answers[1:] {
-			s += ", " + a.GoString()
+			s += ", " + a.GolangString()
 		}
 	}
 	s += "}, Authorities: []dnsmessage.Resource{"
 	if len(m.Authorities) > 0 {
-		s += m.Authorities[0].GoString()
+		s += m.Authorities[0].GolangString()
 		for _, a := range m.Authorities[1:] {
-			s += ", " + a.GoString()
+			s += ", " + a.GolangString()
 		}
 	}
 	s += "}, Additionals: []dnsmessage.Resource{"
 	if len(m.Additionals) > 0 {
-		s += m.Additionals[0].GoString()
+		s += m.Additionals[0].GolangString()
 		for _, a := range m.Additionals[1:] {
-			s += ", " + a.GoString()
+			s += ", " + a.GolangString()
 		}
 	}
 	return s + "}}"
@@ -1668,12 +1668,12 @@ type ResourceHeader struct {
 	Length uint16
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (h *ResourceHeader) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (h *ResourceHeader) GolangString() string {
 	return "dnsmessage.ResourceHeader{" +
-		"Name: " + h.Name.GoString() + ", " +
-		"Type: " + h.Type.GoString() + ", " +
-		"Class: " + h.Class.GoString() + ", " +
+		"Name: " + h.Name.GolangString() + ", " +
+		"Type: " + h.Type.GolangString() + ", " +
+		"Class: " + h.Class.GolangString() + ", " +
 		"TTL: " + printUint32(h.TTL) + ", " +
 		"Length: " + printUint16(h.Length) + "}"
 }
@@ -1942,8 +1942,8 @@ func (n Name) String() string {
 	return string(n.Data[:n.Length])
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (n *Name) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (n *Name) GolangString() string {
 	return `dnsmessage.MustNewName("` + printString(n.Data[:n.Length]) + `")`
 }
 
@@ -2160,12 +2160,12 @@ func (q *Question) pack(msg []byte, compression map[string]uint16, compressionOf
 	return packClass(msg, q.Class), nil
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (q *Question) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (q *Question) GolangString() string {
 	return "dnsmessage.Question{" +
-		"Name: " + q.Name.GoString() + ", " +
-		"Type: " + q.Type.GoString() + ", " +
-		"Class: " + q.Class.GoString() + "}"
+		"Name: " + q.Name.GolangString() + ", " +
+		"Type: " + q.Type.GolangString() + ", " +
+		"Class: " + q.Class.GolangString() + "}"
 }
 
 func unpackResourceBody(msg []byte, off int, hdr ResourceHeader) (ResourceBody, int, error) {
@@ -2251,9 +2251,9 @@ func (r *CNAMEResource) pack(msg []byte, compression map[string]uint16, compress
 	return r.CNAME.pack(msg, compression, compressionOff)
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r *CNAMEResource) GoString() string {
-	return "dnsmessage.CNAMEResource{CNAME: " + r.CNAME.GoString() + "}"
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r *CNAMEResource) GolangString() string {
+	return "dnsmessage.CNAMEResource{CNAME: " + r.CNAME.GolangString() + "}"
 }
 
 func unpackCNAMEResource(msg []byte, off int) (CNAMEResource, error) {
@@ -2285,11 +2285,11 @@ func (r *MXResource) pack(msg []byte, compression map[string]uint16, compression
 	return msg, nil
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r *MXResource) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r *MXResource) GolangString() string {
 	return "dnsmessage.MXResource{" +
 		"Pref: " + printUint16(r.Pref) + ", " +
-		"MX: " + r.MX.GoString() + "}"
+		"MX: " + r.MX.GolangString() + "}"
 }
 
 func unpackMXResource(msg []byte, off int) (MXResource, error) {
@@ -2318,9 +2318,9 @@ func (r *NSResource) pack(msg []byte, compression map[string]uint16, compression
 	return r.NS.pack(msg, compression, compressionOff)
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r *NSResource) GoString() string {
-	return "dnsmessage.NSResource{NS: " + r.NS.GoString() + "}"
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r *NSResource) GolangString() string {
+	return "dnsmessage.NSResource{NS: " + r.NS.GolangString() + "}"
 }
 
 func unpackNSResource(msg []byte, off int) (NSResource, error) {
@@ -2345,9 +2345,9 @@ func (r *PTRResource) pack(msg []byte, compression map[string]uint16, compressio
 	return r.PTR.pack(msg, compression, compressionOff)
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r *PTRResource) GoString() string {
-	return "dnsmessage.PTRResource{PTR: " + r.PTR.GoString() + "}"
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r *PTRResource) GolangString() string {
+	return "dnsmessage.PTRResource{PTR: " + r.PTR.GolangString() + "}"
 }
 
 func unpackPTRResource(msg []byte, off int) (PTRResource, error) {
@@ -2395,11 +2395,11 @@ func (r *SOAResource) pack(msg []byte, compression map[string]uint16, compressio
 	return packUint32(msg, r.MinTTL), nil
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r *SOAResource) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r *SOAResource) GolangString() string {
 	return "dnsmessage.SOAResource{" +
-		"NS: " + r.NS.GoString() + ", " +
-		"MBox: " + r.MBox.GoString() + ", " +
+		"NS: " + r.NS.GolangString() + ", " +
+		"MBox: " + r.MBox.GolangString() + ", " +
 		"Serial: " + printUint32(r.Serial) + ", " +
 		"Refresh: " + printUint32(r.Refresh) + ", " +
 		"Retry: " + printUint32(r.Retry) + ", " +
@@ -2462,8 +2462,8 @@ func (r *TXTResource) pack(msg []byte, compression map[string]uint16, compressio
 	return msg, nil
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r *TXTResource) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r *TXTResource) GolangString() string {
 	s := "dnsmessage.TXTResource{TXT: []string{"
 	if len(r.TXT) == 0 {
 		return s + "}}"
@@ -2518,13 +2518,13 @@ func (r *SRVResource) pack(msg []byte, compression map[string]uint16, compressio
 	return msg, nil
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r *SRVResource) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r *SRVResource) GolangString() string {
 	return "dnsmessage.SRVResource{" +
 		"Priority: " + printUint16(r.Priority) + ", " +
 		"Weight: " + printUint16(r.Weight) + ", " +
 		"Port: " + printUint16(r.Port) + ", " +
-		"Target: " + r.Target.GoString() + "}"
+		"Target: " + r.Target.GolangString() + "}"
 }
 
 func unpackSRVResource(msg []byte, off int) (SRVResource, error) {
@@ -2561,8 +2561,8 @@ func (r *AResource) pack(msg []byte, compression map[string]uint16, compressionO
 	return packBytes(msg, r.A[:]), nil
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r *AResource) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r *AResource) GolangString() string {
 	return "dnsmessage.AResource{" +
 		"A: [4]byte{" + printByteSlice(r.A[:]) + "}}"
 }
@@ -2584,8 +2584,8 @@ func (r *AAAAResource) realType() Type {
 	return TypeAAAA
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r *AAAAResource) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r *AAAAResource) GolangString() string {
 	return "dnsmessage.AAAAResource{" +
 		"AAAA: [16]byte{" + printByteSlice(r.AAAA[:]) + "}}"
 }
@@ -2620,8 +2620,8 @@ type Option struct {
 	Data []byte
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (o *Option) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (o *Option) GolangString() string {
 	return "dnsmessage.Option{" +
 		"Code: " + printUint16(o.Code) + ", " +
 		"Data: []byte{" + printByteSlice(o.Data) + "}}"
@@ -2641,15 +2641,15 @@ func (r *OPTResource) pack(msg []byte, compression map[string]uint16, compressio
 	return msg, nil
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r *OPTResource) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r *OPTResource) GolangString() string {
 	s := "dnsmessage.OPTResource{Options: []dnsmessage.Option{"
 	if len(r.Options) == 0 {
 		return s + "}}"
 	}
-	s += r.Options[0].GoString()
+	s += r.Options[0].GolangString()
 	for _, o := range r.Options[1:] {
-		s += ", " + o.GoString()
+		s += ", " + o.GolangString()
 	}
 	return s + "}}"
 }
@@ -2693,10 +2693,10 @@ func (r *UnknownResource) pack(msg []byte, compression map[string]uint16, compre
 	return packBytes(msg, r.Data[:]), nil
 }
 
-// GoString implements fmt.GoStringer.GoString.
-func (r *UnknownResource) GoString() string {
+// GolangString implements fmt.GolangStringer.GolangString.
+func (r *UnknownResource) GolangString() string {
 	return "dnsmessage.UnknownResource{" +
-		"Type: " + r.Type.GoString() + ", " +
+		"Type: " + r.Type.GolangString() + ", " +
 		"Data: []byte{" + printByteSlice(r.Data) + "}}"
 }
 

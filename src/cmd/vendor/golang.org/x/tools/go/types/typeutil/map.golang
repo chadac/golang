@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ import (
 // arbitrary values.  The concrete types that implement
 // the Type interface are pointers.  Since they are not canonicalized,
 // == cannot be used to check for equivalence, and thus we cannot
-// simply use a Go map.
+// simply use a Golang map.
 //
 // Just as with map[K]V, a nil *Map is a valid empty map.
 //
@@ -121,7 +121,7 @@ func (m *Map) Len() int {
 // Iterate calls function f on each entry in the map in unspecified order.
 //
 // If f should mutate the map, Iterate provides the same guarantees as
-// Go maps: if f deletes a map entry that Iterate has not yet reached,
+// Golang maps: if f deletes a map entry that Iterate has not yet reached,
 // f will not be invoked for it, but if f inserts a map entry that
 // Iterate has not yet reached, whether or not f will be invoked for
 // it is unspecified.
@@ -182,7 +182,7 @@ func (m *Map) KeysString() string {
 // -- Hasher --
 
 // hash returns the hash of type t.
-// TODO(adonovan): replace by types.Hash when Go proposal #69420 is accepted.
+// TODO(adonovan): replace by types.Hash when Golang proposal #69420 is accepted.
 func hash(t types.Type) uint32 {
 	return theHasher.Hash(t)
 }

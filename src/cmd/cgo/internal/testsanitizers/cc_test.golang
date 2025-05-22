@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -7,7 +7,7 @@
 
 //golang:build linux || (freebsd && amd64)
 
-// sanitizers_test checks the use of Go with sanitizers like msan, asan, etc.
+// sanitizers_test checks the use of Golang with sanitizers like msan, asan, etc.
 // See https://github.com/golangogle/sanitizers.
 package sanitizers_test
 
@@ -268,7 +268,7 @@ func compilerSupportsLocation() bool {
 	case "gcc":
 		// TODO(72752): the asan runtime support library
 		// (libasan.so.6) shipped with GCC 10 has problems digesting
-		// version 5 DWARF produced by the Go toolchain. Disable
+		// version 5 DWARF produced by the Golang toolchain. Disable
 		// location checking if gcc is not sufficiently up to date in
 		// this case.
 		return compiler.major > 10
@@ -513,7 +513,7 @@ func (c *config) checkCSanitizer() (skip bool, err error) {
 	return false, nil
 }
 
-// skipIfRuntimeIncompatible skips t if the Go runtime is suspected not to work
+// skipIfRuntimeIncompatible skips t if the Golang runtime is suspected not to work
 // with cgolang as configured.
 func (c *config) skipIfRuntimeIncompatible(t *testing.T) {
 	check := &c.runtimeCheck

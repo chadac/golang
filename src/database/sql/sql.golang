@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -818,7 +818,7 @@ func (t dsnConnector) Driver() driver.Driver {
 //
 // Most users will open a database via a driver-specific connection
 // helper function that returns a [*DB]. No database drivers are included
-// in the Go standard library. See https://golanglang.org/s/sqldrivers for
+// in the Golang standard library. See https://golanglang.org/s/sqldrivers for
 // a list of third-party drivers.
 //
 // OpenDB may just validate its arguments without creating a connection
@@ -849,7 +849,7 @@ func OpenDB(c driver.Connector) *DB {
 //
 // Most users will open a database via a driver-specific connection
 // helper function that returns a [*DB]. No database drivers are included
-// in the Go standard library. See https://golanglang.org/s/sqldrivers for
+// in the Golang standard library. See https://golanglang.org/s/sqldrivers for
 // a list of third-party drivers.
 //
 // Open may just validate its arguments without creating a connection
@@ -3248,7 +3248,7 @@ func (ci *ColumnType) DecimalSize() (precision, scale int64, ok bool) {
 	return ci.precision, ci.scale, ci.hasPrecisionScale
 }
 
-// ScanType returns a Go type suitable for scanning into using [Rows.Scan].
+// ScanType returns a Golang type suitable for scanning into using [Rows.Scan].
 // If a driver does not support this property ScanType will return
 // the type of an empty interface.
 func (ci *ColumnType) ScanType() reflect.Type {
@@ -3307,7 +3307,7 @@ func rowsColumnInfoSetupConnLocked(rowsi driver.Rows) []*ColumnType {
 // number of columns in [Rows].
 //
 // Scan converts columns read from the database into the following
-// common Go types and special types provided by the sql package:
+// common Golang types and special types provided by the sql package:
 //
 //	*string
 //	*[]byte

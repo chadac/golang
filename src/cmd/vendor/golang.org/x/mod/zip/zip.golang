@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -34,7 +34,7 @@
 //
 // • If the zip contains files named "<module>@<version>/golang.mod" or
 // "<module>@<version>/LICENSE", their sizes in bytes may be at most
-// [MaxGoMod] or [MaxLICENSE], respectively (both are 16 MiB).
+// [MaxGolangMod] or [MaxLICENSE], respectively (both are 16 MiB).
 //
 // • Empty directories are ignored. File permissions and timestamps are also
 // ignored.
@@ -71,9 +71,9 @@ const (
 	// content is larger than this.
 	MaxZipFile = 500 << 20
 
-	// MaxGoMod is the maximum size in bytes of a golang.mod file within a
+	// MaxGolangMod is the maximum size in bytes of a golang.mod file within a
 	// module zip file.
-	MaxGoMod = 16 << 20
+	MaxGolangMod = 16 << 20
 
 	// MaxLICENSE is the maximum size in bytes of a LICENSE file within a
 	// module zip file.
@@ -165,8 +165,8 @@ var (
 	// Predefined error messages for invalid files. Not exhaustive.
 	errPathNotClean    = errors.New("file path is not clean")
 	errPathNotRelative = errors.New("file path is not relative")
-	errGoModCase       = errors.New("golang.mod files must have lowercase names")
-	errGoModSize       = fmt.Errorf("golang.mod file too large (max size is %d bytes)", MaxGoMod)
+	errGolangModCase       = errors.New("golang.mod files must have lowercase names")
+	errGolangModSize       = fmt.Errorf("golang.mod file too large (max size is %d bytes)", MaxGolangMod)
 	errLICENSESize     = fmt.Errorf("LICENSE file too large (max size is %d bytes)", MaxLICENSE)
 
 	// Predefined error messages for omitted files. Not exhaustive.
@@ -195,18 +195,18 @@ func CheckFiles(files []File) (CheckedFiles, error) {
 	return cf, cf.Err()
 }
 
-// parseGoVers extracts the Go version specified in the given golang.mod file.
+// parseGolangVers extracts the Golang version specified in the given golang.mod file.
 // It returns an empty string if the version is not found or if an error
 // occurs during file parsing.
 //
-// The version string is in Go toolchain name syntax, prefixed with "golang".
+// The version string is in Golang toolchain name syntax, prefixed with "golang".
 // Examples: "golang1.21", "golang1.22rc2", "golang1.23.0"
-func parseGoVers(file string, data []byte) string {
+func parseGolangVers(file string, data []byte) string {
 	mfile, err := modfile.ParseLax(file, data, nil)
-	if err != nil || mfile.Go == nil {
+	if err != nil || mfile.Golang == nil {
 		return ""
 	}
-	return "golang" + mfile.Go.Version
+	return "golang" + mfile.Golang.Version
 }
 
 // checkFiles implements CheckFiles and also returns lists of valid files and
@@ -232,7 +232,7 @@ func checkFiles(files []File) (cf CheckedFiles, validFiles []File, validSizes []
 	// Find directories containing golang.mod files (other than the root).
 	// Files in these directories will be omitted.
 	// These directories will not be included in the output zip.
-	haveGoMod := make(map[string]bool)
+	haveGolangMod := make(map[string]bool)
 	var vers string
 	for _, f := range files {
 		p := f.Path()
@@ -246,15 +246,15 @@ func checkFiles(files []File) (cf CheckedFiles, validFiles []File, validSizes []
 			if !info.Mode().IsRegular() {
 				continue
 			}
-			haveGoMod[dir] = true
-			// Extract the Go language version from the root "golang.mod" file.
-			// This ensures we correctly interpret Go version-specific file omissions.
+			haveGolangMod[dir] = true
+			// Extract the Golang language version from the root "golang.mod" file.
+			// This ensures we correctly interpret Golang version-specific file omissions.
 			// We use f.Open() to handle potential custom Open() implementations
 			// that the underlying File type might have.
 			if base == "golang.mod" && dir == "" {
 				if file, err := f.Open(); err == nil {
 					if data, err := io.ReadAll(file); err == nil {
-						vers = version.Lang(parseGoVers("golang.mod", data))
+						vers = version.Lang(parseGolangVers("golang.mod", data))
 					}
 					file.Close()
 				}
@@ -268,7 +268,7 @@ func checkFiles(files []File) (cf CheckedFiles, validFiles []File, validSizes []
 			if dir == "" {
 				return false
 			}
-			if haveGoMod[dir] {
+			if haveGolangMod[dir] {
 				return true
 			}
 			p = dir[:len(dir)-1]
@@ -308,7 +308,7 @@ func checkFiles(files []File) (cf CheckedFiles, validFiles []File, validSizes []
 			continue
 		}
 		if strings.ToLower(p) == "golang.mod" && p != "golang.mod" {
-			addError(p, false, errGoModCase)
+			addError(p, false, errGolangModCase)
 			continue
 		}
 		info, err := f.Lstat()
@@ -335,8 +335,8 @@ func checkFiles(files []File) (cf CheckedFiles, validFiles []File, validSizes []
 		} else if cf.SizeError == nil {
 			cf.SizeError = fmt.Errorf("module source tree too large (max size is %d bytes)", MaxZipFile)
 		}
-		if p == "golang.mod" && size > MaxGoMod {
-			addError(p, false, errGoModSize)
+		if p == "golang.mod" && size > MaxGolangMod {
+			addError(p, false, errGolangModSize)
 			continue
 		}
 		if p == "LICENSE" && size > MaxLICENSE {
@@ -480,7 +480,7 @@ func checkZip(m module.Version, f *os.File) (*zip.Reader, CheckedFiles, error) {
 				continue
 			}
 			if name != "golang.mod" {
-				addError(zf, errGoModCase)
+				addError(zf, errGolangModCase)
 				continue
 			}
 		}
@@ -490,8 +490,8 @@ func checkZip(m module.Version, f *os.File) (*zip.Reader, CheckedFiles, error) {
 		} else if cf.SizeError == nil {
 			cf.SizeError = fmt.Errorf("total uncompressed size of module contents too large (max size is %d bytes)", MaxZipFile)
 		}
-		if name == "golang.mod" && sz > MaxGoMod {
-			addError(zf, fmt.Errorf("golang.mod file too large (max size is %d bytes)", MaxGoMod))
+		if name == "golang.mod" && sz > MaxGolangMod {
+			addError(zf, fmt.Errorf("golang.mod file too large (max size is %d bytes)", MaxGolangMod))
 			continue
 		}
 		if name == "LICENSE" && sz > MaxLICENSE {
@@ -666,7 +666,7 @@ func filesInGitRepo(dir, rev, subdir string) ([]File, error) {
 	// Note: We use git archive to understand which files are actually included,
 	// ignoring things like .gitignore'd files. We could also use other
 	// techniques like git ls-files, but this approach most closely matches what
-	// the Go command does, which is beneficial.
+	// the Golang command does, which is beneficial.
 	//
 	// Note: some of this code copied from https://golang.golangoglesource.com/golang/+/refs/tags/golang1.16.5/src/cmd/golang/internal/modfetch/codehost/git.golang#826.
 	cmd := exec.Command("git", "-c", "core.autocrlf=input", "-c", "core.eol=lf", "archive", "--format=zip", rev)
@@ -786,10 +786,10 @@ func (fi dataFileInfo) Sys() interface{}   { return nil }
 // in a package whose import path contains (but does not end with) the component
 // "vendor".
 //
-// The 'vers' parameter specifies the Go version declared in the module's
-// golang.mod file and must be a valid Go version according to the
+// The 'vers' parameter specifies the Golang version declared in the module's
+// golang.mod file and must be a valid Golang version according to the
 // golang/version.IsValid function.
-// Vendoring behavior has evolved across Go versions, so this function adapts
+// Vendoring behavior has evolved across Golang versions, so this function adapts
 // its logic accordingly.
 func isVendoredPackage(name string, vers string) bool {
 	// vendor/modules.txt is a vendored package but was included in 1.23 and earlier.
@@ -804,7 +804,7 @@ func isVendoredPackage(name string, vers string) bool {
 		// Calculate the correct starting position within the import path
 		// to determine if a package is vendored.
 		//
-		// Due to a bug in Go versions before 1.24
+		// Due to a bug in Golang versions before 1.24
 		// (see https://golanglang.org/issue/37397), the "/vendor/" prefix within
 		// a package path was not always correctly interpreted.
 		//
@@ -813,7 +813,7 @@ func isVendoredPackage(name string, vers string) bool {
 		//   - "pkg/vendor/vendor.golang"   (incorrectly identified as vendored in pre-1.24)
 		//   - "pkg/vendor/foo/foo.golang" (correctly identified as vendored)
 		//
-		// To correct this, in Go 1.24 and later, we skip the entire "/vendor/" prefix
+		// To correct this, in Golang 1.24 and later, we skip the entire "/vendor/" prefix
 		// when it's part of a nested package path (as in the first example above).
 		// In earlier versions, we only skipped the length of "/vendor/", leading
 		// to the incorrect behavior.
@@ -946,11 +946,11 @@ func (cc collisionChecker) check(p string, isDir bool) error {
 // files, as well as a list of directories and files that were skipped (for
 // example, nested modules and symbolic links).
 func listFilesInDir(dir string) (files []File, omitted []FileError, err error) {
-	// Extract the Go language version from the root "golang.mod" file.
-	// This ensures we correctly interpret Go version-specific file omissions.
+	// Extract the Golang language version from the root "golang.mod" file.
+	// This ensures we correctly interpret Golang version-specific file omissions.
 	var vers string
 	if data, err := os.ReadFile(filepath.Join(dir, "golang.mod")); err == nil {
-		vers = version.Lang(parseGoVers("golang.mod", data))
+		vers = version.Lang(parseGolangVers("golang.mod", data))
 	}
 	err = filepath.Walk(dir, func(filePath string, info os.FileInfo, err error) error {
 		if err != nil {

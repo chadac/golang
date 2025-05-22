@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -70,7 +70,7 @@ func genFunction(size int) []bloc {
 		Bloc("entry",
 			Valu(valn("store", 0, 4), OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, types.Types[types.TUINTPTR], 0, nil),
-			Goto(blockn(1)),
+			Golangto(blockn(1)),
 		),
 	)
 	for i := 1; i < size+1; i++ {
@@ -89,11 +89,11 @@ func genFunction(size int) []bloc {
 				valn("v", i, 0), valn("store", i, 2)),
 			Valu(valn("store", i, 4), OpStore, types.TypeMem, 0, elemType, valn("addr", i, 3),
 				valn("v", i, 0), valn("store", i, 3)),
-			Goto(blockn(i+1))))
+			Golangto(blockn(i+1))))
 	}
 
 	blocs = append(blocs,
-		Bloc(blockn(size+1), Goto("exit")),
+		Bloc(blockn(size+1), Golangto("exit")),
 		Bloc("exit", Exit("store0-4")),
 	)
 

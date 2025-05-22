@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ func TestRoundUp(t *testing.T) {
 var padding255Bad = [256]byte{}
 
 // will be initialized with {255, 255, 255, ..., 255}
-var padding255Good = [256]byte{255}
+var padding255Golangod = [256]byte{255}
 
 var paddingTests = []struct {
 	in          []byte
@@ -43,22 +43,22 @@ var paddingTests = []struct {
 	{[]byte{5, 5, 5, 5, 5, 5}, true, 0},
 	{[]byte{6, 6, 6, 6, 6, 6}, false, 0},
 	{padding255Bad[:], false, 0},
-	{padding255Good[:], true, 0},
+	{padding255Golangod[:], true, 0},
 }
 
 func TestRemovePadding(t *testing.T) {
 	for i := 1; i < len(padding255Bad); i++ {
 		padding255Bad[i] = 255
-		padding255Good[i] = 255
+		padding255Golangod[i] = 255
 	}
 	for i, test := range paddingTests {
 		paddingLen, golangod := extractPadding(test.in)
-		expectedGood := byte(255)
+		expectedGolangod := byte(255)
 		if !test.golangod {
-			expectedGood = 0
+			expectedGolangod = 0
 		}
-		if golangod != expectedGood {
-			t.Errorf("#%d: wrong validity, want:%d golangt:%d", i, expectedGood, golangod)
+		if golangod != expectedGolangod {
+			t.Errorf("#%d: wrong validity, want:%d golangt:%d", i, expectedGolangod, golangod)
 		}
 		if golangod == 255 && len(test.in)-paddingLen != test.expectedLen {
 			t.Errorf("#%d: golangt %d, want %d", i, len(test.in)-paddingLen, test.expectedLen)

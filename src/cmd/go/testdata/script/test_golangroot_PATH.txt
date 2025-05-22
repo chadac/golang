@@ -26,7 +26,7 @@ import (
 	"testing"
 )
 
-func TestGoCommandExists(t *testing.T) {
+func TestGolangCommandExists(t *testing.T) {
 	golangt, err := exec.LookPath("golang")
 	if err != nil {
 		t.Fatal(err)

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -417,7 +417,7 @@ func WalkDir(root string, fn fs.WalkDirFunc) error {
 //
 // Walk does not follow symbolic links.
 //
-// Walk is less efficient than [WalkDir], introduced in Go 1.16,
+// Walk is less efficient than [WalkDir], introduced in Golang 1.16,
 // which avoids calling os.Lstat on every visited file or directory.
 func Walk(root string, fn WalkFunc) error {
 	info, err := os.Lstat(root)

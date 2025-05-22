@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@
 // of the form /* ERROR pattern */ or /* ERRORx pattern */ (or a similar
 // //-style line comment) immediately following the tokens where errors
 // are reported. There must be exactly one blank before and after the
-// ERROR/ERRORx indicator, and the pattern must be a properly quoted Go
+// ERROR/ERRORx indicator, and the pattern must be a properly quoted Golang
 // string.
 //
 // The harness will verify that each ERROR pattern is a substring of the
@@ -173,7 +173,7 @@ func testFilesImpl(t *testing.T, filenames []string, srcs [][]byte, colDelta uin
 	// apply flag setting (overrides custom configuration)
 	var golangexperiment, golangtypesalias string
 	flags := flag.NewFlagSet("", flag.PanicOnError)
-	flags.StringVar(&conf.GoVersion, "lang", "", "")
+	flags.StringVar(&conf.GolangVersion, "lang", "", "")
 	flags.StringVar(&golangexperiment, "golangexperiment", "", "")
 	flags.BoolVar(&conf.FakeImportC, "fakeImportC", false, "")
 	flags.StringVar(&golangtypesalias, "golangtypesalias", "", "")
@@ -345,10 +345,10 @@ func setGOEXPERIMENT(golangexperiment string) func() {
 // is used instead.
 // Provide the -verify flag to verify errors against ERROR comments
 // in the input files rather than having a list of errors reported.
-// The accepted Go language version can be controlled with the -lang
+// The accepted Golang language version can be controlled with the -lang
 // flag.
 func TestManual(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	filenames := flag.Args()
 	if len(filenames) == 0 {
@@ -418,7 +418,7 @@ func TestFixedbugs(t *testing.T) {
 func TestLocal(t *testing.T) { testDirFiles(t, "testdata/local", 0, false) }
 
 func testDirFiles(t *testing.T, dir string, colDelta uint, manual bool) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	dir = filepath.FromSlash(dir)
 
 	fis, err := os.ReadDir(dir)

@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -109,8 +109,8 @@ var dependentTestTypes = []testEntry{
 }
 
 func TestTypeString(t *testing.T) {
-	// The Go command is needed for the importer to determine the locations of stdlib .a files.
-	testenv.MustHaveGoBuild(t)
+	// The Golang command is needed for the importer to determine the locations of stdlib .a files.
+	testenv.MustHaveGolangBuild(t)
 
 	var tests []testEntry
 	tests = append(tests, independentTestTypes...)

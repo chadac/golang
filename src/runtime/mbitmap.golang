@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -360,7 +360,7 @@ func (span *mspan) objBase(addr uintptr) uintptr {
 // to avoid being preempted; the GC must not stop the golangroutine
 // between the memmove and the execution of the barriers.
 // The caller is also responsible for cgolang pointer checks if this
-// may be writing Go pointers into non-Go memory.
+// may be writing Golang pointers into non-Golang memory.
 //
 // Pointer data is not maintained for allocations containing
 // no pointers at all; any caller of bulkBarrierPreWrite must first
@@ -732,7 +732,7 @@ func heapSetTypeLarge(x, dataSize uintptr, typ *_type, span *mspan) uintptr {
 	// these two operations guarantee that the garbage collector can only see
 	// initialized memory if largeType is non-nil.
 	//
-	// Gory details below...
+	// Golangry details below...
 	//
 	// Ignoring conservative scanning for a moment, this store need not be atomic
 	// if we have a publication barrier on our side. This is because the garbage
@@ -1266,7 +1266,7 @@ const clobberdeadPtr = uintptr(0xdeaddead | 0xdeaddead<<((^uintptr(0)>>63)*32))
 func badPointer(s *mspan, p, refBase, refOff uintptr) {
 	// Typically this indicates an incorrect use
 	// of unsafe or cgolang to store a bad pointer in
-	// the Go heap. It may also indicate a runtime
+	// the Golang heap. It may also indicate a runtime
 	// bug.
 	//
 	// TODO(austin): We could be more aggressive
@@ -1289,7 +1289,7 @@ func badPointer(s *mspan, p, refBase, refOff uintptr) {
 		gcDumpObject("object", refBase, refOff)
 	}
 	getg().m.traceback = 2
-	throw("found bad pointer in Go heap (incorrect use of unsafe or cgolang?)")
+	throw("found bad pointer in Golang heap (incorrect use of unsafe or cgolang?)")
 }
 
 // findObject returns the base address for the heap object containing

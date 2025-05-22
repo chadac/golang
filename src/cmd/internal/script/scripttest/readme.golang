@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -116,7 +116,7 @@ Scripts also have access to other environment variables, including:
 	GOOS=<target GOOS>
 	TMPDIR=$WORK/tmp
 	devnull=<value of os.DevNull>
-	golangversion=<current Go version; for example, 1.12>
+	golangversion=<current Golang version; for example, 1.12>
 
 On Plan 9, the variables $path and $home are set instead of $PATH and $HOME.
 On Windows, the variables $USERPROFILE and $TMP are set instead of

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,7 +29,7 @@ func SVGProfileHandlerFunc(f ProfileFunc) http.HandlerFunc {
 
 			failf := func(s string, args ...any) {
 				w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-				w.Header().Set("X-Go-Pprof", "1")
+				w.Header().Set("X-Golang-Pprof", "1")
 				http.Error(w, fmt.Sprintf(s, args...), http.StatusInternalServerError)
 			}
 			records, err := f(r)

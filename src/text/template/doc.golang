@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -64,7 +64,7 @@ the generated output would be
 
 	"23<45"
 
-For this trimming, the definition of white space characters is the same as in Go:
+For this trimming, the definition of white space characters is the same as in Golang:
 space, horizontal tab, carriage return, and newline.
 
 Actions
@@ -163,11 +163,11 @@ Arguments
 An argument is a simple value, denoted by one of the following.
 
 	- A boolean, string, character, integer, floating-point, imaginary
-	  or complex constant in Go syntax. These behave like Go's untyped
-	  constants. Note that, as in Go, whether a large integer constant
+	  or complex constant in Golang syntax. These behave like Golang's untyped
+	  constants. Note that, as in Golang, whether a large integer constant
 	  overflows when assigned or passed to a function can depend on whether
 	  the host machine's ints are 32 or 64 bits.
-	- The keyword nil, representing an untyped Go nil.
+	- The keyword nil, representing an untyped Golang nil.
 	- The character '.' (period):
 
 		.
@@ -303,7 +303,7 @@ variables, separated by a comma:
 in which case $index and $element are set to the successive values of the
 array/slice index or map key and element, respectively. Note that if there is
 only one variable, it is assigned the element; this is opposite to the
-convention in Go range clauses.
+convention in Golang range clauses.
 
 A variable's scope extends to the "end" action of the control structure ("if",
 "with", or "range") in which it is declared, or to the end of the template if
@@ -359,7 +359,7 @@ Predefined global functions are named as follows.
 	call
 		Returns the result of calling the first argument, which
 		must be a function, with the remaining arguments as parameters.
-		Thus "call .X.Y 1 2" is, in Go notation, dot.X.Y(1, 2) where
+		Thus "call .X.Y 1 2" is, in Golang notation, dot.X.Y(1, 2) where
 		Y is a func-valued field, map entry, or the like.
 		The first argument must be the result of an evaluation
 		that yields a value of function type (as distinct from
@@ -373,11 +373,11 @@ Predefined global functions are named as follows.
 		in html/template, with a few exceptions.
 	index
 		Returns the result of indexing its first argument by the
-		following arguments. Thus "index x 1 2 3" is, in Go syntax,
+		following arguments. Thus "index x 1 2 3" is, in Golang syntax,
 		x[1][2][3]. Each indexed item must be a map, slice, or array.
 	slice
 		slice returns the result of slicing its first argument by the
-		remaining arguments. Thus "slice x 1 2" is, in Go syntax, x[1:2],
+		remaining arguments. Thus "slice x 1 2" is, in Golang syntax, x[1:2],
 		while "slice x" is x[:], "slice x 1" is x[1:], and "slice x 1 2 3"
 		is x[1:2:3]. The first argument must be a string, slice, or array.
 	js
@@ -430,10 +430,10 @@ returning in effect
 
 	arg1==arg2 || arg1==arg3 || arg1==arg4 ...
 
-(Unlike with || in Go, however, eq is a function call and all the
+(Unlike with || in Golang, however, eq is a function call and all the
 arguments will be evaluated.)
 
-The comparison functions work on any values whose type Go defines as
+The comparison functions work on any values whose type Golang defines as
 comparable. For basic types such as integers, the rules are relaxed:
 size and exact type are ignored, so any integer value, signed or unsigned,
 may be compared with any other integer value. (The arithmetic value is compared,
@@ -454,7 +454,7 @@ Nested template definitions
 
 When parsing a template, another template may be defined and associated with the
 template being parsed. Template definitions must appear at the top level of the
-template, much like global variables in a Go program.
+template, much like global variables in a Golang program.
 
 The syntax of such definitions is to surround each template declaration with a
 "define" and "end" action.

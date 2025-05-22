@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -71,11 +71,11 @@ func mustHaveDisasm(t *testing.T) {
 func TestDisasm(t *testing.T) {
 	mustHaveCPUProfiling(t)
 	mustHaveDisasm(t)
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	tmpdir := t.TempDir()
 	cpuExe := filepath.Join(tmpdir, "cpu.exe")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", cpuExe, "cpu.golang")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", cpuExe, "cpu.golang")
 	cmd.Dir = "testdata/"
 	out, err := cmd.CombinedOutput()
 	if err != nil {

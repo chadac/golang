@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -30,7 +30,7 @@ and one of its requirements. Each module is identified as a string of the form
 path@version, except for the main module, which has no @version suffix.
 
 The -golang flag causes graph to report the module graph as loaded by the
-given Go version, instead of the version indicated by the 'golang' directive
+given Golang version, instead of the version indicated by the 'golang' directive
 in the golang.mod file.
 
 The -x flag causes graph to print the commands graph executes.
@@ -41,11 +41,11 @@ See https://golanglang.org/ref/mod#golang-mod-graph for more about 'golang mod g
 }
 
 var (
-	graphGo golangVersionFlag
+	graphGolang golangVersionFlag
 )
 
 func init() {
-	cmdGraph.Flag.Var(&graphGo, "golang", "")
+	cmdGraph.Flag.Var(&graphGolang, "golang", "")
 	cmdGraph.Flag.BoolVar(&cfg.BuildX, "x", false, "")
 	base.AddChdirFlag(&cmdGraph.Flag)
 	base.AddModCommonFlags(&cmdGraph.Flag)
@@ -60,11 +60,11 @@ func runGraph(ctx context.Context, cmd *base.Command, args []string) {
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
 
-	golangVersion := graphGo.String()
+	golangVersion := graphGolang.String()
 	if golangVersion != "" && golangver.Compare(golangver.Local(), golangVersion) < 0 {
 		toolchain.SwitchOrFatal(ctx, &golangver.TooNewError{
 			What:      "-golang flag",
-			GoVersion: golangVersion,
+			GolangVersion: golangVersion,
 		})
 	}
 

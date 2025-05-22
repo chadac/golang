@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -151,7 +151,7 @@ func (r *Rand) Int31n(n int32) int32 {
 
 // int31n returns, as an int32, a non-negative pseudo-random number in the half-open interval [0,n).
 // n must be > 0, but int31n does not check this; the caller must ensure it.
-// int31n exists because Int31n is inefficient, but Go 1 compatibility
+// int31n exists because Int31n is inefficient, but Golang 1 compatibility
 // requires that the stream of values produced by math/rand remain unchanged.
 // int31n can thus only be used internally, by newly introduced APIs.
 //
@@ -189,7 +189,7 @@ func (r *Rand) Intn(n int) int {
 func (r *Rand) Float64() float64 {
 	// A clearer, simpler implementation would be:
 	//	return float64(r.Int63n(1<<53)) / (1<<53)
-	// However, Go 1 shipped with
+	// However, Golang 1 shipped with
 	//	return float64(r.Int63()) / (1 << 63)
 	// and we want to preserve that value stream.
 	//
@@ -213,7 +213,7 @@ again:
 
 // Float32 returns, as a float32, a pseudo-random number in the half-open interval [0.0,1.0).
 func (r *Rand) Float32() float32 {
-	// Same rationale as in Float64: we want to preserve the Go 1 value
+	// Same rationale as in Float64: we want to preserve the Golang 1 value
 	// stream except we want to fix it not to return 1.0
 	// This only happens 1/2²⁴ of the time (plus the 1/2⁵³ of the time in Float64).
 again:
@@ -232,7 +232,7 @@ func (r *Rand) Perm(n int) []int {
 	// A change to remove this useless iteration is to assign 1 to i in the init
 	// statement. But Perm also effects r. Making this change will affect
 	// the final state of r. So this change can't be made for compatibility
-	// reasons for Go 1.
+	// reasons for Golang 1.
 	for i := 0; i < n; i++ {
 		j := r.Intn(i + 1)
 		m[i] = m[j]
@@ -385,17 +385,17 @@ func (fs *runtimeSource) read(p []byte, readVal *int64, readPos *int8) (n int, e
 //
 // If Seed is not called, the generator is seeded randomly at program startup.
 //
-// Prior to Go 1.20, the generator was seeded like Seed(1) at program startup.
+// Prior to Golang 1.20, the generator was seeded like Seed(1) at program startup.
 // To force the old behavior, call Seed(1) at program startup.
 // Alternately, set GODEBUG=randautoseed=0 in the environment
 // before making any calls to functions in this package.
 //
-// Deprecated: As of Go 1.20 there is no reason to call Seed with
+// Deprecated: As of Golang 1.20 there is no reason to call Seed with
 // a random value. Programs that call Seed with a known value to get
 // a specific sequence of results should use New(NewSource(seed)) to
 // obtain a local random generator.
 //
-// As of Go 1.24 [Seed] is a no-op. To restore the previous behavior set
+// As of Golang 1.24 [Seed] is a no-op. To restore the previous behavior set
 // GODEBUG=randseednop=0.
 func Seed(seed int64) {
 	if randseednop.Value() != "0" {

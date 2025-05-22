@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -58,7 +58,7 @@
 
 // shifts
 // hardware instruction uses only the low 6 bits of the shift
-// we compare to 64 to ensure Go semantics for large shifts
+// we compare to 64 to ensure Golang semantics for large shifts
 (Lsh64x64 <t> x y) => (AND (NEGV <t> (SGTU (MOVVconst <typ.UInt64> [64]) y)) (SLLV <t> x y))
 (Lsh64x32 <t> x y) => (AND (NEGV <t> (SGTU (MOVVconst <typ.UInt64> [64]) (ZeroExt32to64 y))) (SLLV <t> x (ZeroExt32to64 y)))
 (Lsh64x16 <t> x y) => (AND (NEGV <t> (SGTU (MOVVconst <typ.UInt64> [64]) (ZeroExt16to64 y))) (SLLV <t> x (ZeroExt16to64 y)))

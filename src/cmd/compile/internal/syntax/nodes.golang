@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,7 +40,7 @@ type File struct {
 	PkgName   *Name
 	DeclList  []Decl
 	EOF       Pos
-	GoVersion string
+	GolangVersion string
 	node
 }
 
@@ -379,7 +379,7 @@ type (
 	}
 
 	BranchStmt struct {
-		Tok   token // Break, Continue, Fallthrough, or Goto
+		Tok   token // Break, Continue, Fallthrough, or Golangto
 		Label *Name
 		// Target is the continuation of the control flow after executing
 		// the branch; it is computed by the parser if CheckBranches is set.
@@ -391,7 +391,7 @@ type (
 	}
 
 	CallStmt struct {
-		Tok     token // Go or Defer
+		Tok     token // Golang or Defer
 		Call    Expr
 		DeferAt Expr // argument to runtime.deferprocat
 		stmt

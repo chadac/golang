@@ -95,7 +95,7 @@ stdout FAIL
 stdout 'fuzz target'
 stdout 't.Skipped is false'
 
-# Test that runtime.Goexit within the fuzz function is an error.
+# Test that runtime.Golangexit within the fuzz function is an error.
 ! golang test -vet=off golangexit_fuzz_fn_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
@@ -324,7 +324,7 @@ import "testing"
 func Fuzz(f *testing.F) {
     f.Add([]byte("aa"))
     f.Fuzz(func(t *testing.T, b []byte) {
-        runtime.Goexit()
+        runtime.Golangexit()
     })
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,6 +29,6 @@ func open() (pty *os.File, processTTY string, err error) {
 		C.close(m)
 		return nil, "", ptyError("unlockpt", err)
 	}
-	processTTY = C.GoString(C.ptsname(m))
+	processTTY = C.GolangString(C.ptsname(m))
 	return os.NewFile(uintptr(m), "pty"), processTTY, nil
 }

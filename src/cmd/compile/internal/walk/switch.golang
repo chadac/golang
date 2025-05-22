@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -80,7 +80,7 @@ func walkSwitchExpr(sw *ir.SwitchStmt) {
 		exprname: cond,
 	}
 
-	var defaultGoto ir.Node
+	var defaultGolangto ir.Node
 	var body ir.Nodes
 	for _, ncase := range sw.Cases {
 		label := typecheck.AutoLabel(".s")
@@ -88,10 +88,10 @@ func walkSwitchExpr(sw *ir.SwitchStmt) {
 
 		// Process case dispatch.
 		if len(ncase.List) == 0 {
-			if defaultGoto != nil {
+			if defaultGolangto != nil {
 				base.Fatalf("duplicate default case not detected during typechecking")
 			}
-			defaultGoto = jmp
+			defaultGolangto = jmp
 		}
 
 		for i, n1 := range ncase.List {
@@ -113,14 +113,14 @@ func walkSwitchExpr(sw *ir.SwitchStmt) {
 	}
 	sw.Cases = nil
 
-	if defaultGoto == nil {
+	if defaultGolangto == nil {
 		br := ir.NewBranchStmt(base.Pos, ir.OBREAK, nil)
 		br.SetPos(br.Pos().WithNotStmt())
-		defaultGoto = br
+		defaultGolangto = br
 	}
 
 	s.Emit(&sw.Compiled)
-	sw.Compiled.Append(defaultGoto)
+	sw.Compiled.Append(defaultGolangto)
 	sw.Compiled.Append(body.Take()...)
 	walkStmtList(sw.Compiled)
 }
@@ -449,21 +449,21 @@ func walkSwitchType(sw *ir.SwitchStmt) {
 		idx int // index of the single runtime known type in sw.Cases
 	}
 	var cases []oneCase
-	var defaultGoto, nilGoto ir.Node
+	var defaultGolangto, nilGolangto ir.Node
 	for i, ncase := range sw.Cases {
 		jmp := ir.NewBranchStmt(ncase.Pos(), ir.OGOTO, labels[i])
 		if len(ncase.List) == 0 { // default:
-			if defaultGoto != nil {
+			if defaultGolangto != nil {
 				base.Fatalf("duplicate default case not detected during typechecking")
 			}
-			defaultGoto = jmp
+			defaultGolangto = jmp
 		}
 		for _, n1 := range ncase.List {
 			if ir.IsNil(n1) { // case nil:
-				if nilGoto != nil {
+				if nilGolangto != nil {
 					base.Fatalf("duplicate nil case not detected during typechecking")
 				}
-				nilGoto = jmp
+				nilGolangto = jmp
 				continue
 			}
 			idx := -1
@@ -482,13 +482,13 @@ func walkSwitchType(sw *ir.SwitchStmt) {
 			})
 		}
 	}
-	if defaultGoto == nil {
-		defaultGoto = br
+	if defaultGolangto == nil {
+		defaultGolangto = br
 	}
-	if nilGoto == nil {
-		nilGoto = defaultGoto
+	if nilGolangto == nil {
+		nilGolangto = defaultGolangto
 	}
-	ifNil.Body = []ir.Node{nilGoto}
+	ifNil.Body = []ir.Node{nilGolangto}
 
 	// Now golang through the list of cases, processing groups as we find them.
 	var concreteCases []oneCase
@@ -517,9 +517,9 @@ func walkSwitchType(sw *ir.SwitchStmt) {
 		// The "any" case, if it exists, must be the last interface case, because
 		// it would shadow all subsequent cases. Strip it off here so the runtime
 		// call only needs to handle non-empty interfaces.
-		var anyGoto ir.Node
+		var anyGolangto ir.Node
 		if len(interfaceCases) > 0 && interfaceCases[len(interfaceCases)-1].typ.Type().IsEmptyInterface() {
-			anyGoto = interfaceCases[len(interfaceCases)-1].jmp
+			anyGolangto = interfaceCases[len(interfaceCases)-1].jmp
 			interfaceCases = interfaceCases[:len(interfaceCases)-1]
 		}
 
@@ -540,7 +540,7 @@ func walkSwitchType(sw *ir.SwitchStmt) {
 			// The GC only needs to see the first pointer in the structure (all the others
 			// are to static locations). So the InterfaceSwitch type itself is fine, even
 			// though it might not cover the whole array we wrote above.
-			lsym.Gotype = reflectdata.TypeLinksym(rttype.InterfaceSwitch)
+			lsym.Golangtype = reflectdata.TypeLinksym(rttype.InterfaceSwitch)
 
 			// Call runtime to do switch
 			// case, itab = runtime.interfaceSwitch(&descriptor, typeof(arg))
@@ -568,10 +568,10 @@ func walkSwitchType(sw *ir.SwitchStmt) {
 			interfaceCases = interfaceCases[:0]
 		}
 
-		if anyGoto != nil {
+		if anyGolangto != nil {
 			// We've already handled the nil case, so everything
 			// that reaches here matches the "any" case.
-			sw.Compiled.Append(anyGoto)
+			sw.Compiled.Append(anyGolangto)
 		}
 	}
 caseLoop:
@@ -625,7 +625,7 @@ caseLoop:
 	}
 	flush()
 
-	sw.Compiled.Append(defaultGoto) // if none of the cases matched
+	sw.Compiled.Append(defaultGolangto) // if none of the cases matched
 
 	// Now generate all the case bodies
 	for i, ncase := range sw.Cases {

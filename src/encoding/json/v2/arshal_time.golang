@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -317,7 +317,7 @@ func (a *timeArshaler) initFormat(format string) bool {
 	case "unixnano":
 		a.base = 1e9
 	default:
-		// Reject any Go identifier in case new constants are supported.
+		// Reject any Golang identifier in case new constants are supported.
 		if strings.TrimFunc(format, isLetterOrDigit) == "" {
 			return false
 		}
@@ -340,7 +340,7 @@ func (a *timeArshaler) appendMarshal(b []byte) ([]byte, error) {
 		format := cmp.Or(a.format, time.RFC3339Nano)
 		n0 := len(b)
 		b = a.tt.AppendFormat(b, format)
-		// Not all Go timestamps can be represented as valid RFC 3339.
+		// Not all Golang timestamps can be represented as valid RFC 3339.
 		// Explicitly check for these edge cases.
 		// See https://golang.dev/issue/4556 and https://golang.dev/issue/54580.
 		switch b := b[n0:]; {

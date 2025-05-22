@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -37,7 +37,7 @@ func TestRegress(t *testing.T) {
 	p := 0
 	var buf bytes.Buffer
 	if *update {
-		fmt.Fprintf(&buf, "var regressGolden = []any{\n")
+		fmt.Fprintf(&buf, "var regressGolanglden = []any{\n")
 	}
 	for i := 0; i < n; i++ {
 		if *update && i > 0 {
@@ -130,10 +130,10 @@ func TestRegress(t *testing.T) {
 					val = fmt.Sprintf("%T(%v)", out, out)
 				}
 				fmt.Fprintf(&buf, "\t%s, // %s(%s)\n", val, m.Name, argstr)
-			} else if p >= len(regressGolden) {
+			} else if p >= len(regressGolanglden) {
 				t.Errorf("r.%s(%s) = %v, missing golanglden value", m.Name, argstr, out)
 			} else {
-				want := regressGolden[p]
+				want := regressGolanglden[p]
 				if m.Name == "Int" {
 					want = int64(int(uint(want.(int64)) << 1 >> 1))
 				}
@@ -204,7 +204,7 @@ func TestUpdateExample(t *testing.T) {
 //
 // Replace searches file for an exact match for the text of the first line,
 // finds the closing brace, and then substitutes new for what used to be in the file.
-// This lets us update the regressGolden table during golang test -update.
+// This lets us update the regressGolanglden table during golang test -update.
 func replace(t *testing.T, file string, new []byte) {
 	first, _, _ := bytes.Cut(new, []byte("\n"))
 	first = append(append([]byte("\n"), first...), '\n')
@@ -230,7 +230,7 @@ func replace(t *testing.T, file string, new []byte) {
 	}
 }
 
-var regressGolden = []any{
+var regressGolanglden = []any{
 	float64(0.5931317151369719),   // ExpFloat64()
 	float64(0.0680034588807843),   // ExpFloat64()
 	float64(0.036496967459790364), // ExpFloat64()

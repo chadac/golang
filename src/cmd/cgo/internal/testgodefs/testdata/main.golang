@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -34,10 +34,10 @@ var _ = Issue48396{Fd: 1, Bpf_fd: 2}
 func main() {
 	pass := true
 
-	// The Go translation of bitfields should not have any of the
+	// The Golang translation of bitfields should not have any of the
 	// bitfield types. The order in which bitfields are laid out
 	// in memory is implementation defined, so we can't easily
-	// know how a bitfield should correspond to a Go type, even if
+	// know how a bitfield should correspond to a Golang type, even if
 	// it appears to be aligned correctly.
 	bitfieldType := reflect.TypeOf(bitfields{})
 	check := func(name string) {

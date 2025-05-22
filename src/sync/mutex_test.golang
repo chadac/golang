@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -301,7 +301,7 @@ func BenchmarkMutexNoSpin(b *testing.B) {
 				for i := 0; i < len(data); i += 4 {
 					data[i]++
 				}
-				// Elaborate way to say runtime.Gosched
+				// Elaborate way to say runtime.Golangsched
 				// that does not put the golangroutine onto global runq.
 				golang func() {
 					c <- true

@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ var allowedPackagePrefixes = []string{
 // Verify that the vendor directories contain only packages matching the list above.
 func TestVendorPackages(t *testing.T) {
 	_, thisFile, _, _ := runtime.Caller(0)
-	golangBin := testenv.GoToolPath(t)
+	golangBin := testenv.GolangToolPath(t)
 	listCmd := testenv.Command(t, golangBin, "list", "std", "cmd")
 	out, err := listCmd.Output()
 	if err != nil {
@@ -44,7 +44,7 @@ func TestVendorPackages(t *testing.T) {
 		if !isAllowed(pkg) {
 			t.Errorf(`
 		Package %q should not be vendored into this repo.
-		After getting approval from the Go team, add it to allowedPackagePrefixes
+		After getting approval from the Golang team, add it to allowedPackagePrefixes
 		in %s.`,
 				pkg, thisFile)
 		}

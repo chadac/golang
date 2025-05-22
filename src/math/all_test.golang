@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -2437,7 +2437,7 @@ func TestErfcinv(t *testing.T) {
 
 func TestExp(t *testing.T) {
 	testExp(t, Exp, "Exp")
-	testExp(t, ExpGo, "ExpGo")
+	testExp(t, ExpGolang, "ExpGolang")
 }
 
 func testExp(t *testing.T, Exp func(float64) float64, name string) {
@@ -2475,7 +2475,7 @@ func TestExpm1(t *testing.T) {
 
 func TestExp2(t *testing.T) {
 	testExp2(t, Exp2, "Exp2")
-	testExp2(t, Exp2Go, "Exp2Go")
+	testExp2(t, Exp2Golang, "Exp2Golang")
 }
 
 func testExp2(t *testing.T, Exp2 func(float64) float64, name string) {
@@ -2649,16 +2649,16 @@ func TestHypot(t *testing.T) {
 	}
 }
 
-func TestHypotGo(t *testing.T) {
+func TestHypotGolang(t *testing.T) {
 	for i := 0; i < len(vf); i++ {
 		a := Abs(1e200 * tanh[i] * Sqrt(2))
-		if f := HypotGo(1e200*tanh[i], 1e200*tanh[i]); !veryclose(a, f) {
-			t.Errorf("HypotGo(%g, %g) = %g, want %g", 1e200*tanh[i], 1e200*tanh[i], f, a)
+		if f := HypotGolang(1e200*tanh[i], 1e200*tanh[i]); !veryclose(a, f) {
+			t.Errorf("HypotGolang(%g, %g) = %g, want %g", 1e200*tanh[i], 1e200*tanh[i], f, a)
 		}
 	}
 	for i := 0; i < len(vfhypotSC); i++ {
-		if f := HypotGo(vfhypotSC[i][0], vfhypotSC[i][1]); !alike(hypotSC[i], f) {
-			t.Errorf("HypotGo(%g, %g) = %g, want %g", vfhypotSC[i][0], vfhypotSC[i][1], f, hypotSC[i])
+		if f := HypotGolang(vfhypotSC[i][0], vfhypotSC[i][1]); !alike(hypotSC[i], f) {
+			t.Errorf("HypotGolang(%g, %g) = %g, want %g", vfhypotSC[i][0], vfhypotSC[i][1], f, hypotSC[i])
 		}
 	}
 }
@@ -3029,8 +3029,8 @@ func TestSinh(t *testing.T) {
 func TestSqrt(t *testing.T) {
 	for i := 0; i < len(vf); i++ {
 		a := Abs(vf[i])
-		if f := SqrtGo(a); sqrt[i] != f {
-			t.Errorf("SqrtGo(%g) = %g, want %g", a, f, sqrt[i])
+		if f := SqrtGolang(a); sqrt[i] != f {
+			t.Errorf("SqrtGolang(%g) = %g, want %g", a, f, sqrt[i])
 		}
 		a = Abs(vf[i])
 		if f := Sqrt(a); sqrt[i] != f {
@@ -3038,8 +3038,8 @@ func TestSqrt(t *testing.T) {
 		}
 	}
 	for i := 0; i < len(vfsqrtSC); i++ {
-		if f := SqrtGo(vfsqrtSC[i]); !alike(sqrtSC[i], f) {
-			t.Errorf("SqrtGo(%g) = %g, want %g", vfsqrtSC[i], f, sqrtSC[i])
+		if f := SqrtGolang(vfsqrtSC[i]); !alike(sqrtSC[i], f) {
+			t.Errorf("SqrtGolang(%g) = %g, want %g", vfsqrtSC[i], f, sqrtSC[i])
 		}
 		if f := Sqrt(vfsqrtSC[i]); !alike(sqrtSC[i], f) {
 			t.Errorf("Sqrt(%g) = %g, want %g", vfsqrtSC[i], f, sqrtSC[i])
@@ -3479,10 +3479,10 @@ func BenchmarkExp(b *testing.B) {
 	GlobalF = x
 }
 
-func BenchmarkExpGo(b *testing.B) {
+func BenchmarkExpGolang(b *testing.B) {
 	x := 0.0
 	for i := 0; i < b.N; i++ {
-		x = ExpGo(.5)
+		x = ExpGolang(.5)
 	}
 	GlobalF = x
 }
@@ -3503,10 +3503,10 @@ func BenchmarkExp2(b *testing.B) {
 	GlobalF = x
 }
 
-func BenchmarkExp2Go(b *testing.B) {
+func BenchmarkExp2Golang(b *testing.B) {
 	x := 0.0
 	for i := 0; i < b.N; i++ {
-		x = Exp2Go(.5)
+		x = Exp2Golang(.5)
 	}
 	GlobalF = x
 }
@@ -3588,10 +3588,10 @@ func BenchmarkHypot(b *testing.B) {
 	GlobalF = x
 }
 
-func BenchmarkHypotGo(b *testing.B) {
+func BenchmarkHypotGolang(b *testing.B) {
 	x := 0.0
 	for i := 0; i < b.N; i++ {
-		x = HypotGo(3, 4)
+		x = HypotGolang(3, 4)
 	}
 	GlobalF = x
 }
@@ -3836,10 +3836,10 @@ func BenchmarkSqrtIndirectLatency(b *testing.B) {
 	GlobalF = x
 }
 
-func BenchmarkSqrtGoLatency(b *testing.B) {
+func BenchmarkSqrtGolangLatency(b *testing.B) {
 	x := 10.0
 	for i := 0; i < b.N; i++ {
-		x = SqrtGo(x)
+		x = SqrtGolang(x)
 	}
 	GlobalF = x
 }

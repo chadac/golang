@@ -1,9 +1,9 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package types declares the data types and implements
-// the algolangrithms for type-checking of Go packages. Use
+// the algolangrithms for type-checking of Golang packages. Use
 // [Config.Check] to invoke the type checker for a package.
 // Alternatively, create a new type checker with [NewChecker]
 // and invoke it incrementally by calling [Checker.Files].
@@ -119,12 +119,12 @@ type Config struct {
 	// type checker will initialize this field with a newly created context.
 	Context *Context
 
-	// GoVersion describes the accepted Go language version. The string must
+	// GolangVersion describes the accepted Golang language version. The string must
 	// start with a prefix of the form "golang%d.%d" (e.g. "golang1.20", "golang1.21rc1", or
-	// "golang1.21.0") or it must be empty; an empty string disables Go language
+	// "golang1.21.0") or it must be empty; an empty string disables Golang language
 	// version checks. If the format is invalid, invoking the type checker will
 	// result in an error.
-	GoVersion string
+	GolangVersion string
 
 	// If IgnoreFuncBodies is set, function bodies are not
 	// type-checked.
@@ -189,7 +189,7 @@ type Config struct {
 	// This setting must not differ among concurrent type-checking operations,
 	// since it affects the behavior of Universe.Lookup("any").
 	//
-	// This flag will eventually be removed (with Go 1.24 at the earliest).
+	// This flag will eventually be removed (with Golang 1.24 at the earliest).
 	_EnableAlias bool
 }
 
@@ -324,9 +324,9 @@ type Info struct {
 	// appear in this list.
 	InitOrder []*Initializer
 
-	// FileVersions maps a file to its Go version string.
+	// FileVersions maps a file to its Golang version string.
 	// If the file doesn't specify a version, the reported
-	// string is Config.GoVersion.
+	// string is Config.GolangVersion.
 	// Version strings begin with “golang”, like “golang1.21”, and
 	// are suitable for use with the [golang/version] package.
 	FileVersions map[*ast.File]string

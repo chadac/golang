@@ -1,105 +1,105 @@
-Trace Go1.22
+Trace Golang1.22
 EventBatch gen=1 m=18446744073709551615 time=7689672466239 size=5
 Frequency freq=15625000
 EventBatch gen=1 m=1709048 time=7689670869319 size=423
 ProcStart dt=409 p=7 p_seq=1
-GoStart dt=31 g=34 g_seq=1
-GoStop dt=291990 reason_string=16 stack=50
-GoStart dt=21 g=34 g_seq=2
-GoStop dt=315853 reason_string=16 stack=50
-GoStart dt=30 g=34 g_seq=3
-GoUnblock dt=173432 g=1 g_seq=73 stack=52
-GoDestroy dt=96
-GoStart dt=22 g=1 g_seq=74
+GolangStart dt=31 g=34 g_seq=1
+GolangStop dt=291990 reason_string=16 stack=50
+GolangStart dt=21 g=34 g_seq=2
+GolangStop dt=315853 reason_string=16 stack=50
+GolangStart dt=30 g=34 g_seq=3
+GolangUnblock dt=173432 g=1 g_seq=73 stack=52
+GolangDestroy dt=96
+GolangStart dt=22 g=1 g_seq=74
 HeapAlloc dt=79 heapalloc_value=26397576
 HeapAlloc dt=51 heapalloc_value=26405640
-GoCreate dt=62 new_g=50 new_stack=53 stack=54
-GoBlock dt=23 reason_string=12 stack=55
-GoStart dt=7 g=50 g_seq=1
+GolangCreate dt=62 new_g=50 new_stack=53 stack=54
+GolangBlock dt=23 reason_string=12 stack=55
+GolangStart dt=7 g=50 g_seq=1
 HeapAlloc dt=301 heapalloc_value=26413776
 HeapAlloc dt=30 heapalloc_value=26421680
-GoSyscallBegin dt=35 p_seq=2 stack=56
-GoSyscallEnd dt=39
-GoSyscallBegin dt=13 p_seq=3 stack=57
-GoSyscallEnd dt=16
-GoSyscallBegin dt=396 p_seq=4 stack=58
-GoSyscallEnd dt=16
-GoSyscallBegin dt=15 p_seq=5 stack=59
-GoSyscallEnd dt=14
+GolangSyscallBegin dt=35 p_seq=2 stack=56
+GolangSyscallEnd dt=39
+GolangSyscallBegin dt=13 p_seq=3 stack=57
+GolangSyscallEnd dt=16
+GolangSyscallBegin dt=396 p_seq=4 stack=58
+GolangSyscallEnd dt=16
+GolangSyscallBegin dt=15 p_seq=5 stack=59
+GolangSyscallEnd dt=14
 HeapAlloc dt=305 heapalloc_value=26429872
 HeapAlloc dt=34 heapalloc_value=26437248
 HeapAlloc dt=42 heapalloc_value=26445120
-GoSyscallBegin dt=42 p_seq=6 stack=60
-GoSyscallEnd dt=18
-GoSyscallBegin dt=10 p_seq=7 stack=61
-GoSyscallEnd dt=14
-GoSyscallBegin dt=23 p_seq=8 stack=62
+GolangSyscallBegin dt=42 p_seq=6 stack=60
+GolangSyscallEnd dt=18
+GolangSyscallBegin dt=10 p_seq=7 stack=61
+GolangSyscallEnd dt=14
+GolangSyscallBegin dt=23 p_seq=8 stack=62
 ProcStart dt=787251 p=7 p_seq=15
-GoSyscallEndBlocked dt=7
-GoStart dt=1 g=50 g_seq=2
-GoUnblock dt=48 g=1 g_seq=75 stack=65
-GoDestroy dt=143
-GoStart dt=30 g=1 g_seq=76
+GolangSyscallEndBlocked dt=7
+GolangStart dt=1 g=50 g_seq=2
+GolangUnblock dt=48 g=1 g_seq=75 stack=65
+GolangDestroy dt=143
+GolangStart dt=30 g=1 g_seq=76
 HeapAlloc dt=621 heapalloc_value=26468232
-GoStop dt=656 reason_string=16 stack=66
-GoStart dt=103 g=1 g_seq=77
+GolangStop dt=656 reason_string=16 stack=66
+GolangStart dt=103 g=1 g_seq=77
 HeapAlloc dt=42 heapalloc_value=26476424
 HeapAlloc dt=87 heapalloc_value=26484360
-GoSyscallBegin dt=18 p_seq=16 stack=67
-GoSyscallEnd dt=456
-GoSyscallBegin dt=41 p_seq=17 stack=68
-GoSyscallEnd dt=25
-GoSyscallBegin dt=16 p_seq=18 stack=69
-GoSyscallEnd dt=18
+GolangSyscallBegin dt=18 p_seq=16 stack=67
+GolangSyscallEnd dt=456
+GolangSyscallBegin dt=41 p_seq=17 stack=68
+GolangSyscallEnd dt=25
+GolangSyscallBegin dt=16 p_seq=18 stack=69
+GolangSyscallEnd dt=18
 HeapAlloc dt=193 heapalloc_value=26549896
-GoSyscallBegin dt=69 p_seq=19 stack=70
-GoSyscallEnd dt=227
-GoSyscallBegin dt=12 p_seq=20 stack=70
-GoSyscallEnd dt=105
-GoSyscallBegin dt=87 p_seq=21 stack=71
-GoSyscallEnd dt=48
-GoSyscallBegin dt=37 p_seq=22 stack=72
-GoSyscallEnd dt=51
-GoSyscallBegin dt=49 p_seq=23 stack=73
-GoSyscallEnd dt=158
-GoSyscallBegin dt=12 p_seq=24 stack=74
-GoSyscallEnd dt=67
+GolangSyscallBegin dt=69 p_seq=19 stack=70
+GolangSyscallEnd dt=227
+GolangSyscallBegin dt=12 p_seq=20 stack=70
+GolangSyscallEnd dt=105
+GolangSyscallBegin dt=87 p_seq=21 stack=71
+GolangSyscallEnd dt=48
+GolangSyscallBegin dt=37 p_seq=22 stack=72
+GolangSyscallEnd dt=51
+GolangSyscallBegin dt=49 p_seq=23 stack=73
+GolangSyscallEnd dt=158
+GolangSyscallBegin dt=12 p_seq=24 stack=74
+GolangSyscallEnd dt=67
 HeapAlloc dt=126 heapalloc_value=26558088
 HeapAlloc dt=30 heapalloc_value=26566160
-GoCreate dt=34 new_g=52 new_stack=75 stack=76
+GolangCreate dt=34 new_g=52 new_stack=75 stack=76
 HeapAlloc dt=205 heapalloc_value=26573872
-GoSyscallBegin dt=890 p_seq=25 stack=77
-GoSyscallEnd dt=1128
-GoBlock dt=96 reason_string=7 stack=80
+GolangSyscallBegin dt=890 p_seq=25 stack=77
+GolangSyscallEnd dt=1128
+GolangBlock dt=96 reason_string=7 stack=80
 ProcStop dt=29
 ProcStart dt=384 p=6 p_seq=7
-GoStart dt=14 g=52 g_seq=4
-GoSyscallBegin dt=16 p_seq=8 stack=78
+GolangStart dt=14 g=52 g_seq=4
+GolangSyscallBegin dt=16 p_seq=8 stack=78
 ProcStart dt=160 p=5 p_seq=13
-GoSyscallEndBlocked dt=3
-GoStart dt=1 g=52 g_seq=5
+GolangSyscallEndBlocked dt=3
+GolangStart dt=1 g=52 g_seq=5
 HeapAlloc dt=297 heapalloc_value=26581840
 HeapAlloc dt=31 heapalloc_value=26590032
 HeapAlloc dt=164 heapalloc_value=26598224
-GoSyscallBegin dt=34 p_seq=14 stack=88
-GoSyscallEnd dt=33
-GoSyscallBegin dt=14 p_seq=15 stack=89
-GoSyscallEnd dt=36
-GoSyscallBegin dt=12 p_seq=16 stack=90
-GoSyscallEnd dt=22
-GoSyscallBegin dt=15 p_seq=17 stack=91
-GoSyscallEnd dt=28
+GolangSyscallBegin dt=34 p_seq=14 stack=88
+GolangSyscallEnd dt=33
+GolangSyscallBegin dt=14 p_seq=15 stack=89
+GolangSyscallEnd dt=36
+GolangSyscallBegin dt=12 p_seq=16 stack=90
+GolangSyscallEnd dt=22
+GolangSyscallBegin dt=15 p_seq=17 stack=91
+GolangSyscallEnd dt=28
 HeapAlloc dt=18 heapalloc_value=26606416
 HeapAlloc dt=20 heapalloc_value=26614608
-GoBlock dt=16 reason_string=19 stack=92
+GolangBlock dt=16 reason_string=19 stack=92
 ProcStop dt=136
 ProcStart dt=17788 p=6 p_seq=12
-GoUnblock dt=41 g=1 g_seq=80 stack=0
-GoStart dt=136 g=1 g_seq=81
-GoSyscallBegin dt=14 p_seq=13 stack=86
-GoSyscallEnd dt=65
-GoSyscallBegin dt=72 p_seq=14 stack=95
-GoSyscallEnd dt=534
+GolangUnblock dt=41 g=1 g_seq=80 stack=0
+GolangStart dt=136 g=1 g_seq=81
+GolangSyscallBegin dt=14 p_seq=13 stack=86
+GolangSyscallEnd dt=65
+GolangSyscallBegin dt=72 p_seq=14 stack=95
+GolangSyscallEnd dt=534
 HeapAlloc dt=284 heapalloc_value=26630992
 HeapAlloc dt=38 heapalloc_value=26639120
 EventBatch gen=1 m=1709047 time=7689670866279 size=202
@@ -107,12 +107,12 @@ ProcStart dt=437 p=6 p_seq=2
 HeapAlloc dt=131 heapalloc_value=26373928
 HeapAlloc dt=368 heapalloc_value=26382120
 HeapAlloc dt=55 heapalloc_value=26390056
-GoStart dt=1030 g=36 g_seq=1
-GoStop dt=293329 reason_string=16 stack=50
-GoStart dt=25 g=36 g_seq=2
-GoStop dt=315834 reason_string=16 stack=50
-GoStart dt=24 g=36 g_seq=3
-GoDestroy dt=172079
+GolangStart dt=1030 g=36 g_seq=1
+GolangStop dt=293329 reason_string=16 stack=50
+GolangStart dt=25 g=36 g_seq=2
+GolangStop dt=315834 reason_string=16 stack=50
+GolangStart dt=24 g=36 g_seq=3
+GolangDestroy dt=172079
 ProcStop dt=60
 ProcStart dt=1749 p=6 p_seq=3
 ProcStop dt=1621
@@ -123,36 +123,36 @@ ProcStop dt=31
 ProcStart dt=2847 p=5 p_seq=8
 ProcStop dt=20
 ProcStart dt=3166 p=7 p_seq=26
-GoUnblock dt=6 g=52 g_seq=3 stack=0
-GoUnblock dt=90 g=1 g_seq=78 stack=0
-GoStart dt=5 g=1 g_seq=79
-GoSyscallBegin dt=31 p_seq=27 stack=81
-GoSyscallEnd dt=35
-GoSyscallBegin dt=134 p_seq=28 stack=82
-GoSyscallEnd dt=29
-GoSyscallBegin dt=17 p_seq=29 stack=83
-GoSyscallEnd dt=30
-GoSyscallBegin dt=8 p_seq=30 stack=84
-GoSyscallEnd dt=19
-GoSyscallBegin dt=11 p_seq=31 stack=85
-GoSyscallEnd dt=24
-GoSyscallBegin dt=65 p_seq=32 stack=86
-GoSyscallEnd dt=57
-GoBlock dt=19 reason_string=7 stack=87
+GolangUnblock dt=6 g=52 g_seq=3 stack=0
+GolangUnblock dt=90 g=1 g_seq=78 stack=0
+GolangStart dt=5 g=1 g_seq=79
+GolangSyscallBegin dt=31 p_seq=27 stack=81
+GolangSyscallEnd dt=35
+GolangSyscallBegin dt=134 p_seq=28 stack=82
+GolangSyscallEnd dt=29
+GolangSyscallBegin dt=17 p_seq=29 stack=83
+GolangSyscallEnd dt=30
+GolangSyscallBegin dt=8 p_seq=30 stack=84
+GolangSyscallEnd dt=19
+GolangSyscallBegin dt=11 p_seq=31 stack=85
+GolangSyscallEnd dt=24
+GolangSyscallBegin dt=65 p_seq=32 stack=86
+GolangSyscallEnd dt=57
+GolangBlock dt=19 reason_string=7 stack=87
 ProcStop dt=38
 ProcStart dt=458 p=6 p_seq=11
 ProcStop dt=30
 ProcStart dt=377 p=5 p_seq=18
 ProcStop dt=23
 ProcStart dt=17141 p=5 p_seq=19
-GoUnblock dt=19 g=52 g_seq=6 stack=0
-GoStart dt=111 g=52 g_seq=7
+GolangUnblock dt=19 g=52 g_seq=6 stack=0
+GolangStart dt=111 g=52 g_seq=7
 HeapAlloc dt=38 heapalloc_value=26622800
-GoSyscallBegin dt=36 p_seq=20 stack=93
-GoSyscallEnd dt=554
-GoSyscallBegin dt=83 p_seq=21 stack=94
-GoSyscallEnd dt=196
-GoDestroy dt=15
+GolangSyscallBegin dt=36 p_seq=20 stack=93
+GolangSyscallEnd dt=554
+GolangSyscallBegin dt=83 p_seq=21 stack=94
+GolangSyscallEnd dt=196
+GolangDestroy dt=15
 ProcStop dt=37
 EventBatch gen=1 m=1709046 time=7689670697530 size=167
 ProcStart dt=236 p=5 p_seq=1
@@ -168,39 +168,39 @@ ProcStop dt=19
 ProcStart dt=47961 p=6 p_seq=4
 ProcStop dt=15
 ProcStart dt=16716 p=6 p_seq=5
-GoUnblock dt=60 g=6 g_seq=2 stack=0
-GoStart dt=90 g=6 g_seq=3
+GolangUnblock dt=60 g=6 g_seq=2 stack=0
+GolangStart dt=90 g=6 g_seq=3
 HeapAlloc dt=193 heapalloc_value=26453304
-GoBlock dt=29 reason_string=12 stack=15
+GolangBlock dt=29 reason_string=12 stack=15
 ProcStop dt=12
 ProcStart dt=704555 p=7 p_seq=10
 ProcStop dt=25
 ProcStart dt=16755 p=7 p_seq=11
 HeapAlloc dt=61 heapalloc_value=26461496
-GoCreate dt=72 new_g=51 new_stack=63 stack=0
-GoStart dt=98 g=51 g_seq=1
-GoSyscallBegin dt=45 p_seq=12 stack=64
+GolangCreate dt=72 new_g=51 new_stack=63 stack=0
+GolangStart dt=98 g=51 g_seq=1
+GolangSyscallBegin dt=45 p_seq=12 stack=64
 ProcStart dt=206 p=7 p_seq=14
-GoSyscallEndBlocked dt=3
-GoStart dt=1 g=51 g_seq=2
-GoDestroy dt=12
+GolangSyscallEndBlocked dt=3
+GolangStart dt=1 g=51 g_seq=2
+GolangDestroy dt=12
 ProcStop dt=18
 ProcStart dt=849 p=5 p_seq=6
 ProcStop dt=16
 ProcStart dt=1359 p=5 p_seq=7
 ProcStop dt=12
 ProcStart dt=2079 p=5 p_seq=9
-GoStart dt=1134 g=52 g_seq=1
-GoSyscallBegin dt=39 p_seq=10 stack=78
+GolangStart dt=1134 g=52 g_seq=1
+GolangSyscallBegin dt=39 p_seq=10 stack=78
 ProcStart dt=232 p=5 p_seq=12
-GoSyscallEndBlocked dt=2
-GoStart dt=1 g=52 g_seq=2
-GoBlock dt=27 reason_string=7 stack=79
+GolangSyscallEndBlocked dt=2
+GolangStart dt=1 g=52 g_seq=2
+GolangBlock dt=27 reason_string=7 stack=79
 ProcStop dt=20
 EventBatch gen=1 m=1709045 time=7689670544102 size=3297
 ProcStart dt=84 p=4 p_seq=5
-GoUnblock dt=91 g=1 g_seq=34 stack=0
-GoStart dt=157 g=1 g_seq=35
+GolangUnblock dt=91 g=1 g_seq=34 stack=0
+GolangStart dt=157 g=1 g_seq=35
 HeapAlloc dt=117 heapalloc_value=8105520
 HeapAlloc dt=67 heapalloc_value=8113712
 HeapAlloc dt=36 heapalloc_value=8121904
@@ -221,10 +221,10 @@ HeapAlloc dt=8 heapalloc_value=8236592
 HeapAlloc dt=9 heapalloc_value=8244784
 GCMarkAssistBegin dt=27 stack=31
 HeapAlloc dt=69 heapalloc_value=8252784
-GoBlock dt=31 reason_string=10 stack=36
+GolangBlock dt=31 reason_string=10 stack=36
 ProcStop dt=156
 ProcStart dt=993 p=0 p_seq=11
-GoStart dt=192 g=1 g_seq=37
+GolangStart dt=192 g=1 g_seq=37
 GCMarkAssistEnd dt=12
 HeapAlloc dt=35 heapalloc_value=8746312
 GCSweepBegin dt=26 stack=42
@@ -346,15 +346,15 @@ HeapAlloc dt=14 heapalloc_value=9598280
 HeapAlloc dt=16 heapalloc_value=9606472
 HeapAlloc dt=14 heapalloc_value=9614664
 HeapAlloc dt=16 heapalloc_value=9622856
-GoBlock dt=21 reason_string=19 stack=21
+GolangBlock dt=21 reason_string=19 stack=21
 ProcStop dt=157
 ProcStart dt=17320 p=2 p_seq=6
 ProcStop dt=15
 ProcStart dt=2411 p=0 p_seq=14
 ProcStop dt=8
 ProcStart dt=16766 p=0 p_seq=15
-GoUnblock dt=9 g=1 g_seq=40 stack=0
-GoStart dt=91 g=1 g_seq=41
+GolangUnblock dt=9 g=1 g_seq=40 stack=0
+GolangStart dt=91 g=1 g_seq=41
 HeapAlloc dt=19 heapalloc_value=10859848
 HeapAlloc dt=9 heapalloc_value=10868040
 HeapAlloc dt=7 heapalloc_value=10876232
@@ -480,15 +480,15 @@ HeapAlloc dt=5 heapalloc_value=11851080
 HeapAlloc dt=6 heapalloc_value=11859272
 HeapAlloc dt=5 heapalloc_value=11867464
 HeapAlloc dt=6 heapalloc_value=11875656
-GoBlock dt=9 reason_string=19 stack=21
+GolangBlock dt=9 reason_string=19 stack=21
 ProcStop dt=105
 ProcStart dt=17283 p=2 p_seq=8
 ProcStop dt=12
 ProcStart dt=4008 p=0 p_seq=18
 ProcStop dt=9
 ProcStart dt=16692 p=0 p_seq=19
-GoUnblock dt=9 g=1 g_seq=44 stack=0
-GoStart dt=76 g=1 g_seq=45
+GolangUnblock dt=9 g=1 g_seq=44 stack=0
+GolangStart dt=76 g=1 g_seq=45
 HeapAlloc dt=16 heapalloc_value=13169992
 HeapAlloc dt=9 heapalloc_value=13178184
 HeapAlloc dt=7 heapalloc_value=13186376
@@ -614,15 +614,15 @@ HeapAlloc dt=6 heapalloc_value=14161224
 HeapAlloc dt=5 heapalloc_value=14169416
 HeapAlloc dt=6 heapalloc_value=14177608
 HeapAlloc dt=10 heapalloc_value=14185800
-GoBlock dt=9 reason_string=19 stack=21
+GolangBlock dt=9 reason_string=19 stack=21
 ProcStop dt=108
 ProcStart dt=17296 p=2 p_seq=10
 ProcStop dt=12
 ProcStart dt=3626 p=0 p_seq=22
 ProcStop dt=8
 ProcStart dt=16715 p=0 p_seq=23
-GoUnblock dt=6 g=1 g_seq=48 stack=0
-GoStart dt=79 g=1 g_seq=49
+GolangUnblock dt=6 g=1 g_seq=48 stack=0
+GolangStart dt=79 g=1 g_seq=49
 HeapAlloc dt=15 heapalloc_value=15553864
 HeapAlloc dt=13 heapalloc_value=15562056
 HeapAlloc dt=15 heapalloc_value=15570248
@@ -748,23 +748,23 @@ HeapAlloc dt=5 heapalloc_value=16545096
 HeapAlloc dt=5 heapalloc_value=16553288
 HeapAlloc dt=6 heapalloc_value=16561480
 HeapAlloc dt=5 heapalloc_value=16569672
-GoBlock dt=11 reason_string=19 stack=21
+GolangBlock dt=11 reason_string=19 stack=21
 ProcStop dt=109
 ProcStart dt=18122 p=2 p_seq=12
 ProcStop dt=23
 ProcStart dt=803 p=1 p_seq=12
-GoUnblock dt=12 g=24 g_seq=10 stack=0
-GoStart dt=143 g=24 g_seq=11
-GoLabel dt=2 label_string=2
-GoBlock dt=3389 reason_string=15 stack=27
+GolangUnblock dt=12 g=24 g_seq=10 stack=0
+GolangStart dt=143 g=24 g_seq=11
+GolangLabel dt=2 label_string=2
+GolangBlock dt=3389 reason_string=15 stack=27
 ProcStop dt=2403
 ProcStart dt=161103 p=4 p_seq=8
-GoStart dt=172 g=38 g_seq=1
-GoStop dt=304901 reason_string=16 stack=50
-GoStart dt=21 g=38 g_seq=2
-GoStop dt=315468 reason_string=16 stack=50
-GoStart dt=20 g=38 g_seq=3
-GoDestroy dt=160861
+GolangStart dt=172 g=38 g_seq=1
+GolangStop dt=304901 reason_string=16 stack=50
+GolangStart dt=21 g=38 g_seq=2
+GolangStop dt=315468 reason_string=16 stack=50
+GolangStart dt=20 g=38 g_seq=3
+GolangDestroy dt=160861
 ProcStop dt=34
 EventBatch gen=1 m=1709044 time=7689670489757 size=2312
 ProcStart dt=310 p=3 p_seq=2
@@ -772,10 +772,10 @@ ProcStop dt=39
 ProcStart dt=1386 p=3 p_seq=3
 ProcStop dt=138
 ProcStart dt=3920 p=0 p_seq=5
-GoStart dt=266 g=24 g_seq=7
-GoUnblock dt=50 g=1 g_seq=25 stack=41
-GoBlock dt=13 reason_string=15 stack=27
-GoStart dt=7 g=1 g_seq=26
+GolangStart dt=266 g=24 g_seq=7
+GolangUnblock dt=50 g=1 g_seq=25 stack=41
+GolangBlock dt=13 reason_string=15 stack=27
+GolangStart dt=7 g=1 g_seq=26
 GCMarkAssistEnd dt=6
 HeapAlloc dt=29 heapalloc_value=3843824
 GCSweepBegin dt=57 stack=42
@@ -875,15 +875,15 @@ HeapAlloc dt=11 heapalloc_value=4630256
 HeapAlloc dt=7 heapalloc_value=4638448
 HeapAlloc dt=7 heapalloc_value=4646640
 HeapAlloc dt=7 heapalloc_value=4654832
-GoBlock dt=31 reason_string=19 stack=21
+GolangBlock dt=31 reason_string=19 stack=21
 ProcStop dt=34
 ProcStart dt=6196 p=4 p_seq=2
 ProcStop dt=26
 ProcStart dt=1578 p=0 p_seq=7
 ProcStop dt=12
 ProcStart dt=16743 p=0 p_seq=8
-GoUnblock dt=21 g=1 g_seq=29 stack=0
-GoStart dt=147 g=1 g_seq=30
+GolangUnblock dt=21 g=1 g_seq=29 stack=0
+GolangStart dt=147 g=1 g_seq=30
 HeapAlloc dt=51 heapalloc_value=5768944
 HeapAlloc dt=22 heapalloc_value=5777136
 HeapAlloc dt=16 heapalloc_value=5785328
@@ -1010,11 +1010,11 @@ HeapAlloc dt=5 heapalloc_value=6874864
 HeapAlloc dt=5 heapalloc_value=6883056
 HeapAlloc dt=5 heapalloc_value=6891248
 HeapAlloc dt=6 heapalloc_value=6899440
-GoBlock dt=14 reason_string=19 stack=21
+GolangBlock dt=14 reason_string=19 stack=21
 ProcStop dt=198
 ProcStart dt=2996 p=0 p_seq=10
-GoUnblock dt=12 g=1 g_seq=31 stack=0
-GoStart dt=135 g=1 g_seq=32
+GolangUnblock dt=12 g=1 g_seq=31 stack=0
+GolangStart dt=135 g=1 g_seq=32
 HeapAlloc dt=25 heapalloc_value=6907632
 HeapAlloc dt=9 heapalloc_value=6915824
 HeapAlloc dt=6 heapalloc_value=6924016
@@ -1109,7 +1109,7 @@ HeapAlloc dt=7 heapalloc_value=7644912
 HeapAlloc dt=35 heapalloc_value=7653104
 GCBegin dt=23 gc_seq=3 stack=22
 STWBegin dt=73 kind_string=22 stack=28
-GoUnblock dt=258 g=4 g_seq=5 stack=29
+GolangUnblock dt=258 g=4 g_seq=5 stack=29
 ProcsChange dt=80 procs_value=8 stack=30
 STWEnd dt=37
 GCMarkAssistBegin dt=96 stack=31
@@ -1121,8 +1121,8 @@ HeapAlloc dt=29 heapalloc_value=7696176
 HeapAlloc dt=16 heapalloc_value=7704368
 HeapAlloc dt=12 heapalloc_value=7712560
 HeapAlloc dt=48 heapalloc_value=7868208
-GoStop dt=4635 reason_string=16 stack=45
-GoStart dt=48 g=1 g_seq=33
+GolangStop dt=4635 reason_string=16 stack=45
+GolangStart dt=48 g=1 g_seq=33
 HeapAlloc dt=27 heapalloc_value=7884336
 HeapAlloc dt=11 heapalloc_value=7892528
 HeapAlloc dt=8 heapalloc_value=7900720
@@ -1150,43 +1150,43 @@ HeapAlloc dt=9 heapalloc_value=8072752
 HeapAlloc dt=8 heapalloc_value=8080944
 HeapAlloc dt=9 heapalloc_value=8089136
 HeapAlloc dt=8 heapalloc_value=8097328
-GoBlock dt=20 reason_string=19 stack=21
+GolangBlock dt=20 reason_string=19 stack=21
 ProcStop dt=35
 ProcStart dt=147580 p=3 p_seq=6
-GoStart dt=144 g=4 g_seq=10
-GoBlock dt=38 reason_string=15 stack=32
-GoUnblock dt=41 g=25 g_seq=4 stack=0
-GoStart dt=6 g=25 g_seq=5
-GoLabel dt=1 label_string=4
-GoBlock dt=5825 reason_string=15 stack=27
+GolangStart dt=144 g=4 g_seq=10
+GolangBlock dt=38 reason_string=15 stack=32
+GolangUnblock dt=41 g=25 g_seq=4 stack=0
+GolangStart dt=6 g=25 g_seq=5
+GolangLabel dt=1 label_string=4
+GolangBlock dt=5825 reason_string=15 stack=27
 ProcStop dt=299
 ProcStart dt=158874 p=3 p_seq=7
-GoStart dt=231 g=35 g_seq=1
-GoStop dt=305629 reason_string=16 stack=51
-GoStart dt=79 g=35 g_seq=2
-GoStop dt=315206 reason_string=16 stack=50
-GoStart dt=36 g=35 g_seq=3
-GoDestroy dt=160337
+GolangStart dt=231 g=35 g_seq=1
+GolangStop dt=305629 reason_string=16 stack=51
+GolangStart dt=79 g=35 g_seq=2
+GolangStop dt=315206 reason_string=16 stack=50
+GolangStart dt=36 g=35 g_seq=3
+GolangDestroy dt=160337
 ProcStop dt=68
 EventBatch gen=1 m=1709042 time=7689670149213 size=4550
 ProcStart dt=287 p=2 p_seq=1
-GoStart dt=328 g=7 g_seq=1
+GolangStart dt=328 g=7 g_seq=1
 HeapAlloc dt=7006 heapalloc_value=2793472
 HeapAlloc dt=74 heapalloc_value=2801664
-GoBlock dt=275 reason_string=12 stack=18
+GolangBlock dt=275 reason_string=12 stack=18
 ProcStop dt=34
 ProcStart dt=327698 p=0 p_seq=3
 ProcStop dt=7
 ProcStart dt=2124 p=2 p_seq=3
-GoUnblock dt=32 g=24 g_seq=2 stack=0
+GolangUnblock dt=32 g=24 g_seq=2 stack=0
 HeapAlloc dt=302 heapalloc_value=4038656
 HeapAlloc dt=104 heapalloc_value=4046848
 HeapAlloc dt=52 heapalloc_value=4055040
-GoStart dt=1147 g=24 g_seq=3
-GoLabel dt=5 label_string=2
-GoBlock dt=128 reason_string=15 stack=27
-GoUnblock dt=72 g=1 g_seq=21 stack=0
-GoStart dt=11 g=1 g_seq=22
+GolangStart dt=1147 g=24 g_seq=3
+GolangLabel dt=5 label_string=2
+GolangBlock dt=128 reason_string=15 stack=27
+GolangUnblock dt=72 g=1 g_seq=21 stack=0
+GolangStart dt=11 g=1 g_seq=22
 HeapAlloc dt=44 heapalloc_value=4063232
 HeapAlloc dt=43 heapalloc_value=4071424
 HeapAlloc dt=28 heapalloc_value=4079616
@@ -1223,39 +1223,39 @@ HeapAlloc dt=14 heapalloc_value=4358144
 GCMarkAssistBegin dt=27 stack=31
 GCMarkAssistEnd dt=18
 GCMarkAssistBegin dt=4 stack=31
-GoBlock dt=198 reason_string=13 stack=33
+GolangBlock dt=198 reason_string=13 stack=33
 ProcStop dt=19
 ProcStart dt=387 p=2 p_seq=4
-GoUnblock dt=265 g=24 g_seq=4 stack=0
-GoStart dt=69 g=24 g_seq=5
-GoLabel dt=1 label_string=2
-GoBlock dt=132 reason_string=10 stack=35
-GoStart dt=20 g=1 g_seq=24
+GolangUnblock dt=265 g=24 g_seq=4 stack=0
+GolangStart dt=69 g=24 g_seq=5
+GolangLabel dt=1 label_string=2
+GolangBlock dt=132 reason_string=10 stack=35
+GolangStart dt=20 g=1 g_seq=24
 GCMarkAssistEnd dt=2
 HeapAlloc dt=13 heapalloc_value=4366336
 GCMarkAssistBegin dt=7 stack=31
-GoBlock dt=25 reason_string=10 stack=36
+GolangBlock dt=25 reason_string=10 stack=36
 ProcStop dt=24
 ProcStart dt=4689 p=1 p_seq=7
 ProcStop dt=23
 ProcStart dt=36183 p=1 p_seq=8
 ProcStop dt=24
 ProcStart dt=1076 p=1 p_seq=9
-GoUnblock dt=12 g=22 g_seq=4 stack=0
-GoStart dt=118 g=22 g_seq=5
-GoLabel dt=1 label_string=2
-GoBlock dt=7117 reason_string=15 stack=27
+GolangUnblock dt=12 g=22 g_seq=4 stack=0
+GolangStart dt=118 g=22 g_seq=5
+GolangLabel dt=1 label_string=2
+GolangBlock dt=7117 reason_string=15 stack=27
 ProcStop dt=41
 ProcStart dt=150567 p=4 p_seq=7
-GoUnblock dt=41 g=23 g_seq=4 stack=0
+GolangUnblock dt=41 g=23 g_seq=4 stack=0
 HeapAlloc dt=108 heapalloc_value=17163592
 HeapAlloc dt=61 heapalloc_value=17166856
 HeapAlloc dt=2994 heapalloc_value=17608712
-GoStart dt=1008 g=23 g_seq=5
-GoLabel dt=4 label_string=4
-GoBlock dt=40 reason_string=15 stack=27
-GoUnblock dt=49 g=1 g_seq=52 stack=0
-GoStart dt=7 g=1 g_seq=53
+GolangStart dt=1008 g=23 g_seq=5
+GolangLabel dt=4 label_string=4
+GolangBlock dt=40 reason_string=15 stack=27
+GolangUnblock dt=49 g=1 g_seq=52 stack=0
+GolangStart dt=7 g=1 g_seq=53
 HeapAlloc dt=30 heapalloc_value=17616904
 HeapAlloc dt=52 heapalloc_value=17625096
 HeapAlloc dt=35 heapalloc_value=17633288
@@ -1314,13 +1314,13 @@ HeapAlloc dt=18 heapalloc_value=18059272
 HeapAlloc dt=20 heapalloc_value=18067464
 HeapAlloc dt=17 heapalloc_value=18075656
 HeapAlloc dt=125 heapalloc_value=18083848
-GoStop dt=20 reason_string=16 stack=46
-GoUnblock dt=288 g=25 g_seq=6 stack=0
-GoStart dt=7 g=25 g_seq=7
-GoLabel dt=1 label_string=2
+GolangStop dt=20 reason_string=16 stack=46
+GolangUnblock dt=288 g=25 g_seq=6 stack=0
+GolangStart dt=7 g=25 g_seq=7
+GolangLabel dt=1 label_string=2
 HeapAlloc dt=255 heapalloc_value=18091752
-GoBlock dt=30 reason_string=10 stack=35
-GoStart dt=5 g=1 g_seq=54
+GolangBlock dt=30 reason_string=10 stack=35
+GolangStart dt=5 g=1 g_seq=54
 HeapAlloc dt=25 heapalloc_value=18099944
 HeapAlloc dt=19 heapalloc_value=18108136
 HeapAlloc dt=45 heapalloc_value=18116328
@@ -1366,13 +1366,13 @@ HeapAlloc dt=6 heapalloc_value=18435816
 HeapAlloc dt=7 heapalloc_value=18444008
 HeapAlloc dt=7 heapalloc_value=18452200
 GCMarkAssistBegin dt=13 stack=31
-GoBlock dt=35 reason_string=10 stack=36
+GolangBlock dt=35 reason_string=10 stack=36
 ProcStop dt=22
 ProcStart dt=936 p=1 p_seq=13
-GoStart dt=212 g=25 g_seq=9
-GoUnblock dt=31 g=1 g_seq=55 stack=41
-GoBlock dt=7 reason_string=15 stack=27
-GoStart dt=13 g=1 g_seq=56
+GolangStart dt=212 g=25 g_seq=9
+GolangUnblock dt=31 g=1 g_seq=55 stack=41
+GolangBlock dt=7 reason_string=15 stack=27
+GolangStart dt=13 g=1 g_seq=56
 GCMarkAssistEnd dt=4
 HeapAlloc dt=30 heapalloc_value=16971400
 GCSweepBegin dt=41 stack=42
@@ -1419,15 +1419,15 @@ HeapAlloc dt=15 heapalloc_value=17143432
 HeapAlloc dt=19 heapalloc_value=17151624
 HeapAlloc dt=15 heapalloc_value=17159816
 HeapAlloc dt=54 heapalloc_value=17585800
-GoBlock dt=482 reason_string=19 stack=21
+GolangBlock dt=482 reason_string=19 stack=21
 ProcStop dt=210
 ProcStart dt=17621 p=0 p_seq=26
 ProcStop dt=24
 ProcStart dt=5194 p=1 p_seq=16
 ProcStop dt=17
 ProcStart dt=16724 p=1 p_seq=17
-GoUnblock dt=27 g=1 g_seq=59 stack=0
-GoStart dt=127 g=1 g_seq=60
+GolangUnblock dt=27 g=1 g_seq=59 stack=0
+GolangStart dt=127 g=1 g_seq=60
 HeapAlloc dt=55 heapalloc_value=18617992
 HeapAlloc dt=64 heapalloc_value=18626184
 HeapAlloc dt=65 heapalloc_value=18634376
@@ -1553,15 +1553,15 @@ HeapAlloc dt=6 heapalloc_value=19609224
 HeapAlloc dt=6 heapalloc_value=19617416
 HeapAlloc dt=6 heapalloc_value=19625608
 HeapAlloc dt=6 heapalloc_value=19633800
-GoBlock dt=12 reason_string=19 stack=21
+GolangBlock dt=12 reason_string=19 stack=21
 ProcStop dt=171
 ProcStart dt=17527 p=0 p_seq=28
 ProcStop dt=24
 ProcStart dt=1830 p=1 p_seq=20
 ProcStop dt=13
 ProcStart dt=16742 p=1 p_seq=21
-GoUnblock dt=20 g=1 g_seq=63 stack=0
-GoStart dt=121 g=1 g_seq=64
+GolangUnblock dt=20 g=1 g_seq=63 stack=0
+GolangStart dt=121 g=1 g_seq=64
 HeapAlloc dt=62 heapalloc_value=20665992
 HeapAlloc dt=21 heapalloc_value=20674184
 HeapAlloc dt=25 heapalloc_value=20682376
@@ -1688,15 +1688,15 @@ HeapAlloc dt=5 heapalloc_value=22197896
 HeapAlloc dt=6 heapalloc_value=22206088
 HeapAlloc dt=6 heapalloc_value=22214280
 HeapAlloc dt=5 heapalloc_value=22222472
-GoBlock dt=9 reason_string=19 stack=21
+GolangBlock dt=9 reason_string=19 stack=21
 ProcStop dt=163
 ProcStart dt=16841 p=0 p_seq=30
 ProcStop dt=23
 ProcStart dt=1498 p=1 p_seq=24
 ProcStop dt=11
 ProcStart dt=16726 p=1 p_seq=25
-GoUnblock dt=19 g=1 g_seq=67 stack=0
-GoStart dt=117 g=1 g_seq=68
+GolangUnblock dt=19 g=1 g_seq=67 stack=0
+GolangStart dt=117 g=1 g_seq=68
 HeapAlloc dt=46 heapalloc_value=23254664
 HeapAlloc dt=19 heapalloc_value=23262856
 HeapAlloc dt=20 heapalloc_value=23271048
@@ -1822,11 +1822,11 @@ HeapAlloc dt=6 heapalloc_value=24245896
 HeapAlloc dt=6 heapalloc_value=24254088
 HeapAlloc dt=6 heapalloc_value=24262280
 HeapAlloc dt=6 heapalloc_value=24270472
-GoBlock dt=10 reason_string=19 stack=21
+GolangBlock dt=10 reason_string=19 stack=21
 ProcStop dt=157
 ProcStart dt=12778 p=1 p_seq=27
-GoUnblock dt=12 g=1 g_seq=69 stack=0
-GoStart dt=143 g=1 g_seq=70
+GolangUnblock dt=12 g=1 g_seq=69 stack=0
+GolangStart dt=143 g=1 g_seq=70
 HeapAlloc dt=61 heapalloc_value=24278664
 HeapAlloc dt=11 heapalloc_value=24286856
 HeapAlloc dt=5 heapalloc_value=24295048
@@ -1952,15 +1952,15 @@ HeapAlloc dt=6 heapalloc_value=25269896
 HeapAlloc dt=6 heapalloc_value=25278088
 HeapAlloc dt=5 heapalloc_value=25286280
 HeapAlloc dt=6 heapalloc_value=25294472
-GoBlock dt=10 reason_string=19 stack=21
+GolangBlock dt=10 reason_string=19 stack=21
 ProcStop dt=14
 ProcStart dt=7152 p=1 p_seq=29
-GoStart dt=199 g=37 g_seq=1
-GoStop dt=306782 reason_string=16 stack=50
-GoStart dt=57 g=37 g_seq=2
-GoStop dt=315218 reason_string=16 stack=50
-GoStart dt=17 g=37 g_seq=3
-GoDestroy dt=159214
+GolangStart dt=199 g=37 g_seq=1
+GolangStop dt=306782 reason_string=16 stack=50
+GolangStart dt=57 g=37 g_seq=2
+GolangStop dt=315218 reason_string=16 stack=50
+GolangStart dt=17 g=37 g_seq=3
+GolangDestroy dt=159214
 ProcStop dt=60
 EventBatch gen=1 m=1709041 time=7689670150297 size=5255
 ProcStart dt=316 p=3 p_seq=1
@@ -1968,8 +1968,8 @@ ProcStop dt=37
 ProcStart dt=311299 p=1 p_seq=5
 ProcStop dt=17
 ProcStart dt=16759 p=1 p_seq=6
-GoUnblock dt=47 g=1 g_seq=3 stack=0
-GoStart dt=137 g=1 g_seq=4
+GolangUnblock dt=47 g=1 g_seq=3 stack=0
+GolangStart dt=137 g=1 g_seq=4
 HeapAlloc dt=56 heapalloc_value=2809856
 HeapAlloc dt=29 heapalloc_value=2818048
 HeapAlloc dt=19 heapalloc_value=2826240
@@ -2108,74 +2108,74 @@ HeapAlloc dt=6 heapalloc_value=3997696
 GCBegin dt=38 gc_seq=1 stack=22
 HeapAlloc dt=42 heapalloc_value=4005888
 HeapAlloc dt=14 heapalloc_value=4014080
-GoCreate dt=73 new_g=18 new_stack=23 stack=24
-GoBlock dt=235 reason_string=12 stack=25
-GoStart dt=11 g=18 g_seq=1
+GolangCreate dt=73 new_g=18 new_stack=23 stack=24
+GolangBlock dt=235 reason_string=12 stack=25
+GolangStart dt=11 g=18 g_seq=1
 HeapAlloc dt=16 heapalloc_value=4022272
-GoUnblock dt=15 g=1 g_seq=5 stack=26
-GoBlock dt=9 reason_string=15 stack=27
-GoStart dt=12 g=1 g_seq=6
-GoCreate dt=44 new_g=19 new_stack=23 stack=24
-GoBlock dt=4 reason_string=12 stack=25
-GoStart dt=3 g=19 g_seq=1
-GoUnblock dt=5 g=1 g_seq=7 stack=26
-GoBlock dt=2 reason_string=15 stack=27
-GoStart dt=2 g=1 g_seq=8
-GoCreate dt=8 new_g=20 new_stack=23 stack=24
-GoBlock dt=3 reason_string=12 stack=25
-GoStart dt=2 g=20 g_seq=1
-GoUnblock dt=3 g=1 g_seq=9 stack=26
-GoBlock dt=1 reason_string=15 stack=27
-GoStart dt=2 g=1 g_seq=10
-GoCreate dt=6 new_g=21 new_stack=23 stack=24
-GoBlock dt=3 reason_string=12 stack=25
-GoStart dt=1 g=21 g_seq=1
-GoUnblock dt=6 g=1 g_seq=11 stack=26
-GoBlock dt=1 reason_string=15 stack=27
-GoStart dt=8 g=1 g_seq=12
-GoCreate dt=7 new_g=22 new_stack=23 stack=24
-GoBlock dt=2 reason_string=12 stack=25
-GoStart dt=2 g=22 g_seq=1
-GoUnblock dt=2 g=1 g_seq=13 stack=26
-GoBlock dt=6 reason_string=15 stack=27
-GoStart dt=4 g=1 g_seq=14
-GoCreate dt=15 new_g=23 new_stack=23 stack=24
-GoBlock dt=166 reason_string=12 stack=25
-GoStart dt=4 g=23 g_seq=1
-GoUnblock dt=3 g=1 g_seq=15 stack=26
-GoBlock dt=3 reason_string=15 stack=27
-GoStart dt=3 g=1 g_seq=16
+GolangUnblock dt=15 g=1 g_seq=5 stack=26
+GolangBlock dt=9 reason_string=15 stack=27
+GolangStart dt=12 g=1 g_seq=6
+GolangCreate dt=44 new_g=19 new_stack=23 stack=24
+GolangBlock dt=4 reason_string=12 stack=25
+GolangStart dt=3 g=19 g_seq=1
+GolangUnblock dt=5 g=1 g_seq=7 stack=26
+GolangBlock dt=2 reason_string=15 stack=27
+GolangStart dt=2 g=1 g_seq=8
+GolangCreate dt=8 new_g=20 new_stack=23 stack=24
+GolangBlock dt=3 reason_string=12 stack=25
+GolangStart dt=2 g=20 g_seq=1
+GolangUnblock dt=3 g=1 g_seq=9 stack=26
+GolangBlock dt=1 reason_string=15 stack=27
+GolangStart dt=2 g=1 g_seq=10
+GolangCreate dt=6 new_g=21 new_stack=23 stack=24
+GolangBlock dt=3 reason_string=12 stack=25
+GolangStart dt=1 g=21 g_seq=1
+GolangUnblock dt=6 g=1 g_seq=11 stack=26
+GolangBlock dt=1 reason_string=15 stack=27
+GolangStart dt=8 g=1 g_seq=12
+GolangCreate dt=7 new_g=22 new_stack=23 stack=24
+GolangBlock dt=2 reason_string=12 stack=25
+GolangStart dt=2 g=22 g_seq=1
+GolangUnblock dt=2 g=1 g_seq=13 stack=26
+GolangBlock dt=6 reason_string=15 stack=27
+GolangStart dt=4 g=1 g_seq=14
+GolangCreate dt=15 new_g=23 new_stack=23 stack=24
+GolangBlock dt=166 reason_string=12 stack=25
+GolangStart dt=4 g=23 g_seq=1
+GolangUnblock dt=3 g=1 g_seq=15 stack=26
+GolangBlock dt=3 reason_string=15 stack=27
+GolangStart dt=3 g=1 g_seq=16
 HeapAlloc dt=18 heapalloc_value=4030464
-GoCreate dt=11 new_g=24 new_stack=23 stack=24
-GoBlock dt=3 reason_string=12 stack=25
-GoStart dt=1 g=24 g_seq=1
-GoUnblock dt=3 g=1 g_seq=17 stack=26
-GoBlock dt=2 reason_string=15 stack=27
-GoStart dt=1 g=1 g_seq=18
-GoCreate dt=6 new_g=25 new_stack=23 stack=24
-GoBlock dt=3 reason_string=12 stack=25
-GoStart dt=1 g=25 g_seq=1
-GoUnblock dt=2 g=1 g_seq=19 stack=26
-GoBlock dt=2 reason_string=15 stack=27
-GoStart dt=1 g=1 g_seq=20
+GolangCreate dt=11 new_g=24 new_stack=23 stack=24
+GolangBlock dt=3 reason_string=12 stack=25
+GolangStart dt=1 g=24 g_seq=1
+GolangUnblock dt=3 g=1 g_seq=17 stack=26
+GolangBlock dt=2 reason_string=15 stack=27
+GolangStart dt=1 g=1 g_seq=18
+GolangCreate dt=6 new_g=25 new_stack=23 stack=24
+GolangBlock dt=3 reason_string=12 stack=25
+GolangStart dt=1 g=25 g_seq=1
+GolangUnblock dt=2 g=1 g_seq=19 stack=26
+GolangBlock dt=2 reason_string=15 stack=27
+GolangStart dt=1 g=1 g_seq=20
 STWBegin dt=118 kind_string=22 stack=28
-GoStatus dt=1398 g=4 m=18446744073709551615 gstatus=4
-GoUnblock dt=83 g=4 g_seq=1 stack=29
+GolangStatus dt=1398 g=4 m=18446744073709551615 gstatus=4
+GolangUnblock dt=83 g=4 g_seq=1 stack=29
 ProcsChange dt=91 procs_value=8 stack=30
 STWEnd dt=31
 GCMarkAssistBegin dt=149 stack=31
 GCMarkAssistEnd dt=1458
-GoBlock dt=23 reason_string=19 stack=21
-GoStart dt=166 g=4 g_seq=2
-GoBlock dt=22 reason_string=15 stack=32
-GoUnblock dt=35 g=23 g_seq=2 stack=0
-GoStart dt=4 g=23 g_seq=3
-GoLabel dt=1 label_string=4
-GoBlock dt=441 reason_string=15 stack=27
+GolangBlock dt=23 reason_string=19 stack=21
+GolangStart dt=166 g=4 g_seq=2
+GolangBlock dt=22 reason_string=15 stack=32
+GolangUnblock dt=35 g=23 g_seq=2 stack=0
+GolangStart dt=4 g=23 g_seq=3
+GolangLabel dt=1 label_string=4
+GolangBlock dt=441 reason_string=15 stack=27
 ProcStop dt=23
 ProcStart dt=16781 p=0 p_seq=6
-GoUnblock dt=28 g=1 g_seq=27 stack=0
-GoStart dt=162 g=1 g_seq=28
+GolangUnblock dt=28 g=1 g_seq=27 stack=0
+GolangStart dt=162 g=1 g_seq=28
 HeapAlloc dt=69 heapalloc_value=4663024
 HeapAlloc dt=23 heapalloc_value=4671216
 HeapAlloc dt=15 heapalloc_value=4679408
@@ -2302,7 +2302,7 @@ HeapAlloc dt=6 heapalloc_value=5736176
 HeapAlloc dt=6 heapalloc_value=5744368
 HeapAlloc dt=5 heapalloc_value=5752560
 HeapAlloc dt=5 heapalloc_value=5760752
-GoBlock dt=15 reason_string=19 stack=21
+GolangBlock dt=15 reason_string=19 stack=21
 ProcStop dt=178
 ProcStart dt=17613 p=4 p_seq=3
 ProcStop dt=26
@@ -2313,8 +2313,8 @@ ProcStop dt=14
 ProcStart dt=9275 p=0 p_seq=12
 ProcStop dt=9
 ProcStart dt=16732 p=0 p_seq=13
-GoUnblock dt=9 g=1 g_seq=38 stack=0
-GoStart dt=84 g=1 g_seq=39
+GolangUnblock dt=9 g=1 g_seq=38 stack=0
+GolangStart dt=84 g=1 g_seq=39
 HeapAlloc dt=23 heapalloc_value=9631048
 HeapAlloc dt=24 heapalloc_value=9639240
 HeapAlloc dt=15 heapalloc_value=9647432
@@ -2441,15 +2441,15 @@ HeapAlloc dt=5 heapalloc_value=10827080
 HeapAlloc dt=6 heapalloc_value=10835272
 HeapAlloc dt=5 heapalloc_value=10843464
 HeapAlloc dt=6 heapalloc_value=10851656
-GoBlock dt=11 reason_string=19 stack=21
+GolangBlock dt=11 reason_string=19 stack=21
 ProcStop dt=119
 ProcStart dt=17350 p=2 p_seq=7
 ProcStop dt=13
 ProcStart dt=1133 p=0 p_seq=16
 ProcStop dt=8
 ProcStart dt=16748 p=0 p_seq=17
-GoUnblock dt=7 g=1 g_seq=42 stack=0
-GoStart dt=84 g=1 g_seq=43
+GolangUnblock dt=7 g=1 g_seq=42 stack=0
+GolangStart dt=84 g=1 g_seq=43
 HeapAlloc dt=15 heapalloc_value=11883848
 HeapAlloc dt=10 heapalloc_value=11892040
 HeapAlloc dt=6 heapalloc_value=11900232
@@ -2576,15 +2576,15 @@ HeapAlloc dt=10 heapalloc_value=13137224
 HeapAlloc dt=6 heapalloc_value=13145416
 HeapAlloc dt=5 heapalloc_value=13153608
 HeapAlloc dt=6 heapalloc_value=13161800
-GoBlock dt=12 reason_string=19 stack=21
+GolangBlock dt=12 reason_string=19 stack=21
 ProcStop dt=124
 ProcStart dt=17212 p=2 p_seq=9
 ProcStop dt=13
 ProcStart dt=1068 p=0 p_seq=20
 ProcStop dt=8
 ProcStart dt=16756 p=0 p_seq=21
-GoUnblock dt=11 g=1 g_seq=46 stack=0
-GoStart dt=92 g=1 g_seq=47
+GolangUnblock dt=11 g=1 g_seq=46 stack=0
+GolangStart dt=92 g=1 g_seq=47
 HeapAlloc dt=19 heapalloc_value=14193992
 HeapAlloc dt=10 heapalloc_value=14202184
 HeapAlloc dt=6 heapalloc_value=14210376
@@ -2711,15 +2711,15 @@ HeapAlloc dt=9 heapalloc_value=15521096
 HeapAlloc dt=7 heapalloc_value=15529288
 HeapAlloc dt=8 heapalloc_value=15537480
 HeapAlloc dt=8 heapalloc_value=15545672
-GoBlock dt=13 reason_string=19 stack=21
+GolangBlock dt=13 reason_string=19 stack=21
 ProcStop dt=116
 ProcStart dt=17265 p=2 p_seq=11
 ProcStop dt=10
 ProcStart dt=1450 p=0 p_seq=24
 ProcStop dt=9
 ProcStart dt=17026 p=0 p_seq=25
-GoUnblock dt=12 g=1 g_seq=50 stack=0
-GoStart dt=148 g=1 g_seq=51
+GolangUnblock dt=12 g=1 g_seq=50 stack=0
+GolangStart dt=148 g=1 g_seq=51
 HeapAlloc dt=20 heapalloc_value=16577864
 HeapAlloc dt=15 heapalloc_value=16586056
 HeapAlloc dt=10 heapalloc_value=16594248
@@ -2794,7 +2794,7 @@ HeapAlloc dt=6 heapalloc_value=17151304
 HeapAlloc dt=37 heapalloc_value=17159496
 GCBegin dt=15 gc_seq=5 stack=22
 STWBegin dt=37 kind_string=22 stack=28
-GoUnblock dt=288 g=4 g_seq=9 stack=29
+GolangUnblock dt=288 g=4 g_seq=9 stack=29
 ProcsChange dt=56 procs_value=8 stack=30
 STWEnd dt=23
 GCMarkAssistBegin dt=90 stack=31
@@ -2852,47 +2852,47 @@ HeapAlloc dt=37 heapalloc_value=17576456
 HeapAlloc dt=7 heapalloc_value=17584648
 HeapAlloc dt=7 heapalloc_value=17592840
 HeapAlloc dt=6 heapalloc_value=17601032
-GoBlock dt=13 reason_string=19 stack=21
-GoUnblock dt=157 g=24 g_seq=12 stack=0
-GoStart dt=7 g=24 g_seq=13
-GoLabel dt=1 label_string=2
+GolangBlock dt=13 reason_string=19 stack=21
+GolangUnblock dt=157 g=24 g_seq=12 stack=0
+GolangStart dt=7 g=24 g_seq=13
+GolangLabel dt=1 label_string=2
 STWBegin dt=4128 kind_string=23 stack=37
-GoUnblock dt=64 g=25 g_seq=8 stack=38
+GolangUnblock dt=64 g=25 g_seq=8 stack=38
 HeapAlloc dt=25 heapalloc_value=16970376
-GoUnblock dt=24 g=3 g_seq=5 stack=39
+GolangUnblock dt=24 g=3 g_seq=5 stack=39
 GCEnd dt=6 gc_seq=6
-HeapGoal dt=7 heapgolangal_value=34360936
+HeapGolangal dt=7 heapgolangal_value=34360936
 ProcsChange dt=46 procs_value=8 stack=40
 STWEnd dt=49
-GoBlock dt=756 reason_string=15 stack=27
-GoStart dt=10 g=3 g_seq=6
-GoBlock dt=14862 reason_string=14 stack=44
+GolangBlock dt=756 reason_string=15 stack=27
+GolangStart dt=10 g=3 g_seq=6
+GolangBlock dt=14862 reason_string=14 stack=44
 ProcStop dt=25
 ProcStart dt=132428 p=0 p_seq=32
-GoStart dt=162 g=4 g_seq=12
-GoBlock dt=19 reason_string=15 stack=32
+GolangStart dt=162 g=4 g_seq=12
+GolangBlock dt=19 reason_string=15 stack=32
 ProcStop dt=20
 ProcStart dt=8304 p=0 p_seq=33
-GoStart dt=191 g=39 g_seq=1
-GoStop dt=306173 reason_string=16 stack=50
-GoStart dt=17 g=39 g_seq=2
-GoStop dt=315175 reason_string=16 stack=50
-GoStart dt=7 g=39 g_seq=3
-GoDestroy dt=159902
+GolangStart dt=191 g=39 g_seq=1
+GolangStop dt=306173 reason_string=16 stack=50
+GolangStart dt=17 g=39 g_seq=2
+GolangStop dt=315175 reason_string=16 stack=50
+GolangStart dt=7 g=39 g_seq=3
+GolangDestroy dt=159902
 ProcStop dt=50
 EventBatch gen=1 m=1709040 time=7689670148204 size=3534
 ProcStart dt=256 p=1 p_seq=1
-GoStart dt=186 g=6 g_seq=1
+GolangStart dt=186 g=6 g_seq=1
 HeapAlloc dt=320 heapalloc_value=2768896
 HeapAlloc dt=22 heapalloc_value=2777088
-GoBlock dt=229 reason_string=12 stack=15
-GoStart dt=12 g=8 g_seq=1
+GolangBlock dt=229 reason_string=12 stack=15
+GolangStart dt=12 g=8 g_seq=1
 HeapAlloc dt=15 heapalloc_value=2785280
-GoSyscallBegin dt=16 p_seq=2 stack=16
-GoSyscallEnd dt=254
-GoBlock dt=293 reason_string=15 stack=17
-GoStart dt=19 g=9 g_seq=1
-GoDestroy dt=156265
+GolangSyscallBegin dt=16 p_seq=2 stack=16
+GolangSyscallEnd dt=254
+GolangBlock dt=293 reason_string=15 stack=17
+GolangStart dt=19 g=9 g_seq=1
+GolangDestroy dt=156265
 ProcStop dt=44
 ProcStart dt=67218 p=1 p_seq=3
 ProcStop dt=19
@@ -2901,46 +2901,46 @@ ProcStop dt=13
 ProcStart dt=17539 p=0 p_seq=1
 ProcStop dt=14
 ProcStart dt=9071 p=4 p_seq=1
-GoUnblock dt=33 g=22 g_seq=2 stack=0
-GoStart dt=6 g=22 g_seq=3
-GoLabel dt=1 label_string=4
-GoUnblock dt=2321 g=1 g_seq=23 stack=34
+GolangUnblock dt=33 g=22 g_seq=2 stack=0
+GolangStart dt=6 g=22 g_seq=3
+GolangLabel dt=1 label_string=4
+GolangUnblock dt=2321 g=1 g_seq=23 stack=34
 STWBegin dt=1205 kind_string=23 stack=37
-GoUnblock dt=78 g=24 g_seq=6 stack=38
+GolangUnblock dt=78 g=24 g_seq=6 stack=38
 HeapAlloc dt=26 heapalloc_value=3840752
-GoStatus dt=14 g=3 m=18446744073709551615 gstatus=4
-GoUnblock dt=7 g=3 g_seq=1 stack=39
+GolangStatus dt=14 g=3 m=18446744073709551615 gstatus=4
+GolangUnblock dt=7 g=3 g_seq=1 stack=39
 GCEnd dt=3 gc_seq=2
-HeapGoal dt=6 heapgolangal_value=8101720
+HeapGolangal dt=6 heapgolangal_value=8101720
 ProcsChange dt=43 procs_value=8 stack=40
 STWEnd dt=31
-GoBlock dt=4030 reason_string=15 stack=27
-GoStart dt=12 g=3 g_seq=2
-GoBlock dt=1406 reason_string=14 stack=44
+GolangBlock dt=4030 reason_string=15 stack=27
+GolangStart dt=12 g=3 g_seq=2
+GolangBlock dt=1406 reason_string=14 stack=44
 ProcStop dt=24
 ProcStart dt=34332 p=4 p_seq=4
-GoStart dt=153 g=4 g_seq=4
-GoBlock dt=20 reason_string=15 stack=32
+GolangStart dt=153 g=4 g_seq=4
+GolangBlock dt=20 reason_string=15 stack=32
 ProcStop dt=19
 ProcStart dt=1832 p=2 p_seq=5
-GoUnblock dt=22 g=24 g_seq=8 stack=0
-GoStart dt=102 g=24 g_seq=9
-GoLabel dt=1 label_string=2
+GolangUnblock dt=22 g=24 g_seq=8 stack=0
+GolangStart dt=102 g=24 g_seq=9
+GolangLabel dt=1 label_string=2
 STWBegin dt=11769 kind_string=23 stack=37
-GoUnblock dt=60 g=1 g_seq=36 stack=38
+GolangUnblock dt=60 g=1 g_seq=36 stack=38
 HeapAlloc dt=23 heapalloc_value=8744264
-GoUnblock dt=17 g=3 g_seq=3 stack=39
+GolangUnblock dt=17 g=3 g_seq=3 stack=39
 GCEnd dt=6 gc_seq=4
-HeapGoal dt=7 heapgolangal_value=17908728
+HeapGolangal dt=7 heapgolangal_value=17908728
 ProcsChange dt=47 procs_value=8 stack=40
 STWEnd dt=28
-GoBlock dt=572 reason_string=15 stack=27
-GoStart dt=13 g=3 g_seq=4
-GoBlock dt=5707 reason_string=14 stack=44
+GolangBlock dt=572 reason_string=15 stack=27
+GolangStart dt=13 g=3 g_seq=4
+GolangBlock dt=5707 reason_string=14 stack=44
 ProcStop dt=16
 ProcStart dt=136502 p=1 p_seq=11
-GoStart dt=17 g=4 g_seq=8
-GoBlock dt=12 reason_string=15 stack=32
+GolangStart dt=17 g=4 g_seq=8
+GolangBlock dt=12 reason_string=15 stack=32
 ProcStop dt=22
 ProcStart dt=5977 p=6 p_seq=1
 ProcStop dt=34
@@ -2949,8 +2949,8 @@ ProcStop dt=23
 ProcStart dt=3966 p=1 p_seq=14
 ProcStop dt=15
 ProcStart dt=16753 p=1 p_seq=15
-GoUnblock dt=35 g=1 g_seq=57 stack=0
-GoStart dt=139 g=1 g_seq=58
+GolangUnblock dt=35 g=1 g_seq=57 stack=0
+GolangStart dt=139 g=1 g_seq=58
 HeapAlloc dt=71 heapalloc_value=17593992
 HeapAlloc dt=47 heapalloc_value=17602184
 HeapAlloc dt=24 heapalloc_value=17610376
@@ -3076,15 +3076,15 @@ HeapAlloc dt=37 heapalloc_value=18585224
 HeapAlloc dt=35 heapalloc_value=18593416
 HeapAlloc dt=39 heapalloc_value=18601608
 HeapAlloc dt=35 heapalloc_value=18609800
-GoBlock dt=51 reason_string=19 stack=21
+GolangBlock dt=51 reason_string=19 stack=21
 ProcStop dt=192
 ProcStart dt=17579 p=0 p_seq=27
 ProcStop dt=18
 ProcStart dt=1930 p=1 p_seq=18
 ProcStop dt=15
 ProcStart dt=16696 p=1 p_seq=19
-GoUnblock dt=22 g=1 g_seq=61 stack=0
-GoStart dt=125 g=1 g_seq=62
+GolangUnblock dt=22 g=1 g_seq=61 stack=0
+GolangStart dt=125 g=1 g_seq=62
 HeapAlloc dt=53 heapalloc_value=19641992
 HeapAlloc dt=19 heapalloc_value=19650184
 HeapAlloc dt=20 heapalloc_value=19658376
@@ -3210,15 +3210,15 @@ HeapAlloc dt=5 heapalloc_value=20633224
 HeapAlloc dt=6 heapalloc_value=20641416
 HeapAlloc dt=5 heapalloc_value=20649608
 HeapAlloc dt=6 heapalloc_value=20657800
-GoBlock dt=12 reason_string=19 stack=21
+GolangBlock dt=12 reason_string=19 stack=21
 ProcStop dt=167
 ProcStart dt=17576 p=0 p_seq=29
 ProcStop dt=20
 ProcStart dt=3256 p=1 p_seq=22
 ProcStop dt=17
 ProcStart dt=16071 p=1 p_seq=23
-GoUnblock dt=21 g=1 g_seq=65 stack=0
-GoStart dt=124 g=1 g_seq=66
+GolangUnblock dt=21 g=1 g_seq=65 stack=0
+GolangStart dt=124 g=1 g_seq=66
 HeapAlloc dt=51 heapalloc_value=22230664
 HeapAlloc dt=26 heapalloc_value=22238856
 HeapAlloc dt=16 heapalloc_value=22247048
@@ -3344,15 +3344,15 @@ HeapAlloc dt=6 heapalloc_value=23221896
 HeapAlloc dt=38 heapalloc_value=23230088
 HeapAlloc dt=7 heapalloc_value=23238280
 HeapAlloc dt=5 heapalloc_value=23246472
-GoBlock dt=9 reason_string=19 stack=21
+GolangBlock dt=9 reason_string=19 stack=21
 ProcStop dt=164
 ProcStart dt=17494 p=0 p_seq=31
 ProcStop dt=25
 ProcStart dt=1701 p=1 p_seq=26
 ProcStop dt=16
 ProcStart dt=16748 p=2 p_seq=17
-GoUnblock dt=36 g=1 g_seq=71 stack=0
-GoStart dt=149 g=1 g_seq=72
+GolangUnblock dt=36 g=1 g_seq=71 stack=0
+GolangStart dt=149 g=1 g_seq=72
 HeapAlloc dt=67 heapalloc_value=25302664
 HeapAlloc dt=38 heapalloc_value=25310856
 HeapAlloc dt=23 heapalloc_value=25319048
@@ -3481,38 +3481,38 @@ HeapAlloc dt=6 heapalloc_value=26318472
 HeapAlloc dt=30 heapalloc_value=26326360
 HeapAlloc dt=30 heapalloc_value=26334536
 HeapAlloc dt=24 heapalloc_value=26336904
-GoCreate dt=72 new_g=34 new_stack=47 stack=48
-GoCreate dt=183 new_g=35 new_stack=47 stack=48
-GoCreate dt=15 new_g=36 new_stack=47 stack=48
-GoCreate dt=12 new_g=37 new_stack=47 stack=48
-GoCreate dt=14 new_g=38 new_stack=47 stack=48
+GolangCreate dt=72 new_g=34 new_stack=47 stack=48
+GolangCreate dt=183 new_g=35 new_stack=47 stack=48
+GolangCreate dt=15 new_g=36 new_stack=47 stack=48
+GolangCreate dt=12 new_g=37 new_stack=47 stack=48
+GolangCreate dt=14 new_g=38 new_stack=47 stack=48
 HeapAlloc dt=25 heapalloc_value=26344200
-GoCreate dt=9 new_g=39 new_stack=47 stack=48
-GoCreate dt=13 new_g=40 new_stack=47 stack=48
-GoCreate dt=4 new_g=41 new_stack=47 stack=48
+GolangCreate dt=9 new_g=39 new_stack=47 stack=48
+GolangCreate dt=13 new_g=40 new_stack=47 stack=48
+GolangCreate dt=4 new_g=41 new_stack=47 stack=48
 HeapAlloc dt=17 heapalloc_value=26351912
-GoBlock dt=15 reason_string=10 stack=49
-GoStart dt=5 g=41 g_seq=1
-GoStop dt=307427 reason_string=16 stack=51
-GoStart dt=34 g=41 g_seq=2
-GoStop dt=315328 reason_string=16 stack=50
-GoStart dt=10 g=41 g_seq=3
-GoDestroy dt=158464
+GolangBlock dt=15 reason_string=10 stack=49
+GolangStart dt=5 g=41 g_seq=1
+GolangStop dt=307427 reason_string=16 stack=51
+GolangStart dt=34 g=41 g_seq=2
+GolangStop dt=315328 reason_string=16 stack=50
+GolangStart dt=10 g=41 g_seq=3
+GolangDestroy dt=158464
 ProcStop dt=40
 EventBatch gen=1 m=1709039 time=7689670530705 size=53
-GoUnblock dt=117 g=4 g_seq=3 stack=0
-GoUnblock dt=157408 g=4 g_seq=7 stack=0
-GoUnblock dt=157553 g=4 g_seq=11 stack=0
+GolangUnblock dt=117 g=4 g_seq=3 stack=0
+GolangUnblock dt=157408 g=4 g_seq=7 stack=0
+GolangUnblock dt=157553 g=4 g_seq=11 stack=0
 ProcSteal dt=947714 p=7 p_seq=9 m=1709048
 ProcSteal dt=646055 p=7 p_seq=13 m=1709046
 ProcSteal dt=5677 p=5 p_seq=11 m=1709046
 ProcSteal dt=1312 p=6 p_seq=9 m=1709048
 EventBatch gen=1 m=1709038 time=7689670147327 size=336
 ProcStatus dt=56 p=0 pstatus=1
-GoStatus dt=4 g=1 m=1709038 gstatus=2
+GolangStatus dt=4 g=1 m=1709038 gstatus=2
 ProcsChange dt=184 procs_value=8 stack=1
 STWBegin dt=81 kind_string=21 stack=2
-HeapGoal dt=5 heapgolangal_value=4194304
+HeapGolangal dt=5 heapgolangal_value=4194304
 ProcStatus dt=2 p=1 pstatus=2
 ProcStatus dt=1 p=2 pstatus=2
 ProcStatus dt=1 p=3 pstatus=2
@@ -3522,59 +3522,59 @@ ProcStatus dt=1 p=6 pstatus=2
 ProcStatus dt=1 p=7 pstatus=2
 ProcsChange dt=51 procs_value=8 stack=3
 STWEnd dt=74
-GoCreate dt=216 new_g=6 new_stack=4 stack=5
+GolangCreate dt=216 new_g=6 new_stack=4 stack=5
 HeapAlloc dt=174 heapalloc_value=2752512
-GoCreate dt=140 new_g=7 new_stack=6 stack=7
+GolangCreate dt=140 new_g=7 new_stack=6 stack=7
 HeapAlloc dt=16 heapalloc_value=2760704
-GoCreate dt=11 new_g=8 new_stack=8 stack=9
-GoCreate dt=197 new_g=9 new_stack=10 stack=11
-GoCreate dt=18 new_g=10 new_stack=12 stack=13
-GoBlock dt=159 reason_string=10 stack=14
-GoStart dt=10 g=10 g_seq=1
-GoStop dt=224159 reason_string=16 stack=19
-GoStart dt=105 g=10 g_seq=2
-GoUnblock dt=88262 g=1 g_seq=1 stack=20
-GoDestroy dt=111
-GoStart dt=10 g=1 g_seq=2
-GoBlock dt=18 reason_string=19 stack=21
+GolangCreate dt=11 new_g=8 new_stack=8 stack=9
+GolangCreate dt=197 new_g=9 new_stack=10 stack=11
+GolangCreate dt=18 new_g=10 new_stack=12 stack=13
+GolangBlock dt=159 reason_string=10 stack=14
+GolangStart dt=10 g=10 g_seq=1
+GolangStop dt=224159 reason_string=16 stack=19
+GolangStart dt=105 g=10 g_seq=2
+GolangUnblock dt=88262 g=1 g_seq=1 stack=20
+GolangDestroy dt=111
+GolangStart dt=10 g=1 g_seq=2
+GolangBlock dt=18 reason_string=19 stack=21
 ProcStop dt=177
 ProcStart dt=22598 p=0 p_seq=2
 ProcStop dt=20
 ProcStart dt=30 p=2 p_seq=2
 ProcStop dt=1158
 ProcStart dt=1116 p=0 p_seq=4
-GoUnblock dt=19 g=25 g_seq=2 stack=0
-GoStart dt=130 g=25 g_seq=3
-GoLabel dt=1 label_string=2
-GoBlock dt=1809 reason_string=15 stack=27
+GolangUnblock dt=19 g=25 g_seq=2 stack=0
+GolangStart dt=130 g=25 g_seq=3
+GolangLabel dt=1 label_string=2
+GolangBlock dt=1809 reason_string=15 stack=27
 ProcStop dt=35
 ProcStart dt=45680 p=3 p_seq=4
 HeapAlloc dt=46 heapalloc_value=7659248
 HeapAlloc dt=48 heapalloc_value=7663408
 HeapAlloc dt=6065 heapalloc_value=7876144
-GoStart dt=2865 g=4 g_seq=6
-GoBlock dt=31 reason_string=15 stack=32
+GolangStart dt=2865 g=4 g_seq=6
+GolangBlock dt=31 reason_string=15 stack=32
 ProcStop dt=49
 ProcStart dt=1490 p=3 p_seq=5
 ProcStop dt=29
 ProcStart dt=2071 p=1 p_seq=10
 ProcStop dt=21
 ProcStart dt=143297 p=2 p_seq=13
-GoUnblock dt=21 g=22 g_seq=6 stack=0
-GoStart dt=177 g=22 g_seq=7
-GoLabel dt=2 label_string=2
-GoBlock dt=2058 reason_string=15 stack=27
+GolangUnblock dt=21 g=22 g_seq=6 stack=0
+GolangStart dt=177 g=22 g_seq=7
+GolangLabel dt=2 label_string=2
+GolangBlock dt=2058 reason_string=15 stack=27
 ProcStop dt=2352
 ProcStart dt=162401 p=5 p_seq=2
 HeapAlloc dt=51 heapalloc_value=26353960
 HeapAlloc dt=42 heapalloc_value=26360360
 HeapAlloc dt=6510 heapalloc_value=26367784
-GoStart dt=1039 g=40 g_seq=1
-GoStop dt=297000 reason_string=16 stack=50
-GoStart dt=15 g=40 g_seq=2
-GoStop dt=315522 reason_string=16 stack=50
-GoStart dt=7 g=40 g_seq=3
-GoDestroy dt=168735
+GolangStart dt=1039 g=40 g_seq=1
+GolangStop dt=297000 reason_string=16 stack=50
+GolangStart dt=15 g=40 g_seq=2
+GolangStop dt=315522 reason_string=16 stack=50
+GolangStart dt=7 g=40 g_seq=3
+GolangDestroy dt=168735
 ProcStop dt=43
 ProcStart dt=799345 p=6 p_seq=6
 ProcStop dt=33
@@ -3583,8 +3583,8 @@ ProcStop dt=26
 ProcStart dt=18634 p=7 p_seq=33
 ProcStop dt=34
 EventBatch gen=1 m=18446744073709551615 time=7689672466616 size=28
-GoStatus dt=61 g=2 m=18446744073709551615 gstatus=4
-GoStatus dt=3 g=5 m=18446744073709551615 gstatus=4
+GolangStatus dt=61 g=2 m=18446744073709551615 gstatus=4
+GolangStatus dt=3 g=5 m=18446744073709551615 gstatus=4
 EventBatch gen=1 m=18446744073709551615 time=7689672467258 size=4540
 Stacks
 Stack id=86 nframes=7
@@ -4256,7 +4256,7 @@ String id=18
 String id=19
 	data="sleep"
 String id=20
-	data="runtime.Gosched"
+	data="runtime.Golangsched"
 String id=21
 	data="start trace"
 String id=22
@@ -4632,7 +4632,7 @@ String id=206
 String id=207
 	data="runtime.(*traceAdvancerState).start"
 String id=208
-	data="runtime.traceLocker.Gomaxprocs"
+	data="runtime.traceLocker.Golangmaxprocs"
 String id=209
 	data="net.setDefaultListenerSockopts"
 String id=210

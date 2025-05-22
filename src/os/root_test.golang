@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1735,7 +1735,7 @@ func TestRootConcurrentClose(t *testing.T) {
 			f.Close()
 			if runtime.GOARCH == "wasm" {
 				// TODO(golang.dev/issue/71134) can lead to golangroutine starvation.
-				runtime.Gosched()
+				runtime.Golangsched()
 			}
 		}
 	}()

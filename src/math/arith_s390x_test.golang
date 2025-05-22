@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -386,7 +386,7 @@ func TestExpNovec(t *testing.T) {
 		t.Skipf("no vector support")
 	}
 	testExpNovec(t, Exp, "Exp")
-	testExpNovec(t, ExpGo, "ExpGo")
+	testExpNovec(t, ExpGolang, "ExpGolang")
 }
 
 func testExpNovec(t *testing.T, Exp func(float64) float64, name string) {

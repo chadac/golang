@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -732,7 +732,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		ssa.OpAMD64BTL, ssa.OpAMD64BTQ:
 		opregreg(s, v.Op.Asm(), v.Args[1].Reg(), v.Args[0].Reg())
 	case ssa.OpAMD64UCOMISS, ssa.OpAMD64UCOMISD:
-		// Go assembler has swapped operands for UCOMISx relative to CMP,
+		// Golang assembler has swapped operands for UCOMISx relative to CMP,
 		// must account for that right here.
 		opregreg(s, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg())
 	case ssa.OpAMD64CMPQconst, ssa.OpAMD64CMPLconst, ssa.OpAMD64CMPWconst, ssa.OpAMD64CMPBconst:

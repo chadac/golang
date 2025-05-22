@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,7 +9,7 @@ package main
 #include <stdio.h>
 
 void test(int* a) {
-	// Access Go pointer out of bounds.
+	// Access Golang pointer out of bounds.
 	a[3] = 300;          // BOOM
 	// We shouldn't get here; asan should stop us first.
 	printf("a[3]=%d\n", a[3]);

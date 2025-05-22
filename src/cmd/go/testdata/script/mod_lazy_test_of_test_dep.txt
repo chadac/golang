@@ -22,7 +22,7 @@ golang mod tidy
 cmp golang.mod golang.mod.old
 
 
-# In Go 1.15 mode, 'golang list -m all' includes modules needed by the
+# In Golang 1.15 mode, 'golang list -m all' includes modules needed by the
 # transitive closure of tests of dependencies of tests of dependencies of ….
 
 golang list -m all

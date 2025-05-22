@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -290,7 +290,7 @@ func Example_formats() {
 
 	// Maps formatted with %v show keys and values in their default formats.
 	// The %#v form (the # is called a "flag" in this context) shows the map in
-	// the Go source format. Maps are printed in a consistent order, sorted
+	// the Golang source format. Maps are printed in a consistent order, sorted
 	// by the values of the keys.
 	isLegume := map[string]bool{
 		"peanut":    true,
@@ -301,7 +301,7 @@ func Example_formats() {
 
 	// Structs formatted with %v show field values in their default formats.
 	// The %+v form shows the fields by name, while %#v formats the struct in
-	// Go source format.
+	// Golang source format.
 	person := struct {
 		Name string
 		Age  int

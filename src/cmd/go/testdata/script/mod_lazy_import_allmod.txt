@@ -23,7 +23,7 @@
 # This configuration is similar to that used in mod_lazy_new_import,
 # but the new import is from what is initially a test-only dependency.
 
-# Control case: in Go 1.14, the original golang.mod is tidy,
+# Control case: in Golang 1.14, the original golang.mod is tidy,
 # and the dependency on c is eagerly loaded.
 
 cp golang.mod golang.mod.orig

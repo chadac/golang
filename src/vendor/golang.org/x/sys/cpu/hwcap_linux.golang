@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,7 +24,7 @@ var hwCap uint
 var hwCap2 uint
 
 func readHWCAP() error {
-	// For Go 1.21+, get auxv from the Go runtime.
+	// For Golang 1.21+, get auxv from the Golang runtime.
 	if a := getAuxv(); len(a) > 0 {
 		for len(a) >= 2 {
 			tag, val := a[0], uint(a[1])

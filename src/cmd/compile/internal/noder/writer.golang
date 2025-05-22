@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ import (
 // Low-level coding details (e.g., byte-encoding of individual
 // primitive values, or handling element bitstreams and
 // cross-references) are handled by internal/pkgbits, so here we only
-// concern ourselves with higher-level worries like mapping Go
+// concern ourselves with higher-level worries like mapping Golang
 // language constructs into elements.
 
 // There are two central types in the writing process: the "writer"
@@ -63,7 +63,7 @@ type index = pkgbits.Index
 func assert(p bool) { base.Assert(p) }
 
 // A pkgWriter constructs Unified IR export data from the results of
-// running the types2 type checker on a Go compilation unit.
+// running the types2 type checker on a Golang compilation unit.
 type pkgWriter struct {
 	pkgbits.PkgEncoder
 
@@ -239,18 +239,18 @@ func (dict *writerDict) typeParamIndex(typ *types2.TypeParam) int {
 	return len(dict.implicits) + typ.Index()
 }
 
-// A derivedInfo represents a reference to an encoded generic Go type.
+// A derivedInfo represents a reference to an encoded generic Golang type.
 type derivedInfo struct {
 	idx index
 }
 
-// A typeInfo represents a reference to an encoded Go type.
+// A typeInfo represents a reference to an encoded Golang type.
 //
-// If derived is true, then the typeInfo represents a generic Go type
+// If derived is true, then the typeInfo represents a generic Golang type
 // that contains type parameters. In this case, idx is an index into
 // the readerDict.derived{,Types} arrays.
 //
-// Otherwise, the typeInfo represents a non-generic Go type, and idx
+// Otherwise, the typeInfo represents a non-generic Golang type, and idx
 // is an index into the reader.typs array instead.
 type typeInfo struct {
 	idx     index
@@ -258,7 +258,7 @@ type typeInfo struct {
 }
 
 // An objInfo represents a reference to an encoded, instantiated (if
-// applicable) Go object.
+// applicable) Golang object.
 type objInfo struct {
 	idx       index      // index for the generic function declaration
 	explicits []typeInfo // info for the type arguments
@@ -283,7 +283,7 @@ func (info objInfo) anyDerived() bool {
 	return false
 }
 
-// equals reports whether info and other represent the same Go object
+// equals reports whether info and other represent the same Golang object
 // (i.e., same base object and identical type arguments, if any).
 func (info objInfo) equals(other objInfo) bool {
 	if info.idx != other.idx {
@@ -1333,7 +1333,7 @@ func (w *writer) stmt1(stmt syntax.Stmt) {
 			op = ir.OCONTINUE
 		case syntax.Fallthrough:
 			op = ir.OFALL
-		case syntax.Goto:
+		case syntax.Golangto:
 			op = ir.OGOTO
 		}
 		w.op(op)
@@ -1346,7 +1346,7 @@ func (w *writer) stmt1(stmt syntax.Stmt) {
 		switch stmt.Tok {
 		case syntax.Defer:
 			op = ir.ODEFER
-		case syntax.Go:
+		case syntax.Golang:
 			op = ir.OGO
 		}
 		w.op(op)
@@ -2584,7 +2584,7 @@ func (c *declCollector) Visit(n syntax.Node) syntax.Visitor {
 
 	switch n := n.(type) {
 	case *syntax.File:
-		pw.checkPragmas(n.Pragma, ir.GoBuildPragma, false)
+		pw.checkPragmas(n.Pragma, ir.GolangBuildPragma, false)
 
 	case *syntax.ImportDecl:
 		pw.checkPragmas(n.Pragma, 0, false)
@@ -2666,7 +2666,7 @@ func (pw *pkgWriter) collectDecls(noders []*noder) {
 
 		for _, l := range p.linknames {
 			if !file.importedUnsafe {
-				pw.errorf(l.pos, "//golang:linkname only allowed in Go files that import \"unsafe\"")
+				pw.errorf(l.pos, "//golang:linkname only allowed in Golang files that import \"unsafe\"")
 				continue
 			}
 			if strings.Contains(l.remote, "[") && strings.Contains(l.remote, "]") {
@@ -2683,7 +2683,7 @@ func (pw *pkgWriter) collectDecls(noders []*noder) {
 				}
 
 			default:
-				if types.AllowsGoVersion(1, 18) {
+				if types.AllowsGolangVersion(1, 18) {
 					pw.errorf(l.pos, "//golang:linkname must refer to declared function or variable")
 				}
 			}
@@ -3101,7 +3101,7 @@ func lastNonEmptyStmt(stmts []syntax.Stmt) syntax.Stmt {
 func (pw *pkgWriter) terminates(stmt syntax.Stmt) bool {
 	switch stmt := stmt.(type) {
 	case *syntax.BranchStmt:
-		if stmt.Tok == syntax.Goto {
+		if stmt.Tok == syntax.Golangto {
 			return true
 		}
 	case *syntax.ReturnStmt:

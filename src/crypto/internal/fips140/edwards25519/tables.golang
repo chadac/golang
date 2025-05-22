@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The Go Authors. All rights reserved.
+// Copyright (c) 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,7 +32,7 @@ type nafLookupTable8 struct {
 
 // Builds a lookup table at runtime. Fast.
 func (v *projLookupTable) FromP3(q *Point) {
-	// Goal: v.points[i] = (i+1)*Q, i.e., Q, 2Q, ..., 8Q
+	// Golangal: v.points[i] = (i+1)*Q, i.e., Q, 2Q, ..., 8Q
 	// This allows lookup of -8Q, ..., -Q, 0, Q, ..., 8Q
 	v.points[0].FromP3(q)
 	tmpP3 := Point{}
@@ -47,7 +47,7 @@ func (v *projLookupTable) FromP3(q *Point) {
 
 // This is not optimised for speed; fixed-base tables should be precomputed.
 func (v *affineLookupTable) FromP3(q *Point) {
-	// Goal: v.points[i] = (i+1)*Q, i.e., Q, 2Q, ..., 8Q
+	// Golangal: v.points[i] = (i+1)*Q, i.e., Q, 2Q, ..., 8Q
 	// This allows lookup of -8Q, ..., -Q, 0, Q, ..., 8Q
 	v.points[0].FromP3(q)
 	tmpP3 := Point{}
@@ -60,7 +60,7 @@ func (v *affineLookupTable) FromP3(q *Point) {
 
 // Builds a lookup table at runtime. Fast.
 func (v *nafLookupTable5) FromP3(q *Point) {
-	// Goal: v.points[i] = (2*i+1)*Q, i.e., Q, 3Q, 5Q, ..., 15Q
+	// Golangal: v.points[i] = (2*i+1)*Q, i.e., Q, 3Q, 5Q, ..., 15Q
 	// This allows lookup of -15Q, ..., -3Q, -Q, 0, Q, 3Q, ..., 15Q
 	v.points[0].FromP3(q)
 	q2 := Point{}

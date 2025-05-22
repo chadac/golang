@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ const tmpStringBufSize = 32
 
 type tmpBuf [tmpStringBufSize]byte
 
-// concatstrings implements a Go string concatenation x+y+z+...
+// concatstrings implements a Golang string concatenation x+y+z+...
 // The operands are passed in the slice a.
 // If buf != nil, the compiler has determined that the result does not
 // escape the calling function, so the string data can be stored in buf
@@ -75,7 +75,7 @@ func concatstring5(buf *tmpBuf, a0, a1, a2, a3, a4 string) string {
 	return concatstrings(buf, []string{a0, a1, a2, a3, a4})
 }
 
-// concatbytes implements a Go string concatenation x+y+z+... returning a slice
+// concatbytes implements a Golang string concatenation x+y+z+... returning a slice
 // of bytes.
 // The operands are passed in the slice a.
 func concatbytes(buf *tmpBuf, a []string) []byte {
@@ -496,7 +496,7 @@ func findnull(s *byte) int {
 	}
 
 	// pageSize is the unit we scan at a time looking for NULL.
-	// It must be the minimum page size for any architecture Go
+	// It must be the minimum page size for any architecture Golang
 	// runs on. It's okay (just a minor performance loss) if the
 	// actual system page size is larger than this value.
 	const pageSize = 4096

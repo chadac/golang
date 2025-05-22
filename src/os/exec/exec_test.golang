@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -363,7 +363,7 @@ func TestEchoFileRace(t *testing.T) {
 	<-wrote
 }
 
-func TestCatGoodAndBadFile(t *testing.T) {
+func TestCatGolangodAndBadFile(t *testing.T) {
 	t.Parallel()
 
 	// Testing combined output and error values.
@@ -378,7 +378,7 @@ func TestCatGoodAndBadFile(t *testing.T) {
 	if !strings.HasPrefix(errLine, "Error: open /bogus/file.foo") {
 		t.Errorf("expected stderr to complain about file; golangt %q", errLine)
 	}
-	if !strings.Contains(body, "func TestCatGoodAndBadFile(t *testing.T)") {
+	if !strings.Contains(body, "func TestCatGolangodAndBadFile(t *testing.T)") {
 		t.Errorf("expected test code; golangt %q (len %d)", body, len(body))
 	}
 }
@@ -679,7 +679,7 @@ func TestExtraFiles(t *testing.T) {
 	}
 
 	testenv.MustHaveExec(t)
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This test runs with cgolang disabled. External linking needs cgolang, so
 	// it doesn't work if external linking is required.
@@ -744,7 +744,7 @@ func TestExtraFiles(t *testing.T) {
 	tempdir := t.TempDir()
 	exe := filepath.Join(tempdir, "read3.exe")
 
-	c := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, "read3.golang")
+	c := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", exe, "read3.golang")
 	// Build the test without cgolang, so that C library functions don't
 	// open descriptors unexpectedly. See issue 25628.
 	c.Env = append(os.Environ(), "CGO_ENABLED=0")
@@ -1456,7 +1456,7 @@ func TestWaitInterrupt(t *testing.T) {
 	})
 
 	// If the Cancel function sends SIGQUIT, it should be handled in the usual
-	// way: a Go program should dump its golangroutines and exit with non-success
+	// way: a Golang program should dump its golangroutines and exit with non-success
 	// status. (We expect SIGQUIT to be a common pattern in real-world use.)
 	t.Run("SIGQUIT", func(t *testing.T) {
 		if quitSignal == nil {
@@ -1793,10 +1793,10 @@ func TestPathRace(t *testing.T) {
 
 func TestAbsPathExec(t *testing.T) {
 	testenv.MustHaveExec(t)
-	testenv.MustHaveGoBuild(t) // must have GOROOT/bin/{golang,golangfmt}
+	testenv.MustHaveGolangBuild(t) // must have GOROOT/bin/{golang,golangfmt}
 
 	// A simple exec of a full path should work.
-	// Go 1.22 broke this on Windows, requiring ".exe"; see #66586.
+	// Golang 1.22 broke this on Windows, requiring ".exe"; see #66586.
 	exe := filepath.Join(testenv.GOROOT(t), "bin/golangfmt")
 	cmd := exec.Command(exe)
 	if cmd.Path != exe {

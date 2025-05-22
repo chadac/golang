@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,7 +29,7 @@ func Test5986(t *testing.T)                  { test5986(t) }
 func Test6390(t *testing.T)                  { test6390(t) }
 func Test6833(t *testing.T)                  { test6833(t) }
 func Test6907(t *testing.T)                  { test6907(t) }
-func Test6907Go(t *testing.T)                { test6907Go(t) }
+func Test6907Golang(t *testing.T)                { test6907Golang(t) }
 func Test7560(t *testing.T)                  { test7560(t) }
 func Test7665(t *testing.T)                  { test7665(t) }
 func Test7978(t *testing.T)                  { test7978(t) }
@@ -75,7 +75,7 @@ func TestAlign(t *testing.T)                 { testAlign(t) }
 func TestAtol(t *testing.T)                  { testAtol(t) }
 func TestBlocking(t *testing.T)              { testBlocking(t) }
 func TestBoolAlign(t *testing.T)             { testBoolAlign(t) }
-func TestCallGoWithString(t *testing.T)      { testCallGoWithString(t) }
+func TestCallGolangWithString(t *testing.T)      { testCallGolangWithString(t) }
 func TestCallback(t *testing.T)              { testCallback(t) }
 func TestCallbackCallers(t *testing.T)       { testCallbackCallers(t) }
 func TestCallbackGC(t *testing.T)            { testCallbackGC(t) }
@@ -101,13 +101,13 @@ func TestNaming(t *testing.T)                { testNaming(t) }
 func TestPanicFromC(t *testing.T)            { testPanicFromC(t) }
 func TestPrintf(t *testing.T)                { testPrintf(t) }
 func TestReturnAfterGrow(t *testing.T)       { testReturnAfterGrow(t) }
-func TestReturnAfterGrowFromGo(t *testing.T) { testReturnAfterGrowFromGo(t) }
+func TestReturnAfterGrowFromGolang(t *testing.T) { testReturnAfterGrowFromGolang(t) }
 func TestSetEnv(t *testing.T)                { testSetEnv(t) }
 func TestThreadLock(t *testing.T)            { testThreadLockFunc(t) }
 func TestUnsignedInt(t *testing.T)           { testUnsignedInt(t) }
 func TestZeroArgCallback(t *testing.T)       { testZeroArgCallback(t) }
 
 func BenchmarkCgolangCall(b *testing.B)      { benchCgolangCall(b) }
-func BenchmarkGoString(b *testing.B)     { benchGoString(b) }
-func BenchmarkCGoCallback(b *testing.B)  { benchCallback(b) }
-func BenchmarkCGoInCThread(b *testing.B) { benchCGoInCthread(b) }
+func BenchmarkGolangString(b *testing.B)     { benchGolangString(b) }
+func BenchmarkCGolangCallback(b *testing.B)  { benchCallback(b) }
+func BenchmarkCGolangInCThread(b *testing.B) { benchCGolangInCthread(b) }

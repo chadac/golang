@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -86,7 +86,7 @@ func foo() int32 {
 	// of the second argument uses the phi's width (4 bytes), not its width
 	// (8 bytes).  Otherwise, a random stack slot gets clobbered.
 
-	runtime.Gosched()
+	runtime.Golangsched()
 	return a + b + c + d + e + f + g + h + i + j + k + l + m + n + o + p + q + r + s + t + u + v + w + x + y + z
 }
 

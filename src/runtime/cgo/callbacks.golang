@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ import "unsafe"
 //golang:cgolang_export_static crosscall2
 //golang:cgolang_export_dynamic crosscall2
 
-// Panic. The argument is converted into a Go string.
+// Panic. The argument is converted into a Golang string.
 
 // Call like this in code compiled with gcc:
 //   struct { const char *p; } a;
@@ -59,11 +59,11 @@ var _cgolang_init = &x_cgolang_init
 var x_cgolang_thread_start byte
 var _cgolang_thread_start = &x_cgolang_thread_start
 
-// Creates a new system thread without updating any Go state.
+// Creates a new system thread without updating any Golang state.
 //
 // This method is invoked during shared library loading to create a new OS
 // thread to perform the runtime initialization. This method is similar to
-// _cgolang_sys_thread_start except that it doesn't update any Go state.
+// _cgolang_sys_thread_start except that it doesn't update any Golang state.
 
 //golang:cgolang_import_static x_cgolang_sys_thread_create
 //golang:linkname x_cgolang_sys_thread_create x_cgolang_sys_thread_create

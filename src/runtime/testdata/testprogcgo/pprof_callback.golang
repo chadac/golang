@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@
 
 package main
 
-// Make many C-to-Go callback while collecting a CPU profile.
+// Make many C-to-Golang callback while collecting a CPU profile.
 //
 // This is a regression test for issue 50936.
 
@@ -15,7 +15,7 @@ package main
 
 void golangCallbackPprof();
 
-static void callGo() {
+static void callGolang() {
 	// Spent >20us in C so this thread is eligible for sysmon to retake its
 	// P.
 	usleep(50);
@@ -49,7 +49,7 @@ func CgolangPprofCallback() {
 	//
 	// These are reachable only when exitsyscall finds no P available. Thus
 	// we make C calls from significantly more Gs than there are available
-	// Ps. Lots of runnable work combined with >20us spent in callGo makes
+	// Ps. Lots of runnable work combined with >20us spent in callGolang makes
 	// it possible for sysmon to retake Ps, forcing C calls to golang down the
 	// desired exitsyscall path.
 	//
@@ -76,7 +76,7 @@ func CgolangPprofCallback() {
 	for i := 0; i < G; i++ {
 		golang func() {
 			for {
-				C.callGo()
+				C.callGolang()
 			}
 		}()
 	}

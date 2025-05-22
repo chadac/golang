@@ -14,7 +14,7 @@ package p
 import "fmt"
 
 func main() {
-	var x any  // any was added in Go 1.18
+	var x any  // any was added in Golang 1.18
 	fmt.Println(x)
 }
 
@@ -26,6 +26,6 @@ package p
 import "fmt"
 
 func main() {
-    y := max(1, 2)  // max was added in Go 1.21
+    y := max(1, 2)  // max was added in Golang 1.21
     fmt.Println(y)
 }

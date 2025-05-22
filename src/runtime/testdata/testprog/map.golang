@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,14 +18,14 @@ func concurrentMapWrites() {
 	golang func() {
 		for i := 0; i < 10000; i++ {
 			m[5] = 0
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 		c <- struct{}{}
 	}()
 	golang func() {
 		for i := 0; i < 10000; i++ {
 			m[6] = 0
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 		c <- struct{}{}
 	}()
@@ -39,14 +39,14 @@ func concurrentMapReadWrite() {
 	golang func() {
 		for i := 0; i < 10000; i++ {
 			m[5] = 0
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 		c <- struct{}{}
 	}()
 	golang func() {
 		for i := 0; i < 10000; i++ {
 			_ = m[6]
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 		c <- struct{}{}
 	}()
@@ -60,7 +60,7 @@ func concurrentMapIterateWrite() {
 	golang func() {
 		for i := 0; i < 10000; i++ {
 			m[5] = 0
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 		c <- struct{}{}
 	}()
@@ -68,7 +68,7 @@ func concurrentMapIterateWrite() {
 		for i := 0; i < 10000; i++ {
 			for range m {
 			}
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 		c <- struct{}{}
 	}()

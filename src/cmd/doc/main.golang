@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -495,7 +495,7 @@ func importDir(dir string) *build.Package {
 
 // parseSymbol breaks str apart into a symbol and method.
 // Both may be missing or the method may be missing.
-// If present, each must be a valid Go identifier.
+// If present, each must be a valid Golang identifier.
 func parseSymbol(str string) (symbol, method string) {
 	if str == "" {
 		return
@@ -548,7 +548,7 @@ func findNextPackage(pkg string) (string, bool) {
 
 var buildCtx = build.Default
 
-// splitGopath splits $GOPATH into a list of roots.
-func splitGopath() []string {
+// splitGolangpath splits $GOPATH into a list of roots.
+func splitGolangpath() []string {
 	return filepath.SplitList(buildCtx.GOPATH)
 }

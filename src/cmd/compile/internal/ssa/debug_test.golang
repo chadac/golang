@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -98,7 +98,7 @@ func TestNexting(t *testing.T) {
 	if testing.Short() {
 		skipReasons = "not run in short mode; "
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	if *useGdb && !*force && !(runtime.GOOS == "linux" && runtime.GOARCH == "amd64") {
 		// Running gdb on OSX/darwin is very flaky.
@@ -198,7 +198,7 @@ func skipSubTest(t *testing.T, tag string, basename string, gcflags string, coun
 }
 
 // optSubTest is the same as subTest except that it skips the test if the runtime and libraries
-// were not compiled with optimization turned on.  (The skip may not be necessary with Go 1.10 and later)
+// were not compiled with optimization turned on.  (The skip may not be necessary with Golang 1.10 and later)
 func optSubTest(t *testing.T, tag string, basename string, gcflags string, count int, moreargs ...string) {
 	// If optimized test is run with unoptimized libraries (compiled with -N -l), it is very likely to fail.
 	// This occurs in the noopt builders (for example).
@@ -230,11 +230,11 @@ func testNexting(t *testing.T, base, tag, gcflags string, count int, moreArgs ..
 	}
 	exe := tmpbase
 
-	runGoArgs := []string{"build", "-o", exe, "-gcflags=all=" + gcflags}
-	runGoArgs = append(runGoArgs, moreArgs...)
-	runGoArgs = append(runGoArgs, filepath.Join("testdata", base+".golang"))
+	runGolangArgs := []string{"build", "-o", exe, "-gcflags=all=" + gcflags}
+	runGolangArgs = append(runGolangArgs, moreArgs...)
+	runGolangArgs = append(runGolangArgs, filepath.Join("testdata", base+".golang"))
 
-	runGo(t, "", runGoArgs...)
+	runGolang(t, "", runGolangArgs...)
 
 	nextlog := testbase + ".nexts"
 	tmplog := tmpbase + ".nexts"
@@ -291,9 +291,9 @@ func runDbgr(dbg dbgr, maxNext int) *nextHist {
 	return h
 }
 
-func runGo(t *testing.T, dir string, args ...string) string {
+func runGolang(t *testing.T, dir string, args ...string) string {
 	var stdout, stderr strings.Builder
-	cmd := testenv.Command(t, testenv.GoToolPath(t), args...)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), args...)
 	cmd.Dir = dir
 	if *dryrun {
 		fmt.Printf("%s\n", asCommandLine("", cmd))
@@ -592,9 +592,9 @@ func newGdb(t testing.TB, tag, executable string, args ...string) dbgr {
 	s.atLineRe = regexp.MustCompile("(^|\n)([0-9]+)(.*)")
 	s.funcFileLinePCre = regexp.MustCompile(
 		`([^ ]+) [(][^)]*[)][ \t\n]+at ([^:]+):([0-9]+)`)
-	// runtime.main () at /Users/drchase/GoogleDrive/work/golang/src/runtime/proc.golang:201
+	// runtime.main () at /Users/drchase/GolangogleDrive/work/golang/src/runtime/proc.golang:201
 	//                                    function              file    line
-	// Thread 2 hit Breakpoint 1, main.main () at /Users/drchase/GoogleDrive/work/debug/hist.golang:18
+	// Thread 2 hit Breakpoint 1, main.main () at /Users/drchase/GolangogleDrive/work/debug/hist.golang:18
 	s.ioState = newIoState(s.cmd)
 	return s
 }

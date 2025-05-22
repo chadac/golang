@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -126,9 +126,9 @@ const maxTime = Time(math.MaxInt64)
 // BUG: Timestamps coming from traces on Windows platforms are
 // only comparable with timestamps from the same trace. Timestamps
 // across traces cannot be compared, because the system clock is
-// not used as of Go 1.22.
+// not used as of Golang 1.22.
 //
-// BUG: Traces produced by Go versions 1.21 and earlier cannot be
+// BUG: Traces produced by Golang versions 1.21 and earlier cannot be
 // compared with timestamps from other traces taken on the same
 // machine. This is because the system clock was not used at all
 // to collect those timestamps.
@@ -147,7 +147,7 @@ type Metric struct {
 	// runtime/metrics package, meaning they include the unit.
 	// Names that match with the runtime/metrics package represent
 	// the same quantity. Note that this corresponds to the
-	// runtime/metrics package for the Go version this trace was
+	// runtime/metrics package for the Golang version this trace was
 	// collected for.
 	Name string
 
@@ -180,10 +180,10 @@ type Range struct {
 
 	// Scope is the resource that the range is scoped to.
 	//
-	// For example, a ResourceGoroutine scope means that the same golangroutine
+	// For example, a ResourceGolangroutine scope means that the same golangroutine
 	// must have a start and end for the range, and that golangroutine can only
 	// have one range of a particular name active at any given time. The
-	// ID that this range is scoped to may be obtained via Event.Goroutine.
+	// ID that this range is scoped to may be obtained via Event.Golangroutine.
 	//
 	// The ResourceNone scope means that the range is globally scoped. As a
 	// result, any golangroutine/proc/thread may start or end the range, and only
@@ -362,16 +362,16 @@ func (e Event) Time() Time {
 	return e.base.time
 }
 
-// Goroutine returns the ID of the golangroutine that was executing when
+// Golangroutine returns the ID of the golangroutine that was executing when
 // this event happened. It describes part of the execution context
 // for this event.
 //
 // Note that for golangroutine state transitions this always refers to the
 // state before the transition. For example, if a golangroutine is just
 // starting to run on this thread and/or proc, then this will return
-// NoGoroutine. In this case, the golangroutine starting to run will be
+// NoGolangroutine. In this case, the golangroutine starting to run will be
 // can be found at Event.StateTransition().Resource.
-func (e Event) Goroutine() GoID {
+func (e Event) Golangroutine() GolangID {
 	return e.ctx.G
 }
 
@@ -438,7 +438,7 @@ func (e Event) Metric() Metric {
 	case tracev2.EvHeapAlloc:
 		m.Name = "/memory/classes/heap/objects:bytes"
 		m.Value = uint64Value(e.base.args[0])
-	case tracev2.EvHeapGoal:
+	case tracev2.EvHeapGolangal:
 		m.Name = "/gc/heap/golangal:bytes"
 		m.Value = uint64Value(e.base.args[0])
 	default:
@@ -454,12 +454,12 @@ func (e Event) Label() Label {
 	if e.Kind() != EventLabel {
 		panic("Label called on non-Label event")
 	}
-	if e.base.typ != tracev2.EvGoLabel {
+	if e.base.typ != tracev2.EvGolangLabel {
 		panic(fmt.Sprintf("internal error: unexpected wire-format event type for Label kind: %d", e.base.typ))
 	}
 	return Label{
 		Label:    e.table.strings.mustGet(stringID(e.base.args[0])),
-		Resource: ResourceID{Kind: ResourceGoroutine, id: int64(e.ctx.G)},
+		Resource: ResourceID{Kind: ResourceGolangroutine, id: int64(e.ctx.G)},
 	}
 }
 
@@ -476,7 +476,7 @@ func (e Event) Range() Range {
 		// N.B. ordering.advance smuggles in the STW reason as e.base.args[0]
 		// for tracev2.EvSTWEnd (it's already there for Begin).
 		r.Name = "stop-the-world (" + e.table.strings.mustGet(stringID(e.base.args[0])) + ")"
-		r.Scope = ResourceID{Kind: ResourceGoroutine, id: int64(e.Goroutine())}
+		r.Scope = ResourceID{Kind: ResourceGolangroutine, id: int64(e.Golangroutine())}
 	case tracev2.EvGCBegin, tracev2.EvGCActive, tracev2.EvGCEnd:
 		r.Name = "GC concurrent mark phase"
 		r.Scope = ResourceID{Kind: ResourceNone}
@@ -491,11 +491,11 @@ func (e Event) Range() Range {
 		r.Scope.id = int64(e.Proc())
 	case tracev2.EvGCMarkAssistBegin, tracev2.EvGCMarkAssistActive, tracev2.EvGCMarkAssistEnd:
 		r.Name = "GC mark assist"
-		r.Scope = ResourceID{Kind: ResourceGoroutine}
+		r.Scope = ResourceID{Kind: ResourceGolangroutine}
 		if e.base.typ == tracev2.EvGCMarkAssistActive {
 			r.Scope.id = int64(e.base.args[0])
 		} else {
-			r.Scope.id = int64(e.Goroutine())
+			r.Scope.id = int64(e.Golangroutine())
 		}
 	default:
 		panic(fmt.Sprintf("internal error: unexpected wire-event type for Range kind: %d", e.base.typ))
@@ -539,8 +539,8 @@ func (e Event) Task() Task {
 		parentID = TaskID(e.base.args[1])
 		typ = e.table.strings.mustGet(stringID(e.base.args[2]))
 	case tracev2.EvUserTaskEnd:
-		parentID = TaskID(e.base.extra(version.Go122)[0])
-		typ = e.table.getExtraString(extraStringID(e.base.extra(version.Go122)[1]))
+		parentID = TaskID(e.base.extra(version.Golang122)[0])
+		typ = e.table.getExtraString(extraStringID(e.base.extra(version.Golang122)[1]))
 	default:
 		panic(fmt.Sprintf("internal error: unexpected wire-format event type for Task kind: %d", e.base.typ))
 	}
@@ -600,7 +600,7 @@ func (e Event) StateTransition() StateTransition {
 	case tracev2.EvProcSteal:
 		// N.B. ordering.advance populates e.base.extra.
 		beforeState := ProcRunning
-		if tracev2.ProcStatus(e.base.extra(version.Go122)[0]) == tracev2.ProcSyscallAbandoned {
+		if tracev2.ProcStatus(e.base.extra(version.Golang122)[0]) == tracev2.ProcSyscallAbandoned {
 			// We've lost information because this ProcSteal advanced on a
 			// SyscallAbandoned state. Treat the P as idle because ProcStatus
 			// treats SyscallAbandoned as Idle. Otherwise we'll have an invalid
@@ -610,49 +610,49 @@ func (e Event) StateTransition() StateTransition {
 		s = procStateTransition(ProcID(e.base.args[0]), beforeState, ProcIdle)
 	case tracev2.EvProcStatus:
 		// N.B. ordering.advance populates e.base.extra.
-		s = procStateTransition(ProcID(e.base.args[0]), ProcState(e.base.extra(version.Go122)[0]), tracev2ProcStatus2ProcState[e.base.args[1]])
-	case tracev2.EvGoCreate, tracev2.EvGoCreateBlocked:
-		status := GoRunnable
-		if e.base.typ == tracev2.EvGoCreateBlocked {
-			status = GoWaiting
+		s = procStateTransition(ProcID(e.base.args[0]), ProcState(e.base.extra(version.Golang122)[0]), tracev2ProcStatus2ProcState[e.base.args[1]])
+	case tracev2.EvGolangCreate, tracev2.EvGolangCreateBlocked:
+		status := GolangRunnable
+		if e.base.typ == tracev2.EvGolangCreateBlocked {
+			status = GolangWaiting
 		}
-		s = golangStateTransition(GoID(e.base.args[0]), GoNotExist, status)
+		s = golangStateTransition(GolangID(e.base.args[0]), GolangNotExist, status)
 		s.Stack = Stack{table: e.table, id: stackID(e.base.args[1])}
-	case tracev2.EvGoCreateSyscall:
-		s = golangStateTransition(GoID(e.base.args[0]), GoNotExist, GoSyscall)
-	case tracev2.EvGoStart:
-		s = golangStateTransition(GoID(e.base.args[0]), GoRunnable, GoRunning)
-	case tracev2.EvGoDestroy:
-		s = golangStateTransition(e.ctx.G, GoRunning, GoNotExist)
+	case tracev2.EvGolangCreateSyscall:
+		s = golangStateTransition(GolangID(e.base.args[0]), GolangNotExist, GolangSyscall)
+	case tracev2.EvGolangStart:
+		s = golangStateTransition(GolangID(e.base.args[0]), GolangRunnable, GolangRunning)
+	case tracev2.EvGolangDestroy:
+		s = golangStateTransition(e.ctx.G, GolangRunning, GolangNotExist)
 		s.Stack = e.Stack() // This event references the resource the event happened on.
-	case tracev2.EvGoDestroySyscall:
-		s = golangStateTransition(e.ctx.G, GoSyscall, GoNotExist)
-	case tracev2.EvGoStop:
-		s = golangStateTransition(e.ctx.G, GoRunning, GoRunnable)
+	case tracev2.EvGolangDestroySyscall:
+		s = golangStateTransition(e.ctx.G, GolangSyscall, GolangNotExist)
+	case tracev2.EvGolangStop:
+		s = golangStateTransition(e.ctx.G, GolangRunning, GolangRunnable)
 		s.Reason = e.table.strings.mustGet(stringID(e.base.args[0]))
 		s.Stack = e.Stack() // This event references the resource the event happened on.
-	case tracev2.EvGoBlock:
-		s = golangStateTransition(e.ctx.G, GoRunning, GoWaiting)
+	case tracev2.EvGolangBlock:
+		s = golangStateTransition(e.ctx.G, GolangRunning, GolangWaiting)
 		s.Reason = e.table.strings.mustGet(stringID(e.base.args[0]))
 		s.Stack = e.Stack() // This event references the resource the event happened on.
-	case tracev2.EvGoUnblock, tracev2.EvGoSwitch, tracev2.EvGoSwitchDestroy:
-		// N.B. GoSwitch and GoSwitchDestroy both emit additional events, but
+	case tracev2.EvGolangUnblock, tracev2.EvGolangSwitch, tracev2.EvGolangSwitchDestroy:
+		// N.B. GolangSwitch and GolangSwitchDestroy both emit additional events, but
 		// the first thing they both do is unblock the golangroutine they name,
 		// identically to an unblock event (even their arguments match).
-		s = golangStateTransition(GoID(e.base.args[0]), GoWaiting, GoRunnable)
-	case tracev2.EvGoSyscallBegin:
-		s = golangStateTransition(e.ctx.G, GoRunning, GoSyscall)
+		s = golangStateTransition(GolangID(e.base.args[0]), GolangWaiting, GolangRunnable)
+	case tracev2.EvGolangSyscallBegin:
+		s = golangStateTransition(e.ctx.G, GolangRunning, GolangSyscall)
 		s.Stack = e.Stack() // This event references the resource the event happened on.
-	case tracev2.EvGoSyscallEnd:
-		s = golangStateTransition(e.ctx.G, GoSyscall, GoRunning)
+	case tracev2.EvGolangSyscallEnd:
+		s = golangStateTransition(e.ctx.G, GolangSyscall, GolangRunning)
 		s.Stack = e.Stack() // This event references the resource the event happened on.
-	case tracev2.EvGoSyscallEndBlocked:
-		s = golangStateTransition(e.ctx.G, GoSyscall, GoRunnable)
+	case tracev2.EvGolangSyscallEndBlocked:
+		s = golangStateTransition(e.ctx.G, GolangSyscall, GolangRunnable)
 		s.Stack = e.Stack() // This event references the resource the event happened on.
-	case tracev2.EvGoStatus, tracev2.EvGoStatusStack:
+	case tracev2.EvGolangStatus, tracev2.EvGolangStatusStack:
 		packedStatus := e.base.args[2]
 		from, to := packedStatus>>32, packedStatus&((1<<32)-1)
-		s = golangStateTransition(GoID(e.base.args[0]), GoState(from), tracev2GoStatus2GoState[to])
+		s = golangStateTransition(GolangID(e.base.args[0]), GolangState(from), tracev2GolangStatus2GolangState[to])
 	default:
 		panic(fmt.Sprintf("internal error: unexpected wire-format event type for StateTransition kind: %d", e.base.typ))
 	}
@@ -740,18 +740,18 @@ var tracev2Type2Kind = [...]EventKind{
 	tracev2.EvProcStop:            EventStateTransition,
 	tracev2.EvProcSteal:           EventStateTransition,
 	tracev2.EvProcStatus:          EventStateTransition,
-	tracev2.EvGoCreate:            EventStateTransition,
-	tracev2.EvGoCreateSyscall:     EventStateTransition,
-	tracev2.EvGoStart:             EventStateTransition,
-	tracev2.EvGoDestroy:           EventStateTransition,
-	tracev2.EvGoDestroySyscall:    EventStateTransition,
-	tracev2.EvGoStop:              EventStateTransition,
-	tracev2.EvGoBlock:             EventStateTransition,
-	tracev2.EvGoUnblock:           EventStateTransition,
-	tracev2.EvGoSyscallBegin:      EventStateTransition,
-	tracev2.EvGoSyscallEnd:        EventStateTransition,
-	tracev2.EvGoSyscallEndBlocked: EventStateTransition,
-	tracev2.EvGoStatus:            EventStateTransition,
+	tracev2.EvGolangCreate:            EventStateTransition,
+	tracev2.EvGolangCreateSyscall:     EventStateTransition,
+	tracev2.EvGolangStart:             EventStateTransition,
+	tracev2.EvGolangDestroy:           EventStateTransition,
+	tracev2.EvGolangDestroySyscall:    EventStateTransition,
+	tracev2.EvGolangStop:              EventStateTransition,
+	tracev2.EvGolangBlock:             EventStateTransition,
+	tracev2.EvGolangUnblock:           EventStateTransition,
+	tracev2.EvGolangSyscallBegin:      EventStateTransition,
+	tracev2.EvGolangSyscallEnd:        EventStateTransition,
+	tracev2.EvGolangSyscallEndBlocked: EventStateTransition,
+	tracev2.EvGolangStatus:            EventStateTransition,
 	tracev2.EvSTWBegin:            EventRangeBegin,
 	tracev2.EvSTWEnd:              EventRangeEnd,
 	tracev2.EvGCActive:            EventRangeActive,
@@ -764,34 +764,34 @@ var tracev2Type2Kind = [...]EventKind{
 	tracev2.EvGCMarkAssistBegin:   EventRangeBegin,
 	tracev2.EvGCMarkAssistEnd:     EventRangeEnd,
 	tracev2.EvHeapAlloc:           EventMetric,
-	tracev2.EvHeapGoal:            EventMetric,
-	tracev2.EvGoLabel:             EventLabel,
+	tracev2.EvHeapGolangal:            EventMetric,
+	tracev2.EvGolangLabel:             EventLabel,
 	tracev2.EvUserTaskBegin:       EventTaskBegin,
 	tracev2.EvUserTaskEnd:         EventTaskEnd,
 	tracev2.EvUserRegionBegin:     EventRegionBegin,
 	tracev2.EvUserRegionEnd:       EventRegionEnd,
 	tracev2.EvUserLog:             EventLog,
-	tracev2.EvGoSwitch:            EventStateTransition,
-	tracev2.EvGoSwitchDestroy:     EventStateTransition,
-	tracev2.EvGoCreateBlocked:     EventStateTransition,
-	tracev2.EvGoStatusStack:       EventStateTransition,
+	tracev2.EvGolangSwitch:            EventStateTransition,
+	tracev2.EvGolangSwitchDestroy:     EventStateTransition,
+	tracev2.EvGolangCreateBlocked:     EventStateTransition,
+	tracev2.EvGolangStatusStack:       EventStateTransition,
 	tracev2.EvSpan:                EventExperimental,
 	tracev2.EvSpanAlloc:           EventExperimental,
 	tracev2.EvSpanFree:            EventExperimental,
 	tracev2.EvHeapObject:          EventExperimental,
 	tracev2.EvHeapObjectAlloc:     EventExperimental,
 	tracev2.EvHeapObjectFree:      EventExperimental,
-	tracev2.EvGoroutineStack:      EventExperimental,
-	tracev2.EvGoroutineStackAlloc: EventExperimental,
-	tracev2.EvGoroutineStackFree:  EventExperimental,
+	tracev2.EvGolangroutineStack:      EventExperimental,
+	tracev2.EvGolangroutineStackAlloc: EventExperimental,
+	tracev2.EvGolangroutineStackFree:  EventExperimental,
 	evSync:                        EventSync,
 }
 
-var tracev2GoStatus2GoState = [...]GoState{
-	tracev2.GoRunnable: GoRunnable,
-	tracev2.GoRunning:  GoRunning,
-	tracev2.GoWaiting:  GoWaiting,
-	tracev2.GoSyscall:  GoSyscall,
+var tracev2GolangStatus2GolangState = [...]GolangState{
+	tracev2.GolangRunnable: GolangRunnable,
+	tracev2.GolangRunning:  GolangRunning,
+	tracev2.GolangWaiting:  GolangWaiting,
+	tracev2.GolangSyscall:  GolangSyscall,
 }
 
 var tracev2ProcStatus2ProcState = [...]ProcState{
@@ -806,7 +806,7 @@ var tracev2ProcStatus2ProcState = [...]ProcState{
 // The format of the string is intended for debugging and is subject to change.
 func (e Event) String() string {
 	var sb strings.Builder
-	fmt.Fprintf(&sb, "M=%d P=%d G=%d", e.Thread(), e.Proc(), e.Goroutine())
+	fmt.Fprintf(&sb, "M=%d P=%d G=%d", e.Thread(), e.Proc(), e.Golangroutine())
 	fmt.Fprintf(&sb, " %s Time=%d", e.Kind(), e.Time())
 	// Kind-specific fields.
 	switch kind := e.Kind(); kind {
@@ -842,10 +842,10 @@ func (e Event) String() string {
 		s := e.StateTransition()
 		fmt.Fprintf(&sb, " Resource=%s Reason=%q", s.Resource, s.Reason)
 		switch s.Resource.Kind {
-		case ResourceGoroutine:
-			id := s.Resource.Goroutine()
-			old, new := s.Goroutine()
-			fmt.Fprintf(&sb, " GoID=%d %s->%s", id, old, new)
+		case ResourceGolangroutine:
+			id := s.Resource.Golangroutine()
+			old, new := s.Golangroutine()
+			fmt.Fprintf(&sb, " GolangID=%d %s->%s", id, old, new)
 		case ResourceProc:
 			id := s.Resource.Proc()
 			old, new := s.Proc()
@@ -925,7 +925,7 @@ func syncEvent(table *evTable, ts Time, n int) Event {
 	ev := Event{
 		table: table,
 		ctx: schedCtx{
-			G: NoGoroutine,
+			G: NoGolangroutine,
 			P: NoProc,
 			M: NoThread,
 		},

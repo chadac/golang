@@ -1,17 +1,17 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
 
-// This file implements ServeMux behavior as in Go 1.21.
+// This file implements ServeMux behavior as in Golang 1.21.
 // The behavior is controlled by a GODEBUG setting.
 // Most of this code is derived from commit 08e35cc334.
 // Changes are minimal: aside from the different receiver type,
 // they mostly involve renaming functions, usually by unexporting them.
 
 // servemux121.golang exists solely to provide a snapshot of
-// the pre-Go 1.22 ServeMux implementation for backwards compatibility.
+// the pre-Golang 1.22 ServeMux implementation for backwards compatibility.
 // Do not modify this file, it should remain frozen.
 
 import (
@@ -35,7 +35,7 @@ func init() {
 	}
 }
 
-// serveMux121 holds the state of a ServeMux needed for Go 1.21 behavior.
+// serveMux121 holds the state of a ServeMux needed for Golang 1.21 behavior.
 type serveMux121 struct {
 	mu    sync.RWMutex
 	m     map[string]muxEntry

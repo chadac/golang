@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -58,12 +58,12 @@ type HeapCountersArg struct {
 }
 
 const (
-	ProcsSection = 0 // where Goroutines or per-P timelines are presented.
+	ProcsSection = 0 // where Golangroutines or per-P timelines are presented.
 	StatsSection = 1 // where counters are presented.
 	TasksSection = 2 // where Task hierarchy & timeline is presented.
 )
 
-type GoroutineCountersArg struct {
+type GolangroutineCountersArg struct {
 	Running   uint64
 	Runnable  uint64
 	GCWaiting uint64

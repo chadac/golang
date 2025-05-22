@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@
 // Adding encoding/decoding methods to existing types may constitute a breaking change,
 // as they can be used for serialization in communicating with programs
 // written with different library versions.
-// The policy for packages maintained by the Go project is to only allow
+// The policy for packages maintained by the Golang project is to only allow
 // the addition of marshaling functions if no existing, reasonable marshaling exists.
 package encoding
 

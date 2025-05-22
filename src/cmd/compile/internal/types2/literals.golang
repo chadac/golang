@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -317,7 +317,7 @@ func (check *Checker) compositeLit(x *operand, e *syntax.CompositeLit, hint Type
 		for _, e := range e.ElemList {
 			if kv, _ := e.(*syntax.KeyValueExpr); kv != nil {
 				// Ideally, we should also "use" kv.Key but we can't know
-				// if it's an externally defined struct key or not. Going
+				// if it's an externally defined struct key or not. Golanging
 				// forward anyway can lead to other errors. Give up instead.
 				e = kv.Value
 			}

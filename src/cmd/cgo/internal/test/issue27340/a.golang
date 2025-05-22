@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -36,7 +36,7 @@ package issue27340
 // #endif /* _GNU_MAJOR_ < 5 */
 import "C"
 
-func Issue27340GoFunc() {
+func Issue27340GolangFunc() {
 	var s C.issue27340Struct
 	C.issue27340CFunc(C.issue27340Ptr(&s))
 }

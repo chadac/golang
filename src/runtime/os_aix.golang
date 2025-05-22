@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,7 +21,7 @@ const (
 type funcDescriptor struct {
 	fn         uintptr
 	toc        uintptr
-	envPointer uintptr // unused in Golang
+	envPointer uintptr // unused in Golanglang
 }
 
 type mOS struct {
@@ -154,9 +154,9 @@ func newosproc0(stacksize uintptr, fn *funcDescriptor) {
 
 }
 
-// Called to do synchronous initialization of Go code built with
+// Called to do synchronous initialization of Golang code built with
 // -buildmode=c-archive or -buildmode=c-shared.
-// None of the Go runtime is initialized.
+// None of the Golang runtime is initialized.
 //
 //golang:nosplit
 //golang:nowritebarrierrec
@@ -313,7 +313,7 @@ func (c *sigctxt) fixsigcode(sig uint32) {
 	case _SIGPIPE:
 		// For SIGPIPE, c.sigcode() isn't set to _SI_USER as on Linux.
 		// Therefore, raisebadsignal won't raise SIGPIPE again if
-		// it was deliver in a non-Go thread.
+		// it was deliver in a non-Golang thread.
 		c.set_sigcode(_SI_USER)
 	}
 }

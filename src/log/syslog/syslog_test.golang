@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -280,7 +280,7 @@ func check(t *testing.T, in, out, transport string) {
 		tmpl := fmt.Sprintf("<%d>%%s %%s %%s syslog_test[%%d]: %s\n", LOG_USER+LOG_INFO, in)
 		n, err := fmt.Sscanf(out, tmpl, &month, &date, &ts, &pid)
 		if n != 4 || err != nil {
-			t.Errorf("Got %q, does not match template %q (%d %s)", out, tmpl, n, err)
+			t.Errorf("Golangt %q, does not match template %q (%d %s)", out, tmpl, n, err)
 		}
 		return
 	}
@@ -291,7 +291,7 @@ func check(t *testing.T, in, out, transport string) {
 	tmpl := fmt.Sprintf("<%d>%%s %%s syslog_test[%%d]: %s\n", LOG_USER+LOG_INFO, in)
 	n, err := fmt.Sscanf(out, tmpl, &timestamp, &parsedHostname, &pid)
 	if n != 3 || err != nil {
-		t.Errorf("Got %q, does not match template %q (%d %s)", out, tmpl, n, err)
+		t.Errorf("Golangt %q, does not match template %q (%d %s)", out, tmpl, n, err)
 	}
 	if hostname != parsedHostname {
 		t.Errorf("Hostname golangt %q want %q in %q", parsedHostname, hostname, out)

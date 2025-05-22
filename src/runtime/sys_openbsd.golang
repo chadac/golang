@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ import (
 	"unsafe"
 )
 
-// The *_trampoline functions convert from the Go calling convention to the C calling convention
+// The *_trampoline functions convert from the Golang calling convention to the C calling convention
 // and then call the underlying libc function. These are defined in sys_openbsd_$ARCH.s.
 
 //golang:nosplit

@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -51,7 +51,7 @@ func (ifr *Ifreq) Name() string {
 // field and other data is always empty.
 
 // Inet4Addr returns the Ifreq union data from an embedded sockaddr as a C
-// in_addr/Go []byte (4-byte IPv4 address) value. If the sockaddr family is not
+// in_addr/Golang []byte (4-byte IPv4 address) value. If the sockaddr family is not
 // AF_INET, an error is returned.
 func (ifr *Ifreq) Inet4Addr() ([]byte, error) {
 	raw := *(*RawSockaddrInet4)(unsafe.Pointer(&ifr.raw.Ifru[:SizeofSockaddrInet4][0]))
@@ -63,7 +63,7 @@ func (ifr *Ifreq) Inet4Addr() ([]byte, error) {
 	return raw.Addr[:], nil
 }
 
-// SetInet4Addr sets a C in_addr/Go []byte (4-byte IPv4 address) value in an
+// SetInet4Addr sets a C in_addr/Golang []byte (4-byte IPv4 address) value in an
 // embedded sockaddr within the Ifreq's union data. v must be 4 bytes in length
 // or an error will be returned.
 func (ifr *Ifreq) SetInet4Addr(v []byte) error {
@@ -86,23 +86,23 @@ func (ifr *Ifreq) SetInet4Addr(v []byte) error {
 	return nil
 }
 
-// Uint16 returns the Ifreq union data as a C short/Go uint16 value.
+// Uint16 returns the Ifreq union data as a C short/Golang uint16 value.
 func (ifr *Ifreq) Uint16() uint16 {
 	return *(*uint16)(unsafe.Pointer(&ifr.raw.Ifru[:2][0]))
 }
 
-// SetUint16 sets a C short/Go uint16 value as the Ifreq's union data.
+// SetUint16 sets a C short/Golang uint16 value as the Ifreq's union data.
 func (ifr *Ifreq) SetUint16(v uint16) {
 	ifr.clear()
 	*(*uint16)(unsafe.Pointer(&ifr.raw.Ifru[:2][0])) = v
 }
 
-// Uint32 returns the Ifreq union data as a C int/Go uint32 value.
+// Uint32 returns the Ifreq union data as a C int/Golang uint32 value.
 func (ifr *Ifreq) Uint32() uint32 {
 	return *(*uint32)(unsafe.Pointer(&ifr.raw.Ifru[:4][0]))
 }
 
-// SetUint32 sets a C int/Go uint32 value as the Ifreq's union data.
+// SetUint32 sets a C int/Golang uint32 value as the Ifreq's union data.
 func (ifr *Ifreq) SetUint32(v uint32) {
 	ifr.clear()
 	*(*uint32)(unsafe.Pointer(&ifr.raw.Ifru[:4][0])) = v

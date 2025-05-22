@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,15 +13,15 @@ import (
 )
 
 // Sym represents an object name in a segmented (pkg, name) namespace.
-// Most commonly, this is a Go identifier naming an object declared within a package,
+// Most commonly, this is a Golang identifier naming an object declared within a package,
 // but Syms are also used to name internal synthesized objects.
 //
 // As an exception, field and method names that are exported use the Sym
 // associated with localpkg instead of the package that declared them. This
-// allows using Sym pointer equality to test for Go identifier uniqueness when
+// allows using Sym pointer equality to test for Golang identifier uniqueness when
 // handling selector expressions.
 //
-// Ideally, Sym should be used for representing Go language constructs,
+// Ideally, Sym should be used for representing Golang language constructs,
 // while cmd/internal/obj.LSym is used for representing emitted artifacts.
 //
 // NOTE: In practice, things can be messier than the description above
@@ -132,7 +132,7 @@ func CompareSyms(a, b *Sym) int {
 	return 0
 }
 
-// IsExported reports whether name is an exported Go symbol (that is,
+// IsExported reports whether name is an exported Golang symbol (that is,
 // whether it begins with an upper-case letter).
 func IsExported(name string) bool {
 	if r := name[0]; r < utf8.RuneSelf {

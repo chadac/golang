@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -51,7 +51,7 @@ func run(pass *analysis.Pass) (any, error) {
 		d := &deadState{
 			pass:     pass,
 			hasBreak: make(map[ast.Stmt]bool),
-			hasGoto:  make(map[string]bool),
+			hasGolangto:  make(map[string]bool),
 			labels:   make(map[string]ast.Stmt),
 		}
 		d.findLabels(body)
@@ -64,7 +64,7 @@ func run(pass *analysis.Pass) (any, error) {
 type deadState struct {
 	pass        *analysis.Pass
 	hasBreak    map[ast.Stmt]bool
-	hasGoto     map[string]bool
+	hasGolangto     map[string]bool
 	labels      map[string]ast.Stmt
 	breakTarget ast.Stmt
 
@@ -84,7 +84,7 @@ func (d *deadState) findLabels(stmt ast.Stmt) {
 		*ast.DeferStmt,
 		*ast.EmptyStmt,
 		*ast.ExprStmt,
-		*ast.GoStmt,
+		*ast.GolangStmt,
 		*ast.IncDecStmt,
 		*ast.ReturnStmt,
 		*ast.SendStmt:
@@ -99,7 +99,7 @@ func (d *deadState) findLabels(stmt ast.Stmt) {
 		switch x.Tok {
 		case token.GOTO:
 			if x.Label != nil {
-				d.hasGoto[x.Label.Name] = true
+				d.hasGolangto[x.Label.Name] = true
 			}
 
 		case token.BREAK:
@@ -179,7 +179,7 @@ func (d *deadState) findDead(stmt ast.Stmt) {
 	//	L: golangto L
 	// will not provoke a warning.
 	// But it's golangod enough.
-	if x, isLabel := stmt.(*ast.LabeledStmt); isLabel && d.hasGoto[x.Label.Name] {
+	if x, isLabel := stmt.(*ast.LabeledStmt); isLabel && d.hasGolangto[x.Label.Name] {
 		d.reachable = true
 	}
 
@@ -216,7 +216,7 @@ func (d *deadState) findDead(stmt ast.Stmt) {
 		*ast.DeclStmt,
 		*ast.DeferStmt,
 		*ast.EmptyStmt,
-		*ast.GoStmt,
+		*ast.GolangStmt,
 		*ast.IncDecStmt,
 		*ast.SendStmt:
 		// no control flow

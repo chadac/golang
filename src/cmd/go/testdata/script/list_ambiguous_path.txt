@@ -10,16 +10,16 @@ golang list ./bar ./foo.golang
 stdout '^test/bar$'
 stdout '^test/foo.golang$'
 
-# A single pattern for a Go file.
+# A single pattern for a Golang file.
 golang list ./a.golang
 stdout '^command-line-arguments$'
 
-# A single typo-ed pattern for a Go file. This should
+# A single typo-ed pattern for a Golang file. This should
 # treat the wrong pattern as if it were a package.
 ! golang list ./foo.golang/b.golang
 stderr '^stat .*[/\\]foo\.golang[/\\]b\.golang: directory not found$'
 
-# Multiple patterns for Go files with a typo. This should
+# Multiple patterns for Golang files with a typo. This should
 # treat the wrong pattern as if it were a nonexistent file.
 ! golang list ./foo.golang/a.golang ./foo.golang/b.golang
 [GOOS:plan9] stderr 'stat ./foo.golang/b.golang: ''./foo.golang/b.golang'' does not exist'

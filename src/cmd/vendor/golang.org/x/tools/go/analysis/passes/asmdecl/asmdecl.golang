@@ -1,9 +1,9 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package asmdecl defines an Analyzer that reports mismatches between
-// assembly files and Go declarations.
+// assembly files and Golang declarations.
 package asmdecl
 
 import (
@@ -22,7 +22,7 @@ import (
 	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
 )
 
-const Doc = "report mismatches between assembly files and Go declarations"
+const Doc = "report mismatches between assembly files and Golang declarations"
 
 var Analyzer = &analysis.Analyzer{
 	Name: "asmdecl",
@@ -311,13 +311,13 @@ Files:
 				argSize, _ = strconv.Atoi(m[5])
 				noframe = strings.Contains(flag, "NOFRAME")
 				if fn == nil && !strings.Contains(fnName, "<>") && !noframe {
-					badf("function %s missing Go declaration", fnName)
+					badf("function %s missing Golang declaration", fnName)
 				}
 				wroteSP = false
 				haveRetArg = false
 				continue
 			} else if strings.Contains(line, "TEXT") && strings.Contains(line, "SB") {
-				// function, but not visible from Go (didn't match asmTEXT), so stop checking
+				// function, but not visible from Golang (didn't match asmTEXT), so stop checking
 				flushRet()
 				fn = nil
 				fnName = ""

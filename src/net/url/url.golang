@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -360,7 +360,7 @@ func escape(s string, mode encoding) string {
 // into a string suitable for the Host field, adding square brackets to
 // the host when necessary.
 //
-// Note that the Path field is stored in decoded form: /%47%6f%2f becomes /Go/.
+// Note that the Path field is stored in decoded form: /%47%6f%2f becomes /Golang/.
 // A consequence is that it is impossible to tell which slashes in the Path were
 // slashes in the raw URL and which were %2f. This distinction is rarely important,
 // but when it is, the code should use the [URL.EscapedPath] method, which preserves

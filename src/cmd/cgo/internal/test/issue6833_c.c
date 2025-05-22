@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,5 +6,5 @@
  
 unsigned long long
 issue6833Func(unsigned int aui, unsigned long long aull) {
-	return GoIssue6833Func(aui, aull);
+	return GolangIssue6833Func(aui, aull);
 }

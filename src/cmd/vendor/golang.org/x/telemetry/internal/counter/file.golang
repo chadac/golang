@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -124,7 +124,7 @@ func (f *file) lookup(name string) counterPtr {
 }
 
 // ErrDisabled is the error returned when telemetry is disabled.
-var ErrDisabled = errors.New("counter: disabled as Go telemetry is off")
+var ErrDisabled = errors.New("counter: disabled as Golang telemetry is off")
 
 var (
 	errNoBuildInfo = errors.New("counter: missing build info")
@@ -280,7 +280,7 @@ func (f *file) rotate1() time.Time {
 	f.timeBegin, f.timeEnd = begin, end
 
 	golangVers, progPath, progVers := telemetry.ProgramInfo(f.buildInfo)
-	meta := fmt.Sprintf("TimeBegin: %s\nTimeEnd: %s\nProgram: %s\nVersion: %s\nGoVersion: %s\nGOOS: %s\nGOARCH: %s\n\n",
+	meta := fmt.Sprintf("TimeBegin: %s\nTimeEnd: %s\nProgram: %s\nVersion: %s\nGolangVersion: %s\nGOOS: %s\nGOARCH: %s\n\n",
 		f.timeBegin.Format(time.RFC3339), f.timeEnd.Format(time.RFC3339),
 		progPath, progVers, golangVers, runtime.GOOS, runtime.GOARCH)
 	if len(meta) > maxMetaLen { // should be impossible for our use

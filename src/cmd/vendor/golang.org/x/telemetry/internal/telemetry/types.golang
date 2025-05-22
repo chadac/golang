@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@ package telemetry
 type UploadConfig struct {
 	GOOS       []string
 	GOARCH     []string
-	GoVersion  []string
+	GolangVersion  []string
 	SampleRate float64
 	Programs   []*ProgramConfig
 }
@@ -42,8 +42,8 @@ type Report struct {
 
 type ProgramReport struct {
 	Program   string // Package path of the program.
-	Version   string // Program version. Go version if the program is part of the golang distribution. Module version, otherwise.
-	GoVersion string // Go version used to build the program.
+	Version   string // Program version. Golang version if the program is part of the golang distribution. Module version, otherwise.
+	GolangVersion string // Golang version used to build the program.
 	GOOS      string
 	GOARCH    string
 	Counters  map[string]int64

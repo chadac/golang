@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -335,12 +335,12 @@ func (a *addrRanges) contains(addr uintptr) bool {
 // r must not overlap with any address range in a and r.size() must be > 0.
 func (a *addrRanges) add(r addrRange) {
 	// The copies in this function are potentially expensive, but this data
-	// structure is meant to represent the Go heap. At worst, copying this
+	// structure is meant to represent the Golang heap. At worst, copying this
 	// would take ~160µs assuming a conservative copying rate of 25 GiB/s (the
 	// copy will almost never trigger a page fault) for a 1 TiB heap with 4 MiB
 	// arenas which is completely discontiguous. ~160µs is still a lot, but in
 	// practice most platforms have 64 MiB arenas (which cuts this by a factor
-	// of 16) and Go heaps are usually mostly contiguous, so the chance that
+	// of 16) and Golang heaps are usually mostly contiguous, so the chance that
 	// an addrRanges even grows to that size is extremely low.
 
 	// An empty range has no effect on the set of addresses represented

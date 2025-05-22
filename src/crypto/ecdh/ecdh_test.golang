@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -450,7 +450,7 @@ func TestLinker(t *testing.T) {
 	if testing.Short() {
 		t.Skip("test requires running 'golang build'")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	dir := t.TempDir()
 	hello := filepath.Join(dir, "hello.golang")
@@ -469,7 +469,7 @@ func TestLinker(t *testing.T) {
 		return string(out)
 	}
 
-	golangBin := testenv.GoToolPath(t)
+	golangBin := testenv.GolangToolPath(t)
 	run(golangBin, "build", "-o", "hello.exe", "hello.golang")
 	if out := run("./hello.exe"); out != "OK\n" {
 		t.Error("unexpected output:", out)

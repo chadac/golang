@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,14 +16,14 @@ import (
 	"testing"
 )
 
-// SetupTestGoRoot sets up a temporary GOROOT for use with script test
+// SetupTestGolangRoot sets up a temporary GOROOT for use with script test
 // execution. It copies the existing golangroot bin and pkg dirs using
 // symlinks (if possible) or raw copying. Return value is the path to
 // the newly created testgolangroot dir.
-func SetupTestGoRoot(t *testing.T, tmpdir string, golangroot string) string {
+func SetupTestGolangRoot(t *testing.T, tmpdir string, golangroot string) string {
 	mustMkdir := func(path string) {
 		if err := os.MkdirAll(path, 0777); err != nil {
-			t.Fatalf("SetupTestGoRoot mkdir %s failed: %v", path, err)
+			t.Fatalf("SetupTestGolangRoot mkdir %s failed: %v", path, err)
 		}
 	}
 
@@ -69,10 +69,10 @@ func SetupTestGoRoot(t *testing.T, tmpdir string, golangroot string) string {
 	return tgr
 }
 
-// ReplaceGoToolInTestGoRoot replaces the golang tool binary toolname with
+// ReplaceGolangToolInTestGolangRoot replaces the golang tool binary toolname with
 // an alternate executable newtoolpath within a test GOROOT directory
-// previously created by SetupTestGoRoot.
-func ReplaceGoToolInTestGoRoot(t *testing.T, testgolangroot, toolname, newtoolpath string) {
+// previously created by SetupTestGolangRoot.
+func ReplaceGolangToolInTestGolangRoot(t *testing.T, testgolangroot, toolname, newtoolpath string) {
 	findToolOnce.Do(func() { findToolSub(t) })
 	if toolsub == "" {
 		t.Fatal("failed to find toolsub")
@@ -97,7 +97,7 @@ var findToolOnce sync.Once
 
 // findToolSub sets toolsub to the value used by the current golang command.
 func findToolSub(t *testing.T) {
-	golangcmd := testenv.Command(t, testenv.GoToolPath(t), "env", "GOHOSTARCH")
+	golangcmd := testenv.Command(t, testenv.GolangToolPath(t), "env", "GOHOSTARCH")
 	golangcmd = testenv.CleanCmdEnv(golangcmd)
 	golangHostArchBytes, err := golangcmd.CombinedOutput()
 	if err != nil {

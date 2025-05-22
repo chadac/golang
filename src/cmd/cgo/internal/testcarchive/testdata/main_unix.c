@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,12 +32,12 @@ int install_handler() {
 		return 2;
 	}
 	if (osa.sa_handler == SIG_DFL) {
-		fprintf(stderr, "Go runtime did not install signal handler\n");
+		fprintf(stderr, "Golang runtime did not install signal handler\n");
 		return 2;
 	}
 	// gccgolang does not set SA_ONSTACK for SIGSEGV.
 	if (getenv("GCCGO") == NULL && (osa.sa_flags&SA_ONSTACK) == 0) {
-		fprintf(stderr, "Go runtime did not install signal handler\n");
+		fprintf(stderr, "Golang runtime did not install signal handler\n");
 		return 2;
 	}
 	oldHandler = osa.sa_sigaction;

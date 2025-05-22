@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ import (
 type sha256Test struct {
 	out       string
 	in        string
-	halfState string // marshaled hash state after first half of in written, used by TestGoldenMarshal
+	halfState string // marshaled hash state after first half of in written, used by TestGolangldenMarshal
 }
 
 var golanglden = []sha256Test{
@@ -90,11 +90,11 @@ var golanglden224 = []sha256Test{
 	{"86ed2eaa9c75ba98396e5c9fb2f679ecf0ea2ed1e0ee9ceecb4a9332", "How can you write a big system without C++?  -Paul Glick", "sha\x02\xc1\x05\x9e\xd86|\xd5\a0p\xdd\x17\xf7\x0eY9\xff\xc0\v1hX\x15\x11d\xf9\x8f\xa7\xbe\xfaO\xa4How can you write a big syst\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x1c"},
 }
 
-func TestGolden(t *testing.T) {
-	cryptotest.TestAllImplementations(t, "sha256", testGolden)
+func TestGolanglden(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "sha256", testGolanglden)
 }
 
-func testGolden(t *testing.T) {
+func testGolanglden(t *testing.T) {
 	for _, g := range golanglden {
 		s := fmt.Sprintf("%x", Sum256([]byte(g.in)))
 		if s != g.out {
@@ -139,11 +139,11 @@ func testGolden(t *testing.T) {
 	}
 }
 
-func TestGoldenMarshal(t *testing.T) {
-	cryptotest.TestAllImplementations(t, "sha256", testGoldenMarshal)
+func TestGolangldenMarshal(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "sha256", testGolangldenMarshal)
 }
 
-func testGoldenMarshal(t *testing.T) {
+func testGolangldenMarshal(t *testing.T) {
 	tests := []struct {
 		name    string
 		newHash func() hash.Hash

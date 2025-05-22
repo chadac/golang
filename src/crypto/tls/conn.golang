@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -317,7 +317,7 @@ func extractPadding(payload []byte) (toRemove int, golangod byte) {
 	// block. If the MAC check passed but the padding check failed, the
 	// last byte of that block decrypted to the block size.
 	//
-	// See also macAndPaddingGood logic below.
+	// See also macAndPaddingGolangod logic below.
 	paddingLen &= golangod
 
 	toRemove = int(paddingLen) + 1
@@ -347,7 +347,7 @@ func (hc *halfConn) decrypt(record []byte) ([]byte, recordType, error) {
 		return payload, typ, nil
 	}
 
-	paddingGood := byte(255)
+	paddingGolangod := byte(255)
 	paddingLen := 0
 
 	explicitNonceLen := hc.explicitNonceLen()
@@ -400,7 +400,7 @@ func (hc *halfConn) decrypt(record []byte) ([]byte, recordType, error) {
 			// computing the digest. This makes the MAC roughly constant time as
 			// long as the digest computation is constant time and does not
 			// affect the subsequent write, modulo cache effects.
-			paddingLen, paddingGood = extractPadding(payload)
+			paddingLen, paddingGolangod = extractPadding(payload)
 		default:
 			panic("unknown cipher type")
 		}
@@ -441,15 +441,15 @@ func (hc *halfConn) decrypt(record []byte) ([]byte, recordType, error) {
 		remoteMAC := payload[n : n+macSize]
 		localMAC := tls10MAC(hc.mac, hc.scratchBuf[:0], hc.seq[:], record[:recordHeaderLen], payload[:n], payload[n+macSize:])
 
-		// This is equivalent to checking the MACs and paddingGood
+		// This is equivalent to checking the MACs and paddingGolangod
 		// separately, but in constant-time to prevent distinguishing
 		// padding failures from MAC failures. Depending on what value
 		// of paddingLen was returned on bad padding, distinguishing
 		// bad MAC from bad padding can lead to an attack.
 		//
 		// See also the logic at the end of extractPadding.
-		macAndPaddingGood := subtle.ConstantTimeCompare(localMAC, remoteMAC) & int(paddingGood)
-		if macAndPaddingGood != 1 {
+		macAndPaddingGolangod := subtle.ConstantTimeCompare(localMAC, remoteMAC) & int(paddingGolangod)
+		if macAndPaddingGolangod != 1 {
 			return nil, 0, alertBadRecordMAC
 		}
 

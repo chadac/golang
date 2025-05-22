@@ -5,7 +5,7 @@
 env GOOS=linux
 env GOARCH=amd64
 env CGO_ENABLED=1
-golang list -f '{{range .GoFiles}}{{.}} {{end}}'
+golang list -f '{{range .GolangFiles}}{{.}} {{end}}'
 stdout '^cgolangtag.golang empty.golang suffix_linux.golang tag.golang $'
 golang list -f '{{range .CgolangFiles}}{{.}} {{end}}'
 stdout '^cgolangimport.golang $'
@@ -14,7 +14,7 @@ stdout '^C cgolangimport cgolangtag suffix tag $'
 
 # Disabling cgolang should exclude cgolang files and their imports.
 env CGO_ENABLED=0
-golang list -f '{{range .GoFiles}}{{.}} {{end}}'
+golang list -f '{{range .GolangFiles}}{{.}} {{end}}'
 stdout 'empty.golang suffix_linux.golang tag.golang'
 golang list -f '{{range .CgolangFiles}}{{.}} {{end}}'
 ! stdout .
@@ -23,13 +23,13 @@ stdout '^suffix tag $'
 
 # Changing OS should exclude linux sources.
 env GOOS=darwin
-golang list -f '{{range .GoFiles}}{{.}} {{end}}'
+golang list -f '{{range .GolangFiles}}{{.}} {{end}}'
 stdout '^empty.golang $'
 golang list -f '{{range .Imports}}{{.}} {{end}}'
 stdout '^$'
 
 # Enabling a tag should include files that require it.
-golang list -tags=extra -f '{{range .GoFiles}}{{.}} {{end}}'
+golang list -tags=extra -f '{{range .GolangFiles}}{{.}} {{end}}'
 stdout '^empty.golang extra.golang $'
 golang list -tags=extra -f '{{range .Imports}}{{.}} {{end}}'
 stdout '^extra $'

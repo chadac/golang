@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -254,7 +254,7 @@ func TestObjectIdentifier(t *testing.T) {
 	}
 
 	if s := ObjectIdentifier([]int{1, 2, 3, 4}).String(); s != "1.2.3.4" {
-		t.Errorf("bad ObjectIdentifier.String(). Got %s, want 1.2.3.4", s)
+		t.Errorf("bad ObjectIdentifier.String(). Golangt %s, want 1.2.3.4", s)
 	}
 }
 
@@ -541,7 +541,7 @@ func TestUnmarshalWithNilOrNonPointer(t *testing.T) {
 			continue
 		}
 		if g, w := err.Error(), test.want; g != w {
-			t.Errorf("InvalidUnmarshalError mismatch\nGot:  %q\nWant: %q", g, w)
+			t.Errorf("InvalidUnmarshalError mismatch\nGolangt:  %q\nWant: %q", g, w)
 		}
 	}
 }
@@ -962,7 +962,7 @@ func TestImplicitTaggedTime(t *testing.T) {
 		t.Fatalf("Error while parsing: %s", err)
 	}
 	if expected := time.Date(1991, 05, 06, 16, 45, 40, 0, time.UTC); !result.Time.Equal(expected) {
-		t.Errorf("Wrong result. Got %v, want %v", result.Time, expected)
+		t.Errorf("Wrong result. Golangt %v, want %v", result.Time, expected)
 	}
 }
 

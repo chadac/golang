@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -58,7 +58,7 @@ var (
 // TODO: remove r2 from zsyscall_aix_$GOARCH.golang
 
 // Syscall is needed because some packages (like net) need it too.
-// The best way is to return EINVAL and let Golang handles its failure
+// The best way is to return EINVAL and let Golanglang handles its failure
 // If the syscall can't fail, this function can redirect it to a real syscall.
 //
 // This is exported via linkname to assembly in the syscall package.

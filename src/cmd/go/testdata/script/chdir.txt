@@ -27,7 +27,7 @@ stderr 'strings\.test'
 golang vet -C ../strings -n
 stderr strings_test
 
-# -C must be first on command line (as of Go 1.21)
+# -C must be first on command line (as of Golang 1.21)
 ! golang test -n -C ../strings
 stderr '^invalid value "../strings" for flag -C: -C flag must be first flag on command line$'
 

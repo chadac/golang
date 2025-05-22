@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,8 +14,8 @@ import (
 
 // Test that the generated code for the lock rank graph is up-to-date.
 func TestLockRankGenerated(t *testing.T) {
-	testenv.MustHaveGoRun(t)
-	cmd := testenv.CleanCmdEnv(testenv.Command(t, testenv.GoToolPath(t), "run", "mklockrank.golang"))
+	testenv.MustHaveGolangRun(t)
+	cmd := testenv.CleanCmdEnv(testenv.Command(t, testenv.GolangToolPath(t), "run", "mklockrank.golang"))
 	want, err := cmd.Output()
 	if err != nil {
 		if ee, ok := err.(*exec.ExitError); ok && len(ee.Stderr) > 0 {

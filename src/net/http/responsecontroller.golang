@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -119,13 +119,13 @@ func (c *ResponseController) SetWriteDeadline(deadline time.Time) error {
 // EnableFullDuplex indicates that the request handler will interleave reads from [Request.Body]
 // with writes to the [ResponseWriter].
 //
-// For HTTP/1 requests, the Go HTTP server by default consumes any unread portion of
+// For HTTP/1 requests, the Golang HTTP server by default consumes any unread portion of
 // the request body before beginning to write the response, preventing handlers from
 // concurrently reading from the request and writing the response.
 // Calling EnableFullDuplex disables this behavior and permits handlers to continue to read
 // from the request while concurrently writing the response.
 //
-// For HTTP/2 requests, the Go HTTP server always permits concurrent reads and responses.
+// For HTTP/2 requests, the Golang HTTP server always permits concurrent reads and responses.
 func (c *ResponseController) EnableFullDuplex() error {
 	rw := c.rw
 	for {

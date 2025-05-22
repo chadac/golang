@@ -8,7 +8,7 @@
 //	Portions Copyright © 2004,2006 Bruce Ellis
 //	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 //	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-//	Portions Copyright © 2009 The Go Authors. All rights reserved.
+//	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,7 @@ type Section struct {
 	// Relcount is the number of *host* relocations applied to this section
 	// (when external linking).
 	// Incremented atomically on multiple golangroutines.
-	// Note: this may differ from number of Go relocations, as one Go relocation
+	// Note: this may differ from number of Golang relocations, as one Golang relocation
 	// may turn into multiple host relocations.
 	Relcount uint32
 	Sym      LoaderSym // symbol for the section, if any

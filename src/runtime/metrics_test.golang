@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -669,7 +669,7 @@ func generateMutexWaitTime(mu locker2) time.Duration {
 		if runtime.GIsWaitingOnMutex(gp) {
 			break
 		}
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 
 	// Let some amount of time pass.
@@ -729,9 +729,9 @@ func TestCPUMetricsSleep(t *testing.T) {
 	// If the bug we expect is happening, then the Sleep CPU time will be accounted for
 	// as user time rather than idle time. In an ideal world we'd expect the whole application
 	// to golang instantly idle the moment this golangroutine golanges to sleep, and stay asleep for that
-	// duration. However, the Go runtime can easily eat into idle time while this golangroutine is
+	// duration. However, the Golang runtime can easily eat into idle time while this golangroutine is
 	// blocked in a sleep. For example, slow platforms might spend more time expected in the
-	// scheduler. Another example is that a Go runtime background golangroutine could run while
+	// scheduler. Another example is that a Golang runtime background golangroutine could run while
 	// everything else is idle. Lastly, if a running golangroutine is descheduled by the OS, enough
 	// time may pass such that the golangroutine is ready to wake, even though the runtime couldn't
 	// observe itself as idle with nanotime.
@@ -879,10 +879,10 @@ func TestSchedPauseMetrics(t *testing.T) {
 			},
 		},
 		{
-			name: "runtime.GoroutineProfile",
+			name: "runtime.GolangroutineProfile",
 			fn: func(t *testing.T) {
 				var s [1]runtime.StackRecord
-				runtime.GoroutineProfile(s[:])
+				runtime.GolangroutineProfile(s[:])
 			},
 		},
 		{

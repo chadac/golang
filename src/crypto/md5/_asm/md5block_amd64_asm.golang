@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -7,7 +7,7 @@
 //	http://www.zorinaq.com/papers/md5-amd64.tar.bz2
 //
 // Translated from Perl generating GNU assembly into
-// #defines generating 6a assembly by the Go Authors.
+// #defines generating 6a assembly by the Golang Authors.
 
 package main
 

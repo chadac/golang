@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ import (
 )
 
 // These FIPS 140-3 policies allow anything approved by SP 800-140C
-// and SP 800-140D, and tested as part of the Go Cryptographic Module.
+// and SP 800-140D, and tested as part of the Golang Cryptographic Module.
 //
 // Notably, not SHA-1, 3DES, RC4, ChaCha20Poly1305, RSA PKCS #1 v1.5 key
 // transport, or TLS 1.0—1.1 (because we don't test its KDF).

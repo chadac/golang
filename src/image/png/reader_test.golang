@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -106,10 +106,10 @@ var fakegAMAs = map[string]string{
 // fakeIHDRUsings maps from filenames to fake IHDR "using" lines for our
 // approximation to the sng command-line tool. The PNG model is that
 // transparency (in the tRNS chunk) is separate to the color/grayscale/palette
-// color model (in the IHDR chunk). The Go model is that the concrete
+// color model (in the IHDR chunk). The Golang model is that the concrete
 // image.Image type returned by png.Decode, such as image.RGBA (with all pixels
 // having 100% alpha) or image.NRGBA, encapsulates whether or not the image has
-// transparency. This map is a hack to work around the fact that the Go model
+// transparency. This map is a hack to work around the fact that the Golang model
 // can't otherwise discriminate PNG's "IHDR says color (with no alpha) but tRNS
 // says alpha" and "IHDR says color with alpha".
 var fakeIHDRUsings = map[string]string{
@@ -683,7 +683,7 @@ func TestDimensionOverflow(t *testing.T) {
 				0x5f, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4e, 0x44, 0xae, 0x42, 0x60, 0x82,
 			},
 			// It's debatable whether DecodeConfig (which does not allocate a
-			// pixel buffer, unlike Decode) should fail in this case. The Go
+			// pixel buffer, unlike Decode) should fail in this case. The Golang
 			// standard library has made its choice, and the standard library
 			// has compatibility constraints.
 			unsupportedConfig: true,

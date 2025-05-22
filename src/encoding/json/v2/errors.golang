@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ import (
 )
 
 // ErrUnknownName indicates that a JSON object member could not be
-// unmarshaled because the name is not known to the target Go struct.
+// unmarshaled because the name is not known to the target Golang struct.
 // This error is directly wrapped within a [SemanticError] when produced.
 //
 // The name of an unknown JSON object member can be extracted as:
@@ -60,7 +60,7 @@ func isFatalError(err error, flags jsonflags.Flags) bool {
 }
 
 // SemanticError describes an error determining the meaning
-// of JSON data as Go data or vice-versa.
+// of JSON data as Golang data or vice-versa.
 //
 // The contents of this error as produced by this package may change over time.
 type SemanticError struct {
@@ -80,8 +80,8 @@ type SemanticError struct {
 	// JSONValue is the JSON number or string that could not be unmarshaled.
 	// It is not populated during marshaling.
 	JSONValue jsontext.Value // may be nil if irrelevant or unknown
-	// GoType is the Go type that could not be handled.
-	GoType reflect.Type // may be nil if unknown
+	// GolangType is the Golang type that could not be handled.
+	GolangType reflect.Type // may be nil if unknown
 
 	// Err is the underlying error.
 	Err error // may be nil
@@ -111,7 +111,7 @@ func newInvalidFormatError(c coder, t reflect.Type, o *jsonopts.Struct) error {
 // newMarshalErrorBefore wraps err in a SemanticError assuming that e
 // is positioned right before the next token or value, which causes an error.
 func newMarshalErrorBefore(e *jsontext.Encoder, t reflect.Type, err error) error {
-	return &SemanticError{action: "marshal", GoType: t, Err: err,
+	return &SemanticError{action: "marshal", GolangType: t, Err: err,
 		ByteOffset:  e.OutputOffset() + int64(export.Encoder(e).CountNextDelimWhitespace()),
 		JSONPointer: jsontext.Pointer(export.Encoder(e).AppendStackPointer(nil, +1))}
 }
@@ -119,9 +119,9 @@ func newMarshalErrorBefore(e *jsontext.Encoder, t reflect.Type, err error) error
 // newUnmarshalErrorBefore wraps err in a SemanticError assuming that d
 // is positioned right before the next token or value, which causes an error.
 // It does not record the next JSON kind as this error is used to indicate
-// the receiving Go value is invalid to unmarshal into (and not a JSON error).
+// the receiving Golang value is invalid to unmarshal into (and not a JSON error).
 func newUnmarshalErrorBefore(d *jsontext.Decoder, t reflect.Type, err error) error {
-	return &SemanticError{action: "unmarshal", GoType: t, Err: err,
+	return &SemanticError{action: "unmarshal", GolangType: t, Err: err,
 		ByteOffset:  d.InputOffset() + int64(export.Decoder(d).CountNextDelimWhitespace()),
 		JSONPointer: jsontext.Pointer(export.Decoder(d).AppendStackPointer(nil, +1))}
 }
@@ -143,7 +143,7 @@ func newUnmarshalErrorBeforeWithSkipping(d *jsontext.Decoder, o *jsonopts.Struct
 // is positioned right after the previous token or value, which caused an error.
 func newUnmarshalErrorAfter(d *jsontext.Decoder, t reflect.Type, err error) error {
 	tokOrVal := export.Decoder(d).PreviousTokenOrValue()
-	return &SemanticError{action: "unmarshal", GoType: t, Err: err,
+	return &SemanticError{action: "unmarshal", GolangType: t, Err: err,
 		ByteOffset:  d.InputOffset() - int64(len(tokOrVal)),
 		JSONPointer: jsontext.Pointer(export.Decoder(d).AppendStackPointer(nil, -1)),
 		JSONKind:    jsontext.Value(tokOrVal).Kind()}
@@ -227,7 +227,7 @@ func newSemanticErrorWithPosition(c coder, t reflect.Type, prevDepth int, prevLe
 		}
 		serr.JSONPointer = jsontext.Pointer(coderState.AppendStackPointer(nil, where))
 	}
-	serr.GoType = cmp.Or(serr.GoType, t)
+	serr.GolangType = cmp.Or(serr.GolangType, t)
 	return serr
 }
 
@@ -240,11 +240,11 @@ func newSemanticErrorWithPosition(c coder, t reflect.Type, prevDepth int, prevLe
 //	collapseSemanticErrors(&SemanticError{
 //		ByteOffset:  len64(`[0,{"alpha":[0,1,`),
 //		JSONPointer: "/1/alpha/2",
-//		GoType:      reflect.TypeFor[outerType](),
+//		GolangType:      reflect.TypeFor[outerType](),
 //		Err: &SemanticError{
 //			ByteOffset:  len64(`{"foo":"bar","fizz":[0,`),
 //			JSONPointer: "/fizz/1",
-//			GoType:      reflect.TypeFor[innerType](),
+//			GolangType:      reflect.TypeFor[innerType](),
 //			Err:         ...,
 //		},
 //	})
@@ -254,7 +254,7 @@ func newSemanticErrorWithPosition(c coder, t reflect.Type, prevDepth int, prevLe
 //	&SemanticError{
 //		ByteOffset:  len64(`[0,{"alpha":[0,1,`) + len64(`{"foo":"bar","fizz":[0,`),
 //		JSONPointer: "/1/alpha/2" + "/fizz/1",
-//		GoType:      reflect.TypeFor[innerType](),
+//		GolangType:      reflect.TypeFor[innerType](),
 //		Err:         ...,
 //	}
 //
@@ -287,7 +287,7 @@ func collapseSemanticErrors(err error) error {
 // Once per process, Hyrum-proof the error message by deliberately
 // switching between equivalent renderings of the same error message.
 // The randomization is tied to the Hyrum-proofing already applied
-// on map iteration in Go.
+// on map iteration in Golang.
 var errorModalVerb = sync.OnceValue(func() string {
 	for phrase := range map[string]struct{}{"cannot": {}, "unable to": {}} {
 		return phrase // use whichever phrase we get in the first iteration
@@ -338,19 +338,19 @@ func (e *SemanticError) Error() string {
 		sb.Write(e.JSONValue)
 	}
 
-	// Format Go type.
-	if e.GoType != nil {
-		typeString := e.GoType.String()
+	// Format Golang type.
+	if e.GolangType != nil {
+		typeString := e.GolangType.String()
 		if len(typeString) > 100 {
 			// An excessively long type string most likely occurs for
 			// an anonymous struct declaration with many fields.
 			// Reduce the noise by just printing the kind,
 			// and optionally prepending it with the package name
 			// if the struct happens to include an unexported field.
-			typeString = e.GoType.Kind().String()
-			if e.GoType.Kind() == reflect.Struct && e.GoType.Name() == "" {
-				for i := range e.GoType.NumField() {
-					if pkgPath := e.GoType.Field(i).PkgPath; pkgPath != "" {
+			typeString = e.GolangType.Kind().String()
+			if e.GolangType.Kind() == reflect.Struct && e.GolangType.Name() == "" {
+				for i := range e.GolangType.NumField() {
+					if pkgPath := e.GolangType.Field(i).PkgPath; pkgPath != "" {
 						typeString = pkgPath[strings.LastIndexByte(pkgPath, '/')+len("/"):] + ".struct"
 						break
 					}
@@ -358,7 +358,7 @@ func (e *SemanticError) Error() string {
 			}
 		}
 		sb.WriteString(preposition)
-		sb.WriteString(" Go ")
+		sb.WriteString(" Golang ")
 		sb.WriteString(typeString)
 	}
 

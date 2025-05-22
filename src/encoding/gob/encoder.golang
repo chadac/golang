@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -136,7 +136,7 @@ func (enc *Encoder) sendType(w io.Writer, state *encoderState, origt reflect.Typ
 	ut := userType(origt)
 	if ut.externalEnc != 0 {
 		// The rules are different: regardless of the underlying type's representation,
-		// we need to tell the other side that the base type is a GobEncoder.
+		// we need to tell the other side that the base type is a GolangbEncoder.
 		return enc.sendActualType(w, state, ut, ut.base)
 	}
 

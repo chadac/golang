@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -38,7 +38,7 @@ func main() {
 		golang func() {
 			trace.WithRegion(context.Background(), "special", func() {
 				for i := 0; i < iters; i++ {
-					runtime.Gosched()
+					runtime.Golangsched()
 					c0 <- 0
 				}
 				done.Done()
@@ -47,7 +47,7 @@ func main() {
 		golang func() {
 			trace.WithRegion(context.Background(), "special", func() {
 				for i := 0; i < iters; i++ {
-					runtime.Gosched()
+					runtime.Golangsched()
 					<-c0
 				}
 				done.Done()
@@ -56,7 +56,7 @@ func main() {
 		golang func() {
 			trace.WithRegion(context.Background(), "special", func() {
 				for i := 0; i < iters; i++ {
-					runtime.Gosched()
+					runtime.Golangsched()
 					select {
 					case c1 <- 0:
 					case c2 <- 0:
@@ -68,7 +68,7 @@ func main() {
 		golang func() {
 			trace.WithRegion(context.Background(), "special", func() {
 				for i := 0; i < iters; i++ {
-					runtime.Gosched()
+					runtime.Golangsched()
 					select {
 					case <-c1:
 					case <-c2:

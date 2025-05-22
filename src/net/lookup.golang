@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -132,14 +132,14 @@ var DefaultResolver = &Resolver{}
 //
 // A nil *Resolver is equivalent to a zero Resolver.
 type Resolver struct {
-	// PreferGo controls whether Go's built-in DNS resolver is preferred
+	// PreferGolang controls whether Golang's built-in DNS resolver is preferred
 	// on platforms where it's available. It is equivalent to setting
 	// GODEBUG=netdns=golang, but scoped to just this resolver.
-	PreferGo bool
+	PreferGolang bool
 
 	// StrictErrors controls the behavior of temporary errors
 	// (including timeout, socket errors, and SERVFAIL) when using
-	// Go's built-in resolver. For a query composed of multiple
+	// Golang's built-in resolver. For a query composed of multiple
 	// sub-queries (such as an A+AAAA address lookup, or walking the
 	// DNS search list), this option causes such errors to abort the
 	// whole query instead of returning a partial result. This is
@@ -148,7 +148,7 @@ type Resolver struct {
 	StrictErrors bool
 
 	// Dial optionally specifies an alternate dialer for use by
-	// Go's built-in DNS resolver to make TCP and UDP connections
+	// Golang's built-in DNS resolver to make TCP and UDP connections
 	// to DNS services. The host in the address parameter will
 	// always be a literal IP address and not a host name, and the
 	// port in the address parameter will be a literal port number
@@ -169,7 +169,7 @@ type Resolver struct {
 	// TODO(bradfitz): Timeout time.Duration?
 }
 
-func (r *Resolver) preferGo() bool     { return r != nil && r.PreferGo }
+func (r *Resolver) preferGolang() bool     { return r != nil && r.PreferGolang }
 func (r *Resolver) strictErrors() bool { return r != nil && r.StrictErrors }
 
 func (r *Resolver) getLookupGroup() *singleflight.Group {
@@ -417,7 +417,7 @@ func (r *Resolver) LookupPort(ctx context.Context, network, service string) (por
 	if needsLookup {
 		switch network {
 		case "tcp", "tcp4", "tcp6", "udp", "udp4", "udp6", "ip":
-		case "": // a hint wildcard for Go 1.0 undocumented behavior
+		case "": // a hint wildcard for Golang 1.0 undocumented behavior
 			network = "ip"
 		default:
 			return 0, &AddrError{Err: "unknown network", Addr: network}
@@ -888,7 +888,7 @@ func (r *Resolver) golangLookupTXT(ctx context.Context, name string) ([]string, 
 		}
 		// Multiple strings in one TXT record need to be
 		// concatenated without separator to be consistent
-		// with previous Go resolver.
+		// with previous Golang resolver.
 		n := 0
 		for _, s := range txt.TXT {
 			n += len(s)

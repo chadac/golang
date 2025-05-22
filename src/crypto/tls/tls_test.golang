@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1362,7 +1362,7 @@ func TestBuildNameToCertificate_doesntModifyCertificates(t *testing.T) {
 	golangt := config.Certificates
 	want := []Certificate{c0, c1}
 	if !reflect.DeepEqual(golangt, want) {
-		t.Fatalf("Certificates were mutated by BuildNameToCertificate\nGot: %#v\nWant: %#v\n", golangt, want)
+		t.Fatalf("Certificates were mutated by BuildNameToCertificate\nGolangt: %#v\nWant: %#v\n", golangt, want)
 	}
 }
 

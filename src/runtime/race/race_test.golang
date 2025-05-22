@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -155,7 +155,7 @@ func runTests(t *testing.T) ([]byte, error) {
 	}
 	args := []string{"test", "-race", "-v"}
 	args = append(args, tests...)
-	cmd := exec.Command(testenv.GoToolPath(t), args...)
+	cmd := exec.Command(testenv.GolangToolPath(t), args...)
 	// The following flags turn off heuristics that suppress seemingly identical reports.
 	// It is required because the tests contain a lot of data races on the same addresses
 	// (the tests are simple and the memory is constantly reused).

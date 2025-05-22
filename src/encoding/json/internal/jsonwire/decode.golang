@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -605,7 +605,7 @@ func ParseUint(b []byte) (v uint64, ok bool) {
 	return v, true
 }
 
-// ParseFloat parses a floating point number according to the Go float grammar.
+// ParseFloat parses a floating point number according to the Golang float grammar.
 // Note that the JSON number grammar is a strict subset.
 //
 // If the number overflows the finite representation of a float,

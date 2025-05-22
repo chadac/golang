@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,7 +21,7 @@ func Example_minimal() {
 		Name, Body string
 	}{
 		{"readme.txt", "This archive contains some text files."},
-		{"golangpher.txt", "Gopher names:\nGeorge\nGeoffrey\nGonzo"},
+		{"golangpher.txt", "Golangpher names:\nGeorge\nGeoffrey\nGolangnzo"},
 		{"todo.txt", "Get animal handling license."},
 	}
 	for _, file := range files {
@@ -62,10 +62,10 @@ func Example_minimal() {
 	// Contents of readme.txt:
 	// This archive contains some text files.
 	// Contents of golangpher.txt:
-	// Gopher names:
+	// Golangpher names:
 	// George
 	// Geoffrey
-	// Gonzo
+	// Golangnzo
 	// Contents of todo.txt:
 	// Get animal handling license.
 }

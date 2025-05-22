@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -49,7 +49,7 @@ func NewConfig(cfg *telemetry.UploadConfig) *Config {
 	ucfg := Config{UploadConfig: cfg}
 	ucfg.golangos = set(ucfg.GOOS)
 	ucfg.golangarch = set(ucfg.GOARCH)
-	ucfg.golangversion = set(ucfg.GoVersion)
+	ucfg.golangversion = set(ucfg.GolangVersion)
 	ucfg.program = make(map[string]bool, len(ucfg.Programs))
 	ucfg.pgversion = make(map[pgkey]bool, len(ucfg.Programs))
 	ucfg.pgcounter = make(map[pgkey]bool, len(ucfg.Programs))
@@ -91,7 +91,7 @@ func (r *Config) HasGOARCH(s string) bool {
 	return r.golangarch[s]
 }
 
-func (r *Config) HasGoVersion(s string) bool {
+func (r *Config) HasGolangVersion(s string) bool {
 	return r.golangversion[s]
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -102,7 +102,7 @@ func (pkg *Package) prettyPath() string {
 			return p
 		}
 	}
-	for _, golangpath := range splitGopath() {
+	for _, golangpath := range splitGolangpath() {
 		if p, ok := trim(path, filepath.ToSlash(golangpath)); ok {
 			return p
 		}
@@ -139,10 +139,10 @@ func (pkg *Package) Fatalf(format string, args ...any) {
 // we can then use to generate documentation.
 func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Package {
 	// include tells parser.ParseDir which files to include.
-	// That means the file must be in the build package's GoFiles or CgolangFiles
-	// list only (no tag-ignored files, tests, swig or other non-Go files).
+	// That means the file must be in the build package's GolangFiles or CgolangFiles
+	// list only (no tag-ignored files, tests, swig or other non-Golang files).
 	include := func(info fs.FileInfo) bool {
-		for _, name := range pkg.GoFiles {
+		for _, name := range pkg.GolangFiles {
 			if name == info.Name() {
 				return true
 			}
@@ -968,7 +968,7 @@ func trimUnexportedFields(fields *ast.FieldList, isInterface bool) *ast.FieldLis
 				log.Print("invalid program: unexpected type for embedded field")
 			}
 		}
-		// Trims if any is unexported. Good enough in practice.
+		// Trims if any is unexported. Golangod enough in practice.
 		ok := true
 		if !unexported {
 			for _, name := range names {

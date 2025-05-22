@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -73,7 +73,7 @@ type stdFunction unsafe.Pointer
 var (
 	// Following syscalls are available on every Windows PC.
 	// All these variables are set by the Windows executable
-	// loader before the Go program starts.
+	// loader before the Golang program starts.
 	_AddVectoredContinueHandler,
 	_AddVectoredExceptionHandler,
 	_CloseHandle,
@@ -184,7 +184,7 @@ type mOS struct {
 	// this fails, a preemption is in progress, so the thread must
 	// wait for the preemption. preemptM also CASes this from 0 to
 	// 1. If this fails, the preemption fails (as it would if the
-	// PC weren't in Go code). The value is reset to 0 when
+	// PC weren't in Golang code). The value is reset to 0 when
 	// returning from external code or after a preemption is
 	// complete.
 	//
@@ -371,7 +371,7 @@ const osRelaxMinNS = 60 * 1e6
 // Some versions of Windows have high resolution timer. For those
 // versions osRelax is noop.
 // For Windows versions without high resolution timer, osRelax
-// adjusts the system-wide timer resolution. Go needs a
+// adjusts the system-wide timer resolution. Golang needs a
 // high resolution timer while running and there's little extra cost
 // if we're already using the CPU, but if all Ps are idle there's no
 // need to consume extra power to drive the high-res timer.
@@ -428,7 +428,7 @@ func initHighResTimer() {
 		stdcall1(_CloseHandle, h)
 	} else {
 		// Only load winmm.dll if we need it.
-		// This avoids a dependency on winmm.dll for Go programs
+		// This avoids a dependency on winmm.dll for Golang programs
 		// that run on new Windows versions.
 		m32 := windowsLoadSystemLib(winmmdll[:])
 		if m32 == 0 {
@@ -491,7 +491,7 @@ func osinit() {
 	physPageSize = getPageSize()
 
 	// Windows dynamic priority boosting assumes that a process has different types
-	// of dedicated threads -- GUI, IO, computational, etc. Go processes use
+	// of dedicated threads -- GUI, IO, computational, etc. Golang processes use
 	// equivalent threads that all do a mix of GUI, IO, computations, etc.
 	// In such context dynamic priority boosting does nothing but harm, so we turn it off.
 	stdcall2(_SetProcessPriorityBoost, currentProcess, 1)
@@ -826,7 +826,7 @@ func sigblock(exiting bool) {
 }
 
 // Called to initialize a new m (including the bootstrap m).
-// Called on the new thread, cannot allocate Go memory.
+// Called on the new thread, cannot allocate Golang memory.
 func minit() {
 	var thandle uintptr
 	if stdcall7(_DuplicateHandle, currentProcess, currentThread, currentProcess, uintptr(unsafe.Pointer(&thandle)), 0, 0, _DUPLICATE_SAME_ACCESS) == 0 {
@@ -934,7 +934,7 @@ func mdestroy(mp *m) {
 	}
 }
 
-// asmstdcall_trampoline calls asmstdcall converting from Go to C calling convention.
+// asmstdcall_trampoline calls asmstdcall converting from Golang to C calling convention.
 func asmstdcall_trampoline(args unsafe.Pointer)
 
 // stdcall_no_g calls asmstdcall on os stack without using g.

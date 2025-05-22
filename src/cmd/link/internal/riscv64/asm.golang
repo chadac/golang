@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -90,11 +90,11 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 			// TODO(jsing): Could convert to non-GOT reference.
 		}
 
-		ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_RISCV_64))
+		ld.AddGolangtSym(target, ldr, syms, targ, uint32(elf.R_RISCV_64))
 		su := ldr.MakeSymbolUpdater(s)
 		su.SetRelocType(rIdx, objabi.R_RISCV_GOT_HI20)
 		su.SetRelocSym(rIdx, syms.GOT)
-		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGot(targ)))
+		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGolangt(targ)))
 		return true
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_RISCV_PCREL_HI20):

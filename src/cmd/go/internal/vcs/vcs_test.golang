@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -325,7 +325,7 @@ func TestIsSecureGitAllowProtocol(t *testing.T) {
 	}
 }
 
-func TestMatchGoImport(t *testing.T) {
+func TestMatchGolangImport(t *testing.T) {
 	tests := []struct {
 		imports []metaImport
 		path    string
@@ -450,7 +450,7 @@ func TestMatchGoImport(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		mi, err := matchGoImport(test.imports, test.path)
+		mi, err := matchGolangImport(test.imports, test.path)
 		if mi != test.mi {
 			t.Errorf("unexpected metaImport; golangt %v, want %v", mi, test.mi)
 		}

@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,14 +26,14 @@ func testBLTU(a, b int64) (r bool)
 func testBLTZ(a int64) (r bool)
 func testBNEZ(a int64) (r bool)
 
-func testGoBGE(a, b int64) bool  { return a >= b }
-func testGoBGEU(a, b int64) bool { return uint64(a) >= uint64(b) }
-func testGoBGT(a, b int64) bool  { return a > b }
-func testGoBGTU(a, b int64) bool { return uint64(a) > uint64(b) }
-func testGoBLE(a, b int64) bool  { return a <= b }
-func testGoBLEU(a, b int64) bool { return uint64(a) <= uint64(b) }
-func testGoBLT(a, b int64) bool  { return a < b }
-func testGoBLTU(a, b int64) bool { return uint64(a) < uint64(b) }
+func testGolangBGE(a, b int64) bool  { return a >= b }
+func testGolangBGEU(a, b int64) bool { return uint64(a) >= uint64(b) }
+func testGolangBGT(a, b int64) bool  { return a > b }
+func testGolangBGTU(a, b int64) bool { return uint64(a) > uint64(b) }
+func testGolangBLE(a, b int64) bool  { return a <= b }
+func testGolangBLEU(a, b int64) bool { return uint64(a) <= uint64(b) }
+func testGolangBLT(a, b int64) bool  { return a < b }
+func testGolangBLTU(a, b int64) bool { return uint64(a) < uint64(b) }
 
 func TestBranchCondition(t *testing.T) {
 	tests := []struct {
@@ -44,46 +44,46 @@ func TestBranchCondition(t *testing.T) {
 		golangFn func(a, b int64) bool
 		want bool
 	}{
-		{"BGE", 0, 1, testBGE, testGoBGE, false},
-		{"BGE", 0, 0, testBGE, testGoBGE, true},
-		{"BGE", 0, -1, testBGE, testGoBGE, true},
-		{"BGE", -1, 0, testBGE, testGoBGE, false},
-		{"BGE", 1, 0, testBGE, testGoBGE, true},
-		{"BGEU", 0, 1, testBGEU, testGoBGEU, false},
-		{"BGEU", 0, 0, testBGEU, testGoBGEU, true},
-		{"BGEU", 0, -1, testBGEU, testGoBGEU, false},
-		{"BGEU", -1, 0, testBGEU, testGoBGEU, true},
-		{"BGEU", 1, 0, testBGEU, testGoBGEU, true},
-		{"BGT", 0, 1, testBGT, testGoBGT, false},
-		{"BGT", 0, 0, testBGT, testGoBGT, false},
-		{"BGT", 0, -1, testBGT, testGoBGT, true},
-		{"BGT", -1, 0, testBGT, testGoBGT, false},
-		{"BGT", 1, 0, testBGT, testGoBGT, true},
-		{"BGTU", 0, 1, testBGTU, testGoBGTU, false},
-		{"BGTU", 0, 0, testBGTU, testGoBGTU, false},
-		{"BGTU", 0, -1, testBGTU, testGoBGTU, false},
-		{"BGTU", -1, 0, testBGTU, testGoBGTU, true},
-		{"BGTU", 1, 0, testBGTU, testGoBGTU, true},
-		{"BLE", 0, 1, testBLE, testGoBLE, true},
-		{"BLE", 0, 0, testBLE, testGoBLE, true},
-		{"BLE", 0, -1, testBLE, testGoBLE, false},
-		{"BLE", -1, 0, testBLE, testGoBLE, true},
-		{"BLE", 1, 0, testBLE, testGoBLE, false},
-		{"BLEU", 0, 1, testBLEU, testGoBLEU, true},
-		{"BLEU", 0, 0, testBLEU, testGoBLEU, true},
-		{"BLEU", 0, -1, testBLEU, testGoBLEU, true},
-		{"BLEU", -1, 0, testBLEU, testGoBLEU, false},
-		{"BLEU", 1, 0, testBLEU, testGoBLEU, false},
-		{"BLT", 0, 1, testBLT, testGoBLT, true},
-		{"BLT", 0, 0, testBLT, testGoBLT, false},
-		{"BLT", 0, -1, testBLT, testGoBLT, false},
-		{"BLT", -1, 0, testBLT, testGoBLT, true},
-		{"BLT", 1, 0, testBLT, testGoBLT, false},
-		{"BLTU", 0, 1, testBLTU, testGoBLTU, true},
-		{"BLTU", 0, 0, testBLTU, testGoBLTU, false},
-		{"BLTU", 0, -1, testBLTU, testGoBLTU, true},
-		{"BLTU", -1, 0, testBLTU, testGoBLTU, false},
-		{"BLTU", 1, 0, testBLTU, testGoBLTU, false},
+		{"BGE", 0, 1, testBGE, testGolangBGE, false},
+		{"BGE", 0, 0, testBGE, testGolangBGE, true},
+		{"BGE", 0, -1, testBGE, testGolangBGE, true},
+		{"BGE", -1, 0, testBGE, testGolangBGE, false},
+		{"BGE", 1, 0, testBGE, testGolangBGE, true},
+		{"BGEU", 0, 1, testBGEU, testGolangBGEU, false},
+		{"BGEU", 0, 0, testBGEU, testGolangBGEU, true},
+		{"BGEU", 0, -1, testBGEU, testGolangBGEU, false},
+		{"BGEU", -1, 0, testBGEU, testGolangBGEU, true},
+		{"BGEU", 1, 0, testBGEU, testGolangBGEU, true},
+		{"BGT", 0, 1, testBGT, testGolangBGT, false},
+		{"BGT", 0, 0, testBGT, testGolangBGT, false},
+		{"BGT", 0, -1, testBGT, testGolangBGT, true},
+		{"BGT", -1, 0, testBGT, testGolangBGT, false},
+		{"BGT", 1, 0, testBGT, testGolangBGT, true},
+		{"BGTU", 0, 1, testBGTU, testGolangBGTU, false},
+		{"BGTU", 0, 0, testBGTU, testGolangBGTU, false},
+		{"BGTU", 0, -1, testBGTU, testGolangBGTU, false},
+		{"BGTU", -1, 0, testBGTU, testGolangBGTU, true},
+		{"BGTU", 1, 0, testBGTU, testGolangBGTU, true},
+		{"BLE", 0, 1, testBLE, testGolangBLE, true},
+		{"BLE", 0, 0, testBLE, testGolangBLE, true},
+		{"BLE", 0, -1, testBLE, testGolangBLE, false},
+		{"BLE", -1, 0, testBLE, testGolangBLE, true},
+		{"BLE", 1, 0, testBLE, testGolangBLE, false},
+		{"BLEU", 0, 1, testBLEU, testGolangBLEU, true},
+		{"BLEU", 0, 0, testBLEU, testGolangBLEU, true},
+		{"BLEU", 0, -1, testBLEU, testGolangBLEU, true},
+		{"BLEU", -1, 0, testBLEU, testGolangBLEU, false},
+		{"BLEU", 1, 0, testBLEU, testGolangBLEU, false},
+		{"BLT", 0, 1, testBLT, testGolangBLT, true},
+		{"BLT", 0, 0, testBLT, testGolangBLT, false},
+		{"BLT", 0, -1, testBLT, testGolangBLT, false},
+		{"BLT", -1, 0, testBLT, testGolangBLT, true},
+		{"BLT", 1, 0, testBLT, testGolangBLT, false},
+		{"BLTU", 0, 1, testBLTU, testGolangBLTU, true},
+		{"BLTU", 0, 0, testBLTU, testGolangBLTU, false},
+		{"BLTU", 0, -1, testBLTU, testGolangBLTU, true},
+		{"BLTU", -1, 0, testBLTU, testGolangBLTU, false},
+		{"BLTU", 1, 0, testBLTU, testGolangBLTU, false},
 	}
 	for _, test := range tests {
 		t.Run(test.ins, func(t *testing.T) {
@@ -91,7 +91,7 @@ func TestBranchCondition(t *testing.T) {
 				t.Errorf("Assembly %v %v, %v = %v, want %v", test.ins, test.a, test.b, golangt, test.want)
 			}
 			if golangt := test.golangFn(test.a, test.b); golangt != test.want {
-				t.Errorf("Go %v %v, %v = %v, want %v", test.ins, test.a, test.b, golangt, test.want)
+				t.Errorf("Golang %v %v, %v = %v, want %v", test.ins, test.a, test.b, golangt, test.want)
 			}
 		})
 	}

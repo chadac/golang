@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -63,19 +63,19 @@ func Example_textMarshal() {
 	// }
 }
 
-// By default, JSON object names for Go struct fields are derived from
-// the Go field name, but may be specified in the `json` tag.
+// By default, JSON object names for Golang struct fields are derived from
+// the Golang field name, but may be specified in the `json` tag.
 // Due to JSON's heritage in JavaScript, the most common naming convention
 // used for JSON object names is camelCase.
 func Example_fieldNames() {
 	var value struct {
 		// This field is explicitly ignored with the special "-" name.
 		Ignored any `json:"-"`
-		// No JSON name is not provided, so the Go field name is used.
-		GoName any
+		// No JSON name is not provided, so the Golang field name is used.
+		GolangName any
 		// A JSON name is provided without any special characters.
 		JSONName any `json:"jsonName"`
-		// No JSON name is not provided, so the Go field name is used.
+		// No JSON name is not provided, so the Golang field name is used.
 		Option any `json:",case:ignore"`
 		// An empty JSON name specified using an single-quoted string literal.
 		Empty any `json:"''"`
@@ -98,7 +98,7 @@ func Example_fieldNames() {
 
 	// Output:
 	// {
-	// 	"GoName": null,
+	// 	"GolangName": null,
 	// 	"jsonName": null,
 	// 	"Option": null,
 	// 	"": null,
@@ -108,7 +108,7 @@ func Example_fieldNames() {
 	// }
 }
 
-// Unmarshal matches JSON object names with Go struct fields using
+// Unmarshal matches JSON object names with Golang struct fields using
 // a case-sensitive match, but can be configured to use a case-insensitive
 // match with the "case:ignore" option. This permits unmarshaling from inputs
 // that use naming conventions such as camelCase, snake_case, or kebab-case.
@@ -150,9 +150,9 @@ func Example_caseSensitivity() {
 	// [{true} {true} {true} {true} {true} {true} {true} {true} {false}]
 }
 
-// Go struct fields can be omitted from the output depending on either
-// the input Go value or the output JSON encoding of the value.
-// The "omitzero" option omits a field if it is the zero Go value or
+// Golang struct fields can be omitted from the output depending on either
+// the input Golang value or the output JSON encoding of the value.
+// The "omitzero" option omits a field if it is the zero Golang value or
 // implements a "IsZero() bool" method that reports true.
 // The "omitempty" option omits a field if it encodes as an empty JSON value,
 // which we define as a JSON null or empty JSON string, object, or array.
@@ -186,33 +186,33 @@ func Example_omitFields() {
 		InterfaceNil any         `json:",omitzero"`
 		Interface    any         `json:",omitzero"`
 	}{
-		// Bool is omitted since false is the zero value for a Go bool.
+		// Bool is omitted since false is the zero value for a Golang bool.
 		Bool: false,
-		// Int is omitted since 0 is the zero value for a Go int.
+		// Int is omitted since 0 is the zero value for a Golang int.
 		Int: 0,
-		// String is omitted since "" is the zero value for a Go string.
+		// String is omitted since "" is the zero value for a Golang string.
 		String: "",
 		// Time is omitted since time.Time.IsZero reports true.
 		Time: time.Date(1, 1, 1, 0, 0, 0, 0, time.UTC),
-		// Addr is omitted since netip.Addr{} is the zero value for a Go struct.
+		// Addr is omitted since netip.Addr{} is the zero value for a Golang struct.
 		Addr: netip.Addr{},
-		// Struct is NOT omitted since it is not the zero value for a Go struct.
+		// Struct is NOT omitted since it is not the zero value for a Golang struct.
 		Struct: MyStruct{Bar: []int{}, Baz: new(MyStruct)},
-		// SliceNil is omitted since nil is the zero value for a Go slice.
+		// SliceNil is omitted since nil is the zero value for a Golang slice.
 		SliceNil: nil,
-		// Slice is NOT omitted since []int{} is not the zero value for a Go slice.
+		// Slice is NOT omitted since []int{} is not the zero value for a Golang slice.
 		Slice: []int{},
-		// MapNil is omitted since nil is the zero value for a Go map.
+		// MapNil is omitted since nil is the zero value for a Golang map.
 		MapNil: nil,
-		// Map is NOT omitted since map[int]int{} is not the zero value for a Go map.
+		// Map is NOT omitted since map[int]int{} is not the zero value for a Golang map.
 		Map: map[int]int{},
-		// PointerNil is omitted since nil is the zero value for a Go pointer.
+		// PointerNil is omitted since nil is the zero value for a Golang pointer.
 		PointerNil: nil,
-		// Pointer is NOT omitted since new(string) is not the zero value for a Go pointer.
+		// Pointer is NOT omitted since new(string) is not the zero value for a Golang pointer.
 		Pointer: new(string),
-		// InterfaceNil is omitted since nil is the zero value for a Go interface.
+		// InterfaceNil is omitted since nil is the zero value for a Golang interface.
 		InterfaceNil: nil,
-		// Interface is NOT omitted since (*string)(nil) is not the zero value for a Go interface.
+		// Interface is NOT omitted since (*string)(nil) is not the zero value for a Golang interface.
 		Interface: (*string)(nil),
 	})
 	if err != nil {
@@ -283,8 +283,8 @@ func Example_omitFields() {
 }
 
 // JSON objects can be inlined within a parent object similar to
-// how Go structs can be embedded within a parent struct.
-// The inlining rules are similar to those of Go embedding,
+// how Golang structs can be embedded within a parent struct.
+// The inlining rules are similar to those of Golang embedding,
 // but operates upon the JSON namespace.
 func Example_inlinedFields() {
 	// Base is embedded within Container.
@@ -304,7 +304,7 @@ func Example_inlinedFields() {
 		Base
 		// Type takes precedence over Base.Type.
 		Type int
-		// Inlined is a named Go field, but is explicitly JSON inlined.
+		// Inlined is a named Golang field, but is explicitly JSON inlined.
 		Inlined struct {
 			// User is promoted into the JSON object for Container.
 			User string
@@ -352,14 +352,14 @@ func Example_unknownMembers() {
 		Name  string
 		Value string
 
-		// Unknown is a Go struct field that holds unknown JSON object members.
+		// Unknown is a Golang struct field that holds unknown JSON object members.
 		// It is marked as having this behavior with the "unknown" tag option.
 		//
 		// The type may be a jsontext.Value or map[string]T.
 		Unknown jsontext.Value `json:",unknown"`
 	}
 
-	// By default, unknown members are stored in a Go field marked as "unknown"
+	// By default, unknown members are stored in a Golang field marked as "unknown"
 	// or ignored if no such field exists.
 	var color Color
 	err := json.Unmarshal([]byte(input), &color)
@@ -377,7 +377,7 @@ func Example_unknownMembers() {
 	}
 
 	// By default, Marshal preserves unknown members stored in
-	// a Go struct field marked as "unknown".
+	// a Golang struct field marked as "unknown".
 	b, err := json.Marshal(color)
 	if err != nil {
 		log.Fatal(err)
@@ -489,7 +489,7 @@ func Example_serveHTTP() {
 	})
 }
 
-// Some Go types have a custom JSON representation where the implementation
+// Some Golang types have a custom JSON representation where the implementation
 // is delegated to some external package. Consequently, the "json" package
 // will not know how to use that external implementation.
 // For example, the [golangogle.golanglang.org/protobuf/encoding/protojson] package
@@ -511,9 +511,9 @@ func Example_protoJSON() {
 	// It should use the "json" package to handle non-proto.Message types and
 	// should use the "protojson" package to handle proto.Message types.
 	var value struct {
-		// GoStruct does not implement proto.Message and
+		// GolangStruct does not implement proto.Message and
 		// should use the default behavior of the "json" package.
-		GoStruct struct {
+		GolangStruct struct {
 			Name string
 			Age  int
 		}
@@ -540,12 +540,12 @@ func Example_protoJSON() {
 	}
 }
 
-// Many error types are not serializable since they tend to be Go structs
+// Many error types are not serializable since they tend to be Golang structs
 // without any exported fields (e.g., errors constructed with [errors.New]).
 // Some applications, may desire to marshal an error as a JSON string
 // even if these errors cannot be unmarshaled.
 func ExampleWithMarshalers_errors() {
-	// Response to serialize with some Go errors encountered.
+	// Response to serialize with some Golang errors encountered.
 	response := []struct {
 		Result string `json:",omitzero"`
 		Error  error  `json:",omitzero"`
@@ -605,7 +605,7 @@ func ExampleWithUnmarshalers_rawNumber() {
 		json.WithUnmarshalers(
 			json.UnmarshalFromFunc(func(dec *jsontext.Decoder, val *any) error {
 				// If the next value to be decoded is a JSON number,
-				// then provide a concrete Go type to unmarshal into.
+				// then provide a concrete Golang type to unmarshal into.
 				if dec.PeekKind() == '0' {
 					*val = jsontext.Value(nil)
 				}
@@ -643,7 +643,7 @@ func ExampleWithUnmarshalers_recordOffsets() {
 		Destination netip.AddrPort
 
 		// ByteOffset is populated during unmarshal with the byte offset
-		// within the JSON input of the JSON object for this Go struct.
+		// within the JSON input of the JSON object for this Golang struct.
 		ByteOffset int64 `json:"-"` // metadata to be ignored for JSON serialization
 	}
 

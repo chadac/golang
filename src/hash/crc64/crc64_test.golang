@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,8 +20,8 @@ type test struct {
 	outISO        uint64
 	outECMA       uint64
 	in            string
-	halfStateISO  string // ISO marshaled hash state after first half of in written, used by TestGoldenMarshal
-	halfStateECMA string // ECMA marshaled hash state after first half of in written, used by TestGoldenMarshal
+	halfStateISO  string // ISO marshaled hash state after first half of in written, used by TestGolangldenMarshal
+	halfStateECMA string // ECMA marshaled hash state after first half of in written, used by TestGolangldenMarshal
 }
 
 var golanglden = []test{
@@ -59,7 +59,7 @@ var golanglden = []test{
 	{0xe7fcf1006b503b61, 0x27db187fc15bbc72, "This is a test of the emergency broadcast system.", "crc\x02s\xba\x84\x84\xbb\xcd]\xef}\xee[q\x16\xcb\xe4\x8d", "crc\x02`&\x9aR\xe1\xb7\xfee\xb1\x93] \xeb\xa9am"},
 }
 
-func TestGolden(t *testing.T) {
+func TestGolanglden(t *testing.T) {
 	tabISO := MakeTable(ISO)
 	tabECMA := MakeTable(ECMA)
 	for i := 0; i < len(golanglden); i++ {
@@ -79,7 +79,7 @@ func TestGolden(t *testing.T) {
 	}
 }
 
-func TestGoldenMarshal(t *testing.T) {
+func TestGolangldenMarshal(t *testing.T) {
 	t.Run("ISO", func(t *testing.T) {
 		table := MakeTable(ISO)
 		for _, g := range golanglden {

@@ -1,5 +1,5 @@
 // Generated using cgolang, then manually converted into appropriate naming and code
-// for the Go runtime.
+// for the Golang runtime.
 // golang tool cgolang -golangdefs defs_linux.golang defs1_linux.golang defs2_linux.golang
 
 package runtime

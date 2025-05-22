@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,7 +21,7 @@ func TestLargeText(t *testing.T) {
 	if testing.Short() || (buildcfg.GOARCH != "ppc64le" && buildcfg.GOARCH != "ppc64" && buildcfg.GOARCH != "arm") {
 		t.Skipf("Skipping large text section test in short mode or on %s", buildcfg.GOARCH)
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	var w bytes.Buffer
 	const FN = 4
@@ -82,7 +82,7 @@ func TestLargeText(t *testing.T) {
 	}
 
 	// Build and run with internal linking.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", "bigtext")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", "bigtext")
 	cmd.Dir = tmpdir
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -96,7 +96,7 @@ func TestLargeText(t *testing.T) {
 	}
 
 	// Build and run with external linking
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "build", "-o", "bigtext", "-ldflags", "-linkmode=external")
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", "bigtext", "-ldflags", "-linkmode=external")
 	cmd.Dir = tmpdir
 	out, err = cmd.CombinedOutput()
 	if err != nil {

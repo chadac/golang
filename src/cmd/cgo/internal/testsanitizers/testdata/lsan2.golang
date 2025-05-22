@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -35,7 +35,7 @@ func clearStack(n int) {
 
 func main() {
 	// Test should pass: memory allocated by C does not leak
-	// because a Go global variable points to it.
+	// because a Golang global variable points to it.
 	F()
 	clearStack(100)
 	C.clearStack(100)

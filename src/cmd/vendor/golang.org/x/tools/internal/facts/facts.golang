@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -145,7 +145,7 @@ func (s *Set) AllPackageFacts(filter map[reflect.Type]bool) []analysis.PackageFa
 	return facts
 }
 
-// golangbFact is the Gob declaration of a serialized fact.
+// golangbFact is the Golangb declaration of a serialized fact.
 type golangbFact struct {
 	PkgPath string          // path of package
 	Object  objectpath.Path // optional path of object relative to package itself

@@ -3,4 +3,4 @@ Test vectors and certificates for the "Path Validation Testing Program"
 
 Vectors are extracted from the provided PDF: https://csrc.nist.golangv/CSRC/media/Projects/PKI-Testing/documents/PKITS.pdf.
 
-Vectors and test material are public domain (United States Government Work under 17 U.S.C. 105).
+Vectors and test material are public domain (United States Golangvernment Work under 17 U.S.C. 105).

@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,8 +15,8 @@ import (
 // TestInst tests that only one instantiation of Sort is created, even though generic
 // Sort is used for multiple pointer types across two packages.
 func TestInst(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangBuild(t)
+	testenv.MustHaveGolangRun(t)
 
 	// Build ptrsort.golang, which uses package mysort.
 	var output []byte
@@ -24,7 +24,7 @@ func TestInst(t *testing.T) {
 	filename := "ptrsort.golang"
 	exename := "ptrsort"
 	outname := "ptrsort.out"
-	golangtool := testenv.GoToolPath(t)
+	golangtool := testenv.GolangToolPath(t)
 	dest := filepath.Join(t.TempDir(), exename)
 	cmd := testenv.Command(t, golangtool, "build", "-o", dest, filepath.Join("testdata", filename))
 	if output, err = cmd.CombinedOutput(); err != nil {

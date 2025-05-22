@@ -3,7 +3,7 @@
 
 ! golang test -v examplegolangexit
 stdout '(?s)--- PASS.*--- FAIL.*'
-stdout 'panic: test executed panic\(nil\) or runtime\.Goexit'
+stdout 'panic: test executed panic\(nil\) or runtime\.Golangexit'
 
 -- golang.mod --
 module examplegolangexit
@@ -24,6 +24,6 @@ func Example_pass() {
 }
 
 func Example_golangexit() {
-	runtime.Goexit()
+	runtime.Golangexit()
 	// Output:
 }

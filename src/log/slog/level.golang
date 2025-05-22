@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,7 +32,7 @@ type Level int
 // of 0 accepts all events at least as severe as INFO.
 //
 // Third, we wanted some room between levels to accommodate schemes with named
-// levels between ours. For example, Google Cloud Logging defines a Notice level
+// levels between ours. For example, Golangogle Cloud Logging defines a Notice level
 // between Info and Warn. Since there are only a few of these intermediate
 // levels, the gap between the numbers need not be large. Our gap of 4 matches
 // OpenTelemetry's mapping. Subtracting 9 from an OpenTelemetry level in the

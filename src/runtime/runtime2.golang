@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -213,21 +213,21 @@ func efaceOf(ep *any) *eface {
 // nothing ever hold an muintptr across a safe point.
 
 // A guintptr holds a golangroutine pointer, but typed as a uintptr
-// to bypass write barriers. It is used in the Gobuf golangroutine state
+// to bypass write barriers. It is used in the Golangbuf golangroutine state
 // and in scheduling lists that are manipulated without a P.
 //
-// The Gobuf.g golangroutine pointer is almost always updated by assembly code.
-// In one of the few places it is updated by Go code - func save - it must be
+// The Golangbuf.g golangroutine pointer is almost always updated by assembly code.
+// In one of the few places it is updated by Golang code - func save - it must be
 // treated as a uintptr to avoid a write barrier being emitted at a bad time.
 // Instead of figuring out how to emit the write barriers missing in the
 // assembly manipulation, we change the type of the field to uintptr,
 // so that it does not require write barriers at all.
 //
-// Goroutine structs are published in the allg list and never freed.
+// Golangroutine structs are published in the allg list and never freed.
 // That will keep the golangroutine structs from being collected.
-// There is never a time that Gobuf.g's contain the only references
+// There is never a time that Golangbuf.g's contain the only references
 // to a golangroutine: the publishing of the golangroutine in allg comes first.
-// Goroutine pointers are also kept in non-GC-visible places like TLS,
+// Golangroutine pointers are also kept in non-GC-visible places like TLS,
 // so I can't see them ever moving. If we did want to start moving data
 // in the GC, we'd need to allocate the golangroutine structs from an
 // alternate arena. Using guintptr doesn't make that problem any worse.
@@ -305,7 +305,7 @@ type golangbuf struct {
 	// the real register and the golangbuf. Hence, we treat it as a
 	// root during stack scanning, which means assembly that saves
 	// and restores it doesn't need write barriers. It's still
-	// typed as a pointer so that any other writes from Go get
+	// typed as a pointer so that any other writes from Golang get
 	// write barriers.
 	sp   uintptr
 	pc   uintptr
@@ -377,7 +377,7 @@ type libcall struct {
 	err  uintptr // error number
 }
 
-// Stack describes a Go execution stack.
+// Stack describes a Golang execution stack.
 // The bounds of the stack are exactly [lo, hi),
 // with no implicit data structures on either side.
 type stack struct {
@@ -394,7 +394,7 @@ type heldLockInfo struct {
 type g struct {
 	// Stack parameters.
 	// stack describes the actual stack memory: [stack.lo, stack.hi).
-	// stackguard0 is the stack pointer compared in the Go stack growth prologue.
+	// stackguard0 is the stack pointer compared in the Golang stack growth prologue.
 	// It is stack.lo+StackGuard normally, but can be StackPreempt to trigger a preemption.
 	// stackguard1 is the stack pointer compared in the //golang:systemstack stack growth prologue.
 	// It is stack.lo+StackGuard on g0 and gsignal stacks.
@@ -472,7 +472,7 @@ type g struct {
 	sigcode0        uintptr
 	sigcode1        uintptr
 	sigpc           uintptr
-	parentGoid      uint64          // golangid of golangroutine that created this golangroutine
+	parentGolangid      uint64          // golangid of golangroutine that created this golangroutine
 	golangpc            uintptr         // pc of golang statement that created this golangroutine
 	ancestors       *[]ancestorInfo // ancestor information golangroutine(s) that created this golangroutine (only used if debug.tracebackancestors)
 	startpc         uintptr         // pc of golangroutine function
@@ -536,7 +536,7 @@ type m struct {
 	// Fields not known to debuggers.
 	procid          uint64            // for debuggers, but offset not hard-coded
 	gsignal         *g                // signal-handling g
-	golangSigStack      gsignalStack      // Go-allocated signal handling stack
+	golangSigStack      gsignalStack      // Golang-allocated signal handling stack
 	sigmask         sigset            // storage for saved signal mask
 	tls             [tlsSlots]uintptr // thread-local storage (for x86 extern register)
 	mstartfn        func()
@@ -558,7 +558,7 @@ type m struct {
 	printlock       int8
 	incgolang           bool          // m is executing a cgolang call
 	isextra         bool          // m is an extra m
-	isExtraInC      bool          // m is an extra m that does not have any Go frames
+	isExtraInC      bool          // m is an extra m that does not have any Golang frames
 	isExtraInSig    bool          // m is an extra m in a signal handler
 	freeWait        atomic.Uint32 // Whether it is safe to free g0 and delete m (one of freeMRef, freeMStack, freeMWait)
 	needextram      bool
@@ -891,7 +891,7 @@ const (
 	_SigThrow                // if signal.Notify doesn't take it, exit loudly
 	_SigPanic                // if the signal is from the kernel, panic
 	_SigDefault              // if the signal isn't explicitly requested, don't monitor it
-	_SigGoExit               // cause all runtime procs to exit (only used on Plan 9).
+	_SigGolangExit               // cause all runtime procs to exit (only used on Plan 9).
 	_SigSetStack             // Don't explicitly install handler, but add SA_ONSTACK to existing libc handler
 	_SigUnblock              // always unblock; see blockableSig
 	_SigIgn                  // _SIG_DFL action is to ignore the signal
@@ -1086,7 +1086,7 @@ const (
 	waitReasonGCMarkTermination                       // "GC mark termination"
 	waitReasonStoppingTheWorld                        // "stopping the world"
 	waitReasonFlushProcCaches                         // "flushing proc caches"
-	waitReasonTraceGoroutineStatus                    // "trace golangroutine status"
+	waitReasonTraceGolangroutineStatus                    // "trace golangroutine status"
 	waitReasonTraceProcStatus                         // "trace proc status"
 	waitReasonPageTraceFlush                          // "page trace flush"
 	waitReasonCoroutine                               // "coroutine"
@@ -1135,7 +1135,7 @@ var waitReasonStrings = [...]string{
 	waitReasonGCMarkTermination:     "GC mark termination",
 	waitReasonStoppingTheWorld:      "stopping the world",
 	waitReasonFlushProcCaches:       "flushing proc caches",
-	waitReasonTraceGoroutineStatus:  "trace golangroutine status",
+	waitReasonTraceGolangroutineStatus:  "trace golangroutine status",
 	waitReasonTraceProcStatus:       "trace proc status",
 	waitReasonPageTraceFlush:        "page trace flush",
 	waitReasonCoroutine:             "coroutine",
@@ -1176,7 +1176,7 @@ var isWaitingForGC = [len(waitReasonStrings)]bool{
 	waitReasonGCMarkTermination:     true,
 	waitReasonGarbageCollection:     true,
 	waitReasonGarbageCollectionScan: true,
-	waitReasonTraceGoroutineStatus:  true,
+	waitReasonTraceGolangroutineStatus:  true,
 	waitReasonTraceProcStatus:       true,
 	waitReasonPageTraceFlush:        true,
 	waitReasonGCAssistMarking:       true,

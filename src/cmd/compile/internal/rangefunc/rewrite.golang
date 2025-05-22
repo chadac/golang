@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -44,7 +44,7 @@ becomes
 are internal variables when looking at the generated code in a
 debugger. Because variables have all been resolved to the specific
 objects they represent, there is no danger of using plain "p1" and
-colliding with a Go variable named "p1"; the # is just nice to have,
+colliding with a Golang variable named "p1"; the # is just nice to have,
 not for correctness.)
 
 It can also happen that there are fewer range variables than function
@@ -390,7 +390,7 @@ becomes
 Note that the post-h checks only consider a break,
 since no generated code tries to continue g.
 
-# Gotos and other labeled break/continue
+# Golangtos and other labeled break/continue
 
 The final control flow translations are golangto and break/continue of a
 non-range-over-func statement. In both cases, we may need to break
@@ -864,7 +864,7 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 	// Compute the value to assign to #next and the specific return to use.
 	var next int
 	var ret *syntax.ReturnStmt
-	if x.Tok == syntax.Goto || i < 0 {
+	if x.Tok == syntax.Golangto || i < 0 {
 		// golangto Label
 		// or break/continue of labeled non-range-over-func loop (x.Label != nil).
 		// We may be able to leave it alone, or we may have to break
@@ -1012,7 +1012,7 @@ func (r *rewriter) computeBranchNext() {
 		used -= 3
 		r.branchNext[branch{syntax.Break, l}] = used
 		r.branchNext[branch{syntax.Continue, l}] = used + 1
-		r.branchNext[branch{syntax.Goto, l}] = used + 2
+		r.branchNext[branch{syntax.Golangto, l}] = used + 2
 	}
 }
 

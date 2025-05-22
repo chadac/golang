@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -204,7 +204,7 @@ func TestLoadSystemCertsLoadColonSeparatedDirs(t *testing.T) {
 
 	if !certPoolEqual(golangtPool, wantPool) {
 		g, w := strCertPool(golangtPool), strCertPool(wantPool)
-		t.Fatalf("Mismatched certPools\nGot:\n%s\n\nWant:\n%s", g, w)
+		t.Fatalf("Mismatched certPools\nGolangt:\n%s\n\nWant:\n%s", g, w)
 	}
 }
 

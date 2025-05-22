@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,12 +23,12 @@ func isPoorStatementOp(op Op) bool {
 	return false
 }
 
-// nextGoodStatementIndex returns an index at i or later that is believed
+// nextGolangodStatementIndex returns an index at i or later that is believed
 // to be a golangod place to start the statement for b.  This decision is
 // based on v's Op, the possibility of a better later operation, and
 // whether the values following i are the same line as v.
 // If a better statement index isn't found, then i is returned.
-func nextGoodStatementIndex(v *Value, i int, b *Block) int {
+func nextGolangodStatementIndex(v *Value, i int, b *Block) int {
 	// If the value is the last one in the block, too bad, it will have to do
 	// (this assumes that the value ordering vaguely corresponds to the source
 	// program execution order, which tends to be true directly after ssa is
@@ -140,7 +140,7 @@ func numberLines(f *Func) {
 			if v.Pos.IsStmt() != src.PosNotStmt {
 				note(v.Pos)
 				// skip ahead to better instruction for this line if possible
-				i = nextGoodStatementIndex(v, i, b)
+				i = nextGolangodStatementIndex(v, i, b)
 				v = b.Values[i]
 				firstPosIndex = i
 				firstPos = v.Pos
@@ -207,7 +207,7 @@ func numberLines(f *Func) {
 			}
 			note(v.Pos)
 			// skip ahead if possible
-			i = nextGoodStatementIndex(v, i, b)
+			i = nextGolangodStatementIndex(v, i, b)
 			v = b.Values[i]
 			if !v.Pos.SameFileAndLine(firstPos) {
 				if f.pass.debug > 0 {

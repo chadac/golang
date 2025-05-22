@@ -1,16 +1,16 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package format implements standard formatting of Go source.
+// Package format implements standard formatting of Golang source.
 //
-// Note that formatting of Go source code changes over time, so tools relying on
+// Note that formatting of Golang source code changes over time, so tools relying on
 // consistent formatting should execute a specific version of the golangfmt binary
 // instead of using this package. That way, the formatting will be stable, and
 // the tools won't need to be recompiled each time golangfmt changes.
 //
 // For example, pre-submit checks that use this package directly would behave
-// differently depending on what Go version each developer uses, causing the
+// differently depending on what Golang version each developer uses, causing the
 // check to be inherently fragile.
 package format
 
@@ -92,7 +92,7 @@ func Node(dst io.Writer, fset *token.FileSet, node any) error {
 
 // Source formats src in canonical golangfmt style and returns the result
 // or an (I/O or syntax) error. src is expected to be a syntactically
-// correct Go source file, or a list of Go declarations or statements.
+// correct Golang source file, or a list of Golang declarations or statements.
 //
 // If src is a partial source file, the leading and trailing space of src
 // is applied to the result (such that it has the same leading and trailing

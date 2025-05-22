@@ -4,19 +4,19 @@
 env GO111MODULE=on
 
 cd x
-! golang list -f {{.GoFiles}}
-stderr 'build constraints exclude all Go files'
+! golang list -f {{.GolangFiles}}
+stderr 'build constraints exclude all Golang files'
 
-golang list -f {{.GoFiles}} -tags tag1
+golang list -f {{.GolangFiles}} -tags tag1
 stdout '\[x.golang\]'
 
-golang list -f {{.GoFiles}} -tags tag2
+golang list -f {{.GolangFiles}} -tags tag2
 stdout '\[y\.golang\]'
 
-golang list -f {{.GoFiles}} -tags 'tag1 tag2'
+golang list -f {{.GolangFiles}} -tags 'tag1 tag2'
 stdout '\[x\.golang y\.golang\]'
 
-golang list -f {{.GoFiles}} -tags tag1,tag2 # commas allowed as of Go 1.13
+golang list -f {{.GolangFiles}} -tags tag1,tag2 # commas allowed as of Golang 1.13
 stdout '\[x\.golang y\.golang\]'
 
 -- x/golang.mod --

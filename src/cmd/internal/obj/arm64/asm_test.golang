@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ func runAssembler(t *testing.T, srcdata string) []byte {
 	srcfile := filepath.Join(dir, "testdata.s")
 	outfile := filepath.Join(dir, "testdata.o")
 	os.WriteFile(srcfile, []byte(srcdata), 0644)
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-S", "-o", outfile, srcfile)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-S", "-o", outfile, srcfile)
 	cmd.Env = append(os.Environ(), "GOOS=linux", "GOARCH=arm64")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -190,7 +190,7 @@ func TestLarge(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skip in short mode")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// generate a very large function
 	buf := bytes.NewBuffer(make([]byte, 0, 7000000))
@@ -228,7 +228,7 @@ func TestNoRet(t *testing.T) {
 // TestPCALIGN verifies the correctness of the PCALIGN by checking if the
 // code can be aligned to the alignment value.
 func TestPCALIGN(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	code1 := "TEXT ·foo(SB),$0-0\nMOVD $0, R0\nPCALIGN $8\nMOVD $1, R1\nRET\n"
 	code2 := "TEXT ·foo(SB),$0-0\nMOVD $0, R0\nPCALIGN $16\nMOVD $2, R2\nRET\n"

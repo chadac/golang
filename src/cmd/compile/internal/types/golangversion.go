@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,9 +24,9 @@ type lang struct {
 // any language version is supported.
 var langWant lang
 
-// AllowsGoVersion reports whether local package is allowed
-// to use Go version major.minor.
-func AllowsGoVersion(major, minor int) bool {
+// AllowsGolangVersion reports whether local package is allowed
+// to use Golang version major.minor.
+func AllowsGolangVersion(major, minor int) bool {
 	if langWant.major == 0 && langWant.minor == 0 {
 		return true
 	}
@@ -34,7 +34,7 @@ func AllowsGoVersion(major, minor int) bool {
 }
 
 // ParseLangFlag verifies that the -lang flag holds a valid value, and
-// exits if not. It initializes data used by AllowsGoVersion.
+// exits if not. It initializes data used by AllowsGolangVersion.
 func ParseLangFlag() {
 	if base.Flag.Lang == "" {
 		return

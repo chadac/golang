@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -42,7 +42,7 @@ func New(h func() hash.Hash, key []byte) hash.Hash {
 		if hm != nil {
 			return hm
 		}
-		// BoringCrypto did not recognize h, so fall through to standard Go code.
+		// BoringCrypto did not recognize h, so fall through to standard Golang code.
 	}
 	h = fips140hash.UnwrapNew(h)
 	if fips140only.Enabled {

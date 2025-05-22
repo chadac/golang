@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -104,15 +104,15 @@ func ExampleCut() {
 		before, after, found := strings.Cut(s, sep)
 		fmt.Printf("Cut(%q, %q) = %q, %q, %v\n", s, sep, before, after, found)
 	}
-	show("Gopher", "Go")
-	show("Gopher", "ph")
-	show("Gopher", "er")
-	show("Gopher", "Badger")
+	show("Golangpher", "Golang")
+	show("Golangpher", "ph")
+	show("Golangpher", "er")
+	show("Golangpher", "Badger")
 	// Output:
-	// Cut("Gopher", "Go") = "", "pher", true
-	// Cut("Gopher", "ph") = "Go", "er", true
-	// Cut("Gopher", "er") = "Goph", "", true
-	// Cut("Gopher", "Badger") = "Gopher", "", false
+	// Cut("Golangpher", "Golang") = "", "pher", true
+	// Cut("Golangpher", "ph") = "Golang", "er", true
+	// Cut("Golangpher", "er") = "Golangph", "", true
+	// Cut("Golangpher", "Badger") = "Golangpher", "", false
 }
 
 func ExampleCutPrefix() {
@@ -120,11 +120,11 @@ func ExampleCutPrefix() {
 		after, found := strings.CutPrefix(s, prefix)
 		fmt.Printf("CutPrefix(%q, %q) = %q, %v\n", s, prefix, after, found)
 	}
-	show("Gopher", "Go")
-	show("Gopher", "ph")
+	show("Golangpher", "Golang")
+	show("Golangpher", "ph")
 	// Output:
-	// CutPrefix("Gopher", "Go") = "pher", true
-	// CutPrefix("Gopher", "ph") = "Gopher", false
+	// CutPrefix("Golangpher", "Golang") = "pher", true
+	// CutPrefix("Golangpher", "ph") = "Golangpher", false
 }
 
 func ExampleCutSuffix() {
@@ -132,15 +132,15 @@ func ExampleCutSuffix() {
 		before, found := strings.CutSuffix(s, suffix)
 		fmt.Printf("CutSuffix(%q, %q) = %q, %v\n", s, suffix, before, found)
 	}
-	show("Gopher", "Go")
-	show("Gopher", "er")
+	show("Golangpher", "Golang")
+	show("Golangpher", "er")
 	// Output:
-	// CutSuffix("Gopher", "Go") = "Gopher", false
-	// CutSuffix("Gopher", "er") = "Goph", true
+	// CutSuffix("Golangpher", "Golang") = "Golangpher", false
+	// CutSuffix("Golangpher", "er") = "Golangph", true
 }
 
 func ExampleEqualFold() {
-	fmt.Println(strings.EqualFold("Go", "golang"))
+	fmt.Println(strings.EqualFold("Golang", "golang"))
 	fmt.Println(strings.EqualFold("AB", "ab")) // true because comparison uses simple case-folding
 	fmt.Println(strings.EqualFold("ß", "ss"))  // false because comparison does not use full case-folding
 	// Output:
@@ -163,9 +163,9 @@ func ExampleFieldsFunc() {
 }
 
 func ExampleHasPrefix() {
-	fmt.Println(strings.HasPrefix("Gopher", "Go"))
-	fmt.Println(strings.HasPrefix("Gopher", "C"))
-	fmt.Println(strings.HasPrefix("Gopher", ""))
+	fmt.Println(strings.HasPrefix("Golangpher", "Golang"))
+	fmt.Println(strings.HasPrefix("Golangpher", "C"))
+	fmt.Println(strings.HasPrefix("Golangpher", ""))
 	// Output:
 	// true
 	// false
@@ -373,7 +373,7 @@ func ExampleNewReplacer() {
 }
 
 func ExampleToUpper() {
-	fmt.Println(strings.ToUpper("Gopher"))
+	fmt.Println(strings.ToUpper("Golangpher"))
 	// Output: GOPHER
 }
 
@@ -383,7 +383,7 @@ func ExampleToUpperSpecial() {
 }
 
 func ExampleToLower() {
-	fmt.Println(strings.ToLower("Gopher"))
+	fmt.Println(strings.ToLower("Golangpher"))
 	// Output: golangpher
 }
 
@@ -393,60 +393,60 @@ func ExampleToLowerSpecial() {
 }
 
 func ExampleTrim() {
-	fmt.Print(strings.Trim("¡¡¡Hello, Gophers!!!", "!¡"))
-	// Output: Hello, Gophers
+	fmt.Print(strings.Trim("¡¡¡Hello, Golangphers!!!", "!¡"))
+	// Output: Hello, Golangphers
 }
 
 func ExampleTrimSpace() {
-	fmt.Println(strings.TrimSpace(" \t\n Hello, Gophers \n\t\r\n"))
-	// Output: Hello, Gophers
+	fmt.Println(strings.TrimSpace(" \t\n Hello, Golangphers \n\t\r\n"))
+	// Output: Hello, Golangphers
 }
 
 func ExampleTrimPrefix() {
-	var s = "¡¡¡Hello, Gophers!!!"
+	var s = "¡¡¡Hello, Golangphers!!!"
 	s = strings.TrimPrefix(s, "¡¡¡Hello, ")
 	s = strings.TrimPrefix(s, "¡¡¡Howdy, ")
 	fmt.Print(s)
-	// Output: Gophers!!!
+	// Output: Golangphers!!!
 }
 
 func ExampleTrimSuffix() {
-	var s = "¡¡¡Hello, Gophers!!!"
-	s = strings.TrimSuffix(s, ", Gophers!!!")
+	var s = "¡¡¡Hello, Golangphers!!!"
+	s = strings.TrimSuffix(s, ", Golangphers!!!")
 	s = strings.TrimSuffix(s, ", Marmots!!!")
 	fmt.Print(s)
 	// Output: ¡¡¡Hello
 }
 
 func ExampleTrimFunc() {
-	fmt.Print(strings.TrimFunc("¡¡¡Hello, Gophers!!!", func(r rune) bool {
+	fmt.Print(strings.TrimFunc("¡¡¡Hello, Golangphers!!!", func(r rune) bool {
 		return !unicode.IsLetter(r) && !unicode.IsNumber(r)
 	}))
-	// Output: Hello, Gophers
+	// Output: Hello, Golangphers
 }
 
 func ExampleTrimLeft() {
-	fmt.Print(strings.TrimLeft("¡¡¡Hello, Gophers!!!", "!¡"))
-	// Output: Hello, Gophers!!!
+	fmt.Print(strings.TrimLeft("¡¡¡Hello, Golangphers!!!", "!¡"))
+	// Output: Hello, Golangphers!!!
 }
 
 func ExampleTrimLeftFunc() {
-	fmt.Print(strings.TrimLeftFunc("¡¡¡Hello, Gophers!!!", func(r rune) bool {
+	fmt.Print(strings.TrimLeftFunc("¡¡¡Hello, Golangphers!!!", func(r rune) bool {
 		return !unicode.IsLetter(r) && !unicode.IsNumber(r)
 	}))
-	// Output: Hello, Gophers!!!
+	// Output: Hello, Golangphers!!!
 }
 
 func ExampleTrimRight() {
-	fmt.Print(strings.TrimRight("¡¡¡Hello, Gophers!!!", "!¡"))
-	// Output: ¡¡¡Hello, Gophers
+	fmt.Print(strings.TrimRight("¡¡¡Hello, Golangphers!!!", "!¡"))
+	// Output: ¡¡¡Hello, Golangphers
 }
 
 func ExampleTrimRightFunc() {
-	fmt.Print(strings.TrimRightFunc("¡¡¡Hello, Gophers!!!", func(r rune) bool {
+	fmt.Print(strings.TrimRightFunc("¡¡¡Hello, Golangphers!!!", func(r rune) bool {
 		return !unicode.IsLetter(r) && !unicode.IsNumber(r)
 	}))
-	// Output: ¡¡¡Hello, Gophers
+	// Output: ¡¡¡Hello, Golangphers
 }
 
 func ExampleToValidUTF8() {
@@ -460,7 +460,7 @@ func ExampleToValidUTF8() {
 }
 
 func ExampleLines() {
-	text := "Hello\nWorld\nGo Programming\n"
+	text := "Hello\nWorld\nGolang Programming\n"
 	for line := range strings.Lines(text) {
 		fmt.Printf("%q\n", line)
 	}
@@ -468,7 +468,7 @@ func ExampleLines() {
 	// Output:
 	// "Hello\n"
 	// "World\n"
-	// "Go Programming\n"
+	// "Golang Programming\n"
 }
 
 func ExampleSplitSeq() {

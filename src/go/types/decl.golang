@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -573,7 +573,7 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *ast.TypeSpec, def *TypeName
 	// alias declaration
 	if tdecl.Assign.IsValid() {
 		// Report highest version requirement first so that fixing a version issue
-		// avoids possibly two -lang changes (first to Go 1.9 and then to Go 1.23).
+		// avoids possibly two -lang changes (first to Golang 1.9 and then to Golang 1.23).
 		if !versionErr && tparam0 != nil && !check.verifyVersionf(tparam0, golang1_23, "generic type alias") {
 			versionErr = true
 		}
@@ -609,7 +609,7 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *ast.TypeSpec, def *TypeName
 			alias.fromRHS = rhs
 			Unalias(alias) // resolve alias.actual
 		} else {
-			// With Go1.23, the default behavior is to use Alias nodes,
+			// With Golang1.23, the default behavior is to use Alias nodes,
 			// reflected by check.enableAlias. Signal non-default behavior.
 			//
 			// TODO(gri) Testing runs tests in both modes. Do we need to exclude

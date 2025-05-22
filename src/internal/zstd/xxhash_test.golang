@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -109,7 +109,7 @@ func FuzzXXHash(f *testing.F) {
 		golangHash := xh.digest()
 
 		if golangHash != hhHash {
-			t.Errorf("Go hash %#x != xxhsum hash %#x", golangHash, hhHash)
+			t.Errorf("Golang hash %#x != xxhsum hash %#x", golangHash, hhHash)
 		}
 	})
 }

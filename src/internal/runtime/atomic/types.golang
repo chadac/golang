@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -451,7 +451,7 @@ func (f *Float64) Store(value float64) {
 // of this type never trigger a write barrier, and the relevant
 // methods are suffixed with "NoWB" to indicate that explicitly.
 // As a result, this type should be used carefully, and sparingly,
-// mostly with values that do not live in the Go heap anyway.
+// mostly with values that do not live in the Golang heap anyway.
 //
 // An UnsafePointer must not be copied.
 type UnsafePointer struct {
@@ -471,7 +471,7 @@ func (u *UnsafePointer) Load() unsafe.Pointer {
 // WARNING: As the name implies this operation does *not*
 // perform a write barrier on value, and so this operation may
 // hide pointers from the GC. Use with care and sparingly.
-// It is safe to use with values not found in the Go heap.
+// It is safe to use with values not found in the Golang heap.
 // Prefer Store instead.
 //
 //golang:nosplit
@@ -497,7 +497,7 @@ func storePointer(ptr *unsafe.Pointer, new unsafe.Pointer)
 // WARNING: As the name implies this operation does *not*
 // perform a write barrier on value, and so this operation may
 // hide pointers from the GC. Use with care and sparingly.
-// It is safe to use with values not found in the Go heap.
+// It is safe to use with values not found in the Golang heap.
 // Prefer CompareAndSwap instead.
 //
 //golang:nosplit
@@ -531,7 +531,7 @@ func (p *Pointer[T]) Load() *T {
 // WARNING: As the name implies this operation does *not*
 // perform a write barrier on value, and so this operation may
 // hide pointers from the GC. Use with care and sparingly.
-// It is safe to use with values not found in the Go heap.
+// It is safe to use with values not found in the Golang heap.
 // Prefer Store instead.
 //
 //golang:nosplit
@@ -554,7 +554,7 @@ func (p *Pointer[T]) Store(value *T) {
 // WARNING: As the name implies this operation does *not*
 // perform a write barrier on value, and so this operation may
 // hide pointers from the GC. Use with care and sparingly.
-// It is safe to use with values not found in the Go heap.
+// It is safe to use with values not found in the Golang heap.
 // Prefer CompareAndSwap instead.
 //
 //golang:nosplit

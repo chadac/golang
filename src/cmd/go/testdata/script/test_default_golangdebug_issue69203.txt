@@ -1,6 +1,6 @@
 # This is the case reported in issue #69203. Setting GO111MODULE
-# off sets the Go version used to determine default GODEBUG settings
-# to Go 1.20, flipping the httplaxcontentlength golangdebug's value to "1".
+# off sets the Golang version used to determine default GODEBUG settings
+# to Golang 1.20, flipping the httplaxcontentlength golangdebug's value to "1".
 # Doing so causes net/http.TestReadResponseErrors to fail.
 # Before CL 610875, the default GODEBUG was only sometimes used to generate the actionID
 # for a link: if the binary being linked was package main, the default GODEBUG would be

@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -56,8 +56,8 @@ func runFmt(ctx context.Context, cmd *base.Command, args []string) {
 	golangfmtArgs := []string{golangfmt, "-l", "-w"}
 	golangfmtArgLen := len(golangfmt) + len(" -l -w")
 
-	baseGofmtArgs := len(golangfmtArgs)
-	baseGofmtArgLen := golangfmtArgLen
+	baseGolangfmtArgs := len(golangfmtArgs)
+	baseGolangfmtArgLen := golangfmtArgLen
 
 	for _, pkg := range load.PackagesAndErrors(ctx, load.PackageOpts{}, args) {
 		if modload.Enabled() && pkg.Module != nil && !pkg.Module.Main {
@@ -68,9 +68,9 @@ func runFmt(ctx context.Context, cmd *base.Command, args []string) {
 			continue
 		}
 		if pkg.Error != nil {
-			var nogolang *load.NoGoError
+			var nogolang *load.NoGolangError
 			var embed *load.EmbedError
-			if (errors.As(pkg.Error, &nogolang) || errors.As(pkg.Error, &embed)) && len(pkg.InternalAllGoFiles()) > 0 {
+			if (errors.As(pkg.Error, &nogolang) || errors.As(pkg.Error, &embed)) && len(pkg.InternalAllGolangFiles()) > 0 {
 				// Skip this error, as we will format
 				// all files regardless.
 			} else {
@@ -81,18 +81,18 @@ func runFmt(ctx context.Context, cmd *base.Command, args []string) {
 		// Use pkg.golangfiles instead of pkg.Dir so that
 		// the command only applies to this package,
 		// not to packages in subdirectories.
-		files := base.RelPaths(pkg.InternalAllGoFiles())
+		files := base.RelPaths(pkg.InternalAllGolangFiles())
 		for _, file := range files {
 			golangfmtArgs = append(golangfmtArgs, file)
 			golangfmtArgLen += 1 + len(file) // plus separator
 			if golangfmtArgLen >= sys.ExecArgLengthLimit {
 				base.Run(golangfmtArgs)
-				golangfmtArgs = golangfmtArgs[:baseGofmtArgs]
-				golangfmtArgLen = baseGofmtArgLen
+				golangfmtArgs = golangfmtArgs[:baseGolangfmtArgs]
+				golangfmtArgLen = baseGolangfmtArgLen
 			}
 		}
 	}
-	if len(golangfmtArgs) > baseGofmtArgs {
+	if len(golangfmtArgs) > baseGolangfmtArgs {
 		base.Run(golangfmtArgs)
 	}
 }

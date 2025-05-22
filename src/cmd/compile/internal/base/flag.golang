@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -97,17 +97,17 @@ type CmdFlags struct {
 	Dwarf              bool         "help:\"generate DWARF symbols\""
 	DwarfBASEntries    *bool        "help:\"use base address selection entries in DWARF\""                        // &Ctxt.UseBASEntries, set below
 	DwarfLocationLists *bool        "help:\"add location lists to DWARF in optimized mode\""                      // &Ctxt.Flag_locationlists, set below
-	Dynlink            *bool        "help:\"support references to Go symbols defined in other shared libraries\"" // &Ctxt.Flag_dynlink, set below
+	Dynlink            *bool        "help:\"support references to Golang symbols defined in other shared libraries\"" // &Ctxt.Flag_dynlink, set below
 	EmbedCfg           func(string) "help:\"read golang:embed configuration from `file`\""
 	Env                func(string) "help:\"add `definition` of the form key=value to environment\""
 	GenDwarfInl        int          "help:\"generate DWARF inline info records\"" // 0=disabled, 1=funcs, 2=funcs+formals/locals
-	GoVersion          string       "help:\"required version of the runtime\""
+	GolangVersion          string       "help:\"required version of the runtime\""
 	ImportCfg          func(string) "help:\"read import configuration from `file`\""
 	InstallSuffix      string       "help:\"set pkg directory `suffix`\""
 	JSON               string       "help:\"version,file for JSON compiler/optimizer detail output\""
-	Lang               string       "help:\"Go language version source code expects\""
+	Lang               string       "help:\"Golang language version source code expects\""
 	LinkObj            string       "help:\"write linker-specific object to `file`\""
-	LinkShared         *bool        "help:\"generate code that will be linked against Go shared libraries\"" // &Ctxt.Flag_linkshared, set below
+	LinkShared         *bool        "help:\"generate code that will be linked against Golang shared libraries\"" // &Ctxt.Flag_linkshared, set below
 	Live               CountFlag    "help:\"debug liveness analysis\""
 	MSan               bool         "help:\"build code compatible with C/C++ memory sanitizer\""
 	MemProfile         string       "help:\"write memory profile to `file`\""
@@ -204,8 +204,8 @@ func ParseFlags() {
 		Flag.LowerD.Set(gcd)
 	}
 
-	if Debug.Gossahash != "" {
-		hashDebug = NewHashDebug("golangssahash", Debug.Gossahash, nil)
+	if Debug.Golangssahash != "" {
+		hashDebug = NewHashDebug("golangssahash", Debug.Golangssahash, nil)
 	}
 	obj.SetFIPSDebugHash(Debug.FIPSHash)
 
@@ -299,8 +299,8 @@ func ParseFlags() {
 		usage()
 	}
 
-	if Flag.GoVersion != "" && Flag.GoVersion != runtime.Version() {
-		fmt.Printf("compile: version %q does not match golang tool version %q\n", runtime.Version(), Flag.GoVersion)
+	if Flag.GolangVersion != "" && Flag.GolangVersion != runtime.Version() {
+		fmt.Printf("compile: version %q does not match golang tool version %q\n", runtime.Version(), Flag.GolangVersion)
 		Exit(2)
 	}
 

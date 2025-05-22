@@ -1,6 +1,6 @@
 env GO111MODULE=on
 
-# Go should reject relative paths in GOMODCACHE environment.
+# Golang should reject relative paths in GOMODCACHE environment.
 
 env GOMODCACHE="~/test"
 ! golang install example.com/tools/cmd/hello@latest

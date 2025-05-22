@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -139,7 +139,7 @@ func (h *boringHMAC) Sum(in []byte) []byte {
 		size := h.Size()
 		h.sum = make([]byte, size)
 	}
-	// Make copy of context because Go hash.Hash mandates
+	// Make copy of context because Golang hash.Hash mandates
 	// that Sum has no effect on the underlying stream.
 	// In particular it is OK to Sum, then Write more, then Sum again,
 	// and the second Sum acts as if the first didn't happen.

@@ -21,7 +21,7 @@ env GOCACHE=$WORK/cache
 ! golang test -fuzz=FuzzNilPanic
 ! exists testdata
 
-! golang test -fuzz=FuzzGoexit
+! golang test -fuzz=FuzzGolangexit
 ! exists testdata
 
 ! golang test -fuzz=FuzzExit
@@ -88,9 +88,9 @@ func FuzzNilPanic(f *testing.F) {
 	f.Fuzz(func(*testing.T, []byte) {})
 }
 
-func FuzzGoexit(f *testing.F) {
+func FuzzGolangexit(f *testing.F) {
 	if isWorker() {
-		runtime.Goexit()
+		runtime.Golangexit()
 	}
 	f.Fuzz(func(*testing.T, []byte) {})
 }

@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -47,10 +47,10 @@ func testMain(m *testing.M) int {
 
 // TestTestRun runs a test case for cgolang //export.
 func TestTestRun(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	testenv.MustHaveCGO(t)
 
-	cmd := exec.Command(testenv.GoToolPath(t), "run", "main.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "run", "main.golang")
 	golangt, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("%v: %s\n%s", cmd, err, golangt)

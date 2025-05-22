@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ import (
 )
 
 func main() {
-	testgen.Main(version.Go122, gen)
+	testgen.Main(version.Golang122, gen)
 }
 
 func gen(t *testgen.Trace) {
@@ -29,7 +29,7 @@ func gen(t *testgen.Trace) {
 	// A running golangroutine emits a task begin.
 	b1 := g1.Batch(trace.ThreadID(0), 0)
 	b1.Event("ProcStatus", trace.ProcID(0), tracev2.ProcRunning)
-	b1.Event("GoStatus", trace.GoID(1), trace.ThreadID(0), tracev2.GoRunning)
+	b1.Event("GolangStatus", trace.GolangID(1), trace.ThreadID(0), tracev2.GolangRunning)
 	b1.Event("UserTaskBegin", trace.TaskID(2), trace.TaskID(0) /* 0 means no parent, not background */, "my task", testgen.NoStack)
 
 	g2 := t.Generation(2)
@@ -37,6 +37,6 @@ func gen(t *testgen.Trace) {
 	// That same golangroutine emits a task end in the following generation.
 	b2 := g2.Batch(trace.ThreadID(0), 5)
 	b2.Event("ProcStatus", trace.ProcID(0), tracev2.ProcRunning)
-	b2.Event("GoStatus", trace.GoID(1), trace.ThreadID(0), tracev2.GoRunning)
+	b2.Event("GolangStatus", trace.GolangID(1), trace.ThreadID(0), tracev2.GolangRunning)
 	b2.Event("UserTaskEnd", trace.TaskID(2), testgen.NoStack)
 }

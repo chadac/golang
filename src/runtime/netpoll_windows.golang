@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -171,9 +171,9 @@ func netpoll(delay int64) (gList, int32) {
 		// GetQueuedCompletionStatusEx doesn't use a high resolution timer internally,
 		// so we use a separate higher resolution timer associated with a wait completion
 		// packet to wake up the poller. Note that the completion packet can be delivered
-		// to another thread, and the Go scheduler expects netpoll to only block up to delay,
+		// to another thread, and the Golang scheduler expects netpoll to only block up to delay,
 		// so we still need to use a timeout with GetQueuedCompletionStatusEx.
-		// TODO: Improve the Go scheduler to support non-blocking timers.
+		// TODO: Improve the Golang scheduler to support non-blocking timers.
 		signaled := netpollQueueTimer(delay)
 		if signaled {
 			// There is a small window between the SetWaitableTimer and the NtAssociateWaitCompletionPacket
@@ -214,7 +214,7 @@ func netpoll(delay int64) (gList, int32) {
 		case netpollSourceReady:
 			op := pollOperationFromOverlappedEntry(e)
 			if op == nil {
-				// Entry from outside the Go runtime and internal/poll, ignore.
+				// Entry from outside the Golang runtime and internal/poll, ignore.
 				continue
 			}
 			// Entry from internal/poll.

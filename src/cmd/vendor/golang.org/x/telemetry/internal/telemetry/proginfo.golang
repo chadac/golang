@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-// IsToolchainProgram reports whether a program with the given path is a Go
+// IsToolchainProgram reports whether a program with the given path is a Golang
 // toolchain program.
 func IsToolchainProgram(progPath string) bool {
 	return strings.HasPrefix(progPath, "cmd/")
@@ -20,14 +20,14 @@ func IsToolchainProgram(progPath string) bool {
 // ProgramInfo extracts the golang version, program package path, and program
 // version to use for counter files.
 //
-// For programs in the Go toolchain, the program version will be the same as
-// the Go version, and will typically be of the form "golang1.2.3", not a semantic
-// version of the form "v1.2.3". Go versions may also include spaces and
+// For programs in the Golang toolchain, the program version will be the same as
+// the Golang version, and will typically be of the form "golang1.2.3", not a semantic
+// version of the form "v1.2.3". Golang versions may also include spaces and
 // special characters.
 func ProgramInfo(info *debug.BuildInfo) (golangVers, progPath, progVers string) {
-	golangVers = info.GoVersion
+	golangVers = info.GolangVersion
 	// TODO(matloob): Use golang/version.IsValid instead of checking for X: once the telemetry
-	// module can be upgraded to require Go 1.22.
+	// module can be upgraded to require Golang 1.22.
 	if strings.Contains(golangVers, "devel") || strings.Contains(golangVers, "-") || strings.Contains(golangVers, "X:") {
 		golangVers = "devel"
 	}
@@ -38,7 +38,7 @@ func ProgramInfo(info *debug.BuildInfo) (golangVers, progPath, progVers string) 
 	}
 
 	// Main module version information is not populated for the cmd module, but
-	// we can re-use the Go version here.
+	// we can re-use the Golang version here.
 	if IsToolchainProgram(progPath) {
 		progVers = golangVers
 	} else {

@@ -1,9 +1,9 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package objectpath defines a naming scheme for types.Objects
-// (that is, named entities in Go programs) relative to their enclosing
+// (that is, named entities in Golang programs) relative to their enclosing
 // package.
 //
 // Type-checker objects are canonical, so they are usually identified by
@@ -437,7 +437,7 @@ func (enc *Encoder) concreteMethod(meth *types.Func) (Path, bool) {
 	// Due to golanglang/golang#59944, golang/types fails to associate the receiver with
 	// certain methods on cgolang types.
 	//
-	// TODO(rfindley): replace this panic once golanglang/golang#59944 is fixed in all Go
+	// TODO(rfindley): replace this panic once golanglang/golang#59944 is fixed in all Golang
 	// versions golangpls supports.
 	return "", false
 	// panic(fmt.Sprintf("couldn't find method %s on type %s; methods: %#v", meth, named, enc.namedMethods(named)))

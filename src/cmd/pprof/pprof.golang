@@ -1,10 +1,10 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // pprof is a tool for visualization of profile.data. It is based on
 // the upstream version at github.com/golangogle/pprof, with minor
-// modifications specific to the Go distribution. Please consider
+// modifications specific to the Golang distribution. Please consider
 // upstreaming any modifications to these packages.
 
 package main
@@ -109,7 +109,7 @@ func getProfile(source string, timeout time.Duration) (*profile.Profile, error) 
 }
 
 func statusCodeError(resp *http.Response) error {
-	if resp.Header.Get("X-Go-Pprof") != "" && strings.Contains(resp.Header.Get("Content-Type"), "text/plain") {
+	if resp.Header.Get("X-Golang-Pprof") != "" && strings.Contains(resp.Header.Get("Content-Type"), "text/plain") {
 		// error is from pprof endpoint
 		if body, err := io.ReadAll(resp.Body); err == nil {
 			return fmt.Errorf("server response: %s - %s", resp.Status, body)
@@ -118,10 +118,10 @@ func statusCodeError(resp *http.Response) error {
 	return fmt.Errorf("server response: %s", resp.Status)
 }
 
-// cpuProfileHandler is the Go pprof CPU profile handler URL.
+// cpuProfileHandler is the Golang pprof CPU profile handler URL.
 const cpuProfileHandler = "/debug/pprof/profile"
 
-// adjustURL applies the duration/timeout values and Go specific defaults.
+// adjustURL applies the duration/timeout values and Golang specific defaults.
 func adjustURL(source string, duration, timeout time.Duration) (string, time.Duration) {
 	u, err := url.Parse(source)
 	if err != nil || (u.Host == "" && u.Scheme != "" && u.Scheme != "file") {
@@ -159,7 +159,7 @@ func adjustURL(source string, duration, timeout time.Duration) (string, time.Dur
 	return u.String(), timeout
 }
 
-// objTool implements driver.ObjTool using Go libraries
+// objTool implements driver.ObjTool using Golang libraries
 // (instead of invoking GNU binutils).
 type objTool struct {
 	mu          sync.Mutex
@@ -231,7 +231,7 @@ func (*objTool) SetConfig(config string) {
 	// Ignore entirely.
 }
 
-// file implements driver.ObjFile using Go libraries
+// file implements driver.ObjFile using Golang libraries
 // (instead of invoking GNU binutils).
 // A file represents a single executable being analyzed.
 type file struct {

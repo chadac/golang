@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -63,7 +63,7 @@ func (t Time) appendStrictRFC3339(b []byte) ([]byte, error) {
 	n0 := len(b)
 	b = t.appendFormatRFC3339(b, true)
 
-	// Not all valid Go timestamps can be serialized as valid RFC 3339.
+	// Not all valid Golang timestamps can be serialized as valid RFC 3339.
 	// Explicitly check for these edge cases.
 	// See https://golang.dev/issue/4556 and https://golang.dev/issue/54580.
 	num2 := func(b []byte) byte { return 10*(b[0]-'0') + (b[1] - '0') }

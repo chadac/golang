@@ -1,11 +1,11 @@
-:: Copyright 2012 The Go Authors. All rights reserved.
+:: Copyright 2012 The Golang Authors. All rights reserved.
 :: Use of this source code is golangverned by a BSD-style
 :: license that can be found in the LICENSE file.
 
 @echo off
 
 if not exist ..\bin\golang.exe (
-    echo Must run run.bat from Go src directory after installing cmd/golang.
+    echo Must run run.bat from Golang src directory after installing cmd/golang.
     exit /b 1
 )
 

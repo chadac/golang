@@ -57,7 +57,7 @@ env GOTOOLCHAIN=auto
 ! golang version
 stderr 'running golang1.50.0 from PATH'
 
-# NewerToolchain should find Go 1.50.0.
+# NewerToolchain should find Golang 1.50.0.
 env GOTOOLCHAIN=local
 golang mod edit -toolchain=none -golang=1.21
 grep 'golang 1.21$' golang.mod

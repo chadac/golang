@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -805,7 +805,7 @@ func (c *Certificate) Verify(opts VerifyOptions) (chains [][]*Certificate, err e
 			platformChains, err := c.systemVerify(&opts)
 			// If the platform verifier succeeded, or there are no additional
 			// roots, return the platform verifier result. Otherwise, continue
-			// with the Go verifier.
+			// with the Golang verifier.
 			if err == nil || opts.Roots.len() == 0 {
 				return platformChains, err
 			}
@@ -1181,7 +1181,7 @@ func (c *Certificate) VerifyHostname(h string) error {
 
 	for _, match := range c.DNSNames {
 		// Ideally, we'd only match valid hostnames according to RFC 6125 like
-		// browsers (more or less) do, but in practice Go is used in a wider
+		// browsers (more or less) do, but in practice Golang is used in a wider
 		// array of contexts and can't even assume DNS resolution. Instead,
 		// always allow perfect matches, and only apply wildcard and trailing
 		// dot processing to valid hostnames.

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@
 // golangroutines and even the same golangroutine as it's rescheduled on
 // different Ps can see different working directories.
 //
-// Instead, track a Go process-wide intent of the current working directory,
+// Instead, track a Golang process-wide intent of the current working directory,
 // and switch to it at important points.
 
 package syscall

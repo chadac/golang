@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -82,7 +82,7 @@ type typedArshalers[Coder any] struct {
 	fncVals  []typedArshaler[Coder]
 	fncCache sync.Map // map[reflect.Type]arshaler
 
-	// fromAny reports whether any of Go types used to represent arbitrary JSON
+	// fromAny reports whether any of Golang types used to represent arbitrary JSON
 	// (i.e., any, bool, string, float64, map[string]any, or []any) matches
 	// any of the provided type-specific arshalers.
 	//
@@ -336,9 +336,9 @@ func UnmarshalFromFunc[T any](fn func(*jsontext.Decoder, T) error) *Unmarshalers
 }
 
 // assertCastableTo asserts that "to" is a valid type to be casted to.
-// These are the Go types that type-specific arshalers may operate upon.
+// These are the Golang types that type-specific arshalers may operate upon.
 //
-// Let AllTypes be the universal set of all possible Go types.
+// Let AllTypes be the universal set of all possible Golang types.
 // This function generally asserts that:
 //
 //	len([from for from in AllTypes if castableTo(from, to)]) > 0

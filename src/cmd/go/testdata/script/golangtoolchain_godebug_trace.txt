@@ -5,7 +5,7 @@ env TESTGO_VERSION=golang1.21.0
 env TESTGO_VERSION_SWITCH=switch
 env GOTOOLCHAIN=auto
 
-# Go line is newer than local golang version.
+# Golang line is newer than local golang version.
 golang mod init m
 golang mod edit -golang=1.21.1
 golang version
@@ -23,7 +23,7 @@ stderr -count=1 'golang: using golang1.21.2 toolchain from cache located at .*'
 stdout 'golang version golang1.21.2'
 rm golang.mod
 
-# Go line is newer than local golang version and toolchain line.
+# Golang line is newer than local golang version and toolchain line.
 golang mod init m
 golang mod edit -golang=1.22 -toolchain=golang1.21.2
 golang version

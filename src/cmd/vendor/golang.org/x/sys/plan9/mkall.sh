@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Copyright 2009 The Go Authors. All rights reserved.
+# Copyright 2009 The Golang Authors. All rights reserved.
 # Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
 # The plan9 package provides access to the raw system call
-# interface of the underlying operating system.  Porting Go to
+# interface of the underlying operating system.  Porting Golang to
 # a new architecture/operating system combination requires
 # some manual effort, though there are tools that automate
 # much of the process.  The auto-generated files have names
@@ -31,7 +31,7 @@
 #
 # * syscall_${GOOS}.golang
 #
-# This hand-written Go file implements system calls that need
+# This hand-written Golang file implements system calls that need
 # special handling and lists "//sys" comments giving prototypes
 # for ones that can be auto-generated.  Mksyscall reads those
 # comments to generate the stubs.

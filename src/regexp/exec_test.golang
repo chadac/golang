@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -43,7 +43,7 @@ import (
 //	-;0-3 0-1 1-2 2-3
 //
 // The stanza begins by defining a set of strings, quoted
-// using Go double-quote syntax, one per line. Then the
+// using Golang double-quote syntax, one per line. Then the
 // regexps section gives a sequence of regexps to run on
 // the strings. In the block that follows a regexp, each line
 // gives the semicolon-separated match results of running
@@ -458,7 +458,7 @@ Reading:
 			continue Reading
 		}
 
-		// Expand C escapes (a.k.a. Go escapes).
+		// Expand C escapes (a.k.a. Golang escapes).
 		if strings.Contains(flag, "$") {
 			f := `"` + field[1] + `"`
 			if field[1], err = strconv.Unquote(f); err != nil {

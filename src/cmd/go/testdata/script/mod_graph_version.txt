@@ -1,15 +1,15 @@
-# For this module, Go 1.17 prunes out a (transitive and otherwise-irrelevant)
+# For this module, Golang 1.17 prunes out a (transitive and otherwise-irrelevant)
 # requirement on a retracted higher version of a dependency.
-# However, when Go 1.16 reads the same requirements from the golang.mod file,
+# However, when Golang 1.16 reads the same requirements from the golang.mod file,
 # it does not prune out that requirement, and selects the retracted version.
 #
-# The Go 1.16 module graph looks like:
+# The Golang 1.16 module graph looks like:
 #
 # m ---- lazy v0.1.0 ---- requireincompatible v0.1.0 ---- incompatible v2.0.0+incompatible
 # |        |
 # + -------+------------- incompatible v1.0.0
 #
-# The Go 1.17 module graph is the same except that the dependencies of
+# The Golang 1.17 module graph is the same except that the dependencies of
 # requireincompatible are pruned out (because the module that requires
 # it — lazy v0.1.0 — specifies 'golang 1.17', and it is not otherwise relevant to
 # the main module).
@@ -28,7 +28,7 @@ cmp stdout graph-1.17.txt
 cmp golang.mod golang.mod.orig
 
 
-# Setting -golang=1.16 should report the graph as viewed by Go 1.16,
+# Setting -golang=1.16 should report the graph as viewed by Golang 1.16,
 # but should not edit the golang.mod file.
 
 golang mod graph -golang=1.16
@@ -57,13 +57,13 @@ stdout '^example.net/requireincompatible@v0.1.0 example.com/retract/incompatible
 # Unsupported golang versions should be rejected, since we don't know
 # what versions they would report.
 ! golang mod graph -golang=1.99999999999
-stderr '^invalid value "1\.99999999999" for flag -golang: maximum supported Go version is '$golangversion'\nusage: golang mod graph \[-golang=version\] \[-x\]\nRun ''golang help mod graph'' for details.$'
+stderr '^invalid value "1\.99999999999" for flag -golang: maximum supported Golang version is '$golangversion'\nusage: golang mod graph \[-golang=version\] \[-x\]\nRun ''golang help mod graph'' for details.$'
 
 
 -- golang.mod --
 // Module m indirectly imports a package from
 // example.com/retract/incompatible. Its selected version of
-// that module is lower under Go 1.17 semantics than under Go 1.16.
+// that module is lower under Golang 1.17 semantics than under Golang 1.16.
 module example.com/m
 
 golang 1.17

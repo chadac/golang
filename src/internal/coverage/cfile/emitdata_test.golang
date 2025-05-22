@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,7 +24,7 @@ func TestCoverageApis(t *testing.T) {
 	if testing.Short() {
 		t.Skipf("skipping test: too long for short mode")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	dir := t.TempDir()
 	if fixedTestDir {
 		dir = "/tmp/qqqzzz"
@@ -99,15 +99,15 @@ func upmergeCoverData(t *testing.T, golangcoverdir string, mode string) {
 	if testing.CoverMode() != mode {
 		return
 	}
-	testGoCoverDir := os.Getenv("GOCOVERDIR")
-	if testGoCoverDir == "" {
+	testGolangCoverDir := os.Getenv("GOCOVERDIR")
+	if testGolangCoverDir == "" {
 		return
 	}
 	args := []string{"tool", "covdata", "merge", "-pkg=runtime/coverage",
-		"-o", testGoCoverDir, "-i", golangcoverdir}
-	t.Logf("up-merge of covdata from %s to %s", golangcoverdir, testGoCoverDir)
+		"-o", testGolangCoverDir, "-i", golangcoverdir}
+	t.Logf("up-merge of covdata from %s to %s", golangcoverdir, testGolangCoverDir)
 	t.Logf("executing: golang %+v", args)
-	cmd := exec.Command(testenv.GoToolPath(t), args...)
+	cmd := exec.Command(testenv.GolangToolPath(t), args...)
 	if b, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("covdata merge failed (%v): %s", err, b)
 	}
@@ -121,7 +121,7 @@ func buildHarness(t *testing.T, dir string, opts []string) string {
 	args = append(args, opts...)
 	args = append(args, harnessSrc)
 	//t.Logf("harness build: golang %+v\n", args)
-	cmd := exec.Command(testenv.GoToolPath(t), args...)
+	cmd := exec.Command(testenv.GolangToolPath(t), args...)
 	if b, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("build failed (%v): %s", err, b)
 	}
@@ -136,15 +136,15 @@ func mkdir(t *testing.T, d string) string {
 	return d
 }
 
-// updateGoCoverDir updates the specified environment 'env' to set
-// GOCOVERDIR to 'gcd' (if setGoCoverDir is TRUE) or removes
-// GOCOVERDIR from the environment (if setGoCoverDir is false).
-func updateGoCoverDir(env []string, gcd string, setGoCoverDir bool) []string {
+// updateGolangCoverDir updates the specified environment 'env' to set
+// GOCOVERDIR to 'gcd' (if setGolangCoverDir is TRUE) or removes
+// GOCOVERDIR from the environment (if setGolangCoverDir is false).
+func updateGolangCoverDir(env []string, gcd string, setGolangCoverDir bool) []string {
 	rv := []string{}
 	found := false
 	for _, v := range env {
 		if strings.HasPrefix(v, "GOCOVERDIR=") {
-			if !setGoCoverDir {
+			if !setGolangCoverDir {
 				continue
 			}
 			v = "GOCOVERDIR=" + gcd
@@ -152,17 +152,17 @@ func updateGoCoverDir(env []string, gcd string, setGoCoverDir bool) []string {
 		}
 		rv = append(rv, v)
 	}
-	if !found && setGoCoverDir {
+	if !found && setGolangCoverDir {
 		rv = append(rv, "GOCOVERDIR="+gcd)
 	}
 	return rv
 }
 
-func runHarness(t *testing.T, harnessPath string, tp string, setGoCoverDir bool, rdir, edir string) (string, error) {
-	t.Logf("running: %s -tp %s -o %s with rdir=%s and GOCOVERDIR=%v", harnessPath, tp, edir, rdir, setGoCoverDir)
+func runHarness(t *testing.T, harnessPath string, tp string, setGolangCoverDir bool, rdir, edir string) (string, error) {
+	t.Logf("running: %s -tp %s -o %s with rdir=%s and GOCOVERDIR=%v", harnessPath, tp, edir, rdir, setGolangCoverDir)
 	cmd := exec.Command(harnessPath, "-tp", tp, "-o", edir)
 	cmd.Dir = rdir
-	cmd.Env = updateGoCoverDir(os.Environ(), rdir, setGoCoverDir)
+	cmd.Env = updateGolangCoverDir(os.Environ(), rdir, setGolangCoverDir)
 	b, err := cmd.CombinedOutput()
 	//t.Logf("harness run output: %s\n", string(b))
 	return string(b), err
@@ -172,7 +172,7 @@ func testForSpecificFunctions(t *testing.T, dir string, want []string, avoid []s
 	args := []string{"tool", "covdata", "debugdump",
 		"-live", "-pkg=command-line-arguments", "-i=" + dir}
 	t.Logf("running: golang %v\n", args)
-	cmd := exec.Command(testenv.GoToolPath(t), args...)
+	cmd := exec.Command(testenv.GolangToolPath(t), args...)
 	b, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("'golang tool covdata failed (%v): %s", err, b)
@@ -202,12 +202,12 @@ func withAndWithoutRunner(f func(setit bool, tag string)) {
 	// Run 'f' with and without GOCOVERDIR set.
 	for i := 0; i < 2; i++ {
 		tag := "x"
-		setGoCoverDir := true
+		setGolangCoverDir := true
 		if i == 0 {
-			setGoCoverDir = false
+			setGolangCoverDir = false
 			tag = "y"
 		}
-		f(setGoCoverDir, tag)
+		f(setGolangCoverDir, tag)
 	}
 }
 
@@ -219,11 +219,11 @@ func mktestdirs(t *testing.T, tag, tp, dir string) (string, string) {
 }
 
 func testEmitToDir(t *testing.T, harnessPath string, dir string) {
-	withAndWithoutRunner(func(setGoCoverDir bool, tag string) {
+	withAndWithoutRunner(func(setGolangCoverDir bool, tag string) {
 		tp := "emitToDir"
 		rdir, edir := mktestdirs(t, tag, tp, dir)
 		output, err := runHarness(t, harnessPath, tp,
-			setGoCoverDir, rdir, edir)
+			setGolangCoverDir, rdir, edir)
 		if err != nil {
 			t.Logf("%s", output)
 			t.Fatalf("running 'harness -tp emitDir': %v", err)
@@ -262,10 +262,10 @@ func testEmitToDir(t *testing.T, harnessPath string, dir string) {
 }
 
 func testEmitToWriter(t *testing.T, harnessPath string, dir string) {
-	withAndWithoutRunner(func(setGoCoverDir bool, tag string) {
+	withAndWithoutRunner(func(setGolangCoverDir bool, tag string) {
 		tp := "emitToWriter"
 		rdir, edir := mktestdirs(t, tag, tp, dir)
-		output, err := runHarness(t, harnessPath, tp, setGoCoverDir, rdir, edir)
+		output, err := runHarness(t, harnessPath, tp, setGolangCoverDir, rdir, edir)
 		if err != nil {
 			t.Logf("%s", output)
 			t.Fatalf("running 'harness -tp %s': %v", tp, err)
@@ -281,10 +281,10 @@ func testEmitToWriter(t *testing.T, harnessPath string, dir string) {
 }
 
 func testEmitToNonexistentDir(t *testing.T, harnessPath string, dir string) {
-	withAndWithoutRunner(func(setGoCoverDir bool, tag string) {
+	withAndWithoutRunner(func(setGolangCoverDir bool, tag string) {
 		tp := "emitToNonexistentDir"
 		rdir, edir := mktestdirs(t, tag, tp, dir)
-		output, err := runHarness(t, harnessPath, tp, setGoCoverDir, rdir, edir)
+		output, err := runHarness(t, harnessPath, tp, setGolangCoverDir, rdir, edir)
 		if err != nil {
 			t.Logf("%s", output)
 			t.Fatalf("running 'harness -tp %s': %v", tp, err)
@@ -295,7 +295,7 @@ func testEmitToNonexistentDir(t *testing.T, harnessPath string, dir string) {
 }
 
 func testEmitToUnwritableDir(t *testing.T, harnessPath string, dir string) {
-	withAndWithoutRunner(func(setGoCoverDir bool, tag string) {
+	withAndWithoutRunner(func(setGolangCoverDir bool, tag string) {
 
 		tp := "emitToUnwritableDir"
 		rdir, edir := mktestdirs(t, tag, tp, dir)
@@ -306,7 +306,7 @@ func testEmitToUnwritableDir(t *testing.T, harnessPath string, dir string) {
 		}
 		defer os.Chmod(edir, 0777)
 
-		output, err := runHarness(t, harnessPath, tp, setGoCoverDir, rdir, edir)
+		output, err := runHarness(t, harnessPath, tp, setGolangCoverDir, rdir, edir)
 		if err != nil {
 			t.Logf("%s", output)
 			t.Fatalf("running 'harness -tp %s': %v", tp, err)
@@ -317,10 +317,10 @@ func testEmitToUnwritableDir(t *testing.T, harnessPath string, dir string) {
 }
 
 func testEmitToNilWriter(t *testing.T, harnessPath string, dir string) {
-	withAndWithoutRunner(func(setGoCoverDir bool, tag string) {
+	withAndWithoutRunner(func(setGolangCoverDir bool, tag string) {
 		tp := "emitToNilWriter"
 		rdir, edir := mktestdirs(t, tag, tp, dir)
-		output, err := runHarness(t, harnessPath, tp, setGoCoverDir, rdir, edir)
+		output, err := runHarness(t, harnessPath, tp, setGolangCoverDir, rdir, edir)
 		if err != nil {
 			t.Logf("%s", output)
 			t.Fatalf("running 'harness -tp %s': %v", tp, err)
@@ -331,10 +331,10 @@ func testEmitToNilWriter(t *testing.T, harnessPath string, dir string) {
 }
 
 func testEmitToFailingWriter(t *testing.T, harnessPath string, dir string) {
-	withAndWithoutRunner(func(setGoCoverDir bool, tag string) {
+	withAndWithoutRunner(func(setGolangCoverDir bool, tag string) {
 		tp := "emitToFailingWriter"
 		rdir, edir := mktestdirs(t, tag, tp, dir)
-		output, err := runHarness(t, harnessPath, tp, setGoCoverDir, rdir, edir)
+		output, err := runHarness(t, harnessPath, tp, setGolangCoverDir, rdir, edir)
 		if err != nil {
 			t.Logf("%s", output)
 			t.Fatalf("running 'harness -tp %s': %v", tp, err)
@@ -345,11 +345,11 @@ func testEmitToFailingWriter(t *testing.T, harnessPath string, dir string) {
 }
 
 func testEmitWithCounterClear(t *testing.T, harnessPath string, dir string) {
-	withAndWithoutRunner(func(setGoCoverDir bool, tag string) {
+	withAndWithoutRunner(func(setGolangCoverDir bool, tag string) {
 		tp := "emitWithCounterClear"
 		rdir, edir := mktestdirs(t, tag, tp, dir)
 		output, err := runHarness(t, harnessPath, tp,
-			setGoCoverDir, rdir, edir)
+			setGolangCoverDir, rdir, edir)
 		if err != nil {
 			t.Logf("%s", output)
 			t.Fatalf("running 'harness -tp %s': %v", tp, err)
@@ -440,7 +440,7 @@ func TestApisOnNocoverBinary(t *testing.T) {
 	if testing.Short() {
 		t.Skipf("skipping test: too long for short mode")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	dir := t.TempDir()
 
 	// Build harness with no -cover.
@@ -457,14 +457,14 @@ func TestApisOnNocoverBinary(t *testing.T) {
 	}
 }
 
-func TestIssue56006EmitDataRaceCoverRunningGoroutine(t *testing.T) {
+func TestIssue56006EmitDataRaceCoverRunningGolangroutine(t *testing.T) {
 	if testing.Short() {
 		t.Skipf("skipping test: too long for short mode")
 	}
 
 	// This test requires "golang test -race -cover", meaning that we need
 	// golang build, golang run, and "-race" support.
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	if !platform.RaceDetectorSupported(runtime.GOOS, runtime.GOARCH) ||
 		!testenv.HasCGO() {
 		t.Skip("skipped due to lack of race detector support / CGO")
@@ -473,7 +473,7 @@ func TestIssue56006EmitDataRaceCoverRunningGoroutine(t *testing.T) {
 	// This will run a program with -cover and -race where we have a
 	// golangroutine still running (and updating counters) at the point where
 	// the test runtime is trying to write out counter data.
-	cmd := exec.Command(testenv.GoToolPath(t), "test", "-cover", "-race")
+	cmd := exec.Command(testenv.GolangToolPath(t), "test", "-cover", "-race")
 	cmd.Dir = filepath.Join("testdata", "issue56006")
 	b, err := cmd.CombinedOutput()
 	if err != nil {
@@ -494,19 +494,19 @@ func TestIssue59563TruncatedCoverPkgAll(t *testing.T) {
 	if testing.Short() {
 		t.Skipf("skipping test: too long for short mode")
 	}
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	tmpdir := t.TempDir()
 	ppath := filepath.Join(tmpdir, "foo.cov")
 
-	cmd := exec.Command(testenv.GoToolPath(t), "test", "-coverpkg=all", "-coverprofile="+ppath)
+	cmd := exec.Command(testenv.GolangToolPath(t), "test", "-coverpkg=all", "-coverprofile="+ppath)
 	cmd.Dir = filepath.Join("testdata", "issue59563")
 	b, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang test -cover failed: %v\n%s", err, b)
 	}
 
-	cmd = exec.Command(testenv.GoToolPath(t), "tool", "cover", "-func="+ppath)
+	cmd = exec.Command(testenv.GolangToolPath(t), "tool", "cover", "-func="+ppath)
 	b, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang tool cover -func failed: %v", err)

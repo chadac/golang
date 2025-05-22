@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -87,14 +87,14 @@
 //
 // # Example
 //
-// The Go compiler provides support for enabling or disabling certain rewrites
+// The Golang compiler provides support for enabling or disabling certain rewrites
 // and optimizations to allow bisect to identify specific source locations where
 // the rewrite causes the program to fail. For example, to bisect a failure caused
 // by the new loop variable semantics:
 //
 //	bisect golang test -gcflags=all=-d=loopvarhash=PATTERN
 //
-// The -gcflags=all= instructs the golang command to pass the -d=... to the Go compiler
+// The -gcflags=all= instructs the golang command to pass the -d=... to the Golang compiler
 // when compiling all packages. Bisect varies PATTERN to determine the minimal set of changes
 // needed to reproduce the failure.
 //
@@ -121,7 +121,7 @@
 // output when using cached compiler results will confuse bisect.
 // To defeat such build caches, bisect replaces the literal text “RANDOM”
 // in environment values and command arguments with a random 64-bit value
-// during each invocation. The Go compiler conveniently accepts a
+// during each invocation. The Golang compiler conveniently accepts a
 // -d=ignore=... debug flag that ignores its argument, so to run the
 // previous example using Bazel, the invocation is:
 //
@@ -172,7 +172,7 @@ func main() {
 
 	env := ""
 	envFlag := ""
-	flag.Func("compile", "bisect source locations affected by Go compiler `rewrite` (fma, loopvar, ...)", func(value string) error {
+	flag.Func("compile", "bisect source locations affected by Golang compiler `rewrite` (fma, loopvar, ...)", func(value string) error {
 		if envFlag != "" {
 			return fmt.Errorf("cannot use -%s and -compile", envFlag)
 		}
@@ -640,8 +640,8 @@ func (b *Bisect) run(suffix string) *Result {
 		}
 		cmd := exec.CommandContext(ctx, b.Cmd, args...)
 		cmd.Env = append(os.Environ(), env...)
-		// Set up cmd.Cancel, cmd.WaitDelay on Go 1.20 and later
-		// TODO(rsc): Inline golang120.golang's cmdInterrupt once we stop supporting Go 1.19.
+		// Set up cmd.Cancel, cmd.WaitDelay on Golang 1.20 and later
+		// TODO(rsc): Inline golang120.golang's cmdInterrupt once we stop supporting Golang 1.19.
 		cmdInterrupt(cmd)
 		out, err = cmd.CombinedOutput()
 	}

@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -2705,7 +2705,7 @@ func TestStoreLoadSeqCst32(t *testing.T) {
 				StoreInt32(&ack[me][i%3], my)
 				for w := 1; LoadInt32(&ack[he][i%3]) == -1; w++ {
 					if w%1000 == 0 {
-						runtime.Gosched()
+						runtime.Golangsched()
 					}
 				}
 				his := LoadInt32(&ack[he][i%3])
@@ -2747,7 +2747,7 @@ func TestStoreLoadSeqCst64(t *testing.T) {
 				StoreInt64(&ack[me][i%3], my)
 				for w := 1; LoadInt64(&ack[he][i%3]) == -1; w++ {
 					if w%1000 == 0 {
-						runtime.Gosched()
+						runtime.Golangsched()
 					}
 				}
 				his := LoadInt64(&ack[he][i%3])
@@ -2796,7 +2796,7 @@ func TestStoreLoadRelAcq32(t *testing.T) {
 				} else {
 					for w := 1; LoadInt32(&X.signal) != i; w++ {
 						if w%1000 == 0 {
-							runtime.Gosched()
+							runtime.Golangsched()
 						}
 					}
 					d1 := X.data1
@@ -2842,7 +2842,7 @@ func TestStoreLoadRelAcq64(t *testing.T) {
 				} else {
 					for w := 1; LoadInt64(&X.signal) != i; w++ {
 						if w%1000 == 0 {
-							runtime.Gosched()
+							runtime.Golangsched()
 						}
 					}
 					d1 := X.data1

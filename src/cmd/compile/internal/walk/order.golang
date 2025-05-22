@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -851,7 +851,7 @@ func (o *orderState) stmt(n ir.Node) {
 
 	// Special: order arguments to inner call but not call itself.
 	case ir.ODEFER, ir.OGO:
-		n := n.(*ir.GoDeferStmt)
+		n := n.(*ir.GolangDeferStmt)
 		t := o.markTemp()
 		o.init(n.Call)
 		o.call(n.Call)
@@ -1580,7 +1580,7 @@ func (o *orderState) as2ok(n *ir.AssignListStmt) {
 			n.Lhs[i] = tmp
 			as.Lhs = append(as.Lhs, nl)
 			if i == 1 {
-				// The "ok" result is an untyped boolean according to the Go
+				// The "ok" result is an untyped boolean according to the Golang
 				// spec. We need to explicitly convert it to the LHS type in
 				// case the latter is a defined boolean type (#8475).
 				tmp = typecheck.Conv(tmp, nl.Type())

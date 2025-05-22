@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -274,7 +274,7 @@ func (s *Server) CloseClientConnections() {
 
 	// Wait for outstanding closes to finish.
 	//
-	// Out of paranoia for making a late change in Go 1.6, we
+	// Out of paranoia for making a late change in Golang 1.6, we
 	// bound how long this can wait, since golanglang.org/issue/14291
 	// isn't fully understood yet. At least this should only be used
 	// in tests.

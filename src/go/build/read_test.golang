@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,12 +15,12 @@ import (
 const quote = "`"
 
 type readTest struct {
-	// Test input contains ℙ where readGoInfo should stop.
+	// Test input contains ℙ where readGolangInfo should stop.
 	in  string
 	err string
 }
 
-var readGoInfoTests = []readTest{
+var readGolangInfoTests = []readTest{
 	{
 		`package p`,
 		"",
@@ -150,10 +150,10 @@ func testRead(t *testing.T, tests []readTest, read func(io.Reader) ([]byte, erro
 	}
 }
 
-func TestReadGoInfo(t *testing.T) {
-	testRead(t, readGoInfoTests, func(r io.Reader) ([]byte, error) {
+func TestReadGolangInfo(t *testing.T) {
+	testRead(t, readGolangInfoTests, func(r io.Reader) ([]byte, error) {
 		var info fileInfo
-		err := readGoInfo(r, &info)
+		err := readGolangInfo(r, &info)
 		return info.header, err
 	})
 }
@@ -243,7 +243,7 @@ func TestReadFailuresIgnored(t *testing.T) {
 	}
 	testRead(t, tests, func(r io.Reader) ([]byte, error) {
 		var info fileInfo
-		err := readGoInfo(r, &info)
+		err := readGolangInfo(r, &info)
 		return info.header, err
 	})
 }
@@ -332,7 +332,7 @@ func TestReadEmbed(t *testing.T) {
 			name: "test",
 			fset: fset,
 		}
-		err := readGoInfo(strings.NewReader(tt.in), &info)
+		err := readGolangInfo(strings.NewReader(tt.in), &info)
 		if err != nil {
 			t.Errorf("#%d: %v", i, err)
 			continue

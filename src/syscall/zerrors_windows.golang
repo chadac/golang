@@ -3,7 +3,7 @@
 
 package syscall
 
-// Go names for Windows errors.
+// Golang names for Windows errors.
 const (
 	ENOENT  Errno = ERROR_FILE_NOT_FOUND
 	ENOTDIR Errno = ERROR_PATH_NOT_FOUND

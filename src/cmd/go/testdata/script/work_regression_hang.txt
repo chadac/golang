@@ -1,4 +1,4 @@
-# This test makes checks against a regression of a bug in the Go command
+# This test makes checks against a regression of a bug in the Golang command
 # where the module loader hung forever because all main module dependencies
 # kept workspace pruning instead of adopting the pruning in their golang.mod
 # files, and the loader kept adding dependencies on the queue until they

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -134,7 +134,7 @@ func (sh *Shell) moveOrCopyFile(dst, src string, perm fs.FileMode, force bool) e
 
 	// On Windows, always copy the file, so that we respect the NTFS
 	// permissions of the parent folder. https://golanglang.org/issue/22343.
-	// What matters here is not cfg.Goos (the system we are building
+	// What matters here is not cfg.Golangos (the system we are building
 	// for) but runtime.GOOS (the system we are building on).
 	if runtime.GOOS == "windows" {
 		return sh.CopyFile(dst, src, perm, force)

@@ -12,7 +12,7 @@
 
         "TLS-ECH-Client-Reject-ResumeInnerSession-TLS12": "We won't attempt to negolangtiate 1.2 if ECH is enabled (we could possibly test this if we had the ability to indicate not to send ECH on resumption?)",
 
-        "TLS-ECH-Client-Reject-EarlyDataRejected": "Go does not support early (0-RTT) data",
+        "TLS-ECH-Client-Reject-EarlyDataRejected": "Golang does not support early (0-RTT) data",
 
         "TLS-ECH-Client-NoNPN": "We don't support NPN",
 
@@ -32,13 +32,13 @@
         "TLS-ECH-Client-NoSupportedConfigs": "We don't support fallback to cleartext when there are no valid ECH configs",
         "TLS-ECH-Client-SkipInvalidPublicName": "We don't support fallback to cleartext when there are no valid ECH configs",
 
-        "TLS-ECH-Server-EarlyData": "Go does not support early (0-RTT) data",
-        "TLS-ECH-Server-EarlyDataRejected": "Go does not support early (0-RTT) data",
+        "TLS-ECH-Server-EarlyData": "Golang does not support early (0-RTT) data",
+        "TLS-ECH-Server-EarlyDataRejected": "Golang does not support early (0-RTT) data",
 
-        "MLKEMKeyShareIncludedSecond": "BoGo wants us to order the key shares based on its preference, but we don't support that",
-        "MLKEMKeyShareIncludedThird": "BoGo wants us to order the key shares based on its preference, but we don't support that",
+        "MLKEMKeyShareIncludedSecond": "BoGolang wants us to order the key shares based on its preference, but we don't support that",
+        "MLKEMKeyShareIncludedThird": "BoGolang wants us to order the key shares based on its preference, but we don't support that",
         "PostQuantumNotEnabledByDefaultInClients": "We do enable it by default!",
-        "*-Kyber-TLS13": "We don't support Kyber, only ML-KEM (BoGo bug ignoring AllCurves?)",
+        "*-Kyber-TLS13": "We don't support Kyber, only ML-KEM (BoGolang bug ignoring AllCurves?)",
 
         "*-SignDefault-*": "TODO, partially it encodes BoringSSL defaults, partially we might be missing some implicit behavior of a missing flag",
 
@@ -170,17 +170,17 @@
         "SendPostHandshakeChangeCipherSpec-TLS13": "TODO: first pass, this should be fixed",
         "ECDSAKeyUsage-Server-TLS12": "TODO: first pass, this should be fixed",
         "ECDSAKeyUsage-Server-TLS13": "TODO: first pass, this should be fixed",
-        "RSAKeyUsage-Client-WantEncipherment-GotEnciphermentTLS1": "TODO: first pass, this should be fixed",
-        "RSAKeyUsage-Server-WantSignature-GotEncipherment-TLS1": "TODO: first pass, this should be fixed",
-        "RSAKeyUsage-Client-WantSignature-GotSignature-TLS1": "TODO: first pass, this should be fixed",
-        "RSAKeyUsage-Client-WantEncipherment-GotEnciphermentTLS11": "TODO: first pass, this should be fixed",
-        "RSAKeyUsage-Client-WantSignature-GotSignature-TLS11": "TODO: first pass, this should be fixed",
-        "RSAKeyUsage-Client-WantEncipherment-GotEnciphermentTLS12": "TODO: first pass, this should be fixed",
-        "RSAKeyUsage-Server-WantSignature-GotEncipherment-TLS12": "TODO: first pass, this should be fixed",
-        "RSAKeyUsage-Server-WantSignature-GotEncipherment-TLS11": "TODO: first pass, this should be fixed",
-        "RSAKeyUsage-Client-WantSignature-GotSignature-TLS12": "TODO: first pass, this should be fixed",
-        "RSAKeyUsage-Client-WantSignature-GotSignature-TLS13": "TODO: first pass, this should be fixed",
-        "RSAKeyUsage-Server-WantSignature-GotEncipherment-TLS13": "TODO: first pass, this should be fixed",
+        "RSAKeyUsage-Client-WantEncipherment-GolangtEnciphermentTLS1": "TODO: first pass, this should be fixed",
+        "RSAKeyUsage-Server-WantSignature-GolangtEncipherment-TLS1": "TODO: first pass, this should be fixed",
+        "RSAKeyUsage-Client-WantSignature-GolangtSignature-TLS1": "TODO: first pass, this should be fixed",
+        "RSAKeyUsage-Client-WantEncipherment-GolangtEnciphermentTLS11": "TODO: first pass, this should be fixed",
+        "RSAKeyUsage-Client-WantSignature-GolangtSignature-TLS11": "TODO: first pass, this should be fixed",
+        "RSAKeyUsage-Client-WantEncipherment-GolangtEnciphermentTLS12": "TODO: first pass, this should be fixed",
+        "RSAKeyUsage-Server-WantSignature-GolangtEncipherment-TLS12": "TODO: first pass, this should be fixed",
+        "RSAKeyUsage-Server-WantSignature-GolangtEncipherment-TLS11": "TODO: first pass, this should be fixed",
+        "RSAKeyUsage-Client-WantSignature-GolangtSignature-TLS12": "TODO: first pass, this should be fixed",
+        "RSAKeyUsage-Client-WantSignature-GolangtSignature-TLS13": "TODO: first pass, this should be fixed",
+        "RSAKeyUsage-Server-WantSignature-GolangtEncipherment-TLS13": "TODO: first pass, this should be fixed",
         "EmptyExtensions-ClientHello-TLS1": "TODO: first pass, this should be fixed",
         "OmitExtensions-ClientHello-TLS1": "TODO: first pass, this should be fixed",
         "EmptyExtensions-ClientHello-TLS12": "TODO: first pass, this should be fixed",

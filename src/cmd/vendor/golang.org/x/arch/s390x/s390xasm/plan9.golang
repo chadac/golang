@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@ import (
 var vectorSize = map[int]string{0: "B", 1: "H", 2: "F", 3: "G", 4: "Q"}
 var vectorCS = map[int]string{0: "BS", 1: "HS", 2: "FS", 3: "GS"}
 
-// GoSyntax returns the Go assembler syntax for the instruction.
+// GolangSyntax returns the Golang assembler syntax for the instruction.
 // The syntax was originally defined by Plan 9.
 // The inst relates to single instruction.
 // The pc is the program counter of the instruction, used for
@@ -22,7 +22,7 @@ var vectorCS = map[int]string{0: "BS", 1: "HS", 2: "FS", 3: "GS"}
 // being disassembled. Given a target address it returns the name
 // and base address of the symbol containing the target, if any;
 // otherwise it returns "", 0.
-func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) string {
+func GolangSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) string {
 	if symname == nil {
 		symname = func(uint64) (string, uint64) { return "", 0 }
 	}
@@ -423,7 +423,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case CGRJ, CGIJ:
 		mask, err := strconv.Atoi(args[2][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		var check bool
 		switch mask & 0xf {
@@ -453,7 +453,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case CLGRJ, CLGIJ:
 		mask, err := strconv.Atoi(args[2][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		var check bool
 		switch mask & 0xf {
@@ -485,7 +485,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case BRC, BRCL:
 		mask, err := strconv.Atoi(args[0][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		opStr, check := branch_relative_op(mask, inst.Op)
 		if opStr != "" {
@@ -498,7 +498,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case BCR:
 		mask, err := strconv.Atoi(args[0][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		opStr, check := branchOnConditionOp(mask, inst.Op)
 		if opStr != "" {
@@ -514,7 +514,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case LOCGR:
 		mask, err := strconv.Atoi(args[2][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		var check bool
 		switch mask & 0xf {
@@ -602,7 +602,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 		case RNSBG, RXSBG, ROSBG:
 			num, err := strconv.Atoi(args[2][1:])
 			if err != nil {
-				return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+				return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 			}
 			if ((num >> 7) & 0x1) != 0 {
 				op = op + "T"
@@ -610,7 +610,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 		case RISBG, RISBGN, RISBHG, RISBLG:
 			num, err := strconv.Atoi(args[3][1:])
 			if err != nil {
-				return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+				return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 			}
 			if ((num >> 7) & 0x1) != 0 {
 				op = op + "Z"
@@ -625,7 +625,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case VEC, VECL, VCLZ, VCTZ, VREPI, VPOPCT: //mnemonic V1, V2, M3
 		mask, err := strconv.Atoi(args[2][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi for %q:%s", op, err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi for %q:%s", op, err)
 		}
 		val := mask & 0x7
 		if val >= 0 && val < 4 {
@@ -643,7 +643,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case VA, VS, VACC, VAVG, VAVGL, VMX, VMXL, VMN, VMNL, VGFM, VGM, VREP, VERLLV, VESLV, VSCBI, VSUM, VSUMG, VSUMQ, VMH, VMLH, VML, VME, VMLE, VMO, VMLO:
 		mask, err := strconv.Atoi(args[3][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		val := mask & 0x7
 		switch inst.Op {
@@ -719,7 +719,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case VGFMA, VERIM, VMAH, VMALH: // Mnemonic V1, V2, V3, V4/I4, M5
 		mask, err := strconv.Atoi(args[4][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		val := mask & 0x7
 		args = args[:4]
@@ -750,11 +750,11 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 		}
 		m1, err := strconv.Atoi(args[3+off][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		m2, err := strconv.Atoi(args[4+off][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		index := m1 & 0x3
 		if index < 0 || index > 2 {
@@ -783,11 +783,11 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case VCEQ, VCH, VCHL: // Mnemonic V1, V2, V3, M4, M5
 		m4, err := strconv.Atoi(args[3][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: %q error in converting Atoi:%s", op, err)
+			return fmt.Sprintf("GolangSyntax: %q error in converting Atoi:%s", op, err)
 		}
 		m5, err := strconv.Atoi(args[4][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: %q error in converting Atoi:%s", op, err)
+			return fmt.Sprintf("GolangSyntax: %q error in converting Atoi:%s", op, err)
 		}
 		val := (m4 & 0x7)
 		if m5 == 0 {
@@ -812,11 +812,11 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case VFMA, VFMS, VMSL: //Mnemonic V1, V2, V3, V4, M5, M6
 		m5, err := strconv.Atoi(args[4][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: %q error in converting Atoi:%s", op, err)
+			return fmt.Sprintf("GolangSyntax: %q error in converting Atoi:%s", op, err)
 		}
 		m6, err := strconv.Atoi(args[5][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: %q error in converting Atoi:%s", op, err)
+			return fmt.Sprintf("GolangSyntax: %q error in converting Atoi:%s", op, err)
 		}
 		switch inst.Op {
 		case VMSL:
@@ -844,15 +844,15 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case VFCE, VFCH, VFCHE: //Mnemonic V1,V2,V3,M4,M5,M6
 		m4, err := strconv.Atoi(args[3][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: %q error in converting Atoi:%s", op, err)
+			return fmt.Sprintf("GolangSyntax: %q error in converting Atoi:%s", op, err)
 		}
 		m5, err := strconv.Atoi(args[4][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: %q error in converting Atoi:%s", op, err)
+			return fmt.Sprintf("GolangSyntax: %q error in converting Atoi:%s", op, err)
 		}
 		m6, err := strconv.Atoi(args[5][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: %q error in converting Atoi:%s", op, err)
+			return fmt.Sprintf("GolangSyntax: %q error in converting Atoi:%s", op, err)
 		}
 		if m5 == 0 {
 			if m4 == 3 && m6 == 0 {
@@ -880,11 +880,11 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case VFTCI:
 		m4, err := strconv.Atoi(args[3][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: %q error in converting Atoi:%s", op, err)
+			return fmt.Sprintf("GolangSyntax: %q error in converting Atoi:%s", op, err)
 		}
 		m5, err := strconv.Atoi(args[4][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: %q error in converting Atoi:%s", op, err)
+			return fmt.Sprintf("GolangSyntax: %q error in converting Atoi:%s", op, err)
 		}
 		val := (m4 & 0x7)
 		if m5 == 0 {
@@ -915,7 +915,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case VAC, VACCC:
 		mask, err := strconv.Atoi(args[4][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		if mask&0x04 == 0 {
 			return fmt.Sprintf("specification exception is recognized for %q with mask value: %v \n", op, mask)
@@ -931,7 +931,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 			args[0], args[1] = args[1], args[0]
 			mask, err := strconv.Atoi(args[2][1:])
 			if err != nil {
-				return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+				return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 			}
 			if mask >= 0 && mask < 4 {
 				op = op + vectorSize[mask]
@@ -941,7 +941,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case VST, VSTEB, VSTEH, VSTEF, VSTEG, VLEB, VLEH, VLEF, VLEG: //Mnemonic V1, D2(X2,B2), M3
 		m, err := strconv.Atoi(args[2][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		switch inst.Op {
 		case VST:
@@ -960,7 +960,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 		case VSTM, VLM:
 			m, err := strconv.Atoi(args[3][1:])
 			if err != nil {
-				return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+				return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 			}
 			if !(m == 0 || (m > 2 && m < 5)) {
 				return fmt.Sprintf("specification exception is recognized for %q with mask value: %v \n", op, m)
@@ -972,7 +972,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 		case VESL, VESRA, VERLL, VLVG:
 			m, err := strconv.Atoi(args[3][1:])
 			if err != nil {
-				return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+				return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 			}
 			if m >= 0 && m < 4 {
 				op = op + vectorSize[m]
@@ -999,7 +999,7 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	case VGBM:
 		val, err := strconv.Atoi(args[1][1:])
 		if err != nil {
-			return fmt.Sprintf("GoSyntax: error in converting Atoi:%s", err)
+			return fmt.Sprintf("GolangSyntax: error in converting Atoi:%s", err)
 		}
 		if val == 0 {
 			op = "VZERO"

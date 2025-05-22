@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,7 +23,7 @@ func TestSchedule(t *testing.T) {
 				Valu("l1", OpLoad, c.config.Types.Int64, 0, nil, "ptr", "mem1"),
 				Valu("l2", OpLoad, c.config.Types.Int64, 0, nil, "ptr", "mem2"),
 				Valu("sum", OpAdd64, c.config.Types.Int64, 0, nil, "l1", "l2"),
-				Goto("exit")),
+				Golangto("exit")),
 			Bloc("exit",
 				Exit("mem3"))),
 	}
@@ -73,7 +73,7 @@ func TestStoreOrder(t *testing.T) {
 			Valu("mem2", OpStore, types.TypeMem, 0, c.config.Types.Int64, "ptr", "a", "mem1"),
 			Valu("ptr", OpConst64, c.config.Types.Int64, 0xABCD, nil),
 			Valu("v", OpConst64, c.config.Types.Int64, 12, nil),
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem2")))
 
@@ -122,7 +122,7 @@ func TestCarryChainOrder(t *testing.T) {
 			Valu("ValueSum", OpARM64ADD, c.config.Types.UInt64, 0, nil, "A1value", "A2value"),
 			Valu("CarrySum", OpARM64ADD, c.config.Types.UInt64, 0, nil, "A1Carryvalue", "A2Carryvalue"),
 			Valu("Sum", OpARM64AND, c.config.Types.UInt64, 0, nil, "ValueSum", "CarrySum"),
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem0")),
 	)

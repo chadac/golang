@@ -1,9 +1,9 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Package raw provides an interface to interpret and emit Go execution traces.
+Package raw provides an interface to interpret and emit Golang execution traces.
 It can interpret and emit execution traces in its wire format as well as a
 bespoke but simple text format.
 
@@ -19,7 +19,7 @@ format.
 
 The first line in each text trace is the header line.
 
-	Trace Go1.XX
+	Trace Golang1.XX
 
 Following that is a series of event lines. Each event begins with an
 event name, followed by zero or more named unsigned integer arguments.
@@ -38,7 +38,7 @@ special cases.
 
 The first special case consists of events with trailing byte-oriented data.
 The trailer begins on the following line from the event. That line consists
-of a single argument 'data' and a Go-quoted string representing the byte data
+of a single argument 'data' and a Golang-quoted string representing the byte data
 within. Note: an explicit argument for the length is elided, because it's
 just the length of the unquoted string.
 

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -165,7 +165,7 @@ var winsymlink = golangdebug.New("winsymlink")
 func (fs *fileStat) Mode() FileMode {
 	m := fs.mode()
 	if winsymlink.Value() == "0" {
-		old := fs.modePreGo1_23()
+		old := fs.modePreGolang1_23()
 		if old != m {
 			winsymlink.IncNonDefault()
 			m = old
@@ -219,7 +219,7 @@ func (fs *fileStat) mode() (m FileMode) {
 			// of persistent data, and they shouldn't add unexpected latency or
 			// unavailability in the way that a network filesystem might.
 			//
-			// Go programs may use ModeIrregular to filter out unusual files (such as
+			// Golang programs may use ModeIrregular to filter out unusual files (such as
 			// raw device files on Linux, POSIX FIFO special files, and so on), so
 			// to avoid files changing unpredictably from regular to irregular we will
 			// consider DEDUP files to be close enough to regular to treat as such.
@@ -230,11 +230,11 @@ func (fs *fileStat) mode() (m FileMode) {
 	return
 }
 
-// modePreGo1_23 returns the FileMode for the fileStat, using the pre-Go 1.23
+// modePreGolang1_23 returns the FileMode for the fileStat, using the pre-Golang 1.23
 // logic for determining the file mode.
 // The logic is subtle and not well-documented, so it is better to keep it
 // separate from the new logic.
-func (fs *fileStat) modePreGo1_23() (m FileMode) {
+func (fs *fileStat) modePreGolang1_23() (m FileMode) {
 	if fs.FileAttributes&syscall.FILE_ATTRIBUTE_READONLY != 0 {
 		m |= 0444
 	} else {

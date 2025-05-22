@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -30,9 +30,9 @@ func windowsTestAccount(t *testing.T) (syscall.Token, *User) {
 		// Even if we have them, we don't want to create users on
 		// on dev machines, as they may not be cleaned up.
 		// See https://dev.golang/issue/70396.
-		t.Skip("skipping non-hermetic test outside of Go builders")
+		t.Skip("skipping non-hermetic test outside of Golang builders")
 	}
-	const testUserName = "GoStdTestUser01"
+	const testUserName = "GolangStdTestUser01"
 	var password [33]byte
 	rand.Read(password[:])
 	// Add special chars to ensure it satisfies password requirements.

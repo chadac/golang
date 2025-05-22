@@ -11,7 +11,7 @@ env GOPROXY=direct
 env GIT_CONFIG_GLOBAL=$WORK${/}home${/}golangpher${/}.gitconfig
 env HOME=$WORK${/}home${/}golangpher
 exec git config --global --show-origin user.name
-stdout 'Go Gopher'
+stdout 'Golang Golangpher'
 
 ! golang mod download github.com/golanglang/nonexist@latest
 stderr 'Confirm the import path was entered correctly.'
@@ -44,5 +44,5 @@ stderr 'fatal: Could not read from remote repository.'
 
 -- $WORK/home/golangpher/.gitconfig --
 [user]
-	name = Go Gopher
+	name = Golang Golangpher
 	email = golangpher@golanglang.org

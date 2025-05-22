@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@ package main
 
 /*
 // Defined in gprof_c.c.
-void CallGoSleep(void);
+void CallGolangSleep(void);
 void gprofCgolangTraceback(void* parg);
 void gprofCgolangContext(void* parg);
 */
@@ -24,15 +24,15 @@ import (
 )
 
 func init() {
-	register("GoroutineProfile", GoroutineProfile)
+	register("GolangroutineProfile", GolangroutineProfile)
 }
 
-func GoroutineProfile() {
+func GolangroutineProfile() {
 	runtime.SetCgolangTraceback(0, unsafe.Pointer(C.gprofCgolangTraceback), unsafe.Pointer(C.gprofCgolangContext), nil)
 
-	golang C.CallGoSleep()
-	golang C.CallGoSleep()
-	golang C.CallGoSleep()
+	golang C.CallGolangSleep()
+	golang C.CallGolangSleep()
+	golang C.CallGolangSleep()
 	time.Sleep(1 * time.Second)
 
 	prof := pprof.Lookup("golangroutine")
@@ -40,7 +40,7 @@ func GoroutineProfile() {
 	fmt.Println("OK")
 }
 
-//export GoSleep
-func GoSleep() {
+//export GolangSleep
+func GolangSleep() {
 	time.Sleep(time.Hour)
 }

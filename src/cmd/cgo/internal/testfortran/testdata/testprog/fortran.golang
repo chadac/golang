@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ func TheAnswer() int {
 
 func main() {
 	if a := TheAnswer(); a != 42 {
-		fmt.Fprintln(os.Stderr, "Unexpected result for The Answer. Got:", a, " Want: 42")
+		fmt.Fprintln(os.Stderr, "Unexpected result for The Answer. Golangt:", a, " Want: 42")
 		os.Exit(1)
 	}
 	fmt.Fprintln(os.Stdout, "ok")

@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -47,7 +47,7 @@ var Linkinfo struct {
 // "\xff"+fipsMagic is the expected linkinfo.Magic.
 // We avoid writing that explicitly so that the string does not appear
 // elsewhere in normal binaries, just as a precaution.
-const fipsMagic = " Go fipsinfo \xff\x00"
+const fipsMagic = " Golang fipsinfo \xff\x00"
 
 var zeroSum [32]byte
 

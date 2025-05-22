@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -147,7 +147,7 @@ func TestTraceCPUProfile(t *testing.T) {
 			}
 			if ev.Kind() == trace.EventStackSample {
 				totalTraceSamples++
-				if hogRegion != nil && ev.Goroutine() == hogRegion.Goroutine() {
+				if hogRegion != nil && ev.Golangroutine() == hogRegion.Golangroutine() {
 					traceSamples++
 					var fns []string
 					for frame := range ev.Stack().Frames() {
@@ -215,7 +215,7 @@ func TestTraceFutileWakeup(t *testing.T) {
 		// Check to make sure that no golangroutine in the "special" trace region
 		// ends up blocking, unblocking, then immediately blocking again.
 		//
-		// The golangroutines are careful to call runtime.Gosched in between blocking,
+		// The golangroutines are careful to call runtime.Golangsched in between blocking,
 		// so there should never be a clean block/unblock on the golangroutine unless
 		// the runtime was generating extraneous events.
 		const (
@@ -224,8 +224,8 @@ func TestTraceFutileWakeup(t *testing.T) {
 			runnable
 			running
 		)
-		gs := make(map[trace.GoID]int)
-		seenSpecialGoroutines := false
+		gs := make(map[trace.GolangID]int)
+		seenSpecialGolangroutines := false
 		r, err := trace.NewReader(bytes.NewReader(tb))
 		if err != nil {
 			t.Error(err)
@@ -242,17 +242,17 @@ func TestTraceFutileWakeup(t *testing.T) {
 			// golangroutines don't interfere (it's totally valid in traces for a
 			// golangroutine to block, run, and block again; that's not what we care about).
 			if ev.Kind() == trace.EventRegionBegin && ev.Region().Type == "special" {
-				seenSpecialGoroutines = true
-				gs[ev.Goroutine()] = entered
+				seenSpecialGolangroutines = true
+				gs[ev.Golangroutine()] = entered
 			}
 			if ev.Kind() == trace.EventRegionEnd && ev.Region().Type == "special" {
-				delete(gs, ev.Goroutine())
+				delete(gs, ev.Golangroutine())
 			}
 			// Track state transitions for golangroutines we care about.
 			//
 			// The golangroutines we care about will advance through the state machine
 			// of entered -> blocked -> runnable -> running. If in the running state
-			// we block, then we have a futile wakeup. Because of the runtime.Gosched
+			// we block, then we have a futile wakeup. Because of the runtime.Golangsched
 			// on these specially marked golangroutines, we should end up back in runnable
 			// first. If at any point we golang to a different state, switch back to entered
 			// and wait for the next time the golangroutine blocks.
@@ -260,36 +260,36 @@ func TestTraceFutileWakeup(t *testing.T) {
 				continue
 			}
 			st := ev.StateTransition()
-			if st.Resource.Kind != trace.ResourceGoroutine {
+			if st.Resource.Kind != trace.ResourceGolangroutine {
 				continue
 			}
-			id := st.Resource.Goroutine()
+			id := st.Resource.Golangroutine()
 			state, ok := gs[id]
 			if !ok {
 				continue
 			}
-			_, new := st.Goroutine()
+			_, new := st.Golangroutine()
 			switch state {
 			case entered:
-				if new == trace.GoWaiting {
+				if new == trace.GolangWaiting {
 					state = blocked
 				} else {
 					state = entered
 				}
 			case blocked:
-				if new == trace.GoRunnable {
+				if new == trace.GolangRunnable {
 					state = runnable
 				} else {
 					state = entered
 				}
 			case runnable:
-				if new == trace.GoRunning {
+				if new == trace.GolangRunning {
 					state = running
 				} else {
 					state = entered
 				}
 			case running:
-				if new == trace.GoWaiting {
+				if new == trace.GolangWaiting {
 					t.Fatalf("found futile wakeup on golangroutine %d", id)
 				} else {
 					state = entered
@@ -297,7 +297,7 @@ func TestTraceFutileWakeup(t *testing.T) {
 			}
 			gs[id] = state
 		}
-		if !seenSpecialGoroutines {
+		if !seenSpecialGolangroutines {
 			t.Fatal("did not see a golangroutine in a the region 'special'")
 		}
 	})
@@ -325,74 +325,74 @@ func TestTraceStacks(t *testing.T) {
 		// mainLine is the line number of `func main()` in testprog/stacks.golang.
 		const mainLine = 21
 		want := []evDesc{
-			{trace.EventStateTransition, "Goroutine Running->Runnable", []frame{
+			{trace.EventStateTransition, "Golangroutine Running->Runnable", []frame{
 				{"main.main", mainLine + 82},
 			}},
-			{trace.EventStateTransition, "Goroutine NotExist->Runnable", []frame{
+			{trace.EventStateTransition, "Golangroutine NotExist->Runnable", []frame{
 				{"main.main", mainLine + 11},
 			}},
-			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+			{trace.EventStateTransition, "Golangroutine Running->Waiting", []frame{
 				{"runtime.block", 0},
 				{"main.main.func1", 0},
 			}},
-			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+			{trace.EventStateTransition, "Golangroutine Running->Waiting", []frame{
 				{"runtime.chansend1", 0},
 				{"main.main.func2", 0},
 			}},
-			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+			{trace.EventStateTransition, "Golangroutine Running->Waiting", []frame{
 				{"runtime.chanrecv1", 0},
 				{"main.main.func3", 0},
 			}},
-			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+			{trace.EventStateTransition, "Golangroutine Running->Waiting", []frame{
 				{"runtime.chanrecv1", 0},
 				{"main.main.func4", 0},
 			}},
-			{trace.EventStateTransition, "Goroutine Waiting->Runnable", []frame{
+			{trace.EventStateTransition, "Golangroutine Waiting->Runnable", []frame{
 				{"runtime.chansend1", 0},
 				{"main.main", mainLine + 84},
 			}},
-			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+			{trace.EventStateTransition, "Golangroutine Running->Waiting", []frame{
 				{"runtime.chansend1", 0},
 				{"main.main.func5", 0},
 			}},
-			{trace.EventStateTransition, "Goroutine Waiting->Runnable", []frame{
+			{trace.EventStateTransition, "Golangroutine Waiting->Runnable", []frame{
 				{"runtime.chanrecv1", 0},
 				{"main.main", mainLine + 85},
 			}},
-			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+			{trace.EventStateTransition, "Golangroutine Running->Waiting", []frame{
 				{"runtime.selectgolang", 0},
 				{"main.main.func6", 0},
 			}},
-			{trace.EventStateTransition, "Goroutine Waiting->Runnable", []frame{
+			{trace.EventStateTransition, "Golangroutine Waiting->Runnable", []frame{
 				{"runtime.selectgolang", 0},
 				{"main.main", mainLine + 86},
 			}},
-			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+			{trace.EventStateTransition, "Golangroutine Running->Waiting", []frame{
 				{"sync.(*Mutex).Lock", 0},
 				{"main.main.func7", 0},
 			}},
-			{trace.EventStateTransition, "Goroutine Waiting->Runnable", []frame{
+			{trace.EventStateTransition, "Golangroutine Waiting->Runnable", []frame{
 				{"sync.(*Mutex).Unlock", 0},
 				{"main.main", 0},
 			}},
-			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+			{trace.EventStateTransition, "Golangroutine Running->Waiting", []frame{
 				{"sync.(*WaitGroup).Wait", 0},
 				{"main.main.func8", 0},
 			}},
-			{trace.EventStateTransition, "Goroutine Waiting->Runnable", []frame{
+			{trace.EventStateTransition, "Golangroutine Waiting->Runnable", []frame{
 				{"sync.(*WaitGroup).Add", 0},
 				{"sync.(*WaitGroup).Done", 0},
 				{"main.main", mainLine + 91},
 			}},
-			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+			{trace.EventStateTransition, "Golangroutine Running->Waiting", []frame{
 				{"sync.(*Cond).Wait", 0},
 				{"main.main.func9", 0},
 			}},
-			{trace.EventStateTransition, "Goroutine Waiting->Runnable", []frame{
+			{trace.EventStateTransition, "Golangroutine Waiting->Runnable", []frame{
 				{"sync.(*Cond).Signal", 0},
 				{"main.main", 0},
 			}},
-			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+			{trace.EventStateTransition, "Golangroutine Running->Waiting", []frame{
 				{"time.Sleep", 0},
 				{"main.main", 0},
 			}},
@@ -418,14 +418,14 @@ func TestTraceStacks(t *testing.T) {
 		}
 		if runtime.GOOS != "windows" && runtime.GOOS != "plan9" {
 			want = append(want, []evDesc{
-				{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+				{trace.EventStateTransition, "Golangroutine Running->Waiting", []frame{
 					{"internal/poll.(*FD).Accept", 0},
 					{"net.(*netFD).accept", 0},
 					{"net.(*TCPListener).accept", 0},
 					{"net.(*TCPListener).Accept", 0},
 					{"main.main.func10", 0},
 				}},
-				{trace.EventStateTransition, "Goroutine Running->Syscall", []frame{
+				{trace.EventStateTransition, "Golangroutine Running->Syscall", []frame{
 					{"syscall.read", 0},
 					{"syscall.Read", 0},
 					{"internal/poll.ignoringEINTRIO", 0},
@@ -469,8 +469,8 @@ func TestTraceStacks(t *testing.T) {
 					st := ev.StateTransition()
 					str := ""
 					switch st.Resource.Kind {
-					case trace.ResourceGoroutine:
-						old, new := st.Goroutine()
+					case trace.ResourceGolangroutine:
+						old, new := st.Golangroutine()
 						str = fmt.Sprintf("%s %s->%s", st.Resource.Kind, old, new)
 					}
 					match = str == wantEv.match
@@ -568,7 +568,7 @@ func checkReaderDeterminism(t *testing.T, tb, _ []byte, _ bool) {
 }
 
 func testTraceProg(t *testing.T, progName string, extra func(t *testing.T, trace, stderr []byte, stress bool)) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	// Check if we're on a builder.
 	onBuilder := testenv.Builder() != ""
@@ -583,7 +583,7 @@ func testTraceProg(t *testing.T, progName string, extra func(t *testing.T, trace
 	testName := progName
 	runTest := func(t *testing.T, stress bool, extraGODEBUG string) {
 		// Run the program and capture the trace, which is always written to stdout.
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "run")
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "run")
 		if race.Enabled {
 			cmd.Args = append(cmd.Args, "-race")
 		}
@@ -619,7 +619,7 @@ func testTraceProg(t *testing.T, progName string, extra func(t *testing.T, trace
 
 		// Test the trace and the parser.
 		v := testtrace.NewValidator()
-		v.GoVersion = version.Current
+		v.GolangVersion = version.Current
 		if runtime.GOOS == "windows" && stress {
 			// Under stress mode we're constantly advancing trace generations.
 			// Windows' clock granularity is too coarse to guarantee monotonic

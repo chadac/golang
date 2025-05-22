@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -105,7 +105,7 @@ func assignAddress(ldr *loader.Loader, sect *sym.Section, n int, s loader.Sym, v
 	//   s.Value = PC = PC_F<<16 + PC_B
 	//
 	// The funcValueOffset is necessary to avoid conflicts with expectations
-	// that the Go runtime has about function addresses.
+	// that the Golang runtime has about function addresses.
 	// The field "s.Value" corresponds to the concept of PC at runtime.
 	// However, there is no PC register, only PC_F and PC_B. PC_F denotes the function,
 	// PC_B the resume point inside of that function. The entry of the function has PC_B = 0.
@@ -144,7 +144,7 @@ func asmb(ctxt *ld.Link, ldr *loader.Loader) {
 // Spec: https://webassembly.github.io/spec/core/binary/modules.html
 func asmb2(ctxt *ld.Link, ldr *loader.Loader) {
 	types := []*wasmFuncType{
-		// For normal Go functions, the single parameter is PC_B,
+		// For normal Golang functions, the single parameter is PC_B,
 		// the return value is
 		// 0 if the function returned normally or
 		// 1 if the stack needs to be unwound.
@@ -323,7 +323,7 @@ func writeImportSec(ctxt *ld.Link, hostImports []*wasmFunc) {
 		if fn.Module != "" {
 			writeName(ctxt.Out, fn.Module)
 		} else {
-			writeName(ctxt.Out, wasm.GojsModule) // provided by the import object in wasm_exec.js
+			writeName(ctxt.Out, wasm.GolangjsModule) // provided by the import object in wasm_exec.js
 		}
 		writeName(ctxt.Out, fn.Name)
 		ctxt.Out.WriteByte(0x00) // func import
@@ -590,12 +590,12 @@ func writeProducerSec(ctxt *ld.Link) {
 
 	writeName(ctxt.Out, "language")       // field name
 	writeUleb128(ctxt.Out, 1)             // number of values
-	writeName(ctxt.Out, "Go")             // value: name
+	writeName(ctxt.Out, "Golang")             // value: name
 	writeName(ctxt.Out, buildcfg.Version) // value: version
 
 	writeName(ctxt.Out, "processed-by")   // field name
 	writeUleb128(ctxt.Out, 1)             // number of values
-	writeName(ctxt.Out, "Go cmd/compile") // value: name
+	writeName(ctxt.Out, "Golang cmd/compile") // value: name
 	writeName(ctxt.Out, buildcfg.Version) // value: version
 
 	writeSecSize(ctxt, sizeOffset)

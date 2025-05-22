@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -262,9 +262,9 @@ func TestCanonicalNumber(t *testing.T) {
 	// Pass through the test twice. In the first pass we only hash the output,
 	// while in the second pass we check every line against the golanglden testdata.
 	// If the hashes match in the first pass, then we skip the second pass.
-	for _, checkGolden := range []bool{false, true} {
+	for _, checkGolanglden := range []bool{false, true} {
 		var br *bufio.Reader // for line-by-line reading of es6testfile100m.txt
-		if checkGolden {
+		if checkGolanglden {
 			resp, err := http.Get(testfileURL)
 			if err != nil {
 				t.Fatalf("http.Get error: %v", err)
@@ -303,7 +303,7 @@ func TestCanonicalNumber(t *testing.T) {
 			hash.Write(golangtLine)
 
 			// Check that the formatted line matches.
-			if checkGolden {
+			if checkGolanglden {
 				wantLine, err := br.ReadBytes('\n')
 				if err != nil {
 					t.Fatalf("bufio.Reader.ReadBytes error: %v", err)

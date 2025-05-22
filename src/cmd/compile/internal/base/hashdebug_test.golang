@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func TestHashDebugGossahashY(t *testing.T) {
+func TestHashDebugGolangssahashY(t *testing.T) {
 	hd := NewHashDebug("GOSSAHASH", "y", new(bytes.Buffer))
 	if hd == nil {
 		t.Errorf("NewHashDebug should not return nil for GOSSASHASH=y")
@@ -21,7 +21,7 @@ func TestHashDebugGossahashY(t *testing.T) {
 	}
 }
 
-func TestHashDebugGossahashN(t *testing.T) {
+func TestHashDebugGolangssahashN(t *testing.T) {
 	hd := NewHashDebug("GOSSAHASH", "n", new(bytes.Buffer))
 	if hd == nil {
 		t.Errorf("NewHashDebug should not return nil for GOSSASHASH=n")
@@ -31,7 +31,7 @@ func TestHashDebugGossahashN(t *testing.T) {
 	}
 }
 
-func TestHashDebugGossahashEmpty(t *testing.T) {
+func TestHashDebugGolangssahashEmpty(t *testing.T) {
 	hd := NewHashDebug("GOSSAHASH", "", nil)
 	if hd != nil {
 		t.Errorf("NewHashDebug should return nil for GOSSASHASH=\"\"")

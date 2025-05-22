@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -82,7 +82,7 @@ func sameFile(fn1, fn2 string) bool {
 }
 
 func TestExecutableDeleted(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	switch runtime.GOOS {
 	case "windows", "plan9":
 		t.Skipf("%v does not support deleting running binary", runtime.GOOS)
@@ -101,7 +101,7 @@ func TestExecutableDeleted(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	out, err := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, src).CombinedOutput()
+	out, err := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", exe, src).CombinedOutput()
 	t.Logf("build output:\n%s", out)
 	if err != nil {
 		t.Fatal(err)

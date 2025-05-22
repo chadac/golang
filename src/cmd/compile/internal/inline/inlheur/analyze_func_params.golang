@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ import (
 )
 
 // paramsAnalyzer holds state information for the phase that computes
-// flags for a Go functions parameters, for use in inline heuristics.
+// flags for a Golang functions parameters, for use in inline heuristics.
 // Note that the params slice below includes entries for blanks.
 type paramsAnalyzer struct {
 	fname  string

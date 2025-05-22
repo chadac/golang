@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -76,9 +76,9 @@ func golangbuild(t *testing.T, indir string, bargs []string) {
 		if indir != "" {
 			t.Logf("in dir %s: ", indir)
 		}
-		t.Logf("cmd: %s %+v\n", testenv.GoToolPath(t), bargs)
+		t.Logf("cmd: %s %+v\n", testenv.GolangToolPath(t), bargs)
 	}
-	cmd := testenv.Command(t, testenv.GoToolPath(t), bargs...)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), bargs...)
 	cmd.Dir = indir
 	b, err := cmd.CombinedOutput()
 	if len(b) != 0 {
@@ -148,7 +148,7 @@ type state struct {
 const debugWorkDir = false
 
 func TestCovTool(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	dir := tempDir(t)
 	if testing.Short() {
 		t.Skip()

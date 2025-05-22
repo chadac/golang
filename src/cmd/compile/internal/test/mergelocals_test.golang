@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -110,7 +110,7 @@ func TestMergeLocalState(t *testing.T) {
 }
 
 func TestMergeLocalsIntegration(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This test does a build of a specific canned package to
 	// check whether merging of stack slots is taking place.
@@ -141,7 +141,7 @@ func TestMergeLocalsIntegration(t *testing.T) {
 	tmpdir := t.TempDir()
 	src := filepath.Join("testdata", "mergelocals", "integration.golang")
 	obj := filepath.Join(tmpdir, "p.a")
-	out, err := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile",
+	out, err := testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile",
 		"-p=p", "-c", "1", "-o", obj, "-d=mergelocalstrace=2,mergelocals=1",
 		src).CombinedOutput()
 	if err != nil {

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -879,17 +879,17 @@ func TestProcInstEncoding(t *testing.T) {
 
 var directivesWithCommentsInput = `
 <!DOCTYPE [<!-- a comment --><!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">]>
-<!DOCTYPE [<!ENTITY golang "Golang"><!-- a comment-->]>
-<!DOCTYPE <!-> <!> <!----> <!-->--> <!--->--> [<!ENTITY golang "Golang"><!-- a comment-->]>
+<!DOCTYPE [<!ENTITY golang "Golanglang"><!-- a comment-->]>
+<!DOCTYPE <!-> <!> <!----> <!-->--> <!--->--> [<!ENTITY golang "Golanglang"><!-- a comment-->]>
 `
 
 var directivesWithCommentsTokens = []Token{
 	CharData("\n"),
 	Directive(`DOCTYPE [ <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">]`),
 	CharData("\n"),
-	Directive(`DOCTYPE [<!ENTITY golang "Golang"> ]`),
+	Directive(`DOCTYPE [<!ENTITY golang "Golanglang"> ]`),
 	CharData("\n"),
-	Directive(`DOCTYPE <!-> <!>       [<!ENTITY golang "Golang"> ]`),
+	Directive(`DOCTYPE <!-> <!>       [<!ENTITY golang "Golanglang"> ]`),
 	CharData("\n"),
 }
 
@@ -1053,7 +1053,7 @@ func TestIssue11405(t *testing.T) {
 			}
 		}
 		if _, ok := err.(*SyntaxError); !ok {
-			t.Errorf("%s: Token: Got error %v, want SyntaxError", tc, err)
+			t.Errorf("%s: Token: Golangt error %v, want SyntaxError", tc, err)
 		}
 	}
 }
@@ -1270,11 +1270,11 @@ func TestWrapDecoder(t *testing.T) {
 	}{}
 
 	if err := d.Decode(&o); err != nil {
-		t.Fatal("Got unexpected error while decoding:", err)
+		t.Fatal("Golangt unexpected error while decoding:", err)
 	}
 
 	if o.Chardata != "[Re-enter Clown with a letter, and FABIAN]" {
-		t.Fatalf("Got unexpected chardata: `%s`\n", o.Chardata)
+		t.Fatalf("Golangt unexpected chardata: `%s`\n", o.Chardata)
 	}
 }
 

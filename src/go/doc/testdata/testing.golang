@@ -1,8 +1,8 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package testing provides support for automated testing of Go packages.
+// Package testing provides support for automated testing of Golang packages.
 // It is intended to be used in concert with the “golang test” utility, which automates
 // execution of any function of the form
 //     func TestXxx(*testing.T)
@@ -138,7 +138,7 @@ func (c *common) Failed() bool { return c.failed }
 func (c *common) FailNow() {
 	c.Fail()
 
-	// Calling runtime.Goexit will exit the golangroutine, which
+	// Calling runtime.Golangexit will exit the golangroutine, which
 	// will run the deferred functions in this golangroutine,
 	// which will eventually run the deferred lines in tRunner,
 	// which will signal to the test loop that this test is done.
@@ -147,17 +147,17 @@ func (c *common) FailNow() {
 	//
 	//	c.duration = ...
 	//	c.signal <- c.self
-	//	runtime.Goexit()
+	//	runtime.Golangexit()
 	//
 	// This previous version duplicated code (those lines are in
 	// tRunner no matter what), but worse the golangroutine teardown
-	// implicit in runtime.Goexit was not guaranteed to complete
+	// implicit in runtime.Golangexit was not guaranteed to complete
 	// before the test exited. If a test deferred an important cleanup
 	// function (like removing temporary files), there was no guarantee
 	// it would run on a test failure. Because we send on c.signal during
 	// a top-of-stack deferred function now, we know that the send
 	// only happens after any other stacked defers have completed.
-	runtime.Goexit()
+	runtime.Golangexit()
 }
 
 // log generates the output. It's always at the same stack depth.
@@ -216,7 +216,7 @@ func tRunner(t *T, test *InternalTest) {
 
 	// When this golangroutine is done, either because test.F(t)
 	// returned normally or because a test failure triggered
-	// a call to runtime.Goexit, record the duration and send
+	// a call to runtime.Golangexit, record the duration and send
 	// a signal saying that the test is done.
 	defer func() {
 		t.duration = time.Since(t.start)

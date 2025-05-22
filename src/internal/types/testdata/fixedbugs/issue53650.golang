@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -42,7 +42,7 @@ func NewT[TBase BaseT, TVal ValueT[TBase]]() *TVal {
 	ret := TVal{}
 	return &ret
 }
-func TestGoType(t *testing.T) {
+func TestGolangType(t *testing.T) {
 	r1 := NewType1()
 	r2 := NewType2()
 	t.Log(r1, r2)

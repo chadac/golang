@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@
 
 // RISC-V offered floating-point (FP) rounding by FP conversion instructions (FCVT)
 // with rounding mode field.
-// As Go spec expects FP rounding result in FP, we have to use FCVT integer
+// As Golang spec expects FP rounding result in FP, we have to use FCVT integer
 // back to FP (fp -> int -> fp).
 // RISC-V only set Inexact flag during invalid FP-integer conversion without changing any data,
 // on the other hand, RISC-V sets out of integer represent range yet valid FP into NaN.

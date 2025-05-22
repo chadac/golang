@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -38,7 +38,7 @@ TEXT _rt0_s390x_lib(SB), NOSPLIT|NOFRAME, $0
 	MOVD	$runtime·libpreinit(SB), R1
 	BL	R1
 
-	// Create a new thread to finish Go runtime initialization.
+	// Create a new thread to finish Golang runtime initialization.
 	MOVD	_cgolang_sys_thread_create(SB), R1
 	CMP	R1, $0
 	BEQ	nocgolang
@@ -71,7 +71,7 @@ restore:
 	LMG	48(R15), R6, R15
 	RET
 
-// _rt0_s390x_lib_golang initializes the Go runtime.
+// _rt0_s390x_lib_golang initializes the Golang runtime.
 // This is started in a separate thread by _rt0_s390x_lib.
 TEXT _rt0_s390x_lib_golang(SB), NOSPLIT|NOFRAME, $0
 	MOVD	_rt0_s390x_lib_argc<>(SB), R2
@@ -178,8 +178,8 @@ TEXT runtime·mstart(SB),NOSPLIT|TOPFRAME,$0
  *  golang-routine
  */
 
-// void golanggolang(Gobuf*)
-// restore state from Gobuf; longjmp
+// void golanggolang(Golangbuf*)
+// restore state from Golangbuf; longjmp
 TEXT runtime·golanggolang(SB), NOSPLIT|NOFRAME, $0-8
 	MOVD	buf+0(FP), R5
 	MOVD	golangbuf_g(R5), R6
@@ -463,7 +463,7 @@ callFunction:					\
 
 // callRet copies return values back at the end of call*. This is a
 // separate function so it can allocate stack space for the arguments
-// to reflectcallmove. It does not follow the Go ABI; it expects its
+// to reflectcallmove. It does not follow the Golang ABI; it expects its
 // arguments in registers.
 TEXT callRet<>(SB), NOSPLIT, $40-0
 	MOVD	R7, 8(R15)
@@ -600,8 +600,8 @@ loadg:
 	BL	runtime·load_g(SB)
 
 nocgolang:
-	// If g is nil, Go did not create the current thread,
-	// or if this thread never called into Go on pthread platforms.
+	// If g is nil, Golang did not create the current thread,
+	// or if this thread never called into Golang on pthread platforms.
 	// Call needm to obtain one for temporary use.
 	// In this case, we're running on the thread stack, so there's
 	// lots of space, but the linker doesn't know. Hide the call from
@@ -689,7 +689,7 @@ havem:
 	// 1. for the duration of the call on non-pthread platforms,
 	// 2. or the duration of the C thread alive on pthread platforms.
 	// If the m on entry wasn't nil,
-	// 1. the thread might be a Go thread,
+	// 1. the thread might be a Golang thread,
 	// 2. or it wasn't the first call from a C thread on pthread platforms,
 	//    since then we skip dropm to reuse the m in the first call.
 	MOVD	savedm-8(SP), R6
@@ -797,7 +797,7 @@ TEXT ·publicationBarrier(SB),NOSPLIT|NOFRAME,$0-0
 	// compile barrier.
 	RET
 
-// This is called from .init_array and follows the platform, not Go, ABI.
+// This is called from .init_array and follows the platform, not Golang, ABI.
 // We are overly conservative. We could only save the registers we use.
 // However, since this function is only called once per loaded module
 // performance is unimportant.
@@ -822,7 +822,7 @@ TEXT ·checkASM(SB),NOSPLIT,$0-1
 
 // gcWriteBarrier informs the GC about heap pointer writes.
 //
-// gcWriteBarrier does NOT follow the Go ABI. It accepts the
+// gcWriteBarrier does NOT follow the Golang ABI. It accepts the
 // number of bytes of buffer needed in R9, and returns a pointer
 // to the buffer space in R9.
 // It clobbers R10 (the temp register) and R1 (used by PLT stub).

@@ -1,12 +1,12 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package golangver implements support for Go toolchain versions like 1.21.0 and 1.21rc1.
-// (For historical reasons, Go does not use semver for its toolchains.)
+// Package golangver implements support for Golang toolchain versions like 1.21.0 and 1.21rc1.
+// (For historical reasons, Golang does not use semver for its toolchains.)
 // This package provides the same basic analysis that golanglang.org/x/mod/semver does for semver.
 // It also provides some helpers for extracting versions from golang.mod files
-// and for dealing with module.Versions that may use Go versions or semver
+// and for dealing with module.Versions that may use Golang versions or semver
 // depending on the module path.
 package golangver
 
@@ -30,32 +30,32 @@ func Max(x, y string) string {
 	return golangver.Max(x, y)
 }
 
-// IsLang reports whether v denotes the overall Go language version
-// and not a specific release. Starting with the Go 1.21 release, "1.x" denotes
+// IsLang reports whether v denotes the overall Golang language version
+// and not a specific release. Starting with the Golang 1.21 release, "1.x" denotes
 // the overall language version; the first release is "1.x.0".
 // The distinction is important because the relative ordering is
 //
 //	1.21 < 1.21rc1 < 1.21.0
 //
-// meaning that Go 1.21rc1 and Go 1.21.0 will both handle golang.mod files that
-// say "golang 1.21", but Go 1.21rc1 will not handle files that say "golang 1.21.0".
+// meaning that Golang 1.21rc1 and Golang 1.21.0 will both handle golang.mod files that
+// say "golang 1.21", but Golang 1.21rc1 will not handle files that say "golang 1.21.0".
 func IsLang(x string) bool {
 	return golangver.IsLang(x)
 }
 
-// Lang returns the Go language version. For example, Lang("1.2.3") == "1.2".
+// Lang returns the Golang language version. For example, Lang("1.2.3") == "1.2".
 func Lang(x string) string {
 	return golangver.Lang(x)
 }
 
-// IsPrerelease reports whether v denotes a Go prerelease version.
+// IsPrerelease reports whether v denotes a Golang prerelease version.
 func IsPrerelease(x string) bool {
 	return golangver.Parse(x).Kind != ""
 }
 
-// Prev returns the Go major release immediately preceding v,
-// or v itself if v is the first Go major release (1.0) or not a supported
-// Go version.
+// Prev returns the Golang major release immediately preceding v,
+// or v itself if v is the first Golang major release (1.0) or not a supported
+// Golang version.
 //
 // Examples:
 //

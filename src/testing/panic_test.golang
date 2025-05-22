@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -238,10 +238,10 @@ func TestMorePanic(t *testing.T) {
 		want  string
 	}{
 		{
-			desc:  "Issue 48502: call runtime.Goexit in t.Cleanup after panic",
-			flags: []string{"-test.run=^TestGoexitInCleanupAfterPanicHelper$"},
+			desc:  "Issue 48502: call runtime.Golangexit in t.Cleanup after panic",
+			flags: []string{"-test.run=^TestGolangexitInCleanupAfterPanicHelper$"},
 			want: `panic: die
-	panic: test executed panic(nil) or runtime.Goexit`,
+	panic: test executed panic(nil) or runtime.Golangexit`,
 		},
 		{
 			desc:  "Issue 48515: call t.Run in t.Cleanup should trigger panic",
@@ -275,12 +275,12 @@ func TestCallRunInCleanupHelper(t *testing.T) {
 	})
 }
 
-func TestGoexitInCleanupAfterPanicHelper(t *testing.T) {
+func TestGolangexitInCleanupAfterPanicHelper(t *testing.T) {
 	if os.Getenv("GO_WANT_HELPER_PROCESS") != "1" {
 		return
 	}
 
-	t.Cleanup(func() { runtime.Goexit() })
+	t.Cleanup(func() { runtime.Golangexit() })
 	t.Parallel()
 	panic("die")
 }

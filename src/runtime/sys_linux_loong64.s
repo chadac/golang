@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -426,13 +426,13 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$168
 	RET
 
 // Called from c-abi, R4: sig, R5: info, R6: cxt
-TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT,$168
+TEXT runtime·sigprofNonGolangWrapper<>(SB),NOSPLIT,$168
 	// Save callee-save registers because it's a callback from c code.
 	SAVE_R22_TO_R31((4*8))
 	SAVE_F24_TO_F31((14*8))
 
 	// R4, R5 and R6 already contain sig, info and ctx, respectively.
-	CALL	runtime·sigprofNonGo<ABIInternal>(SB)
+	CALL	runtime·sigprofNonGolang<ABIInternal>(SB)
 
 	// Restore callee-save registers.
 	RESTORE_R22_TO_R31((4*8))
@@ -442,7 +442,7 @@ TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT,$168
 // Called from c-abi, R4: sig, R5: info, R6: cxt
 TEXT runtime·cgolangSigtramp(SB),NOSPLIT|NOFRAME,$0
 	// The stack unwinder, presumably written in C, may not be able to
-	// handle Go frame correctly. So, this function is NOFRAME, and we
+	// handle Golang frame correctly. So, this function is NOFRAME, and we
 	// save/restore LR manually.
 	MOVV	R1, R12
 	// Save R30, g because they will be clobbered,
@@ -497,7 +497,7 @@ sigtramp:
 	JMP	runtime·sigtramp(SB)
 
 sigtrampnog:
-	// Signal arrived on a non-Go thread. If this is SIGPROF, get a
+	// Signal arrived on a non-Golang thread. If this is SIGPROF, get a
 	// stack trace.
 	MOVW    $27, R15 // 27 == SIGPROF
 	BNE     R4, R15, sigtramp
@@ -513,12 +513,12 @@ cas_again:
 	DBAR    $0x14
 
 	// Jump to the traceback function in runtime/cgolang.
-	// It will call back to sigprofNonGo, which will ignore the
+	// It will call back to sigprofNonGolang, which will ignore the
 	// arguments passed in registers.
 	// First three arguments to traceback function are in registers already.
 	MOVV	runtime·cgolangTraceback(SB), R7
 	MOVV	$runtime·sigprofCallers(SB), R8
-	MOVV	$runtime·sigprofNonGoWrapper<>(SB), R9
+	MOVV	$runtime·sigprofNonGolangWrapper<>(SB), R9
 	MOVV	_cgolang_callers(SB), R15
 	MOVV	R12, R1 // restore
 	MOVV	R13, R30

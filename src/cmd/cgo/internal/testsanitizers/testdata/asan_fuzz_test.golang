@@ -17,8 +17,8 @@ func Reverse(s string) string {
 // we should see a fuzzing failure, not an ASAN failure.
 
 func FuzzReverse(f *testing.F) {
-	f.Add("Go")
-	f.Add("Gopher")
+	f.Add("Golang")
+	f.Add("Golangpher")
 	f.Add("Hello, 世界")
 	f.Fuzz(func(t *testing.T, s string) {
 		r1 := Reverse(s)

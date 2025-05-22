@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -87,8 +87,8 @@ func initParserMode() {
 	}
 }
 
-func isGoFile(f fs.DirEntry) bool {
-	// ignore non-Go files
+func isGolangFile(f fs.DirEntry) bool {
+	// ignore non-Golang files
 	name := f.Name()
 	return !strings.HasPrefix(name, ".") && strings.HasSuffix(name, ".golang") && !f.IsDir()
 }
@@ -421,9 +421,9 @@ func golangfmtMain(s *sequencer) {
 				return processFile(arg, info, nil, r)
 			})
 		default:
-			// Directories are walked, ignoring non-Go files.
+			// Directories are walked, ignoring non-Golang files.
 			err := filepath.WalkDir(arg, func(path string, f fs.DirEntry, err error) error {
-				if err != nil || !isGoFile(f) {
+				if err != nil || !isGolangFile(f) {
 					return err
 				}
 				info, err := f.Info()

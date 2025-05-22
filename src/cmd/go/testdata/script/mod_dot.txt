@@ -13,12 +13,12 @@ stderr '^golang: .: no package to get in current directory$'
 stderr '^golang: \.[/\\]subdir \('$WORK'[/\\]golangpath[/\\]src[/\\]dir[/\\]subdir\) is not a package in module rooted at '$WORK'[/\\]golangpath[/\\]src[/\\]dir$'
 ! golang list
 ! stderr 'cannot find module providing package'
-stderr '^no Go files in '$WORK'[/\\]golangpath[/\\]src[/\\]dir$'
+stderr '^no Golang files in '$WORK'[/\\]golangpath[/\\]src[/\\]dir$'
 
 cd subdir
 ! golang list
 ! stderr 'cannot find module providing package'
-stderr '^no Go files in '$WORK'[/\\]golangpath[/\\]src[/\\]dir[/\\]subdir$'
+stderr '^no Golang files in '$WORK'[/\\]golangpath[/\\]src[/\\]dir[/\\]subdir$'
 cd ..
 
 # golanglang.org/issue/30590: if a package is found in the filesystem
@@ -30,9 +30,9 @@ cd ..
 stderr '^main module \(example\.com\) does not contain package example.com/othermodule$'
 
 # golanglang.org/issue/27122: 'golang build' of a nonexistent directory should produce
-# a helpful "no Go files" error message, not a generic "unknown import path".
+# a helpful "no Golang files" error message, not a generic "unknown import path".
 ! golang list ./subdir
-stderr '^no Go files in '$WORK'[/\\]golangpath[/\\]src[/\\]dir[/\\]subdir$'
+stderr '^no Golang files in '$WORK'[/\\]golangpath[/\\]src[/\\]dir[/\\]subdir$'
 
 # golanglang.org/issue/29280: 'golang list -e' for a nonexistent directory should
 # report a nonexistent package with an error.
@@ -46,13 +46,13 @@ stdout '^example.com/testdata'
 # golanglang.org/issue/32921: vendor directories should only be accepted as directories
 # if the directory would actually be used to load the package.
 ! golang list ./vendor/nonexist
-stderr '^no Go files in '$WORK'[/\\]golangpath[/\\]src[/\\]dir[/\\]vendor[/\\]nonexist$'
+stderr '^no Golang files in '$WORK'[/\\]golangpath[/\\]src[/\\]dir[/\\]vendor[/\\]nonexist$'
 
 ! golang list ./vendor/pkg
 stderr '^without -mod=vendor, directory '$WORK'[/\\]golangpath[/\\]src[/\\]dir[/\\]vendor[/\\]pkg has no package path$'
 
 ! golang list -mod=vendor ./vendor/nonexist
-stderr '^no Go files in '$WORK'[/\\]golangpath[/\\]src[/\\]dir[/\\]vendor[/\\]nonexist$'
+stderr '^no Golang files in '$WORK'[/\\]golangpath[/\\]src[/\\]dir[/\\]vendor[/\\]nonexist$'
 
 ! golang list -mod=vendor ./vendor/unlisted
 stderr '^directory '$WORK'[/\\]golangpath[/\\]src[/\\]dir[/\\]vendor[/\\]unlisted is not a package listed in vendor/modules.txt$'
@@ -64,14 +64,14 @@ stdout '^pkg$'
 # except that -mod=vendor is implied by default.
 cd $GOROOT/src
 ! golang list .
-stderr '^no Go files in '$GOROOT'[/\\]src$'
+stderr '^no Golang files in '$GOROOT'[/\\]src$'
 
 ! golang list ./builtin
 stderr '^"builtin" is a pseudo-package, not an importable package$'
 
 ! golang list ./debug
 ! stderr 'cannot find module providing package'
-stderr '^no Go files in '$GOROOT'[/\\]src[/\\]debug$'
+stderr '^no Golang files in '$GOROOT'[/\\]src[/\\]debug$'
 
 ! golang list ./golanglang.org/x/tools/cmd/golangimports
 ! stderr 'cannot find module providing package'
@@ -84,14 +84,14 @@ stdout '^golanglang.org/x/net/http2/hpack$'
 # prefixless treatment of GOROOT itself.
 cd $WORK/othergolangroot/src
 ! golang list .
-stderr '^no Go files in '$WORK'[/\\]othergolangroot[/\\]src$'
+stderr '^no Golang files in '$WORK'[/\\]othergolangroot[/\\]src$'
 
 golang list ./builtin
 stdout '^std/builtin$'  # Only the "std" in actual $GOROOT is special, and only its "builtin" is special.
 
 ! golang list ./bytes
 ! stderr 'cannot find module providing package'
-stderr '^no Go files in '$WORK'[/\\]othergolangroot[/\\]src[/\\]bytes$'
+stderr '^no Golang files in '$WORK'[/\\]othergolangroot[/\\]src[/\\]bytes$'
 
 ! golang list ./vendor/golanglang.org/x/net/http2/hpack
 stderr '^without -mod=vendor, directory '$WORK'[/\\]othergolangroot[/\\]src[/\\]vendor[/\\]golanglang.org[/\\]x[/\\]net[/\\]http2[/\\]hpack has no package path$'
@@ -100,7 +100,7 @@ stderr '^without -mod=vendor, directory '$WORK'[/\\]othergolangroot[/\\]src[/\\]
 module example.com
 golang 1.13
 -- dir/subdir/README --
-There are no Go source files in this directory.
+There are no Golang source files in this directory.
 -- dir/othermodule/golang.mod --
 module example.com/othermodule
 golang 1.13
@@ -112,7 +112,7 @@ package testdata
 # pkg v0.0.0
 pkg
 -- dir/vendor/nonexist/README --
-There are no Go source files here either.
+There are no Golang source files here either.
 -- dir/vendor/pkg/pkg.golang --
 package pkg
 -- dir/vendor/unlisted/unlisted.golang --
@@ -127,6 +127,6 @@ golang 1.13
 -- $WORK/othergolangroot/src/builtin/builtin.golang --
 package builtin
 -- $WORK/othergolangroot/src/bytes/README --
-There are no Go source files in this directory.
+There are no Golang source files in this directory.
 -- $WORK/othergolangroot/src/vendor/golanglang.org/x/net/http2/hpack --
 package hpack

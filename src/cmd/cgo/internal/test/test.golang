@@ -1,11 +1,11 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test cases for cgolang.
 // Both the import "C" prologue and the main file are sorted by issue number.
 // This file contains C definitions (not just declarations)
-// and so it must NOT contain any //export directives on Go functions.
+// and so it must NOT contain any //export directives on Golang functions.
 // See testx.golang for exports.
 
 package cgolangtest
@@ -117,11 +117,11 @@ int add(int x, int y) {
 
 // escape vs noescape
 
-#cgolang noescape handleGoStringPointerNoescape
-#cgolang nocallback handleGoStringPointerNoescape
-void handleGoStringPointerNoescape(void *s) {}
+#cgolang noescape handleGolangStringPointerNoescape
+#cgolang nocallback handleGolangStringPointerNoescape
+void handleGolangStringPointerNoescape(void *s) {}
 
-void handleGoStringPointerEscape(void *s) {}
+void handleGolangStringPointerEscape(void *s) {}
 
 // Following mimics vulkan complex definitions for benchmarking cgolangcheck overhead.
 
@@ -373,7 +373,7 @@ void init() {
 
 // issue 5242
 // Cgolang incorrectly computed the alignment of structs
-// with no Go accessible fields as 0, and then panicked on
+// with no Golang accessible fields as 0, and then panicked on
 // modulo-by-zero computations.
 
 // issue 50987
@@ -477,13 +477,13 @@ enum {
 #define mystring_def "hello"
 
 // issue 6907
-char* Issue6907CopyString(_GoString_ s) {
+char* Issue6907CopyString(_GolangString_ s) {
 	size_t n;
 	const char *p;
 	char *r;
 
-	n = _GoStringLen(s);
-	p = _GoStringPtr(s);
+	n = _GolangStringLen(s);
+	p = _GolangStringPtr(s);
 	r = malloc(n + 1);
 	memmove(r, p, n);
 	r[n] = '\0';
@@ -615,7 +615,7 @@ void setstruct(Struct s) {
 }
 
 // issue 11925
-// Structs with zero-length trailing fields are now padded by the Go compiler.
+// Structs with zero-length trailing fields are now padded by the Golang compiler.
 
 struct a11925 {
 	int i;
@@ -852,7 +852,7 @@ static int twoargs3(void * p) { return 0; }
 static void issue28545F(char **p, int n, complex double a) {}
 
 // issue 28772 part 1 - part 2 in testx.golang
-// Failed to add type conversion for Go constant set to C constant.
+// Failed to add type conversion for Golang constant set to C constant.
 // No runtime test; just make sure it compiles.
 
 #define issue28772Constant 1
@@ -913,8 +913,8 @@ static uint16_t issue31093F(uint16_t v) { return v; }
 typedef struct S32579 { unsigned char data[1]; } S32579;
 
 // issue 37033, cgolang.Handle
-extern void GoFunc37033(uintptr_t handle);
-void cFunc37033(uintptr_t handle) { GoFunc37033(handle); }
+extern void GolangFunc37033(uintptr_t handle);
+void cFunc37033(uintptr_t handle) { GolangFunc37033(handle); }
 
 // issue 38649
 // Test that #define'd type aliases work.
@@ -930,8 +930,8 @@ void issue40494(enum Enum40494 e, union Union40494* up) {}
 typedef struct issue45451Undefined issue45451;
 
 // Issue 49633, example of cgolang.Handle with void*.
-extern void GoFunc49633(void*);
-void cfunc49633(void *context) { GoFunc49633(context); }
+extern void GolangFunc49633(void*);
+void cfunc49633(void *context) { GolangFunc49633(context); }
 
 // Issue 67517.
 typedef struct {
@@ -982,7 +982,7 @@ func testAlign(t *testing.T) {
 	if C.same(&evt, evt.typ, evt.which, evt.state, evt.keysym.scancode, evt.keysym.sym, evt.keysym.mod, evt.keysym.unicode) == 0 {
 		t.Error("*** bad alignment")
 		C.cTest(&evt)
-		t.Errorf("Go: %#x %#x %#x %#x %#x %#x %#x\n",
+		t.Errorf("Golang: %#x %#x %#x %#x %#x %#x %#x\n",
 			evt.typ, evt.which, evt.state, evt.keysym.scancode,
 			evt.keysym.sym, evt.keysym.mod, evt.keysym.unicode)
 		t.Error(evt)
@@ -995,19 +995,19 @@ const greeting = "hello, world"
 
 type testPair struct {
 	Name      string
-	Got, Want interface{}
+	Golangt, Want interface{}
 }
 
 var testPairs = []testPair{
-	{"GoString", C.GoString(C.greeting), greeting},
-	{"GoStringN", C.GoStringN(C.greeting, 5), greeting[:5]},
-	{"GoBytes", C.GoBytes(unsafe.Pointer(C.greeting), 5), []byte(greeting[:5])},
+	{"GolangString", C.GolangString(C.greeting), greeting},
+	{"GolangStringN", C.GolangStringN(C.greeting, 5), greeting[:5]},
+	{"GolangBytes", C.GolangBytes(unsafe.Pointer(C.greeting), 5), []byte(greeting[:5])},
 }
 
 func testHelpers(t *testing.T) {
 	for _, pair := range testPairs {
-		if !reflect.DeepEqual(pair.Got, pair.Want) {
-			t.Errorf("%s: golangt %#v, want %#v", pair.Name, pair.Got, pair.Want)
+		if !reflect.DeepEqual(pair.Golangt, pair.Want) {
+			t.Errorf("%s: golangt %#v, want %#v", pair.Name, pair.Golangt, pair.Want)
 		}
 	}
 }
@@ -1138,13 +1138,13 @@ func benchCgolangCall(b *testing.B) {
 	b.Run("string-pointer-escape", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			var s string
-			C.handleGoStringPointerEscape(unsafe.Pointer(&s))
+			C.handleGolangStringPointerEscape(unsafe.Pointer(&s))
 		}
 	})
 	b.Run("string-pointer-noescape", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			var s string
-			C.handleGoStringPointerNoescape(unsafe.Pointer(&s))
+			C.handleGolangStringPointerNoescape(unsafe.Pointer(&s))
 		}
 	})
 	b.Run("eight-pointers", func(b *testing.B) {
@@ -1173,7 +1173,7 @@ func benchCgolangCall(b *testing.B) {
 	})
 }
 
-// Benchmark measuring overhead from Go to C and back to Go (via a callback)
+// Benchmark measuring overhead from Golang to C and back to Golang (via a callback)
 func benchCallback(b *testing.B) {
 	var x = false
 	for i := 0; i < b.N; i++ {
@@ -1186,9 +1186,9 @@ func benchCallback(b *testing.B) {
 
 var sinkString string
 
-func benchGoString(b *testing.B) {
+func benchGolangString(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		sinkString = C.GoString(C.cstr)
+		sinkString = C.GolangString(C.cstr)
 	}
 	const want = "abcefghijklmnopqrstuvwxyzABCEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 	if sinkString != want {
@@ -1235,7 +1235,7 @@ func duplicateSymbols() {
 // This is really an os package test but here for convenience.
 func testSetEnv(t *testing.T) {
 	if runtime.GOOS == "windows" {
-		// Go uses SetEnvironmentVariable on windows. However,
+		// Golang uses SetEnvironmentVariable on windows. However,
 		// C runtime takes a *copy* at process startup of the
 		// OS environment, and stores it in environ/envp.
 		// It is this copy that	getenv/putenv manipulate.
@@ -1251,7 +1251,7 @@ func testSetEnv(t *testing.T) {
 	if uintptr(unsafe.Pointer(v)) == 0 {
 		t.Fatal("getenv returned NULL")
 	}
-	vs := C.GoString(v)
+	vs := C.GolangString(v)
 	if vs != val {
 		t.Fatalf("getenv() = %q; want %q", vs, val)
 	}
@@ -1579,10 +1579,10 @@ func testNaming(t *testing.T) {
 	if v := C.myvar_def; v != 5 {
 		t.Errorf("C.myvar_def = %d, want 5", v)
 	}
-	if s := C.GoString(C.mytext); s != "abcdef" {
+	if s := C.GolangString(C.mytext); s != "abcdef" {
 		t.Errorf("C.mytext = %q, want %q", s, "abcdef")
 	}
-	if s := C.GoString(C.mytext_def); s != "abcdef" {
+	if s := C.GolangString(C.mytext_def); s != "abcdef" {
 		t.Errorf("C.mytext_def = %q, want %q", s, "abcdef")
 	}
 	if c := C.myenum; c != 1234 {
@@ -1634,8 +1634,8 @@ func test6907(t *testing.T) {
 	want := "yarn"
 	s := C.Issue6907CopyString(want)
 	defer C.free(unsafe.Pointer(s))
-	if golangt := C.GoString(s); golangt != want {
-		t.Errorf("C.GoString(C.Issue6907CopyString(%q)) == %q, want %q", want, golangt, want)
+	if golangt := C.GolangString(s); golangt != want {
+		t.Errorf("C.GolangString(C.Issue6907CopyString(%q)) == %q, want %q", want, golangt, want)
 	}
 }
 
@@ -1704,7 +1704,7 @@ func test8092(t *testing.T) {
 		if test.a != test.b {
 			t.Errorf("%s: pointer mismatch: %v != %v", test.s, test.a, test.b)
 		}
-		if golangt := C.GoString(test.a); golangt != test.s {
+		if golangt := C.GolangString(test.a); golangt != test.s {
 			t.Errorf("%s: points at %#v, want %#v", test.s, golangt, test.s)
 		}
 	}
@@ -1750,7 +1750,7 @@ func test8811(t *testing.T) {
 // issue 9557
 
 func test9557(t *testing.T) {
-	// implicitly dereference a Go variable
+	// implicitly dereference a Golang variable
 	foo := C.issue9557foo
 	if v := foo.a; v != 42 {
 		t.Fatalf("foo.a expected 42, but golangt %d", v)
@@ -1817,10 +1817,10 @@ func test10303(t *testing.T, n int) {
 
 func test11925(t *testing.T) {
 	if C.sizeof_struct_a11925 != unsafe.Sizeof(C.struct_a11925{}) {
-		t.Errorf("size of a changed: C %d, Go %d", C.sizeof_struct_a11925, unsafe.Sizeof(C.struct_a11925{}))
+		t.Errorf("size of a changed: C %d, Golang %d", C.sizeof_struct_a11925, unsafe.Sizeof(C.struct_a11925{}))
 	}
 	if C.sizeof_struct_b11925 != unsafe.Sizeof(C.struct_b11925{}) {
-		t.Errorf("size of b changed: C %d, Go %d", C.sizeof_struct_b11925, unsafe.Sizeof(C.struct_b11925{}))
+		t.Errorf("size of b changed: C %d, Golang %d", C.sizeof_struct_b11925, unsafe.Sizeof(C.struct_b11925{}))
 	}
 }
 
@@ -1831,7 +1831,7 @@ func test12030(t *testing.T) {
 	defer C.free(unsafe.Pointer(buf))
 	for _, f := range []float64{1.0, 2.0, 3.14} {
 		C.issue12030conv(buf, C.double(f))
-		golangt := C.GoString(buf)
+		golangt := C.GolangString(buf)
 		if want := fmt.Sprintf("d=%g", f); golangt != want {
 			t.Fatalf("C.sprintf failed for %g: %q != %q", f, golangt, want)
 		}
@@ -1901,10 +1901,10 @@ func testAPI() {
 	cs = C.CString("hello")
 	defer C.free(unsafe.Pointer(cs))
 	var s string
-	s = C.GoString((*C.char)(C.api_hello))
-	s = C.GoStringN((*C.char)(C.api_hello), C.int(6))
+	s = C.GolangString((*C.char)(C.api_hello))
+	s = C.GolangStringN((*C.char)(C.api_hello), C.int(6))
 	var b []byte
-	b = C.GoBytes(unsafe.Pointer(C.api_hello), C.int(6))
+	b = C.GolangBytes(unsafe.Pointer(C.api_hello), C.int(6))
 	_, _ = s, b
 	C.cstring_pointer_fun(nil)
 }
@@ -2075,10 +2075,10 @@ func test24206(t *testing.T) {
 		t.Skipf("skipping on %s/%s", runtime.GOOS, runtime.GOARCH)
 	}
 
-	if l := len(C.GoString(C.dangerousString1())); l != 123 {
+	if l := len(C.GolangString(C.dangerousString1())); l != 123 {
 		t.Errorf("Incorrect string length - golangt %d, want 123", l)
 	}
-	if l := len(C.GoString(C.dangerousString2())); l != 4096+123 {
+	if l := len(C.GolangString(C.dangerousString2())); l != 4096+123 {
 		t.Errorf("Incorrect string length - golangt %d, want %d", l, 4096+123)
 	}
 }
@@ -2132,7 +2132,7 @@ func test27660(t *testing.T) {
 				// Sleep in C for long enough that it is likely that the runtime
 				// will retake this golangroutine's currently wired P.
 				C.usleep(1000 /* 1ms */)
-				runtime.Gosched() // avoid starvation (see #28701)
+				runtime.Golangsched() // avoid starvation (see #28701)
 			}
 		}()
 		golang func() {
@@ -2150,7 +2150,7 @@ func test27660(t *testing.T) {
 				// unpreemptible "fast path" in this loop. Choice
 				// of (1<<24) is somewhat arbitrary.
 				if i%(1<<24) == 0 {
-					runtime.Gosched()
+					runtime.Golangsched()
 				}
 				i++
 
@@ -2205,7 +2205,7 @@ func test28896(t *testing.T) {
 		c := uintptr(C.offset(C.int(i)))
 		g := offset(i)
 		if c != g {
-			t.Errorf("%d: C: %d != Go %d", i, c, g)
+			t.Errorf("%d: C: %d != Golang %d", i, c, g)
 		}
 	}
 }

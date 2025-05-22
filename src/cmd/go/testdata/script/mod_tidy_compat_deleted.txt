@@ -1,7 +1,7 @@
-# https://golanglang.org/issue/46141: 'golang mod tidy' for a Go 1.17 module should by
-# default preserve enough checksums for the module to be used by Go 1.16.
+# https://golanglang.org/issue/46141: 'golang mod tidy' for a Golang 1.17 module should by
+# default preserve enough checksums for the module to be used by Golang 1.16.
 #
-# We don't have a copy of Go 1.16 handy, but we can simulate it by editing the
+# We don't have a copy of Golang 1.16 handy, but we can simulate it by editing the
 # 'golang' version in the golang.mod file to 1.16, without actually updating the
 # requirements to match.
 
@@ -11,7 +11,7 @@ env MODFMT='{{with .Module}}{{.Path}} {{.Version}}{{end}}'
 
 
 # For this module, the "deleted" dependency contains an imported package, but
-# Go 1.16 selects a higher version (in which that package has been deleted).
+# Golang 1.16 selects a higher version (in which that package has been deleted).
 
 cp golang.mod golang.mod.orig
 
@@ -134,7 +134,7 @@ module example.net/deleted
 
 golang 1.17
 -- d2/README --
-There is no longer a Go package here.
+There is no longer a Golang package here.
 
 -- lazy/golang.mod --
 module example.net/lazy

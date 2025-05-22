@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -49,7 +49,7 @@ func open(name string) (*Plugin, error) {
 		return nil, errors.New(`plugin.Open("` + name + `"): realpath failed`)
 	}
 
-	filepath := C.GoString((*C.char)(unsafe.Pointer(&cPath[0])))
+	filepath := C.GolangString((*C.char)(unsafe.Pointer(&cPath[0])))
 
 	pluginsMu.Lock()
 	if p := plugins[filepath]; p != nil {
@@ -64,9 +64,9 @@ func open(name string) (*Plugin, error) {
 	h := C.pluginOpen((*C.char)(unsafe.Pointer(&cPath[0])), &cErr)
 	if h == 0 {
 		pluginsMu.Unlock()
-		return nil, errors.New(`plugin.Open("` + name + `"): ` + C.GoString(cErr))
+		return nil, errors.New(`plugin.Open("` + name + `"): ` + C.GolangString(cErr))
 	}
-	// TODO(crawshaw): look for plugin note, confirm it is a Go plugin
+	// TODO(crawshaw): look for plugin note, confirm it is a Golang plugin
 	// and it was built with the correct toolchain.
 	if len(name) > 3 && name[len(name)-3:] == ".so" {
 		name = name[:len(name)-3]
@@ -109,7 +109,7 @@ func open(name string) (*Plugin, error) {
 
 		p := C.pluginLookup(h, (*C.char)(unsafe.Pointer(&cname[0])), &cErr)
 		if p == nil {
-			return nil, errors.New(`plugin.Open("` + name + `"): could not find symbol ` + symName + `: ` + C.GoString(cErr))
+			return nil, errors.New(`plugin.Open("` + name + `"): could not find symbol ` + symName + `: ` + C.GolangString(cErr))
 		}
 		valp := (*[2]unsafe.Pointer)(unsafe.Pointer(&sym))
 		if isFunc {

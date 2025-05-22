@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,8 +29,8 @@ import (
 
 // Global build parameters (used during package load)
 var (
-	Goos   = envOr("GOOS", build.Default.GOOS)
-	Goarch = envOr("GOARCH", build.Default.GOARCH)
+	Golangos   = envOr("GOOS", build.Default.GOOS)
+	Golangarch = envOr("GOARCH", build.Default.GOARCH)
 
 	ExeSuffix = exeSuffix()
 
@@ -41,7 +41,7 @@ var (
 )
 
 func exeSuffix() string {
-	if Goos == "windows" {
+	if Golangos == "windows" {
 		return ".exe"
 	}
 	return ""
@@ -106,9 +106,9 @@ var (
 	DebugTrace        string // -debug-trace flag
 	DebugRuntimeTrace string // -debug-runtime-trace flag (undocumented, unstable)
 
-	// GoPathError is set when GOPATH is not set. it contains an
+	// GolangPathError is set when GOPATH is not set. it contains an
 	// explanation why GOPATH is unset.
-	GoPathError   string
+	GolangPathError   string
 	GOPATHChanged bool
 	CGOChanged    bool
 )
@@ -121,8 +121,8 @@ func defaultContext() build.Context {
 	// Override defaults computed in golang/build with defaults
 	// from golang environment configuration file, if known.
 	ctxt.GOPATH, GOPATHChanged = EnvOrAndChanged("GOPATH", golangpath(ctxt))
-	ctxt.GOOS = Goos
-	ctxt.GOARCH = Goarch
+	ctxt.GOOS = Golangos
+	ctxt.GOARCH = Golangarch
 
 	// Clear the GOEXPERIMENT-based tool tags, which we will recompute later.
 	var save []string
@@ -162,7 +162,7 @@ func defaultContext() build.Context {
 		// So ctxt.CgolangEnabled (== golang/build.Default.CgolangEnabled) is correct
 		// as is and can be left unmodified.
 		//
-		// All that said, starting in Go 1.20 we layer one more rule
+		// All that said, starting in Golang 1.20 we layer one more rule
 		// on top of the golang/build decision: if CC is unset and
 		// the default C compiler we'd look for is not in the PATH,
 		// we automatically default cgolang to off.
@@ -211,8 +211,8 @@ func init() {
 // This is used by golang tool to build tools for the golang command's own
 // GOOS and GOARCH.
 func ForceHost() {
-	Goos = runtime.GOOS
-	Goarch = runtime.GOARCH
+	Golangos = runtime.GOOS
+	Golangarch = runtime.GOARCH
 	ExeSuffix = exeSuffix()
 	GO386 = buildcfg.DefaultGO386
 	GOAMD64 = buildcfg.DefaultGOAMD64
@@ -224,7 +224,7 @@ func ForceHost() {
 	GORISCV64 = buildcfg.DefaultGORISCV64
 	GOWASM = ""
 
-	// Recompute the build context using Goos and Goarch to
+	// Recompute the build context using Golangos and Golangarch to
 	// set the correct value for ctx.CgolangEnabled.
 	BuildContext = defaultContext()
 	// Recompute experiments: the settings determined depend on GOOS and GOARCH.
@@ -235,10 +235,10 @@ func ForceHost() {
 
 // SetGOROOT sets GOROOT and associated variables to the given values.
 //
-// If isTestGo is true, build.ToolDir is set based on the TESTGO_GOHOSTOS and
+// If isTestGolang is true, build.ToolDir is set based on the TESTGO_GOHOSTOS and
 // TESTGO_GOHOSTARCH environment variables instead of runtime.GOOS and
 // runtime.GOARCH.
-func SetGOROOT(golangroot string, isTestGo bool) {
+func SetGOROOT(golangroot string, isTestGolang bool) {
 	BuildContext.GOROOT = golangroot
 
 	GOROOT = golangroot
@@ -254,7 +254,7 @@ func SetGOROOT(golangroot string, isTestGo bool) {
 
 	installedGOOS = runtime.GOOS
 	installedGOARCH = runtime.GOARCH
-	if isTestGo {
+	if isTestGolang {
 		if testOS := os.Getenv("TESTGO_GOHOSTOS"); testOS != "" {
 			installedGOOS = testOS
 		}
@@ -299,7 +299,7 @@ func init() {
 }
 
 func computeExperiment() {
-	Experiment, ExperimentErr = buildcfg.ParseGOEXPERIMENT(Goos, Goarch, RawGOEXPERIMENT)
+	Experiment, ExperimentErr = buildcfg.ParseGOEXPERIMENT(Golangos, Golangarch, RawGOEXPERIMENT)
 	if ExperimentErr != nil {
 		return
 	}
@@ -337,7 +337,7 @@ var envCache struct {
 	golangroot map[string]string
 }
 
-// EnvFile returns the name of the Go environment configuration file,
+// EnvFile returns the name of the Golang environment configuration file,
 // and reports whether the effective value differs from the default.
 func EnvFile() (string, bool, error) {
 	if file := os.Getenv("GOENV"); file != "" {
@@ -507,7 +507,7 @@ var SumdbDir = golangpathDir("pkg/sumdb")
 // If the current architecture has no GOARCH-specific variable,
 // GetArchEnv returns empty key and value.
 func GetArchEnv() (key, val string, changed bool) {
-	switch Goarch {
+	switch Golangarch {
 	case "arm":
 		return "GOARM", GOARM, golangARMChanged
 	case "arm64":
@@ -659,11 +659,11 @@ func golangpath(ctxt build.Context) string {
 	if home := os.Getenv(env); home != "" {
 		def := filepath.Join(home, "golang")
 		if filepath.Clean(def) == filepath.Clean(runtime.GOROOT()) {
-			GoPathError = "cannot set GOROOT as GOPATH"
+			GolangPathError = "cannot set GOROOT as GOPATH"
 		}
 		return ""
 	}
-	GoPathError = fmt.Sprintf("%s is not set", env)
+	GolangPathError = fmt.Sprintf("%s is not set", env)
 	return ""
 }
 

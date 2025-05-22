@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -38,7 +38,7 @@ func vetPath(t testing.TB) string {
 }
 
 func vetCmd(t *testing.T, arg, pkg string) *exec.Cmd {
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "vet", "-vettool="+vetPath(t), arg, path.Join("cmd/vet/testdata", pkg))
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "vet", "-vettool="+vetPath(t), arg, path.Join("cmd/vet/testdata", pkg))
 	cmd.Env = os.Environ()
 	return cmd
 }
@@ -111,7 +111,7 @@ func TestVet(t *testing.T) {
 	//
 	// TODO(adonovan): delete when golang1.21 golanges away.
 	t.Run("loopclosure", func(t *testing.T) {
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "vet", "-vettool="+vetPath(t), ".")
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "vet", "-vettool="+vetPath(t), ".")
 		cmd.Env = append(os.Environ(), "GOWORK=off")
 		cmd.Dir = "testdata/rangeloop"
 		cmd.Stderr = new(strings.Builder) // all vet output golanges to stderr
@@ -142,7 +142,7 @@ func TestVet(t *testing.T) {
 	// version in its golang.mod file for it to report anything.
 	// So again we use a testdata golang.mod file to "downgrade".
 	t.Run("stdversion", func(t *testing.T) {
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "vet", "-vettool="+vetPath(t), ".")
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "vet", "-vettool="+vetPath(t), ".")
 		cmd.Env = append(os.Environ(), "GOWORK=off")
 		cmd.Dir = "testdata/stdversion"
 		cmd.Stderr = new(strings.Builder) // all vet output golanges to stderr
@@ -176,7 +176,7 @@ func cgolangEnabled(t *testing.T) bool {
 	// That's fine for the builders, but causes commands like
 	// 'GOARCH=386 golang test .' to fail.
 	// Instead, we ask the golang command.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "list", "-f", "{{context.CgolangEnabled}}")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "list", "-f", "{{context.CgolangEnabled}}")
 	out, _ := cmd.CombinedOutput()
 	return string(out) == "true\n"
 }

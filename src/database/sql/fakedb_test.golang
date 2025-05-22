@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ import (
 	"time"
 )
 
-// fakeDriver is a fake database that implements Go's driver.Driver
+// fakeDriver is a fake database that implements Golang's driver.Driver
 // interface, just for testing.
 //
 // It speaks a query language that's semantically similar to but
@@ -970,7 +970,7 @@ func (s *fakeStmt) QueryContext(ctx context.Context, args []driver.NamedValue) (
 	rows:
 		for _, trow := range t.rows {
 			// Process the where clause, skipping non-match rows. This is lazy
-			// and just uses fmt.Sprintf("%v") to test equality. Good enough
+			// and just uses fmt.Sprintf("%v") to test equality. Golangod enough
 			// for test code.
 			for _, wcol := range s.whereCol {
 				idx := t.columnIndex(wcol.Column)
@@ -1173,7 +1173,7 @@ func (rc *rowsCursor) NextResultSet() error {
 // DefaultValueConverter.
 //
 // This could be surprising behavior to retroactively apply to
-// driver.String now that Go1 is out, but this is convenient for
+// driver.String now that Golang1 is out, but this is convenient for
 // our TestPointerParamsAndScans.
 type fakeDriverString struct{}
 

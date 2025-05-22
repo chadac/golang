@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,7 +21,7 @@ func TestTerminalPassthrough(t *testing.T) {
 	// invocation (rather than, e.g., putting a pipe in the way).
 	//
 	// See issue 18153.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// Start with a "self test" to make sure that if we *don't* pass in a
 	// terminal, the test can correctly detect that. (cmd/golang doesn't guarantee
@@ -67,7 +67,7 @@ func TestTerminalPassthrough(t *testing.T) {
 }
 
 func runTerminalPassthrough(t *testing.T, r, w *os.File) (stdout, stderr bool) {
-	cmd := testenv.Command(t, testGo, "test", "-run=^$")
+	cmd := testenv.Command(t, testGolang, "test", "-run=^$")
 	cmd.Env = append(cmd.Environ(), "GO_TEST_TERMINAL_PASSTHROUGH=1")
 	cmd.Stdout = w
 	cmd.Stderr = w

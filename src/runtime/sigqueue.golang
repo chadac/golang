@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@
 // via struct sig, below.
 //
 // sigsend is called by the signal handler to queue a new signal.
-// signal_recv is called by the Go program to receive a newly queued signal.
+// signal_recv is called by the Golang program to receive a newly queued signal.
 //
 // Synchronization between sigsend and signal_recv is based on the sig.state
 // variable. It can be in three states:
@@ -183,14 +183,14 @@ func signalWaitUntilIdle() {
 	// and has not yet woken up the processor thread. We need to wait
 	// until all current signal deliveries have completed.
 	for sig.delivering.Load() != 0 {
-		Gosched()
+		Golangsched()
 	}
 
 	// Although WaitUntilIdle seems like the right name for this
 	// function, the state we are looking for is sigReceiving, not
 	// sigIdle.  The sigIdle state is really more like sigProcessing.
 	for sig.state.Load() != sigReceiving {
-		Gosched()
+		Golangsched()
 	}
 }
 

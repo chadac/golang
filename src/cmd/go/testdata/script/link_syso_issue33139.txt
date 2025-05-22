@@ -1,5 +1,5 @@
 # Test that we can use the external linker with a host syso file that is
-# embedded in a package, that is referenced by a Go assembly function.
+# embedded in a package, that is referenced by a Golang assembly function.
 # See issue 33139.
 
 [!compiler:gc] skip
@@ -23,7 +23,7 @@ golang 1.16
 TEXT ·ObjTest(SB), NOSPLIT, $0
 	// We do not actually execute this function in the test above, thus
 	// there is no stack frame setup here.
-	// We only care about Go build and/or link errors when referencing
+	// We only care about Golang build and/or link errors when referencing
 	// the objTestImpl symbol in the syso file.
 	JMP objTestImpl(SB)
 

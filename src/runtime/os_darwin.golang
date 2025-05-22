@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -297,9 +297,9 @@ func newosproc0(stacksize uintptr, fn uintptr) {
 	}
 }
 
-// Called to do synchronous initialization of Go code built with
+// Called to do synchronous initialization of Golang code built with
 // -buildmode=c-archive or -buildmode=c-shared.
-// None of the Go runtime is initialized.
+// None of the Golang runtime is initialized.
 //
 //golang:nosplit
 //golang:nowritebarrierrec

@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -305,7 +305,7 @@ type dwAttrForm struct {
 	form uint8
 }
 
-// Go-specific type attributes.
+// Golang-specific type attributes.
 const (
 	DW_AT_golang_kind = 0x2900
 	DW_AT_golang_key  = 0x2901

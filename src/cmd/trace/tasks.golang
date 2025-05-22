@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -125,7 +125,7 @@ func UserTaskHandlerFunc(t *parsedTrace) http.HandlerFunc {
 		type event struct {
 			WhenString string
 			Elapsed    time.Duration
-			Goroutine  trace.GoID
+			Golangroutine  trace.GolangID
 			What       string
 			// TODO: include stack trace of creation time
 		}
@@ -180,7 +180,7 @@ func UserTaskHandlerFunc(t *parsedTrace) http.HandlerFunc {
 					WhenString: fmt.Sprintf("%2.9f", sinceStart.Seconds()),
 					Elapsed:    ev.Time().Sub(last),
 					What:       what,
-					Goroutine:  primaryGoroutine(ev),
+					Golangroutine:  primaryGolangroutine(ev),
 				})
 				last = ev.Time()
 			}
@@ -276,7 +276,7 @@ Search log text: <form onsubmit="window.location.search+='&logtext='+window.logt
 	<tr>
 		<th>When</th>
 		<th>Elapsed</th>
-		<th>Goroutine</th>
+		<th>Golangroutine</th>
 		<th>Events</th>
 	</tr>
 	{{range $el := $.Tasks}}
@@ -294,7 +294,7 @@ Search log text: <form onsubmit="window.location.search+='&logtext='+window.logt
 	<tr>
 		<td class="when">{{.WhenString}}</td>
 		<td class="elapsed">{{elapsed .Elapsed}}</td>
-		<td class="golangid">{{.Goroutine}}</td>
+		<td class="golangid">{{.Golangroutine}}</td>
 		<td>{{.What}}</td>
 	</tr>
 	{{end}}
@@ -415,10 +415,10 @@ func describeEvent(ev *trace.Event) string {
 	switch ev.Kind() {
 	case trace.EventStateTransition:
 		st := ev.StateTransition()
-		if st.Resource.Kind != trace.ResourceGoroutine {
+		if st.Resource.Kind != trace.ResourceGolangroutine {
 			return ""
 		}
-		old, new := st.Goroutine()
+		old, new := st.Golangroutine()
 		return fmt.Sprintf("%s -> %s", old, new)
 	case trace.EventRegionBegin:
 		return fmt.Sprintf("region %q begin", ev.Region().Type)
@@ -439,15 +439,15 @@ func describeEvent(ev *trace.Event) string {
 	return ""
 }
 
-func primaryGoroutine(ev *trace.Event) trace.GoID {
+func primaryGolangroutine(ev *trace.Event) trace.GolangID {
 	if ev.Kind() != trace.EventStateTransition {
-		return ev.Goroutine()
+		return ev.Golangroutine()
 	}
 	st := ev.StateTransition()
-	if st.Resource.Kind != trace.ResourceGoroutine {
-		return trace.NoGoroutine
+	if st.Resource.Kind != trace.ResourceGolangroutine {
+		return trace.NoGolangroutine
 	}
-	return st.Resource.Goroutine()
+	return st.Resource.Golangroutine()
 }
 
 func elapsed(d time.Duration) string {

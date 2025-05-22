@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,7 +40,7 @@ TEXT crosscall2(SB),NOSPLIT|NOFRAME,$0
 	FMOVD	F14, 80(R15)
 	FMOVD	F15, 88(R15)
 
-	// Initialize Go ABI environment.
+	// Initialize Golang ABI environment.
 	BL	runtime·load_g(SB)
 
 	MOVD	R2, 8(R15)	// fn unsafe.Pointer

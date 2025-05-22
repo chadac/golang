@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -34,13 +34,13 @@ const (
 // TestTerminalSignal tests that read from a pseudo-terminal does not return an
 // error if the process is SIGSTOP'd and put in the background during the read.
 //
-// This test simulates stopping a Go process running in a shell with ^Z and
+// This test simulates stopping a Golang process running in a shell with ^Z and
 // then resuming with `fg`.
 //
 // This is a regression test for https://golang.dev/issue/22838. On Darwin, PTY
-// reads return EINTR when this occurs, and Go should automatically retry.
+// reads return EINTR when this occurs, and Golang should automatically retry.
 func TestTerminalSignal(t *testing.T) {
-	// This test simulates stopping a Go process running in a shell with ^Z
+	// This test simulates stopping a Golang process running in a shell with ^Z
 	// and then resuming with `fg`. This sounds simple, but is actually
 	// quite complicated.
 	//

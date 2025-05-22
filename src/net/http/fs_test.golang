@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -873,7 +873,7 @@ func testDirectoryIfNotModified(t *testing.T, mode testMode) {
 		t.Fatal(err)
 	}
 	if string(b) != indexContents {
-		t.Fatalf("Got body %q; want %q", b, indexContents)
+		t.Fatalf("Golangt body %q; want %q", b, indexContents)
 	}
 	res.Body.Close()
 
@@ -1560,7 +1560,7 @@ func testServeFileRejectsInvalidSuffixLengths(t *testing.T, mode testMode) {
 				t.Fatal(err)
 			}
 			if g, w := string(slurp), tt.wantBody; g != w {
-				t.Fatalf("Content mismatch:\nGot:  %q\nWant: %q", g, w)
+				t.Fatalf("Content mismatch:\nGolangt:  %q\nWant: %q", g, w)
 			}
 		})
 	}

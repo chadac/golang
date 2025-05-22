@@ -1,8 +1,8 @@
-# Copyright 2010 The Go Authors. All rights reserved.
+# Copyright 2010 The Golang Authors. All rights reserved.
 # Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
-"""GDB Pretty printers and convenience functions for Go's runtime structures.
+"""GDB Pretty printers and convenience functions for Golang's runtime structures.
 
 This script is loaded by GDB when it finds a .debug_gdb_scripts
 section in the compiled binary. The [68]l linkers emit this with a
@@ -20,7 +20,7 @@ import re
 import sys
 import gdb
 
-print("Loading Go Runtime support.", file=sys.stderr)
+print("Loading Golang Runtime support.", file=sys.stderr)
 #http://python3porting.com/differences.html
 if sys.version > '3':
 	xrange = range
@@ -101,7 +101,7 @@ class SliceValue:
 
 # The patterns for matching types are permissive because gdb 8.2 switched to matching on (we think) typedef names instead of C syntax names.
 class StringTypePrinter:
-	"Pretty print Go strings."
+	"Pretty print Golang strings."
 
 	pattern = re.compile(r'^(struct string( \*)?|string)$')
 
@@ -493,7 +493,7 @@ golangobjfile.pretty_printers.append(ifacematcher)
 #
 
 
-class GoLenFunc(gdb.Function):
+class GolangLenFunc(gdb.Function):
 	"Length of strings, slices, maps or channels"
 
 	how = ((StringTypePrinter, 'len'), (SliceTypePrinter, 'len'), (MapTypePrinter, 'used'), (ChanTypePrinter, 'qcount'))
@@ -514,7 +514,7 @@ class GoLenFunc(gdb.Function):
 				return obj[fld]
 
 
-class GoCapFunc(gdb.Function):
+class GolangCapFunc(gdb.Function):
 	"Capacity of slices or channels"
 
 	how = ((SliceTypePrinter, 'cap'), (ChanTypePrinter, 'dataqsiz'))
@@ -555,7 +555,7 @@ def linked_list(ptr, linkfield):
 		ptr = ptr[linkfield]
 
 
-class GoroutinesCmd(gdb.Command):
+class GolangroutinesCmd(gdb.Command):
 	"List all golangroutines."
 
 	def __init__(self):
@@ -599,7 +599,7 @@ def find_golangroutine(golangid):
 	# Get the golangroutine's saved state.
 	pc, sp = ptr['sched']['pc'], ptr['sched']['sp']
 	status = ptr['atomicstatus']['value']&~G_SCAN
-	# Goroutine is not running nor in syscall, so use the info in golangroutine
+	# Golangroutine is not running nor in syscall, so use the info in golangroutine
 	if status != G_RUNNING and status != G_SYSCALL:
 		return pc.cast(vp), sp.cast(vp)
 
@@ -628,7 +628,7 @@ def find_golangroutine(golangid):
 	return pc.cast(vp), sp.cast(vp)
 
 
-class GoroutineCmd(gdb.Command):
+class GolangroutineCmd(gdb.Command):
 	"""Execute gdb command in the context of golangroutine <golangid>.
 
 	Switch PC and SP to the ones in the golangroutine's G structure,
@@ -685,7 +685,7 @@ class GoroutineCmd(gdb.Command):
 			save_frame.select()
 
 
-class GoIfaceCmd(gdb.Command):
+class GolangIfaceCmd(gdb.Command):
 	"Print Static and dynamic interface types"
 
 	def __init__(self):
@@ -721,9 +721,9 @@ class GoIfaceCmd(gdb.Command):
 #
 # Register all convenience functions and CLI commands
 #
-GoLenFunc()
-GoCapFunc()
+GolangLenFunc()
+GolangCapFunc()
 DTypeFunc()
-GoroutinesCmd()
-GoroutineCmd()
-GoIfaceCmd()
+GolangroutinesCmd()
+GolangroutineCmd()
+GolangIfaceCmd()

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -271,7 +271,7 @@ func (p *printer) writeByte(ch byte, n int) {
 // and p.last. If isLit is set, s is escaped w/ tabwriter.Escape characters
 // to protect s from being interpreted by the tabwriter.
 //
-// Note: writeString is only used to write Go tokens, literals, and
+// Note: writeString is only used to write Golang tokens, literals, and
 // comments, all of which must be written literally. Thus, it is correct
 // to always set isLit = true. However, setting it explicitly only when
 // needed (i.e., when we don't know that s contains no tabs or line breaks)
@@ -295,7 +295,7 @@ func (p *printer) writeString(pos token.Position, s string, isLit bool) {
 
 	if isLit {
 		// Protect s such that is passes through the tabwriter
-		// unchanged. Note that valid Go programs cannot contain
+		// unchanged. Note that valid Golang programs cannot contain
 		// tabwriter.Escape bytes since they do not appear in legal
 		// UTF-8 sequences.
 		p.output = append(p.output, tabwriter.Escape)
@@ -640,7 +640,7 @@ func (p *printer) writeComment(comment *ast.Comment) {
 
 	// shortcut common case of //-style comments
 	if text[1] == '/' {
-		if constraint.IsGoBuild(text) {
+		if constraint.IsGolangBuild(text) {
 			p.golangBuild = append(p.golangBuild, len(p.output))
 		} else if constraint.IsPlusBuild(text) {
 			p.plusBuild = append(p.plusBuild, len(p.output))
@@ -1326,7 +1326,7 @@ var printerPool = sync.Pool{
 			// Whitespace sequences are short.
 			wsbuf: make([]whiteSpace, 0, 16),
 			// We start the printer with a 16K output buffer, which is currently
-			// larger than about 80% of Go files in the standard library.
+			// larger than about 80% of Golang files in the standard library.
 			output: make([]byte, 0, 16<<10),
 		}
 	},
@@ -1370,7 +1370,7 @@ func (cfg *Config) fprint(output io.Writer, fset *token.FileSet, node any, nodeS
 
 	// output is buffered in p.output now.
 	// fix //golang:build and // +build comments if needed.
-	p.fixGoBuildLines()
+	p.fixGolangBuildLines()
 
 	// redirect output through a trimmer to eliminate trailing whitespace
 	// (Input to a tabwriter must be untrimmed since trailing tabs provide

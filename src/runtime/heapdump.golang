@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -49,7 +49,7 @@ const (
 	tagObject          = 1
 	tagOtherRoot       = 2
 	tagType            = 3
-	tagGoroutine       = 4
+	tagGolangroutine       = 4
 	tagStackFrame      = 5
 	tagParams          = 6
 	tagFinalizer       = 7
@@ -350,13 +350,13 @@ func dumpgolangroutine(gp *g) {
 		lr = gp.sched.lr
 	}
 
-	dumpint(tagGoroutine)
+	dumpint(tagGolangroutine)
 	dumpint(uint64(uintptr(unsafe.Pointer(gp))))
 	dumpint(uint64(sp))
 	dumpint(gp.golangid)
 	dumpint(uint64(gp.golangpc))
 	dumpint(uint64(readgstatus(gp)))
-	dumpbool(isSystemGoroutine(gp, false))
+	dumpbool(isSystemGolangroutine(gp, false))
 	dumpbool(false) // isbackground
 	dumpint(uint64(gp.waitsince))
 	dumpstr(gp.waitreason.String())

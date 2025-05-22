@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -70,7 +70,7 @@ type Flags struct {
 	// assumed to be identical so cross-ABI calls are direct.
 	RegabiWrappers bool
 	// RegabiArgs enables register arguments/results in all
-	// compiled Go functions.
+	// compiled Golang functions.
 	//
 	// Requires wrappers (to do ABI translation), and reflect (so
 	// reflection calls use registers).
@@ -101,7 +101,7 @@ type Flags struct {
 	CacheProg bool
 
 	// NewInliner enables a new+improved version of the function
-	// inlining phase within the Go compiler.
+	// inlining phase within the Golang compiler.
 	NewInliner bool
 
 	// RangeFunc enables range over func.
@@ -109,7 +109,7 @@ type Flags struct {
 
 	// AliasTypeParams enables type parameters for alias types.
 	// Requires that golangtypesalias=1 is set with GODEBUG.
-	// This flag will be removed with Go 1.25.
+	// This flag will be removed with Golang 1.25.
 	AliasTypeParams bool
 
 	// SwissMap enables the SwissTable-based map implementation.

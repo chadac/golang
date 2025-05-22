@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@
 
 #include "textflag.h"
 
-// SHA256 block routine. See sha256block.golang for Go equivalent.
+// SHA256 block routine. See sha256block.golang for Golang equivalent.
 //
 // The algolangrithm is detailed in FIPS 180-4:
 //

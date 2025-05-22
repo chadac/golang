@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-// The Universe scope contains all predeclared objects of Go.
+// The Universe scope contains all predeclared objects of Golang.
 // It is the outermost scope of any chain of nested scopes.
 var Universe *Scope
 

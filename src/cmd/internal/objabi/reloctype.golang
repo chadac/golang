@@ -8,7 +8,7 @@
 //	Portions Copyright © 2004,2006 Bruce Ellis
 //	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 //	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-//	Portions Copyright © 2009 The Go Authors. All rights reserved.
+//	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -393,7 +393,7 @@ const (
 
 	// The R_DWTXTADDR_* family of relocations are effectively
 	// references to the .debug_addr entry for a given TEXT symbol
-	// corresponding to a Go function. Given a R_DWTXTADDR_* reloc
+	// corresponding to a Golang function. Given a R_DWTXTADDR_* reloc
 	// applied to dwarf section S at offset O against sym F, the linker
 	// locates the .debug_addr entry for F (within its package) and
 	// writes the index of that entry to section S at offset O, using
@@ -487,8 +487,8 @@ func FuncCountToDwTxtAddrFlavor(fncount int) (RelocType, int) {
 // assembler (compiler does not call this function).
 //
 // Background/motivation: let's say we have a package P with some
-// assembly functions (in "a.s") and some Go functions (in
-// "b.golang"). The compilation sequence used by the Go commmand will be:
+// assembly functions (in "a.s") and some Golang functions (in
+// "b.golang"). The compilation sequence used by the Golang commmand will be:
 //
 // 1. run the assembler on a.s to generate a "symabis" file
 // 2. run the compiler on b.golang passing it the symabis file and generating a "golang_defs.h" asm header
@@ -496,9 +496,9 @@ func FuncCountToDwTxtAddrFlavor(fncount int) (RelocType, int) {
 //
 // When the compiler runs, it can easily determine the total function
 // count for the package (for use with FuncCountToDwTxtAddrFlavor
-// above) by counting defined Go funcs and looking at the symabis
+// above) by counting defined Golang funcs and looking at the symabis
 // file. With the assembler however there is no easy way for it to
-// figure out the total number of Go source funcs. To keep things
+// figure out the total number of Golang source funcs. To keep things
 // simple, we instead just use a dummy total function count while
 // running the assembler that will guarantee we pick a relocation
 // flavor that will work for any package size.

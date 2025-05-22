@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,9 +21,9 @@ import (
 
 var CmdRun = &base.Command{
 	UsageLine: "golang run [build flags] [-exec xprog] package [arguments...]",
-	Short:     "compile and run Go program",
+	Short:     "compile and run Golang program",
 	Long: `
-Run compiles and runs the named main Go package.
+Run compiles and runs the named main Golang package.
 Typically the package is specified as a list of .golang source files from a single
 directory, but it may also be an import path, file system path, or pattern
 matching a single known package, as in 'golang run .' or 'golang run my/cmd'.
@@ -102,12 +102,12 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 		files := args[:i]
 		for _, file := range files {
 			if strings.HasSuffix(file, "_test.golang") {
-				// GoFilesPackage is golanging to assign this to TestGoFiles.
+				// GolangFilesPackage is golanging to assign this to TestGolangFiles.
 				// Reject since it won't be part of the build.
 				base.Fatalf("golang: cannot run *_test.golang files (%s)", file)
 			}
 		}
-		p = load.GoFilesPackage(ctx, pkgOpts, files)
+		p = load.GolangFilesPackage(ctx, pkgOpts, files)
 	} else if len(args) > 0 && !strings.HasPrefix(args[0], "-") {
 		arg := args[0]
 		var pkgs []*load.Package
@@ -148,8 +148,8 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 	if p.Internal.CmdlineFiles {
 		//set executable name if golang file is given as cmd-argument
 		var src string
-		if len(p.GoFiles) > 0 {
-			src = p.GoFiles[0]
+		if len(p.GolangFiles) > 0 {
+			src = p.GolangFiles[0]
 		} else if len(p.CgolangFiles) > 0 {
 			src = p.CgolangFiles[0]
 		} else {

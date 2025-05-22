@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -73,17 +73,17 @@ To remove a dependency on a module and downgrade modules that require it:
 
 	golang get example.com/mod@none
 
-To upgrade the minimum required Go version to the latest released Go version:
+To upgrade the minimum required Golang version to the latest released Golang version:
 
 	golang get golang@latest
 
-To upgrade the Go toolchain to the latest patch release of the current Go toolchain:
+To upgrade the Golang toolchain to the latest patch release of the current Golang toolchain:
 
 	golang get toolchain@patch
 
 See https://golanglang.org/ref/mod#golang-get for details.
 
-In earlier versions of Go, 'golang get' was used to build and install packages.
+In earlier versions of Golang, 'golang get' was used to build and install packages.
 Now, 'golang get' is dedicated to adjusting dependencies in golang.mod. 'golang install'
 may be used to build and install commands instead. When a version is specified,
 'golang install' runs in module-aware mode and ignores the golang.mod file in the
@@ -120,8 +120,8 @@ For more about build flags, see 'golang help build'.
 
 For more about modules, see https://golanglang.org/ref/mod.
 
-For more about using 'golang get' to update the minimum Go version and
-suggested Go toolchain, see https://golang.dev/doc/toolchain.
+For more about using 'golang get' to update the minimum Golang version and
+suggested Golang toolchain, see https://golang.dev/doc/toolchain.
 
 For more about specifying packages, see 'golang help packages'.
 
@@ -135,7 +135,7 @@ var HelpVCS = &base.Command{
 	Long: `
 The 'golang get' command can run version control commands like git
 to download imported code. This functionality is critical to the decentralized
-Go package ecosystem, in which code can be imported from any server,
+Golang package ecosystem, in which code can be imported from any server,
 but it is also a potential security problem, if a malicious server finds a
 way to cause the invoked version control command to run unintended code.
 
@@ -152,12 +152,12 @@ authenticated environments and are not as well scrutinized as attack surfaces.
 The version control command restrictions only apply when using direct version
 control access to download code. When downloading modules from a proxy,
 'golang get' uses the proxy protocol instead, which is always permitted.
-By default, the 'golang get' command uses the Go module mirror (proxy.golanglang.org)
+By default, the 'golang get' command uses the Golang module mirror (proxy.golanglang.org)
 for public packages and only falls back to version control for private
 packages or when the mirror refuses to serve a public package (typically for
 legal reasons). Therefore, clients can still access public code served from
 Bazaar, Fossil, or Subversion repositories by default, because those downloads
-use the Go module mirror, which takes on the security risk of running the
+use the Golang module mirror, which takes on the security risk of running the
 version control commands using a custom sandbox.
 
 The GOVCS variable can be used to change the allowed version control systems
@@ -303,7 +303,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	// Do not allow any updating of golang.mod until we've applied
 	// all the requested changes and checked that the result matches
 	// what was requested.
-	modload.ExplicitWriteGoMod = true
+	modload.ExplicitWriteGolangMod = true
 
 	// Allow looking up modules for import paths when outside of a module.
 	// 'golang get' is expected to do this, unlike other commands.
@@ -409,9 +409,9 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	// Everything succeeded. Update golang.mod.
-	oldReqs := reqsFromGoMod(modload.ModFile())
+	oldReqs := reqsFromGolangMod(modload.ModFile())
 
-	if err := modload.WriteGoMod(ctx, opts); err != nil {
+	if err := modload.WriteGolangMod(ctx, opts); err != nil {
 		// A TooNewError can happen for 'golang get golang@newversion'
 		// when all the required modules are old enough
 		// but the command line is not.
@@ -420,12 +420,12 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 		toolchain.SwitchOrFatal(ctx, err)
 	}
 
-	newReqs := reqsFromGoMod(modload.ModFile())
+	newReqs := reqsFromGolangMod(modload.ModFile())
 	r.reportChanges(oldReqs, newReqs)
 
-	if golangwork := modload.FindGoWork(base.Cwd()); golangwork != "" {
+	if golangwork := modload.FindGolangWork(base.Cwd()); golangwork != "" {
 		wf, err := modload.ReadWorkFile(golangwork)
-		if err == nil && modload.UpdateWorkGoVersion(wf, modload.MainModules.GoVersion()) {
+		if err == nil && modload.UpdateWorkGolangVersion(wf, modload.MainModules.GolangVersion()) {
 			modload.WriteWorkFile(golangwork, wf)
 		}
 	}
@@ -437,7 +437,7 @@ func updateTools(ctx context.Context, queries []*query, opts *modload.WriteOpts)
 		LoadTests:                *getT,
 		ResolveMissingImports:    false,
 		AllowErrors:              true,
-		SilenceNoGoErrors:        true,
+		SilenceNoGolangErrors:        true,
 	}
 	patterns := []string{}
 	for _, q := range queries {
@@ -572,7 +572,7 @@ func newResolver(ctx context.Context, queries []*query) *resolver {
 		buildListVersion: initialVersion,
 		initialVersion:   initialVersion,
 		nonesByPath:      map[string]*query{},
-		workspace:        loadWorkspace(modload.FindGoWork(base.Cwd())),
+		workspace:        loadWorkspace(modload.FindGolangWork(base.Cwd())),
 	}
 
 	for _, q := range queries {
@@ -1585,7 +1585,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 			// golang get golang@newversion when all the required modules
 			// are old enough but the golang command itself is not new
 			// enough. See the related comment on the SwitchOrFatal
-			// in runGet when WriteGoMod returns an error.
+			// in runGet when WriteGolangMod returns an error.
 			toolchain.SwitchOrFatal(ctx, err)
 		}
 	}
@@ -1616,7 +1616,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 			LoadTests:                *getT,
 			ResolveMissingImports:    false,
 			AllowErrors:              true,
-			SilenceNoGoErrors:        true,
+			SilenceNoGolangErrors:        true,
 		}
 		matches, pkgs := modload.LoadPackages(ctx, pkgOpts, pkgPatterns...)
 		for _, m := range matches {
@@ -1627,9 +1627,9 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 		}
 		for _, pkg := range pkgs {
 			if dir, _, err := modload.Lookup("", false, pkg); err != nil {
-				if dir != "" && errors.Is(err, imports.ErrNoGo) {
+				if dir != "" && errors.Is(err, imports.ErrNoGolang) {
 					// Since dir is non-empty, we must have located source files
-					// associated with either the package or its test — ErrNoGo must
+					// associated with either the package or its test — ErrNoGolang must
 					// indicate that none of those source files happen to apply in this
 					// configuration. If we are actually building the package (no -d
 					// flag), we will report the problem then; otherwise, assume that the
@@ -1798,7 +1798,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 // explicitly required modules in golang.mod. Most changes to indirect requirements
 // are not relevant to the user and are not logged.
 //
-// reportChanges should be called after WriteGoMod.
+// reportChanges should be called after WriteGolangMod.
 func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 	type change struct {
 		path, old, new string
@@ -1853,10 +1853,10 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 		}
 		return
 	}
-	oldGo, oldToolchain := toolchainVersions(oldReqs)
-	newGo, newToolchain := toolchainVersions(newReqs)
-	if oldGo != newGo {
-		changes["golang"] = change{"golang", oldGo, newGo}
+	oldGolang, oldToolchain := toolchainVersions(oldReqs)
+	newGolang, newToolchain := toolchainVersions(newReqs)
+	if oldGolang != newGolang {
+		changes["golang"] = change{"golang", oldGolang, newGolang}
 	}
 	if oldToolchain != newToolchain {
 		changes["toolchain"] = change{"toolchain", oldToolchain, newToolchain}
@@ -2013,13 +2013,13 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 	return true
 }
 
-func reqsFromGoMod(f *modfile.File) []module.Version {
+func reqsFromGolangMod(f *modfile.File) []module.Version {
 	reqs := make([]module.Version, len(f.Require), 2+len(f.Require))
 	for i, r := range f.Require {
 		reqs[i] = r.Mod
 	}
-	if f.Go != nil {
-		reqs = append(reqs, module.Version{Path: "golang", Version: f.Go.Version})
+	if f.Golang != nil {
+		reqs = append(reqs, module.Version{Path: "golang", Version: f.Golang.Version})
 	}
 	if f.Toolchain != nil {
 		reqs = append(reqs, module.Version{Path: "toolchain", Version: f.Toolchain.Name})

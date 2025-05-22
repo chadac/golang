@@ -1,7 +1,7 @@
-# Modules were introduced in Go 1.11, but for various reasons users may
+# Modules were introduced in Golang 1.11, but for various reasons users may
 # decide to declare a (much!) older golang version in their golang.mod file.
 # Modules with very old versions should not be rejected, and should have
-# the same module-graph semantics as in Go 1.11.
+# the same module-graph semantics as in Golang 1.11.
 
 cp golang.mod golang.mod.orig
 golang mod tidy

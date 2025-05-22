@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -225,7 +225,7 @@ const (
 	raceSymbolizeDataCmd
 )
 
-// Callback from C into Go, runs on g0.
+// Callback from C into Golang, runs on g0.
 func racecallback(cmd uintptr, ctx unsafe.Pointer) {
 	switch cmd {
 	case raceGetProcCmd:
@@ -502,7 +502,7 @@ func racefini() {
 	lock(&raceFiniLock)
 
 	// __tsan_fini will run C atexit functions and C++ destructors,
-	// which can theoretically call back into Go.
+	// which can theoretically call back into Golang.
 	// Tell the scheduler we entering external code.
 	entersyscall()
 
@@ -582,7 +582,7 @@ func racectxend(racectx uintptr) {
 func racewriterangepc(addr unsafe.Pointer, sz, callpc, pc uintptr) {
 	gp := getg()
 	if gp != gp.m.curg {
-		// The call is coming from manual instrumentation of Go code running on g0/gsignal.
+		// The call is coming from manual instrumentation of Golang code running on g0/gsignal.
 		// Not interesting.
 		return
 	}
@@ -599,7 +599,7 @@ func racewriterangepc(addr unsafe.Pointer, sz, callpc, pc uintptr) {
 func racereadrangepc(addr unsafe.Pointer, sz, callpc, pc uintptr) {
 	gp := getg()
 	if gp != gp.m.curg {
-		// The call is coming from manual instrumentation of Go code running on g0/gsignal.
+		// The call is coming from manual instrumentation of Golang code running on g0/gsignal.
 		// Not interesting.
 		return
 	}

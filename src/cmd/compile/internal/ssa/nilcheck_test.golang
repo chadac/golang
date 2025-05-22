@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,7 +29,7 @@ func benchmarkNilCheckDeep(b *testing.B, depth int) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto(blockn(0)),
+			Golangto(blockn(0)),
 		),
 	)
 	for i := 0; i < depth; i++ {
@@ -42,7 +42,7 @@ func benchmarkNilCheckDeep(b *testing.B, depth int) {
 		)
 	}
 	blocs = append(blocs,
-		Bloc(blockn(depth), Goto("exit")),
+		Bloc(blockn(depth), Golangto("exit")),
 		Bloc("exit", Exit("mem")),
 	)
 
@@ -74,7 +74,7 @@ func TestNilcheckSimple(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("checkPtr",
 			Valu("ptr1", OpLoad, ptrType, 0, nil, "sb", "mem"),
 			Valu("bool1", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
@@ -83,7 +83,7 @@ func TestNilcheckSimple(t *testing.T) {
 			Valu("bool2", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
 			If("bool2", "extra", "exit")),
 		Bloc("extra",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -111,7 +111,7 @@ func TestNilcheckDomOrder(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("checkPtr",
 			Valu("ptr1", OpLoad, ptrType, 0, nil, "sb", "mem"),
 			Valu("bool1", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
@@ -122,7 +122,7 @@ func TestNilcheckDomOrder(t *testing.T) {
 			Valu("bool2", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
 			If("bool2", "extra", "exit")),
 		Bloc("extra",
-			Goto("exit")))
+			Golangto("exit")))
 
 	CheckFunc(fun.f)
 	nilcheckelim(fun.f)
@@ -147,13 +147,13 @@ func TestNilcheckAddr(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("checkPtr",
 			Valu("ptr1", OpAddr, ptrType, 0, nil, "sb"),
 			Valu("bool1", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
 			If("bool1", "extra", "exit")),
 		Bloc("extra",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -180,14 +180,14 @@ func TestNilcheckAddPtr(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("checkPtr",
 			Valu("off", OpConst64, c.config.Types.Int64, 20, nil),
 			Valu("ptr1", OpAddPtr, ptrType, 0, nil, "sb", "off"),
 			Valu("bool1", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
 			If("bool1", "extra", "exit")),
 		Bloc("extra",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -221,17 +221,17 @@ func TestNilcheckPhi(t *testing.T) {
 			If("bool1", "b1", "b2")),
 		Bloc("b1",
 			Valu("ptr1", OpAddr, ptrType, 0, nil, "sb"),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("b2",
 			Valu("ptr2", OpAddr, ptrType, 0, nil, "sb"),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		// both ptr1 and ptr2 are guaranteed non-nil here
 		Bloc("checkPtr",
 			Valu("phi", OpPhi, ptrType, 0, nil, "ptr1", "ptr2"),
 			Valu("bool2", OpIsNonNil, c.config.Types.Bool, 0, nil, "phi"),
 			If("bool2", "extra", "exit")),
 		Bloc("extra",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -259,7 +259,7 @@ func TestNilcheckKeepRemove(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("checkPtr",
 			Valu("ptr1", OpLoad, ptrType, 0, nil, "sb", "mem"),
 			Valu("bool1", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
@@ -272,7 +272,7 @@ func TestNilcheckKeepRemove(t *testing.T) {
 			Valu("bool3", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
 			If("bool3", "extra", "exit")),
 		Bloc("extra",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -307,7 +307,7 @@ func TestNilcheckInFalseBranch(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("checkPtr",
 			Valu("ptr1", OpLoad, ptrType, 0, nil, "sb", "mem"),
 			Valu("bool1", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
@@ -319,7 +319,7 @@ func TestNilcheckInFalseBranch(t *testing.T) {
 			Valu("bool3", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
 			If("bool3", "extra", "exit")),
 		Bloc("extra",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -358,7 +358,7 @@ func TestNilcheckUser(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("checkPtr",
 			Valu("ptr1", OpLoad, ptrType, 0, nil, "sb", "mem"),
 			Valu("nilptr", OpConstNil, ptrType, 0, nil),
@@ -368,7 +368,7 @@ func TestNilcheckUser(t *testing.T) {
 			Valu("bool2", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
 			If("bool2", "extra", "exit")),
 		Bloc("extra",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -397,21 +397,21 @@ func TestNilcheckBug(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("checkPtr",
 			Valu("ptr1", OpLoad, ptrType, 0, nil, "sb", "mem"),
 			Valu("nilptr", OpConstNil, ptrType, 0, nil),
 			Valu("bool1", OpNeqPtr, c.config.Types.Bool, 0, nil, "ptr1", "nilptr"),
 			If("bool1", "secondCheck", "couldBeNil")),
 		Bloc("couldBeNil",
-			Goto("secondCheck")),
+			Golangto("secondCheck")),
 		Bloc("secondCheck",
 			Valu("bool2", OpIsNonNil, c.config.Types.Bool, 0, nil, "ptr1"),
 			If("bool2", "extra", "exit")),
 		Bloc("extra",
 			// prevent fuse from eliminating this block
 			Valu("store", OpStore, types.TypeMem, 0, ptrType, "ptr1", "nilptr", "mem"),
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Valu("phi", OpPhi, types.TypeMem, 0, nil, "mem", "store"),
 			Exit("phi")))

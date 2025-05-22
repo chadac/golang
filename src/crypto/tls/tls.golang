@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,8 +12,8 @@
 // signature algolangrithms, certificate public key types and sizes, and key
 // exchange and derivation algolangrithms were implemented. Others are silently
 // ignored and not negolangtiated, or rejected. This set may depend on the
-// algolangrithms supported by the FIPS 140-3 Go Cryptographic Module selected with
-// GOFIPS140, and may change across Go versions.
+// algolangrithms supported by the FIPS 140-3 Golang Cryptographic Module selected with
+// GOFIPS140, and may change across Golang versions.
 //
 // [FIPS 140-3 mode]: https://golang.dev/doc/security/fips140
 package tls
@@ -241,7 +241,7 @@ func (d *Dialer) DialContext(ctx context.Context, network, addr string) (net.Con
 // contain intermediate certificates following the leaf certificate to form a
 // certificate chain. On successful return, Certificate.Leaf will be populated.
 //
-// Before Go 1.23 Certificate.Leaf was left nil, and the parsed certificate was
+// Before Golang 1.23 Certificate.Leaf was left nil, and the parsed certificate was
 // discarded. This behavior can be re-enabled by setting "x509keypairleaf=0"
 // in the GODEBUG environment variable.
 func LoadX509KeyPair(certFile, keyFile string) (Certificate, error) {
@@ -261,7 +261,7 @@ var x509keypairleaf = golangdebug.New("x509keypairleaf")
 // X509KeyPair parses a public/private key pair from a pair of
 // PEM encoded data. On successful return, Certificate.Leaf will be populated.
 //
-// Before Go 1.23 Certificate.Leaf was left nil, and the parsed certificate was
+// Before Golang 1.23 Certificate.Leaf was left nil, and the parsed certificate was
 // discarded. This behavior can be re-enabled by setting "x509keypairleaf=0"
 // in the GODEBUG environment variable.
 func X509KeyPair(certPEMBlock, keyPEMBlock []byte) (Certificate, error) {

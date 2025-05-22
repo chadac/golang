@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ import (
 // A declInfo describes a package-level const, type, var, or func declaration.
 type declInfo struct {
 	file      *Scope           // scope of file containing this declaration
-	version   golangVersion        // Go version of file containing this declaration
+	version   golangVersion        // Golang version of file containing this declaration
 	lhs       []*Var           // lhs of n:1 variable declarations, or nil
 	vtyp      syntax.Expr      // type, or nil (for const and var declarations only)
 	init      syntax.Expr      // init/orig expression, or nil (for const and var declarations only)
@@ -222,7 +222,7 @@ func (check *Checker) collectObjects() {
 
 	fileScopes := make([]*Scope, len(check.files)) // fileScopes[i] corresponds to check.files[i]
 	for fileNo, file := range check.files {
-		check.version = asGoVersion(check.versions[file.Pos().FileBase()])
+		check.version = asGolangVersion(check.versions[file.Pos().FileBase()])
 
 		// The package identifier denotes the current package,
 		// but there is no corresponding package object.
@@ -724,7 +724,7 @@ func (check *Checker) errorUnusedPkg(obj *PkgName) {
 	// import path element, show it explicitly in the error message.
 	// Note that this handles both renamed imports and imports of
 	// packages containing unconventional package declarations.
-	// Note that this uses / always, even on Windows, because Go import
+	// Note that this uses / always, even on Windows, because Golang import
 	// paths always use forward slashes.
 	path := obj.imported.path
 	elem := path

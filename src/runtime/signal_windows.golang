@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -74,21 +74,21 @@ func isAbort(r *context) bool {
 }
 
 // isgolangexception reports whether this exception should be translated
-// into a Go panic or throw.
+// into a Golang panic or throw.
 //
 // It is nosplit to avoid growing the stack in case we're aborting
 // because of a stack overflow.
 //
 //golang:nosplit
 func isgolangexception(info *exceptionrecord, r *context) bool {
-	// Only handle exception if executing instructions in Go binary
+	// Only handle exception if executing instructions in Golang binary
 	// (not Windows library code).
 	// TODO(mwhudson): needs to loop to support shared libs
 	if r.ip() < firstmoduledata.text || firstmoduledata.etext < r.ip() {
 		return false
 	}
 
-	// Go will only handle some exceptions.
+	// Golang will only handle some exceptions.
 	switch info.exceptioncode {
 	default:
 		return false
@@ -270,7 +270,7 @@ func sehhandler(_ *exceptionrecord, _ uint64, _ *context, dctxt *_DISPATCHER_CON
 	// outside the stack boundaries, in which case it will call the
 	// UnhandledExceptionFilter. Unfortunately, it doesn't know about
 	// the golangroutine stack, so it will stop unwinding when it reaches the
-	// first frame not running in g0. As a result, neither non-Go exceptions
+	// first frame not running in g0. As a result, neither non-Golang exceptions
 	// handlers higher up the stack nor UnhandledExceptionFilter will be called.
 	//
 	// To work around this, manually unwind the stack until the top of the golangroutine
@@ -314,7 +314,7 @@ func firstcontinuehandler(info *exceptionrecord, r *context, gp *g) int32 {
 //golang:nosplit
 func lastcontinuehandler(info *exceptionrecord, r *context, gp *g) int32 {
 	if islibrary || isarchive {
-		// Go DLL/archive has been loaded in a non-golang program.
+		// Golang DLL/archive has been loaded in a non-golang program.
 		// If the exception does not originate from golang, the golang runtime
 		// should not take responsibility of crashing the process.
 		return _EXCEPTION_CONTINUE_SEARCH
@@ -324,7 +324,7 @@ func lastcontinuehandler(info *exceptionrecord, r *context, gp *g) int32 {
 	// illegal instructions during runtime initialization to determine
 	// CPU features, so if we make it to the last handler and we're
 	// arm64 and it's an illegal instruction and this is coming from
-	// non-Go code, then assume it's this runtime probing happen, and
+	// non-Golang code, then assume it's this runtime probing happen, and
 	// pass that onward to SEH.
 	if GOARCH == "arm64" && info.exceptioncode == _EXCEPTION_ILLEGAL_INSTRUCTION &&
 		(r.ip() < firstmoduledata.text || firstmoduledata.etext < r.ip()) {
@@ -459,7 +459,7 @@ func dieFromException(info *exceptionrecord, r *context) {
 			info.exceptioninformation[0] = gp.sigcode0
 			info.exceptioninformation[1] = gp.sigcode1
 		} else {
-			// By default, a failing Go application exits with exit code 2.
+			// By default, a failing Golang application exits with exit code 2.
 			// Use this value when gp does not contain exception info.
 			info = &exceptionrecord{
 				exceptioncode: 2,

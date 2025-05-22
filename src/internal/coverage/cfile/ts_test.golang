@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ import (
 	_ "unsafe"
 )
 
-func testGoCoverDir(t *testing.T) string {
+func testGolangCoverDir(t *testing.T) string {
 	if f := flag.Lookup("test.golangcoverdir"); f != nil {
 		if dir := f.Value.String(); dir != "" {
 			return dir
@@ -34,8 +34,8 @@ func TestTestSupport(t *testing.T) {
 	if testing.CoverMode() == "" {
 		return
 	}
-	tgcd := testGoCoverDir(t)
-	t.Logf("testing.testGoCoverDir() returns %s mode=%s\n",
+	tgcd := testGolangCoverDir(t)
+	t.Logf("testing.testGolangCoverDir() returns %s mode=%s\n",
 		tgcd, testing.CoverMode())
 
 	textfile := filepath.Join(t.TempDir(), "file.txt")
@@ -76,10 +76,10 @@ func TestTestSupport(t *testing.T) {
 // that "cfile" itself was not being instrumented, as in the
 // scenario above.
 func TestCoverageSnapshot(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	args := []string{"test", "-tags", "SELECT_USING_THIS_TAG",
 		"-cover", "-run=TestCoverageSnapshotImpl", "internal/coverage/cfile"}
-	cmd := exec.Command(testenv.GoToolPath(t), args...)
+	cmd := exec.Command(testenv.GolangToolPath(t), args...)
 	if b, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("golang test failed (%v): %s", err, b)
 	}
@@ -103,8 +103,8 @@ func genAuxMeta(t *testing.T, dstdir string) (string, string) {
 		t.Fatalf("write failed: %v", err)
 	}
 	args := []string{"run", "-covermode=" + testing.CoverMode(), src}
-	cmd := exec.Command(testenv.GoToolPath(t), args...)
-	cmd.Env = updateGoCoverDir(os.Environ(), dstdir, true)
+	cmd := exec.Command(testenv.GolangToolPath(t), args...)
+	cmd.Env = updateGolangCoverDir(os.Environ(), dstdir, true)
 	if b, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("golang run failed (%v): %s", err, b)
 	}
@@ -127,9 +127,9 @@ func TestAuxMetaDataFiles(t *testing.T) {
 	if testing.CoverMode() == "" {
 		return
 	}
-	testenv.MustHaveGoRun(t)
-	tgcd := testGoCoverDir(t)
-	t.Logf("testing.testGoCoverDir() returns %s mode=%s\n",
+	testenv.MustHaveGolangRun(t)
+	tgcd := testGolangCoverDir(t)
+	t.Logf("testing.testGolangCoverDir() returns %s mode=%s\n",
 		tgcd, testing.CoverMode())
 
 	td := t.TempDir()

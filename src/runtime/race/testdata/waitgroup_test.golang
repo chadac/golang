@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -90,14 +90,14 @@ func TestRaceWaitGroupWrongWait(t *testing.T) {
 	var wg sync.WaitGroup
 	golang func() {
 		wg.Add(1)
-		runtime.Gosched()
+		runtime.Golangsched()
 		x = 1
 		wg.Done()
 		c <- true
 	}()
 	golang func() {
 		wg.Add(1)
-		runtime.Gosched()
+		runtime.Golangsched()
 		x = 2
 		wg.Done()
 		c <- true

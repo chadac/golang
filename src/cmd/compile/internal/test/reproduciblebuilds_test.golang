@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ func TestReproducibleBuilds(t *testing.T) {
 		"issue30202.golang",
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	iters := 10
 	if testing.Short() {
 		iters = 4
@@ -39,7 +39,7 @@ func TestReproducibleBuilds(t *testing.T) {
 			for i := 0; i < iters; i++ {
 				// Note: use -c 2 to expose any nondeterminism which is the result
 				// of the runtime scheduler.
-				out, err := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-p=p", "-c", "2", "-o", tmp.Name(), filepath.Join("testdata", "reproducible", test)).CombinedOutput()
+				out, err := testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-p=p", "-c", "2", "-o", tmp.Name(), filepath.Join("testdata", "reproducible", test)).CombinedOutput()
 				if err != nil {
 					t.Fatalf("failed to compile: %v\n%s", err, out)
 				}
@@ -60,7 +60,7 @@ func TestReproducibleBuilds(t *testing.T) {
 }
 
 func TestIssue38068(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	// Compile a small package with and without the concurrent
@@ -83,7 +83,7 @@ func TestIssue38068(t *testing.T) {
 		s := &scenarios[i]
 		s.libpath = filepath.Join(tmpdir, s.tag+".a")
 		// Note: use of "-p" required in order for DWARF to be generated.
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-p=issue38068", "-buildid=", s.args, "-o", s.libpath, src)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-p=issue38068", "-buildid=", s.args, "-o", s.libpath, src)
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)

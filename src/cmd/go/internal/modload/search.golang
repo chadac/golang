@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -70,7 +70,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 	type pruning int8
 	const (
 		pruneVendor = pruning(1 << iota)
-		pruneGoMod
+		pruneGolangMod
 	)
 
 	q := par.NewQueue(runtime.GOMAXPROCS(0))
@@ -130,7 +130,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 				return filepath.SkipDir
 			}
 			// Stop at module boundaries.
-			if (prune&pruneGoMod != 0) && pkgDir != root {
+			if (prune&pruneGolangMod != 0) && pkgDir != root {
 				if info, err := os.Stat(filepath.Join(pkgDir, "golang.mod")); err == nil && !info.IsDir() {
 					return filepath.SkipDir
 				}
@@ -140,7 +140,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 				have[name] = true
 				if isMatch(name) {
 					q.Add(func() {
-						if _, _, err := scanDir(root, pkgDir, tags); err != imports.ErrNoGo {
+						if _, _, err := scanDir(root, pkgDir, tags); err != imports.ErrNoGolang {
 							addPkg(name)
 						}
 					})
@@ -164,16 +164,16 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 	}()
 
 	if filter == includeStd {
-		walkPkgs(cfg.GOROOTsrc, "", pruneGoMod)
+		walkPkgs(cfg.GOROOTsrc, "", pruneGolangMod)
 		if treeCanMatch("cmd") {
-			walkPkgs(filepath.Join(cfg.GOROOTsrc, "cmd"), "cmd", pruneGoMod)
+			walkPkgs(filepath.Join(cfg.GOROOTsrc, "cmd"), "cmd", pruneGolangMod)
 		}
 	}
 
 	if cfg.BuildMod == "vendor" {
 		for _, mod := range MainModules.Versions() {
 			if modRoot := MainModules.ModRoot(mod); modRoot != "" {
-				walkPkgs(modRoot, MainModules.PathPrefix(mod), pruneGoMod|pruneVendor)
+				walkPkgs(modRoot, MainModules.PathPrefix(mod), pruneGolangMod|pruneVendor)
 			}
 		}
 		if HasModRoot() {
@@ -216,7 +216,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 
 		prune := pruneVendor
 		if isLocal {
-			prune |= pruneGoMod
+			prune |= pruneGolangMod
 		}
 		walkPkgs(root, modPrefix, prune)
 	}
@@ -269,7 +269,7 @@ func walkFromIndex(index *modindex.Module, importPathRoot string, isMatch, treeC
 		if !have[name] {
 			have[name] = true
 			if isMatch(name) {
-				if _, _, err := index.Package(reldir).ScanDir(tags); err != imports.ErrNoGo {
+				if _, _, err := index.Package(reldir).ScanDir(tags); err != imports.ErrNoGolang {
 					addPkg(name)
 				}
 			}
@@ -302,16 +302,16 @@ func MatchInModule(ctx context.Context, pattern string, m module.Version, tags m
 		return match
 	}
 
-	dir, haveGoFiles, err := dirInModule(pattern, m.Path, root, isLocal)
+	dir, haveGolangFiles, err := dirInModule(pattern, m.Path, root, isLocal)
 	if err != nil {
 		match.Errs = []error{err}
 		return match
 	}
-	if haveGoFiles {
-		if _, _, err := scanDir(root, dir, tags); err != imports.ErrNoGo {
-			// ErrNoGo indicates that the directory is not actually a Go package,
+	if haveGolangFiles {
+		if _, _, err := scanDir(root, dir, tags); err != imports.ErrNoGolang {
+			// ErrNoGolang indicates that the directory is not actually a Golang package,
 			// perhaps due to the tags in use. Any other non-nil error indicates a
-			// problem with one or more of the Go source files, but such an error does
+			// problem with one or more of the Golang source files, but such an error does
 			// not stop the package from existing, so it has no impact on matching.
 			match.Pkgs = []string{pattern}
 		}

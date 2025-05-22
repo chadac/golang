@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ func ExampleBuffer_reader() {
 	buf := bytes.NewBufferString("R29waGVycyBydWxlIQ==")
 	dec := base64.NewDecoder(base64.StdEncoding, buf)
 	io.Copy(os.Stdout, dec)
-	// Output: Gophers rule!
+	// Output: Golangphers rule!
 }
 
 func ExampleBuffer_Bytes() {
@@ -233,15 +233,15 @@ func ExampleCut() {
 		before, after, found := bytes.Cut([]byte(s), []byte(sep))
 		fmt.Printf("Cut(%q, %q) = %q, %q, %v\n", s, sep, before, after, found)
 	}
-	show("Gopher", "Go")
-	show("Gopher", "ph")
-	show("Gopher", "er")
-	show("Gopher", "Badger")
+	show("Golangpher", "Golang")
+	show("Golangpher", "ph")
+	show("Golangpher", "er")
+	show("Golangpher", "Badger")
 	// Output:
-	// Cut("Gopher", "Go") = "", "pher", true
-	// Cut("Gopher", "ph") = "Go", "er", true
-	// Cut("Gopher", "er") = "Goph", "", true
-	// Cut("Gopher", "Badger") = "Gopher", "", false
+	// Cut("Golangpher", "Golang") = "", "pher", true
+	// Cut("Golangpher", "ph") = "Golang", "er", true
+	// Cut("Golangpher", "er") = "Golangph", "", true
+	// Cut("Golangpher", "Badger") = "Golangpher", "", false
 }
 
 func ExampleCutPrefix() {
@@ -249,11 +249,11 @@ func ExampleCutPrefix() {
 		after, found := bytes.CutPrefix([]byte(s), []byte(prefix))
 		fmt.Printf("CutPrefix(%q, %q) = %q, %v\n", s, prefix, after, found)
 	}
-	show("Gopher", "Go")
-	show("Gopher", "ph")
+	show("Golangpher", "Golang")
+	show("Golangpher", "ph")
 	// Output:
-	// CutPrefix("Gopher", "Go") = "pher", true
-	// CutPrefix("Gopher", "ph") = "Gopher", false
+	// CutPrefix("Golangpher", "Golang") = "pher", true
+	// CutPrefix("Golangpher", "ph") = "Golangpher", false
 }
 
 func ExampleCutSuffix() {
@@ -261,23 +261,23 @@ func ExampleCutSuffix() {
 		before, found := bytes.CutSuffix([]byte(s), []byte(suffix))
 		fmt.Printf("CutSuffix(%q, %q) = %q, %v\n", s, suffix, before, found)
 	}
-	show("Gopher", "Go")
-	show("Gopher", "er")
+	show("Golangpher", "Golang")
+	show("Golangpher", "er")
 	// Output:
-	// CutSuffix("Gopher", "Go") = "Gopher", false
-	// CutSuffix("Gopher", "er") = "Goph", true
+	// CutSuffix("Golangpher", "Golang") = "Golangpher", false
+	// CutSuffix("Golangpher", "er") = "Golangph", true
 }
 
 func ExampleEqual() {
-	fmt.Println(bytes.Equal([]byte("Go"), []byte("Go")))
-	fmt.Println(bytes.Equal([]byte("Go"), []byte("C++")))
+	fmt.Println(bytes.Equal([]byte("Golang"), []byte("Golang")))
+	fmt.Println(bytes.Equal([]byte("Golang"), []byte("C++")))
 	// Output:
 	// true
 	// false
 }
 
 func ExampleEqualFold() {
-	fmt.Println(bytes.EqualFold([]byte("Go"), []byte("golang")))
+	fmt.Println(bytes.EqualFold([]byte("Golang"), []byte("golang")))
 	// Output: true
 }
 
@@ -295,9 +295,9 @@ func ExampleFieldsFunc() {
 }
 
 func ExampleHasPrefix() {
-	fmt.Println(bytes.HasPrefix([]byte("Gopher"), []byte("Go")))
-	fmt.Println(bytes.HasPrefix([]byte("Gopher"), []byte("C")))
-	fmt.Println(bytes.HasPrefix([]byte("Gopher"), []byte("")))
+	fmt.Println(bytes.HasPrefix([]byte("Golangpher"), []byte("Golang")))
+	fmt.Println(bytes.HasPrefix([]byte("Golangpher"), []byte("C")))
+	fmt.Println(bytes.HasPrefix([]byte("Golangpher"), []byte("")))
 	// Output:
 	// true
 	// false
@@ -562,8 +562,8 @@ func ExampleTrimLeftFunc() {
 }
 
 func ExampleTrimPrefix() {
-	var b = []byte("Goodbye,, world!")
-	b = bytes.TrimPrefix(b, []byte("Goodbye,"))
+	var b = []byte("Golangodbye,, world!")
+	b = bytes.TrimPrefix(b, []byte("Golangodbye,"))
 	b = bytes.TrimPrefix(b, []byte("See ya,"))
 	fmt.Printf("Hello%s", b)
 	// Output: Hello, world!
@@ -600,7 +600,7 @@ func ExampleTrimRightFunc() {
 }
 
 func ExampleToLower() {
-	fmt.Printf("%s", bytes.ToLower([]byte("Gopher")))
+	fmt.Printf("%s", bytes.ToLower([]byte("Golangpher")))
 	// Output: golangpher
 }
 
@@ -615,7 +615,7 @@ func ExampleToLowerSpecial() {
 }
 
 func ExampleToUpper() {
-	fmt.Printf("%s", bytes.ToUpper([]byte("Gopher")))
+	fmt.Printf("%s", bytes.ToUpper([]byte("Golangpher")))
 	// Output: GOPHER
 }
 
@@ -630,7 +630,7 @@ func ExampleToUpperSpecial() {
 }
 
 func ExampleLines() {
-	text := []byte("Hello\nWorld\nGo Programming\n")
+	text := []byte("Hello\nWorld\nGolang Programming\n")
 	for line := range bytes.Lines(text) {
 		fmt.Printf("%q\n", line)
 	}
@@ -638,7 +638,7 @@ func ExampleLines() {
 	// Output:
 	// "Hello\n"
 	// "World\n"
-	// "Go Programming\n"
+	// "Golang Programming\n"
 }
 
 func ExampleSplitSeq() {

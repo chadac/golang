@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -497,7 +497,7 @@ func genPPC64() {
 	for i := 3; i <= 29; i++ {
 		if i == 12 || i == 13 {
 			// R12 has been saved in sigctxt.pushCall.
-			// R13 is TLS pointer, not used by Go code. we must NOT
+			// R13 is TLS pointer, not used by Golang code. we must NOT
 			// restore it, otherwise if we parked and resumed on a
 			// different thread we'll mess up TLS addresses.
 			continue

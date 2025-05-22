@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -152,7 +152,7 @@ TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 	MOVW	$0, R0
 	MOVW	R0, (16+callbackArgs_result)(R13)	// result
 
-	// Prepare for entry to Go.
+	// Prepare for entry to Golang.
 	BL	runtime·load_g(SB)
 
 	// Call cgolangcallback, which will call callbackWrap(frame).

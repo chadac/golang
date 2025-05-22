@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,25 +9,25 @@ import (
 	"strings"
 )
 
-// GoVersion returns the minimum Go version implied by a given build expression.
-// If the expression can be satisfied without any Go version tags, GoVersion returns an empty string.
+// GolangVersion returns the minimum Golang version implied by a given build expression.
+// If the expression can be satisfied without any Golang version tags, GolangVersion returns an empty string.
 //
 // For example:
 //
-//	GoVersion(linux && golang1.22) = "golang1.22"
-//	GoVersion((linux && golang1.22) || (windows && golang1.20)) = "golang1.20" => golang1.20
-//	GoVersion(linux) = ""
-//	GoVersion(linux || (windows && golang1.22)) = ""
-//	GoVersion(!golang1.22) = ""
+//	GolangVersion(linux && golang1.22) = "golang1.22"
+//	GolangVersion((linux && golang1.22) || (windows && golang1.20)) = "golang1.20" => golang1.20
+//	GolangVersion(linux) = ""
+//	GolangVersion(linux || (windows && golang1.22)) = ""
+//	GolangVersion(!golang1.22) = ""
 //
-// GoVersion assumes that any tag or negated tag may independently be true,
+// GolangVersion assumes that any tag or negated tag may independently be true,
 // so that its analysis can be purely structural, without SAT solving.
 // “Impossible” subexpressions may therefore affect the result.
 //
 // For example:
 //
-//	GoVersion((linux && !linux && golang1.20) || golang1.21) = "golang1.20"
-func GoVersion(x Expr) string {
+//	GolangVersion((linux && !linux && golang1.20) || golang1.21) = "golang1.20"
+func GolangVersion(x Expr) string {
 	v := minVersion(x, +1)
 	if v < 0 {
 		return ""
@@ -38,7 +38,7 @@ func GoVersion(x Expr) string {
 	return "golang1." + strconv.Itoa(v)
 }
 
-// minVersion returns the minimum Go major version (9 for golang1.9)
+// minVersion returns the minimum Golang major version (9 for golang1.9)
 // implied by expression z, or if sign < 0, by expression !z.
 func minVersion(z Expr, sign int) int {
 	switch z := z.(type) {
@@ -76,8 +76,8 @@ func minVersion(z Expr, sign int) int {
 	}
 }
 
-// andVersion returns the minimum Go version
-// implied by the AND of two minimum Go versions,
+// andVersion returns the minimum Golang version
+// implied by the AND of two minimum Golang versions,
 // which is the max of the versions.
 func andVersion(x, y int) int {
 	if x > y {
@@ -86,8 +86,8 @@ func andVersion(x, y int) int {
 	return y
 }
 
-// orVersion returns the minimum Go version
-// implied by the OR of two minimum Go versions,
+// orVersion returns the minimum Golang version
+// implied by the OR of two minimum Golang versions,
 // which is the min of the versions.
 func orVersion(x, y int) int {
 	if x < y {

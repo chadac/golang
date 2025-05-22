@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -45,7 +45,7 @@ func getBufferedEncoder(opts ...Options) *Encoder {
 	e := bufferedEncoderPool.Get().(*Encoder)
 	if e.s.Buf == nil {
 		// Round up to nearest 2ⁿ to make best use of malloc size classes.
-		// See runtime/sizeclasses.golang on Go1.15.
+		// See runtime/sizeclasses.golang on Golang1.15.
 		// Logical OR with 63 to ensure 64 as the minimum buffer size.
 		n := 1 << bits.Len(uint(e.s.bufStats.prevLen|63))
 		e.s.Buf = make([]byte, 0, n)

@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -41,7 +41,7 @@ const (
 
 func TestRuntimeTypesPresent(t *testing.T) {
 	t.Parallel()
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 
@@ -113,7 +113,7 @@ func golangbuild(t *testing.T, dir string, testfile string, gcflags string) *bui
 		t.Fatal(err)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", gcflags, "-o", dst, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", gcflags, "-o", dst, src)
 	b, err := cmd.CombinedOutput()
 	if len(b) != 0 {
 		t.Logf("## build output:\n%s", b)
@@ -135,7 +135,7 @@ func golangbuildTestdata(t *testing.T, pkgDir string, gcflags string) *builtFile
 	dst := filepath.Join(t.TempDir(), "out.exe")
 
 	// Run a build with an updated GOPATH
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", gcflags, "-o", dst)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", gcflags, "-o", dst)
 	cmd.Dir = pkgDir
 	if b, err := cmd.CombinedOutput(); err != nil {
 		t.Logf("build: %s\n", b)
@@ -190,7 +190,7 @@ func findSubprogramDIE(t *testing.T, ex *dwtest.Examiner, sym string) *dwarf.Ent
 
 func TestEmbeddedStructMarker(t *testing.T) {
 	t.Parallel()
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 
@@ -388,7 +388,7 @@ func main() {
 }
 
 func TestSubprogramDeclFileLine(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	mustHaveDWARF(t)
@@ -452,7 +452,7 @@ func main() {}
 }
 
 func TestVarDeclLine(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	mustHaveDWARF(t)
@@ -518,7 +518,7 @@ func main() {
 // TestInlinedRoutineCallFileLine tests the call file and line records for an
 // inlined subroutine.
 func TestInlinedRoutineCallFileLine(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 
@@ -650,7 +650,7 @@ func main() {
 
 // TestInlinedRoutineArgsVars tests the argument and variable records for an inlined subroutine.
 func TestInlinedRoutineArgsVars(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 
@@ -834,7 +834,7 @@ func abstractOriginSanity(t *testing.T, pkgDir string, flags string) {
 }
 
 func TestAbstractOriginSanity(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	if testing.Short() {
 		t.Skip("skipping test in short mode.")
@@ -845,7 +845,7 @@ func TestAbstractOriginSanity(t *testing.T) {
 }
 
 func TestAbstractOriginSanityIssue25459(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 	if runtime.GOARCH != "amd64" && runtime.GOARCH != "386" {
@@ -856,14 +856,14 @@ func TestAbstractOriginSanityIssue25459(t *testing.T) {
 }
 
 func TestAbstractOriginSanityIssue26237(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 	abstractOriginSanity(t, "testdata/issue26237", DefaultOpt)
 }
 
 func TestRuntimeTypeAttrInternal(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	// N.B. golang build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
 	testenv.MustInternalLink(t, testenv.NoSpecialBuildTypes)
@@ -875,7 +875,7 @@ func TestRuntimeTypeAttrInternal(t *testing.T) {
 
 // External linking requires a host linker (https://golanglang.org/src/cmd/cgolang/doc.golang l.732)
 func TestRuntimeTypeAttrExternal(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 
 	mustHaveDWARF(t)
@@ -964,7 +964,7 @@ func TestIssue27614(t *testing.T) {
 	// Type references in debug_info should always use the DW_TAG_typedef_type
 	// for the type, when that's generated.
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 
@@ -1076,7 +1076,7 @@ func TestStaticTmp(t *testing.T) {
 	// Also checks that statictmp variables do not collide with user defined
 	// variables (issue #25113)
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 
@@ -1149,10 +1149,10 @@ func main() {
 }
 
 func TestPackageNameAttr(t *testing.T) {
-	const dwarfAttrGoPackageName = dwarf.Attr(0x2905)
-	const dwarfGoLanguage = 22
+	const dwarfAttrGolangPackageName = dwarf.Attr(0x2905)
+	const dwarfGolangLanguage = 22
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 
@@ -1184,11 +1184,11 @@ func TestPackageNameAttr(t *testing.T) {
 		if e.Tag != dwarf.TagCompileUnit {
 			continue
 		}
-		if lang, _ := e.Val(dwarf.AttrLanguage).(int64); lang != dwarfGoLanguage {
+		if lang, _ := e.Val(dwarf.AttrLanguage).(int64); lang != dwarfGolangLanguage {
 			continue
 		}
 
-		pn, ok := e.Val(dwarfAttrGoPackageName).(string)
+		pn, ok := e.Val(dwarfAttrGolangPackageName).(string)
 		if !ok {
 			name, _ := e.Val(dwarf.AttrName).(string)
 			t.Errorf("found compile unit without package name: %s", name)
@@ -1211,7 +1211,7 @@ func TestPackageNameAttr(t *testing.T) {
 }
 
 func TestMachoIssue32233(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 
 	if runtime.GOOS != "darwin" {
@@ -1223,7 +1223,7 @@ func TestMachoIssue32233(t *testing.T) {
 }
 
 func TestWindowsIssue36495(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	if runtime.GOOS != "windows" {
 		t.Skip("skipping: test only on windows")
 	}
@@ -1285,7 +1285,7 @@ func main() {
 }
 
 func TestIssue38192(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 
@@ -1387,7 +1387,7 @@ func TestIssue38192(t *testing.T) {
 }
 
 func TestIssue39757(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 
@@ -1495,7 +1495,7 @@ func TestIssue39757(t *testing.T) {
 }
 
 func TestIssue42484(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	// Avoid spurious failures from external linkers.
 	//
 	// N.B. golang build below explictly doesn't pass through
@@ -1589,7 +1589,7 @@ func processParams(die *dwarf.Entry, ex *dwtest.Examiner) string {
 		if child.Tag == dwarf.TagFormalParameter {
 			// NB: a setting of DW_AT_variable_parameter indicates
 			// that the param in question is an output parameter; we
-			// want to see this attribute set to TRUE for all Go
+			// want to see this attribute set to TRUE for all Golang
 			// return params. It would be OK to have it missing for
 			// input parameters, but for the moment we verify that the
 			// attr is present but set to false.
@@ -1618,7 +1618,7 @@ func processParams(die *dwarf.Entry, ex *dwtest.Examiner) string {
 }
 
 func TestOutputParamAbbrevAndAttr(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 	t.Parallel()
@@ -1665,7 +1665,7 @@ func TestDictIndex(t *testing.T) {
 	// Check that variables with a parametric type have a dictionary index
 	// attribute and that types that are only referenced through dictionaries
 	// have DIEs.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 	t.Parallel()
@@ -1759,7 +1759,7 @@ func main() {
 }
 
 func TestOptimizedOutParamHandling(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 	t.Parallel()
@@ -1886,7 +1886,7 @@ func main() {
 func TestIssue54320(t *testing.T) {
 	// Check that when trampolines are used, the DWARF LPT is correctly
 	// emitted in the final binary
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 
@@ -1975,7 +1975,7 @@ func main() {
 `
 
 func TestZeroSizedVariable(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 	t.Parallel()
@@ -2005,8 +2005,8 @@ func TestZeroSizedVariable(t *testing.T) {
 	}
 }
 
-func TestConsistentGoKindAndRuntimeType(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+func TestConsistentGolangKindAndRuntimeType(t *testing.T) {
+	testenv.MustHaveGolangBuild(t)
 
 	mustHaveDWARF(t)
 	t.Parallel()

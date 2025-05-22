@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -178,7 +178,7 @@ func (z *Reader) readHeader() (hdr Header, err error) {
 		//
 		// Other than this, the specification does not clarify whether a
 		// "series" is defined as "one or more" or "zero or more". To err on the
-		// side of caution, Go interprets this to mean "zero or more".
+		// side of caution, Golang interprets this to mean "zero or more".
 		// Thus, it is okay to return io.EOF here.
 		return hdr, err
 	}

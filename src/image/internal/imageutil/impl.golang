@@ -20,7 +20,7 @@ func DrawYCbCr(dst *image.RGBA, r image.Rectangle, src *image.YCbCr, sp image.Po
 	//
 	// Another option is to have this code be exported in the image package,
 	// but we'd need to make sure we're totally happy with the API (for the
-	// rest of Go 1 compatibility), and decide if we want to have a more
+	// rest of Golang 1 compatibility), and decide if we want to have a more
 	// general purpose DrawToRGBA method for other image types. One possibility
 	// is:
 	//

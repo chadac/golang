@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -45,7 +45,7 @@ var defaultResolvConf = &dnsConfig{
 func TestConfHostLookupOrder(t *testing.T) {
 	// These tests are written for a system with cgolang available,
 	// without using the netgolang tag.
-	if netGoBuildTag {
+	if netGolangBuildTag {
 		t.Skip("skipping test because net package built with netgolang tag")
 	}
 	if !cgolangAvailable {
@@ -76,7 +76,7 @@ func TestConfHostLookupOrder(t *testing.T) {
 		{
 			name: "netgolang_dns_before_files",
 			c: &conf{
-				netGo: true,
+				netGolang: true,
 			},
 			resolv: defaultResolvConf,
 			nss:    nssStr(t, "hosts: dns files"),
@@ -87,7 +87,7 @@ func TestConfHostLookupOrder(t *testing.T) {
 		{
 			name: "netgolang_fallback_on_cgolang",
 			c: &conf{
-				netGo: true,
+				netGolang: true,
 			},
 			resolv: defaultResolvConf,
 			nss:    nssStr(t, "hosts: dns files something_custom"),
@@ -340,10 +340,10 @@ func TestConfHostLookupOrder(t *testing.T) {
 			nss:       nssStr(t, "foo: bar"),
 			hostTests: []nssHostTest{{"golangogle.com", "myhostname", hostLookupCgolang}},
 		},
-		// Issue 24393: make sure "Resolver.PreferGo = true" acts like netgolang.
+		// Issue 24393: make sure "Resolver.PreferGolang = true" acts like netgolang.
 		{
 			name:     "resolver-prefergolang",
-			resolver: &Resolver{PreferGo: true},
+			resolver: &Resolver{PreferGolang: true},
 			c: &conf{
 				preferCgolang: true,
 				netCgolang:    true,
@@ -356,7 +356,7 @@ func TestConfHostLookupOrder(t *testing.T) {
 		},
 		{
 			name:     "unknown-source",
-			resolver: &Resolver{PreferGo: true},
+			resolver: &Resolver{PreferGolang: true},
 			c:        &conf{},
 			resolv:   defaultResolvConf,
 			nss:      nssStr(t, "hosts: resolve files"),
@@ -366,7 +366,7 @@ func TestConfHostLookupOrder(t *testing.T) {
 		},
 		{
 			name:     "dns-among-unknown-sources",
-			resolver: &Resolver{PreferGo: true},
+			resolver: &Resolver{PreferGolang: true},
 			c:        &conf{},
 			resolv:   defaultResolvConf,
 			nss:      nssStr(t, "hosts: mymachines files dns"),
@@ -376,7 +376,7 @@ func TestConfHostLookupOrder(t *testing.T) {
 		},
 		{
 			name:     "dns-among-unknown-sources-2",
-			resolver: &Resolver{PreferGo: true},
+			resolver: &Resolver{PreferGolang: true},
 			c:        &conf{},
 			resolv:   defaultResolvConf,
 			nss:      nssStr(t, "hosts: dns mymachines files"),
@@ -414,7 +414,7 @@ func TestConfHostLookupOrder(t *testing.T) {
 func TestAddrLookupOrder(t *testing.T) {
 	// This test is written for a system with cgolang available,
 	// without using the netgolang tag.
-	if netGoBuildTag {
+	if netGolangBuildTag {
 		t.Skip("skipping test because net package built with netgolang tag")
 	}
 	if !cgolangAvailable {

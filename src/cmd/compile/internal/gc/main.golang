@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -55,8 +55,8 @@ func handlePanic() {
 	}
 }
 
-// Main parses flags and Go source files specified in the command-line
-// arguments, type-checks the parsed Go package, compiles functions to machine
+// Main parses flags and Golang source files specified in the command-line
+// arguments, type-checks the parsed Golang package, compiles functions to machine
 // code, and finally writes the compiled package definition to disk.
 func Main(archInit func(*ssagen.ArchInfo)) {
 	base.Timer.Start("fe", "init")
@@ -116,7 +116,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	ir.Pkgs.Itab.Prefix = "golang:itab"
 
 	// pseudo-package used for methods with anonymous receivers
-	ir.Pkgs.Go = types.NewPkg("golang", "")
+	ir.Pkgs.Golang = types.NewPkg("golang", "")
 
 	// pseudo-package for use with code coverage instrumentation.
 	ir.Pkgs.Coverage = types.NewPkg("golang.coverage", "runtime/coverage")

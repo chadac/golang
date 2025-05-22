@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@
 // Zero takes a Type and returns a Value representing a zero value
 // for that type.
 //
-// See "The Laws of Reflection" for an introduction to reflection in Go:
+// See "The Laws of Reflection" for an introduction to reflection in Golang:
 // https://golanglang.org/doc/articles/laws_of_reflection.html
 package reflect
 
@@ -26,7 +26,7 @@ import (
 	"unsafe"
 )
 
-// Type is the representation of a Go type.
+// Type is the representation of a Golang type.
 //
 // Not all methods apply to all kinds of types. Restrictions,
 // if any, are noted in the documentation for each method.
@@ -195,7 +195,7 @@ type Type interface {
 	// fields satisfying the match function. If multiple fields at that depth
 	// satisfy the match function, they cancel each other
 	// and FieldByNameFunc returns no match.
-	// This behavior mirrors Go's handling of name lookup in
+	// This behavior mirrors Golang's handling of name lookup in
 	// structs containing embedded fields.
 	//
 	// If the returned field is promoted from an embedded struct,
@@ -1034,7 +1034,7 @@ func (f StructField) IsExported() bool {
 // Each key is a non-empty string consisting of non-control
 // characters other than space (U+0020 ' '), quote (U+0022 '"'),
 // and colon (U+003A ':').  Each value is quoted using U+0022 '"'
-// characters and Go string literal syntax.
+// characters and Golang string literal syntax.
 type StructTag string
 
 // Get returns the value associated with key in the tag string.
@@ -1181,7 +1181,7 @@ type fieldScan struct {
 // FieldByNameFunc returns the struct field with a name that satisfies the
 // match function and a boolean to indicate if the field was found.
 func (t *structType) FieldByNameFunc(match func(string) bool) (result StructField, ok bool) {
-	// This uses the same condition that the Go language does: there must be a unique instance
+	// This uses the same condition that the Golang language does: there must be a unique instance
 	// of the match at a given depth level. If there are multiple instances of a match at the
 	// same depth, they annihilate each other and inhibit any possible match at a lower level.
 	// The algolangrithm is breadth first search, one depth level at a time.

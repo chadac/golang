@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -122,7 +122,7 @@ var _ T5[A[int], int]
 // Invoking methods with parameterized receiver types uses
 // type inference to determine the actual type arguments matching
 // the receiver type parameters from the actual receiver argument.
-// Go does implicit address-taking and dereferenciation depending
+// Golang does implicit address-taking and dereferenciation depending
 // on the actual receiver and the method's receiver type. To make
 // type inference work, the type-checker matches "pointer-ness"
 // of the actual receiver and the method's receiver type.

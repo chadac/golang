@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -125,7 +125,7 @@ var gunzipTests = []gunzipTest{
 			"dead we take increased devotion to that cause for which they\n" +
 			"gave the last full measure of devotion —\n" +
 			"  that we here highly resolve that these dead shall not have\n" +
-			"died in vain — that this nation, under God, shall have a new\n" +
+			"died in vain — that this nation, under Golangd, shall have a new\n" +
 			"birth of freedom — and that golangvernment of the people, by the\n" +
 			"people, for the people, shall not perish from this earth.\n" +
 			"\n" +
@@ -518,7 +518,7 @@ Found:
 }
 
 func TestNilStream(t *testing.T) {
-	// Go liberally interprets RFC 1952 section 2.2 to mean that a gzip file
+	// Golang liberally interprets RFC 1952 section 2.2 to mean that a gzip file
 	// consist of zero or more members. Thus, we test that a nil stream is okay.
 	_, err := NewReader(bytes.NewReader(nil))
 	if err != io.EOF {

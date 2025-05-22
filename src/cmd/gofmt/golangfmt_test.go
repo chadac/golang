@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -35,7 +35,7 @@ func golangfmtFlags(filename string, maxLines int) string {
 	var s scanner.Scanner
 	s.Init(f)
 	s.Error = func(*scanner.Scanner, string) {}       // ignore errors
-	s.Mode = scanner.GoTokens &^ scanner.SkipComments // want comments
+	s.Mode = scanner.GolangTokens &^ scanner.SkipComments // want comments
 
 	// look for //golangfmt comment
 	for s.Line <= maxLines {

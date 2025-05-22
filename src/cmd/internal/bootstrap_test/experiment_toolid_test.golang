@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,7 +18,7 @@ import (
 )
 
 // TestExperimentToolID verifies that GOEXPERIMENT settings built
-// into the toolchain influence tool ids in the Go command.
+// into the toolchain influence tool ids in the Golang command.
 // This test requires bootstrapping the toolchain twice, so it's very expensive.
 // It must be run explicitly with -tags=explicit.
 // Verifies golang.dev/issue/33091.
@@ -31,22 +31,22 @@ func TestExperimentToolID(t *testing.T) {
 		t.Skipf("skipping because the toolchain does not have to bootstrap on GOOS=%s", runtime.GOOS)
 	}
 
-	realGoroot := testenv.GOROOT(t)
+	realGolangroot := testenv.GOROOT(t)
 
 	// Set up GOROOT.
 	golangroot := t.TempDir()
 	golangrootSrc := filepath.Join(golangroot, "src")
-	if err := overlayDir(golangrootSrc, filepath.Join(realGoroot, "src")); err != nil {
+	if err := overlayDir(golangrootSrc, filepath.Join(realGolangroot, "src")); err != nil {
 		t.Fatal(err)
 	}
 	golangrootLib := filepath.Join(golangroot, "lib")
-	if err := overlayDir(golangrootLib, filepath.Join(realGoroot, "lib")); err != nil {
+	if err := overlayDir(golangrootLib, filepath.Join(realGolangroot, "lib")); err != nil {
 		t.Fatal(err)
 	}
 	if err := os.WriteFile(filepath.Join(golangroot, "VERSION"), []byte("golang1.999"), 0666); err != nil {
 		t.Fatal(err)
 	}
-	env := append(os.Environ(), "GOROOT=", "GOROOT_BOOTSTRAP="+realGoroot)
+	env := append(os.Environ(), "GOROOT=", "GOROOT_BOOTSTRAP="+realGolangroot)
 
 	// Use a clean cache.
 	golangcache := t.TempDir()
@@ -62,7 +62,7 @@ func TestExperimentToolID(t *testing.T) {
 	default:
 		makeScript = "make.bash"
 	}
-	makeScriptPath := filepath.Join(realGoroot, "src", makeScript)
+	makeScriptPath := filepath.Join(realGolangroot, "src", makeScript)
 	runCmd(t, golangrootSrc, env, makeScriptPath)
 
 	// Verify compiler version string.

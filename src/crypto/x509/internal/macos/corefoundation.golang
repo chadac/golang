@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,7 +24,7 @@ import (
 //golang:cgolang_ldflag "CoreFoundation"
 
 // CFRef is an opaque reference to a Core Foundation object. It is a pointer,
-// but to memory not owned by Go, so not an unsafe.Pointer.
+// but to memory not owned by Golang, so not an unsafe.Pointer.
 type CFRef uintptr
 
 // CFDataToSlice returns a copy of the contents of data as a bytes slice.
@@ -35,7 +35,7 @@ func CFDataToSlice(data CFRef) []byte {
 	return bytes.Clone(src)
 }
 
-// CFStringToString returns a Go string representation of the passed
+// CFStringToString returns a Golang string representation of the passed
 // in CFString, or an empty string if it's invalid.
 func CFStringToString(ref CFRef) string {
 	data, err := CFStringCreateExternalRepresentation(ref)

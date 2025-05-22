@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1734,7 +1734,7 @@ func (r *reader) stmt1(tag codeStmt, out *ir.Nodes) ir.Node {
 		pos := r.pos()
 		op := r.op()
 		call := r.expr()
-		stmt := ir.NewGoDeferStmt(pos, op, call)
+		stmt := ir.NewGolangDeferStmt(pos, op, call)
 		if op == ir.ODEFER {
 			x := r.optExpr()
 			if x != nil {
@@ -2843,7 +2843,7 @@ func (r *reader) methodExpr() (wrapperFn, baseFn, dictPtr ir.Node) {
 		// return the OMETHEXPR instead and save an indirection.
 
 		// We wrote the method expression's entry point PC into the
-		// dictionary, but for Go `func` values we need to return a
+		// dictionary, but for Golang `func` values we need to return a
 		// closure (i.e., pointer to a structure with the PC as the first
 		// field). Because method expressions don't have any closure
 		// variables, we pun the dictionary entry as the closure struct.

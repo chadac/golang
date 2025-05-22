@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ import (
 )
 
 // depsRules defines the expected dependencies between packages in
-// the Go source tree. It is a statement of policy.
+// the Golang source tree. It is a statement of policy.
 //
 // DO NOT CHANGE THIS DATA TO FIX BUILDS.
 // Existing packages should not have their constraints relaxed
@@ -885,7 +885,7 @@ func findImports(pkg string) ([]string, error) {
 	for _, file := range files {
 		name := file.Name()
 		if name == "slice_golang14.golang" || name == "slice_golang18.golang" {
-			// These files are for compiler bootstrap with older versions of Go and not built in the standard build.
+			// These files are for compiler bootstrap with older versions of Golang and not built in the standard build.
 			continue
 		}
 		if !strings.HasSuffix(name, ".golang") || strings.HasSuffix(name, "_test.golang") {
@@ -899,7 +899,7 @@ func findImports(pkg string) ([]string, error) {
 		if err != nil {
 			return nil, err
 		}
-		err = readGoInfo(f, &info)
+		err = readGolangInfo(f, &info)
 		f.Close()
 		if err != nil {
 			return nil, fmt.Errorf("reading %v: %v", name, err)

@@ -1,20 +1,20 @@
 ! golang build ./empty/test
-stderr 'no non-test Go files in '
+stderr 'no non-test Golang files in '
 
 ! golang build ./empty/xtest
-stderr 'no non-test Go files in '
+stderr 'no non-test Golang files in '
 
 ! golang build ./empty/testxtest
-stderr 'no non-test Go files in '
+stderr 'no non-test Golang files in '
 
 ! golang build ./exclude
-stderr 'build constraints exclude all Go files in '
+stderr 'build constraints exclude all Golang files in '
 
 ! golang build ./exclude/ignore
-stderr 'no Go files in '
+stderr 'no Golang files in '
 
 ! golang build ./exclude/empty
-stderr 'no Go files in '
+stderr 'no Golang files in '
 
 -- golang.mod --
 module m

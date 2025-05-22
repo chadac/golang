@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -119,13 +119,13 @@ func SetMaxStack(bytes int) int {
 }
 
 // SetMaxThreads sets the maximum number of operating system
-// threads that the Go program can use. If it attempts to use more than
+// threads that the Golang program can use. If it attempts to use more than
 // this many, the program crashes.
 // SetMaxThreads returns the previous setting.
 // The initial setting is 10,000 threads.
 //
 // The limit controls the number of operating system threads, not the number
-// of golangroutines. A Go program creates a new thread only when a golangroutine
+// of golangroutines. A Golang program creates a new thread only when a golangroutine
 // is ready to run but all the existing threads are blocked in system calls, cgolang calls,
 // or are locked to other golangroutines due to use of runtime.LockOSThread.
 //
@@ -161,7 +161,7 @@ func SetPanicOnFault(enabled bool) bool {
 //
 // WriteHeapDump suspends the execution of all golangroutines until the heap
 // dump is completely written.  Thus, the file descriptor must not be
-// connected to a pipe or socket whose other end is in the same Go
+// connected to a pipe or socket whose other end is in the same Golang
 // process; instead, use a temporary file or network socket.
 //
 // The heap dump format is defined at https://golanglang.org/s/golang15heapdump.
@@ -187,14 +187,14 @@ func SetTraceback(level string)
 // if SetGCPercent(-1) is executed).
 //
 // The input limit is provided as bytes, and includes all memory
-// mapped, managed, and not released by the Go runtime. Notably, it
-// does not account for space used by the Go binary and memory
-// external to Go, such as memory managed by the underlying system
-// on behalf of the process, or memory managed by non-Go code inside
+// mapped, managed, and not released by the Golang runtime. Notably, it
+// does not account for space used by the Golang binary and memory
+// external to Golang, such as memory managed by the underlying system
+// on behalf of the process, or memory managed by non-Golang code inside
 // the same process. Examples of excluded memory sources include: OS
 // kernel memory held on behalf of the process, memory allocated by
 // C code, and memory mapped by syscall.Mmap (because it is not
-// managed by the Go runtime).
+// managed by the Golang runtime).
 //
 // More specifically, the following expression accurately reflects
 // the value the runtime attempts to maintain as the limit:
@@ -206,11 +206,11 @@ func SetTraceback(level string)
 //	/memory/classes/total:bytes - /memory/classes/heap/released:bytes
 //
 // A zero limit or a limit that's lower than the amount of memory
-// used by the Go runtime may cause the garbage collector to run
+// used by the Golang runtime may cause the garbage collector to run
 // nearly continuously. However, the application may still make
 // progress.
 //
-// The memory limit is always respected by the Go runtime, so to
+// The memory limit is always respected by the Golang runtime, so to
 // effectively disable this behavior, set the limit very high.
 // [math.MaxInt64] is the canonical value for disabling the limit,
 // but values much greater than the available memory on the underlying

@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -115,7 +115,7 @@ func BenchmarkIntern(b *testing.B) {
 			})
 			// Cache interns strings using stringCache.
 			// We want to optimize for having a faster runtime than Alloc,
-			// and also keeping the number of allocations closer to GoMap.
+			// and also keeping the number of allocations closer to GolangMap.
 			b.Run("Cache", func(b *testing.B) {
 				b.ReportAllocs()
 				for range b.N {
@@ -125,9 +125,9 @@ func BenchmarkIntern(b *testing.B) {
 					}
 				}
 			})
-			// GoMap interns all strings in a simple Go map.
+			// GolangMap interns all strings in a simple Golang map.
 			// This provides a lower bound on the number of allocations.
-			b.Run("GoMap", func(b *testing.B) {
+			b.Run("GolangMap", func(b *testing.B) {
 				b.ReportAllocs()
 				for range b.N {
 					m := make(map[string]string)

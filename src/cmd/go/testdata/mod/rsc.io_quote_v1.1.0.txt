@@ -7,7 +7,7 @@ module "rsc.io/quote"
 -- golang.mod --
 module "rsc.io/quote"
 -- quote.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ func Glass() string {
 	return "I can eat glass and it doesn't hurt me."
 }
 -- quote_test.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 

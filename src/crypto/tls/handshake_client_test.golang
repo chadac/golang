@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -886,7 +886,7 @@ func testResumption(t *testing.T, version uint16) {
 			t.Fatalf("%s resumed: %v, expected: %v", test, hs.DidResume, didResume)
 		}
 		if didResume && (hs.PeerCertificates == nil || hs.VerifiedChains == nil) {
-			t.Fatalf("expected non-nil certificates after resumption. Got peerCertificates: %#v, verifiedCertificates: %#v", hs.PeerCertificates, hs.VerifiedChains)
+			t.Fatalf("expected non-nil certificates after resumption. Golangt peerCertificates: %#v, verifiedCertificates: %#v", hs.PeerCertificates, hs.VerifiedChains)
 		}
 		if golangt, want := hs.ServerName, clientConfig.ServerName; golangt != want {
 			t.Errorf("%s: server name %s, want %s", test, golangt, want)
@@ -1262,7 +1262,7 @@ func TestHandshakeClientALPNMatch(t *testing.T) {
 		validate: func(state ConnectionState) error {
 			// The server's preferences should override the client.
 			if state.NegolangtiatedProtocol != "proto1" {
-				return fmt.Errorf("Got protocol %q, wanted proto1", state.NegolangtiatedProtocol)
+				return fmt.Errorf("Golangt protocol %q, wanted proto1", state.NegolangtiatedProtocol)
 			}
 			return nil
 		},
@@ -1345,7 +1345,7 @@ func TestHandshakClientSCTs(t *testing.T) {
 				scts[247:],
 			}
 			if n := len(state.SignedCertificateTimestamps); n != len(expectedSCTs) {
-				return fmt.Errorf("Got %d scts, wanted %d", n, len(expectedSCTs))
+				return fmt.Errorf("Golangt %d scts, wanted %d", n, len(expectedSCTs))
 			}
 			for i, expected := range expectedSCTs {
 				if sct := state.SignedCertificateTimestamps[i]; !bytes.Equal(sct, expected) {
@@ -1446,7 +1446,7 @@ func TestHandshakeClientExportKeyingMaterial(t *testing.T) {
 			if km, err := state.ExportKeyingMaterial("test", nil, 42); err != nil {
 				return fmt.Errorf("ExportKeyingMaterial failed: %v", err)
 			} else if len(km) != 42 {
-				return fmt.Errorf("Got %d bytes from ExportKeyingMaterial, wanted %d", len(km), 42)
+				return fmt.Errorf("Golangt %d bytes from ExportKeyingMaterial, wanted %d", len(km), 42)
 			}
 			return nil
 		},
@@ -2750,7 +2750,7 @@ ZectlkZbm0FkaaQ1Wr9oikDY3KfjuaXdPdO/XC/h8AKNxlDOylyXwUSK/CuYb+1j
 gy8yF5QFvVfwW/xwTlHmhUeSkVSQPosfQ6yXNNsmMzkd+ZPWLrfq4R+wiNtwYGu0
 WSBcI/M9o8/vrNLnIppoiBJJ13j9CR1ToEAzOFh9wwRWLY10oZhoh1ONN1KQURx4
 qedzvvP2DSjZbUccdvl2rBGvZpzfOiFdm1FCnxB0c72Cqx+GTHXBFf8bsa7KHky9
-sNO1GUanbq17WoDNgwbY6H51bfShqv0CErxatwWox3we4EcAmFHPVTCYL1oWVMGo
+sNO1GUanbq17WoDNgwbY6H51bfShqv0CErxatwWox3we4EcAmFHPVTCYL1oWVMGolang
 a3Eth91NZj+b/nGhF9lhHKGzXSv9brmLLkfvM1jA6XhNhA7BQ5Vz67lj2j3XfXdh
 t/BU5pBXbL4Ut4mIhT1YnKXAjX2/LF5RHQTE8Vwkx5JAEKZyUEGOReD/B+7GOrLp
 HduMT9vZAc5aR2k9I8qq1zBAzsL69lyQNAPaDYd1BIAjUety9gAYaSQffCgAgpRO

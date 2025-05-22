@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ func TestLibFuzzer(t *testing.T) {
 	if testing.Short() {
 		t.Skip("libfuzzer tests can take upwards of minutes to run; skipping in short mode")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 
 	golangos, err := golangEnv("GOOS")
@@ -51,12 +51,12 @@ func TestLibFuzzer(t *testing.T) {
 			dir := newTempDir(t)
 			defer dir.RemoveAll(t)
 
-			// build Go code in libfuzzer mode to a c-archive
+			// build Golang code in libfuzzer mode to a c-archive
 			outPath := dir.Join(name)
 			archivePath := dir.Join(name + ".a")
 			mustRun(t, config.golangCmd("build", "-buildmode=c-archive", "-o", archivePath, srcPath(tc.golangSrc)))
 
-			// build C code (if any) and link with Go code
+			// build C code (if any) and link with Golang code
 			cmd, err := cc(config.cFlags...)
 			if err != nil {
 				t.Fatalf("error running cc: %v", err)

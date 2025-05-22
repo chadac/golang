@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -83,7 +83,7 @@ type gcCPULimiterState struct {
 	nprocs int32
 }
 
-// limiting returns true if the CPU limiter is currently enabled, meaning the Go GC
+// limiting returns true if the CPU limiter is currently enabled, meaning the Golang GC
 // should take action to limit CPU utilization.
 //
 // It is safe to call concurrently with other operations.

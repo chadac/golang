@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -308,7 +308,7 @@ func (w WaitStatus) StopSignal() Signal { return 0 }
 func (w WaitStatus) TrapCause() int     { return 0 }
 
 // Rusage is a placeholder to allow compilation of the [os/exec] package
-// because we need Go programs to be portable across platforms. WASI does
+// because we need Golang programs to be portable across platforms. WASI does
 // not have a mechanism to spawn processes so there is no reason for an
 // application to take a dependency on this type.
 type Rusage struct {
@@ -317,7 +317,7 @@ type Rusage struct {
 }
 
 // ProcAttr is a placeholder to allow compilation of the [os/exec] package
-// because we need Go programs to be portable across platforms. WASI does
+// because we need Golang programs to be portable across platforms. WASI does
 // not have a mechanism to spawn processes so there is no reason for an
 // application to take a dependency on this type.
 type ProcAttr struct {

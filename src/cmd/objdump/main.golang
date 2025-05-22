@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -45,9 +45,9 @@ import (
 	"cmd/internal/telemetry/counter"
 )
 
-var printCode = flag.Bool("S", false, "print Go code alongside assembly")
+var printCode = flag.Bool("S", false, "print Golang code alongside assembly")
 var symregexp = flag.String("s", "", "only dump symbols matching this regexp")
-var gnuAsm = flag.Bool("gnu", false, "print GNU assembly next to Go assembly (where supported)")
+var gnuAsm = flag.Bool("gnu", false, "print GNU assembly next to Golang assembly (where supported)")
 var symRE *regexp.Regexp
 
 func usage() {

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,10 +21,10 @@ type generator interface {
 	GlobalRange(ctx *traceContext, ev *trace.Event)
 	GlobalMetric(ctx *traceContext, ev *trace.Event)
 
-	// Goroutine parts.
-	GoroutineLabel(ctx *traceContext, ev *trace.Event)
-	GoroutineRange(ctx *traceContext, ev *trace.Event)
-	GoroutineTransition(ctx *traceContext, ev *trace.Event)
+	// Golangroutine parts.
+	GolangroutineLabel(ctx *traceContext, ev *trace.Event)
+	GolangroutineRange(ctx *traceContext, ev *trace.Event)
+	GolangroutineTransition(ctx *traceContext, ev *trace.Event)
 
 	// Proc parts.
 	ProcRange(ctx *traceContext, ev *trace.Event)
@@ -50,8 +50,8 @@ func runGenerator(ctx *traceContext, g generator, parsed *parsedTrace, opts *gen
 		case trace.EventRangeBegin, trace.EventRangeActive, trace.EventRangeEnd:
 			r := ev.Range()
 			switch r.Scope.Kind {
-			case trace.ResourceGoroutine:
-				g.GoroutineRange(ctx, ev)
+			case trace.ResourceGolangroutine:
+				g.GolangroutineRange(ctx, ev)
 			case trace.ResourceProc:
 				g.ProcRange(ctx, ev)
 			case trace.ResourceNone:
@@ -61,15 +61,15 @@ func runGenerator(ctx *traceContext, g generator, parsed *parsedTrace, opts *gen
 			g.GlobalMetric(ctx, ev)
 		case trace.EventLabel:
 			l := ev.Label()
-			if l.Resource.Kind == trace.ResourceGoroutine {
-				g.GoroutineLabel(ctx, ev)
+			if l.Resource.Kind == trace.ResourceGolangroutine {
+				g.GolangroutineLabel(ctx, ev)
 			}
 		case trace.EventStateTransition:
 			switch ev.StateTransition().Resource.Kind {
 			case trace.ResourceProc:
 				g.ProcTransition(ctx, ev)
-			case trace.ResourceGoroutine:
-				g.GoroutineTransition(ctx, ev)
+			case trace.ResourceGolangroutine:
+				g.GolangroutineTransition(ctx, ev)
 			}
 		case trace.EventLog:
 			g.Log(ctx, ev)
@@ -77,7 +77,7 @@ func runGenerator(ctx *traceContext, g generator, parsed *parsedTrace, opts *gen
 	}
 	for i, task := range opts.tasks {
 		emitTask(ctx, task, i)
-		if opts.mode&traceviewer.ModeGoroutineOriented != 0 {
+		if opts.mode&traceviewer.ModeGolangroutineOriented != 0 {
 			for _, region := range task.Regions {
 				emitRegion(ctx, region)
 			}
@@ -93,16 +93,16 @@ func runGenerator(ctx *traceContext, g generator, parsed *parsedTrace, opts *gen
 func emitTask(ctx *traceContext, task *trace.UserTaskSummary, sortIndex int) {
 	// Collect information about the task.
 	var startStack, endStack trace.Stack
-	var startG, endG trace.GoID
+	var startG, endG trace.GolangID
 	startTime, endTime := ctx.startTime, ctx.endTime
 	if task.Start != nil {
 		startStack = task.Start.Stack()
-		startG = task.Start.Goroutine()
+		startG = task.Start.Golangroutine()
 		startTime = task.Start.Time()
 	}
 	if task.End != nil {
 		endStack = task.End.Stack()
-		endG = task.End.Goroutine()
+		endG = task.End.Golangroutine()
 		endTime = task.End.Time()
 	}
 	arg := struct {
@@ -151,19 +151,19 @@ func emitRegion(ctx *traceContext, region *trace.UserRegionSummary) {
 	}
 	// Collect information about the region.
 	var startStack, endStack trace.Stack
-	golangroutine := trace.NoGoroutine
+	golangroutine := trace.NoGolangroutine
 	startTime, endTime := ctx.startTime, ctx.endTime
 	if region.Start != nil {
 		startStack = region.Start.Stack()
 		startTime = region.Start.Time()
-		golangroutine = region.Start.Goroutine()
+		golangroutine = region.Start.Golangroutine()
 	}
 	if region.End != nil {
 		endStack = region.End.Stack()
 		endTime = region.End.Time()
-		golangroutine = region.End.Goroutine()
+		golangroutine = region.End.Golangroutine()
 	}
-	if golangroutine == trace.NoGoroutine {
+	if golangroutine == trace.NoGolangroutine {
 		return
 	}
 	arg := struct {
@@ -284,9 +284,9 @@ func (g *globalMetricGenerator) GlobalMetric(ctx *traceContext, ev *trace.Event)
 	case "/memory/classes/heap/objects:bytes":
 		ctx.HeapAlloc(ctx.elapsed(ev.Time()), m.Value.ToUint64())
 	case "/gc/heap/golangal:bytes":
-		ctx.HeapGoal(ctx.elapsed(ev.Time()), m.Value.ToUint64())
+		ctx.HeapGolangal(ctx.elapsed(ev.Time()), m.Value.ToUint64())
 	case "/sched/golangmaxprocs:threads":
-		ctx.Gomaxprocs(m.Value.ToUint64())
+		ctx.Golangmaxprocs(m.Value.ToUint64())
 	}
 }
 

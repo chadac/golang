@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors.  All rights reserved.
+// Copyright 2024 The Golang Authors.  All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -163,7 +163,7 @@ func (t ArgType) String() string {
 	}
 }
 
-func (t ArgType) GoString() string {
+func (t ArgType) GolangString() string {
 	s := t.String()
 	if t > 0 && t < TypeLast {
 		return "Type" + s

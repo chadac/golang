@@ -1,9 +1,9 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-A trivial example of wrapping a C library in Go.
+A trivial example of wrapping a C library in Golang.
 For a more complex example and explanation,
 see misc/cgolang/gmp/gmp.golang.
 */
@@ -38,5 +38,5 @@ func (f *File) Flush() {
 	C.fflush((*C.FILE)(f))
 }
 
-var Greeting = C.GoString(C.greeting)
-var Gbytes = C.GoBytes(unsafe.Pointer(C.greeting), C.int(len(Greeting)))
+var Greeting = C.GolangString(C.greeting)
+var Gbytes = C.GolangBytes(unsafe.Pointer(C.greeting), C.int(len(Greeting)))

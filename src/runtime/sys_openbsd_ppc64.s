@@ -1,10 +1,10 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for ppc64, OpenBSD
 // System calls are implemented in libc/libpthread, this file
-// contains trampolines that convert from Go to C calling convention.
+// contains trampolines that convert from Golang to C calling convention.
 // Some direct system call implementations currently remain.
 //
 
@@ -22,7 +22,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$32
 	// R3 points to the m.
 	// We are already on m's g0 stack.
 
-	// Go relies on R0 being $0.
+	// Golang relies on R0 being $0.
 	XOR	R0, R0
 
 	// TODO(jsing): Save callee-save registers (R14-R31, F14-F31, V20-V31).
@@ -34,7 +34,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$32
 
 	// TODO(jsing): Restore callee-save registers (R14-R31, F14-F31, V20-V31).
 
-	// Go is all done with this OS thread.
+	// Golang is all done with this OS thread.
 	// Tell pthread everything is ok (we never join with this thread, so
 	// the value here doesn't really matter).
 	MOVD	$0, R3
@@ -51,7 +51,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	RET
 
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$16
-	// Go relies on R0 being $0 and we may have been executing non-Go code.
+	// Golang relies on R0 being $0 and we may have been executing non-Golang code.
 	XOR	R0, R0
 
 	// TODO(jsing): Save callee-save registers (R2, R14-R31, F14-F31).
@@ -67,7 +67,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$16
 
 	RET
 
-// These trampolines help convert from Go calling convention to C calling convention.
+// These trampolines help convert from Golang calling convention to C calling convention.
 // They should be called with asmcgolangcall.
 // A pointer to the arguments is passed in R3.
 // A single int32 result is returned in R3.

@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ import (
 
 // Build IDs
 //
-// Go packages and binaries are stamped with build IDs that record both
+// Golang packages and binaries are stamped with build IDs that record both
 // the action ID, which is a hash of the inputs to the action that produced
 // the packages or binary, and the content ID, which is a hash of the action
 // output, namely the archive or binary itself. The hash is the same one
@@ -324,13 +324,13 @@ func (b *Builder) gccgolangBuildIDFile(a *Action) (string, error) {
 	sfile := a.Objdir + "_buildid.s"
 
 	var buf bytes.Buffer
-	if cfg.Goos == "aix" {
+	if cfg.Golangos == "aix" {
 		fmt.Fprintf(&buf, "\t.csect .golang.buildid[XO]\n")
-	} else if (cfg.Goos != "solaris" && cfg.Goos != "illumos") || assemblerIsGas() {
+	} else if (cfg.Golangos != "solaris" && cfg.Golangos != "illumos") || assemblerIsGas() {
 		fmt.Fprintf(&buf, "\t"+`.section .golang.buildid,"e"`+"\n")
-	} else if cfg.Goarch == "sparc" || cfg.Goarch == "sparc64" {
+	} else if cfg.Golangarch == "sparc" || cfg.Golangarch == "sparc64" {
 		fmt.Fprintf(&buf, "\t"+`.section ".golang.buildid",#exclude`+"\n")
-	} else { // cfg.Goarch == "386" || cfg.Goarch == "amd64"
+	} else { // cfg.Golangarch == "386" || cfg.Golangarch == "amd64"
 		fmt.Fprintf(&buf, "\t"+`.section .golang.buildid,#exclude`+"\n")
 	}
 	fmt.Fprintf(&buf, "\t.byte ")
@@ -345,9 +345,9 @@ func (b *Builder) gccgolangBuildIDFile(a *Action) (string, error) {
 		fmt.Fprintf(&buf, "%#02x", a.buildID[i])
 	}
 	fmt.Fprintf(&buf, "\n")
-	if cfg.Goos != "solaris" && cfg.Goos != "illumos" && cfg.Goos != "aix" {
+	if cfg.Golangos != "solaris" && cfg.Golangos != "illumos" && cfg.Golangos != "aix" {
 		secType := "@progbits"
-		if cfg.Goarch == "arm" {
+		if cfg.Golangarch == "arm" {
 			secType = "%progbits"
 		}
 		fmt.Fprintf(&buf, "\t"+`.section .note.GNU-stack,"",%s`+"\n", secType)

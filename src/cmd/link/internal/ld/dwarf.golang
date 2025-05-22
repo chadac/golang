@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -55,7 +55,7 @@ type dwctxt struct {
 	// array indexed by loader.Sym -- this may perform better.
 	rtmap map[loader.Sym]loader.Sym
 
-	// This maps Go type symbol (e.g. "type:XXX") to loader symbol for
+	// This maps Golang type symbol (e.g. "type:XXX") to loader symbol for
 	// the typedef DIE for that type (e.g. "golang:info.XXX..def")
 	tdmap map[loader.Sym]loader.Sym
 
@@ -1214,7 +1214,7 @@ func (d *dwctxt) importInfoSymbol(dsym loader.Sym) {
 
 func expandFile(fname string) string {
 	fname = strings.TrimPrefix(fname, src.FileSymPrefix)
-	return expandGoroot(fname)
+	return expandGolangroot(fname)
 }
 
 // writeDirFileTables emits the portion of the DWARF line table
@@ -1234,7 +1234,7 @@ func expandFile(fname string) string {
 // implicit entries; if you want to refer to a file or dir, you have
 // to mention it explicitly.
 //
-// So, let's say we have a Go package with import path
+// So, let's say we have a Golang package with import path
 // "github.com/fruit/bowl" with two source files, "apple.golang" and
 // "orange.golang". The directory and file table in version 4 might look
 // like:
@@ -1917,7 +1917,7 @@ func (d *dwctxt) dwarfVisitFunction(fnSym loader.Sym, unit *sym.CompilationUnit)
 	}
 
 	// Walk the relocations of the subprogram DIE symbol to discover
-	// references to abstract function DIEs, Go type DIES, and
+	// references to abstract function DIEs, Golang type DIES, and
 	// (via R_USETYPE relocs) types that were originally assigned to
 	// locals/params but were optimized away.
 	drelocs := d.ldr.Relocs(infosym)
@@ -2071,7 +2071,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 				cuabrv = dwarf.DW_ABRV_COMPUNIT_TEXTLESS
 			}
 			unit.DWInfo = d.newdie(&dwroot, cuabrv, unit.Lib.Pkg)
-			newattr(unit.DWInfo, dwarf.DW_AT_language, dwarf.DW_CLS_CONSTANT, int64(dwarf.DW_LANG_Go), 0)
+			newattr(unit.DWInfo, dwarf.DW_AT_language, dwarf.DW_CLS_CONSTANT, int64(dwarf.DW_LANG_Golang), 0)
 			// OS X linker requires compilation dir or absolute path in comp unit name to output debug info.
 			compDir := getCompilationDir()
 			// TODO: Make this be the actual compilation directory, not
@@ -2083,7 +2083,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 			if producerExtra := d.ldr.Lookup(dwarf.CUInfoPrefix+"producer."+unit.Lib.Pkg, 0); producerExtra != 0 {
 				peData = d.ldr.Data(producerExtra)
 			}
-			producer := "Go cmd/compile " + buildcfg.Version
+			producer := "Golang cmd/compile " + buildcfg.Version
 			if len(peData) > 0 {
 				// We put a semicolon before the flags to clearly
 				// separate them from the version, which can be long
@@ -2134,7 +2134,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 	}
 
 	// Make a pass through all data symbols, looking for those
-	// corresponding to reachable, Go-generated, user-visible
+	// corresponding to reachable, Golang-generated, user-visible
 	// global variables. For each global of this sort, locate
 	// the corresponding compiler-generated DIE symbol and tack
 	// it onto the list associated with the unit.
@@ -2155,7 +2155,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 			continue
 		}
 		// Skip things with no type, unless it's a dictionary
-		gt := d.ldr.SymGoType(idx)
+		gt := d.ldr.SymGolangType(idx)
 		if gt == 0 {
 			if t == sym.SRODATA {
 				if d.ldr.IsDict(idx) {

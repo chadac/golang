@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -88,11 +88,11 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	}
 
 	if ctxt.Flag_dynlink {
-		rewriteToUseGot(ctxt, p, newprog)
+		rewriteToUseGolangt(ctxt, p, newprog)
 	}
 }
 
-func rewriteToUseGot(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
+func rewriteToUseGolangt(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	//     ADUFFxxx $offset
 	// becomes
 	//     MOVV runtime.duffxxx@GOT, REGTMP
@@ -128,7 +128,7 @@ func rewriteToUseGot(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	}
 
 	// We only care about global data: NAME_EXTERN means a global
-	// symbol in the Go sense, and p.Sym.Local is true for a few
+	// symbol in the Golang sense, and p.Sym.Local is true for a few
 	// internally defined symbols.
 	if p.From.Type == obj.TYPE_ADDR && p.From.Name == obj.NAME_EXTERN && !p.From.Sym.Local() {
 		// MOVV $sym, Rx becomes MOVV sym@GOT, Rx

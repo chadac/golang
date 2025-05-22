@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -223,7 +223,7 @@ func (e *escape) call(ks []hole, call ir.Node) {
 }
 
 // golangDeferStmt analyzes a "golang" or "defer" statement.
-func (e *escape) golangDeferStmt(n *ir.GoDeferStmt) {
+func (e *escape) golangDeferStmt(n *ir.GolangDeferStmt) {
 	k := e.heapHole()
 	if n.Op() == ir.ODEFER && e.loopDepth == 1 && n.DeferAt == nil {
 		// Top-level defer arguments don't escape to the heap,
@@ -251,7 +251,7 @@ func (e *escape) golangDeferStmt(n *ir.GoDeferStmt) {
 	}
 
 	if clo, ok := call.Fun.(*ir.ClosureExpr); ok && n.Op() == ir.OGO {
-		clo.IsGoWrap = true
+		clo.IsGolangWrap = true
 	}
 
 	e.expr(k, call.Fun)
@@ -286,7 +286,7 @@ func (e *escape) rewriteArgument(arg ir.Node, call *ir.CallExpr, fn *ir.Name) {
 
 		// Create and declare a new pointer-typed temp variable.
 		//
-		// TODO(mdempsky): This potentially violates the Go spec's order
+		// TODO(mdempsky): This potentially violates the Golang spec's order
 		// of evaluations, by evaluating arg.X before any other
 		// operands.
 		tmp := e.copyExpr(conv.Pos(), conv.X, call.PtrInit())

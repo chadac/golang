@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -57,7 +57,7 @@ func TestIssue15854b(t *testing.T) {
 
 // Test that the generated assembly has line numbers (Issue #16214).
 func TestIssue16214(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	dir := t.TempDir()
 
 	src := filepath.Join(dir, "x.golang")
@@ -66,7 +66,7 @@ func TestIssue16214(t *testing.T) {
 		t.Fatalf("could not write file: %v", err)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-p=main", "-S", "-o", filepath.Join(dir, "out.o"), src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-p=main", "-S", "-o", filepath.Join(dir, "out.o"), src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang tool compile: %v\n%s", err, out)

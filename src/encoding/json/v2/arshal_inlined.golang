@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,15 +18,15 @@ import (
 	"encoding/json/jsontext"
 )
 
-// This package supports "inlining" a Go struct field, where the contents
+// This package supports "inlining" a Golang struct field, where the contents
 // of the serialized field (which must be a JSON object) are treated as if
-// they are part of the parent Go struct (which represents a JSON object).
+// they are part of the parent Golang struct (which represents a JSON object).
 //
-// Generally, inlined fields are of a Go struct type, where the fields of the
+// Generally, inlined fields are of a Golang struct type, where the fields of the
 // nested struct are virtually hoisted up to the parent struct using rules
-// similar to how Go embedding works (but operating within the JSON namespace).
+// similar to how Golang embedding works (but operating within the JSON namespace).
 //
-// However, inlined fields may also be of a Go map type with a string key or
+// However, inlined fields may also be of a Golang map type with a string key or
 // a jsontext.Value. Such inlined fields are called "fallback" fields since they
 // represent any arbitrary JSON object member. Explicitly named fields take
 // precedence over the inlined fallback. Only one inlined fallback is allowed.

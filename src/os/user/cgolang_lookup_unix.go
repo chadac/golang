@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -71,9 +71,9 @@ func buildUser(pwd *_C_struct_passwd) *User {
 	u := &User{
 		Uid:      strconv.FormatUint(uint64(_C_pw_uid(pwd)), 10),
 		Gid:      strconv.FormatUint(uint64(_C_pw_gid(pwd)), 10),
-		Username: _C_GoString(_C_pw_name(pwd)),
-		Name:     _C_GoString(_C_pw_gecos(pwd)),
-		HomeDir:  _C_GoString(_C_pw_dir(pwd)),
+		Username: _C_GolangString(_C_pw_name(pwd)),
+		Name:     _C_GolangString(_C_pw_gecos(pwd)),
+		HomeDir:  _C_GolangString(_C_pw_dir(pwd)),
 	}
 	// The pw_gecos field isn't quite standardized. Some docs
 	// say: "It is expected to be a comma separated list of
@@ -135,7 +135,7 @@ func lookupUnixGid(gid int) (*Group, error) {
 func buildGroup(grp *_C_struct_group) *Group {
 	g := &Group{
 		Gid:  strconv.Itoa(int(_C_gr_gid(grp))),
-		Name: _C_GoString(_C_gr_name(grp)),
+		Name: _C_GolangString(_C_gr_name(grp)),
 	}
 	return g
 }

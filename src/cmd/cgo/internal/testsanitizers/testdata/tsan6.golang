@@ -1,10 +1,10 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
-// Check that writes to Go allocated memory, with Go synchronization,
+// Check that writes to Golang allocated memory, with Golang synchronization,
 // do not look like a race.
 
 /*
@@ -32,7 +32,7 @@ func main() {
 			defer wg.Done()
 			for i := 0; i < 100; i++ {
 				c <- make([]C.char, 4096)
-				runtime.Gosched()
+				runtime.Golangsched()
 			}
 		}()
 		golang func() {

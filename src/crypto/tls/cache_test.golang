@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 package tls
@@ -52,9 +52,9 @@ func TestWeakCertCache(t *testing.T) {
 			// never call into the scheduler for the full timeout, meaning
 			// that if we arrive here and the cleanup hasn't already run,
 			// we'll simply loop until the timeout. Busy-loops put us at the
-			// mercy of the Go scheduler, making this test fragile on some
+			// mercy of the Golang scheduler, making this test fragile on some
 			// platforms.
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 	}
 

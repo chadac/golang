@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,8 +8,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-// Functions exported from Go.
-extern void GoSleep();
+// Functions exported from Golang.
+extern void GolangSleep();
 
 struct cgolangContextArg {
 	uintptr_t context;
@@ -25,6 +25,6 @@ void gprofCgolangTraceback(void *arg) {
 	for (i = 0; i < 123456789; i++);
 }
 
-void CallGoSleep() {
-	GoSleep();
+void CallGolangSleep() {
+	GolangSleep();
 }

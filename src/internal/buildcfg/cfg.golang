@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -112,12 +112,12 @@ func skipNum(s string) (rest string, ok bool) {
 	return s[i:], i > 0
 }
 
-type GoarmFeatures struct {
+type GolangarmFeatures struct {
 	Version   int
 	SoftFloat bool
 }
 
-func (g GoarmFeatures) String() string {
+func (g GolangarmFeatures) String() string {
 	armStr := strconv.Itoa(g.Version)
 	if g.SoftFloat {
 		armStr += ",softfloat"
@@ -127,7 +127,7 @@ func (g GoarmFeatures) String() string {
 	return armStr
 }
 
-func golangarm() (g GoarmFeatures) {
+func golangarm() (g GolangarmFeatures) {
 	const (
 		softFloatOpt = ",softfloat"
 		hardFloatOpt = ",hardfloat"
@@ -169,7 +169,7 @@ func golangarm() (g GoarmFeatures) {
 	return
 }
 
-type Goarm64Features struct {
+type Golangarm64Features struct {
 	Version string
 	// Large Systems Extension
 	LSE bool
@@ -181,7 +181,7 @@ type Goarm64Features struct {
 	Crypto bool
 }
 
-func (g Goarm64Features) String() string {
+func (g Golangarm64Features) String() string {
 	arm64Str := g.Version
 	if g.LSE {
 		arm64Str += ",lse"
@@ -192,7 +192,7 @@ func (g Goarm64Features) String() string {
 	return arm64Str
 }
 
-func ParseGoarm64(v string) (g Goarm64Features, e error) {
+func ParseGolangarm64(v string) (g Golangarm64Features, e error) {
 	const (
 		lseOpt    = ",lse"
 		cryptoOpt = ",crypto"
@@ -234,14 +234,14 @@ func ParseGoarm64(v string) (g Goarm64Features, e error) {
 	return
 }
 
-func golangarm64() (g Goarm64Features) {
-	g, Error = ParseGoarm64(envOr("GOARM64", DefaultGOARM64))
+func golangarm64() (g Golangarm64Features) {
+	g, Error = ParseGolangarm64(envOr("GOARM64", DefaultGOARM64))
 	return
 }
 
 // Returns true if g supports giving ARM64 ISA
 // Note that this function doesn't accept / test suffixes (like ",lse" or ",crypto")
-func (g Goarm64Features) Supports(s string) bool {
+func (g Golangarm64Features) Supports(s string) bool {
 	// We only accept "v{8-9}.{0-9}. Everything else is malformed.
 	if len(s) != 4 {
 		return false

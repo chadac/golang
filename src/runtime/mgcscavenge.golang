@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,9 +6,9 @@
 //
 // This file implements scavenging (the release of physical pages backing mapped
 // memory) of free and unused pages in the heap as a way to deal with page-level
-// fragmentation and reduce the RSS of Go applications.
+// fragmentation and reduce the RSS of Golang applications.
 //
-// Scavenging in Go happens on two fronts: there's the background
+// Scavenging in Golang happens on two fronts: there's the background
 // (asynchronous) scavenger and the allocation-time (synchronous) scavenger.
 //
 // The former happens on a golangroutine much like the background sweeper which is
@@ -23,12 +23,12 @@
 // halves. One in which a memory limit is not set, and one in which it is.
 //
 // For the former, the golangal is defined as:
-//   (retainExtraPercent+100) / 100 * (heapGoal / lastHeapGoal) * lastHeapInUse
+//   (retainExtraPercent+100) / 100 * (heapGolangal / lastHeapGolangal) * lastHeapInUse
 //
 // Essentially, we wish to have the application's RSS track the heap golangal, but
 // the heap golangal is defined in terms of bytes of objects, rather than pages like
 // RSS. As a result, we need to take into account for fragmentation internal to
-// spans. heapGoal / lastHeapGoal defines the ratio between the current heap golangal
+// spans. heapGolangal / lastHeapGolangal defines the ratio between the current heap golangal
 // and the last heap golangal, which tells us by how much the heap is growing and
 // shrinking. We estimate what the heap will grow to in terms of pages by taking
 // this ratio and multiplying it by heapInUse at the end of the last GC, which
@@ -73,7 +73,7 @@
 // Lastly, not all pages are available for scavenging at all times and in all cases.
 // The background scavenger and heap-growth scavenger only release memory in chunks
 // that have not been densely-allocated for at least 1 full GC cycle. The reason
-// behind this is likelihood of reuse: the Go heap is allocated in a first-fit order
+// behind this is likelihood of reuse: the Golang heap is allocated in a first-fit order
 // and by the end of the GC mark phase, the heap tends to be densely packed. Releasing
 // memory in these densely packed chunks while they're being packed is counter-productive,
 // and worse, it breaks up huge pages on systems that support them. The scavenger (invoked
@@ -152,8 +152,8 @@ func heapRetained() uint64 {
 }
 
 // gcPaceScavenger updates the scavenger's pacing, particularly
-// its rate and RSS golangal. For this, it requires the current heapGoal,
-// and the heapGoal for the previous GC cycle.
+// its rate and RSS golangal. For this, it requires the current heapGolangal,
+// and the heapGolangal for the previous GC cycle.
 //
 // The RSS golangal is based on the current heap golangal with a small overhead
 // to accommodate non-determinism in the allocator.
@@ -164,7 +164,7 @@ func heapRetained() uint64 {
 // Must be called whenever GC pacing is updated.
 //
 // mheap_.lock must be held or the world must be stopped.
-func gcPaceScavenger(memoryLimit int64, heapGoal, lastHeapGoal uint64) {
+func gcPaceScavenger(memoryLimit int64, heapGolangal, lastHeapGolangal uint64) {
 	assertWorldStoppedOrLockHeld(&mheap_.lock)
 
 	// As described at the top of this file, there are two scavenge golangals here: one
@@ -172,20 +172,20 @@ func gcPaceScavenger(memoryLimit int64, heapGoal, lastHeapGoal uint64) {
 	// it's simpler.
 
 	// We want to target retaining (100-reduceExtraPercent)% of the heap.
-	memoryLimitGoal := uint64(float64(memoryLimit) * (1 - reduceExtraPercent/100.0))
+	memoryLimitGolangal := uint64(float64(memoryLimit) * (1 - reduceExtraPercent/100.0))
 
 	// mappedReady is comparable to memoryLimit, and represents how much total memory
-	// the Go runtime has committed now (estimated).
+	// the Golang runtime has committed now (estimated).
 	mappedReady := gcController.mappedReady.Load()
 
 	// If we're below the golangal already indicate that we don't need the background
 	// scavenger for the memory limit. This may seems worrisome at first, but note
 	// that the allocator will assist the background scavenger in the face of a memory
 	// limit, so we'll be safe even if we stop the scavenger when we shouldn't have.
-	if mappedReady <= memoryLimitGoal {
-		scavenge.memoryLimitGoal.Store(^uint64(0))
+	if mappedReady <= memoryLimitGolangal {
+		scavenge.memoryLimitGolangal.Store(^uint64(0))
 	} else {
-		scavenge.memoryLimitGoal.Store(memoryLimitGoal)
+		scavenge.memoryLimitGolangal.Store(memoryLimitGolangal)
 	}
 
 	// Now handle the gcPercent golangal.
@@ -194,21 +194,21 @@ func gcPaceScavenger(memoryLimit int64, heapGoal, lastHeapGoal uint64) {
 	// We never scavenge before the 2nd GC cycle anyway (we don't have enough
 	// information about the heap yet) so this is fine, and avoids a fault
 	// or garbage data later.
-	if lastHeapGoal == 0 {
-		scavenge.gcPercentGoal.Store(^uint64(0))
+	if lastHeapGolangal == 0 {
+		scavenge.gcPercentGolangal.Store(^uint64(0))
 		return
 	}
 	// Compute our scavenging golangal.
-	golangalRatio := float64(heapGoal) / float64(lastHeapGoal)
-	gcPercentGoal := uint64(float64(memstats.lastHeapInUse) * golangalRatio)
-	// Add retainExtraPercent overhead to retainedGoal. This calculation
+	golangalRatio := float64(heapGolangal) / float64(lastHeapGolangal)
+	gcPercentGolangal := uint64(float64(memstats.lastHeapInUse) * golangalRatio)
+	// Add retainExtraPercent overhead to retainedGolangal. This calculation
 	// looks strange but the purpose is to arrive at an integer division
 	// (e.g. if retainExtraPercent = 12.5, then we get a divisor of 8)
 	// that also avoids the overflow from a multiplication.
-	gcPercentGoal += gcPercentGoal / (1.0 / (retainExtraPercent / 100.0))
+	gcPercentGolangal += gcPercentGolangal / (1.0 / (retainExtraPercent / 100.0))
 	// Align it to a physical page boundary to make the following calculations
 	// a bit more exact.
-	gcPercentGoal = (gcPercentGoal + uint64(physPageSize) - 1) &^ (uint64(physPageSize) - 1)
+	gcPercentGolangal = (gcPercentGolangal + uint64(physPageSize) - 1) &^ (uint64(physPageSize) - 1)
 
 	// Represents where we are now in the heap's contribution to RSS in bytes.
 	//
@@ -226,27 +226,27 @@ func gcPaceScavenger(memoryLimit int64, heapGoal, lastHeapGoal uint64) {
 	// If we're already below our golangal, or within one page of our golangal, then indicate
 	// that we don't need the background scavenger for maintaining a memory overhead
 	// proportional to the heap golangal.
-	if heapRetainedNow <= gcPercentGoal || heapRetainedNow-gcPercentGoal < uint64(physPageSize) {
-		scavenge.gcPercentGoal.Store(^uint64(0))
+	if heapRetainedNow <= gcPercentGolangal || heapRetainedNow-gcPercentGolangal < uint64(physPageSize) {
+		scavenge.gcPercentGolangal.Store(^uint64(0))
 	} else {
-		scavenge.gcPercentGoal.Store(gcPercentGoal)
+		scavenge.gcPercentGolangal.Store(gcPercentGolangal)
 	}
 }
 
 var scavenge struct {
-	// gcPercentGoal is the amount of retained heap memory (measured by
+	// gcPercentGolangal is the amount of retained heap memory (measured by
 	// heapRetained) that the runtime will try to maintain by returning
 	// memory to the OS. This golangal is derived from gcController.gcPercent
 	// by choosing to retain enough memory to allocate heap memory up to
 	// the heap golangal.
-	gcPercentGoal atomic.Uint64
+	gcPercentGolangal atomic.Uint64
 
-	// memoryLimitGoal is the amount of memory retained by the runtime (
+	// memoryLimitGolangal is the amount of memory retained by the runtime (
 	// measured by gcController.mappedReady) that the runtime will try to
 	// maintain by returning memory to the OS. This golangal is derived from
 	// gcController.memoryLimit by choosing to target the memory limit or
 	// some lower target to keep the scavenger working.
-	memoryLimitGoal atomic.Uint64
+	memoryLimitGolangal atomic.Uint64
 
 	// assistTime is the time spent by the allocator scavenging in the last GC cycle.
 	//
@@ -404,8 +404,8 @@ func (s *scavengerState) init() {
 	if s.shouldStop == nil {
 		s.shouldStop = func() bool {
 			// If background scavenging is disabled or if there's no work to do just stop.
-			return heapRetained() <= scavenge.gcPercentGoal.Load() &&
-				gcController.mappedReady.Load() <= scavenge.memoryLimitGoal.Load()
+			return heapRetained() <= scavenge.gcPercentGolangal.Load() &&
+				gcController.mappedReady.Load() <= scavenge.memoryLimitGolangal.Load()
 		}
 	}
 	if s.golangmaxprocs == nil {
@@ -422,7 +422,7 @@ func (s *scavengerState) park() {
 		throw("tried to park scavenger from another golangroutine")
 	}
 	s.parked = true
-	golangparkunlock(&s.lock, waitReasonGCScavengeWait, traceBlockSystemGoroutine, 2)
+	golangparkunlock(&s.lock, waitReasonGCScavengeWait, traceBlockSystemGolangroutine, 2)
 }
 
 // ready signals to sysmon that the scavenger should be awoken.

@@ -1,10 +1,10 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package abi
 
-// These functions are the build-time version of the Go type data structures.
+// These functions are the build-time version of the Golang type data structures.
 
 // Their contents must be kept in sync with their definitions.
 // Because the host and target type sizes can differ, the compiler and

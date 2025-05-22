@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -36,7 +36,7 @@ type Frame struct {
 	PC uintptr
 
 	// Func is the Func value of this call frame. This may be nil
-	// for non-Go code or fully inlined functions.
+	// for non-Golang code or fully inlined functions.
 	Func *Func
 
 	// Function is the package path-qualified function name of
@@ -56,7 +56,7 @@ type Frame struct {
 
 	// startLine is the line number of the beginning of the function in
 	// this frame. Specifically, it is the line number of the func keyword
-	// for Go functions. Note that //line directives can change the
+	// for Golang functions. Note that //line directives can change the
 	// filename and/or line number arbitrarily within a function, meaning
 	// that the Line - startLine offset is not always meaningful.
 	//
@@ -69,7 +69,7 @@ type Frame struct {
 	Entry uintptr
 
 	// The runtime's internal view of the function. This field
-	// is set (funcInfo.valid() returns true) only for Go functions,
+	// is set (funcInfo.valid() returns true) only for Golang functions,
 	// not for C functions.
 	funcInfo funcInfo
 }
@@ -261,7 +261,7 @@ func runtime_expandFinalInlineFrame(stk []uintptr) []uintptr {
 
 	f := findfunc(tracepc)
 	if !f.valid() {
-		// Not a Go function.
+		// Not a Golang function.
 		return stk
 	}
 
@@ -293,7 +293,7 @@ func runtime_expandFinalInlineFrame(stk []uintptr) []uintptr {
 }
 
 // expandCgolangFrames expands frame information for pc, known to be
-// a non-Go function, using the cgolangSymbolizer hook. expandCgolangFrames
+// a non-Golang function, using the cgolangSymbolizer hook. expandCgolangFrames
 // returns nil if pc could not be expanded.
 func expandCgolangFrames(pc uintptr) []Frame {
 	arg := cgolangSymbolizerArg{pc: pc}
@@ -338,7 +338,7 @@ func expandCgolangFrames(pc uintptr) []Frame {
 // All code operating on a *Func must call raw() to get the *_func
 // or funcInfo() to get the funcInfo instead.
 
-// A Func represents a Go function in the running binary.
+// A Func represents a Golang function in the running binary.
 type Func struct {
 	opaque struct{} // unexported field to disallow conversions
 }
@@ -521,10 +521,10 @@ func activeModules() []*moduledata {
 // appending to the module to the linked list that starts with
 // firstmoduledata.
 //
-// There are two times this can happen in the lifecycle of a Go
+// There are two times this can happen in the lifecycle of a Golang
 // program. First, if compiled with -linkshared, a number of modules
 // built with -buildmode=shared can be loaded at program initialization.
-// Second, a Go program can load a module while running that was built
+// Second, a Golang program can load a module while running that was built
 // with -buildmode=plugin.
 //
 // After loading, this function is called which initializes the
@@ -698,7 +698,7 @@ func (md *moduledata) textAddr(off32 uint32) uintptr {
 }
 
 // textOff is the opposite of textAddr. It converts a PC to a (virtual) offset
-// to md.text, and returns if the PC is in any Go text section.
+// to md.text, and returns if the PC is in any Golang text section.
 //
 // It is nosplit because it is part of the findfunc implementation.
 //

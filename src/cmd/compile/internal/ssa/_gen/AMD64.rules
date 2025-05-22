@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -232,7 +232,7 @@
 (Neq(Ptr|64|32|16|8|B) x y) => (SETNE (CMP(Q|Q|L|W|B|B) x y))
 
 // Lowering floating point comparisons
-// Note Go assembler gets UCOMISx operand order wrong, but it is right here
+// Note Golang assembler gets UCOMISx operand order wrong, but it is right here
 // and the operands are reversed when generating assembly language.
 (Eq(32|64)F   x y) => (SETEQF (UCOMIS(S|D) x y))
 (Neq(32|64)F  x y) => (SETNEF (UCOMIS(S|D) x y))

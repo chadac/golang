@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,26 +18,26 @@ func viewerFrames(stk trace.Stack) []trace.StackFrame {
 	return slices.Collect(stk.Frames())
 }
 
-func viewerGState(state trace.GoState, inMarkAssist bool) traceviewer.GState {
+func viewerGState(state trace.GolangState, inMarkAssist bool) traceviewer.GState {
 	switch state {
-	case trace.GoUndetermined:
+	case trace.GolangUndetermined:
 		return traceviewer.GDead
-	case trace.GoNotExist:
+	case trace.GolangNotExist:
 		return traceviewer.GDead
-	case trace.GoRunnable:
+	case trace.GolangRunnable:
 		return traceviewer.GRunnable
-	case trace.GoRunning:
+	case trace.GolangRunning:
 		return traceviewer.GRunning
-	case trace.GoWaiting:
+	case trace.GolangWaiting:
 		if inMarkAssist {
 			return traceviewer.GWaitingGC
 		}
 		return traceviewer.GWaiting
-	case trace.GoSyscall:
+	case trace.GolangSyscall:
 		// N.B. A golangroutine in a syscall is considered "executing" (state.Executing() == true).
 		return traceviewer.GRunning
 	default:
-		panic(fmt.Sprintf("unknown GoState: %s", state.String()))
+		panic(fmt.Sprintf("unknown GolangState: %s", state.String()))
 	}
 }
 

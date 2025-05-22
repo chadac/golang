@@ -1,10 +1,10 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
 
-// See memclrNoHeapPointers Go doc for important implementation constraints.
+// See memclrNoHeapPointers Golang doc for important implementation constraints.
 
 // void runtime·memclrNoHeapPointers(void*, uintptr)
 TEXT runtime·memclrNoHeapPointers<ABIInternal>(SB),NOSPLIT,$0-16

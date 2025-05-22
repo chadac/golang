@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -97,8 +97,8 @@ func TestEmptyImport(t *testing.T) {
 
 func TestEmptyFolderImport(t *testing.T) {
 	_, err := Import(".", "testdata/empty", 0)
-	if _, ok := err.(*NoGoError); !ok {
-		t.Fatal(`Import("testdata/empty") did not return NoGoError.`)
+	if _, ok := err.(*NoGolangError); !ok {
+		t.Fatal(`Import("testdata/empty") did not return NoGolangError.`)
 	}
 }
 
@@ -123,12 +123,12 @@ func TestMultiplePackageImport(t *testing.T) {
 		t.Errorf("pkg.Name = %q; want %q", pkg.Name, wantName)
 	}
 
-	if wantGoFiles := []string{"file.golang", "file_appengine.golang"}; !slices.Equal(pkg.GoFiles, wantGoFiles) {
-		t.Errorf("pkg.GoFiles = %q; want %q", pkg.GoFiles, wantGoFiles)
+	if wantGolangFiles := []string{"file.golang", "file_appengine.golang"}; !slices.Equal(pkg.GolangFiles, wantGolangFiles) {
+		t.Errorf("pkg.GolangFiles = %q; want %q", pkg.GolangFiles, wantGolangFiles)
 	}
 
-	if wantInvalidFiles := []string{"file_appengine.golang"}; !slices.Equal(pkg.InvalidGoFiles, wantInvalidFiles) {
-		t.Errorf("pkg.InvalidGoFiles = %q; want %q", pkg.InvalidGoFiles, wantInvalidFiles)
+	if wantInvalidFiles := []string{"file_appengine.golang"}; !slices.Equal(pkg.InvalidGolangFiles, wantInvalidFiles) {
+		t.Errorf("pkg.InvalidGolangFiles = %q; want %q", pkg.InvalidGolangFiles, wantInvalidFiles)
 	}
 }
 
@@ -204,7 +204,7 @@ var shouldBuildTests = []struct {
 	{
 		name: "Cgolang",
 		content: "// +build cgolang\n\n" +
-			"// Copyright The Go Authors.\n\n" +
+			"// Copyright The Golang Authors.\n\n" +
 			"// This package implements parsing of tags like\n" +
 			"// +build tag1\n" +
 			"package build",
@@ -214,7 +214,7 @@ var shouldBuildTests = []struct {
 	{
 		name: "Cgolang2",
 		content: "//golang:build cgolang\n" +
-			"// Copyright The Go Authors.\n\n" +
+			"// Copyright The Golang Authors.\n\n" +
 			"// This package implements parsing of tags like\n" +
 			"// +build tag1\n" +
 			"package build",
@@ -223,7 +223,7 @@ var shouldBuildTests = []struct {
 	},
 	{
 		name: "AfterPackage",
-		content: "// Copyright The Go Authors.\n\n" +
+		content: "// Copyright The Golang Authors.\n\n" +
 			"package build\n\n" +
 			"// shouldBuild checks tags given by lines of the form\n" +
 			"// +build tag\n" +
@@ -279,7 +279,7 @@ var shouldBuildTests = []struct {
 		shouldBuild: false,
 	},
 	{
-		name: "ValidGoBuild",
+		name: "ValidGolangBuild",
 		content: "// +build yes\n\n" +
 			"//golang:build no\n" +
 			"package main\n",
@@ -358,7 +358,7 @@ func TestShouldBuild(t *testing.T) {
 	}
 }
 
-func TestGoodOSArchFile(t *testing.T) {
+func TestGolangodOSArchFile(t *testing.T) {
 	ctx := &Context{BuildTags: []string{"linux"}, GOOS: "darwin"}
 	m := map[string]bool{}
 	want := map[string]bool{"linux": true}
@@ -496,7 +496,7 @@ func TestShellSafety(t *testing.T) {
 // Want to get a "cannot find package" error when directory for package does not exist.
 // There should be valid partial information in the returned non-nil *Package.
 func TestImportDirNotExist(t *testing.T) {
-	testenv.MustHaveGoBuild(t) // Need 'golang list' internally.
+	testenv.MustHaveGolangBuild(t) // Need 'golang list' internally.
 	ctxt := Default
 
 	emptyDir := t.TempDir()
@@ -642,7 +642,7 @@ func TestImportVendorParentFailure(t *testing.T) {
 // no golang.mod file is present. It should fail to resolve packages outside std.
 // Verifies golanglang.org/issue/34669.
 func TestImportPackageOutsideModule(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// Disable module fetching for this test so that 'golang list' fails quickly
 	// without trying to find the latest version of a module.
@@ -690,7 +690,7 @@ func TestIssue23594(t *testing.T) {
 	}
 }
 
-// TestIssue56509 tests that golang/build does not add non-golang files to InvalidGoFiles
+// TestIssue56509 tests that golang/build does not add non-golang files to InvalidGolangFiles
 // when they have unparsable comments.
 func TestIssue56509(t *testing.T) {
 	// The directory testdata/bads contains a .s file that has an unparsable
@@ -701,8 +701,8 @@ func TestIssue56509(t *testing.T) {
 		t.Fatalf("could not import testdata/bads: %v", err)
 	}
 
-	if len(p.InvalidGoFiles) != 0 {
-		t.Fatalf("incorrectly added non-golang file to InvalidGoFiles")
+	if len(p.InvalidGolangFiles) != 0 {
+		t.Fatalf("incorrectly added non-golang file to InvalidGolangFiles")
 	}
 }
 
@@ -710,7 +710,7 @@ func TestIssue56509(t *testing.T) {
 // imported, the package path is only shown once in the error.
 // Verifies golanglang.org/issue/34752.
 func TestMissingImportErrorRepetition(t *testing.T) {
-	testenv.MustHaveGoBuild(t) // need 'golang list' internally
+	testenv.MustHaveGolangBuild(t) // need 'golang list' internally
 	tmp := t.TempDir()
 	if err := os.WriteFile(filepath.Join(tmp, "golang.mod"), []byte("module m"), 0666); err != nil {
 		t.Fatal(err)
@@ -776,8 +776,8 @@ func TestAllTags(t *testing.T) {
 		t.Errorf("AllTags = %v, want %v", p.AllTags, want)
 	}
 	wantFiles := []string{"alltags.golang", "x_netbsd_arm.golang"}
-	if !slices.Equal(p.GoFiles, wantFiles) {
-		t.Errorf("GoFiles = %v, want %v", p.GoFiles, wantFiles)
+	if !slices.Equal(p.GolangFiles, wantFiles) {
+		t.Errorf("GolangFiles = %v, want %v", p.GolangFiles, wantFiles)
 	}
 
 	ctxt.GOARCH = "amd64"
@@ -790,8 +790,8 @@ func TestAllTags(t *testing.T) {
 		t.Errorf("AllTags = %v, want %v", p.AllTags, want)
 	}
 	wantFiles = []string{"alltags.golang"}
-	if !slices.Equal(p.GoFiles, wantFiles) {
-		t.Errorf("GoFiles = %v, want %v", p.GoFiles, wantFiles)
+	if !slices.Equal(p.GolangFiles, wantFiles) {
+		t.Errorf("GolangFiles = %v, want %v", p.GolangFiles, wantFiles)
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -252,8 +252,8 @@ func FindPkg(path, srcDir string) (filename, id string, err error) {
 		var bp *build.Package
 		bp, err = build.Import(path, srcDir, build.FindOnly|build.AllowBinary)
 		if bp.PkgObj == "" {
-			if bp.Goroot && bp.Dir != "" {
-				filename, err = lookupGorootExport(bp.Dir)
+			if bp.Golangroot && bp.Dir != "" {
+				filename, err = lookupGolangrootExport(bp.Dir)
 				if err == nil {
 					_, err = os.Stat(filename)
 				}
@@ -309,14 +309,14 @@ var pkgExts = [...]string{".a", ".o"} // a file from the build cache will have n
 
 var exportMap sync.Map // package dir → func() (string, error)
 
-// lookupGorootExport returns the location of the export data
+// lookupGolangrootExport returns the location of the export data
 // (normally found in the build cache, but located in GOROOT/pkg
-// in prior Go releases) for the package located in pkgDir.
+// in prior Golang releases) for the package located in pkgDir.
 //
 // (We use the package's directory instead of its import path
 // mainly to simplify handling of the packages in src/vendor
 // and cmd/vendor.)
-func lookupGorootExport(pkgDir string) (string, error) {
+func lookupGolangrootExport(pkgDir string) (string, error) {
 	f, ok := exportMap.Load(pkgDir)
 	if !ok {
 		var (

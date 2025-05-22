@@ -4,7 +4,7 @@ env GO111MODULE=on
 symlink dir.golang -> dir
 
 # Issue #39841: symlinks to directories should be ignored, not treated as source files.
-golang list -f '{{range .GoFiles}}{{.}}{{"\n"}}{{end}}' .
+golang list -f '{{range .GolangFiles}}{{.}}{{"\n"}}{{end}}' .
 stdout 'p\.golang$'
 ! stdout 'dir\.golang$'
 

@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,11 +9,11 @@
 
 char *p;
 
-int crashInGo;
+int crashInGolang;
 extern void h1(void);
 
 int tracebackF3(void) {
-	if (crashInGo)
+	if (crashInGolang)
 		h1();
 	else
 		*p = 0;

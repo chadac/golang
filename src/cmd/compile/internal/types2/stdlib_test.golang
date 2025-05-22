@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,7 +33,7 @@ func TestStdlib(t *testing.T) {
 		t.Skip("skipping in short mode")
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// Collect non-test files.
 	dirFiles := make(map[string][]string)
@@ -267,7 +267,7 @@ func testTestDir(t *testing.T, path string, ignore ...string) {
 		file, err := syntax.ParseFile(filename, nil, nil, 0)
 		if err == nil {
 			conf := Config{
-				GoVersion: golangVersion,
+				GolangVersion: golangVersion,
 				Importer:  stdLibImporter,
 			}
 			_, err = conf.Check(filename, []*syntax.File{file}, nil)
@@ -286,7 +286,7 @@ func testTestDir(t *testing.T, path string, ignore ...string) {
 }
 
 func TestStdTest(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	if testing.Short() && testenv.Builder() == "" {
 		t.Skip("skipping in short mode")
@@ -304,7 +304,7 @@ func TestStdTest(t *testing.T) {
 }
 
 func TestStdFixed(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	if testing.Short() && testenv.Builder() == "" {
 		t.Skip("skipping in short mode")
@@ -347,7 +347,7 @@ func TestStdFixed(t *testing.T) {
 }
 
 func TestStdKen(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	testTestDir(t, filepath.Join(testenv.GOROOT(t), "test", "ken"))
 }
@@ -430,7 +430,7 @@ func pkgFilenames(dir string, includeTest bool) ([]string, error) {
 	ctxt.CgolangEnabled = false
 	pkg, err := ctxt.ImportDir(dir, 0)
 	if err != nil {
-		if _, nogolang := err.(*build.NoGoError); nogolang {
+		if _, nogolang := err.(*build.NoGolangError); nogolang {
 			return nil, nil // no *.golang files, not an error
 		}
 		return nil, err
@@ -444,11 +444,11 @@ func pkgFilenames(dir string, includeTest bool) ([]string, error) {
 		return nil, nil
 	}
 	var filenames []string
-	for _, name := range pkg.GoFiles {
+	for _, name := range pkg.GolangFiles {
 		filenames = append(filenames, filepath.Join(pkg.Dir, name))
 	}
 	if includeTest {
-		for _, name := range pkg.TestGoFiles {
+		for _, name := range pkg.TestGolangFiles {
 			filenames = append(filenames, filepath.Join(pkg.Dir, name))
 		}
 	}

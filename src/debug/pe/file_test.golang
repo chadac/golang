@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -351,7 +351,7 @@ func testDWARF(t *testing.T, linktype int) {
 	if runtime.GOOS != "windows" {
 		t.Skip("skipping windows only test")
 	}
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	tmpdir := t.TempDir()
 
@@ -384,7 +384,7 @@ func testDWARF(t *testing.T, linktype int) {
 		t.Fatalf("invalid linktype parameter of %v", linktype)
 	}
 	args = append(args, src)
-	out, err := exec.Command(testenv.GoToolPath(t), args...).CombinedOutput()
+	out, err := exec.Command(testenv.GolangToolPath(t), args...).CombinedOutput()
 	if err != nil {
 		t.Fatalf("building test executable for linktype %d failed: %s %s", linktype, err, out)
 	}
@@ -575,7 +575,7 @@ func main() {
 `
 
 func TestBuildingWindowsGUI(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	if runtime.GOOS != "windows" {
 		t.Skip("skipping windows only test")
@@ -587,7 +587,7 @@ func TestBuildingWindowsGUI(t *testing.T) {
 		t.Fatal(err)
 	}
 	exe := filepath.Join(tmpdir, "a.exe")
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-ldflags", "-H=windowsgui", "-o", exe, src)
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-ldflags", "-H=windowsgui", "-o", exe, src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("building test executable failed: %s %s", err, out)

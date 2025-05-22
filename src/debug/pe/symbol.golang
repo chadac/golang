@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -142,7 +142,7 @@ func removeAuxSymbols(allsyms []COFFSymbol, st StringTable) ([]*Symbol, error) {
 }
 
 // Symbol is similar to [COFFSymbol] with Name field replaced
-// by Go string. Symbol also does not have NumberOfAuxSymbols.
+// by Golang string. Symbol also does not have NumberOfAuxSymbols.
 type Symbol struct {
 	Name          string
 	Value         uint32

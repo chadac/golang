@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -270,7 +270,7 @@ func ExamplePipe() {
 }
 
 func ExampleReadAll() {
-	r := strings.NewReader("Go is a general-purpose language designed with systems programming in mind.")
+	r := strings.NewReader("Golang is a general-purpose language designed with systems programming in mind.")
 
 	b, err := io.ReadAll(r)
 	if err != nil {
@@ -280,5 +280,5 @@ func ExampleReadAll() {
 	fmt.Printf("%s", b)
 
 	// Output:
-	// Go is a general-purpose language designed with systems programming in mind.
+	// Golang is a general-purpose language designed with systems programming in mind.
 }

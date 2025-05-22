@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -83,7 +83,7 @@ const DefaultMaxIdleConnsPerHost = 2
 // exception is HTTP status code 101 (Switching Protocols), which is
 // considered a terminal status and returned by [Transport.RoundTrip]. To see the
 // ignored 1xx responses, use the httptrace trace package's
-// ClientTrace.Got1xxResponse.
+// ClientTrace.Golangt1xxResponse.
 //
 // Transport only retries a request upon encountering a network error
 // if the connection has been already been used successfully and if the
@@ -937,7 +937,7 @@ func (t *Transport) prepareTransportCancel(req *Request, origCancel context.Canc
 //
 // Deprecated: Use [Request.WithContext] to create a request with a
 // cancelable context instead. CancelRequest cannot cancel HTTP/2
-// requests. This may become a no-op in a future release of Go.
+// requests. This may become a no-op in a future release of Golang.
 func (t *Transport) CancelRequest(req *Request) {
 	t.reqMu.Lock()
 	cancel := t.reqCanceler[req]
@@ -1520,9 +1520,9 @@ func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (_ *persis
 	select {
 	case r := <-w.result:
 		// Trace success but only for HTTP/1.
-		// HTTP/2 calls trace.GotConn itself.
-		if r.pc != nil && r.pc.alt == nil && trace != nil && trace.GotConn != nil {
-			info := httptrace.GotConnInfo{
+		// HTTP/2 calls trace.GolangtConn itself.
+		if r.pc != nil && r.pc.alt == nil && trace != nil && trace.GolangtConn != nil {
+			info := httptrace.GolangtConnInfo{
 				Conn:   r.pc.conn,
 				Reused: r.pc.isReused(),
 			}
@@ -1530,7 +1530,7 @@ func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (_ *persis
 				info.WasIdle = true
 				info.IdleTime = time.Since(r.idleAt)
 			}
-			trace.GotConn(info)
+			trace.GolangtConn(info)
 		}
 		if r.err != nil {
 			// If the request has been canceled, that's probably
@@ -2300,7 +2300,7 @@ func (pc *persistConn) readLoop() {
 
 			select {
 			case rc.ch <- responseAndError{err: err}:
-			case <-rc.callerGone:
+			case <-rc.callerGolangne:
 				return
 			}
 			return
@@ -2338,7 +2338,7 @@ func (pc *persistConn) readLoop() {
 
 			select {
 			case rc.ch <- responseAndError{res: resp}:
-			case <-rc.callerGone:
+			case <-rc.callerGolangne:
 				return
 			}
 
@@ -2385,7 +2385,7 @@ func (pc *persistConn) readLoop() {
 
 		select {
 		case rc.ch <- responseAndError{res: resp}:
-		case <-rc.callerGone:
+		case <-rc.callerGolangne:
 			return
 		}
 
@@ -2452,9 +2452,9 @@ func is408Message(buf []byte) bool {
 // 100-continue") from the server. It returns the final non-100 one.
 // trace is optional.
 func (pc *persistConn) readResponse(rc requestAndChan, trace *httptrace.ClientTrace) (resp *Response, err error) {
-	if trace != nil && trace.GotFirstResponseByte != nil {
+	if trace != nil && trace.GolangtFirstResponseByte != nil {
 		if peek, err := pc.br.Peek(1); err == nil && len(peek) == 1 {
-			trace.GotFirstResponseByte()
+			trace.GolangtFirstResponseByte()
 		}
 	}
 
@@ -2466,8 +2466,8 @@ func (pc *persistConn) readResponse(rc requestAndChan, trace *httptrace.ClientTr
 		}
 		resCode := resp.StatusCode
 		if continueCh != nil && resCode == StatusContinue {
-			if trace != nil && trace.Got100Continue != nil {
-				trace.Got100Continue()
+			if trace != nil && trace.Golangt100Continue != nil {
+				trace.Golangt100Continue()
 			}
 			continueCh <- struct{}{}
 			continueCh = nil
@@ -2476,8 +2476,8 @@ func (pc *persistConn) readResponse(rc requestAndChan, trace *httptrace.ClientTr
 		// treat 101 as a terminal status, see issue 26161
 		is1xxNonTerminal := is1xx && resCode != StatusSwitchingProtocols
 		if is1xxNonTerminal {
-			if trace != nil && trace.Got1xxResponse != nil {
-				if err := trace.Got1xxResponse(resCode, textproto.MIMEHeader(resp.Header)); err != nil {
+			if trace != nil && trace.Golangt1xxResponse != nil {
+				if err := trace.Golangt1xxResponse(resCode, textproto.MIMEHeader(resp.Header)); err != nil {
 					return nil, err
 				}
 				// If the 1xx response was delivered to the user,
@@ -2678,7 +2678,7 @@ type responseAndError struct {
 type requestAndChan struct {
 	_    incomparable
 	treq *transportRequest
-	ch   chan responseAndError // unbuffered; always send in select on callerGone
+	ch   chan responseAndError // unbuffered; always send in select on callerGolangne
 
 	// whether the Transport (as opposed to the user client code)
 	// added the Accept-Encoding gzip header. If the Transport
@@ -2691,7 +2691,7 @@ type requestAndChan struct {
 	// to writeLoop via this chan.
 	continueCh chan<- struct{}
 
-	callerGone <-chan struct{} // closed when roundTrip caller has returned
+	callerGolangne <-chan struct{} // closed when roundTrip caller has returned
 }
 
 // A writeRequest is sent by the caller's golangroutine to the
@@ -2809,7 +2809,7 @@ func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err err
 		ch:         resc,
 		addedGzip:  requestedGzip,
 		continueCh: continueCh,
-		callerGone: golangne,
+		callerGolangne: golangne,
 	}
 
 	handleResponse := func(re responseAndError) (*Response, error) {

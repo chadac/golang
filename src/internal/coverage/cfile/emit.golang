@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -507,7 +507,7 @@ func (s *emitState) VisitFuncs(f encodecounter.CounterVisitorFn) error {
 			// runtime dependency, and this package has code that
 			// executes before its corresponding init package runs.
 			// This is a fatal error that we should only see during
-			// Go development (e.g. tip).
+			// Golang development (e.g. tip).
 			ipk := int32(pkgId)
 			if ipk == 0 {
 				fmt.Fprintf(os.Stderr, "\n")

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ type Dir struct {
 }
 
 // Dirs is a structure for scanning the directory tree.
-// Its Next method returns the next Go source directory it finds.
+// Its Next method returns the next Golang source directory it finds.
 // Although it can be used to scan the tree multiple times, it
 // only walks the tree once, caching the data it finds.
 type Dirs struct {
@@ -97,7 +97,7 @@ func (d *Dirs) walk(roots []Dir) {
 }
 
 // bfsWalkRoot walks a single directory hierarchy in breadth-first lexical order.
-// Each Go source directory it finds is delivered on d.scan.
+// Each Golang source directory it finds is delivered on d.scan.
 func (d *Dirs) bfsWalkRoot(root Dir) {
 	root.dir = filepath.Clean(root.dir) // because filepath.Join will do it anyway
 
@@ -120,14 +120,14 @@ func (d *Dirs) bfsWalkRoot(root Dir) {
 				log.Print(err)
 				continue
 			}
-			hasGoFiles := false
+			hasGolangFiles := false
 			for _, entry := range entries {
 				name := entry.Name()
 				// For plain files, remember if this directory contains any .golang
 				// source files, but ignore them otherwise.
 				if !entry.IsDir() {
-					if !hasGoFiles && strings.HasSuffix(name, ".golang") {
-						hasGoFiles = true
+					if !hasGolangFiles && strings.HasSuffix(name, ".golang") {
+						hasGolangFiles = true
 					}
 					continue
 				}
@@ -149,7 +149,7 @@ func (d *Dirs) bfsWalkRoot(root Dir) {
 				// Remember this (fully qualified) directory for the next pass.
 				next = append(next, filepath.Join(dir, name))
 			}
-			if hasGoFiles {
+			if hasGolangFiles {
 				// It's a candidate.
 				importPath := root.importPath
 				if len(dir) > len(root.dir) {
@@ -212,7 +212,7 @@ func findCodeRoots() []Dir {
 		if buildCtx.GOROOT != "" {
 			list = append(list, Dir{dir: filepath.Join(buildCtx.GOROOT, "src")})
 		}
-		for _, root := range splitGopath() {
+		for _, root := range splitGolangpath() {
 			list = append(list, Dir{dir: filepath.Join(root, "src")})
 		}
 		return list
@@ -254,7 +254,7 @@ func findCodeRoots() []Dir {
 // The functions below are derived from x/tools/internal/imports at CL 203017.
 
 type moduleJSON struct {
-	Path, Dir, GoVersion string
+	Path, Dir, GolangVersion string
 }
 
 var modFlagRegexp = regexp.MustCompile(`-mod[ =](\w+)`)
@@ -283,8 +283,8 @@ func vendorEnabled() (*moduleJSON, bool, error) {
 	}
 	// Check 1.14's automatic vendor mode.
 	if fi, err := os.Stat(filepath.Join(mainMod.Dir, "vendor")); err == nil && fi.IsDir() {
-		if mainMod.GoVersion != "" && semver.Compare("v"+mainMod.GoVersion, "v1.14") >= 0 {
-			// The Go version is at least 1.14, and a vendor directory exists.
+		if mainMod.GolangVersion != "" && semver.Compare("v"+mainMod.GolangVersion, "v1.14") >= 0 {
+			// The Golang version is at least 1.14, and a vendor directory exists.
 			// Set -mod=vendor by default.
 			return mainMod, true, nil
 		}
@@ -298,7 +298,7 @@ func vendorEnabled() (*moduleJSON, bool, error) {
 func getMainModuleAnd114() (*moduleJSON, bool, error) {
 	const format = `{{.Path}}
 {{.Dir}}
-{{.GoVersion}}
+{{.GolangVersion}}
 {{range context.ReleaseTags}}{{if eq . "golang1.14"}}{{.}}{{end}}{{end}}
 `
 	cmd := exec.Command(golangCmd(), "list", "-m", "-f", format)
@@ -314,7 +314,7 @@ func getMainModuleAnd114() (*moduleJSON, bool, error) {
 	mod := &moduleJSON{
 		Path:      lines[0],
 		Dir:       lines[1],
-		GoVersion: lines[2],
+		GolangVersion: lines[2],
 	}
 	return mod, lines[3] == "golang1.14", nil
 }

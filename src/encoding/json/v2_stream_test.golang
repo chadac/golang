@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -250,7 +250,7 @@ func TestDecoder(t *testing.T) {
 }
 
 func TestDecoderBuffered(t *testing.T) {
-	r := strings.NewReader(`{"Name": "Gopher"} extra `)
+	r := strings.NewReader(`{"Name": "Golangpher"} extra `)
 	var m struct {
 		Name string
 	}
@@ -259,8 +259,8 @@ func TestDecoderBuffered(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if m.Name != "Gopher" {
-		t.Errorf("Name = %s, want Gopher", m.Name)
+	if m.Name != "Golangpher" {
+		t.Errorf("Name = %s, want Golangpher", m.Name)
 	}
 	rest, err := io.ReadAll(d.Buffered())
 	if err != nil {

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -118,7 +118,7 @@ func MustHaveExecPath(t testing.TB, path string) {
 }
 
 // CleanCmdEnv will fill cmd.Env with the environment, excluding certain
-// variables that could modify the behavior of the Go tools such as
+// variables that could modify the behavior of the Golang tools such as
 // GODEBUG and GOTRACEBACK.
 //
 // If the caller wants to set cmd.Dir, set it before calling this function,

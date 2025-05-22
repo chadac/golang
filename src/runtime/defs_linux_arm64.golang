@@ -1,4 +1,4 @@
-// Created by cgolang -cdefs and converted (by hand) to Go
+// Created by cgolang -cdefs and converted (by hand) to Golang
 // ../cmd/cgolang/cgolang -cdefs defs_linux.golang defs1_linux.golang defs2_linux.golang
 
 package runtime
@@ -161,7 +161,7 @@ type sigevent struct {
 	_ [_sigev_max_size - unsafe.Sizeof(sigeventFields{})]byte
 }
 
-// Created by cgolang -cdefs and then converted to Go by hand
+// Created by cgolang -cdefs and then converted to Golang by hand
 // ../cmd/cgolang/cgolang -cdefs defs_linux.golang defs1_linux.golang defs2_linux.golang
 
 const (

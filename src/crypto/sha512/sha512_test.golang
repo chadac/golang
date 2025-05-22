@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ import (
 type sha512Test struct {
 	out       string
 	in        string
-	halfState string // marshaled hash state after first half of in written, used by TestGoldenMarshal
+	halfState string // marshaled hash state after first half of in written, used by TestGolangldenMarshal
 }
 
 var golanglden224 = []sha512Test{
@@ -677,13 +677,13 @@ func testHash(t *testing.T, name, in, outHex string, oneShotResult []byte, diges
 	}
 }
 
-func TestGolden(t *testing.T) {
+func TestGolanglden(t *testing.T) {
 	cryptotest.TestAllImplementations(t, "sha512", func(t *testing.T) {
-		testGolden(t)
+		testGolanglden(t)
 	})
 }
 
-func testGolden(t *testing.T) {
+func testGolanglden(t *testing.T) {
 	tests := []struct {
 		name        string
 		oneShotHash func(in []byte) []byte
@@ -723,13 +723,13 @@ func testGolden(t *testing.T) {
 	}
 }
 
-func TestGoldenMarshal(t *testing.T) {
+func TestGolangldenMarshal(t *testing.T) {
 	cryptotest.TestAllImplementations(t, "sha512", func(t *testing.T) {
-		testGoldenMarshal(t)
+		testGolangldenMarshal(t)
 	})
 }
 
-func testGoldenMarshal(t *testing.T) {
+func testGolangldenMarshal(t *testing.T) {
 	tests := []struct {
 		name    string
 		newHash func() hash.Hash

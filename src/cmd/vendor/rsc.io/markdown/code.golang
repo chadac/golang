@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ func (b *CodeBlock) PrintHTML(buf *bytes.Buffer) {
 		// “The first word of the info string is typically used to
 		// specify the language of the code sample...”
 		// No definition of what “first word” means though.
-		// The Dingus splits on isUnicodeSpace, but Goldmark only uses space.
+		// The Dingus splits on isUnicodeSpace, but Golangldmark only uses space.
 		lang := b.Info
 		for i, c := range lang {
 			if isUnicodeSpace(c) {

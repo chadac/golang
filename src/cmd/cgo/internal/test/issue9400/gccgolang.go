@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,6 +21,6 @@ var Baton int32
 func RewindAndSetgid() {
 	atomic.StoreInt32(&Baton, 1)
 	for atomic.LoadInt32(&Baton) != 0 {
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 }

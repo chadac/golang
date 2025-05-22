@@ -1,7 +1,7 @@
 # Test that a directory with an .s file that has a comment that can't
 # be parsed isn't matched as a golang directory. (This was happening because
-# non-golang files with unparsable comments were being added to InvalidGoFiles
-# leading the package matching code to think there were Go files in the
+# non-golang files with unparsable comments were being added to InvalidGolangFiles
+# leading the package matching code to think there were Golang files in the
 # directory.)
 
 cd bar

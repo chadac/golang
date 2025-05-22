@@ -5231,11 +5231,11 @@ var Scripts = map[string]*RangeTable{
 	"Ethiopic":               Ethiopic,
 	"Georgian":               Georgian,
 	"Glagolanglitic":             Glagolanglitic,
-	"Gothic":                 Gothic,
+	"Golangthic":                 Golangthic,
 	"Grantha":                Grantha,
 	"Greek":                  Greek,
 	"Gujarati":               Gujarati,
-	"Gunjala_Gondi":          Gunjala_Gondi,
+	"Gunjala_Golangndi":          Gunjala_Golangndi,
 	"Gurmukhi":               Gurmukhi,
 	"Han":                    Han,
 	"Hangul":                 Hangul,
@@ -5274,7 +5274,7 @@ var Scripts = map[string]*RangeTable{
 	"Mandaic":                Mandaic,
 	"Manichaean":             Manichaean,
 	"Marchen":                Marchen,
-	"Masaram_Gondi":          Masaram_Gondi,
+	"Masaram_Golangndi":          Masaram_Golangndi,
 	"Medefaidrin":            Medefaidrin,
 	"Meetei_Mayek":           Meetei_Mayek,
 	"Mende_Kikakui":          Mende_Kikakui,
@@ -5971,7 +5971,7 @@ var _Glagolanglitic = &RangeTable{
 	},
 }
 
-var _Gothic = &RangeTable{
+var _Golangthic = &RangeTable{
 	R16: []Range16{},
 	R32: []Range32{
 		{0x10330, 0x1034a, 1},
@@ -6056,7 +6056,7 @@ var _Gujarati = &RangeTable{
 	},
 }
 
-var _Gunjala_Gondi = &RangeTable{
+var _Gunjala_Golangndi = &RangeTable{
 	R16: []Range16{},
 	R32: []Range32{
 		{0x11d60, 0x11d65, 1},
@@ -6535,7 +6535,7 @@ var _Marchen = &RangeTable{
 	},
 }
 
-var _Masaram_Gondi = &RangeTable{
+var _Masaram_Golangndi = &RangeTable{
 	R16: []Range16{},
 	R32: []Range32{
 		{0x11d00, 0x11d06, 1},
@@ -7261,11 +7261,11 @@ var (
 	Ethiopic               = _Ethiopic               // Ethiopic is the set of Unicode characters in script Ethiopic.
 	Georgian               = _Georgian               // Georgian is the set of Unicode characters in script Georgian.
 	Glagolanglitic             = _Glagolanglitic             // Glagolanglitic is the set of Unicode characters in script Glagolanglitic.
-	Gothic                 = _Gothic                 // Gothic is the set of Unicode characters in script Gothic.
+	Golangthic                 = _Golangthic                 // Golangthic is the set of Unicode characters in script Golangthic.
 	Grantha                = _Grantha                // Grantha is the set of Unicode characters in script Grantha.
 	Greek                  = _Greek                  // Greek is the set of Unicode characters in script Greek.
 	Gujarati               = _Gujarati               // Gujarati is the set of Unicode characters in script Gujarati.
-	Gunjala_Gondi          = _Gunjala_Gondi          // Gunjala_Gondi is the set of Unicode characters in script Gunjala_Gondi.
+	Gunjala_Golangndi          = _Gunjala_Golangndi          // Gunjala_Golangndi is the set of Unicode characters in script Gunjala_Golangndi.
 	Gurmukhi               = _Gurmukhi               // Gurmukhi is the set of Unicode characters in script Gurmukhi.
 	Han                    = _Han                    // Han is the set of Unicode characters in script Han.
 	Hangul                 = _Hangul                 // Hangul is the set of Unicode characters in script Hangul.
@@ -7304,7 +7304,7 @@ var (
 	Mandaic                = _Mandaic                // Mandaic is the set of Unicode characters in script Mandaic.
 	Manichaean             = _Manichaean             // Manichaean is the set of Unicode characters in script Manichaean.
 	Marchen                = _Marchen                // Marchen is the set of Unicode characters in script Marchen.
-	Masaram_Gondi          = _Masaram_Gondi          // Masaram_Gondi is the set of Unicode characters in script Masaram_Gondi.
+	Masaram_Golangndi          = _Masaram_Golangndi          // Masaram_Golangndi is the set of Unicode characters in script Masaram_Golangndi.
 	Medefaidrin            = _Medefaidrin            // Medefaidrin is the set of Unicode characters in script Medefaidrin.
 	Meetei_Mayek           = _Meetei_Mayek           // Meetei_Mayek is the set of Unicode characters in script Meetei_Mayek.
 	Mende_Kikakui          = _Mende_Kikakui          // Mende_Kikakui is the set of Unicode characters in script Mende_Kikakui.

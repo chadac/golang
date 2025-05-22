@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -69,7 +69,7 @@ var Data = func() (entries []Entry) {
 			entry.New = func() any { return new(canadaRoot) }
 		case "CitmCatalog":
 			entry.New = func() any { return new(citmRoot) }
-		case "GolangSource":
+		case "GolanglangSource":
 			entry.New = func() any { return new(golanglangRoot) }
 		case "StringEscaped":
 			entry.New = func() any { return new(stringRoot) }
@@ -311,7 +311,7 @@ type (
 				Encounter         syntheaReference   `json:"encounter"`
 				Extension         []syntheaExtension `json:"extension"`
 				Gender            string             `json:"gender"`
-				Goal              []syntheaReference `json:"golangal"`
+				Golangal              []syntheaReference `json:"golangal"`
 				ID                string             `json:"id"`
 				Identifier        []struct {
 					System string      `json:"system"`

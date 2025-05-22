@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -108,7 +108,7 @@
 
 // shifts
 // hardware instruction uses only the low byte of the shift
-// we compare to 256 to ensure Go semantics for large shifts
+// we compare to 256 to ensure Golang semantics for large shifts
 (Lsh32x32 x y) => (CMOVWHSconst (SLL <x.Type> x y) (CMPconst [256] y) [0])
 (Lsh32x16 x y) => (CMOVWHSconst (SLL <x.Type> x (ZeroExt16to32 y)) (CMPconst [256] (ZeroExt16to32 y)) [0])
 (Lsh32x8  x y) => (SLL x (ZeroExt8to32 y))

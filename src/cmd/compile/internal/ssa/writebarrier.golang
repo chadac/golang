@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -153,7 +153,7 @@ func needWBdst(ptr, mem *Value, zeroes map[ID]ZeroRegion) bool {
 // and runtime calls, like
 //
 //	if writeBarrier.enabled {
-//		buf := gcWriteBarrier2()	// Not a regular Go call
+//		buf := gcWriteBarrier2()	// Not a regular Golang call
 //		buf[0] = val
 //		buf[1] = *ptr
 //	}

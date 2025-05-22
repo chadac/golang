@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -179,7 +179,7 @@ L7 uses var z int`
 // test; we leave this test here to verify correct behavior at the golang/types
 // level.
 func TestIssue13898(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	const src0 = `
 package main
@@ -536,7 +536,7 @@ func TestIssue44515(t *testing.T) {
 func TestIssue43124(t *testing.T) {
 	// TODO(rFindley) move this to testdata by enhancing support for importing.
 
-	testenv.MustHaveGoBuild(t) // The golang command is needed for the importer to determine the locations of stdlib .a files.
+	testenv.MustHaveGolangBuild(t) // The golang command is needed for the importer to determine the locations of stdlib .a files.
 
 	// All involved packages have the same name (template). Error messages should
 	// disambiguate between text/template and html/template by printing the full
@@ -1111,8 +1111,8 @@ func _() {
 }
 `
 	// Per the golang:build directive, the source must typecheck
-	// even though the (module) Go version is set to golang1.17.
-	conf := Config{GoVersion: "golang1.17"}
+	// even though the (module) Golang version is set to golang1.17.
+	conf := Config{GolangVersion: "golang1.17"}
 	mustTypecheck(src, &conf, nil)
 }
 
@@ -1133,7 +1133,7 @@ func f(x int) {
 
 	golangt := ""
 	conf := Config{
-		GoVersion: "golang1.21",                                      // #68334 requires GoVersion <= 1.21
+		GolangVersion: "golang1.21",                                      // #68334 requires GolangVersion <= 1.21
 		Error:     func(err error) { golangt += err.Error() + "\n" }, // #68334 requires Error != nil
 	}
 	typecheck(src, &conf, nil) // do not crash

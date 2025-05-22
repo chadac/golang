@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -197,8 +197,8 @@ func workUse(ctx context.Context, golangwork string, wf *modfile.WorkFile, args 
 		}
 	}
 
-	// Read the Go versions from all the use entries, old and new (but not dropped).
-	golangV := golangver.FromGoWork(wf)
+	// Read the Golang versions from all the use entries, old and new (but not dropped).
+	golangV := golangver.FromGolangWork(wf)
 	for _, use := range wf.Use {
 		if use.Path == "" { // deleted
 			continue
@@ -214,12 +214,12 @@ func workUse(ctx context.Context, golangwork string, wf *modfile.WorkFile, args 
 			sw.Error(err)
 			continue
 		}
-		golangV = golangver.Max(golangV, golangver.FromGoMod(mf))
+		golangV = golangver.Max(golangV, golangver.FromGolangMod(mf))
 	}
 	sw.Switch(ctx)
 	base.ExitIfErrors()
 
-	modload.UpdateWorkGoVersion(wf, golangV)
+	modload.UpdateWorkGolangVersion(wf, golangV)
 	modload.UpdateWorkFile(wf)
 }
 

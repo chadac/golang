@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -7,19 +7,19 @@
 // Build this command explicitly: golang build golangtype.golang
 
 /*
-The golangtype command, like the front-end of a Go compiler, parses and
-type-checks a single Go package. Errors are reported if the analysis
+The golangtype command, like the front-end of a Golang compiler, parses and
+type-checks a single Golang package. Errors are reported if the analysis
 fails; otherwise golangtype is quiet (unless -v is set).
 
 Without a list of paths, golangtype reads from standard input, which
-must provide a single Go source file defining a complete package.
+must provide a single Golang source file defining a complete package.
 
-With a single directory argument, golangtype checks the Go files in
+With a single directory argument, golangtype checks the Golang files in
 that directory, comprising a single package. Use -t to include the
 (in-package) _test.golang files. Use -x to type check only external
 test files.
 
-Otherwise, each path must be the filename of a Go file belonging
+Otherwise, each path must be the filename of a Golang file belonging
 to the same package.
 
 Imports are processed by importing directly from the source of
@@ -137,19 +137,19 @@ func initParserMode() {
 
 const usageString = `usage: golangtype [flags] [path ...]
 
-The golangtype command, like the front-end of a Go compiler, parses and
-type-checks a single Go package. Errors are reported if the analysis
+The golangtype command, like the front-end of a Golang compiler, parses and
+type-checks a single Golang package. Errors are reported if the analysis
 fails; otherwise golangtype is quiet (unless -v is set).
 
 Without a list of paths, golangtype reads from standard input, which
-must provide a single Go source file defining a complete package.
+must provide a single Golang source file defining a complete package.
 
-With a single directory argument, golangtype checks the Go files in
+With a single directory argument, golangtype checks the Golang files in
 that directory, comprising a single package. Use -t to include the
 (in-package) _test.golang files. Use -x to type check only external
 test files.
 
-Otherwise, each path must be the filename of a Go file belonging
+Otherwise, each path must be the filename of a Golang file belonging
 to the same package.
 
 Imports are processed by importing directly from the source of
@@ -246,17 +246,17 @@ func parseFiles(dir string, filenames []string) ([]*ast.File, error) {
 func parseDir(dir string) ([]*ast.File, error) {
 	ctxt := build.Default
 	pkginfo, err := ctxt.ImportDir(dir, 0)
-	if _, nogolang := err.(*build.NoGoError); err != nil && !nogolang {
+	if _, nogolang := err.(*build.NoGolangError); err != nil && !nogolang {
 		return nil, err
 	}
 
 	if *xtestFiles {
-		return parseFiles(dir, pkginfo.XTestGoFiles)
+		return parseFiles(dir, pkginfo.XTestGolangFiles)
 	}
 
-	filenames := append(pkginfo.GoFiles, pkginfo.CgolangFiles...)
+	filenames := append(pkginfo.GolangFiles, pkginfo.CgolangFiles...)
 	if *testFiles {
-		filenames = append(filenames, pkginfo.TestGoFiles...)
+		filenames = append(filenames, pkginfo.TestGolangFiles...)
 	}
 	return parseFiles(dir, filenames)
 }

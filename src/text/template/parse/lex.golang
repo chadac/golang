@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -101,7 +101,7 @@ const eof = -1
 // better with the space present anyway. For simplicity, only ASCII
 // does the job.
 const (
-	spaceChars    = " \t\r\n"  // These are the space characters defined by Go itself.
+	spaceChars    = " \t\r\n"  // These are the space characters defined by Golang itself.
 	trimMarker    = '-'        // Attached to left/right delimiter, trims trailing spaces from preceding/following text.
 	trimMarkerLen = Pos(1 + 1) // marker plus space before or after
 )

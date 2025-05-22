@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -198,12 +198,12 @@ func tracebackFunc(t *testing.T) uintptr {
 // Test that CallersFrames handles PCs in the alignment region between
 // functions (int 3 on amd64) without crashing.
 //
-// Go will never generate a stack trace containing such an address, as it is
+// Golang will never generate a stack trace containing such an address, as it is
 // not a valid call site. However, the cgolang traceback function passed to
 // runtime.SetCgolangTraceback may not be completely accurate and may incorrect
-// provide PCs in Go code or the alignment region between functions.
+// provide PCs in Golang code or the alignment region between functions.
 //
-// Go obviously doesn't easily expose the problematic PCs to running programs,
+// Golang obviously doesn't easily expose the problematic PCs to running programs,
 // so this test is a bit fragile. Some details:
 //
 //   - tracebackFunc is our target function. We want to get a PC in the

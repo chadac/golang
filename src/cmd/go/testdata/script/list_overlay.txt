@@ -1,20 +1,20 @@
 # Test listing with overlays
 
 # Overlay in an existing directory
-golang list -overlay overlay.json  -f '{{.GoFiles}}' .
+golang list -overlay overlay.json  -f '{{.GolangFiles}}' .
 stdout '^\[f.golang\]$'
 
 # Overlays in a non-existing directory
-golang list -overlay overlay.json -f '{{.GoFiles}}' ./dir
+golang list -overlay overlay.json -f '{{.GolangFiles}}' ./dir
 stdout '^\[g.golang\]$'
 
 # Overlays in an existing directory with already existing files
-golang list -overlay overlay.json -f '{{.GoFiles}}' ./dir2
+golang list -overlay overlay.json -f '{{.GolangFiles}}' ./dir2
 stdout '^\[h.golang i.golang\]$'
 
 # Overlay that removes a file from a directory
 ! golang list ./dir3 # contains a file without a package statement
-golang list -overlay overlay.json -f '{{.GoFiles}}' ./dir3 # overlay removes that file
+golang list -overlay overlay.json -f '{{.GolangFiles}}' ./dir3 # overlay removes that file
 
 # Walking through an overlay
 golang list -overlay overlay.json ./...

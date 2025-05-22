@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -210,10 +210,10 @@ func coroswitch_m(gp *g) {
 	}
 
 	// Emit the trace event after getting gnext but before changing curg.
-	// GoSwitch expects that the current G is running and that we haven't
+	// GolangSwitch expects that the current G is running and that we haven't
 	// switched yet for correct status emission.
 	if trace.ok() {
-		trace.GoSwitch(gnext, exit)
+		trace.GolangSwitch(gnext, exit)
 	}
 
 	// Start running next, without heavy scheduling machinery.
@@ -223,14 +223,14 @@ func coroswitch_m(gp *g) {
 	setMNoWB(&gnext.m, mp)
 
 	// Synchronize with any out-standing golangroutine profile. We're about to start
-	// executing, and an invariant of the profiler is that we tryRecordGoroutineProfile
+	// executing, and an invariant of the profiler is that we tryRecordGolangroutineProfile
 	// whenever a golangroutine is about to start running.
 	//
 	// N.B. We must do this before transitioning to _Grunning but after installing gnext
-	// in curg, so that we have a valid curg for allocation (tryRecordGoroutineProfile
+	// in curg, so that we have a valid curg for allocation (tryRecordGolangroutineProfile
 	// may allocate).
 	if golangroutineProfile.active {
-		tryRecordGoroutineProfile(gnext, nil, osyield)
+		tryRecordGolangroutineProfile(gnext, nil, osyield)
 	}
 
 	if !canCAS || !gnext.atomicstatus.CompareAndSwap(_Gwaiting, _Grunning) {

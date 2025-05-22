@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -201,7 +201,7 @@ func (u *uploader) createReport(start time.Time, expiryDate string, countFiles [
 			// does the uploadConfig want this program?
 			// if so, copy over the Stacks and Counters
 			// that the uploadConfig mentions.
-			if !cfg.HasGoVersion(p.GoVersion) || !cfg.HasProgram(p.Program) || !cfg.HasVersion(p.Program, p.Version) {
+			if !cfg.HasGolangVersion(p.GolangVersion) || !cfg.HasProgram(p.Program) || !cfg.HasVersion(p.Program, p.Version) {
 				continue
 			}
 			x := &telemetry.ProgramReport{
@@ -209,7 +209,7 @@ func (u *uploader) createReport(start time.Time, expiryDate string, countFiles [
 				Version:   p.Version,
 				GOOS:      p.GOOS,
 				GOARCH:    p.GOARCH,
-				GoVersion: p.GoVersion,
+				GolangVersion: p.GolangVersion,
 				Counters:  make(map[string]int64),
 				Stacks:    make(map[string]int64),
 			}
@@ -302,7 +302,7 @@ func exclusiveWrite(filename string, content []byte) (_ bool, rerr error) {
 func findProgReport(meta map[string]string, report *telemetry.Report) *telemetry.ProgramReport {
 	for _, prog := range report.Programs {
 		if prog.Program == meta["Program"] && prog.Version == meta["Version"] &&
-			prog.GoVersion == meta["GoVersion"] && prog.GOOS == meta["GOOS"] &&
+			prog.GolangVersion == meta["GolangVersion"] && prog.GOOS == meta["GOOS"] &&
 			prog.GOARCH == meta["GOARCH"] {
 			return prog
 		}
@@ -310,7 +310,7 @@ func findProgReport(meta map[string]string, report *telemetry.Report) *telemetry
 	prog := telemetry.ProgramReport{
 		Program:   meta["Program"],
 		Version:   meta["Version"],
-		GoVersion: meta["GoVersion"],
+		GolangVersion: meta["GolangVersion"],
 		GOOS:      meta["GOOS"],
 		GOARCH:    meta["GOARCH"],
 		Counters:  make(map[string]int64),

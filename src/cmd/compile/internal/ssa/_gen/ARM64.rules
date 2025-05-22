@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -138,7 +138,7 @@
 
 // shifts
 // hardware instruction uses only the low 6 bits of the shift
-// we compare to 64 to ensure Go semantics for large shifts
+// we compare to 64 to ensure Golang semantics for large shifts
 // Rules about rotates with non-const shift are based on the following rules,
 // if the following rules change, please also modify the rules based on them.
 

@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ import (
 )
 
 // Example demonstrates the use of the trace package to trace
-// the execution of a Go program. The trace output will be
+// the execution of a Golang program. The trace output will be
 // written to the file trace.out
 func Example() {
 	f, err := os.Create("trace.out")

@@ -4,20 +4,20 @@ env GO111MODULE=on
 cd $WORK
 
 golang list -e -f {{.Error}} .
-stdout 'no Go files in '$WORK
+stdout 'no Golang files in '$WORK
 
 golang list -e -f {{.Error}} ./empty
-stdout 'no Go files in '$WORK${/}'empty'
+stdout 'no Golang files in '$WORK${/}'empty'
 
 golang list -e -f {{.Error}} ./exclude
-stdout 'build constraints exclude all Go files in '$WORK${/}'exclude'
+stdout 'build constraints exclude all Golang files in '$WORK${/}'exclude'
 
 golang list -e -f {{.Error}} ./missing
 stdout 'stat '$WORK'[/\\]missing: directory not found'
 
 # use 'golang build -n' because 'golang list' reports no error.
 ! golang build -n ./testonly
-stderr 'example.com/m/testonly: no non-test Go files in '$WORK${/}'testonly'
+stderr 'example.com/m/testonly: no non-test Golang files in '$WORK${/}'testonly'
 
 -- $WORK/golang.mod --
 module example.com/m

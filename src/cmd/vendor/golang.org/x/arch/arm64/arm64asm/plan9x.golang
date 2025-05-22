@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-// GoSyntax returns the Go assembler syntax for the instruction.
+// GolangSyntax returns the Golang assembler syntax for the instruction.
 // The syntax was originally defined by Plan 9.
 // The pc is the program counter of the instruction, used for
 // expanding PC-relative addresses into absolute ones.
@@ -21,7 +21,7 @@ import (
 // otherwise it returns "", 0.
 // The reader text should read from the text segment using text addresses
 // as offsets; it is used to display pc-relative loads as constant loads.
-func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64), text io.ReaderAt) string {
+func GolangSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64), text io.ReaderAt) string {
 	if symname == nil {
 		symname = func(uint64) (string, uint64) { return "", 0 }
 	}
@@ -623,7 +623,7 @@ func plan9Arg(inst *Inst, pc uint64, symname func(uint64) (string, uint64), arg 
 			if a.Amount != 0 && !a.ShiftMustBeZero {
 				index = fmt.Sprintf("(%s<<%d)", indexreg, a.Amount)
 			} else if a.ShiftMustBeZero && a.Amount == 1 {
-				// When a.ShiftMustBeZero is ture, Go syntax prints "(Rm<<0)" if "a.Amount"
+				// When a.ShiftMustBeZero is ture, Golang syntax prints "(Rm<<0)" if "a.Amount"
 				// equals to 1.
 				index = fmt.Sprintf("(%s<<0)", indexreg)
 			} else {

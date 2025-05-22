@@ -1,11 +1,11 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package constraint implements parsing and evaluation of build constraint lines.
 // See https://golanglang.org/cmd/golang/#hdr-Build_constraints for documentation about build constraints themselves.
 //
-// This package parses both the original “// +build” syntax and the “//golang:build” syntax that was added in Go 1.17.
+// This package parses both the original “// +build” syntax and the “//golang:build” syntax that was added in Golang 1.17.
 // See https://golanglang.org/design/draft-golangbuild for details about the “//golang:build” syntax.
 package constraint
 
@@ -151,7 +151,7 @@ var errNotConstraint = errors.New("not a build constraint")
 // Parse parses a single build constraint line of the form “//golang:build ...” or “// +build ...”
 // and returns the corresponding boolean expression.
 func Parse(line string) (Expr, error) {
-	if text, ok := splitGoBuild(line); ok {
+	if text, ok := splitGolangBuild(line); ok {
 		return parseExpr(text)
 	}
 	if text, ok := splitPlusBuild(line); ok {
@@ -160,16 +160,16 @@ func Parse(line string) (Expr, error) {
 	return nil, errNotConstraint
 }
 
-// IsGoBuild reports whether the line of text is a “//golang:build” constraint.
+// IsGolangBuild reports whether the line of text is a “//golang:build” constraint.
 // It only checks the prefix of the text, not that the expression itself parses.
-func IsGoBuild(line string) bool {
-	_, ok := splitGoBuild(line)
+func IsGolangBuild(line string) bool {
+	_, ok := splitGolangBuild(line)
 	return ok
 }
 
-// splitGoBuild splits apart the leading //golang:build prefix in line from the build expression itself.
+// splitGolangBuild splits apart the leading //golang:build prefix in line from the build expression itself.
 // It returns "", false if the input is not a //golang:build line or if the input contains multiple lines.
-func splitGoBuild(line string) (expr string, ok bool) {
+func splitGolangBuild(line string) (expr string, ok bool) {
 	// A single trailing newline is OK; otherwise multiple lines are not.
 	if len(line) > 0 && line[len(line)-1] == '\n' {
 		line = line[:len(line)-1]
@@ -453,7 +453,7 @@ func parsePlusBuildExpr(text string) (Expr, error) {
 
 // isValidTag reports whether the word is a valid build tag.
 // Tags must be letters, digits, underscores or dots.
-// Unlike in Go identifiers, all digits are fine (e.g., "386").
+// Unlike in Golang identifiers, all digits are fine (e.g., "386").
 func isValidTag(word string) bool {
 	if word == "" {
 		return false

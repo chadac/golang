@@ -1,7 +1,7 @@
 # Regression test for https://golang.dev/issue/57754: 'golang list' failed if ../src
 # relative to the location of the golang executable was a symlink to the real src
 # directory. (cmd/golang expects that ../src is GOROOT/src, but it appears that the
-# Debian build of the Go toolchain is attempting to split GOROOT into binary and
+# Debian build of the Golang toolchain is attempting to split GOROOT into binary and
 # source artifacts in different parent directories.)
 
 [short] skip 'copies the cmd/golang binary'

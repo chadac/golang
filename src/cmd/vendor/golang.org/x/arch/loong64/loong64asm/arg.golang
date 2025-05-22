@@ -1,10 +1,10 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package loong64asm
 
-// Naming for Go decoder arguments:
+// Naming for Golang decoder arguments:
 //
 // - arg_fd: a Floating Point operand register fd encoded in the fd[4:0] field
 //

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -630,7 +630,7 @@ var parseDepthTests = []struct {
 	{name: "forrange0", format: "package main; func main() { «for range x { «» }» }", scope: true, scopeMultiplier: 2},               // Scopes: RangeStmt, BlockStmt
 	{name: "forrange1", format: "package main; func main() { «for x = range z { «» }» }", scope: true, scopeMultiplier: 2},           // Scopes: RangeStmt, BlockStmt
 	{name: "forrange2", format: "package main; func main() { «for x, y = range z { «» }» }", scope: true, scopeMultiplier: 2},        // Scopes: RangeStmt, BlockStmt
-	{name: "golang", format: "package main; func main() { «golang func() { «» }()» }", parseMultiplier: 2, scope: true},                      // Parser nodes: GoStmt, FuncLit
+	{name: "golang", format: "package main; func main() { «golang func() { «» }()» }", parseMultiplier: 2, scope: true},                      // Parser nodes: GolangStmt, FuncLit
 	{name: "defer", format: "package main; func main() { «defer func() { «» }()» }", parseMultiplier: 2, scope: true},                // Parser nodes: DeferStmt, FuncLit
 	{name: "select", format: "package main; func main() { «select { default: «» }» }", scope: true},
 	{name: "block", format: "package main; func main() { «{«»}» }", scope: true},
@@ -784,7 +784,7 @@ func TestIssue59180(t *testing.T) {
 	}
 }
 
-func TestGoVersion(t *testing.T) {
+func TestGolangVersion(t *testing.T) {
 	fset := token.NewFileSet()
 	pkgs, err := ParseDir(fset, "./testdata/golangversion", nil, 0)
 	if err != nil {
@@ -797,8 +797,8 @@ func TestGoVersion(t *testing.T) {
 			want = ""
 		}
 		for _, f := range p.Files {
-			if f.GoVersion != want {
-				t.Errorf("%s: GoVersion = %q, want %q", fset.Position(f.Pos()), f.GoVersion, want)
+			if f.GolangVersion != want {
+				t.Errorf("%s: GolangVersion = %q, want %q", fset.Position(f.Pos()), f.GolangVersion, want)
 			}
 		}
 	}

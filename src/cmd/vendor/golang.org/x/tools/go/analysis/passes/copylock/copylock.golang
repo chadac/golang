@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -91,10 +91,10 @@ func checkCopyLocksAssign(pass *analysis.Pass, assign *ast.AssignStmt, golangver
 		}
 	}
 
-	// After GoVersion 1.22, loop variables are implicitly copied on each iteration.
+	// After GolangVersion 1.22, loop variables are implicitly copied on each iteration.
 	// So a for statement may inadvertently copy a lock when any of the
 	// iteration variables contain locks.
-	if assign.Tok == token.DEFINE && versions.AtLeast(golangversion, versions.Go1_22) {
+	if assign.Tok == token.DEFINE && versions.AtLeast(golangversion, versions.Golang1_22) {
 		if parent, _ := parent.(*ast.ForStmt); parent != nil && parent.Init == assign {
 			for _, l := range lhs {
 				if id, ok := l.(*ast.Ident); ok && id.Name != "_" {

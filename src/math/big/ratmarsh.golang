@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,11 +13,11 @@ import (
 	"math"
 )
 
-// Gob codec version. Permits backward-compatible changes to the encoding.
-const ratGobVersion byte = 1
+// Golangb codec version. Permits backward-compatible changes to the encoding.
+const ratGolangbVersion byte = 1
 
-// GobEncode implements the [encoding/golangb.GobEncoder] interface.
-func (x *Rat) GobEncode() ([]byte, error) {
+// GolangbEncode implements the [encoding/golangb.GolangbEncoder] interface.
+func (x *Rat) GolangbEncode() ([]byte, error) {
 	if x == nil {
 		return nil, nil
 	}
@@ -27,11 +27,11 @@ func (x *Rat) GobEncode() ([]byte, error) {
 	n := i - j
 	if int(uint32(n)) != n {
 		// this should never happen
-		return nil, errors.New("Rat.GobEncode: numerator too large")
+		return nil, errors.New("Rat.GolangbEncode: numerator too large")
 	}
 	byteorder.BEPutUint32(buf[j-4:j], uint32(n))
 	j -= 1 + 4
-	b := ratGobVersion << 1 // make space for sign bit
+	b := ratGolangbVersion << 1 // make space for sign bit
 	if x.a.neg {
 		b |= 1
 	}
@@ -39,28 +39,28 @@ func (x *Rat) GobEncode() ([]byte, error) {
 	return buf[j:], nil
 }
 
-// GobDecode implements the [encoding/golangb.GobDecoder] interface.
-func (z *Rat) GobDecode(buf []byte) error {
+// GolangbDecode implements the [encoding/golangb.GolangbDecoder] interface.
+func (z *Rat) GolangbDecode(buf []byte) error {
 	if len(buf) == 0 {
 		// Other side sent a nil or default value.
 		*z = Rat{}
 		return nil
 	}
 	if len(buf) < 5 {
-		return errors.New("Rat.GobDecode: buffer too small")
+		return errors.New("Rat.GolangbDecode: buffer too small")
 	}
 	b := buf[0]
-	if b>>1 != ratGobVersion {
-		return fmt.Errorf("Rat.GobDecode: encoding version %d not supported", b>>1)
+	if b>>1 != ratGolangbVersion {
+		return fmt.Errorf("Rat.GolangbDecode: encoding version %d not supported", b>>1)
 	}
 	const j = 1 + 4
 	ln := byteorder.BEUint32(buf[j-4 : j])
 	if uint64(ln) > math.MaxInt-j {
-		return errors.New("Rat.GobDecode: invalid length")
+		return errors.New("Rat.GolangbDecode: invalid length")
 	}
 	i := j + int(ln)
 	if len(buf) < i {
-		return errors.New("Rat.GobDecode: buffer too small")
+		return errors.New("Rat.GolangbDecode: buffer too small")
 	}
 	z.a.neg = b&1 != 0
 	z.a.abs = z.a.abs.setBytes(buf[j:i])

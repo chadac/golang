@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -765,7 +765,7 @@ func makeTypeAssertDescriptor(target *types.Type, canFail bool) *obj.LSym {
 	c.Field("Inter").WritePtr(reflectdata.TypeLinksym(target))
 	c.Field("CanFail").WriteBool(canFail)
 	objw.Global(lsym, int32(rttype.TypeAssert.Size()), obj.LOCAL)
-	lsym.Gotype = reflectdata.TypeLinksym(rttype.TypeAssert)
+	lsym.Golangtype = reflectdata.TypeLinksym(rttype.TypeAssert)
 	return lsym
 }
 

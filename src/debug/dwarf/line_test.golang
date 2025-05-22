@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -304,7 +304,7 @@ func testLineTable(t *testing.T, want []LineEntry, files [][]*LineFile, d *Data)
 		// Check file table.
 		if !ignore {
 			if !compareFiles(files[0], lr.Files()) {
-				t.Log("File tables do not match. Got:")
+				t.Log("File tables do not match. Golangt:")
 				dumpFiles(t, lr.Files())
 				t.Log("Want:")
 				dumpFiles(t, files[0])
@@ -316,7 +316,7 @@ func testLineTable(t *testing.T, want []LineEntry, files [][]*LineFile, d *Data)
 
 	// Compare line tables.
 	if !compareLines(t, golangt, want) {
-		t.Log("Line tables do not match. Got:")
+		t.Log("Line tables do not match. Golangt:")
 		dumpLines(t, golangt)
 		t.Log("Want:")
 		dumpLines(t, want)
@@ -406,9 +406,9 @@ var joinTests = []joinTest{
 	{`\\host\share\`, `foo\bar`, `\\host\share\foo\bar`},
 	{`//host/share/`, `foo/bar`, `//host/share/foo/bar`},
 
-	// Note: the Go compiler currently emits DWARF line table paths
+	// Note: the Golang compiler currently emits DWARF line table paths
 	// with '/' instead of '\' (see issues #19784, #36495). These
-	// tests are to cover cases that might come up for Windows Go
+	// tests are to cover cases that might come up for Windows Golang
 	// binaries.
 	{`c:/workdir/golang/src/x`, `y.golang`, `c:/workdir/golang/src/x/y.golang`},
 	{`d:/some/thing/`, `b.golang`, `d:/some/thing/b.golang`},

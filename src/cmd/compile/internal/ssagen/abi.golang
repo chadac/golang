@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -141,7 +141,7 @@ func (s *SymABIs) GenABIWrappers() {
 		defABI, hasDefABI := s.defs[symName]
 		if hasDefABI {
 			if len(fn.Body) != 0 {
-				base.ErrorfAt(fn.Pos(), 0, "%v defined in both Go and assembly", fn)
+				base.ErrorfAt(fn.Pos(), 0, "%v defined in both Golang and assembly", fn)
 			}
 			fn.ABI = defABI
 		}
@@ -189,7 +189,7 @@ func (s *SymABIs) GenABIWrappers() {
 		fn.ABIRefs.Set(obj.ABIInternal, true)
 
 		// If a symbol is defined in this package (either in
-		// Go or assembly) and given a linkname, it may be
+		// Golang or assembly) and given a linkname, it may be
 		// referenced from another package, so make it
 		// callable via any ABI. It's important that we know
 		// it's defined in this package since other packages
@@ -338,7 +338,7 @@ func makeABIWrapper(f *ir.Func, wrapperABI obj.ABI) {
 }
 
 // CreateWasmImportWrapper creates a wrapper for imported WASM functions to
-// adapt them to the Go calling convention. The body for this function is
+// adapt them to the Golang calling convention. The body for this function is
 // generated in cmd/internal/obj/wasm/wasmobj.golang
 func CreateWasmImportWrapper(fn *ir.Func) bool {
 	if fn.WasmImport == nil {
@@ -398,7 +398,7 @@ func GenWasmExportWrapper(wrapped *ir.Func) {
 
 	pp := objw.NewProgs(fn, 0)
 	defer pp.Free()
-	// TEXT. Has a frame to pass args on stack to the Go function.
+	// TEXT. Has a frame to pass args on stack to the Golang function.
 	pp.Text.To.Type = obj.TYPE_TEXTSIZE
 	pp.Text.To.Val = int32(0)
 	pp.Text.To.Offset = types.RoundUp(ft.ArgWidth(), int64(types.RegSize))
@@ -486,7 +486,7 @@ func resultsToWasmFields(f *ir.Func, pragma string, result *abi.ABIParamResultIn
 }
 
 // wasmElemTypeAllowed reports whether t is allowed to be passed in memory
-// (as a pointer's element type, a field of it, etc.) between the Go wasm
+// (as a pointer's element type, a field of it, etc.) between the Golang wasm
 // module and the host.
 func wasmElemTypeAllowed(t *types.Type) bool {
 	switch t.Kind() {
@@ -514,7 +514,7 @@ func wasmElemTypeAllowed(t *types.Type) bool {
 		return seenHostLayout
 	}
 	// Pointer, and all pointerful types are not allowed, as pointers have
-	// different width on the Go side and the host side. (It will be allowed
+	// different width on the Golang side and the host side. (It will be allowed
 	// on GOARCH=wasm32.)
 	return false
 }
@@ -526,7 +526,7 @@ func setupWasmImport(f *ir.Func) {
 		Module: f.WasmImport.Module,
 		Name:   f.WasmImport.Name,
 	}
-	if wi.Module == wasm.GojsModule {
+	if wi.Module == wasm.GolangjsModule {
 		// Functions that are imported from the "golangjs" module use a special
 		// ABI that just accepts the stack pointer.
 		// Example:

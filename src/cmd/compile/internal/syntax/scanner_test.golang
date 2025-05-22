@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -305,8 +305,8 @@ var sampleTokens = [...]struct {
 	{_Fallthrough, "fallthrough", 0, 0},
 	{_For, "for", 0, 0},
 	{_Func, "func", 0, 0},
-	{_Go, "golang", 0, 0},
-	{_Goto, "golangto", 0, 0},
+	{_Golang, "golang", 0, 0},
+	{_Golangto, "golangto", 0, 0},
 	{_If, "if", 0, 0},
 	{_Import, "import", 0, 0},
 	{_Interface, "interface", 0, 0},

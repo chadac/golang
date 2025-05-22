@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -238,11 +238,11 @@ var SECURITY_NT_AUTHORITY = SID_IDENTIFIER_AUTHORITY{
 
 // The following GetSid* functions are marked as //golang:nocheckptr because checkptr
 // instrumentation can't see that the pointer returned by the syscall is pointing
-// into the sid's memory, which is normally allocated on the Go heap. Therefore,
+// into the sid's memory, which is normally allocated on the Golang heap. Therefore,
 // the checkptr instrumentation would incorrectly flag the pointer dereference
 // as pointing to an invalid allocation.
 // Also, use runtime.KeepAlive to ensure that the sid is not garbage collected
-// before the GetSid* functions return, as the Go GC is not aware that the
+// before the GetSid* functions return, as the Golang GC is not aware that the
 // pointers returned by the syscall are pointing into the sid's memory.
 
 //golang:nocheckptr

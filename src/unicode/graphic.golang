@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@ const (
 	pZ                 // a spacing character.
 	pLu                // an upper-case letter.
 	pLl                // a lower-case letter.
-	pp                 // a printable character according to Go's definition.
+	pp                 // a printable character according to Golang's definition.
 	pg     = pp | pZ   // a graphical character according to the Unicode definition.
 	pLo    = pLl | pLu // a letter that is neither upper nor lower case.
 	pLmask = pLo
@@ -24,7 +24,7 @@ var GraphicRanges = []*RangeTable{
 	L, M, N, P, S, Zs,
 }
 
-// PrintRanges defines the set of printable characters according to Go.
+// PrintRanges defines the set of printable characters according to Golang.
 // ASCII space, U+0020, is handled separately.
 var PrintRanges = []*RangeTable{
 	L, M, N, P, S,
@@ -42,7 +42,7 @@ func IsGraphic(r rune) bool {
 	return In(r, GraphicRanges...)
 }
 
-// IsPrint reports whether the rune is defined as printable by Go. Such
+// IsPrint reports whether the rune is defined as printable by Golang. Such
 // characters include letters, marks, numbers, punctuation, symbols, and the
 // ASCII space character, from categolangries [L], [M], [N], [P], [S] and the ASCII space
 // character. This categolangrization is the same as [IsGraphic] except that the

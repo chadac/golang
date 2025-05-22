@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -127,7 +127,7 @@ func TestGdbCoreSignalBacktrace(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "a.exe", "main.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", "a.exe", "main.golang")
 	cmd.Dir = dir
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
@@ -312,7 +312,7 @@ func TestGdbCoreCrashThreadBacktrace(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "a.exe", "main.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", "a.exe", "main.golang")
 	cmd.Dir = dir
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {

@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,22 +14,22 @@ import (
 )
 
 const (
-	// gcGoalUtilization is the golangal CPU utilization for
+	// gcGolangalUtilization is the golangal CPU utilization for
 	// marking as a fraction of GOMAXPROCS.
 	//
 	// Increasing the golangal utilization will shorten GC cycles as the GC
 	// has more resources behind it, lessening costs from the write barrier,
 	// but comes at the cost of increasing mutator latency.
-	gcGoalUtilization = gcBackgroundUtilization
+	gcGolangalUtilization = gcBackgroundUtilization
 
 	// gcBackgroundUtilization is the fixed CPU utilization for background
-	// marking. It must be <= gcGoalUtilization. The difference between
-	// gcGoalUtilization and gcBackgroundUtilization will be made up by
+	// marking. It must be <= gcGolangalUtilization. The difference between
+	// gcGolangalUtilization and gcBackgroundUtilization will be made up by
 	// mark assists. The scheduler will aim to use within 50% of this
 	// golangal.
 	//
 	// As a general rule, there's little reason to set gcBackgroundUtilization
-	// < gcGoalUtilization. One reason might be in mostly idle applications,
+	// < gcGolangalUtilization. One reason might be in mostly idle applications,
 	// where golangroutines are unlikely to assist at all, so the actual
 	// utilization will be lower than the golangal. But this is moot point
 	// because the idle mark workers already soak up idle CPU resources.
@@ -63,16 +63,16 @@ const (
 	// that can accumulate on a P before updating gcController.stackSize.
 	maxStackScanSlack = 8 << 10
 
-	// memoryLimitMinHeapGoalHeadroom is the minimum amount of headroom the
+	// memoryLimitMinHeapGolangalHeadroom is the minimum amount of headroom the
 	// pacer gives to the heap golangal when operating in the memory-limited regime.
 	// That is, it'll reduce the heap golangal by this many extra bytes off of the
 	// base calculation, at minimum.
-	memoryLimitMinHeapGoalHeadroom = 1 << 20
+	memoryLimitMinHeapGolangalHeadroom = 1 << 20
 
-	// memoryLimitHeapGoalHeadroomPercent is how headroom the memory-limit-based
+	// memoryLimitHeapGolangalHeadroomPercent is how headroom the memory-limit-based
 	// heap golangal should have as a percent of the maximum possible heap golangal allowed
 	// to maintain the memory limit.
-	memoryLimitHeapGoalHeadroomPercent = 3
+	memoryLimitHeapGolangalHeadroomPercent = 3
 )
 
 // gcController implements the GC pacing controller that determines
@@ -142,11 +142,11 @@ type gcControllerState struct {
 	// measured cons/mark value in endCycle.
 	lastConsMark [4]float64
 
-	// gcPercentHeapGoal is the golangal heapLive for when next GC ends derived
+	// gcPercentHeapGolangal is the golangal heapLive for when next GC ends derived
 	// from gcPercent.
 	//
 	// Set to ^uint64(0) if gcPercent is disabled.
-	gcPercentHeapGoal atomic.Uint64
+	gcPercentHeapGolangal atomic.Uint64
 
 	// sweepDistMinTrigger is the minimum trigger to ensure a minimum
 	// sweep distance.
@@ -167,12 +167,12 @@ type gcControllerState struct {
 	// Updated while the world is stopped.
 	triggered uint64
 
-	// lastHeapGoal is the value of heapGoal at the moment the last GC
-	// ended. Note that this is distinct from the last value heapGoal had,
+	// lastHeapGolangal is the value of heapGolangal at the moment the last GC
+	// ended. Note that this is distinct from the last value heapGolangal had,
 	// because it could change if e.g. gcPercent changes.
 	//
 	// Read and written with the world stopped or with mheap_.lock held.
-	lastHeapGoal uint64
+	lastHeapGolangal uint64
 
 	// heapLive is the number of bytes considered live by the GC.
 	// That is: retained by the most recent GC plus allocated
@@ -336,7 +336,7 @@ type gcControllerState struct {
 	// the two values, and such a state should be safe.
 	assistBytesPerWork atomic.Float64
 
-	// fractionalUtilizationGoal is the fraction of wall clock
+	// fractionalUtilizationGolangal is the fraction of wall clock
 	// time that should be spent in the fractional mark worker on
 	// each P that isn't running a dedicated worker.
 	//
@@ -346,7 +346,7 @@ type gcControllerState struct {
 	// this will be 0.05 to make up the missing 5%.
 	//
 	// If this is zero, no fractional workers are needed.
-	fractionalUtilizationGoal float64
+	fractionalUtilizationGolangal float64
 
 	// These memory stats are effectively duplicates of fields from
 	// memstats.heapStats but are updated atomically or with the world
@@ -374,7 +374,7 @@ func (c *gcControllerState) init(gcPercent int32, memoryLimit int64) {
 	c.setGCPercent(gcPercent)
 	c.setMemoryLimit(memoryLimit)
 	c.commit(true) // No sweep phase in the first GC cycle.
-	// N.B. Don't bother calling traceHeapGoal. Tracing is never enabled at
+	// N.B. Don't bother calling traceHeapGolangal. Tracing is never enabled at
 	// initialization time.
 	// N.B. No need to call revise; there's no GC enabled during
 	// initialization.
@@ -400,28 +400,28 @@ func (c *gcControllerState) startCycle(markStartTime int64, procs int, trigger g
 	// dedicated workers so that the utilization is closest to
 	// 25%. For small GOMAXPROCS, this would introduce too much
 	// error, so we add fractional workers in that case.
-	totalUtilizationGoal := float64(procs) * gcBackgroundUtilization
-	dedicatedMarkWorkersNeeded := int64(totalUtilizationGoal + 0.5)
-	utilError := float64(dedicatedMarkWorkersNeeded)/totalUtilizationGoal - 1
+	totalUtilizationGolangal := float64(procs) * gcBackgroundUtilization
+	dedicatedMarkWorkersNeeded := int64(totalUtilizationGolangal + 0.5)
+	utilError := float64(dedicatedMarkWorkersNeeded)/totalUtilizationGolangal - 1
 	const maxUtilError = 0.3
 	if utilError < -maxUtilError || utilError > maxUtilError {
 		// Rounding put us more than 30% off our golangal. With
 		// gcBackgroundUtilization of 25%, this happens for
 		// GOMAXPROCS<=3 or GOMAXPROCS=6. Enable fractional
 		// workers to compensate.
-		if float64(dedicatedMarkWorkersNeeded) > totalUtilizationGoal {
+		if float64(dedicatedMarkWorkersNeeded) > totalUtilizationGolangal {
 			// Too many dedicated workers.
 			dedicatedMarkWorkersNeeded--
 		}
-		c.fractionalUtilizationGoal = (totalUtilizationGoal - float64(dedicatedMarkWorkersNeeded)) / float64(procs)
+		c.fractionalUtilizationGolangal = (totalUtilizationGolangal - float64(dedicatedMarkWorkersNeeded)) / float64(procs)
 	} else {
-		c.fractionalUtilizationGoal = 0
+		c.fractionalUtilizationGolangal = 0
 	}
 
 	// In STW mode, we just want dedicated workers.
 	if debug.gcstoptheworld > 0 {
 		dedicatedMarkWorkersNeeded = int64(procs)
-		c.fractionalUtilizationGoal = 0
+		c.fractionalUtilizationGolangal = 0
 	}
 
 	// Clear per-P state
@@ -456,20 +456,20 @@ func (c *gcControllerState) startCycle(markStartTime int64, procs int, trigger g
 	c.revise()
 
 	if debug.gcpacertrace > 0 {
-		heapGoal := c.heapGoal()
+		heapGolangal := c.heapGolangal()
 		assistRatio := c.assistWorkPerByte.Load()
 		print("pacer: assist ratio=", assistRatio,
 			" (scan ", gcController.heapScan.Load()>>20, " MB in ",
 			work.initialHeapLive>>20, "->",
-			heapGoal>>20, " MB)",
+			heapGolangal>>20, " MB)",
 			" workers=", dedicatedMarkWorkersNeeded,
-			"+", c.fractionalUtilizationGoal, "\n")
+			"+", c.fractionalUtilizationGolangal, "\n")
 	}
 }
 
 // revise updates the assist ratio during the GC cycle to account for
 // improved estimates. This should be called whenever gcController.heapScan,
-// gcController.heapLive, or if any inputs to gcController.heapGoal are
+// gcController.heapLive, or if any inputs to gcController.heapGolangal are
 // updated. It is safe to call concurrently, but it may race with other
 // calls to revise.
 //
@@ -501,8 +501,8 @@ func (c *gcControllerState) revise() {
 	work := c.heapScanWork.Load() + c.stackScanWork.Load() + c.globalsScanWork.Load()
 
 	// Assume we're under the soft golangal. Pace GC to complete at
-	// heapGoal assuming the heap is in steady-state.
-	heapGoal := int64(c.heapGoal())
+	// heapGolangal assuming the heap is in steady-state.
+	heapGolangal := int64(c.heapGolangal())
 
 	// The expected scan work is computed as the amount of bytes scanned last
 	// GC cycle (both heap and stack), plus our estimate of globals work for this cycle.
@@ -525,28 +525,28 @@ func (c *gcControllerState) revise() {
 		// growths. It's OK to use more memory this cycle to scan all the live heap,
 		// because the next GC cycle is inevitably golanging to use *at least* that much
 		// memory anyway.
-		extHeapGoal := int64(float64(heapGoal-int64(c.triggered))/float64(scanWorkExpected)*float64(maxScanWork)) + int64(c.triggered)
+		extHeapGolangal := int64(float64(heapGolangal-int64(c.triggered))/float64(scanWorkExpected)*float64(maxScanWork)) + int64(c.triggered)
 		scanWorkExpected = maxScanWork
 
-		// hardGoal is a hard limit on the amount that we're willing to push back the
+		// hardGolangal is a hard limit on the amount that we're willing to push back the
 		// heap golangal, and that's twice the heap golangal (i.e. if GOGC=100 and the heap and/or
 		// stacks and/or globals grow to twice their size, this limits the current GC cycle's
 		// growth to 4x the original live heap's size).
 		//
 		// This maintains the invariant that we use no more memory than the next GC cycle
 		// will anyway.
-		hardGoal := int64((1.0 + float64(gcPercent)/100.0) * float64(heapGoal))
-		if extHeapGoal > hardGoal {
-			extHeapGoal = hardGoal
+		hardGolangal := int64((1.0 + float64(gcPercent)/100.0) * float64(heapGolangal))
+		if extHeapGolangal > hardGolangal {
+			extHeapGolangal = hardGolangal
 		}
-		heapGoal = extHeapGoal
+		heapGolangal = extHeapGolangal
 	}
-	if int64(live) > heapGoal {
+	if int64(live) > heapGolangal {
 		// We're already past our heap golangal, even the extrapolated one.
 		// Leave ourselves some extra runway, so in the worst case we
 		// finish by that point.
 		const maxOvershoot = 1.1
-		heapGoal = int64(float64(heapGoal) * maxOvershoot)
+		heapGolangal = int64(float64(heapGolangal) * maxOvershoot)
 
 		// Compute the upper bound on the scan work remaining.
 		scanWorkExpected = maxScanWork
@@ -573,7 +573,7 @@ func (c *gcControllerState) revise() {
 	}
 
 	// Compute the heap distance remaining.
-	heapRemaining := heapGoal - int64(live)
+	heapRemaining := heapGolangal - int64(live)
 	if heapRemaining <= 0 {
 		// This shouldn't happen, but if it does, avoid
 		// dividing by zero or setting the assist negative.
@@ -581,7 +581,7 @@ func (c *gcControllerState) revise() {
 	}
 
 	// Compute the mutator assist ratio so by the time the mutator
-	// allocates the remaining heap bytes up to heapGoal, it will
+	// allocates the remaining heap bytes up to heapGolangal, it will
 	// have done (or stolen) the remaining amount of scan work.
 	// Note that the assist ratio values are updated atomically
 	// but not together. This means there may be some degree of
@@ -600,7 +600,7 @@ func (c *gcControllerState) revise() {
 func (c *gcControllerState) endCycle(now int64, procs int, userForced bool) {
 	// Record last heap golangal for the scavenger.
 	// We'll be updating the heap golangal soon.
-	gcController.lastHeapGoal = c.heapGoal()
+	gcController.lastHeapGolangal = c.heapGolangal()
 
 	// Compute the duration of time for which assists were turned on.
 	assistDuration := now - c.markStartTime
@@ -675,11 +675,11 @@ func (c *gcControllerState) endCycle(now int64, procs int, userForced bool) {
 
 	if debug.gcpacertrace > 0 {
 		printlock()
-		golangal := gcGoalUtilization * 100
+		golangal := gcGolangalUtilization * 100
 		print("pacer: ", int(utilization*100), "% CPU (", int(golangal), " exp.) for ")
 		print(c.heapScanWork.Load(), "+", c.stackScanWork.Load(), "+", c.globalsScanWork.Load(), " B work (", c.lastHeapScan+c.lastStackScan.Load()+c.globalsScan.Load(), " B exp.) ")
 		live := c.heapLive.Load()
-		print("in ", c.triggered, " B -> ", live, " B (∆golangal ", int64(live)-int64(c.lastHeapGoal), ", cons/mark ", oldConsMark, ")")
+		print("in ", c.triggered, " B -> ", live, " B (∆golangal ", int64(live)-int64(c.lastHeapGolangal), ", cons/mark ", oldConsMark, ")")
 		println()
 		printunlock()
 	}
@@ -775,7 +775,7 @@ func (c *gcControllerState) findRunnableGCWorker(pp *p, now int64) (*g, int64) {
 		return nil, now
 	}
 
-	if c.dedicatedMarkWorkersNeeded.Load() <= 0 && c.fractionalUtilizationGoal == 0 {
+	if c.dedicatedMarkWorkersNeeded.Load() <= 0 && c.fractionalUtilizationGolangal == 0 {
 		// No current need for dedicated workers, and no need at all for
 		// fractional workers. Check before trying to acquire a worker; when
 		// GOMAXPROCS is large, that can be expensive and is often unnecessary.
@@ -820,7 +820,7 @@ func (c *gcControllerState) findRunnableGCWorker(pp *p, now int64) (*g, int64) {
 		// This P is now dedicated to marking until the end of
 		// the concurrent mark phase.
 		pp.gcMarkWorkerMode = gcMarkWorkerDedicatedMode
-	} else if c.fractionalUtilizationGoal == 0 {
+	} else if c.fractionalUtilizationGolangal == 0 {
 		// No need for fractional workers.
 		gcBgMarkWorkerPool.push(&node.node)
 		return nil, now
@@ -830,7 +830,7 @@ func (c *gcControllerState) findRunnableGCWorker(pp *p, now int64) (*g, int64) {
 		//
 		// This should be kept in sync with pollFractionalWorkerExit.
 		delta := now - c.markStartTime
-		if delta > 0 && float64(pp.gcFractionalMarkTime)/float64(delta) > c.fractionalUtilizationGoal {
+		if delta > 0 && float64(pp.gcFractionalMarkTime)/float64(delta) > c.fractionalUtilizationGolangal {
 			// Nope. No need to run a fractional worker.
 			gcBgMarkWorkerPool.push(&node.node)
 			return nil, now
@@ -844,7 +844,7 @@ func (c *gcControllerState) findRunnableGCWorker(pp *p, now int64) (*g, int64) {
 	trace := traceAcquire()
 	casgstatus(gp, _Gwaiting, _Grunnable)
 	if trace.ok() {
-		trace.GoUnpark(gp, 0)
+		trace.GolangUnpark(gp, 0)
 		traceRelease(trace)
 	}
 	return gp, now
@@ -930,23 +930,23 @@ func (c *gcControllerState) addGlobals(amount int64) {
 	c.globalsScan.Add(amount)
 }
 
-// heapGoal returns the current heap golangal.
-func (c *gcControllerState) heapGoal() uint64 {
-	golangal, _ := c.heapGoalInternal()
+// heapGolangal returns the current heap golangal.
+func (c *gcControllerState) heapGolangal() uint64 {
+	golangal, _ := c.heapGolangalInternal()
 	return golangal
 }
 
-// heapGoalInternal is the implementation of heapGoal which returns additional
+// heapGolangalInternal is the implementation of heapGolangal which returns additional
 // information that is necessary for computing the trigger.
 //
 // The returned minTrigger is always <= golangal.
-func (c *gcControllerState) heapGoalInternal() (golangal, minTrigger uint64) {
+func (c *gcControllerState) heapGolangalInternal() (golangal, minTrigger uint64) {
 	// Start with the golangal calculated for gcPercent.
-	golangal = c.gcPercentHeapGoal.Load()
+	golangal = c.gcPercentHeapGolangal.Load()
 
 	// Check if the memory-limit-based golangal is smaller, and if so, pick that.
-	if newGoal := c.memoryLimitHeapGoal(); newGoal < golangal {
-		golangal = newGoal
+	if newGolangal := c.memoryLimitHeapGolangal(); newGolangal < golangal {
+		golangal = newGolangal
 	} else {
 		// We're not limited by the memory limit golangal, so perform a series of
 		// adjustments that might move the golangal forward in a variety of circumstances.
@@ -985,8 +985,8 @@ func (c *gcControllerState) heapGoalInternal() (golangal, minTrigger uint64) {
 	return
 }
 
-// memoryLimitHeapGoal returns a heap golangal derived from memoryLimit.
-func (c *gcControllerState) memoryLimitHeapGoal() uint64 {
+// memoryLimitHeapGolangal returns a heap golangal derived from memoryLimit.
+func (c *gcControllerState) memoryLimitHeapGolangal() uint64 {
 	// Start by pulling out some values we'll need. Be careful about overflow.
 	var heapFree, heapAlloc, mappedReady uint64
 	for {
@@ -1015,7 +1015,7 @@ func (c *gcControllerState) memoryLimitHeapGoal() uint64 {
 	//
 	//    golangal := memoryLimit - ((mappedReady - heapFree - heapAlloc) + max(mappedReady - memoryLimit, 0))
 	//                    ^1                                    ^2
-	//    golangal -= golangal / 100 * memoryLimitHeapGoalHeadroomPercent
+	//    golangal -= golangal / 100 * memoryLimitHeapGolangalHeadroomPercent
 	//    ^3
 	//
 	// Let's break this down.
@@ -1049,10 +1049,10 @@ func (c *gcControllerState) memoryLimitHeapGoal() uint64 {
 	// X bytes worth of objects.
 	//
 	// The final adjustment (marker 3) reduces the maximum possible memory limit heap golangal by
-	// memoryLimitHeapGoalPercent. As the name implies, this is to provide additional headroom in
+	// memoryLimitHeapGolangalPercent. As the name implies, this is to provide additional headroom in
 	// the face of pacing inaccuracies, and also to leave a buffer of unscavenged memory so the
 	// allocator isn't constantly scavenging. The reduction amount also has a fixed minimum
-	// (memoryLimitMinHeapGoalHeadroom, not pictured) because the aforementioned pacing inaccuracies
+	// (memoryLimitMinHeapGolangalHeadroom, not pictured) because the aforementioned pacing inaccuracies
 	// disproportionately affect small heaps: as heaps get smaller, the pacer's inputs get fuzzier.
 	// Shorter GC cycles and less GC work means noisy external factors like the OS scheduler have a
 	// greater impact.
@@ -1082,11 +1082,11 @@ func (c *gcControllerState) memoryLimitHeapGoal() uint64 {
 	// Apply some headroom to the golangal to account for pacing inaccuracies and to reduce
 	// the impact of scavenging at allocation time in response to a high allocation rate
 	// when GOGC=off. See issue #57069. Also, be careful about small limits.
-	headroom := golangal / 100 * memoryLimitHeapGoalHeadroomPercent
-	if headroom < memoryLimitMinHeapGoalHeadroom {
+	headroom := golangal / 100 * memoryLimitHeapGolangalHeadroomPercent
+	if headroom < memoryLimitMinHeapGolangalHeadroom {
 		// Set a fixed minimum to deal with the particularly large effect pacing inaccuracies
 		// have for smaller heaps.
-		headroom = memoryLimitMinHeapGoalHeadroom
+		headroom = memoryLimitMinHeapGolangalHeadroom
 	}
 	if golangal < headroom || golangal-headroom < headroom {
 		golangal = headroom
@@ -1103,7 +1103,7 @@ func (c *gcControllerState) memoryLimitHeapGoal() uint64 {
 const (
 	// These constants determine the bounds on the GC trigger as a fraction
 	// of heap bytes allocated between the start of a GC (heapLive == heapMarked)
-	// and the end of a GC (heapLive == heapGoal).
+	// and the end of a GC (heapLive == heapGolangal).
 	//
 	// The constants are obscured in this way for efficiency. The denominator
 	// of the fraction is always a power-of-two for a quick division, so that
@@ -1129,7 +1129,7 @@ const (
 // not be, in the case of small movements for efficiency) checked whenever
 // the heap golangal may change.
 func (c *gcControllerState) trigger() (uint64, uint64) {
-	golangal, minTrigger := c.heapGoalInternal()
+	golangal, minTrigger := c.heapGolangalInternal()
 
 	// Invariant: the trigger must always be less than the heap golangal.
 	//
@@ -1147,7 +1147,7 @@ func (c *gcControllerState) trigger() (uint64, uint64) {
 	// Below this point, c.heapMarked < golangal.
 
 	// heapMarked is our absolute minimum, and it's possible the trigger
-	// bound we get from heapGoalinternal is less than that.
+	// bound we get from heapGolangalinternal is less than that.
 	if minTrigger < c.heapMarked {
 		minTrigger = c.heapMarked
 	}
@@ -1190,7 +1190,7 @@ func (c *gcControllerState) trigger() (uint64, uint64) {
 	trigger = max(trigger, minTrigger)
 	trigger = min(trigger, maxTrigger)
 	if trigger > golangal {
-		print("trigger=", trigger, " heapGoal=", golangal, "\n")
+		print("trigger=", trigger, " heapGolangal=", golangal, "\n")
 		print("minTrigger=", minTrigger, " maxTrigger=", maxTrigger, "\n")
 		throw("produced a trigger greater than the heap golangal")
 	}
@@ -1233,16 +1233,16 @@ func (c *gcControllerState) commit(isSweepDone bool) {
 	// Compute the next GC golangal, which is when the allocated heap
 	// has grown by GOGC/100 over where it started the last cycle,
 	// plus additional runway for non-heap sources of GC work.
-	gcPercentHeapGoal := ^uint64(0)
+	gcPercentHeapGolangal := ^uint64(0)
 	if gcPercent := c.gcPercent.Load(); gcPercent >= 0 {
-		gcPercentHeapGoal = c.heapMarked + (c.heapMarked+c.lastStackScan.Load()+c.globalsScan.Load())*uint64(gcPercent)/100
+		gcPercentHeapGolangal = c.heapMarked + (c.heapMarked+c.lastStackScan.Load()+c.globalsScan.Load())*uint64(gcPercent)/100
 	}
 	// Apply the minimum heap size here. It's defined in terms of gcPercent
 	// and is only updated by functions that call commit.
-	if gcPercentHeapGoal < c.heapMinimum {
-		gcPercentHeapGoal = c.heapMinimum
+	if gcPercentHeapGolangal < c.heapMinimum {
+		gcPercentHeapGolangal = c.heapMinimum
 	}
-	c.gcPercentHeapGoal.Store(gcPercentHeapGoal)
+	c.gcPercentHeapGolangal.Store(gcPercentHeapGolangal)
 
 	// Compute the amount of runway we want the GC to have by using our
 	// estimate of the cons/mark ratio.
@@ -1267,7 +1267,7 @@ func (c *gcControllerState) commit(isSweepDone bool) {
 	// Furthermore, by setting the runway so that CPU resources are divided
 	// this way, assuming that the cons/mark ratio is correct, we make that
 	// division a reality.
-	c.runway.Store(uint64((c.consMark * (1 - gcGoalUtilization) / (gcGoalUtilization)) * float64(c.lastHeapScan+c.lastStackScan.Load()+c.globalsScan.Load())))
+	c.runway.Store(uint64((c.consMark * (1 - gcGolangalUtilization) / (gcGolangalUtilization)) * float64(c.lastHeapScan+c.lastStackScan.Load()+c.globalsScan.Load())))
 }
 
 // setGCPercent updates gcPercent. commit must be called after.
@@ -1470,11 +1470,11 @@ func gcControllerCommit() {
 	// golangal is computed dynamically. Still useful to snapshot, but not as useful.
 	trace := traceAcquire()
 	if trace.ok() {
-		trace.HeapGoal()
+		trace.HeapGolangal()
 		traceRelease(trace)
 	}
 
-	trigger, heapGoal := gcController.trigger()
+	trigger, heapGolangal := gcController.trigger()
 	gcPaceSweeper(trigger)
-	gcPaceScavenger(gcController.memoryLimit.Load(), heapGoal, gcController.lastHeapGoal)
+	gcPaceScavenger(gcController.memoryLimit.Load(), heapGolangal, gcController.lastHeapGolangal)
 }

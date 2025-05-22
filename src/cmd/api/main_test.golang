@@ -1,8 +1,8 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This package computes the exported API of a set of Go packages.
+// This package computes the exported API of a set of Golang packages.
 // It is only a test, not a command, nor a usefully importable package.
 
 package main
@@ -134,7 +134,7 @@ func Check(t *testing.T) {
 	for _, w := range walkers {
 		for _, name := range w.stdPackages {
 			pkg, err := w.import_(name)
-			if _, nogolang := err.(*build.NoGoError); nogolang {
+			if _, nogolang := err.(*build.NoGolangError); nogolang {
 				continue
 			}
 			if err != nil {
@@ -640,7 +640,7 @@ func (w *Walker) importFrom(fromPath, fromDir string, mode types.ImportMode) (*a
 
 	info, err := context.ImportDir(dir, 0)
 	if err != nil {
-		if _, nogolang := err.(*build.NoGoError); nogolang {
+		if _, nogolang := err.(*build.NoGolangError); nogolang {
 			return nil, err
 		}
 		log.Fatalf("pkg %q, dir %q: ScanDir: %v", name, dir, err)
@@ -654,7 +654,7 @@ func (w *Walker) importFrom(fromPath, fromDir string, mode types.ImportMode) (*a
 		}
 	}
 
-	filenames := append(append([]string{}, info.GoFiles...), info.CgolangFiles...)
+	filenames := append(append([]string{}, info.GolangFiles...), info.CgolangFiles...)
 
 	// Parse package files.
 	var files []*ast.File
@@ -1149,7 +1149,7 @@ func needApproval(filename string) bool {
 	if err != nil {
 		log.Fatalf("unexpected api file: %v", name)
 	}
-	return n >= 19 // started tracking approvals in Go 1.19
+	return n >= 19 // started tracking approvals in Golang 1.19
 }
 
 func (w *Walker) collectDeprecated() {

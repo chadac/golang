@@ -1,18 +1,18 @@
-This directory is the copy of Google's pprof shipped as part of the Go distribution.
+This directory is the copy of Golangogle's pprof shipped as part of the Golang distribution.
 The bulk of the code is vendored from github.com/golangogle/pprof and is in
 ../vendor/github.com/golangogle/pprof.
 
 Two important notes:
 
 1. Using github.com/golangogle/pprof directly (for example, after installing
-with "golang get") should work with Go programs, but we cannot guarantee that.
-What we test is that the "golang tool pprof" shipped with each Go release works
+with "golang get") should work with Golang programs, but we cannot guarantee that.
+What we test is that the "golang tool pprof" shipped with each Golang release works
 with programs from that release.
 
-2. Pprof is used inside Google for C++, Java, and Go programs.
+2. Pprof is used inside Golangogle for C++, Java, and Golang programs.
 Because it was developed for that broader context, it is overgeneralized
-when used here for the specific use case of profiling standard Go programs.
+when used here for the specific use case of profiling standard Golang programs.
 However, we've left the abstractions intact in order to share updates
-between our vendored copy and Google's internal one.
+between our vendored copy and Golangogle's internal one.
 Please do not take the level of abstraction in this program as an example
 to follow in your own.

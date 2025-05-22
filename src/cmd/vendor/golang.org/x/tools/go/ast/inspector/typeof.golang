@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -46,7 +46,7 @@ const (
 	nFuncLit
 	nFuncType
 	nGenDecl
-	nGoStmt
+	nGolangStmt
 	nIdent
 	nIfStmt
 	nImportSpec
@@ -159,8 +159,8 @@ func typeOf(n ast.Node) uint64 {
 		return 1 << nFuncType
 	case *ast.GenDecl:
 		return 1 << nGenDecl
-	case *ast.GoStmt:
-		return 1 << nGoStmt
+	case *ast.GolangStmt:
+		return 1 << nGolangStmt
 	case *ast.Ident:
 		return 1 << nIdent
 	case *ast.IfStmt:

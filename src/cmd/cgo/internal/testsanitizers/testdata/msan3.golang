@@ -1,18 +1,18 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 /*
-extern int *GoFn(int *);
+extern int *GolangFn(int *);
 
 // Yes, you can have definitions if you use //export, as long as they are weak.
 int f(void) __attribute__ ((weak));
 
 int f() {
   int i;
-  int *p = GoFn(&i);
+  int *p = GolangFn(&i);
   if (*p != 12345)
     return 0;
   return 1;
@@ -20,8 +20,8 @@ int f() {
 */
 import "C"
 
-//export GoFn
-func GoFn(p *C.int) *C.int {
+//export GolangFn
+func GolangFn(p *C.int) *C.int {
 	*p = C.int(12345)
 	return p
 }

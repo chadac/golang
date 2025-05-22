@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,11 +16,11 @@ import (
 	"syscall"
 )
 
-// execGoToolchain execs the Go toolchain with the given name (golangtoolchain),
+// execGolangToolchain execs the Golang toolchain with the given name (golangtoolchain),
 // GOROOT directory, and golang command executable.
 // The GOROOT directory is empty if we are invoking a command named
 // golangtoolchain found in $PATH.
-func execGoToolchain(golangtoolchain, dir, exe string) {
+func execGolangToolchain(golangtoolchain, dir, exe string) {
 	os.Setenv(targetEnv, golangtoolchain)
 	if dir == "" {
 		os.Unsetenv("GOROOT")

@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -140,7 +140,7 @@ func testDisasm(t *testing.T, srcfname string, printCode bool, printGnuAsm bool,
 	args := []string{"build", "-o", hello}
 	args = append(args, flags...)
 	args = append(args, srcfname)
-	cmd := testenv.Command(t, testenv.GoToolPath(t), args...)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), args...)
 	// "Bad line" bug #36683 is sensitive to being run in the source directory.
 	cmd.Dir = "testdata"
 	t.Logf("Running %v", cmd.Args)
@@ -243,7 +243,7 @@ func testDisasm(t *testing.T, srcfname string, printCode bool, printGnuAsm bool,
 	}
 }
 
-func testGoAndCgolangDisasm(t *testing.T, printCode bool, printGnuAsm bool) {
+func testGolangAndCgolangDisasm(t *testing.T, printCode bool, printGnuAsm bool) {
 	t.Parallel()
 	testDisasm(t, "fmthello.golang", printCode, printGnuAsm)
 	if testenv.HasCGO() {
@@ -252,15 +252,15 @@ func testGoAndCgolangDisasm(t *testing.T, printCode bool, printGnuAsm bool) {
 }
 
 func TestDisasm(t *testing.T) {
-	testGoAndCgolangDisasm(t, false, false)
+	testGolangAndCgolangDisasm(t, false, false)
 }
 
 func TestDisasmCode(t *testing.T) {
-	testGoAndCgolangDisasm(t, true, false)
+	testGolangAndCgolangDisasm(t, true, false)
 }
 
 func TestDisasmGnuAsm(t *testing.T) {
-	testGoAndCgolangDisasm(t, false, true)
+	testGolangAndCgolangDisasm(t, false, true)
 }
 
 func TestDisasmExtld(t *testing.T) {
@@ -285,9 +285,9 @@ func TestDisasmPIE(t *testing.T) {
 	testDisasm(t, "fmthello.golang", false, false, "-buildmode=pie")
 }
 
-func TestDisasmGoobj(t *testing.T) {
+func TestDisasmGolangobj(t *testing.T) {
 	mustHaveDisasm(t)
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	tmp := t.TempDir()
 
@@ -297,7 +297,7 @@ func TestDisasmGoobj(t *testing.T) {
 	hello := filepath.Join(tmp, "hello.o")
 	args := []string{"tool", "compile", "-p=main", "-importcfg=" + importcfgfile, "-o", hello}
 	args = append(args, "testdata/fmthello.golang")
-	out, err := testenv.Command(t, testenv.GoToolPath(t), args...).CombinedOutput()
+	out, err := testenv.Command(t, testenv.GolangToolPath(t), args...).CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang tool compile fmthello.golang: %v\n%s", err, out)
 	}
@@ -335,9 +335,9 @@ func TestDisasmGoobj(t *testing.T) {
 	}
 }
 
-func TestGoobjFileNumber(t *testing.T) {
-	// Test that file table in Go object file is parsed correctly.
-	testenv.MustHaveGoBuild(t)
+func TestGolangobjFileNumber(t *testing.T) {
+	// Test that file table in Golang object file is parsed correctly.
+	testenv.MustHaveGolangBuild(t)
 	mustHaveDisasm(t)
 
 	t.Parallel()
@@ -345,7 +345,7 @@ func TestGoobjFileNumber(t *testing.T) {
 	tmp := t.TempDir()
 
 	obj := filepath.Join(tmp, "p.a")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", obj)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", obj)
 	cmd.Dir = filepath.Join("testdata/testfilenum")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -370,7 +370,7 @@ func TestGoobjFileNumber(t *testing.T) {
 	}
 }
 
-func TestGoObjOtherVersion(t *testing.T) {
+func TestGolangObjOtherVersion(t *testing.T) {
 	t.Parallel()
 
 	obj := filepath.Join("testdata", "golang116.o")

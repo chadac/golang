@@ -60,7 +60,7 @@ var FoldCategolangry <type 18 map [<type -16>] <type 1>>;
 var FoldScript <type 19 map [<type -16>] <type 1>>;
 var Georgian <type 1>;
 var Glagolanglitic <type 1>;
-var Gothic <type 1>;
+var Golangthic <type 1>;
 var Grantha <type 1>;
 var GraphicRanges <type 20 [] <type 21 *<type 2>>>;
 var Greek <type 1>;

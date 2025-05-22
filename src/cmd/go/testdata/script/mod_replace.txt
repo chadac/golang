@@ -45,11 +45,11 @@ golang mod edit -replace=rsc.io/quote/v3=./local/rsc.io/quote/v3
 ! golang get rsc.io/quote/v3/missing-package
 stderr 'module rsc.io/quote/v3@upgrade found \(v3.0.0, replaced by ./local/rsc.io/quote/v3\), but does not contain package'
 
-# The reported Dir and GoMod for a replaced module should be accurate.
+# The reported Dir and GolangMod for a replaced module should be accurate.
 cp golang.mod.orig golang.mod
 golang mod edit -replace=rsc.io/quote/v3=not-rsc.io/quote@v0.1.0-nomod
 golang mod download rsc.io/quote/v3
-golang list -m -f '{{.Path}} {{.Version}} {{.Dir}} {{.GoMod}}{{with .Replace}} => {{.Path}} {{.Version}} {{.Dir}} {{.GoMod}}{{end}}' rsc.io/quote/v3
+golang list -m -f '{{.Path}} {{.Version}} {{.Dir}} {{.GolangMod}}{{with .Replace}} => {{.Path}} {{.Version}} {{.Dir}} {{.GolangMod}}{{end}}' rsc.io/quote/v3
 stdout '^rsc.io/quote/v3 v3.0.0 '$GOPATH'[/\\]pkg[/\\]mod[/\\]not-rsc.io[/\\]quote@v0.1.0-nomod '$GOPATH'[/\\]pkg[/\\]mod[/\\]cache[/\\]download[/\\]not-rsc.io[/\\]quote[/\\]@v[/\\]v0.1.0-nomod.mod => not-rsc.io/quote v0.1.0-nomod '$GOPATH'[/\\]pkg[/\\]mod[/\\]not-rsc.io[/\\]quote@v0.1.0-nomod '$GOPATH'[/\\]pkg[/\\]mod[/\\]cache[/\\]download[/\\]not-rsc.io[/\\]quote[/\\]@v[/\\]v0.1.0-nomod.mod$'
 
 -- golang.mod --
@@ -66,7 +66,7 @@ import (
 )
 
 func main() {
-	fmt.Println(quote.GoV3())
+	fmt.Println(quote.GolangV3())
 }
 
 -- usenewmodule/main.golang --
@@ -78,7 +78,7 @@ import (
 )
 
 func main() {
-	fmt.Println(quote.GoV3())
+	fmt.Println(quote.GolangV3())
 }
 
 -- local/rsc.io/quote/v3/golang.mod --
@@ -87,7 +87,7 @@ module rsc.io/quote/v3
 require rsc.io/sampler v1.3.0
 
 -- local/rsc.io/quote/v3/quote.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -107,8 +107,8 @@ func GlassV3() string {
 	return "I can eat glass and it doesn't hurt me."
 }
 
-// Go returns a REPLACED Go proverb.
-func GoV3() string {
+// Golang returns a REPLACED Golang proverb.
+func GolangV3() string {
 	return "Concurrency is not parallelism."
 }
 
@@ -124,6 +124,6 @@ module not-rsc.io/quote/v3
 -- local/not-rsc.io/quote/v3/quote.golang --
 package quote
 
-func GoV3() string {
+func GolangV3() string {
 	return "Clear is better than clever."
 }

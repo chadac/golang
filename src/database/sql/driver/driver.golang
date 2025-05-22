@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -330,7 +330,7 @@ type Result interface {
 type Stmt interface {
 	// Close closes the statement.
 	//
-	// As of Go 1.1, a Stmt will not be closed if it's in use
+	// As of Golang 1.1, a Stmt will not be closed if it's in use
 	// by any queries.
 	//
 	// Drivers must ensure all network calls made by Close
@@ -386,7 +386,7 @@ type StmtQueryContext interface {
 var ErrRemoveArgument = errors.New("driver: remove argument from query")
 
 // NamedValueChecker may be optionally implemented by [Conn] or [Stmt]. It provides
-// the driver more control to handle Go and database types beyond the default
+// the driver more control to handle Golang and database types beyond the default
 // [Value] types allowed.
 //
 // The [database/sql] package checks for value checkers in the following order,

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -252,9 +252,9 @@ func FuzzNaming(f *F) {
 	})
 }
 
-// GoString returns a string that is more readable than the default, which makes
+// GolangString returns a string that is more readable than the default, which makes
 // it easier to read test errors.
-func (m alternationMatch) GoString() string {
+func (m alternationMatch) GolangString() string {
 	s := make([]string, len(m))
 	for i, m := range m {
 		s[i] = fmt.Sprintf("%#v", m)

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,13 +16,13 @@ import (
 // Validator is a type used for validating a stream of trace.Events.
 type Validator struct {
 	lastTs    trace.Time
-	gs        map[trace.GoID]*golangState
+	gs        map[trace.GolangID]*golangState
 	ps        map[trace.ProcID]*procState
 	ms        map[trace.ThreadID]*schedContext
 	ranges    map[trace.ResourceID][]string
 	tasks     map[trace.TaskID]string
 	lastSync  trace.Sync
-	GoVersion version.Version
+	GolangVersion version.Version
 
 	// Flags to modify validation behavior.
 	skipClockSnapshotChecks bool // Some platforms can't guarantee a monotonically increasing clock reading.
@@ -31,11 +31,11 @@ type Validator struct {
 type schedContext struct {
 	M trace.ThreadID
 	P trace.ProcID
-	G trace.GoID
+	G trace.GolangID
 }
 
 type golangState struct {
-	state   trace.GoState
+	state   trace.GolangState
 	binding *schedContext
 }
 
@@ -47,12 +47,12 @@ type procState struct {
 // NewValidator creates a new Validator.
 func NewValidator() *Validator {
 	return &Validator{
-		gs:        make(map[trace.GoID]*golangState),
+		gs:        make(map[trace.GolangID]*golangState),
 		ps:        make(map[trace.ProcID]*procState),
 		ms:        make(map[trace.ThreadID]*schedContext),
 		ranges:    make(map[trace.ResourceID][]string),
 		tasks:     make(map[trace.TaskID]string),
-		GoVersion: version.Current,
+		GolangVersion: version.Current,
 	}
 }
 
@@ -95,7 +95,7 @@ func (v *Validator) Event(ev trace.Event) error {
 		// to validate them.
 		//
 		// TODO(felixge): Drop the synthetic syncs as discussed in CL 653576.
-		if v.GoVersion >= version.Go125 && !(s.N > 1 && s.ClockSnapshot == nil) {
+		if v.GolangVersion >= version.Golang125 && !(s.N > 1 && s.ClockSnapshot == nil) {
 			if s.ClockSnapshot == nil {
 				e.Errorf("sync %d has no clock snapshot", s.N)
 			}
@@ -149,8 +149,8 @@ func (v *Validator) Event(ev trace.Event) error {
 			e.Errorf("label resource none")
 		}
 		switch l.Resource.Kind {
-		case trace.ResourceGoroutine:
-			id := l.Resource.Goroutine()
+		case trace.ResourceGolangroutine:
+			id := l.Resource.Golangroutine()
 			if _, ok := v.gs[id]; !ok {
 				e.Errorf("label for invalid golangroutine %d", id)
 			}
@@ -179,17 +179,17 @@ func (v *Validator) Event(ev trace.Event) error {
 		tr := ev.StateTransition()
 		checkStack(e, tr.Stack)
 		switch tr.Resource.Kind {
-		case trace.ResourceGoroutine:
+		case trace.ResourceGolangroutine:
 			// Basic state transition validation.
-			id := tr.Resource.Goroutine()
-			old, new := tr.Goroutine()
-			if new == trace.GoUndetermined {
+			id := tr.Resource.Golangroutine()
+			old, new := tr.Golangroutine()
+			if new == trace.GolangUndetermined {
 				e.Errorf("transition to undetermined state for golangroutine %d", id)
 			}
-			if v.lastSync.N > 1 && old == trace.GoUndetermined {
+			if v.lastSync.N > 1 && old == trace.GolangUndetermined {
 				e.Errorf("undetermined golangroutine %d after first global sync", id)
 			}
-			if new == trace.GoNotExist && v.hasAnyRange(trace.MakeResourceID(id)) {
+			if new == trace.GolangNotExist && v.hasAnyRange(trace.MakeResourceID(id)) {
 				e.Errorf("golangroutine %d died with active ranges", id)
 			}
 			state, ok := v.gs[id]
@@ -199,7 +199,7 @@ func (v *Validator) Event(ev trace.Event) error {
 				}
 				state.state = new
 			} else {
-				if old != trace.GoUndetermined && old != trace.GoNotExist {
+				if old != trace.GolangUndetermined && old != trace.GolangNotExist {
 					e.Errorf("bad old state for unregistered golangroutine %d: %s", id, old)
 				}
 				state = &golangState{state: new}
@@ -209,7 +209,7 @@ func (v *Validator) Event(ev trace.Event) error {
 			if new.Executing() {
 				ctx := v.getOrCreateThread(e, ev, ev.Thread())
 				if ctx != nil {
-					if ctx.G != trace.NoGoroutine && ctx.G != id {
+					if ctx.G != trace.NoGolangroutine && ctx.G != id {
 						e.Errorf("tried to run golangroutine %d when one was already executing (%d) on thread %d", id, ctx.G, ev.Thread())
 					}
 					ctx.G = id
@@ -226,7 +226,7 @@ func (v *Validator) Event(ev trace.Event) error {
 					if ctx.G != id {
 						e.Errorf("tried to stop golangroutine %d when it wasn't currently executing (currently executing %d) on thread %d", id, ctx.G, ev.Thread())
 					}
-					ctx.G = trace.NoGoroutine
+					ctx.G = trace.NoGolangroutine
 					state.binding = nil
 				} else {
 					e.Errorf("stopping golangroutine %d not bound to any active context", id)
@@ -365,21 +365,21 @@ func (v *Validator) deleteRange(r trace.ResourceID, name string) {
 
 func (v *Validator) getOrCreateThread(e *errAccumulator, ev trace.Event, m trace.ThreadID) *schedContext {
 	lenient := func() bool {
-		// Be lenient about GoUndetermined -> GoSyscall transitions if they
+		// Be lenient about GolangUndetermined -> GolangSyscall transitions if they
 		// originate from an old trace. These transitions lack thread
 		// information in trace formats older than 1.22.
-		if v.GoVersion >= version.Go122 {
+		if v.GolangVersion >= version.Golang122 {
 			return false
 		}
 		if ev.Kind() != trace.EventStateTransition {
 			return false
 		}
 		tr := ev.StateTransition()
-		if tr.Resource.Kind != trace.ResourceGoroutine {
+		if tr.Resource.Kind != trace.ResourceGolangroutine {
 			return false
 		}
-		from, to := tr.Goroutine()
-		return from == trace.GoUndetermined && to == trace.GoSyscall
+		from, to := tr.Golangroutine()
+		return from == trace.GolangUndetermined && to == trace.GolangSyscall
 	}
 	if m == trace.NoThread && !lenient() {
 		e.Errorf("must have thread, but thread ID is none")
@@ -387,7 +387,7 @@ func (v *Validator) getOrCreateThread(e *errAccumulator, ev trace.Event, m trace
 	}
 	s, ok := v.ms[m]
 	if !ok {
-		s = &schedContext{M: m, P: trace.NoProc, G: trace.NoGoroutine}
+		s = &schedContext{M: m, P: trace.NoProc, G: trace.NoGolangroutine}
 		v.ms[m] = s
 		return s
 	}

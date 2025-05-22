@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1053,12 +1053,12 @@ func TestReadResponseErrors(t *testing.T) {
 		version("HTTP/1", true),
 		version("http/1.1", true),
 
-		contentLength("200 OK", "Content-Length: 10\r\nContent-Length: 7\r\n\r\nGopher hey\r\n", errMultiCL),
-		contentLength("200 OK", "Content-Length: 7\r\nContent-Length: 7\r\n\r\nGophers\r\n", nil),
-		contentLength("201 OK", "Content-Length: 0\r\nContent-Length: 7\r\n\r\nGophers\r\n", errMultiCL),
-		contentLength("300 OK", "Content-Length: 0\r\nContent-Length: 0 \r\n\r\nGophers\r\n", nil),
-		contentLength("200 OK", "Content-Length:\r\nContent-Length:\r\n\r\nGophers\r\n", errEmptyCL),
-		contentLength("206 OK", "Content-Length:\r\nContent-Length: 0 \r\nConnection: close\r\n\r\nGophers\r\n", errMultiCL),
+		contentLength("200 OK", "Content-Length: 10\r\nContent-Length: 7\r\n\r\nGolangpher hey\r\n", errMultiCL),
+		contentLength("200 OK", "Content-Length: 7\r\nContent-Length: 7\r\n\r\nGolangphers\r\n", nil),
+		contentLength("201 OK", "Content-Length: 0\r\nContent-Length: 7\r\n\r\nGolangphers\r\n", errMultiCL),
+		contentLength("300 OK", "Content-Length: 0\r\nContent-Length: 0 \r\n\r\nGolangphers\r\n", nil),
+		contentLength("200 OK", "Content-Length:\r\nContent-Length:\r\n\r\nGolangphers\r\n", errEmptyCL),
+		contentLength("206 OK", "Content-Length:\r\nContent-Length: 0 \r\nConnection: close\r\n\r\nGolangphers\r\n", errMultiCL),
 
 		// multiple content-length headers for 204 and 304 should still be checked
 		contentLength("204 OK", "Content-Length: 7\r\nContent-Length: 8\r\n\r\n", errMultiCL),

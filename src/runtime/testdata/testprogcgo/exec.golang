@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@ package main
 #include <pthread.h>
 
 // Save the signal mask at startup so that we see what it is before
-// the Go runtime starts setting up signals.
+// the Golang runtime starts setting up signals.
 
 static sigset_t mask;
 

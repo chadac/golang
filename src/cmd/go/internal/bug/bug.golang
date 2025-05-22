@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -48,7 +48,7 @@ func runBug(ctx context.Context, cmd *base.Command, args []string) {
 
 	var buf strings.Builder
 	buf.WriteString(bugHeader)
-	printGoVersion(&buf)
+	printGolangVersion(&buf)
 	buf.WriteString("### Does this issue reproduce with the latest release?\n\n\n")
 	printEnvDetails(&buf)
 	buf.WriteString(bugFooter)
@@ -82,8 +82,8 @@ A link on play.golanglang.org is best.
 
 `
 
-func printGoVersion(w io.Writer) {
-	fmt.Fprintf(w, "### What version of Go are you using (`golang version`)?\n\n")
+func printGolangVersion(w io.Writer) {
+	fmt.Fprintf(w, "### What version of Golang are you using (`golang version`)?\n\n")
 	fmt.Fprintf(w, "<pre>\n")
 	fmt.Fprintf(w, "$ golang version\n")
 	fmt.Fprintf(w, "golang version %s %s/%s\n", runtime.Version(), runtime.GOOS, runtime.GOARCH)
@@ -95,21 +95,21 @@ func printEnvDetails(w io.Writer) {
 	fmt.Fprintf(w, "### What operating system and processor architecture are you using (`golang env`)?\n\n")
 	fmt.Fprintf(w, "<details><summary><code>golang env</code> Output</summary><br><pre>\n")
 	fmt.Fprintf(w, "$ golang env\n")
-	printGoEnv(w)
-	printGoDetails(w)
+	printGolangEnv(w)
+	printGolangDetails(w)
 	printOSDetails(w)
 	printCDetails(w)
 	fmt.Fprintf(w, "</pre></details>\n\n")
 }
 
-func printGoEnv(w io.Writer) {
+func printGolangEnv(w io.Writer) {
 	env := envcmd.MkEnv()
 	env = append(env, envcmd.ExtraEnvVars()...)
 	env = append(env, envcmd.ExtraEnvVarsCostly()...)
 	envcmd.PrintEnv(w, env, false)
 }
 
-func printGoDetails(w io.Writer) {
+func printGolangDetails(w io.Writer) {
 	golangcmd := filepath.Join(runtime.GOROOT(), "bin/golang")
 	printCmdOut(w, "GOROOT/bin/golang version: ", golangcmd, "version")
 	printCmdOut(w, "GOROOT/bin/golang tool compile -V: ", golangcmd, "tool", "compile", "-V")

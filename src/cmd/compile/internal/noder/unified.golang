@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -367,7 +367,7 @@ func writePkgStub(m posMap, noders []*noder) string {
 func freePackage(pkg *types2.Package) {
 	// The GC test below relies on a precise GC that runs finalizers as
 	// soon as objects are unreachable. Our implementation provides
-	// this, but other/older implementations may not (e.g., Go 1.4 does
+	// this, but other/older implementations may not (e.g., Golang 1.4 does
 	// not because of #22350). To avoid imposing unnecessary
 	// restrictions on the GOROOT_BOOTSTRAP toolchain, we skip the test
 	// during bootstrapping.

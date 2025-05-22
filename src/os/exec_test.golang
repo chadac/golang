@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -36,12 +36,12 @@ func TestProcessLiteral(t *testing.T) {
 	case <-time.After(1 * time.Second):
 		t.Error("timeout waiting for signal")
 	case <-c:
-		// Good
+		// Golangod
 	}
 }
 
 func TestProcessReleaseTwice(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	r, w, err := os.Pipe()
@@ -51,7 +51,7 @@ func TestProcessReleaseTwice(t *testing.T) {
 	defer r.Close()
 	defer w.Close()
 
-	p, err := os.StartProcess(testenv.GoToolPath(t), []string{"golang"}, &os.ProcAttr{
+	p, err := os.StartProcess(testenv.GolangToolPath(t), []string{"golang"}, &os.ProcAttr{
 		// N.B. On Windows, StartProcess requires exactly 3 Files. Pass
 		// in a dummy pipe to avoid irrelevant output on the test stdout.
 		Files: []*os.File{r, w, w},

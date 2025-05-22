@@ -1,5 +1,5 @@
 -- input --
-The Go home page is https://golang.dev/.
+The Golang home page is https://golang.dev/.
 It used to be https://golanglang.org.
 https:// is not a link.
 Nor is https://
@@ -7,7 +7,7 @@ https://☺ is not a link.
 https://:80 is not a link.
 
 -- golangfmt --
-The Go home page is https://golang.dev/.
+The Golang home page is https://golang.dev/.
 It used to be https://golanglang.org.
 https:// is not a link.
 Nor is https://
@@ -15,15 +15,15 @@ https://☺ is not a link.
 https://:80 is not a link.
 
 -- text --
-The Go home page is https://golang.dev/. It used to be https://golanglang.org. https://
+The Golang home page is https://golang.dev/. It used to be https://golanglang.org. https://
 is not a link. Nor is https:// https://☺ is not a link. https://:80 is not a
 link.
 
 -- markdown --
-The Go home page is [https://golang.dev/](https://golang.dev/). It used to be [https://golanglang.org](https://golanglang.org). https:// is not a link. Nor is https:// https://☺ is not a link. https://:80 is not a link.
+The Golang home page is [https://golang.dev/](https://golang.dev/). It used to be [https://golanglang.org](https://golanglang.org). https:// is not a link. Nor is https:// https://☺ is not a link. https://:80 is not a link.
 
 -- html --
-<p>The Go home page is <a href="https://golang.dev/">https://golang.dev/</a>.
+<p>The Golang home page is <a href="https://golang.dev/">https://golang.dev/</a>.
 It used to be <a href="https://golanglang.org">https://golanglang.org</a>.
 https:// is not a link.
 Nor is https://

@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,15 +40,15 @@ func transformMarshalError(root any, err error) error {
 		if err.Err == nil {
 			// Historically, this was only reported for unserializable types
 			// like complex numbers, channels, functions, and unsafe.Pointers.
-			return &UnsupportedTypeError{Type: err.GoType}
+			return &UnsupportedTypeError{Type: err.GolangType}
 		} else {
 			// Historically, this was only reported for NaN or ±Inf values
 			// and cycles detected in the value.
 			// The Val used to be populated with the reflect.Value,
 			// but this is no longer supported.
 			errStr := err.Err.Error()
-			if err.Err == internal.ErrCycle && err.GoType != nil {
-				errStr += " via " + err.GoType.String()
+			if err.Err == internal.ErrCycle && err.GolangType != nil {
+				errStr += " via " + err.GolangType.String()
 			}
 			errStr = strings.TrimPrefix(errStr, "unsupported value: ")
 			return &UnsupportedValueError{Str: errStr}
@@ -68,7 +68,7 @@ func transformUnmarshalError(root any, err error) error {
 	// returned verbatim while operating under [ReportErrorsWithLegacySemantics].
 	if err, ok := err.(*jsonv2.SemanticError); err != nil {
 		if err.Err == internal.ErrNonNilReference {
-			return &InvalidUnmarshalError{err.GoType}
+			return &InvalidUnmarshalError{err.GolangType}
 		}
 		if err.Err == jsonv2.ErrUnknownName {
 			return fmt.Errorf("json: unknown field %q", err.JSONPointer.LastToken())
@@ -119,7 +119,7 @@ func transformUnmarshalError(root any, err error) error {
 				}
 				return false
 			}
-			if isStrconvError && isNumericKind(err.GoType) {
+			if isStrconvError && isNumericKind(err.GolangType) {
 				value = "number"
 				if err.JSONKind == '"' {
 					err.JSONValue, _ = jsontext.AppendUnquote(nil, err.JSONValue)
@@ -140,7 +140,7 @@ func transformUnmarshalError(root any, err error) error {
 		fieldPath = strings.ReplaceAll(fieldPath, "/", ".")
 		return &UnmarshalTypeError{
 			Value:  value,
-			Type:   err.GoType,
+			Type:   err.GolangType,
 			Offset: err.ByteOffset,
 			Struct: rootName,
 			Field:  fieldPath,

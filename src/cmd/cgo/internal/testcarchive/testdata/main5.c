@@ -1,9 +1,9 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test for verifying that the Go runtime properly forwards
-// signals when non-Go signals are raised.
+// Test for verifying that the Golang runtime properly forwards
+// signals when non-Golang signals are raised.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
 			// fiddling to handle SIGCHLD.  If this
 			// program is fiddling signals just when the
 			// test program sends the signal, the signal
-			// may be delivered to a Go thread which will
+			// may be delivered to a Golang thread which will
 			// break this test.
 			tv.tv_sec = 60;
 			tv.tv_usec = 0;

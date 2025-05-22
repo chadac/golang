@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,7 +23,7 @@ func TestLargeBranch(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping test in short mode")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	dir := t.TempDir()
 
@@ -37,7 +37,7 @@ func TestLargeBranch(t *testing.T) {
 	}
 
 	// Assemble generated file.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), tmpfile)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), tmpfile)
 	cmd.Env = append(os.Environ(), "GOARCH=loong64", "GOOS=linux")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -85,7 +85,7 @@ func genLargeBranch(buf *bytes.Buffer) {
 // TestPCALIGN verifies the correctness of the PCALIGN by checking if the
 // code can be aligned to the alignment value.
 func TestPCALIGN(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	dir := t.TempDir()
 	tmpfile := filepath.Join(dir, "testpcalign.s")
 	tmpout := filepath.Join(dir, "testpcalign.o")
@@ -109,7 +109,7 @@ func TestPCALIGN(t *testing.T) {
 		if err := os.WriteFile(tmpfile, test.source, 0644); err != nil {
 			t.Fatal(err)
 		}
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-S", "-o", tmpout, tmpfile)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-S", "-o", tmpout, tmpfile)
 		cmd.Env = append(os.Environ(), "GOARCH=loong64", "GOOS=linux")
 		out, err := cmd.CombinedOutput()
 		if err != nil {
@@ -133,7 +133,7 @@ func TestNoRet(t *testing.T) {
 	if err := os.WriteFile(tmpfile, []byte("TEXT ·foo(SB),$0-0\nNOP\n"), 0644); err != nil {
 		t.Fatal(err)
 	}
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-o", tmpout, tmpfile)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-o", tmpout, tmpfile)
 	cmd.Env = append(os.Environ(), "GOARCH=loong64", "GOOS=linux")
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Errorf("%v\n%s", err, out)
@@ -147,7 +147,7 @@ func TestLargeCall(t *testing.T) {
 	if runtime.GOARCH != "loong64" {
 		t.Skip("Require loong64 to run")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	dir := t.TempDir()
 
@@ -175,7 +175,7 @@ func a()
 	}
 
 	// Build generated files.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build")
 	cmd.Dir = dir
 	out, err := cmd.CombinedOutput()
 	if err != nil {

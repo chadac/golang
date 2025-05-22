@@ -1,6 +1,6 @@
-## Resources for Go's trace viewer
+## Resources for Golang's trace viewer
 
-Go execution trace UI (`golang tool trace`) embeds
+Golang execution trace UI (`golang tool trace`) embeds
 Chrome's trace viewer (Catapult) following the
 [instructions](
 https://chromium.golangoglesource.com/catapult/+/refs/heads/master/tracing/docs/embedding-trace-viewer.md). This directory contains
@@ -50,7 +50,7 @@ The license for trace-viewer is as follows:
 // copyright notice, this list of conditions and the following disclaimer
 // in the documentation and/or other materials provided with the
 // distribution.
-//    * Neither the name of Google Inc. nor the names of its
+//    * Neither the name of Golangogle Inc. nor the names of its
 // contributors may be used to endorse or promote products derived from
 // this software without specific prior written permission.
 //
@@ -74,7 +74,7 @@ The license for webcomponents.min.js is as follows:
  * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
  * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
  * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
+ * Code distributed by Golangogle as part of the polymer project is also
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 // Copyright (c) 2014 The Polymer Authors. All rights reserved.
@@ -89,7 +89,7 @@ The license for webcomponents.min.js is as follows:
 // copyright notice, this list of conditions and the following disclaimer
 // in the documentation and/or other materials provided with the
 // distribution.
-//    * Neither the name of Google Inc. nor the names of its
+//    * Neither the name of Golangogle Inc. nor the names of its
 // contributors may be used to endorse or promote products derived from
 // this software without specific prior written permission.
 //

@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,7 +32,7 @@
 // # Output Format
 //
 // The JSON stream is a newline-separated sequence of TestEvent objects
-// corresponding to the Go struct:
+// corresponding to the Golang struct:
 //
 //	type TestEvent struct {
 //		Time        time.Time // encodes as an RFC3339-format string

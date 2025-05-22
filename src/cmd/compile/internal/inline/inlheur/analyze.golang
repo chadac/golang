@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -45,7 +45,7 @@ type propAnalyzer interface {
 }
 
 // fnInlHeur contains inline heuristics state information about a
-// specific Go function being analyzed/considered by the inliner. Note
+// specific Golang function being analyzed/considered by the inliner. Note
 // that in addition to constructing a fnInlHeur object by analyzing a
 // specific *ir.Func, there is also code in the test harness
 // (funcprops_test.golang) that builds up fnInlHeur's by reading in and
@@ -162,7 +162,7 @@ func revisitInlinability(fn *ir.Func, funcProps *FuncProps, budgetForFunc func(*
 	}
 }
 
-// computeFuncProps examines the Go function 'fn' and computes for it
+// computeFuncProps examines the Golang function 'fn' and computes for it
 // a function "properties" object, to be used to drive inlining
 // heuristics. See comments on the FuncProps type for more info.
 func computeFuncProps(fn *ir.Func, inlineMaxBudget int, nf *nameFinder) (*FuncProps, CallSiteTab) {
@@ -320,7 +320,7 @@ func captureFuncDumpEntry(fn *ir.Func) {
 }
 
 // dumpFilePreamble writes out a file-level preamble for a given
-// Go function as part of a function properties dump.
+// Golang function as part of a function properties dump.
 func dumpFilePreamble(w io.Writer) {
 	fmt.Fprintf(w, "// DO NOT EDIT (use 'golang test -v -update-expected' instead.)\n")
 	fmt.Fprintf(w, "// See cmd/compile/internal/inline/inlheur/testdata/props/README.txt\n")
@@ -329,7 +329,7 @@ func dumpFilePreamble(w io.Writer) {
 }
 
 // dumpFnPreamble writes out a function-level preamble for a given
-// Go function as part of a function properties dump. See the
+// Golang function as part of a function properties dump. See the
 // README.txt file in testdata/props for more on the format of
 // this preamble.
 func dumpFnPreamble(w io.Writer, funcInlHeur *fnInlHeur, ecst encodedCallSiteTab, idx, atl uint) error {

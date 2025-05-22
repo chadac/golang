@@ -1,9 +1,9 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package golangver implements support for Go toolchain versions like 1.21.0 and 1.21rc1.
-// (For historical reasons, Go does not use semver for its toolchains.)
+// Package golangver implements support for Golang toolchain versions like 1.21.0 and 1.21rc1.
+// (For historical reasons, Golang does not use semver for its toolchains.)
 // This package provides the same basic analysis that golanglang.org/x/mod/semver does for semver.
 //
 // The golang/version package should be imported instead of this one when possible.
@@ -14,7 +14,7 @@ import (
 	"cmp"
 )
 
-// A Version is a parsed Go version: major[.Minor[.Patch]][kind[pre]]
+// A Version is a parsed Golang version: major[.Minor[.Patch]][kind[pre]]
 // The numbers are the original decimal strings to avoid integer overflows
 // and since there is very little actual math. (Probably overflow doesn't matter in practice,
 // but at the time this code was written, there was an existing test that used
@@ -65,21 +65,21 @@ func Max(x, y string) string {
 	return x
 }
 
-// IsLang reports whether v denotes the overall Go language version
-// and not a specific release. Starting with the Go 1.21 release, "1.x" denotes
+// IsLang reports whether v denotes the overall Golang language version
+// and not a specific release. Starting with the Golang 1.21 release, "1.x" denotes
 // the overall language version; the first release is "1.x.0".
 // The distinction is important because the relative ordering is
 //
 //	1.21 < 1.21rc1 < 1.21.0
 //
-// meaning that Go 1.21rc1 and Go 1.21.0 will both handle golang.mod files that
-// say "golang 1.21", but Go 1.21rc1 will not handle files that say "golang 1.21.0".
+// meaning that Golang 1.21rc1 and Golang 1.21.0 will both handle golang.mod files that
+// say "golang 1.21", but Golang 1.21rc1 will not handle files that say "golang 1.21.0".
 func IsLang(x string) bool {
 	v := Parse(x)
 	return v != Version{} && v.Patch == "" && v.Kind == "" && v.Pre == ""
 }
 
-// Lang returns the Go language version. For example, Lang("1.2.3") == "1.2".
+// Lang returns the Golang language version. For example, Lang("1.2.3") == "1.2".
 func Lang(x string) string {
 	v := Parse(x)
 	if v.Minor == "" || v.Major == "1" && v.Minor == "0" {
@@ -93,7 +93,7 @@ func IsValid(x string) bool {
 	return Parse(x) != Version{}
 }
 
-// Parse parses the Go version string x into a version.
+// Parse parses the Golang version string x into a version.
 // It returns the zero version if x is malformed.
 func Parse(x string) Version {
 	var v Version
@@ -123,7 +123,7 @@ func Parse(x string) Version {
 	}
 	if x == "" {
 		// Patch missing is same as "0" for older versions.
-		// Starting in Go 1.21, patch missing is different from explicit .0.
+		// Starting in Golang 1.21, patch missing is different from explicit .0.
 		if CmpInt(v.Minor, "21") < 0 {
 			v.Patch = "0"
 		}

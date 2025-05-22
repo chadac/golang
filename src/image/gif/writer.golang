@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -372,7 +372,7 @@ func EncodeAll(w io.Writer, g *GIF) error {
 
 	e := encoder{g: *g}
 	// The GIF.Disposal, GIF.Config and GIF.BackgroundIndex fields were added
-	// in Go 1.5. Valid Go 1.4 code, such as when the Disposal field is omitted
+	// in Golang 1.5. Valid Golang 1.4 code, such as when the Disposal field is omitted
 	// in a GIF struct literal, should still produce valid GIFs.
 	if e.g.Disposal != nil && len(e.g.Image) != len(e.g.Disposal) {
 		return errors.New("gif: mismatched image and disposal lengths")

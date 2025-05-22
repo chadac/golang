@@ -1,6 +1,6 @@
 env GO111MODULE=off
 
-# Issue 27665. Verify that "golang vet" analyzes non-Go files.
+# Issue 27665. Verify that "golang vet" analyzes non-Golang files.
 
 [!GOARCH:amd64] skip
 ! golang vet -asmdecl a

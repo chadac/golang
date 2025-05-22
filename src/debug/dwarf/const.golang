@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -138,7 +138,7 @@ const (
 	AttrLoclistsBase         Attr = 0x8C
 )
 
-func (a Attr) GoString() string {
+func (a Attr) GolangString() string {
 	if str, ok := _Attr_map[a]; ok {
 		return "dwarf.Attr" + str
 	}
@@ -281,7 +281,7 @@ const (
 	TagImmutableType     Tag = 0x4B
 )
 
-func (t Tag) GoString() string {
+func (t Tag) GolangString() string {
 	if t <= TagTemplateAlias {
 		return "dwarf.Tag" + t.String()
 	}

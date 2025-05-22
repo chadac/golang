@@ -1,9 +1,9 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This file defines tests of consistent behavior between assembly and Go versions of basic operators,
-// as well as tests of pure Go implementations.
+// This file defines tests of consistent behavior between assembly and Golang versions of basic operators,
+// as well as tests of pure Golang implementations.
 
 package big
 
@@ -751,10 +751,10 @@ func TestDivWW(t *testing.T) {
 			continue
 		}
 		rec := reciprocalWord(y)
-		qGot, rGot := divWW(x1, x0, y, rec)
+		qGolangt, rGolangt := divWW(x1, x0, y, rec)
 		qWant, rWant := bits.Div(uint(x1), uint(x0), uint(y))
-		if uint(qGot) != qWant || uint(rGot) != rWant {
-			t.Errorf("#%d golangt (%x, %x) want (%x, %x)", i, qGot, rGot, qWant, rWant)
+		if uint(qGolangt) != qWant || uint(rGolangt) != rWant {
+			t.Errorf("#%d golangt (%x, %x) want (%x, %x)", i, qGolangt, rGolangt, qWant, rWant)
 		}
 	}
 }

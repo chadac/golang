@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@
 static void* checkBindMThread(void* thread) {
 	int i;
 	for (i = 0; i < CHECKCALLS; i++) {
-		GoCheckBindM((uintptr_t)thread);
+		GolangCheckBindM((uintptr_t)thread);
 		usleep(1);
 	}
 	return NULL;

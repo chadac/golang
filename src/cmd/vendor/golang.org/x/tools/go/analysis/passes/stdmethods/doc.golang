@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,7 +23,7 @@
 //
 // Checked method names include:
 //
-//	Format GobEncode GobDecode MarshalJSON MarshalXML
+//	Format GolangbEncode GolangbDecode MarshalJSON MarshalXML
 //	Peek ReadByte ReadFrom ReadRune Scan Seek
 //	UnmarshalJSON UnreadByte UnreadRune WriteByte
 //	WriteTo

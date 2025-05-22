@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -93,8 +93,8 @@ var OpNames = []string{
 	OXOR:              "^",
 }
 
-// GoString returns the Go syntax for the Op, or else its name.
-func (o Op) GoString() string {
+// GolangString returns the Golang syntax for the Op, or else its name.
+func (o Op) GolangString() string {
 	if int(o) < len(OpNames) && OpNames[o] != "" {
 		return OpNames[o]
 	}
@@ -104,7 +104,7 @@ func (o Op) GoString() string {
 // Format implements formatting for an Op.
 // The valid formats are:
 //
-//	%v	Go syntax ("+", "<-", "print")
+//	%v	Golang syntax ("+", "<-", "print")
 //	%+v	Debug syntax ("ADD", "RECV", "PRINT")
 func (o Op) Format(s fmt.State, verb rune) {
 	switch verb {
@@ -116,7 +116,7 @@ func (o Op) Format(s fmt.State, verb rune) {
 			io.WriteString(s, o.String())
 			return
 		}
-		io.WriteString(s, o.GoString())
+		io.WriteString(s, o.GolangString())
 	}
 }
 
@@ -126,12 +126,12 @@ func (o Op) Format(s fmt.State, verb rune) {
 // Every Node implementation must define a Format method that calls fmtNode.
 // The valid formats are:
 //
-//	%v	Go syntax
-//	%L	Go syntax followed by " (type T)" if type is known.
+//	%v	Golang syntax
+//	%L	Golang syntax followed by " (type T)" if type is known.
 //	%+v	Debug syntax, as in Dump.
 func fmtNode(n Node, s fmt.State, verb rune) {
 	// %+v prints Dump.
-	// Otherwise we print Go syntax.
+	// Otherwise we print Golang syntax.
 	if s.Flag('+') && verb == 'v' {
 		dumpNode(s, n, 1)
 		return
@@ -302,7 +302,7 @@ func StmtWithInit(op Op) bool {
 
 func stmtFmt(n Node, s fmt.State) {
 	// NOTE(rsc): This code used to support the text-based
-	// which was more aggressive about printing full Go syntax
+	// which was more aggressive about printing full Golang syntax
 	// (for example, an actual loop instead of "for loop").
 	// The code is preserved for now in case we want to expand
 	// any of those shortenings later. Or maybe we will delete
@@ -387,11 +387,11 @@ func stmtFmt(n Node, s fmt.State) {
 		fmt.Fprintf(s, "inlmark %d", n.Index)
 
 	case OGO:
-		n := n.(*GoDeferStmt)
+		n := n.(*GolangDeferStmt)
 		fmt.Fprintf(s, "golang %v", n.Call)
 
 	case ODEFER:
-		n := n.(*GoDeferStmt)
+		n := n.(*GolangDeferStmt)
 		fmt.Fprintf(s, "defer %v", n.Call)
 
 	case OIF:
@@ -506,7 +506,7 @@ func stmtFmt(n Node, s fmt.State) {
 
 func exprFmt(n Node, s fmt.State, prec int) {
 	// NOTE(rsc): This code used to support the text-based
-	// which was more aggressive about printing full Go syntax
+	// which was more aggressive about printing full Golang syntax
 	// (for example, an actual loop instead of "for loop").
 	// The code is preserved for now in case we want to expand
 	// any of those shortenings later. Or maybe we will delete
@@ -866,8 +866,8 @@ func ellipsisIf(b bool) string {
 // Format implements formatting for a Nodes.
 // The valid formats are:
 //
-//	%v	Go syntax, semicolon-separated
-//	%.v	Go syntax, comma-separated
+//	%v	Golang syntax, semicolon-separated
+//	%.v	Golang syntax, comma-separated
 //	%+v	Debug syntax, as in DumpList.
 func (l Nodes) Format(s fmt.State, verb rune) {
 	if s.Flag('+') && verb == 'v' {

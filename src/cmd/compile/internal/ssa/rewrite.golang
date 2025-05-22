@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -145,7 +145,7 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter, deadcode deadValu
 					vchange = true
 					// If value changed to a poor choice for a statement boundary, move the boundary
 					if v.Pos.IsStmt() == src.PosIsStmt {
-						if k := nextGoodStatementIndex(v, j, b); k != j {
+						if k := nextGolangodStatementIndex(v, j, b); k != j {
 							v.Pos = v.Pos.WithNotStmt()
 							b.Values[k].Pos = b.Values[k].Pos.WithIsStmt()
 						}

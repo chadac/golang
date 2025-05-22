@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -22,16 +22,16 @@ type Person struct {
 	Addr *Address
 }
 
-// GoString makes Person satisfy the GoStringer interface.
-// The return value is valid Go code that can be used to reproduce the Person struct.
-func (p Person) GoString() string {
+// GolangString makes Person satisfy the GolangStringer interface.
+// The return value is valid Golang code that can be used to reproduce the Person struct.
+func (p Person) GolangString() string {
 	if p.Addr != nil {
 		return fmt.Sprintf("Person{Name: %q, Age: %d, Addr: &Address{City: %q, State: %q, Country: %q}}", p.Name, int(p.Age), p.Addr.City, p.Addr.State, p.Addr.Country)
 	}
 	return fmt.Sprintf("Person{Name: %q, Age: %d}", p.Name, int(p.Age))
 }
 
-func ExampleGoStringer() {
+func ExampleGolangStringer() {
 	p1 := Person{
 		Name: "Warren",
 		Age:  31,
@@ -41,7 +41,7 @@ func ExampleGoStringer() {
 			Country: "U.S.A.",
 		},
 	}
-	// If GoString() wasn't implemented, the output of `fmt.Printf("%#v", p1)` would be similar to
+	// If GolangString() wasn't implemented, the output of `fmt.Printf("%#v", p1)` would be similar to
 	// Person{Name:"Warren", Age:0x1f, Addr:(*main.Address)(0x10448240)}
 	fmt.Printf("%#v\n", p1)
 
@@ -49,7 +49,7 @@ func ExampleGoStringer() {
 		Name: "Theia",
 		Age:  4,
 	}
-	// If GoString() wasn't implemented, the output of `fmt.Printf("%#v", p2)` would be similar to
+	// If GolangString() wasn't implemented, the output of `fmt.Printf("%#v", p2)` would be similar to
 	// Person{Name:"Theia", Age:0x4, Addr:(*main.Address)(nil)}
 	fmt.Printf("%#v\n", p2)
 

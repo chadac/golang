@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -36,7 +36,7 @@ type DebugFlags struct {
 	GCAdjust              int    `help:"log adjustments to GOGC" concurrent:"ok"`
 	GCCheck               int    `help:"check heap/gc use by compiler" concurrent:"ok"`
 	GCProg                int    `help:"print dump of GC programs"`
-	Gossahash             string `help:"hash value for use in debugging the compiler"`
+	Golangssahash             string `help:"hash value for use in debugging the compiler"`
 	InlFuncsWithClosures  int    `help:"allow functions with closures to be inlined" concurrent:"ok"`
 	InlStaticInit         int    `help:"allow static initialization of inlined calls" concurrent:"ok"`
 	Libfuzzer             int    `help:"enable coverage instrumentation for libfuzzer"`

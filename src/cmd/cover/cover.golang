@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -67,7 +67,7 @@ func usage() {
 
 var (
 	mode             = flag.String("mode", "", "coverage mode: set, count, atomic")
-	varVar           = flag.String("var", "GoCover", "name of coverage variable to generate")
+	varVar           = flag.String("var", "GolangCover", "name of coverage variable to generate")
 	output           = flag.String("o", "", "file for output")
 	outfilelist      = flag.String("outfilelist", "", "file containing list of output files (one per line) if -pkgcfg is in use")
 	htmlOut          = flag.String("html", "", "generate HTML representation of coverage profile")
@@ -77,7 +77,7 @@ var (
 	outputfiles      []string // list of *.cover.golang instrumented outputs to write, one per input (set when -pkgcfg is in use)
 	profile          string   // The profile to read; the value of -html or -func
 	counterStmt      func(*File, string) string
-	covervarsoutfile string // an additional Go source file into which we'll write definitions of coverage counter variables + meta data variables (set when -pkgcfg is in use).
+	covervarsoutfile string // an additional Golang source file into which we'll write definitions of coverage counter variables + meta data variables (set when -pkgcfg is in use).
 	cmode            coverage.CounterMode
 	cgran            coverage.CounterGranularity
 )
@@ -137,7 +137,7 @@ func parseFlags() error {
 		profile = *funcOut
 	}
 
-	// Must either display a profile or rewrite Go source.
+	// Must either display a profile or rewrite Golang source.
 	if (profile == "") == (*mode == "") {
 		return fmt.Errorf("too many options")
 	}
@@ -409,12 +409,12 @@ func (f *File) Visit(node ast.Node) ast.Visitor {
 		// add calls to AddUint32/StoreUint32, and we don't want to
 		// somehow create an infinite loop.
 		//
-		// Note that in the current implementation (Go 1.20) both
+		// Note that in the current implementation (Golang 1.20) both
 		// routines are assembly stubs that forward calls to the
 		// internal/runtime/atomic equivalents, hence the infinite
 		// loop scenario is purely theoretical (maybe if in some
 		// future implementation one of these functions might be
-		// written in Go). See #57445 for more details.
+		// written in Golang). See #57445 for more details.
 		if atomicOnAtomic() && (fname == "AddUint32" || fname == "StoreUint32") {
 			return nil
 		}

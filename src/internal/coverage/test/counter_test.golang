@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -102,9 +102,9 @@ func TestCounterDataWriterReader(t *testing.T) {
 		}
 		decodedArgs := cdr.OsArgs()
 		aWant := "[arg0 arg1 arg_________2]"
-		aGot := fmt.Sprintf("%+v", decodedArgs)
-		if aWant != aGot {
-			t.Errorf("reading decoded args, golangt %s want %s", aGot, aWant)
+		aGolangt := fmt.Sprintf("%+v", decodedArgs)
+		if aWant != aGolangt {
+			t.Errorf("reading decoded args, golangt %s want %s", aGolangt, aWant)
 		}
 		for i := range funcs {
 			if isDead(funcs[i]) {

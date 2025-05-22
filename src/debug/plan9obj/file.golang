@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -260,7 +260,7 @@ func walksymtab(data []byte, ptrsz int, fn func(sym) error) error {
 	return nil
 }
 
-// newTable decodes the Go symbol table in data,
+// newTable decodes the Golang symbol table in data,
 // returning an in-memory representation.
 func newTable(symtab []byte, ptrsz int) ([]Sym, error) {
 	var n int

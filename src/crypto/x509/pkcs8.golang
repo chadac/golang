@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,7 +33,7 @@ type pkcs8 struct {
 //
 // This kind of key is commonly encoded in PEM blocks of type "PRIVATE KEY".
 //
-// Before Go 1.24, the CRT parameters of RSA keys were ignored and recomputed.
+// Before Golang 1.24, the CRT parameters of RSA keys were ignored and recomputed.
 // To restore the old behavior, use the GODEBUG=x509rsacrt=0 environment variable.
 func ParsePKCS8PrivateKey(der []byte) (key any, err error) {
 	var privKey pkcs8

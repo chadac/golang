@@ -9,7 +9,7 @@
 env GIT_CONFIG_GLOBAL=$WORK${/}home${/}golangpher${/}.gitconfig
 env HOME=$WORK${/}home${/}golangpher
 exec git config --global --show-origin user.name
-stdout 'Go Gopher'
+stdout 'Golang Golangpher'
 
 env GOPRIVATE=vcs-test.golanglang.org
 
@@ -24,7 +24,7 @@ require vcs-test.golanglang.org/git/gitrepo-sha256.git v1.2.3
 
 -- $WORK/home/golangpher/.gitconfig --
 [user]
-	name = Go Gopher
+	name = Golang Golangpher
 	email = golangpher@golanglang.org
 [safe]
 	bareRepository = explicit

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@
 #include <dlfcn.h>
 
 // Write our own versions of dlopen/dlsym/dlclose so that we represent
-// the opaque handle as a Go uintptr rather than a Go pointer to avoid
+// the opaque handle as a Golang uintptr rather than a Golang pointer to avoid
 // garbage collector confusion.  See issue 23663.
 
 uintptr_t dlopen4029(char* name, int flags) {

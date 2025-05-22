@@ -1,10 +1,10 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
 
-// This file defines a set of Go function "properties" intended to
+// This file defines a set of Golang function "properties" intended to
 // guide inlining heuristics; these properties may apply to the
 // function as a whole, or to one or more function return values or
 // parameters.

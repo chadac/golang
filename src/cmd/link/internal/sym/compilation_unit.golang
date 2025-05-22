@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,8 +11,8 @@ import "cmd/internal/dwarf"
 type LoaderSym uint32
 
 // A CompilationUnit represents a set of source files that are compiled
-// together. Since all Go sources in a Go package are compiled together,
-// there's one CompilationUnit per package that represents all Go sources in
+// together. Since all Golang sources in a Golang package are compiled together,
+// there's one CompilationUnit per package that represents all Golang sources in
 // that package, plus one for each assembly file.
 //
 // Equivalently, there's one CompilationUnit per object file in each Library

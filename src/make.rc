@@ -1,5 +1,5 @@
 #!/bin/rc -e
-# Copyright 2012 The Go Authors. All rights reserved.
+# Copyright 2012 The Golang Authors. All rights reserved.
 # Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
@@ -77,12 +77,12 @@ for(p in $path){
 }
 if(! test -x $GOROOT_BOOTSTRAP/bin/golang){
 	echo 'ERROR: Cannot find '$GOROOT_BOOTSTRAP'/bin/golang.' >[1=2]
-	echo 'Set $GOROOT_BOOTSTRAP to a working Go tree >= Go '$bootgolang'.' >[1=2]
+	echo 'Set $GOROOT_BOOTSTRAP to a working Golang tree >= Golang '$bootgolang'.' >[1=2]
 	exit bootstrap
 }
 if(~ $GOROOT_BOOTSTRAP $GOROOT){
 	echo 'ERROR: $GOROOT_BOOTSTRAP must not be set to $GOROOT' >[1=2]
-	echo 'Set $GOROOT_BOOTSTRAP to a working Go tree >= Go '$bootgolang'.' >[1=2]
+	echo 'Set $GOROOT_BOOTSTRAP to a working Golang tree >= Golang '$bootgolang'.' >[1=2]
 	exit bootstrap
 }
 
@@ -90,7 +90,7 @@ if(~ $GOROOT_BOOTSTRAP $GOROOT){
 # We clear GOOS and GOARCH to avoid an ominous but harmless warning if
 # the bootstrap doesn't support them.
 GOROOT_BOOTSTRAP_VERSION=`{bootstrapenv $GOROOT_BOOTSTRAP/bin/golang version | sed 's/golang version //'}
-echo 'Building Go cmd/dist using '$GOROOT_BOOTSTRAP'. ('$"GOROOT_BOOTSTRAP_VERSION')'
+echo 'Building Golang cmd/dist using '$GOROOT_BOOTSTRAP'. ('$"GOROOT_BOOTSTRAP_VERSION')'
 if(~ $#vflag 1)
 	echo cmd/dist
 bootstrapenv $GOROOT_BOOTSTRAP/bin/golang build -o cmd/dist/dist ./cmd/dist

@@ -1829,7 +1829,7 @@ TEXT p256IsZero(SB), NOSPLIT, $0
 	ORQ  R13, R14
 
 	// Set the zero flag if so. (CMOV of a constant to a register doesn't
-	// appear to be supported in Go. Thus t1 = 1.)
+	// appear to be supported in Golang. Thus t1 = 1.)
 	CMOVQEQ R15, AX
 
 	// XOR [acc4..acc7] with P and compare with zero again.

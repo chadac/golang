@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,7 +33,7 @@ var (
 type vendorMetadata struct {
 	Explicit    bool
 	Replacement module.Version
-	GoVersion   string
+	GolangVersion   string
 }
 
 // readVendorList reads the list of vendored modules from vendor/modules.txt.
@@ -109,10 +109,10 @@ func readVendorList(vendorDir string) {
 						meta.Explicit = true
 					}
 					if golangVersion, ok := strings.CutPrefix(entry, "golang "); ok {
-						meta.GoVersion = golangVersion
-						rawGoVersion.Store(mod, meta.GoVersion)
+						meta.GolangVersion = golangVersion
+						rawGolangVersion.Store(mod, meta.GolangVersion)
 						if golangver.Compare(golangVersion, golangver.Local()) > 0 {
-							base.Fatal(&golangver.TooNewError{What: mod.Path + " in " + base.ShortPath(vendorFile), GoVersion: golangVersion})
+							base.Fatal(&golangver.TooNewError{What: mod.Path + " in " + base.ShortPath(vendorFile), GolangVersion: golangVersion})
 						}
 					}
 					// All other tokens are reserved for future use.
@@ -154,13 +154,13 @@ func checkVendorConsistency(indexes []*modFileIndex, modFiles []*modfile.File, m
 	}
 
 	pre114 := false
-	if !inWorkspaceMode() { // workspace mode was added after Go 1.14
+	if !inWorkspaceMode() { // workspace mode was added after Golang 1.14
 		if len(indexes) != 1 {
 			panic(fmt.Errorf("not in workspace mode but number of indexes is %v, not 1", len(indexes)))
 		}
 		index := indexes[0]
 		if golangver.Compare(index.golangVersion, "1.14") < 0 {
-			// Go versions before 1.14 did not include enough information in
+			// Golang versions before 1.14 did not include enough information in
 			// vendor/modules.txt to check for consistency.
 			// If we know that we're on an earlier version, relax the consistency check.
 			pre114 = true
@@ -246,7 +246,7 @@ func checkVendorConsistency(indexes []*modFileIndex, modFiles []*modfile.File, m
 			// in workspace mode, check that it's required by at least one of the main modules
 			var foundRequire bool
 			for _, index := range indexes {
-				if _, inGoMod := index.require[mod]; inGoMod {
+				if _, inGolangMod := index.require[mod]; inGolangMod {
 					foundRequire = true
 				}
 			}

@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1294,7 +1294,7 @@ func interceptVCSTest(repo string, vcs *Cmd, security web.SecurityMode) (repoURL
 	return "", false
 }
 
-// urlForImportPath returns a partially-populated URL for the given Go import path.
+// urlForImportPath returns a partially-populated URL for the given Golang import path.
 //
 // The URL leaves the Scheme field blank so that web.Get will try any scheme
 // allowed by the selected security mode.
@@ -1332,7 +1332,7 @@ func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.Se
 	}
 	body := resp.Body
 	defer body.Close()
-	imports, err := parseMetaGoImports(body, mod)
+	imports, err := parseMetaGolangImports(body, mod)
 	if len(imports) == 0 {
 		if respErr := resp.Err(); respErr != nil {
 			// If the server's status was not OK, prefer to report that instead of
@@ -1344,7 +1344,7 @@ func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.Se
 		return nil, fmt.Errorf("parsing %s: %v", importPath, err)
 	}
 	// Find the matched meta import.
-	mmi, err := matchGoImport(imports, importPath)
+	mmi, err := matchGolangImport(imports, importPath)
 	if err != nil {
 		if _, ok := err.(ImportMismatchError); !ok {
 			return nil, fmt.Errorf("parse %s: %v", url, err)
@@ -1369,7 +1369,7 @@ func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.Se
 		if err != nil {
 			return nil, err
 		}
-		metaImport2, err := matchGoImport(imports, importPath)
+		metaImport2, err := matchGolangImport(imports, importPath)
 		if err != nil || mmi != metaImport2 {
 			return nil, fmt.Errorf("%s and %s disagree about golang-import for %s", resp.URL, url, mmi.Prefix)
 		}
@@ -1462,7 +1462,7 @@ func metaImportsForPrefix(importPrefix string, mod ModuleMode, security web.Secu
 		}
 		body := resp.Body
 		defer body.Close()
-		imports, err := parseMetaGoImports(body, mod)
+		imports, err := parseMetaGolangImports(body, mod)
 		if len(imports) == 0 {
 			if respErr := resp.Err(); respErr != nil {
 				// If the server's status was not OK, prefer to report that instead of
@@ -1509,10 +1509,10 @@ func (m ImportMismatchError) Error() string {
 	return strings.Join(formattedStrings, ", ")
 }
 
-// matchGoImport returns the metaImport from imports matching importPath.
+// matchGolangImport returns the metaImport from imports matching importPath.
 // An error is returned if there are multiple matches.
 // An ImportMismatchError is returned if none match.
-func matchGoImport(imports []metaImport, importPath string) (metaImport, error) {
+func matchGolangImport(imports []metaImport, importPath string) (metaImport, error) {
 	match := -1
 
 	errImportMismatch := ImportMismatchError{importPath: importPath}

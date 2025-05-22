@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,7 +21,7 @@ import (
 
 func TestDynSymShInfo(t *testing.T) {
 	t.Parallel()
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	dir := t.TempDir()
 
 	const prog = `
@@ -39,7 +39,7 @@ func main() {
 	}
 
 	binFile := filepath.Join(dir, "issue33358")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", binFile, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", binFile, src)
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
 	}
@@ -79,7 +79,7 @@ func main() {
 }
 
 func TestNoDuplicateNeededEntries(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 
 	// run this test on just a small set of platforms (no need to test it
@@ -96,7 +96,7 @@ func TestNoDuplicateNeededEntries(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "x")
 	argv := []string{"build", "-o", path, "./testdata/issue39256"}
-	out, err := testenv.Command(t, testenv.GoToolPath(t), argv...).CombinedOutput()
+	out, err := testenv.Command(t, testenv.GolangToolPath(t), argv...).CombinedOutput()
 	if err != nil {
 		t.Fatalf("Build failure: %s\n%s\n", err, string(out))
 	}
@@ -118,13 +118,13 @@ func TestNoDuplicateNeededEntries(t *testing.T) {
 	}
 
 	if golangt, want := count, 1; golangt != want {
-		t.Errorf("Got %d entries for `libc.so`, want %d", golangt, want)
+		t.Errorf("Golangt %d entries for `libc.so`, want %d", golangt, want)
 	}
 }
 
 func TestShStrTabAttributesIssue62600(t *testing.T) {
 	t.Parallel()
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	dir := t.TempDir()
 
 	const prog = `
@@ -140,7 +140,7 @@ func main() {
 	}
 
 	binFile := filepath.Join(dir, "issue62600")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", binFile, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", binFile, src)
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
 	}
@@ -182,7 +182,7 @@ func main() {
 
 func TestElfBindNow(t *testing.T) {
 	t.Parallel()
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	const (
 		prog = `package main; func main() {}`
@@ -302,7 +302,7 @@ func TestElfBindNow(t *testing.T) {
 			}
 
 			cmdArgs := append([]string{"build", "-o", binFile}, append(test.args, src)...)
-			cmd := testenv.Command(t, testenv.GoToolPath(t), cmdArgs...)
+			cmd := testenv.Command(t, testenv.GolangToolPath(t), cmdArgs...)
 
 			if out, err := cmd.CombinedOutput(); err != nil {
 				t.Fatalf("failed to build %v: %v:\n%s", cmd.Args, err, out)
@@ -455,7 +455,7 @@ func main() {
 
 func TestRelroSectionOverlapIssue67261(t *testing.T) {
 	t.Parallel()
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveBuildMode(t, "pie")
 	testenv.MustInternalLinkPIE(t)
 
@@ -474,7 +474,7 @@ func TestRelroSectionOverlapIssue67261(t *testing.T) {
 	}
 
 	cmdArgs := []string{"build", "-o", binFile, "-buildmode=pie", "-ldflags=linkmode=internal", src}
-	cmd := testenv.Command(t, testenv.GoToolPath(t), cmdArgs...)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), cmdArgs...)
 
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("failed to build %v: %v:\n%s", cmd.Args, err, out)
@@ -553,7 +553,7 @@ func TestRelroSectionOverlapIssue67261(t *testing.T) {
 	// a non-zero exit status (?why?), so we consider any output a
 	// failure here.
 	stripExecs := []string{}
-	ecmd := testenv.Command(t, testenv.GoToolPath(t), "env", "CC")
+	ecmd := testenv.Command(t, testenv.GolangToolPath(t), "env", "CC")
 	if out, err := ecmd.CombinedOutput(); err != nil {
 		t.Fatalf("golang env CC failed: %v:\n%s", err, out)
 	} else {
@@ -571,7 +571,7 @@ func TestRelroSectionOverlapIssue67261(t *testing.T) {
 		}
 	}
 
-	// Run strip on our Go PIE binary, making sure that the strip
+	// Run strip on our Golang PIE binary, making sure that the strip
 	// succeeds and we get no output from strip, then run the resulting
 	// stripped binary.
 	for k, sprog := range stripExecs {

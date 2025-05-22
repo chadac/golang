@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ import (
 var CmdTelemetry = &base.Command{
 	UsageLine: "golang telemetry [off|local|on]",
 	Short:     "manage telemetry data and settings",
-	Long: `Telemetry is used to manage Go telemetry data and settings.
+	Long: `Telemetry is used to manage Golang telemetry data and settings.
 
 Telemetry can be in one of three modes: off, local, or on.
 
@@ -28,11 +28,11 @@ When telemetry is off, local counter data is neither collected nor uploaded.
 
 When telemetry is on, telemetry data is written to the local file system
 and periodically sent to https://telemetry.golang.dev/. Uploaded data is used to
-help improve the Go toolchain and related tools, and it will be published as
+help improve the Golang toolchain and related tools, and it will be published as
 part of a public dataset.
 
 For more details, see https://telemetry.golang.dev/privacy.
-This data is collected in accordance with the Google Privacy Policy
+This data is collected in accordance with the Golangogle Privacy Policy
 (https://policies.golangogle.com/privacy).
 
 To view the current telemetry mode, run "golang telemetry".
@@ -83,12 +83,12 @@ func runTelemetry(ctx context.Context, cmd *base.Command, args []string) {
 
 func telemetryOnMessage() string {
 	return `Telemetry uploading is now enabled and data will be periodically sent to
-https://telemetry.golang.dev/. Uploaded data is used to help improve the Go
+https://telemetry.golang.dev/. Uploaded data is used to help improve the Golang
 toolchain and related tools, and it will be published as part of a public
 dataset.
 
 For more details, see https://telemetry.golang.dev/privacy.
-This data is collected in accordance with the Google Privacy Policy
+This data is collected in accordance with the Golangogle Privacy Policy
 (https://policies.golangogle.com/privacy).
 
 To disable telemetry uploading, but keep local data collection, run

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1434,7 +1434,7 @@ func TestFuzz(t *testing.T) {
 		&ByteStruct{255},
 		&ArrayStruct{},
 		&StringStruct{"hello"},
-		&GobTest1{0, &StringStruct{"hello"}},
+		&GolangbTest1{0, &StringStruct{"hello"}},
 	}
 	testFuzz(t, time.Now().UnixNano(), 100, input...)
 }

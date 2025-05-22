@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -249,7 +249,7 @@ func walkDir(path string) {
 }
 
 func visitFile(path string, f fs.DirEntry, err error) error {
-	if err == nil && isGoFile(f) {
+	if err == nil && isGolangFile(f) {
 		err = processFile(path, false)
 	}
 	if err != nil {
@@ -258,8 +258,8 @@ func visitFile(path string, f fs.DirEntry, err error) error {
 	return nil
 }
 
-func isGoFile(f fs.DirEntry) bool {
-	// ignore non-Go files
+func isGolangFile(f fs.DirEntry) bool {
+	// ignore non-Golang files
 	name := f.Name()
 	return !f.IsDir() && !strings.HasPrefix(name, ".") && strings.HasSuffix(name, ".golang")
 }

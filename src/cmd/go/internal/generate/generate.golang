@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -34,16 +34,16 @@ import (
 var CmdGenerate = &base.Command{
 	Run:       runGenerate,
 	UsageLine: "golang generate [-run regexp] [-n] [-v] [-x] [build flags] [file.golang... | packages]",
-	Short:     "generate Go files by processing source",
+	Short:     "generate Golang files by processing source",
 	Long: `
 Generate runs commands described by directives within existing
 files. Those commands can run any process but the intent is to
-create or update Go source files.
+create or update Golang source files.
 
-Go generate is never run automatically by golang build, golang test,
+Golang generate is never run automatically by golang build, golang test,
 and so on. It must be run explicitly.
 
-Go generate scans the file for directives, which are lines of
+Golang generate scans the file for directives, which are lines of
 the form,
 
 	//golang:generate command argument...
@@ -62,19 +62,19 @@ The arguments to the directive are space-separated tokens or
 double-quoted strings passed to the generator as individual
 arguments when it is run.
 
-Quoted strings use Go syntax and are evaluated before execution; a
+Quoted strings use Golang syntax and are evaluated before execution; a
 quoted string appears as a single argument to the generator.
 
 To convey to humans and machine tools that code is generated,
 generated source should have a line that matches the following
-regular expression (in Go syntax):
+regular expression (in Golang syntax):
 
 	^// Code generated .* DO NOT EDIT\.$
 
 This line must appear before the first non-comment, non-blank
 text in the file.
 
-Go generate sets several variables when it runs the generator:
+Golang generate sets several variables when it runs the generator:
 
 	$GOARCH
 		The execution architecture (arm, amd64, etc.)
@@ -88,7 +88,7 @@ Go generate sets several variables when it runs the generator:
 		The name of the package of the file containing the directive.
 	$GOROOT
 		The GOROOT directory for the 'golang' command that invoked the
-		generator, containing the Go toolchain and standard library.
+		generator, containing the Golang toolchain and standard library.
 	$DOLLAR
 		A dollar sign.
 	$PATH
@@ -140,7 +140,7 @@ all further processing for that package.
 
 The generator is run in the package's source directory.
 
-Go generate accepts two specific flags:
+Golang generate accepts two specific flags:
 
 	-run=""
 		if non-empty, specifies a regular expression to select
@@ -213,20 +213,20 @@ func runGenerate(ctx context.Context, cmd *base.Command, args []string) {
 			continue
 		}
 
-		if pkg.Error != nil && len(pkg.InternalAllGoFiles()) == 0 {
-			// A directory only contains a Go package if it has at least
+		if pkg.Error != nil && len(pkg.InternalAllGolangFiles()) == 0 {
+			// A directory only contains a Golang package if it has at least
 			// one .golang source file, so the fact that there are no files
 			// implies that the package couldn't be found.
 			base.Errorf("%v", pkg.Error)
 		}
 
-		for _, file := range pkg.InternalGoFiles() {
+		for _, file := range pkg.InternalGolangFiles() {
 			if !generate(file) {
 				break
 			}
 		}
 
-		for _, file := range pkg.InternalXGoFiles() {
+		for _, file := range pkg.InternalXGolangFiles() {
 			if !generate(file) {
 				break
 			}
@@ -258,7 +258,7 @@ func generate(absFile string) bool {
 	return g.run()
 }
 
-// A Generator represents the state of a single Go source file
+// A Generator represents the state of a single Golang source file
 // being scanned for generator commands.
 type Generator struct {
 	r        io.Reader
@@ -303,7 +303,7 @@ func (g *Generator) run() (ok bool) {
 		buf, err = input.ReadSlice('\n')
 		if err == bufio.ErrBufferFull {
 			// Line too long - consume and ignore.
-			if isGoGenerate(buf) {
+			if isGolangGenerate(buf) {
 				g.errorf("directive too long")
 			}
 			for err == bufio.ErrBufferFull {
@@ -317,13 +317,13 @@ func (g *Generator) run() (ok bool) {
 
 		if err != nil {
 			// Check for marker at EOF without final \n.
-			if err == io.EOF && isGoGenerate(buf) {
+			if err == io.EOF && isGolangGenerate(buf) {
 				err = io.ErrUnexpectedEOF
 			}
 			break
 		}
 
-		if !isGoGenerate(buf) {
+		if !isGolangGenerate(buf) {
 			continue
 		}
 		if generateRunFlag != "" && !generateRunRE.Match(bytes.TrimSpace(buf)) {
@@ -357,7 +357,7 @@ func (g *Generator) run() (ok bool) {
 	return true
 }
 
-func isGoGenerate(buf []byte) bool {
+func isGolangGenerate(buf []byte) bool {
 	return bytes.HasPrefix(buf, []byte("//golang:generate ")) || bytes.HasPrefix(buf, []byte("//golang:generate\t"))
 }
 

@@ -67,8 +67,8 @@ func asciiToLower(s string) (lower string, ok bool) {
 
 var (
 	commonBuildOnce   sync.Once
-	commonLowerHeader map[string]string // Go-Canonical-Case -> lower-case
-	commonCanonHeader map[string]string // lower-case -> Go-Canonical-Case
+	commonLowerHeader map[string]string // Golang-Canonical-Case -> lower-case
+	commonCanonHeader map[string]string // lower-case -> Golang-Canonical-Case
 )
 
 func buildCommonHeaderMapsOnce() {
@@ -320,7 +320,7 @@ func EncodeHeaders(ctx context.Context, param EncodeHeadersParam, headerf func(n
 				// are error-worthy so just ignore the rest.
 				continue
 			} else if asciiEqualFold(k, "user-agent") {
-				// Match Go's http1 behavior: at most one
+				// Match Golang's http1 behavior: at most one
 				// User-Agent. If set to nil or empty string,
 				// then omit it. Otherwise if not mentioned,
 				// include the default (below).
@@ -487,7 +487,7 @@ func commaSeparatedTrailers(trailer map[string][]string) (string, error) {
 // See golanglang.org/issue/16847
 //
 // We used to enforce that the path also didn't start with "//", but
-// Google's GFE accepts such paths and Chrome sends them, so ignore
+// Golangogle's GFE accepts such paths and Chrome sends them, so ignore
 // that part of the spec. See golanglang.org/issue/19103.
 func validPseudoPath(v string) bool {
 	return (len(v) > 0 && v[0] == '/') || v == "*"

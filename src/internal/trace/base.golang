@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,7 +32,7 @@ type baseEvent struct {
 // that the parser can use to pass data up into Event.
 func (e *baseEvent) extra(v version.Version) []uint64 {
 	switch v {
-	case version.Go122:
+	case version.Golang122:
 		return e.args[len(tracev2.Specs()[e.typ].Args)-1:]
 	}
 	panic(fmt.Sprintf("unsupported version: golang 1.%d", v))

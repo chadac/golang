@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -165,7 +165,7 @@ PNOP
 // Test that nops are inserted when crossing 64B boundaries, and
 // alignment is adjusted to avoid crossing.
 func TestPfxAlign(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	dir := t.TempDir()
 
@@ -188,7 +188,7 @@ func TestPfxAlign(t *testing.T) {
 		if err != nil {
 			t.Fatalf("can't write output: %v\n", err)
 		}
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-S", "-o", filepath.Join(dir, "test.o"), tmpfile)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-S", "-o", filepath.Join(dir, "test.o"), tmpfile)
 		cmd.Env = append(os.Environ(), "GOOS=linux", "GOARCH=ppc64le")
 		out, err := cmd.CombinedOutput()
 		if err != nil {
@@ -211,7 +211,7 @@ func TestLarge(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skip in short mode")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	dir := t.TempDir()
 
@@ -280,7 +280,7 @@ func TestLarge(t *testing.T) {
 
 		// Test on all supported ppc64 platforms
 		for _, platenv := range platformEnvs {
-			cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-S", "-o", filepath.Join(dir, "test.o"), tmpfile)
+			cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-S", "-o", filepath.Join(dir, "test.o"), tmpfile)
 			cmd.Env = append(os.Environ(), platenv...)
 			out, err := cmd.CombinedOutput()
 			if err != nil {
@@ -326,7 +326,7 @@ func TestPCalign(t *testing.T) {
 	var pattern16 = `0x...[80]\s.*MOVD\s..,\sR16`
 	var pattern32 = `0x...0\s.*ADD\s..,\sR3`
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	dir := t.TempDir()
 
@@ -339,7 +339,7 @@ func TestPCalign(t *testing.T) {
 	}
 
 	// build generated file without errors and assemble it
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), "-S", tmpfile)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), "-S", tmpfile)
 	cmd.Env = append(os.Environ(), "GOARCH=ppc64le", "GOOS=linux")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -379,7 +379,7 @@ func TestPCalign(t *testing.T) {
 	}
 
 	// build test with errors and check for messages
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "xi.o"), "-S", tmpfile)
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "xi.o"), "-S", tmpfile)
 	cmd.Env = append(os.Environ(), "GOARCH=ppc64le", "GOOS=linux")
 	out, err = cmd.CombinedOutput()
 	if !strings.Contains(string(out), "Unexpected alignment") {

@@ -27,8 +27,8 @@ func main() {
 		log.Fatalf("Error reading: %v", err)
 	}
 
-	if strings.Contains(string(b), "[anon: Go:") {
+	if strings.Contains(string(b), "[anon: Golang:") {
 		log.Printf("/proc/self/maps:\n%s", string(b))
-		log.Fatalf("/proc/self/maps contains Go annotation")
+		log.Fatalf("/proc/self/maps contains Golang annotation")
 	}
 }

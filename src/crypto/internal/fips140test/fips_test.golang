@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -93,12 +93,12 @@ func TestVersion(t *testing.T) {
 func TestFIPS140(t *testing.T) {
 	moduleStatus(t)
 	if boring.Enabled {
-		t.Skip("Go+BoringCrypto shims prevent the service indicator from being set")
+		t.Skip("Golang+BoringCrypto shims prevent the service indicator from being set")
 	}
 
 	aesKey := make([]byte, 128/8)
 	aesIV := make([]byte, aes.BlockSize)
-	plaintext := []byte("Go Cryptographic Module TestFIPS140 plaintext...")
+	plaintext := []byte("Golang Cryptographic Module TestFIPS140 plaintext...")
 	plaintextSHA256 := decodeHex(t, "06b2614e2ef315832b23f5d0ff70294d8ddd3889527dfbe75707fe41da929325")
 	aesBlock, err := aes.New(aesKey)
 	fatalIfErr(t, err)

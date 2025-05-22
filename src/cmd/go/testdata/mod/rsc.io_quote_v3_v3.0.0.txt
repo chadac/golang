@@ -13,7 +13,7 @@ module rsc.io/quote/v3
 require rsc.io/sampler v1.3.0
 
 -- quote.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,8 +33,8 @@ func GlassV3() string {
 	return "I can eat glass and it doesn't hurt me."
 }
 
-// Go returns a Go proverb.
-func GoV3() string {
+// Golang returns a Golang proverb.
+func GolangV3() string {
 	return "Don't communicate by sharing memory, share memory by communicating."
 }
 

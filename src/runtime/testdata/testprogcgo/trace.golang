@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@ package main
 
 /*
 // Defined in trace_*.c.
-void cCalledFromGo(void);
+void cCalledFromGolang(void);
 */
 import "C"
 import (
@@ -34,16 +34,16 @@ func Trace() {
 	}
 	defer trace.Stop()
 
-	golangCalledFromGo()
+	golangCalledFromGolang()
 	<-golangCalledFromCThreadChan
 
 	fmt.Printf("trace path:%s", file.Name())
 }
 
-// golangCalledFromGo calls cCalledFromGo which calls back into golangCalledFromC and
+// golangCalledFromGolang calls cCalledFromGolang which calls back into golangCalledFromC and
 // golangCalledFromCThread.
-func golangCalledFromGo() {
-	C.cCalledFromGo()
+func golangCalledFromGolang() {
+	C.cCalledFromGolang()
 }
 
 //export golangCalledFromC

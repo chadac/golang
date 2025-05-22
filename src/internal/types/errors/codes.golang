@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -735,7 +735,7 @@ const (
 	// function-valued expression, instead of being called.
 	//
 	// Per the spec:
-	//  "The built-in functions do not have standard Go types, so they can only
+	//  "The built-in functions do not have standard Golang types, so they can only
 	//  appear in call expressions; they cannot be used as function values."
 	//
 	// Example:
@@ -1244,7 +1244,7 @@ const (
 	//  }
 	InvalidDefer
 
-	// InvalidGo occurs when a golang expression is not a function call, for example
+	// InvalidGolang occurs when a golang expression is not a function call, for example
 	// if the expression is a type conversion.
 	//
 	// Example:
@@ -1252,9 +1252,9 @@ const (
 	//  	golang int32(i)
 	//  	return i
 	//  }
-	InvalidGo
+	InvalidGolang
 
-	// All codes below were added in Go 1.17.
+	// All codes below were added in Golang 1.17.
 
 	// BadDecl occurs when a declaration has invalid syntax.
 	BadDecl
@@ -1311,10 +1311,10 @@ const (
 	//  var _ = unsafe.Slice(&x, uint64(1) << 63)
 	InvalidUnsafeSlice
 
-	// All codes below were added in Go 1.18.
+	// All codes below were added in Golang 1.18.
 
 	// UnsupportedFeature occurs when a language feature is used that is not
-	// supported at this Go version.
+	// supported at this Golang version.
 	UnsupportedFeature
 
 	// NotAGenericType occurs when a non-generic type is used where a generic
@@ -1473,10 +1473,10 @@ const (
 	InvalidMinMaxOperand
 
 	// TooNew indicates that, through build tags or a golang.mod file,
-	// a source file requires a version of Go that is newer than
+	// a source file requires a version of Golang that is newer than
 	// the logic of the type checker. As a consequence, the type
 	// checker may produce spurious errors or fail to report real
 	// errors. The solution is to rebuild the application with a
-	// newer Go release.
+	// newer Golang release.
 	TooNew
 )

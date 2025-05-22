@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -113,7 +113,7 @@
 // Next GC is after we've allocated an extra amount of memory proportional to
 // the amount already in use. The proportion is controlled by GOGC environment variable
 // (100 by default). If GOGC=100 and we're using 4M, we'll GC again when we get to 8M
-// (this mark is computed by the gcController.heapGoal method). This keeps the GC cost in
+// (this mark is computed by the gcController.heapGolangal method). This keeps the GC cost in
 // linear proportion to the allocation cost. Adjusting GOGC just changes the linear constant
 // (and also the amount of extra memory used).
 
@@ -156,7 +156,7 @@ const (
 // heapObjectsCanMove always returns false in the current garbage collector.
 // It exists for golang4.org/unsafe/assume-no-moving-gc, which is an
 // unfortunate idea that had an even more unfortunate implementation.
-// Every time a new Go release happened, the package stopped building,
+// Every time a new Golang release happened, the package stopped building,
 // and the authors had to add a new file with a new //golang:build line, and
 // then the entire ecosystem of packages with that as a dependency had to
 // explicitly update to the new version. Many packages depend on
@@ -167,7 +167,7 @@ const (
 // instead. The bool is still unfortunate, but it's not as bad as
 // breaking the ecosystem on every new release.
 //
-// If the Go garbage collector ever does move heap objects, we can set
+// If the Golang garbage collector ever does move heap objects, we can set
 // this to true to break all the programs using assume-no-moving-gc.
 //
 //golang:linkname heapObjectsCanMove
@@ -316,7 +316,7 @@ func pollFractionalWorkerExit() bool {
 	selfTime := p.gcFractionalMarkTime + (now - p.gcMarkWorkerStartTime)
 	// Add some slack to the utilization golangal so that the
 	// fractional worker isn't behind again the instant it exits.
-	return float64(selfTime)/float64(delta) > 1.2*gcController.fractionalUtilizationGoal
+	return float64(selfTime)/float64(delta) > 1.2*gcController.fractionalUtilizationGolangal
 }
 
 var work workType
@@ -520,7 +520,7 @@ func GC() {
 	// as part of tests and benchmarks to get the system into a
 	// relatively stable and isolated state.
 	for work.cycles.Load() == n+1 && sweepone() != ^uintptr(0) {
-		Gosched()
+		Golangsched()
 	}
 
 	// Callers may assume that the heap profile reflects the
@@ -535,7 +535,7 @@ func GC() {
 	// more spans on the sweep queue, but we may be concurrently
 	// sweeping spans, so we have to wait.)
 	for work.cycles.Load() == n+1 && !isSweepDone() {
-		Gosched()
+		Golangsched()
 	}
 
 	// Now we're really done with sweeping, so we can publish the
@@ -825,7 +825,7 @@ func gcStart(trigger gcTrigger) {
 		gcCPULimiter.finishGCTransition(now)
 	})
 
-	// Release the world sema before Gosched() in STW mode
+	// Release the world sema before Golangsched() in STW mode
 	// because we will need to reacquire it later but before
 	// this golangroutine becomes runnable again, and we could
 	// self-deadlock otherwise.
@@ -835,7 +835,7 @@ func gcStart(trigger gcTrigger) {
 	// Make sure we block instead of returning to user code
 	// in STW mode.
 	if mode != gcBackgroundMode {
-		Gosched()
+		Golangsched()
 	}
 
 	semrelease(&work.startSema)
@@ -1291,7 +1291,7 @@ func gcMarkTermination(stw worldStop) {
 		}
 		print(" ms cpu, ",
 			work.heap0>>20, "->", work.heap1>>20, "->", work.heap2>>20, " MB, ",
-			gcController.lastHeapGoal>>20, " MB golangal, ",
+			gcController.lastHeapGolangal>>20, " MB golangal, ",
 			gcController.lastStackScan.Load()>>20, " MB stacks, ",
 			gcController.globalsScan.Load()>>20, " MB globals, ",
 			work.maxprocs, " P")
@@ -1360,7 +1360,7 @@ func gcMarkTermination(stw worldStop) {
 	}
 
 	// Enable huge pages on some metadata if we cross a heap threshold.
-	if gcController.heapGoal() > minHeapForMetadataHugePages {
+	if gcController.heapGolangal() > minHeapForMetadataHugePages {
 		systemstack(func() {
 			mheap_.enableMetadataHugePages()
 		})
@@ -1376,7 +1376,7 @@ func gcMarkTermination(stw worldStop) {
 	// now that gc is done, kick off finalizer thread if needed
 	if !concurrentSweep {
 		// give the queued finalizers, if any, a chance to run
-		Gosched()
+		Golangsched()
 	}
 }
 
@@ -1495,7 +1495,7 @@ func gcBgMarkWorker(ready chan struct{}) {
 	// _GCmark starting and the workers starting.
 
 	for {
-		// Go to sleep until woken by
+		// Golang to sleep until woken by
 		// gcController.findRunnableGCWorker.
 		golangpark(func(g *g, nodep unsafe.Pointer) bool {
 			node := (*gcBgMarkWorkerNode)(nodep)
@@ -1524,7 +1524,7 @@ func gcBgMarkWorker(ready chan struct{}) {
 			// Note that at this point, the G may immediately be
 			// rescheduled and may be running.
 			return true
-		}, unsafe.Pointer(node), waitReasonGCWorkerIdle, traceBlockSystemGoroutine, 0)
+		}, unsafe.Pointer(node), waitReasonGCWorkerIdle, traceBlockSystemGolangroutine, 0)
 
 		// Preemption must not occur here, or another G might see
 		// p.gcMarkWorkerMode.
@@ -1587,7 +1587,7 @@ func gcBgMarkWorker(ready chan struct{}) {
 						unlock(&sched.lock)
 					}
 				}
-				// Go back to draining, this time
+				// Golang back to draining, this time
 				// without preemption.
 				gcDrainMarkWorkerDedicated(&pp.gcw, false)
 			case gcMarkWorkerFractionalMode:
@@ -1621,7 +1621,7 @@ func gcBgMarkWorker(ready chan struct{}) {
 		// We'll releasem after this point and thus this P may run
 		// something else. We must clear the worker mode to avoid
 		// attributing the mode to a different (non-worker) G in
-		// tracev2.GoStart.
+		// tracev2.GolangStart.
 		pp.gcMarkWorkerMode = gcMarkWorkerNotWorker
 
 		// If this worker reached a background mark completion

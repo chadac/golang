@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -43,7 +43,7 @@ func TestHashInterface(t *testing.T) {
 type golanglden struct {
 	out       []byte
 	in        string
-	halfState string // marshaled hash state after first half of in written, used by TestGoldenMarshal
+	halfState string // marshaled hash state after first half of in written, used by TestGolangldenMarshal
 }
 
 var golanglden32 = []golanglden{
@@ -88,31 +88,31 @@ var golanglden128a = []golanglden{
 	{[]byte{0xa6, 0x8d, 0x62, 0x2c, 0xec, 0x8b, 0x58, 0x22, 0x83, 0x6d, 0xbc, 0x79, 0x77, 0xaf, 0x7f, 0x3b}, "abc", "fnv\x06\xd2(\xcbio\x1a\x8c\xafx\x91+pNJ\x89d"},
 }
 
-func TestGolden32(t *testing.T) {
-	testGolden(t, New32(), golanglden32)
+func TestGolanglden32(t *testing.T) {
+	testGolanglden(t, New32(), golanglden32)
 }
 
-func TestGolden32a(t *testing.T) {
-	testGolden(t, New32a(), golanglden32a)
+func TestGolanglden32a(t *testing.T) {
+	testGolanglden(t, New32a(), golanglden32a)
 }
 
-func TestGolden64(t *testing.T) {
-	testGolden(t, New64(), golanglden64)
+func TestGolanglden64(t *testing.T) {
+	testGolanglden(t, New64(), golanglden64)
 }
 
-func TestGolden64a(t *testing.T) {
-	testGolden(t, New64a(), golanglden64a)
+func TestGolanglden64a(t *testing.T) {
+	testGolanglden(t, New64a(), golanglden64a)
 }
 
-func TestGolden128(t *testing.T) {
-	testGolden(t, New128(), golanglden128)
+func TestGolanglden128(t *testing.T) {
+	testGolanglden(t, New128(), golanglden128)
 }
 
-func TestGolden128a(t *testing.T) {
-	testGolden(t, New128a(), golanglden128a)
+func TestGolanglden128a(t *testing.T) {
+	testGolanglden(t, New128a(), golanglden128a)
 }
 
-func testGolden(t *testing.T, hash hash.Hash, golangld []golanglden) {
+func testGolanglden(t *testing.T, hash hash.Hash, golangld []golanglden) {
 	for _, g := range golangld {
 		hash.Reset()
 		done, error := hash.Write([]byte(g.in))
@@ -128,7 +128,7 @@ func testGolden(t *testing.T, hash hash.Hash, golangld []golanglden) {
 	}
 }
 
-func TestGoldenMarshal(t *testing.T) {
+func TestGolangldenMarshal(t *testing.T) {
 	tests := []struct {
 		name    string
 		newHash func() hash.Hash

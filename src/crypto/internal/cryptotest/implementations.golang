@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ import (
 // implementation of the package registered with crypto/internal/impl. If there
 // are no alternative implementations for pkg, f is invoked directly once.
 func TestAllImplementations(t *testing.T, pkg string, f func(t *testing.T)) {
-	// BoringCrypto bypasses the multiple Go implementations.
+	// BoringCrypto bypasses the multiple Golang implementations.
 	if boring.Enabled {
 		f(t)
 		return

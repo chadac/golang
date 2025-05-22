@@ -1,4 +1,4 @@
-// Copyright 2014 Google Inc. All Rights Reserved.
+// Copyright 2014 Golangogle Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -114,7 +114,7 @@ func postURL(source, post string, tr http.RoundTripper) ([]byte, error) {
 }
 
 func statusCodeError(resp *http.Response) error {
-	if resp.Header.Get("X-Go-Pprof") != "" && strings.Contains(resp.Header.Get("Content-Type"), "text/plain") {
+	if resp.Header.Get("X-Golang-Pprof") != "" && strings.Contains(resp.Header.Get("Content-Type"), "text/plain") {
 		// error is from pprof endpoint
 		if body, err := io.ReadAll(resp.Body); err == nil {
 			return fmt.Errorf("server response: %s - %s", resp.Status, body)
@@ -326,7 +326,7 @@ func looksLikeDemangledCPlusPlus(demangled string) bool {
 	if strings.Contains(demangled, ".<") {
 		return false
 	}
-	// Skip Go names of the form "foo.(*Bar[...]).Method".
+	// Skip Golang names of the form "foo.(*Bar[...]).Method".
 	if strings.Contains(demangled, "]).") {
 		return false
 	}

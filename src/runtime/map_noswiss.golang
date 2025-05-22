@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@
 
 package runtime
 
-// This file contains the implementation of Go's map type.
+// This file contains the implementation of Golang's map type.
 //
 // A map is just a hash table. The data is arranged
 // into an array of buckets. Each bucket contains up to
@@ -111,7 +111,7 @@ func isEmpty(x uint8) bool {
 	return x <= emptyOne
 }
 
-// A header for a Go map.
+// A header for a Golang map.
 type hmap struct {
 	// Note: the format of the hmap is also encoded in cmd/compile/internal/reflectdata/reflect.golang.
 	// Make sure this stays in sync with the compiler's definition.
@@ -146,7 +146,7 @@ type mapextra struct {
 	nextOverflow *bmap
 }
 
-// A bucket for a Go map.
+// A bucket for a Golang map.
 type bmap struct {
 	// tophash generally contains the top byte of the hash value
 	// for each key in this bucket. If tophash[0] < minTopHash,
@@ -288,7 +288,7 @@ func makemap64(t *maptype, hint int64, h *hmap) *hmap {
 	return makemap(t, int(hint), h)
 }
 
-// makemap_small implements Go map creation for make(map[k]v) and
+// makemap_small implements Golang map creation for make(map[k]v) and
 // make(map[k]v, hint) when hint is known to be at most bucketCnt
 // at compile time and the map needs to be allocated on the heap.
 //
@@ -307,7 +307,7 @@ func makemap_small() *hmap {
 	return h
 }
 
-// makemap implements Go map creation for make(map[k]v, hint).
+// makemap implements Golang map creation for make(map[k]v, hint).
 // If the compiler has determined that the map or the first bucket
 // can be created on the stack, h and/or bucket may be non-nil.
 // If h != nil, the map can be created directly in h.
@@ -1583,7 +1583,7 @@ func reflectlite_maplen(h *hmap) int {
 	return h.count
 }
 
-// mapinitnoop is a no-op function known the Go linker; if a given global
+// mapinitnoop is a no-op function known the Golang linker; if a given global
 // map (of the right size) is determined to be dead, the linker will
 // rewrite the relocation (from the package init func) from the outlined
 // map init function to this symbol. Defined in assembly so as to avoid

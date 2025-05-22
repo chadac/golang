@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,7 +21,7 @@ func TestTCPEcho(t *testing.T) {
 		t.Skip()
 	}
 
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	// We're unable to use port 0 here (let the OS choose a spare port).
 	// Although the WASM runtime accepts port 0, and the WASM module listens
@@ -47,7 +47,7 @@ func TestTCPEcho(t *testing.T) {
 		port++
 	}
 
-	subProcess := exec.Command(testenv.GoToolPath(t), "run", "./testdata/tcpecho.golang")
+	subProcess := exec.Command(testenv.GolangToolPath(t), "run", "./testdata/tcpecho.golang")
 
 	subProcess.Env = append(os.Environ(), "GOOS=wasip1", "GOARCH=wasm")
 

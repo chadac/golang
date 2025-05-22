@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -227,5 +227,5 @@ func isIntrinsicNoReturn(fn *types.Func) bool {
 	// Add functions here as the need arises, but don't allocate memory.
 	path, name := fn.Pkg().Path(), fn.Name()
 	return path == "syscall" && (name == "Exit" || name == "ExitProcess" || name == "ExitThread") ||
-		path == "runtime" && name == "Goexit"
+		path == "runtime" && name == "Golangexit"
 }

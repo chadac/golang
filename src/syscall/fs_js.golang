@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -421,7 +421,7 @@ func Read(fd int, b []byte) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	js.CopyBytesToGo(b, buf)
+	js.CopyBytesToGolang(b, buf)
 
 	n2 := n.Int()
 	f.pos += int64(n2)
@@ -465,7 +465,7 @@ func Pread(fd int, b []byte, offset int64) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	js.CopyBytesToGo(b, buf)
+	js.CopyBytesToGolang(b, buf)
 	return n.Int(), nil
 }
 
@@ -576,7 +576,7 @@ func recoverErr(errPtr *error) {
 	}
 }
 
-// mapJSError maps an error given by Node.js to the appropriate Go error.
+// mapJSError maps an error given by Node.js to the appropriate Golang error.
 func mapJSError(jsErr js.Value) error {
 	errno, ok := errnoByCode[jsErr.Get("code").String()]
 	if !ok {

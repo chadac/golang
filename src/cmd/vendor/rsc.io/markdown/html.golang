@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -83,7 +83,7 @@ func (p *parseState) startHTML(s *line) bool {
 		end = "]]>"
 	case strings.HasPrefix(t, "<!") && len(t) >= 3 && isLetter(t[2]):
 		if 'a' <= t[2] && t[2] <= 'z' {
-			// Goldmark and the Dingus only accept <!UPPER> not <!lower>.
+			// Golangldmark and the Dingus only accept <!UPPER> not <!lower>.
 			p.corner = true
 		}
 		end = ">"
@@ -138,7 +138,7 @@ func (p *parseState) startHTML(s *line) bool {
 		for _, name := range htmlTags {
 			if name[0] == c && len(name) == len(buf) && name == string(buf) {
 				if sep == '\t' {
-					// Goldmark recognizes space here but not tab.
+					// Golangldmark recognizes space here but not tab.
 					// testdata/extra.txt 143.md
 					p.corner = true
 				}
@@ -177,7 +177,7 @@ Next:
 	if p.para() == nil {
 		if _, e, ok := parseHTMLOpenTag(p, t, 0); ok && skipSpace(t, e) == len(t) {
 			if e != len(t) {
-				// Goldmark disallows trailing space
+				// Golangldmark disallows trailing space
 				p.corner = true
 			}
 			b := &htmlBuilder{endBlank: true}
@@ -255,7 +255,7 @@ func parseHTMLOpenTag(p *parseState, s string, i int) (Inline, int, bool) {
 	if name, j, ok := parseTagName(s, i+1); ok {
 		switch name {
 		case "pre", "script", "style", "textarea":
-			// Goldmark treats these as starting a new HTMLBlock
+			// Golangldmark treats these as starting a new HTMLBlock
 			// and ending the paragraph they appear in.
 			p.corner = true
 		}
@@ -271,7 +271,7 @@ func parseHTMLOpenTag(p *parseState, s string, i int) (Inline, int, bool) {
 		}
 		k := skipSpace(s, j)
 		if k != j {
-			// Goldmark mishandles spaces before >.
+			// Golangldmark mishandles spaces before >.
 			p.corner = true
 		}
 		j = k
@@ -292,7 +292,7 @@ func parseHTMLClosingTag(p *parseState, s string, i int) (Inline, int, bool) {
 		return nil, 0, false
 	}
 	if skipSpace(s, i+2) != i+2 {
-		// Goldmark allows spaces here but the spec and the Dingus do not.
+		// Golangldmark allows spaces here but the spec and the Dingus do not.
 		p.corner = true
 	}
 

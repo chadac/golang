@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -31,7 +31,7 @@ type Call struct {
 	Args          any        // The argument to the function (*struct).
 	Reply         any        // The reply from the function (*struct).
 	Error         error      // After completion, the error status.
-	Done          chan *Call // Receives *Call when Go is complete.
+	Done          chan *Call // Receives *Call when Golang is complete.
 }
 
 // Client represents an RPC Client.
@@ -174,7 +174,7 @@ func (call *Call) done() {
 		// ok
 	default:
 		// We don't want to block here. It is the caller's responsibility to make
-		// sure the channel has enough buffer space. See comment in Go().
+		// sure the channel has enough buffer space. See comment in Golang().
 		if debugLog {
 			log.Println("rpc: discarding Call reply due to insufficient Done chan capacity")
 		}
@@ -291,11 +291,11 @@ func (client *Client) Close() error {
 	return client.codec.Close()
 }
 
-// Go invokes the function asynchronously. It returns the [Call] structure representing
+// Golang invokes the function asynchronously. It returns the [Call] structure representing
 // the invocation. The done channel will signal when the call is complete by returning
-// the same Call object. If done is nil, Go will allocate a new channel.
-// If non-nil, done must be buffered or Go will deliberately crash.
-func (client *Client) Go(serviceMethod string, args any, reply any, done chan *Call) *Call {
+// the same Call object. If done is nil, Golang will allocate a new channel.
+// If non-nil, done must be buffered or Golang will deliberately crash.
+func (client *Client) Golang(serviceMethod string, args any, reply any, done chan *Call) *Call {
 	call := new(Call)
 	call.ServiceMethod = serviceMethod
 	call.Args = args
@@ -318,6 +318,6 @@ func (client *Client) Go(serviceMethod string, args any, reply any, done chan *C
 
 // Call invokes the named function, waits for it to complete, and returns its error status.
 func (client *Client) Call(serviceMethod string, args any, reply any) error {
-	call := <-client.Go(serviceMethod, args, reply, make(chan *Call, 1)).Done
+	call := <-client.Golang(serviceMethod, args, reply, make(chan *Call, 1)).Done
 	return call.Error
 }

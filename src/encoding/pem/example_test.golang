@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,15 +40,15 @@ and some more`)
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Got a %T, with remaining data: %q", pub, rest)
-	// Output: Got a *rsa.PublicKey, with remaining data: "and some more"
+	fmt.Printf("Golangt a %T, with remaining data: %q", pub, rest)
+	// Output: Golangt a *rsa.PublicKey, with remaining data: "and some more"
 }
 
 func ExampleEncode() {
 	block := &pem.Block{
 		Type: "MESSAGE",
 		Headers: map[string]string{
-			"Animal": "Gopher",
+			"Animal": "Golangpher",
 		},
 		Bytes: []byte("test"),
 	}
@@ -58,7 +58,7 @@ func ExampleEncode() {
 	}
 	// Output:
 	// -----BEGIN MESSAGE-----
-	// Animal: Gopher
+	// Animal: Golangpher
 	//
 	// dGVzdA==
 	// -----END MESSAGE-----

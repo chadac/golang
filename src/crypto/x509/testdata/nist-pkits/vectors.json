@@ -3,12 +3,12 @@
         "Name": "4.1.1 Valid Signatures Test1",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "ValidCertificatePathTest1EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -41,12 +41,12 @@
         "Name": "4.1.3 Invalid EE Signature Test3",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "InvalidEESignatureTest3EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": false,
         "InitialPolicySet": [
@@ -138,12 +138,12 @@
         "Name": "4.2.2 Invalid EE notBefore Date Test2",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "InvalidEEnotBeforeDateTest2EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": false,
         "InitialPolicySet": [
@@ -157,12 +157,12 @@
         "Name": "4.2.3 Valid pre2000 UTC notBefore Date Test3",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "Validpre2000UTCnotBeforeDateTest3EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -176,12 +176,12 @@
         "Name": "4.2.4 Valid GeneralizedTime notBefore Date Test4",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "ValidGeneralizedTimenotBeforeDateTest4EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -214,12 +214,12 @@
         "Name": "4.2.6 Invalid EE notAfter Date Test6",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "InvalidEEnotAfterDateTest6EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": false,
         "InitialPolicySet": [
@@ -233,12 +233,12 @@
         "Name": "4.2.7 Invalid pre2000 UTC EE notAfter Date Test7",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "Invalidpre2000UTCEEnotAfterDateTest7EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": false,
         "InitialPolicySet": [
@@ -252,12 +252,12 @@
         "Name": "4.2.8 Valid GeneralizedTime notAfter Date Test8",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "ValidGeneralizedTimenotAfterDateTest8EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -271,12 +271,12 @@
         "Name": "4.3.1 Invalid Name Chaining EE Test1",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "InvalidNameChainingTest1EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": false,
         "InitialPolicySet": [
@@ -309,12 +309,12 @@
         "Name": "4.3.3 Valid Name Chaining Whitespace Test3",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "ValidNameChainingWhitespaceTest3EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -328,12 +328,12 @@
         "Name": "4.3.4 Valid Name Chaining Whitespace Test4",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "ValidNameChainingWhitespaceTest4EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -347,12 +347,12 @@
         "Name": "4.3.5 Valid Name Chaining Capitalization Test5",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "ValidNameChainingCapitalizationTest5EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -498,13 +498,13 @@
         "Name": "4.4.2 Invalid Revoked CA Test2",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "RevokedsubCACert.crt",
             "InvalidRevokedCATest2EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl",
+            "GolangodCACRL.crl",
             "RevokedsubCACRL.crl"
         ],
         "ShouldValidate": false,
@@ -519,12 +519,12 @@
         "Name": "4.4.3 Invalid Revoked EE Test3",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "InvalidRevokedEETest3EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": false,
         "InitialPolicySet": [
@@ -600,7 +600,7 @@
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "TwoCRLsCAGoodCRL.crl",
+            "TwoCRLsCAGolangodCRL.crl",
             "TwoCRLsCABadCRL.crl"
         ],
         "ShouldValidate": true,
@@ -1512,12 +1512,12 @@
         "Name": "4.8.1 All Certificates Same Policy Test1 (Subpart 1)",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "ValidCertificatePathTest1EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -1531,12 +1531,12 @@
         "Name": "4.8.1 All Certificates Same Policy Test1 (Subpart 2)",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "ValidCertificatePathTest1EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -1550,12 +1550,12 @@
         "Name": "4.8.1 All Certificates Same Policy Test1 (Subpart 3)",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "ValidCertificatePathTest1EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": false,
         "InitialPolicySet": [
@@ -1569,12 +1569,12 @@
         "Name": "4.8.1 All Certificates Same Policy Test1 (Subpart 4)",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "ValidCertificatePathTest1EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -1627,13 +1627,13 @@
         "Name": "4.8.3 Different Policies Test3 (Subpart 1)",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "PoliciesP2subCACert.crt",
             "DifferentPoliciesTest3EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl",
+            "GolangodCACRL.crl",
             "PoliciesP2subCACRL.crl"
         ],
         "ShouldValidate": true,
@@ -1648,13 +1648,13 @@
         "Name": "4.8.3 Different Policies Test3 (Subpart 2)",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "PoliciesP2subCACert.crt",
             "DifferentPoliciesTest3EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl",
+            "GolangodCACRL.crl",
             "PoliciesP2subCACRL.crl"
         ],
         "ShouldValidate": false,
@@ -1669,13 +1669,13 @@
         "Name": "4.8.3 Different Policies Test3 (Subpart 3)",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "PoliciesP2subCACert.crt",
             "DifferentPoliciesTest3EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl",
+            "GolangodCACRL.crl",
             "PoliciesP2subCACRL.crl"
         ],
         "ShouldValidate": false,
@@ -1691,14 +1691,14 @@
         "Name": "4.8.4 Different Policies Test4",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
-            "GoodsubCACert.crt",
+            "GolangodCACert.crt",
+            "GolangodsubCACert.crt",
             "DifferentPoliciesTest4EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl",
-            "GoodsubCACRL.crl"
+            "GolangodCACRL.crl",
+            "GolangodsubCACRL.crl"
         ],
         "ShouldValidate": false,
         "InitialPolicySet": [
@@ -1712,13 +1712,13 @@
         "Name": "4.8.5 Different Policies Test5",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "PoliciesP2subCA2Cert.crt",
             "DifferentPoliciesTest5EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl",
+            "GolangodCACRL.crl",
             "PoliciesP2subCA2CRL.crl"
         ],
         "ShouldValidate": false,
@@ -2099,12 +2099,12 @@
         "Name": "4.8.16 User Notice Qualifier Test16",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "UserNoticeQualifierTest16EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -2118,12 +2118,12 @@
         "Name": "4.8.17 User Notice Qualifier Test17",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "UserNoticeQualifierTest17EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -2192,12 +2192,12 @@
         "Name": "4.8.20 CPS Pointer Qualifier Test20",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "CPSPointerQualifierTest20EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -2706,14 +2706,14 @@
         "Name": "4.10.10 Invalid Policy Mapping Test10",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
-            "GoodsubCAPanyPolicyMapping1to2CACert.crt",
+            "GolangodCACert.crt",
+            "GolangodsubCAPanyPolicyMapping1to2CACert.crt",
             "InvalidPolicyMappingTest10EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl",
-            "GoodsubCAPanyPolicyMapping1to2CACRL.crl"
+            "GolangodCACRL.crl",
+            "GolangodsubCAPanyPolicyMapping1to2CACRL.crl"
         ],
         "ShouldValidate": false,
         "InitialPolicySet": [
@@ -2727,14 +2727,14 @@
         "Name": "4.10.11 Valid Policy Mapping Test11",
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
-            "GoodCACert.crt",
-            "GoodsubCAPanyPolicyMapping1to2CACert.crt",
+            "GolangodCACert.crt",
+            "GolangodsubCAPanyPolicyMapping1to2CACert.crt",
             "ValidPolicyMappingTest11EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl",
-            "GoodsubCAPanyPolicyMapping1to2CACRL.crl"
+            "GolangodCACRL.crl",
+            "GolangodsubCAPanyPolicyMapping1to2CACRL.crl"
         ],
         "ShouldValidate": true,
         "InitialPolicySet": [
@@ -4599,12 +4599,12 @@
         "CertPath": [
             "TrustAnchorRootCertificate.crt",
             "indirectCRLCA2Cert.crt",
-            "GoodCACert.crt",
+            "GolangodCACert.crt",
             "InvalidcRLIssuerTest27EE.crt"
         ],
         "CRLPath": [
             "TrustAnchorRootCRL.crl",
-            "GoodCACRL.crl"
+            "GolangodCACRL.crl"
         ],
         "ShouldValidate": false,
         "InitialPolicySet": [

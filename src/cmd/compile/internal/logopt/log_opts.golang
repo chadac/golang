@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ import (
 	"unicode"
 )
 
-// This implements (non)optimization logging for -json option to the Go compiler
+// This implements (non)optimization logging for -json option to the Golang compiler
 // The option is -json 0,<destination>.
 //
 // 0 is the version number; to avoid the need for synchronized updates, if
@@ -103,8 +103,8 @@ import (
 type VersionHeader struct {
 	Version   int    `json:"version"`
 	Package   string `json:"package"`
-	Goos      string `json:"golangos"`
-	Goarch    string `json:"golangarch"`
+	Golangos      string `json:"golangos"`
+	Golangarch    string `json:"golangarch"`
 	GcVersion string `json:"gc_version"`
 	File      string `json:"file,omitempty"` // LSP requires an enclosing resource, i.e., a file
 }
@@ -466,7 +466,7 @@ func FlushLoggedOpts(ctxt *obj.Link, slashPkgPath string) {
 				currentFile = p0f
 				w = writerForLSP(subdirpath, currentFile)
 				encoder = json.NewEncoder(w)
-				encoder.Encode(VersionHeader{Version: 0, Package: slashPkgPath, Goos: buildcfg.GOOS, Goarch: buildcfg.GOARCH, GcVersion: buildcfg.Version, File: currentFile})
+				encoder.Encode(VersionHeader{Version: 0, Package: slashPkgPath, Golangos: buildcfg.GOOS, Golangarch: buildcfg.GOARCH, GcVersion: buildcfg.Version, File: currentFile})
 			}
 
 			// The first "target" is the most important one.

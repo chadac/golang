@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -42,7 +42,7 @@ var (
 func init() {
 	globl8 = [8]byte{1, 2, 3, 4, 5, 6, 7, 8}
 	globl12 = [12]byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
-	runtime.Gosched()
+	runtime.Golangsched()
 
 	sum := byte(0)
 	for _, x := range globl12 {

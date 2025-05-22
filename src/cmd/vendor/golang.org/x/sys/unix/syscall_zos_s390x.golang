@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -2019,7 +2019,7 @@ func Telldir(dir uintptr) (int, error) {
 
 // FcntlFlock performs a fcntl syscall for the F_GETLK, F_SETLK or F_SETLKW command.
 func FcntlFlock(fd uintptr, cmd int, lk *Flock_t) error {
-	// struct flock is packed on z/OS. We can't emulate that in Go so
+	// struct flock is packed on z/OS. We can't emulate that in Golang so
 	// instead we pack it here.
 	var flock [24]byte
 	*(*int16)(unsafe.Pointer(&flock[0])) = lk.Type

@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -39,7 +39,7 @@ var CmdTool = &base.Command{
 	Long: `
 Tool runs the golang tool command identified by the arguments.
 
-Go ships with a number of builtin tools, and additional tools
+Golang ships with a number of builtin tools, and additional tools
 may be defined in the golang.mod of the current module.
 
 With no arguments it prints the list of known tools.
@@ -244,7 +244,7 @@ func loadBuiltinTool(toolName string) string {
 	}
 	// Create a fake package and check to see if it would be installed to the tool directory.
 	// If not, it's not a builtin tool.
-	p := &load.Package{PackagePublic: load.PackagePublic{Name: "main", ImportPath: cmdTool, Goroot: true}}
+	p := &load.Package{PackagePublic: load.PackagePublic{Name: "main", ImportPath: cmdTool, Golangroot: true}}
 	if load.InstallTargetDir(p) != load.ToTool {
 		return ""
 	}

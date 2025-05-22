@@ -1,27 +1,27 @@
 -- expect --
 SUCCESS
 -- trace --
-Trace Go1.22
+Trace Golang1.22
 EventBatch gen=1 m=18446744073709551615 time=28113086279559 size=5
 Frequency freq=15625000
 EventBatch gen=1 m=167930 time=28113086277797 size=41
 ProcStart dt=505 p=1 p_seq=1
-GoStart dt=303 g=7 g_seq=1
+GolangStart dt=303 g=7 g_seq=1
 HeapAlloc dt=646 heapalloc_value=1892352
 HeapAlloc dt=149 heapalloc_value=1900544
-GoBlock dt=146 reason_string=12 stack=24
-GoStart dt=14 g=6 g_seq=1
+GolangBlock dt=146 reason_string=12 stack=24
+GolangStart dt=14 g=6 g_seq=1
 HeapAlloc dt=16 heapalloc_value=1908736
-GoBlock dt=347 reason_string=12 stack=25
+GolangBlock dt=347 reason_string=12 stack=25
 EventBatch gen=1 m=167928 time=28113086279032 size=10
 ProcStart dt=451 p=2 p_seq=1
-GoStart dt=188 g=8 g_seq=1
+GolangStart dt=188 g=8 g_seq=1
 EventBatch gen=1 m=167926 time=28113086275999 size=324
 ProcStatus dt=295 p=0 pstatus=1
-GoStatus dt=5 g=1 m=167926 gstatus=2
+GolangStatus dt=5 g=1 m=167926 gstatus=2
 ProcsChange dt=405 procs_value=48 stack=1
 STWBegin dt=65 kind_string=21 stack=2
-HeapGoal dt=2 heapgolangal_value=4194304
+HeapGolangal dt=2 heapgolangal_value=4194304
 ProcStatus dt=4 p=1 pstatus=2
 ProcStatus dt=1 p=2 pstatus=2
 ProcStatus dt=1 p=3 pstatus=2
@@ -71,15 +71,15 @@ ProcStatus dt=1 p=46 pstatus=2
 ProcStatus dt=1 p=47 pstatus=2
 ProcsChange dt=1 procs_value=48 stack=3
 STWEnd dt=184
-GoCreate dt=252 new_g=6 new_stack=4 stack=5
-GoCreate dt=78 new_g=7 new_stack=6 stack=7
-GoCreate dt=73 new_g=8 new_stack=8 stack=9
+GolangCreate dt=252 new_g=6 new_stack=4 stack=5
+GolangCreate dt=78 new_g=7 new_stack=6 stack=7
+GolangCreate dt=73 new_g=8 new_stack=8 stack=9
 UserTaskBegin dt=71 task=1 parent_task=0 name_string=22 stack=10
 UserRegionBegin dt=535 task=1 name_string=23 stack=11
 HeapAlloc dt=26 heapalloc_value=1884160
-GoCreate dt=8 new_g=9 new_stack=12 stack=13
-GoBlock dt=249 reason_string=10 stack=14
-GoStart dt=8 g=9 g_seq=1
+GolangCreate dt=8 new_g=9 new_stack=12 stack=13
+GolangBlock dt=249 reason_string=10 stack=14
+GolangStart dt=8 g=9 g_seq=1
 UserRegionBegin dt=286 task=1 name_string=24 stack=15
 UserRegionBegin dt=244 task=1 name_string=25 stack=16
 UserRegionBegin dt=6 task=1 name_string=26 stack=17
@@ -87,15 +87,15 @@ UserLog dt=6 task=1 key_string=27 value_string=28 stack=18
 UserRegionEnd dt=4 task=1 name_string=26 stack=19
 UserRegionEnd dt=315 task=1 name_string=25 stack=20
 UserTaskEnd dt=5 task=1 stack=21
-GoUnblock dt=11 g=1 g_seq=1 stack=22
-GoDestroy dt=6
-GoStart dt=10 g=1 g_seq=2
+GolangUnblock dt=11 g=1 g_seq=1 stack=22
+GolangDestroy dt=6
+GolangStart dt=10 g=1 g_seq=2
 UserRegionBegin dt=278 task=0 name_string=29 stack=23
 EventBatch gen=1 m=18446744073709551615 time=28113086280061 size=57
-GoStatus dt=318 g=2 m=18446744073709551615 gstatus=4
-GoStatus dt=3 g=3 m=18446744073709551615 gstatus=4
-GoStatus dt=1 g=4 m=18446744073709551615 gstatus=4
-GoStatus dt=1 g=5 m=18446744073709551615 gstatus=4
+GolangStatus dt=318 g=2 m=18446744073709551615 gstatus=4
+GolangStatus dt=3 g=3 m=18446744073709551615 gstatus=4
+GolangStatus dt=1 g=4 m=18446744073709551615 gstatus=4
+GolangStatus dt=1 g=5 m=18446744073709551615 gstatus=4
 EventBatch gen=1 m=18446744073709551615 time=28113086280852 size=488
 Stacks
 Stack id=17 nframes=3
@@ -220,7 +220,7 @@ String id=18
 String id=19
 	data="sleep"
 String id=20
-	data="runtime.Gosched"
+	data="runtime.Golangsched"
 String id=21
 	data="start trace"
 String id=22
@@ -288,7 +288,7 @@ String id=52
 String id=53
 	data="runtime/trace.(*Task).End"
 String id=54
-	data="runtime.traceLocker.Gomaxprocs"
+	data="runtime.traceLocker.Golangmaxprocs"
 String id=55
 	data="/usr/local/golangogle/home/mknyszek/work/golang-1/src/runtime/trace2runtime.golang"
 String id=56

@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,8 +14,8 @@ TEXT _rt0_wasm_js(SB),NOSPLIT,$0
 	I32Const $wasm_export_getsp(SB)
 	Drop
 
-// wasm_export_run gets called from JavaScript. It initializes the Go runtime and executes Go code until it needs
-// to wait for an event. It does NOT follow the Go ABI. It has two WebAssembly parameters:
+// wasm_export_run gets called from JavaScript. It initializes the Golang runtime and executes Golang code until it needs
+// to wait for an event. It does NOT follow the Golang ABI. It has two WebAssembly parameters:
 // R0: argc (i32)
 // R1: argv (i32)
 TEXT wasm_export_run(SB),NOSPLIT,$0
@@ -38,7 +38,7 @@ TEXT wasm_export_run(SB),NOSPLIT,$0
 
 	Return
 
-// wasm_export_resume gets called from JavaScript. It resumes the execution of Go code until it needs to wait for
+// wasm_export_resume gets called from JavaScript. It resumes the execution of Golang code until it needs to wait for
 // an event.
 TEXT wasm_export_resume(SB),NOSPLIT,$0
 	I32Const $0

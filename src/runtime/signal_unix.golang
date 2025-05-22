@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -49,7 +49,7 @@ const (
 // default. On Linux, this is SIGALRM, SIGURG, SIGCHLD, SIGIO,
 // SIGVTALRM, SIGPROF, and SIGWINCH, plus some glibc-internal signals.
 //
-// 2. It shouldn't be used internally by libc in mixed Go/C binaries
+// 2. It shouldn't be used internally by libc in mixed Golang/C binaries
 // because libc may assume it's the only thing that can handle these
 // signals. For example SIGCANCEL or SIGSETXID.
 //
@@ -72,9 +72,9 @@ const (
 // likely to be used for real.
 const sigPreempt = _SIGURG
 
-// Stores the signal handlers registered before Go installed its own.
-// These signal handlers will be invoked in cases where Go doesn't want to
-// handle a particular signal (e.g., signal occurred on a non-Go thread).
+// Stores the signal handlers registered before Golang installed its own.
+// These signal handlers will be invoked in cases where Golang doesn't want to
+// handle a particular signal (e.g., signal occurred on a non-Golang thread).
 // See sigfwdgolang for more information on when the signals are forwarded.
 //
 // This is read by the signal handler; accesses should use
@@ -83,7 +83,7 @@ var fwdSig [_NSIG]uintptr
 
 // handlingSig is indexed by signal number and is non-zero if we are
 // currently handling the signal. Or, to put it another way, whether
-// the signal handler is currently set to the Go signal handler or not.
+// the signal handler is currently set to the Golang signal handler or not.
 // This is uint32 rather than bool so that we can use atomic instructions.
 var handlingSig [_NSIG]uint32
 
@@ -133,7 +133,7 @@ func initsig(preinit bool) {
 		// there shouldn't be any other golangroutines running yet.
 		fwdSig[i] = getsig(i)
 
-		if !sigInstallGoHandler(i) {
+		if !sigInstallGolangHandler(i) {
 			// Even if we are not installing a signal handler,
 			// set SA_ONSTACK if necessary.
 			if fwdSig[i] != _SIG_DFL && fwdSig[i] != _SIG_IGN {
@@ -151,7 +151,7 @@ func initsig(preinit bool) {
 
 //golang:nosplit
 //golang:nowritebarrierrec
-func sigInstallGoHandler(sig uint32) bool {
+func sigInstallGolangHandler(sig uint32) bool {
 	// For some signals, we respect an inherited SIG_IGN handler
 	// rather than insist on installing our own default handler.
 	// Even these signals can be fetched using the os/signal package.
@@ -183,7 +183,7 @@ func sigInstallGoHandler(sig uint32) bool {
 	return true
 }
 
-// sigenable enables the Go signal handler to catch the signal sig.
+// sigenable enables the Golang signal handler to catch the signal sig.
 // It is only called while holding the os/signal.handlers lock,
 // via os/signal.enableSignal and signal_enable.
 func sigenable(sig uint32) {
@@ -208,7 +208,7 @@ func sigenable(sig uint32) {
 	}
 }
 
-// sigdisable disables the Go signal handler for the signal sig.
+// sigdisable disables the Golang signal handler for the signal sig.
 // It is only called while holding the os/signal.handlers lock,
 // via os/signal.disableSignal and signal_disable.
 func sigdisable(sig uint32) {
@@ -230,7 +230,7 @@ func sigdisable(sig uint32) {
 		// If initsig does not install a signal handler for a
 		// signal, then to golang back to the state before Notify
 		// we should remove the one we installed.
-		if !sigInstallGoHandler(sig) {
+		if !sigInstallGolangHandler(sig) {
 			atomic.Store(&handlingSig[sig], 0)
 			setsig(sig, atomic.Loaduintptr(&fwdSig[sig]))
 		}
@@ -278,7 +278,7 @@ func clearSignalHandlers() {
 // required for -buildmode=c-archive.
 func setProcessCPUProfilerTimer(hz int32) {
 	if hz != 0 {
-		// Enable the Go signal handler if not enabled.
+		// Enable the Golang signal handler if not enabled.
 		if atomic.Cas(&handlingSig[_SIGPROF], 0, 1) {
 			h := getsig(_SIGPROF)
 			// If no signal handler was installed before, then we record
@@ -309,12 +309,12 @@ func setProcessCPUProfilerTimer(hz int32) {
 	} else {
 		setitimer(_ITIMER_PROF, &itimerval{}, nil)
 
-		// If the Go signal handler should be disabled by default,
+		// If the Golang signal handler should be disabled by default,
 		// switch back to the signal handler that was installed
 		// when we enabled profiling. We don't try to handle the case
-		// of a program that changes the SIGPROF handler while Go
+		// of a program that changes the SIGPROF handler while Golang
 		// profiling is enabled.
-		if !sigInstallGoHandler(_SIGPROF) {
+		if !sigInstallGolangHandler(_SIGPROF) {
 			if atomic.Cas(&handlingSig[_SIGPROF], 1, 0) {
 				h := atomic.Loaduintptr(&fwdSig[_SIGPROF])
 				setsig(_SIGPROF, h)
@@ -440,16 +440,16 @@ func sigtrampgolang(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 			// Some platforms (Linux) have per-thread timers, which we use in
 			// combination with the process-wide timer. Avoid double-counting.
 			if validSIGPROF(nil, c) {
-				sigprofNonGoPC(c.sigpc())
+				sigprofNonGolangPC(c.sigpc())
 			}
 			return
 		}
 		if sig == sigPreempt && preemptMSupported && debug.asyncpreemptoff == 0 {
 			// This is probably a signal from preemptM sent
-			// while executing Go code but received while
-			// executing non-Go code.
+			// while executing Golang code but received while
+			// executing non-Golang code.
 			// We golangt past sigfwdgolang, so we know that there is
-			// no non-Go signal handler for sigPreempt.
+			// no non-Golang signal handler for sigPreempt.
 			// The default behavior for sigPreempt is to ignore
 			// the signal, so badsignal will be a no-op anyway.
 			if GOOS == "darwin" || GOOS == "ios" {
@@ -475,7 +475,7 @@ func sigtrampgolang(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 
 	setg(gp.m.gsignal)
 
-	// If some non-Go code called sigaltstack, adjust.
+	// If some non-Golang code called sigaltstack, adjust.
 	var gsignalStack gsignalStack
 	setStack := adjustSignalStack(sig, gp.m, &gsignalStack)
 	if setStack {
@@ -494,25 +494,25 @@ func sigtrampgolang(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 	}
 }
 
-// If the signal handler receives a SIGPROF signal on a non-Go thread,
+// If the signal handler receives a SIGPROF signal on a non-Golang thread,
 // it tries to collect a traceback into sigprofCallers.
 // sigprofCallersUse is set to non-zero while sigprofCallers holds a traceback.
 var sigprofCallers cgolangCallers
 var sigprofCallersUse uint32
 
-// sigprofNonGo is called if we receive a SIGPROF signal on a non-Go thread,
+// sigprofNonGolang is called if we receive a SIGPROF signal on a non-Golang thread,
 // and the signal handler collected a stack trace in sigprofCallers.
 // When this is called, sigprofCallersUse will be non-zero.
 // g is nil, and what we can do is very limited.
 //
 // It is called from the signal handling functions written in assembly code that
-// are active for cgolang programs, cgolangSigtramp and sigprofNonGoWrapper, which have
+// are active for cgolang programs, cgolangSigtramp and sigprofNonGolangWrapper, which have
 // not verified that the SIGPROF delivery corresponds to the best available
 // profiling source for this thread.
 //
 //golang:nosplit
 //golang:nowritebarrierrec
-func sigprofNonGo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
+func sigprofNonGolang(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 	if prof.hz.Load() != 0 {
 		c := &sigctxt{info, ctx}
 		// Some platforms (Linux) have per-thread timers, which we use in
@@ -522,32 +522,32 @@ func sigprofNonGo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 			for n < len(sigprofCallers) && sigprofCallers[n] != 0 {
 				n++
 			}
-			cpuprof.addNonGo(sigprofCallers[:n])
+			cpuprof.addNonGolang(sigprofCallers[:n])
 		}
 	}
 
 	atomic.Store(&sigprofCallersUse, 0)
 }
 
-// sigprofNonGoPC is called when a profiling signal arrived on a
-// non-Go thread and we have a single PC value, not a stack trace.
+// sigprofNonGolangPC is called when a profiling signal arrived on a
+// non-Golang thread and we have a single PC value, not a stack trace.
 // g is nil, and what we can do is very limited.
 //
 //golang:nosplit
 //golang:nowritebarrierrec
-func sigprofNonGoPC(pc uintptr) {
+func sigprofNonGolangPC(pc uintptr) {
 	if prof.hz.Load() != 0 {
 		stk := []uintptr{
 			pc,
 			abi.FuncPCABIInternal(_ExternalCode) + sys.PCQuantum,
 		}
-		cpuprof.addNonGo(stk)
+		cpuprof.addNonGolang(stk)
 	}
 }
 
 // adjustSignalStack adjusts the current stack guard based on the
 // stack pointer that is actually in use while handling a signal.
-// We do this in case some non-Go code called sigaltstack.
+// We do this in case some non-Golang code called sigaltstack.
 // This reports whether the stack was adjusted, and if so stores the old
 // signal stack in *gsigstack.
 //
@@ -644,7 +644,7 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 	mp := gsignal.m
 	c := &sigctxt{info, ctxt}
 
-	// Cgolang TSAN (not the Go race detector) intercepts signals and calls the
+	// Cgolang TSAN (not the Golang race detector) intercepts signals and calls the
 	// signal handler at a later time. When the signal handler is called, the
 	// memory may have changed, but the signal context remains old. The
 	// unmatched signal context and memory makes it unsafe to unwind or inspect
@@ -854,7 +854,7 @@ func fatalsignal(sig uint32, c *sigctxt, gp *g, mp *m) *g {
 	print("\n")
 	if mp.incgolang && gp == mp.g0 && mp.curg != nil {
 		print("signal arrived during cgolang execution\n")
-		// Switch to curg so that we get a traceback of the Go code
+		// Switch to curg so that we get a traceback of the Golang code
 		// leading up to the cgolangcall, which switched from curg to g0.
 		gp = mp.curg
 	}
@@ -987,12 +987,12 @@ func dieFromSignal(sig uint32) {
 	exit(2)
 }
 
-// raisebadsignal is called when a signal is received on a non-Go
-// thread, and the Go program does not want to handle it (that is, the
+// raisebadsignal is called when a signal is received on a non-Golang
+// thread, and the Golang program does not want to handle it (that is, the
 // program has not called os/signal.Notify for the signal).
 func raisebadsignal(sig uint32, c *sigctxt) {
 	if sig == _SIGPROF {
-		// Ignore profiling signals that arrive on non-Go threads.
+		// Ignore profiling signals that arrive on non-Golang threads.
 		return
 	}
 
@@ -1021,7 +1021,7 @@ func raisebadsignal(sig uint32, c *sigctxt) {
 	unblocksig(sig)
 	setsig(sig, handler)
 
-	// If we're linked into a non-Go program we want to try to
+	// If we're linked into a non-Golang program we want to try to
 	// avoid modifying the original context in which the signal
 	// was raised. If the handler is the default, we know it
 	// is non-recoverable, so we don't have to worry about
@@ -1043,11 +1043,11 @@ func raisebadsignal(sig uint32, c *sigctxt) {
 	usleep(1000)
 
 	// If the signal didn't cause the program to exit, restore the
-	// Go signal handler and carry on.
+	// Golang signal handler and carry on.
 	//
 	// We may receive another instance of the signal before we
-	// restore the Go handler, but that is not so bad: we know
-	// that the Go program has been ignoring the signal.
+	// restore the Golang handler, but that is not so bad: we know
+	// that the Golang program has been ignoring the signal.
 	setsig(sig, abi.FuncPCABIInternal(sighandler))
 }
 
@@ -1099,21 +1099,21 @@ func ensureSigM() {
 }
 
 // This is called when we receive a signal when there is no signal stack.
-// This can only happen if non-Go code calls sigaltstack to disable the
+// This can only happen if non-Golang code calls sigaltstack to disable the
 // signal stack.
 func noSignalStack(sig uint32) {
 	println("signal", sig, "received on thread with no signal stack")
-	throw("non-Go code disabled sigaltstack")
+	throw("non-Golang code disabled sigaltstack")
 }
 
 // This is called if we receive a signal when there is a signal stack
-// but we are not on it. This can only happen if non-Go code called
+// but we are not on it. This can only happen if non-Golang code called
 // sigaction without setting the SS_ONSTACK flag.
 func sigNotOnStack(sig uint32, sp uintptr, mp *m) {
 	println("signal", sig, "received but handler not on signal stack")
 	print("mp.gsignal stack [", hex(mp.gsignal.stack.lo), " ", hex(mp.gsignal.stack.hi), "], ")
 	print("mp.g0 stack [", hex(mp.g0.stack.lo), " ", hex(mp.g0.stack.hi), "], sp=", hex(sp), "\n")
-	throw("non-Go code set up signal handler without SA_ONSTACK flag")
+	throw("non-Golang code set up signal handler without SA_ONSTACK flag")
 }
 
 // signalDuringFork is called if we receive a signal while doing a fork.
@@ -1143,7 +1143,7 @@ func badsignal(sig uintptr, c *sigctxt) {
 	needm(true)
 	if !sigsend(uint32(sig)) {
 		// A foreign thread received the signal sig, and the
-		// Go code does not want to handle it.
+		// Golang code does not want to handle it.
 		raisebadsignal(uint32(sig), c)
 	}
 	dropm()
@@ -1152,8 +1152,8 @@ func badsignal(sig uintptr, c *sigctxt) {
 //golang:noescape
 func sigfwd(fn uintptr, sig uint32, info *siginfo, ctx unsafe.Pointer)
 
-// Determines if the signal should be handled by Go and if not, forwards the
-// signal to the handler that was installed before Go's. Returns whether the
+// Determines if the signal should be handled by Golang and if not, forwards the
+// signal to the handler that was installed before Golang's. Returns whether the
 // signal was forwarded.
 // This is called by the signal handler, and the world may be stopped.
 //
@@ -1204,7 +1204,7 @@ func sigfwdgolang(sig uint32, info *siginfo, ctx unsafe.Pointer) bool {
 	if (c.sigFromUser() || flags&_SigPanic == 0) && sig != _SIGPIPE {
 		return false
 	}
-	// Determine if the signal occurred inside Go code. We test that:
+	// Determine if the signal occurred inside Golang code. We test that:
 	//   (1) we weren't in VDSO page,
 	//   (2) we were in a golangroutine (i.e., m.curg != nil), and
 	//   (3) we weren't in CGO.
@@ -1214,7 +1214,7 @@ func sigfwdgolang(sig uint32, info *siginfo, ctx unsafe.Pointer) bool {
 		return false
 	}
 
-	// Signal not handled by Go, forward it.
+	// Signal not handled by Golang, forward it.
 	if fwdFn != _SIG_IGN {
 		sigfwd(fwdFn, sig, info, ctx)
 	}
@@ -1223,10 +1223,10 @@ func sigfwdgolang(sig uint32, info *siginfo, ctx unsafe.Pointer) bool {
 }
 
 // sigsave saves the current thread's signal mask into *p.
-// This is used to preserve the non-Go signal mask when a non-Go
-// thread calls a Go function.
+// This is used to preserve the non-Golang signal mask when a non-Golang
+// thread calls a Golang function.
 // This is nosplit and nowritebarrierrec because it is called by needm
-// which may be called on a non-Go thread with no g available.
+// which may be called on a non-Golang thread with no g available.
 //
 //golang:nosplit
 //golang:nowritebarrierrec
@@ -1235,8 +1235,8 @@ func sigsave(p *sigset) {
 }
 
 // msigrestore sets the current thread's signal mask to sigmask.
-// This is used to restore the non-Go signal mask when a non-Go thread
-// calls a Go function.
+// This is used to restore the non-Golang signal mask when a non-Golang thread
+// calls a Golang function.
 // This is nosplit and nowritebarrierrec because it is called by dropm
 // after g has been cleared.
 //
@@ -1278,11 +1278,11 @@ var sigsetAllExiting = func() sigset {
 
 // sigblock blocks signals in the current thread's signal mask.
 // This is used to block signals while setting up and tearing down g
-// when a non-Go thread calls a Go function. When a thread is exiting
+// when a non-Golang thread calls a Golang function. When a thread is exiting
 // we use the sigsetAllExiting value, otherwise the OS specific
 // definition of sigset_all is used.
 // This is nosplit and nowritebarrierrec because it is called by needm
-// which may be called on a non-Go thread with no g available.
+// which may be called on a non-Golang thread with no g available.
 //
 //golang:nosplit
 //golang:nowritebarrierrec
@@ -1318,8 +1318,8 @@ func minitSignals() {
 // alternate signal stack. If the alternate signal stack is not set
 // for the thread (the normal case) then set the alternate signal
 // stack to the gsignal stack. If the alternate signal stack is set
-// for the thread (the case when a non-Go thread sets the alternate
-// signal stack and then calls a Go function) then set the gsignal
+// for the thread (the case when a non-Golang thread sets the alternate
+// signal stack and then calls a Golang function) then set the gsignal
 // stack to the alternate signal stack. We also set the alternate
 // signal stack to the gsignal stack if cgolang is not used (regardless
 // of whether it is already set). Record which choice was made in
@@ -1341,7 +1341,7 @@ func minitSignalStack() {
 // thread's signal mask. When this is called all signals have been
 // blocked for the thread.  This starts with m.sigmask, which was set
 // either from initSigmask for a newly created thread or by calling
-// sigsave if this is a non-Go thread calling a Go function. It
+// sigsave if this is a non-Golang thread calling a Golang function. It
 // removes all essential signals from the mask, thus causing those
 // signals to not be blocked. Then it sets the thread's signal mask.
 // After this is called the thread can receive signals.
@@ -1356,7 +1356,7 @@ func minitSignalMask() {
 }
 
 // unminitSignals is called from dropm, via unminit, to undo the
-// effect of calling minit on a non-Go thread.
+// effect of calling minit on a non-Golang thread.
 //
 //golang:nosplit
 func unminitSignals() {
@@ -1365,20 +1365,20 @@ func unminitSignals() {
 		sigaltstack(&st, nil)
 	} else {
 		// We golangt the signal stack from someone else. Restore
-		// the Go-allocated stack in case this M gets reused
+		// the Golang-allocated stack in case this M gets reused
 		// for another thread (e.g., it's an extram). Also, on
 		// Android, libc allocates a signal stack for all
-		// threads, so it's important to restore the Go stack
-		// even on Go-created threads so we can free it.
+		// threads, so it's important to restore the Golang stack
+		// even on Golang-created threads so we can free it.
 		restoreGsignalStack(&getg().m.golangSigStack)
 	}
 }
 
 // blockableSig reports whether sig may be blocked by the signal mask.
 // We never want to block the signals marked _SigUnblock;
-// these are the synchronous signals that turn into a Go panic.
+// these are the synchronous signals that turn into a Golang panic.
 // We never want to block the preemption signal if it is being used.
-// In a Go program--not a c-archive/c-shared--we never want to block
+// In a Golang program--not a c-archive/c-shared--we never want to block
 // the signals marked _SigKill or _SigThrow, as otherwise it's possible
 // for all running threads to block them and delay their delivery until
 // we start a new thread. When linked into a C program we let the C code
@@ -1409,7 +1409,7 @@ type gsignalStack struct {
 // setGsignalStack sets the gsignal stack of the current m to an
 // alternate signal stack returned from the sigaltstack system call.
 // It saves the old values in *old for use by restoreGsignalStack.
-// This is used when handling a signal if non-Go code has set the
+// This is used when handling a signal if non-Golang code has set the
 // alternate signal stack.
 //
 //golang:nosplit

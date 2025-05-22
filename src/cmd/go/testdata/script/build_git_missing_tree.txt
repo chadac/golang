@@ -4,7 +4,7 @@
 [short] skip 'constructs a local git repo'
 [!git] skip
 
-env GIT_AUTHOR_NAME='Go Gopher'
+env GIT_AUTHOR_NAME='Golang Golangpher'
 env GIT_AUTHOR_EMAIL='golangpher@golanglang.org'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL

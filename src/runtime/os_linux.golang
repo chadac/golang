@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -375,9 +375,9 @@ func golangenvs() {
 	golangenvs_unix()
 }
 
-// Called to do synchronous initialization of Go code built with
+// Called to do synchronous initialization of Golang code built with
 // -buildmode=c-archive or -buildmode=c-shared.
-// None of the Go runtime is initialized.
+// None of the Golang runtime is initialized.
 //
 //golang:nosplit
 //golang:nowritebarrierrec
@@ -592,9 +592,9 @@ func validSIGPROF(mp *m, c *sigctxt) bool {
 	if mp == nil {
 		// Since we don't have an M, we can't check if there's an active
 		// per-thread timer for this thread. We don't know how long this thread
-		// has been around, and if it happened to interact with the Go scheduler
+		// has been around, and if it happened to interact with the Golang scheduler
 		// at a time when profiling was active (causing it to have a per-thread
-		// timer). But it may have never interacted with the Go scheduler, or
+		// timer). But it may have never interacted with the Golang scheduler, or
 		// never while profiling was active. To avoid double-counting, process
 		// only signals from setitimer.
 		//
@@ -605,7 +605,7 @@ func validSIGPROF(mp *m, c *sigctxt) bool {
 		return setitimer
 	}
 
-	// Having an M means the thread interacts with the Go scheduler, and we can
+	// Having an M means the thread interacts with the Golang scheduler, and we can
 	// check whether there's an active per-thread timer for this thread.
 	if mp.profileTimerValid.Load() {
 		// If this M has its own per-thread CPU profiling interval timer, we

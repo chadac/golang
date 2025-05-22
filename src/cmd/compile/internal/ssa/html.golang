@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -535,7 +535,7 @@ window.onload = function() {
         }
     }
 
-    // Go through all columns and collapse needed phases.
+    // Golang through all columns and collapse needed phases.
     const td = document.getElementsByTagName("td");
     for (let i = 0; i < td.length; i++) {
         const id = td[i].id;

@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -161,7 +161,7 @@ func UpdateErrorDot(line string, name, expr string) {
 }
 
 // Warn reports a formatted warning at the current line.
-// In general the Go compiler does NOT generate warnings,
+// In general the Golang compiler does NOT generate warnings,
 // so this should be used only when the user has opted in
 // to additional output by setting a particular flag.
 func Warn(format string, args ...interface{}) {
@@ -169,7 +169,7 @@ func Warn(format string, args ...interface{}) {
 }
 
 // WarnfAt reports a formatted warning at pos.
-// In general the Go compiler does NOT generate warnings,
+// In general the Golang compiler does NOT generate warnings,
 // so this should be used only when the user has opted in
 // to additional output by setting a particular flag.
 func WarnfAt(pos src.XPos, format string, args ...interface{}) {

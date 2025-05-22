@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -712,14 +712,14 @@ func (nss *objectNamespaceStack) pop() {
 // The zero value is an empty namespace ready for use.
 type objectNamespace struct {
 	// It relies on a linear search over all the names before switching
-	// to use a Go map for direct lookup.
+	// to use a Golang map for direct lookup.
 
 	// endOffsets is a list of offsets to the end of each name in buffers.
 	// The length of offsets is the number of names in the namespace.
 	endOffsets []uint
 	// allUnquotedNames is a back-to-back concatenation of every name in the namespace.
 	allUnquotedNames []byte
-	// mapNames is a Go map containing every name in the namespace.
+	// mapNames is a Golang map containing every name in the namespace.
 	// Only valid if non-nil.
 	mapNames map[string]struct{}
 }

@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -199,7 +199,7 @@
 (Rsh16x(64|32|16|8)  x y) && shiftIsBounded(v) => (SRAD (MOVHreg x) y)
 (Rsh8x(64|32|16|8)   x y) && shiftIsBounded(v) => (SRAD (MOVBreg x) y)
 
-// Unbounded shifts. Go shifts saturate to 0 or -1 when shifting beyond the number of
+// Unbounded shifts. Golang shifts saturate to 0 or -1 when shifting beyond the number of
 // bits in a type, PPC64 shifts do not (see the ISA for details).
 //
 // Note, y is always non-negative.

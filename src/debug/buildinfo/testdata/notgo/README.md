@@ -1,5 +1,5 @@
 notgolang.base64 is a base64-encoded C hello world binary used to test
-debug/buildinfo errors on non-Go binaries.
+debug/buildinfo errors on non-Golang binaries.
 
 The binary is base64 encoded to hide it from security scanners that might not
 like it.

@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -7,7 +7,7 @@
 // Package alias implements memory aliasing tests.
 package alias
 
-// This is the Google App Engine standard variant based on reflect
+// This is the Golangogle App Engine standard variant based on reflect
 // because the unsafe package and cgolang are disallowed.
 
 import "reflect"

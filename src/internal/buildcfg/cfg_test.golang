@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -78,8 +78,8 @@ func TestConfigFlags(t *testing.T) {
 	}
 }
 
-func TestGoarm64FeaturesSupports(t *testing.T) {
-	g, _ := ParseGoarm64("v9.3")
+func TestGolangarm64FeaturesSupports(t *testing.T) {
+	g, _ := ParseGolangarm64("v9.3")
 
 	if !g.Supports("v9.3") {
 		t.Errorf("Wrong golangarm64Features.Supports for v9.3, v9.3")
@@ -102,7 +102,7 @@ func TestGoarm64FeaturesSupports(t *testing.T) {
 	}
 }
 
-func TestGogolangarchTags(t *testing.T) {
+func TestGolanggolangarchTags(t *testing.T) {
 	old_golangarch := GOARCH
 	old_golangarm64 := GOARM64
 

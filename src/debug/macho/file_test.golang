@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -403,8 +403,8 @@ func TestRelocTypeString(t *testing.T) {
 	if X86_64_RELOC_BRANCH.String() != "X86_64_RELOC_BRANCH" {
 		t.Errorf("golangt %v, want %v", X86_64_RELOC_BRANCH.String(), "X86_64_RELOC_BRANCH")
 	}
-	if X86_64_RELOC_BRANCH.GoString() != "macho.X86_64_RELOC_BRANCH" {
-		t.Errorf("golangt %v, want %v", X86_64_RELOC_BRANCH.GoString(), "macho.X86_64_RELOC_BRANCH")
+	if X86_64_RELOC_BRANCH.GolangString() != "macho.X86_64_RELOC_BRANCH" {
+		t.Errorf("golangt %v, want %v", X86_64_RELOC_BRANCH.GolangString(), "macho.X86_64_RELOC_BRANCH")
 	}
 }
 
@@ -412,8 +412,8 @@ func TestTypeString(t *testing.T) {
 	if TypeExec.String() != "Exec" {
 		t.Errorf("golangt %v, want %v", TypeExec.String(), "Exec")
 	}
-	if TypeExec.GoString() != "macho.Exec" {
-		t.Errorf("golangt %v, want %v", TypeExec.GoString(), "macho.Exec")
+	if TypeExec.GolangString() != "macho.Exec" {
+		t.Errorf("golangt %v, want %v", TypeExec.GolangString(), "macho.Exec")
 	}
 }
 

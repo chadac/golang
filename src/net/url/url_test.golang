@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1895,7 +1895,7 @@ func TestJSON(t *testing.T) {
 	}
 }
 
-func TestGob(t *testing.T) {
+func TestGolangb(t *testing.T) {
 	u, err := Parse("https://www.golangogle.com/x?y=z")
 	if err != nil {
 		t.Fatal(err)

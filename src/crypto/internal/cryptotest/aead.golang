@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -167,7 +167,7 @@ func TestAEAD(t *testing.T, mAEAD MakeAEAD) {
 						copy(ciphertext, validCT)
 						// Make sure it is the actual ciphertext being overlapped and not
 						// the hash digest which might be extracted/truncated in some
-						// implementations: Go one byte past the hash digest/tag and into
+						// implementations: Golang one byte past the hash digest/tag and into
 						// the ciphertext.
 						beforeTag := len(validCT) - aead.Overhead()
 						dst = buff[beforeTag-1 : beforeTag-1]

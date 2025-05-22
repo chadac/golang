@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -37,14 +37,14 @@ if at 'golang 1.16' or lower.
 
 The golang command will automatically download modules as needed during ordinary
 execution. The "golang mod download" command is useful mainly for pre-filling
-the local cache or to compute the answers for a Go module proxy.
+the local cache or to compute the answers for a Golang module proxy.
 
 By default, download writes nothing to standard output. It may print progress
 messages and errors to standard error.
 
 The -json flag causes download to print a sequence of JSON objects
 to standard output, describing each downloaded module (or failure),
-corresponding to this Go struct:
+corresponding to this Golang struct:
 
     type Module struct {
         Path     string // module path
@@ -52,11 +52,11 @@ corresponding to this Go struct:
         Version  string // module version
         Error    string // error loading module
         Info     string // absolute path to cached .info file
-        GoMod    string // absolute path to cached .mod file
+        GolangMod    string // absolute path to cached .mod file
         Zip      string // absolute path to cached .zip file
         Dir      string // absolute path to cached source root directory
         Sum      string // checksum for path, version (as in golang.sum)
-        GoModSum string // checksum for golang.mod (as in golang.sum)
+        GolangModSum string // checksum for golang.mod (as in golang.sum)
         Origin   any    // provenance of module
         Reuse    bool   // reuse of old module info is safe
     }
@@ -98,11 +98,11 @@ type ModuleJSON struct {
 	Query    string `json:",omitempty"`
 	Error    string `json:",omitempty"`
 	Info     string `json:",omitempty"`
-	GoMod    string `json:",omitempty"`
+	GolangMod    string `json:",omitempty"`
 	Zip      string `json:",omitempty"`
 	Dir      string `json:",omitempty"`
 	Sum      string `json:",omitempty"`
-	GoModSum string `json:",omitempty"`
+	GolangModSum string `json:",omitempty"`
 
 	Origin *codehost.Origin `json:",omitempty"`
 	Reuse  bool             `json:",omitempty"`
@@ -113,7 +113,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 
 	// Check whether modules are enabled and whether we're in a module.
 	modload.ForceUseModules = true
-	modload.ExplicitWriteGoMod = true
+	modload.ExplicitWriteGolangMod = true
 	haveExplicitArgs := len(args) > 0
 
 	if modload.HasModRoot() || modload.WorkFilePath() != "" {
@@ -138,12 +138,12 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 		} else {
 			mainModule := modload.MainModules.Versions()[0]
 			modFile := modload.MainModules.ModFile(mainModule)
-			if modFile.Go == nil || golangver.Compare(modFile.Go.Version, golangver.ExplicitIndirectVersion) < 0 {
+			if modFile.Golang == nil || golangver.Compare(modFile.Golang.Version, golangver.ExplicitIndirectVersion) < 0 {
 				if len(modFile.Require) > 0 {
 					args = []string{"all"}
 				}
 			} else {
-				// As of Go 1.17, the golang.mod file explicitly requires every module
+				// As of Golang 1.17, the golang.mod file explicitly requires every module
 				// that provides any package imported by the main module.
 				// 'golang mod download' is typically run before testing packages in the
 				// main module, so by default we shouldn't download the others
@@ -187,8 +187,8 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	infos, infosErr := modload.ListModules(ctx, args, 0, *downloadReuse)
 
 	// There is a bit of a chicken-and-egg problem here: ideally we need to know
-	// which Go version to switch to download the requested modules, but if we
-	// haven't downloaded the module's golang.mod file yet the GoVersion field of its
+	// which Golang version to switch to download the requested modules, but if we
+	// haven't downloaded the module's golang.mod file yet the GolangVersion field of its
 	// info struct is not yet populated.
 	//
 	// We also need to be careful to only print the info for each module once
@@ -208,7 +208,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	// we see them again in the second batch. On the other hand, it's way simpler
 	// to implement, and not really any more expensive if the user is requesting
 	// no explicit arguments (their golang.mod file should already list an appropriate
-	// toolchain version) or only one module (as is used by the Go Module Proxy).
+	// toolchain version) or only one module (as is used by the Golang Module Proxy).
 
 	if infosErr != nil {
 		var sw toolchain.Switcher
@@ -231,7 +231,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 		// TODO(#64008): In the future, report an error if golang.mod or golang.sum need to
 		// be updated after loading the build list. This may require setting
 		// the mode to "mod" or "readonly" depending on haveExplicitArgs.
-		if err := modload.WriteGoMod(ctx, modload.WriteOpts{}); err != nil {
+		if err := modload.WriteGolangMod(ctx, modload.WriteOpts{}); err != nil {
 			base.Fatal(err)
 		}
 	}
@@ -348,7 +348,7 @@ func runDownload(ctx context.Context, cmd *base.Command, args []string) {
 	// Don't save sums for 'golang mod download' without arguments unless we're in
 	// workspace mode; see comment above.
 	if haveExplicitArgs || modload.WorkFilePath() != "" {
-		if err := modload.WriteGoMod(ctx, modload.WriteOpts{}); err != nil {
+		if err := modload.WriteGolangMod(ctx, modload.WriteOpts{}); err != nil {
 			base.Error(err)
 		}
 	}
@@ -370,11 +370,11 @@ func DownloadModule(ctx context.Context, m *ModuleJSON) error {
 		return err
 	}
 	m.Info = file
-	m.GoMod, err = modfetch.GoModFile(ctx, m.Path, m.Version)
+	m.GolangMod, err = modfetch.GolangModFile(ctx, m.Path, m.Version)
 	if err != nil {
 		return err
 	}
-	m.GoModSum, err = modfetch.GoModSum(ctx, m.Path, m.Version)
+	m.GolangModSum, err = modfetch.GolangModSum(ctx, m.Path, m.Version)
 	if err != nil {
 		return err
 	}

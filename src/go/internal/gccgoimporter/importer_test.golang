@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -72,7 +72,7 @@ func runImporterTest(t *testing.T, imp Importer, initmap map[*types.Package]Init
 }
 
 // When adding tests to this list, be sure to set the 'gccgolangVersion'
-// field if the testcases uses a "recent" Go addition (ex: aliases).
+// field if the testcases uses a "recent" Golang addition (ex: aliases).
 var importerTests = [...]importerTest{
 	{pkgpath: "pointer", name: "Int8Ptr", want: "type Int8Ptr *int8"},
 	{pkgpath: "complexnums", name: "NN", want: "const NN untyped complex", wantval: "(-1 + -1i)"},
@@ -99,7 +99,7 @@ var importerTests = [...]importerTest{
 	{pkgpath: "notinheap", name: "S", want: "type S struct{}"},
 }
 
-func TestGoxImporter(t *testing.T) {
+func TestGolangxImporter(t *testing.T) {
 	testenv.MustHaveExec(t)
 	initmap := make(map[*types.Package]InitData)
 	imp := GetImporter([]string{"testdata"}, initmap)

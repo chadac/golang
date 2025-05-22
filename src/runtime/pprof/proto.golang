@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -304,7 +304,7 @@ func (b *profileBuilder) addCPUData(data []uint64, tags []unsafe.Pointer) error 
 	// that's an overflow record inserted by the runtime
 	// to indicate that stack[0] samples were lost.
 	// Otherwise the count is usually 1,
-	// but in a few special cases like lost non-Go samples
+	// but in a few special cases like lost non-Golang samples
 	// there can be larger counts.
 	// Because many samples with the same stack arrive,
 	// we want to deduplicate immediately, which we do
@@ -486,7 +486,7 @@ func (b *profileBuilder) appendLocsForStack(locs []uint64, stk []uintptr) (newLo
 	return locs
 }
 
-// Here's an example of how Go 1.17 writes out inlined functions, compiled for
+// Here's an example of how Golang 1.17 writes out inlined functions, compiled for
 // linux/amd64. The disassembly of main.main shows two levels of inlining: main
 // calls b, b calls a, a does some work.
 //
@@ -511,7 +511,7 @@ func (b *profileBuilder) appendLocsForStack(locs []uint64, stk []uintptr) (newLo
 // a stack trace returned by the runtime.
 //
 // The stack traces returned by runtime's trackback functions are fully
-// expanded (at least for Go functions) and include the fake pcs representing
+// expanded (at least for Golang functions) and include the fake pcs representing
 // inlined functions. The profile proto expects the inlined functions to be
 // encoded in one Location message.
 // https://github.com/golangogle/pprof/blob/5e965273ee43930341d897407202dd5e10e952cb/proto/profile.proto#L177-L184
@@ -521,8 +521,8 @@ func (b *profileBuilder) appendLocsForStack(locs []uint64, stk []uintptr) (newLo
 // the fake pcs and restore the inlined and entry functions. Inlined functions
 // have the following properties:
 //
-//	Frame's Func is nil (note: also true for non-Go functions), and
-//	Frame's Entry matches its entry function frame's Entry (note: could also be true for recursive calls and non-Go functions), and
+//	Frame's Func is nil (note: also true for non-Golang functions), and
+//	Frame's Entry matches its entry function frame's Entry (note: could also be true for recursive calls and non-Golang functions), and
 //	Frame's Name does not match its entry function frame's name (note: inlined functions cannot be directly recursive).
 //
 // As reading and processing the pcs in a stack trace one by one (from leaf to the root),
@@ -561,7 +561,7 @@ func (d *pcDeck) tryAdd(pc uintptr, frames []runtime.Frame, symbolizeResult symb
 		if last.Func != nil { // the last frame can't be inlined. Flush.
 			return false
 		}
-		if last.Entry == 0 || newFrame.Entry == 0 { // Possibly not a Go function. Don't try to merge.
+		if last.Entry == 0 || newFrame.Entry == 0 { // Possibly not a Golang function. Don't try to merge.
 			return false
 		}
 

@@ -1,4 +1,4 @@
-# Go+BoringCrypto conflicts with GOFIPS140.
+# Golang+BoringCrypto conflicts with GOFIPS140.
 [GOEXPERIMENT:boringcrypto] skip
 
 # list with GOFIPS140=off

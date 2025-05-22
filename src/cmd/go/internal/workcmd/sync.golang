@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -110,7 +110,7 @@ func runSync(ctx context.Context, cmd *base.Command, args []string) {
 		// requested the relevant module versions explicitly.
 		// TODO(#57001): Do we need a toolchain.SwitchOrFatal here,
 		// and do we need to pass a toolchain.Switcher in LoadPackages?
-		// If so, think about saving the WriteGoMods for after the loop,
+		// If so, think about saving the WriteGolangMods for after the loop,
 		// so we don't write some golang.mods with the "before" toolchain
 		// and others with the "after" toolchain. If nothing else, that
 		// discrepancy could show up in auto-recorded toolchain lines.
@@ -129,16 +129,16 @@ func runSync(ctx context.Context, cmd *base.Command, args []string) {
 				SilenceMissingStdImports: true,
 				SilencePackageErrors:     true,
 			}, "all")
-			modload.WriteGoMod(ctx, modload.WriteOpts{})
+			modload.WriteGolangMod(ctx, modload.WriteOpts{})
 		}
-		golangV = golangver.Max(golangV, modload.MainModules.GoVersion())
+		golangV = golangver.Max(golangV, modload.MainModules.GolangVersion())
 	}
 
 	wf, err := modload.ReadWorkFile(workFilePath)
 	if err != nil {
 		base.Fatal(err)
 	}
-	modload.UpdateWorkGoVersion(wf, golangV)
+	modload.UpdateWorkGolangVersion(wf, golangV)
 	modload.UpdateWorkFile(wf)
 	if err := modload.WriteWorkFile(workFilePath, wf); err != nil {
 		base.Fatal(err)

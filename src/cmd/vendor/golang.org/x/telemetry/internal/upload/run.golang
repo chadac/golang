@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -194,7 +194,7 @@ func debugLogFile(debugDir string) (*os.File, error) {
 		return nil, fmt.Errorf("no build info")
 	}
 	year, month, day := time.Now().UTC().Date()
-	golangVers := info.GoVersion
+	golangVers := info.GolangVersion
 	// E.g.,  golangVers:"golang1.22-20240109-RC01 cl/597041403 +dcbe772469 X:loopvar"
 	words := strings.Fields(golangVers)
 	golangVers = words[0]

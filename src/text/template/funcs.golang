@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -206,7 +206,7 @@ func indexArg(index reflect.Value, cap int) (int, error) {
 // Indexing.
 
 // index returns the result of indexing its first argument by the following
-// arguments. Thus "index x 1 2 3" is, in Go syntax, x[1][2][3]. Each
+// arguments. Thus "index x 1 2 3" is, in Golang syntax, x[1][2][3]. Each
 // indexed item must be a map, slice, or array.
 func index(item reflect.Value, indexes ...reflect.Value) (reflect.Value, error) {
 	item = indirectInterface(item)
@@ -249,7 +249,7 @@ func index(item reflect.Value, indexes ...reflect.Value) (reflect.Value, error) 
 // Slicing.
 
 // slice returns the result of slicing its first argument by the remaining
-// arguments. Thus "slice x 1 2" is, in Go syntax, x[1:2], while "slice x"
+// arguments. Thus "slice x 1 2" is, in Golang syntax, x[1:2], while "slice x"
 // is x[:], "slice x 1" is x[1:], and "slice x 1 2 3" is x[1:2:3]. The first
 // argument must be a string, slice, or array.
 func slice(item reflect.Value, indexes ...reflect.Value) (reflect.Value, error) {

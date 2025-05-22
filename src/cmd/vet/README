@@ -1,4 +1,4 @@
-Vet is a tool that checks correctness of Go programs. It runs a suite of tests,
+Vet is a tool that checks correctness of Golang programs. It runs a suite of tests,
 each tailored to check for a particular class of errors. Examples include incorrect
 Printf format verbs and malformed build tags.
 

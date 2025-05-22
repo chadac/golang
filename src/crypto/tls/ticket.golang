@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -57,7 +57,7 @@ type SessionState struct {
 	//   } SessionState;
 	//
 	// The format can be extended backwards-compatibly by adding new fields at
-	// the end. Otherwise, a new SessionStateType must be used, as different Go
+	// the end. Otherwise, a new SessionStateType must be used, as different Golang
 	// versions may share the same session ticket encryption key.
 
 	// Extra is ignored by crypto/tls, but is encoded by [SessionState.Bytes]
@@ -107,7 +107,7 @@ type SessionState struct {
 // to the security of future and possibly past sessions.
 //
 // The specific encoding should be considered opaque and may change incompatibly
-// between Go versions.
+// between Golang versions.
 func (s *SessionState) Bytes() ([]byte, error) {
 	var b cryptobyte.Builder
 	b.AddUint16(s.version)

@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -98,10 +98,10 @@ func TestWaitGroupAlign(t *testing.T) {
 	x.wg.Wait()
 }
 
-func TestWaitGroupGo(t *testing.T) {
+func TestWaitGroupGolang(t *testing.T) {
 	wg := &WaitGroup{}
 	var i int
-	wg.Go(func() {
+	wg.Golang(func() {
 		i++
 	})
 	wg.Wait()

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -146,7 +146,7 @@ func parseFieldParameters(str string) (ret fieldParameters) {
 	return
 }
 
-// Given a reflected Go type, getUniversalType returns the default tag number
+// Given a reflected Golang type, getUniversalType returns the default tag number
 // and expected compound flag.
 func getUniversalType(t reflect.Type) (matchAny bool, tagNumber int, isCompound, ok bool) {
 	switch t {

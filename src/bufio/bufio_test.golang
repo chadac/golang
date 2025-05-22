@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -953,7 +953,7 @@ func testReadLine(t *testing.T, input []byte) {
 			}
 			if err != nil {
 				if err != io.EOF {
-					t.Fatalf("Got unknown error: %s", err)
+					t.Fatalf("Golangt unknown error: %s", err)
 				}
 				break
 			}
@@ -1308,12 +1308,12 @@ func TestNegativeRead(t *testing.T) {
 
 var errFake = errors.New("fake error")
 
-type errorThenGoodReader struct {
+type errorThenGolangodReader struct {
 	didErr bool
 	nread  int
 }
 
-func (r *errorThenGoodReader) Read(p []byte) (int, error) {
+func (r *errorThenGolangodReader) Read(p []byte) (int, error) {
 	r.nread++
 	if !r.didErr {
 		r.didErr = true
@@ -1323,7 +1323,7 @@ func (r *errorThenGoodReader) Read(p []byte) (int, error) {
 }
 
 func TestReaderClearError(t *testing.T) {
-	r := &errorThenGoodReader{}
+	r := &errorThenGolangodReader{}
 	b := NewReader(r)
 	buf := make([]byte, 1)
 	if _, err := b.Read(nil); err != nil {

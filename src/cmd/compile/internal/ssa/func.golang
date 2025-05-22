@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// A Func represents a Go func declaration (or function literal) and its body.
+// A Func represents a Golang func declaration (or function literal) and its body.
 // This package compiles each Func independently.
 // Funcs are single-use; a new Func must be created for every compiled function.
 type Func struct {

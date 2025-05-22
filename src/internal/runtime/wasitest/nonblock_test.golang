@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -42,7 +42,7 @@ func TestNonblock(t *testing.T) {
 		t.Skip("wasmer does not support non-blocking I/O")
 	}
 
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	for _, mode := range []string{"os.OpenFile", "os.NewFile"} {
 		t.Run(mode, func(t *testing.T) {
@@ -65,7 +65,7 @@ func TestNonblock(t *testing.T) {
 				fifos[len(fifos)-i-1] = &fifo{file, path}
 			}
 
-			subProcess := exec.Command(testenv.GoToolPath(t), args...)
+			subProcess := exec.Command(testenv.GolangToolPath(t), args...)
 
 			subProcess.Env = append(os.Environ(), "GOOS=wasip1", "GOARCH=wasm")
 

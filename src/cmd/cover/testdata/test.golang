@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -30,7 +30,7 @@ func testAll() {
 	testPanic()
 	testEmptySwitches()
 	testFunctionLiteral()
-	testGoto()
+	testGolangto()
 }
 
 // The indexes of the counters in testPanic are known to main.golang
@@ -43,10 +43,10 @@ func testPanic() {
 	}()
 	check(LINE, 1)
 	panic("should not get next line")
-	check(LINE, 0) // this is GoCover.Count[panicIndex]
+	check(LINE, 0) // this is GolangCover.Count[panicIndex]
 	// The next counter is in testSimple and it will be non-zero.
 	// If the panic above does not trigger a counter, the test will fail
-	// because GoCover.Count[panicIndex] will be the one in testSimple.
+	// because GolangCover.Count[panicIndex] will be the one in testSimple.
 }
 
 func testSimple() {
@@ -269,7 +269,7 @@ func testFunctionLiteral() {
 	}
 }
 
-func testGoto() {
+func testGolangto() {
 	for i := 0; i < 2; i++ {
 		if i == 0 {
 			golangto Label

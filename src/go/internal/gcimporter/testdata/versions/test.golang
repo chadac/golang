@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@
 //
 // golang build -o test_golang1.$X_$Y.a test.golang
 //
-// with $X = Go version and $Y = export format version
+// with $X = Golang version and $Y = export format version
 // (add 'b' or 'i' to distinguish between binary and
 // indexed format starting with 1.11 as long as both
 // formats are supported).
@@ -21,7 +21,7 @@
 
 package test
 
-// Any release before and including Go 1.7 didn't encode
+// Any release before and including Golang 1.7 didn't encode
 // the package for a blank struct field.
 type BlankField struct {
 	_ int

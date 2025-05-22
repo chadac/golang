@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -63,7 +63,7 @@ func test4029(t *testing.T) {
 func loadThySelf(t *testing.T, symbol string) {
 	this_process := C.dlopen4029(nil, C.RTLD_NOW)
 	if this_process == 0 {
-		t.Error("dlopen:", C.GoString(C.dlerror()))
+		t.Error("dlopen:", C.GolangString(C.dlerror()))
 		return
 	}
 	defer C.dlclose4029(this_process)
@@ -72,7 +72,7 @@ func loadThySelf(t *testing.T, symbol string) {
 	defer C.free(unsafe.Pointer(symCStr))
 	symbol_address := C.dlsym4029(this_process, symCStr)
 	if symbol_address == 0 {
-		t.Error("dlsym:", C.GoString(C.dlerror()))
+		t.Error("dlsym:", C.GolangString(C.dlerror()))
 		return
 	}
 	t.Log(symbol, symbol_address)

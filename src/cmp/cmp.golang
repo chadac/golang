@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@ package cmp
 
 // Ordered is a constraint that permits any ordered type: any type
 // that supports the operators < <= >= >.
-// If future releases of Go add new ordered types,
+// If future releases of Golang add new ordered types,
 // this constraint will be modified to include them.
 //
 // Note that floating-point types may contain NaN ("not-a-number") values.

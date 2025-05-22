@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -31,7 +31,7 @@ TEXT ·BoringCrypto(SB),NOSPLIT,$0
 	BYTE $0x1D; BYTE $0x2F; BYTE $0x19; BYTE $0x50;
 	END
 
-// StandardCrypto indicates that standard Go crypto is present.
+// StandardCrypto indicates that standard Golang crypto is present.
 TEXT ·StandardCrypto(SB),NOSPLIT,$0
 	START
 	BYTE $0xba; BYTE $0xee; BYTE $0x4d; BYTE $0xfa;

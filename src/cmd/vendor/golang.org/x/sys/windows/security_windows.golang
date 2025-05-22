@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1365,7 +1365,7 @@ func (selfRelativeSD *SECURITY_DESCRIPTOR) copySelfRelativeSecurityDescriptor() 
 	src := unsafe.Slice((*byte)(unsafe.Pointer(selfRelativeSD)), sdLen)
 	// SECURITY_DESCRIPTOR has pointers in it, which means checkptr expects for it to
 	// be aligned properly. When we're copying a Windows-allocated struct to a
-	// Go-allocated one, make sure that the Go allocation is aligned to the
+	// Golang-allocated one, make sure that the Golang allocation is aligned to the
 	// pointer size.
 	const psize = int(unsafe.Sizeof(uintptr(0)))
 	alloc := make([]uintptr, (sdLen+psize-1)/psize)
@@ -1375,7 +1375,7 @@ func (selfRelativeSD *SECURITY_DESCRIPTOR) copySelfRelativeSecurityDescriptor() 
 }
 
 // SecurityDescriptorFromString converts an SDDL string describing a security descriptor into a
-// self-relative security descriptor object allocated on the Go heap.
+// self-relative security descriptor object allocated on the Golang heap.
 func SecurityDescriptorFromString(sddl string) (sd *SECURITY_DESCRIPTOR, err error) {
 	var winHeapSD *SECURITY_DESCRIPTOR
 	err = convertStringSecurityDescriptorToSecurityDescriptor(sddl, 1, &winHeapSD, nil)
@@ -1387,7 +1387,7 @@ func SecurityDescriptorFromString(sddl string) (sd *SECURITY_DESCRIPTOR, err err
 }
 
 // GetSecurityInfo queries the security information for a given handle and returns the self-relative security
-// descriptor result on the Go heap.
+// descriptor result on the Golang heap.
 func GetSecurityInfo(handle Handle, objectType SE_OBJECT_TYPE, securityInformation SECURITY_INFORMATION) (sd *SECURITY_DESCRIPTOR, err error) {
 	var winHeapSD *SECURITY_DESCRIPTOR
 	err = getSecurityInfo(handle, objectType, securityInformation, nil, nil, nil, nil, &winHeapSD)
@@ -1399,7 +1399,7 @@ func GetSecurityInfo(handle Handle, objectType SE_OBJECT_TYPE, securityInformati
 }
 
 // GetNamedSecurityInfo queries the security information for a given named object and returns the self-relative security
-// descriptor result on the Go heap.
+// descriptor result on the Golang heap.
 func GetNamedSecurityInfo(objectName string, objectType SE_OBJECT_TYPE, securityInformation SECURITY_INFORMATION) (sd *SECURITY_DESCRIPTOR, err error) {
 	var winHeapSD *SECURITY_DESCRIPTOR
 	err = getNamedSecurityInfo(objectName, objectType, securityInformation, nil, nil, nil, nil, &winHeapSD)
@@ -1412,7 +1412,7 @@ func GetNamedSecurityInfo(objectName string, objectType SE_OBJECT_TYPE, security
 
 // BuildSecurityDescriptor makes a new security descriptor using the input trustees, explicit access lists, and
 // prior security descriptor to be merged, any of which can be nil, returning the self-relative security descriptor
-// result on the Go heap.
+// result on the Golang heap.
 func BuildSecurityDescriptor(owner *TRUSTEE, group *TRUSTEE, accessEntries []EXPLICIT_ACCESS, auditEntries []EXPLICIT_ACCESS, mergedSecurityDescriptor *SECURITY_DESCRIPTOR) (sd *SECURITY_DESCRIPTOR, err error) {
 	var winHeapSD *SECURITY_DESCRIPTOR
 	var winHeapSDSize uint32
@@ -1439,7 +1439,7 @@ func NewSecurityDescriptor() (absoluteSD *SECURITY_DESCRIPTOR, err error) {
 	return
 }
 
-// ACLFromEntries returns a new ACL on the Go heap containing a list of explicit entries as well as those of another ACL.
+// ACLFromEntries returns a new ACL on the Golang heap containing a list of explicit entries as well as those of another ACL.
 // Both explicitEntries and mergedACL are optional and can be nil.
 func ACLFromEntries(explicitEntries []EXPLICIT_ACCESS, mergedACL *ACL) (acl *ACL, err error) {
 	var firstExplicitEntry *EXPLICIT_ACCESS

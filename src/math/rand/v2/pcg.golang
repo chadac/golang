@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -61,7 +61,7 @@ func (p *PCG) next() (hi, lo uint64) {
 	//
 	// Numpy's PCG multiplies by the 64-bit value cheapMul
 	// instead of the 128-bit value used here and in the official PCG code.
-	// This does not seem worthwhile, at least for Go: not having any high
+	// This does not seem worthwhile, at least for Golang: not having any high
 	// bits in the multiplier reduces the effect of low bits on the highest bits,
 	// and it only saves 1 multiply out of 3.
 	// (On 32-bit systems, it saves 1 out of 6, since Mul64 is doing 4.)

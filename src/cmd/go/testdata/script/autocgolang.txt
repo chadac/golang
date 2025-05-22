@@ -8,7 +8,7 @@ env CGO_ENABLED=
 golang env CGO_ENABLED
 stdout 1
 
-# Clearing CC and removing everything but Go from the PATH should usually
+# Clearing CC and removing everything but Golang from the PATH should usually
 # disable cgolang: no C compiler anymore (unless the baked-in defaultCC is an
 # absolute path and exists.
 env CC=

@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -38,7 +38,7 @@ func addTestCases(t []testCase, fn func(*ast.File) bool) {
 
 func fnop(*ast.File) bool { return false }
 
-func parseFixPrint(t *testing.T, fn func(*ast.File) bool, desc, in string, mustBeGofmt bool) (out string, fixed, ok bool) {
+func parseFixPrint(t *testing.T, fn func(*ast.File) bool, desc, in string, mustBeGolangfmt bool) (out string, fixed, ok bool) {
 	file, err := parser.ParseFile(fset, desc, in, parserMode)
 	if err != nil {
 		t.Errorf("parsing: %v", err)
@@ -50,7 +50,7 @@ func parseFixPrint(t *testing.T, fn func(*ast.File) bool, desc, in string, mustB
 		t.Errorf("printing: %v", err)
 		return
 	}
-	if s := string(outb); in != s && mustBeGofmt {
+	if s := string(outb); in != s && mustBeGolangfmt {
 		t.Errorf("not golangfmt-formatted.\n--- %s\n%s\n--- %s | golangfmt\n%s",
 			desc, in, desc, s)
 		tdiff(t, "want", in, "have", s)
@@ -80,7 +80,7 @@ func TestRewrite(t *testing.T) {
 	// If cgolang is enabled, enforce that cgolang commands invoked by cmd/fix
 	// do not fail during testing.
 	if testenv.HasCGO() {
-		testenv.MustHaveGoBuild(t) // Really just 'golang tool cgolang', but close enough.
+		testenv.MustHaveGolangBuild(t) // Really just 'golang tool cgolang', but close enough.
 
 		// The reportCgolangError hook is global, so we can't set it per-test
 		// if we want to be able to run those tests in parallel.

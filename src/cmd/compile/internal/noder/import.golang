@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -122,7 +122,7 @@ func openPackage(path string) (*os.File, error) {
 	return nil, errors.New("file not found")
 }
 
-// resolveImportPath resolves an import path as it appears in a Go
+// resolveImportPath resolves an import path as it appears in a Golang
 // source file to the package's full path.
 func resolveImportPath(path string) (string, error) {
 	// The package name main is no longer reserved,

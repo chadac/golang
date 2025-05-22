@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -191,7 +191,7 @@ func (r *codeRepo) Versions(ctx context.Context, prefix string) (*Versions, erro
 			// pseudo-versions. Note that we compare against semver.Canonical here
 			// instead of module.CanonicalVersion: revToRev strips "+incompatible"
 			// suffixes before looking up tags, so a tag like "v2.0.0+incompatible"
-			// would not resolve at all. (The Go version string "v2.0.0+incompatible"
+			// would not resolve at all. (The Golang version string "v2.0.0+incompatible"
 			// refers to the "v2.0.0" version tag, which we handle below.)
 			continue
 		}
@@ -233,8 +233,8 @@ func (r *codeRepo) appendIncompatibleVersions(ctx context.Context, origin *codeh
 		return versions, nil
 	}
 
-	versionHasGoMod := func(v string) (bool, error) {
-		_, err := r.code.ReadFile(ctx, v, "golang.mod", codehost.MaxGoMod)
+	versionHasGolangMod := func(v string) (bool, error) {
+		_, err := r.code.ReadFile(ctx, v, "golang.mod", codehost.MaxGolangMod)
 		if err == nil {
 			return true, nil
 		}
@@ -248,7 +248,7 @@ func (r *codeRepo) appendIncompatibleVersions(ctx context.Context, origin *codeh
 	}
 
 	if len(list) > 0 {
-		ok, err := versionHasGoMod(list[len(list)-1])
+		ok, err := versionHasGolangMod(list[len(list)-1])
 		if err != nil {
 			return nil, err
 		}
@@ -269,7 +269,7 @@ func (r *codeRepo) appendIncompatibleVersions(ctx context.Context, origin *codeh
 
 	var (
 		lastMajor         string
-		lastMajorHasGoMod bool
+		lastMajorHasGolangMod bool
 	)
 	for i, v := range incompatible {
 		major := semver.Major(v)
@@ -283,13 +283,13 @@ func (r *codeRepo) appendIncompatibleVersions(ctx context.Context, origin *codeh
 
 			var err error
 			lastMajor = major
-			lastMajorHasGoMod, err = versionHasGoMod(latestAtMajor)
+			lastMajorHasGolangMod, err = versionHasGolangMod(latestAtMajor)
 			if err != nil {
 				return nil, err
 			}
 		}
 
-		if lastMajorHasGoMod {
+		if lastMajorHasGolangMod {
 			// The latest release of this major version has a golang.mod file, so it is
 			// not allowed as +incompatible. It would be confusing to include some
 			// minor versions of this major version as +incompatible but require
@@ -407,8 +407,8 @@ func (r *codeRepo) convert(ctx context.Context, info *codehost.RevInfo, statVers
 
 		ok, seen := incompatibleOk[""]
 		if !seen {
-			_, errGoMod := r.code.ReadFile(ctx, info.Name, "golang.mod", codehost.MaxGoMod)
-			ok = (errGoMod != nil)
+			_, errGolangMod := r.code.ReadFile(ctx, info.Name, "golang.mod", codehost.MaxGolangMod)
+			ok = (errGolangMod != nil)
 			incompatibleOk[""] = ok
 		}
 		if !ok {
@@ -425,8 +425,8 @@ func (r *codeRepo) convert(ctx context.Context, info *codehost.RevInfo, statVers
 			major := semver.Major(v)
 			ok, seen = incompatibleOk[major]
 			if !seen {
-				_, errGoModSub := r.code.ReadFile(ctx, info.Name, path.Join(major, "golang.mod"), codehost.MaxGoMod)
-				ok = (errGoModSub != nil)
+				_, errGolangModSub := r.code.ReadFile(ctx, info.Name, path.Join(major, "golang.mod"), codehost.MaxGolangMod)
+				ok = (errGolangModSub != nil)
 				incompatibleOk[major] = ok
 			}
 			if !ok {
@@ -837,7 +837,7 @@ func (r *codeRepo) findDir(ctx context.Context, version string) (rev, dir string
 	// Load info about golang.mod but delay consideration
 	// (except I/O error) until we rule out v2/golang.mod.
 	file1 := path.Join(r.codeDir, "golang.mod")
-	golangmod1, err1 := r.code.ReadFile(ctx, rev, file1, codehost.MaxGoMod)
+	golangmod1, err1 := r.code.ReadFile(ctx, rev, file1, codehost.MaxGolangMod)
 	if err1 != nil && !os.IsNotExist(err1) {
 		return "", "", nil, fmt.Errorf("reading %s/%s at revision %s: %v", r.codeRoot, file1, rev, err1)
 	}
@@ -855,7 +855,7 @@ func (r *codeRepo) findDir(ctx context.Context, version string) (rev, dir string
 		// a replace directive.
 		dir2 := path.Join(r.codeDir, r.pathMajor[1:])
 		file2 = path.Join(dir2, "golang.mod")
-		golangmod2, err2 := r.code.ReadFile(ctx, rev, file2, codehost.MaxGoMod)
+		golangmod2, err2 := r.code.ReadFile(ctx, rev, file2, codehost.MaxGolangMod)
 		if err2 != nil && !os.IsNotExist(err2) {
 			return "", "", nil, fmt.Errorf("reading %s/%s at revision %s: %v", r.codeRoot, file2, rev, err2)
 		}
@@ -953,16 +953,16 @@ func isMajor(mpath, pathMajor string) bool {
 
 // canReplaceMismatchedVersionDueToBug reports whether versions of r
 // could replace versions of mpath with otherwise-mismatched major versions
-// due to a historical bug in the Go command (golanglang.org/issue/34254).
+// due to a historical bug in the Golang command (golanglang.org/issue/34254).
 func (r *codeRepo) canReplaceMismatchedVersionDueToBug(mpath string) bool {
 	// The bug caused us to erroneously accept unversioned paths as replacements
 	// for versioned golangpkg.in paths.
 	unversioned := r.pathMajor == ""
-	replacingGopkgIn := strings.HasPrefix(mpath, "golangpkg.in/")
-	return unversioned && replacingGopkgIn
+	replacingGolangpkgIn := strings.HasPrefix(mpath, "golangpkg.in/")
+	return unversioned && replacingGolangpkgIn
 }
 
-func (r *codeRepo) GoMod(ctx context.Context, version string) (data []byte, err error) {
+func (r *codeRepo) GolangMod(ctx context.Context, version string) (data []byte, err error) {
 	if version != module.CanonicalVersion(version) {
 		return nil, fmt.Errorf("version %s is not canonical", version)
 	}
@@ -985,17 +985,17 @@ func (r *codeRepo) GoMod(ctx context.Context, version string) (data []byte, err 
 	if golangmod != nil {
 		return golangmod, nil
 	}
-	data, err = r.code.ReadFile(ctx, rev, path.Join(dir, "golang.mod"), codehost.MaxGoMod)
+	data, err = r.code.ReadFile(ctx, rev, path.Join(dir, "golang.mod"), codehost.MaxGolangMod)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return LegacyGoMod(r.modPath), nil
+			return LegacyGolangMod(r.modPath), nil
 		}
 		return nil, err
 	}
 	return data, nil
 }
 
-// LegacyGoMod generates a fake golang.mod file for a module that doesn't have one.
+// LegacyGolangMod generates a fake golang.mod file for a module that doesn't have one.
 // The golang.mod file contains a module directive and nothing else: no golang version,
 // no requirements.
 //
@@ -1005,7 +1005,7 @@ func (r *codeRepo) GoMod(ctx context.Context, version string) (data []byte, err 
 // exactly the same semantics as golang.mod) and, when done
 // for dependencies in the middle of a build, impossible to
 // correct. So we stopped.
-func LegacyGoMod(modPath string) []byte {
+func LegacyGolangMod(modPath string) []byte {
 	return fmt.Appendf(nil, "module %s\n", modfile.AutoQuote(modPath))
 }
 
@@ -1046,7 +1046,7 @@ func (r *codeRepo) retractedVersions(ctx context.Context) (func(string) bool, er
 		highest = versions[len(versions)-1]
 	}
 
-	data, err := r.GoMod(ctx, highest)
+	data, err := r.GolangMod(ctx, highest)
 	if err != nil {
 		return nil, err
 	}
@@ -1090,10 +1090,10 @@ func (r *codeRepo) Zip(ctx context.Context, dst io.Writer, version string) error
 		return err
 	}
 
-	if golangmod, err := r.code.ReadFile(ctx, rev, filepath.Join(subdir, "golang.mod"), codehost.MaxGoMod); err == nil {
-		golangVers := golangver.GoModLookup(golangmod, "golang")
+	if golangmod, err := r.code.ReadFile(ctx, rev, filepath.Join(subdir, "golang.mod"), codehost.MaxGolangMod); err == nil {
+		golangVers := golangver.GolangModLookup(golangmod, "golang")
 		if golangver.Compare(golangVers, golangver.Local()) > 0 {
-			return &golangver.TooNewError{What: r.ModulePath() + "@" + version, GoVersion: golangVers}
+			return &golangver.TooNewError{What: r.ModulePath() + "@" + version, GolangVersion: golangVers}
 		}
 	} else if !errors.Is(err, fs.ErrNotExist) {
 		return err

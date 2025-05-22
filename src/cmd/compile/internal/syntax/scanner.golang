@@ -1,9 +1,9 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements scanner, a lexical tokenizer for
-// Go source. After initialization, consecutive calls of
+// Golang source. After initialization, consecutive calls of
 // next advance the scanner one token at a time.
 //
 // This file, source.golang, tokens.golang, and token_string.golang are self-contained

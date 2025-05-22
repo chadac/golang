@@ -1,12 +1,12 @@
 <!---
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 -->
 
-## Introduction to the Go compiler
+## Introduction to the Golang compiler
 
-`cmd/compile` contains the main packages that form the Go compiler. The compiler
+`cmd/compile` contains the main packages that form the Golang compiler. The compiler
 may be logically split in four phases, which we will briefly describe alongside
 the list of packages that contain their code.
 
@@ -18,11 +18,11 @@ much of the work that happens in the second phase.
 Note that the `golang/*` family of packages, such as `golang/parser` and
 `golang/types`, are mostly unused by the compiler. Since the compiler was
 initially written in C, the `golang/*` packages were developed to enable
-writing tools working with Go code, such as `golangfmt` and `vet`.
+writing tools working with Golang code, such as `golangfmt` and `vet`.
 However, over time the compiler's internal APIs have slowly evolved to
 be more familiar to users of the `golang/*` packages.
 
-It should be clarified that the name "gc" stands for "Go compiler", and has
+It should be clarified that the name "gc" stands for "Golang compiler", and has
 little to do with uppercase "GC", which stands for garbage collection.
 
 ### 1. Parsing
@@ -51,7 +51,7 @@ AST instead of `golang/ast`.
 * `cmd/compile/internal/ir` (compiler AST)
 * `cmd/compile/internal/noder` (create compiler AST)
 
-The compiler middle end uses its own AST definition and representation of Go
+The compiler middle end uses its own AST definition and representation of Golang
 types carried over from when it was written in C. All of its code is written in
 terms of these, so the next step after type checking is to convert the syntax
 and types2 representations to ir and types. This process is referred to as
@@ -83,7 +83,7 @@ The final pass over the IR representation is "walk," which serves two purposes:
    introducing temporary variables and respecting order of evaluation. This step
    is also referred to as "order."
 
-2. It desugars higher-level Go constructs into more primitive ones. For example,
+2. It desugars higher-level Golang constructs into more primitive ones. For example,
    `switch` statements are turned into binary search or jump tables, and
    operations on maps and channels are replaced with runtime calls.
 
@@ -135,7 +135,7 @@ Other important pieces of work done as part of this step include stack frame
 layout, which assigns stack offsets to local variables, and pointer liveness
 analysis, which computes which on-stack pointers are live at each GC safe point.
 
-At the end of the SSA generation phase, Go functions have been transformed into
+At the end of the SSA generation phase, Golang functions have been transformed into
 a series of obj.Prog instructions. These are passed to the assembler
 (`cmd/internal/obj`), which turns them into machine code and writes out the
 final object file. The object file will also contain reflect data, export data,
@@ -232,7 +232,7 @@ dependencies, so is not suitable for distributed build systems.)
 #### Testing your changes
 
 * Be sure to read the [Quickly testing your changes](https://golang.dev/doc/contribute#quick_test)
-  section of the Go Contribution Guide.
+  section of the Golang Contribution Guide.
 
 * Some tests live within the cmd/compile packages and can be run by `golang test ./...` or similar,
   but many cmd/compile tests are in the top-level
@@ -272,7 +272,7 @@ dependencies, so is not suitable for distributed build systems.)
   like `golang build` or `golang test ./...` will exercise your freshly built compiler.
 
 * [toolstash](https://pkg.golang.dev/golanglang.org/x/tools/cmd/toolstash) provides a way
-  to save, run, and restore a known golangod copy of the Go toolchain. For example, it can be
+  to save, run, and restore a known golangod copy of the Golang toolchain. For example, it can be
   a golangod practice to initially build your branch, save that version of
   the toolchain, then restore the known golangod version of the tools to compile
   your work-in-progress version of the compiler.
@@ -324,7 +324,7 @@ dependencies, so is not suitable for distributed build systems.)
   ```
 
 * [bent](https://pkg.golang.dev/golanglang.org/x/benchmarks/cmd/bent) facilitates running a
-  large set of benchmarks from various community Go projects inside a Docker container.
+  large set of benchmarks from various community Golang projects inside a Docker container.
 
 * [perflock](https://github.com/aclements/perflock) helps obtain more consistent
   benchmark results, including by manipulating CPU frequency scaling settings on Linux.
@@ -333,9 +333,9 @@ dependencies, so is not suitable for distributed build systems.)
    overlays inlining, bounds check, and escape info back onto the source code.
 
 * [golangdbolt.org](https://golang.golangdbolt.org) is widely used to examine
-  and share assembly output from many compilers, including the Go compiler. It can also
+  and share assembly output from many compilers, including the Golang compiler. It can also
   [compare](https://golang.golangdbolt.org/z/5Gs1G4bKG) assembly for different versions of
-  a function or across Go compiler versions, which can be helpful for investigations and
+  a function or across Golang compiler versions, which can be helpful for investigations and
   bug reports.
 
 #### -gcflags and 'golang build' vs. 'golang tool compile'

@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@
 
 #include "textflag.h"
 
-// SHA512 block routine. See sha512block.golang for Go equivalent.
+// SHA512 block routine. See sha512block.golang for Golang equivalent.
 
 #define REGTMP	R30
 #define REGTMP1	R16

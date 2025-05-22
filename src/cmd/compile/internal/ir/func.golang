@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ import (
 	"unicode/utf8"
 )
 
-// A Func corresponds to a single function in a Go program
+// A Func corresponds to a single function in a Golang program
 // (and vice versa: each function is denoted by exactly one *Func).
 //
 // There are multiple nodes that represent a Func in the IR.
@@ -419,7 +419,7 @@ func ClosureDebugRuntimeCheck(clo *ClosureExpr) {
 			base.WarnfAt(clo.Pos(), "stack closure, captured vars = %v", clo.Func.ClosureVars)
 		}
 	}
-	if base.Flag.CompilingRuntime && clo.Esc() == EscHeap && !clo.IsGoWrap {
+	if base.Flag.CompilingRuntime && clo.Esc() == EscHeap && !clo.IsGolangWrap {
 		base.ErrorfAt(clo.Pos(), 0, "heap-allocated closure %s, not allowed in runtime", FuncName(clo.Func))
 	}
 }

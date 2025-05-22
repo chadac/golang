@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -321,9 +321,9 @@ func disasm_x86(code []byte, pc uint64, lookup lookupFunc, arch int, gnuAsm bool
 		text = "?"
 	} else {
 		if gnuAsm {
-			text = fmt.Sprintf("%-36s // %s", x86asm.GoSyntax(inst, pc, lookup), x86asm.GNUSyntax(inst, pc, nil))
+			text = fmt.Sprintf("%-36s // %s", x86asm.GolangSyntax(inst, pc, lookup), x86asm.GNUSyntax(inst, pc, nil))
 		} else {
-			text = x86asm.GoSyntax(inst, pc, lookup)
+			text = x86asm.GolangSyntax(inst, pc, lookup)
 		}
 	}
 	return text, size
@@ -357,9 +357,9 @@ func disasm_arm(code []byte, pc uint64, lookup lookupFunc, _ binary.ByteOrder, g
 		size = 4
 		text = "?"
 	} else if gnuAsm {
-		text = fmt.Sprintf("%-36s // %s", armasm.GoSyntax(inst, pc, lookup, textReader{code, pc}), armasm.GNUSyntax(inst))
+		text = fmt.Sprintf("%-36s // %s", armasm.GolangSyntax(inst, pc, lookup, textReader{code, pc}), armasm.GNUSyntax(inst))
 	} else {
-		text = armasm.GoSyntax(inst, pc, lookup, textReader{code, pc})
+		text = armasm.GolangSyntax(inst, pc, lookup, textReader{code, pc})
 	}
 	return text, size
 }
@@ -370,9 +370,9 @@ func disasm_arm64(code []byte, pc uint64, lookup lookupFunc, byteOrder binary.By
 	if err != nil || inst.Op == 0 {
 		text = "?"
 	} else if gnuAsm {
-		text = fmt.Sprintf("%-36s // %s", arm64asm.GoSyntax(inst, pc, lookup, textReader{code, pc}), arm64asm.GNUSyntax(inst))
+		text = fmt.Sprintf("%-36s // %s", arm64asm.GolangSyntax(inst, pc, lookup, textReader{code, pc}), arm64asm.GNUSyntax(inst))
 	} else {
-		text = arm64asm.GoSyntax(inst, pc, lookup, textReader{code, pc})
+		text = arm64asm.GolangSyntax(inst, pc, lookup, textReader{code, pc})
 	}
 	return text, 4
 }
@@ -383,9 +383,9 @@ func disasm_loong64(code []byte, pc uint64, lookup lookupFunc, byteOrder binary.
 	if err != nil || inst.Op == 0 {
 		text = "?"
 	} else if gnuAsm {
-		text = fmt.Sprintf("%-36s // %s", loong64asm.GoSyntax(inst, pc, lookup), loong64asm.GNUSyntax(inst))
+		text = fmt.Sprintf("%-36s // %s", loong64asm.GolangSyntax(inst, pc, lookup), loong64asm.GNUSyntax(inst))
 	} else {
-		text = loong64asm.GoSyntax(inst, pc, lookup)
+		text = loong64asm.GolangSyntax(inst, pc, lookup)
 	}
 	return text, 4
 }
@@ -399,9 +399,9 @@ func disasm_ppc64(code []byte, pc uint64, lookup lookupFunc, byteOrder binary.By
 		text = "?"
 	} else {
 		if gnuAsm {
-			text = fmt.Sprintf("%-36s // %s", ppc64asm.GoSyntax(inst, pc, lookup), ppc64asm.GNUSyntax(inst, pc))
+			text = fmt.Sprintf("%-36s // %s", ppc64asm.GolangSyntax(inst, pc, lookup), ppc64asm.GNUSyntax(inst, pc))
 		} else {
-			text = ppc64asm.GoSyntax(inst, pc, lookup)
+			text = ppc64asm.GolangSyntax(inst, pc, lookup)
 		}
 	}
 	return text, size
@@ -415,9 +415,9 @@ func disasm_riscv64(code []byte, pc uint64, lookup lookupFunc, byteOrder binary.
 		size = 2
 		text = "?"
 	} else if gnuAsm {
-		text = fmt.Sprintf("%-36s // %s", riscv64asm.GoSyntax(inst, pc, lookup, textReader{code, pc}), riscv64asm.GNUSyntax(inst))
+		text = fmt.Sprintf("%-36s // %s", riscv64asm.GolangSyntax(inst, pc, lookup, textReader{code, pc}), riscv64asm.GNUSyntax(inst))
 	} else {
-		text = riscv64asm.GoSyntax(inst, pc, lookup, textReader{code, pc})
+		text = riscv64asm.GolangSyntax(inst, pc, lookup, textReader{code, pc})
 	}
 	return text, size
 }
@@ -431,9 +431,9 @@ func disasm_s390x(code []byte, pc uint64, lookup lookupFunc, _ binary.ByteOrder,
 		text = "?"
 	} else {
 		if gnuAsm {
-			text = fmt.Sprintf("%-36s // %s", s390xasm.GoSyntax(inst, pc, lookup), s390xasm.GNUSyntax(inst, pc))
+			text = fmt.Sprintf("%-36s // %s", s390xasm.GolangSyntax(inst, pc, lookup), s390xasm.GNUSyntax(inst, pc))
 		} else {
-			text = s390xasm.GoSyntax(inst, pc, lookup)
+			text = s390xasm.GolangSyntax(inst, pc, lookup)
 		}
 	}
 	return text, size

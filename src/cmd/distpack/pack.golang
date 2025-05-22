@@ -1,8 +1,8 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Distpack creates the tgz and zip files for a Go distribution.
+// Distpack creates the tgz and zip files for a Golang distribution.
 // It writes into GOROOT/pkg/distpack:
 //
 //   - a binary distribution (tgz or zip) for the current GOOS and GOARCH
@@ -22,7 +22,7 @@
 //	ln -sf $(pwd)/../pkg/distpack /tmp/golangproxy/golanglang.org/toolchain/@v
 //	GOPROXY=file:///tmp/golangproxy GOTOOLCHAIN=$(sed 1q ../VERSION) golangtip version
 //
-// golangtip can be replaced with an older released Go version once there is one.
+// golangtip can be replaced with an older released Golang version once there is one.
 // It just can't be the one make.bash built, because it knows it is already that
 // version and will skip the download.
 package main
@@ -93,8 +93,8 @@ func main() {
 	if golangarch == "" {
 		golangarch = golanghostarch
 	}
-	golangosUnderGoarch := golangos + "_" + golangarch
-	golangosDashGoarch := golangos + "-" + golangarch
+	golangosUnderGolangarch := golangos + "_" + golangarch
+	golangosDashGolangarch := golangos + "-" + golangarch
 	exe := ""
 	if golangos == "windows" {
 		exe = ".exe"
@@ -164,7 +164,7 @@ func main() {
 				return false
 			}
 			// Inside pkg/tool, keep only $GOOS_$GOARCH.
-			if !strings.HasPrefix(name, "pkg/tool/"+golangosUnderGoarch+"/") {
+			if !strings.HasPrefix(name, "pkg/tool/"+golangosUnderGolangarch+"/") {
 				return false
 			}
 			// Inside pkg/tool/$GOOS_$GOARCH, keep only tools needed for build actions.
@@ -185,7 +185,7 @@ func main() {
 	}
 	crossBin := "bin"
 	if golangos != golanghostos || golangarch != golanghostarch {
-		crossBin = "bin/" + golangosUnderGoarch
+		crossBin = "bin/" + golangosUnderGolangarch
 	}
 	for _, b := range binExes {
 		name := "bin/" + b + exe
@@ -213,9 +213,9 @@ func main() {
 		"misc/**",
 		"test/**",
 	)
-	modVers := modVersionPrefix + "-" + version + "." + golangosDashGoarch
+	modVers := modVersionPrefix + "-" + version + "." + golangosDashGolangarch
 	modArch.AddPrefix(modPath + "@" + modVers)
-	modArch.RenameGoMod()
+	modArch.RenameGolangMod()
 	modArch.Sort()
 	testMod(modArch)
 
@@ -260,7 +260,7 @@ func mode(name string, _ fs.FileMode) fs.FileMode {
 }
 
 // readVERSION reads the VERSION file.
-// The first line of the file is the Go version.
+// The first line of the file is the Golang version.
 // Additional lines are 'key value' pairs setting other data.
 // The only valid key at the moment is 'time', which sets the modification time for file archives.
 func readVERSION(golangroot string) (version string, t time.Time) {

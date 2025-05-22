@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -221,7 +221,7 @@ var S390X struct {
 // the presence of RISC-V extensions.
 //
 // It is safe to assume that all the RV64G extensions are supported and so they are omitted from
-// this structure. As riscv64 Go programs require at least RV64G, the code that populates
+// this structure. As riscv64 Golang programs require at least RV64G, the code that populates
 // this structure cannot run successfully if some of the RV64G extensions are missing.
 // The struct is padded to avoid false sharing.
 var RISCV64 struct {

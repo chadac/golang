@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ func TestLargeBranch(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping test in short mode")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	dir := t.TempDir()
 
@@ -36,7 +36,7 @@ func TestLargeBranch(t *testing.T) {
 	}
 
 	// Assemble generated file.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), tmpfile)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), tmpfile)
 	cmd.Env = append(os.Environ(), "GOARCH=riscv64", "GOOS=linux")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -61,7 +61,7 @@ func TestLargeCall(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping test in short mode")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	dir := t.TempDir()
 
@@ -89,7 +89,7 @@ func y()
 	}
 
 	// Build generated files.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-linkmode=internal")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-linkmode=internal")
 	cmd.Dir = dir
 	cmd.Env = append(os.Environ(), "GOARCH=riscv64", "GOOS=linux")
 	out, err := cmd.CombinedOutput()
@@ -98,7 +98,7 @@ func y()
 	}
 
 	if runtime.GOARCH == "riscv64" && testenv.HasCGO() {
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-linkmode=external")
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-linkmode=external")
 		cmd.Dir = dir
 		cmd.Env = append(os.Environ(), "GOARCH=riscv64", "GOOS=linux")
 		out, err := cmd.CombinedOutput()
@@ -129,7 +129,7 @@ func TestLargeJump(t *testing.T) {
 	if runtime.GOARCH != "riscv64" {
 		t.Skip("Require riscv64 to run")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	dir := t.TempDir()
 
@@ -159,7 +159,7 @@ func x() uint64
 	}
 
 	// Build generated files.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", "x.exe")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", "x.exe")
 	cmd.Dir = dir
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -169,7 +169,7 @@ func x() uint64
 	cmd = testenv.Command(t, filepath.Join(dir, "x.exe"))
 	out, err = cmd.CombinedOutput()
 	if string(out) != "1" {
-		t.Errorf(`Got test output %q, want "1"`, string(out))
+		t.Errorf(`Golangt test output %q, want "1"`, string(out))
 	}
 }
 
@@ -193,7 +193,7 @@ func TestNoRet(t *testing.T) {
 	if err := os.WriteFile(tmpfile, []byte("TEXT ·stub(SB),$0-0\nNOP\n"), 0644); err != nil {
 		t.Fatal(err)
 	}
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), tmpfile)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), tmpfile)
 	cmd.Env = append(os.Environ(), "GOARCH=riscv64", "GOOS=linux")
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Errorf("%v\n%s", err, out)
@@ -243,7 +243,7 @@ TEXT _stub(SB),$0-0
 	if err := os.WriteFile(tmpfile, []byte(asm), 0644); err != nil {
 		t.Fatal(err)
 	}
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), tmpfile)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), tmpfile)
 	cmd.Env = append(os.Environ(), "GOARCH=riscv64", "GOOS=linux")
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Errorf("%v\n%s", err, out)
@@ -255,9 +255,9 @@ func TestBranch(t *testing.T) {
 		t.Skip("Requires riscv64 to run")
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "test")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "test")
 	cmd.Dir = "testdata/testbranch"
 	if out, err := testenv.CleanCmdEnv(cmd).CombinedOutput(); err != nil {
 		t.Errorf("Branch test failed: %v\n%s", err, out)
@@ -269,9 +269,9 @@ func TestMinMax(t *testing.T) {
 		t.Skip("Requires riscv64 to run")
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "test")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "test")
 	cmd.Dir = "testdata/testminmax"
 	if out, err := testenv.CleanCmdEnv(cmd).CombinedOutput(); err != nil {
 		t.Errorf("Min max test failed: %v\n%s", err, out)
@@ -291,7 +291,7 @@ TEXT _stub(SB),$0-0
 	if err := os.WriteFile(tmpfile, []byte(asm), 0644); err != nil {
 		t.Fatal(err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), "-S", tmpfile)
+	cmd := exec.Command(testenv.GolangToolPath(t), "tool", "asm", "-o", filepath.Join(dir, "x.o"), "-S", tmpfile)
 	cmd.Env = append(os.Environ(), "GOARCH=riscv64", "GOOS=linux")
 	out, err := cmd.CombinedOutput()
 	if err != nil {

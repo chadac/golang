@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -284,7 +284,7 @@ func TestSendfileSeeked(t *testing.T) {
 	buf.ReadFrom(c)
 
 	if buf.Len() != sendSize {
-		t.Errorf("Got %d bytes; want %d", buf.Len(), sendSize)
+		t.Errorf("Golangt %d bytes; want %d", buf.Len(), sendSize)
 	}
 
 	for err := range errc {

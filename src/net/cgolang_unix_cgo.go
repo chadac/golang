@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -77,7 +77,7 @@ func _C_freeaddrinfo(ai *_C_struct_addrinfo) {
 }
 
 func _C_gai_strerror(eai _C_int) string {
-	return C.GoString(C.gai_strerror(eai))
+	return C.GolangString(C.gai_strerror(eai))
 }
 
 func _C_getaddrinfo(hostname, servname *_C_char, hints *_C_struct_addrinfo, res **_C_struct_addrinfo) (int, error) {

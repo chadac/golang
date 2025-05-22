@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1237,7 +1237,7 @@ Error:
 
 // keyVal maps a complex, float, integer, string or boolean constant value
 // to the corresponding complex128, float64, int64, uint64, string, or bool
-// Go value if possible; otherwise it returns x.
+// Golang value if possible; otherwise it returns x.
 // A complex constant that can be represented as a float (such as 1.2 + 0i)
 // is returned as a floating point value; if a floating point value can be
 // represented as an integer (such as 1.0) it is returned as an integer value.

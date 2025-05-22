@@ -2,7 +2,7 @@
 
 # Test building in overlays.
 # TODO(#39958): add a test case where the destination file in the replace map
-#   isn't a golang file. Either completely exclude that case in fs.IsDirWithGoFiles
+#   isn't a golang file. Either completely exclude that case in fs.IsDirWithGolangFiles
 #   if the compiler doesn't allow it, or test that it works all the way.
 # TODO(#39958): add a test that both gc and gccgolang assembly files can include .h
 #   files.
@@ -49,7 +49,7 @@ golang build -overlay overlay.json -o main_call_asm$GOEXE ./call_asm
 exec ./main_call_asm$GOEXE
 ! stdout .
 
-[cgolang] golang list -compiled -overlay overlay.json -f '{{range .CompiledGoFiles}}{{. | printf "%s\n"}}{{end}}' ./cgolang_hello_replace
+[cgolang] golang list -compiled -overlay overlay.json -f '{{range .CompiledGolangFiles}}{{. | printf "%s\n"}}{{end}}' ./cgolang_hello_replace
 [cgolang] cp stdout compiled_cgolang_sources.txt
 [cgolang] golang run ../print_line_comments.golang compiled_cgolang_sources.txt
 [cgolang] stdout $GOPATH[/\\]src[/\\]m[/\\]cgolang_hello_replace[/\\]cgolang_hello_replace.golang
@@ -295,13 +295,13 @@ import (
 )
 
 func main() {
-	compiledGoFilesArg := os.Args[1]
-	b, err := ioutil.ReadFile(compiledGoFilesArg)
+	compiledGolangFilesArg := os.Args[1]
+	b, err := ioutil.ReadFile(compiledGolangFilesArg)
 	if err != nil {
 		log.Fatal(err)
 	}
-	compiledGoFiles := strings.Split(strings.TrimSpace(string(b)), "\n")
-	for _, f := range compiledGoFiles {
+	compiledGolangFiles := strings.Split(strings.TrimSpace(string(b)), "\n")
+	for _, f := range compiledGolangFiles {
 		b, err := ioutil.ReadFile(f)
 		if err != nil {
 			log.Fatal(err)

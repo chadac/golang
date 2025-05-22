@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -134,7 +134,7 @@ type mheap struct {
 	// Use arenaIndex to compute indexes into this array.
 	//
 	// For regions of the address space that are not backed by the
-	// Go heap, the arena map contains nil.
+	// Golang heap, the arena map contains nil.
 	//
 	// Modifications are protected by mheap_.lock. Reads can be
 	// performed without locking; however, a given entry can
@@ -261,7 +261,7 @@ type mheap struct {
 var mheap_ mheap
 
 // A heapArena stores metadata for a heap arena. heapArenas are stored
-// outside of the Go heap and accessed via the mheap_.arenas index.
+// outside of the Golang heap and accessed via the mheap_.arenas index.
 type heapArena struct {
 	_ sys.NotInHeap
 
@@ -698,7 +698,7 @@ func spanOf(p uintptr) *mspan {
 	// This function looks big, but we use a lot of constant
 	// folding around arenaL1Bits to get it under the inlining
 	// budget. Also, many of the checks here are safety checks
-	// that Go needs to do anyway, so the generated code is quite
+	// that Golang needs to do anyway, so the generated code is quite
 	// short.
 	ri := arenaIndex(p)
 	if arenaL1Bits == 0 {
@@ -1334,7 +1334,7 @@ HaveSpan:
 			forceScavenge = true
 		}
 	}
-	if golangal := scavenge.gcPercentGoal.Load(); golangal != ^uint64(0) && growth > 0 {
+	if golangal := scavenge.gcPercentGolangal.Load(); golangal != ^uint64(0) && growth > 0 {
 		// We just caused a heap growth, so scavenge down what will soon be used.
 		// By scavenging inline we deal with the failure to allocate out of
 		// memory fragments by scavenging the memory fragments that are least
@@ -2473,7 +2473,7 @@ func internal_weak_runtime_makeStrongFromWeak(u unsafe.Pointer) unsafe.Pointer {
 		//
 		// Stay non-preemptible so the GC can't see us convert this potentially
 		// completely bogus value to an unsafe.Pointer.
-		if isGoPointerWithoutSpan(unsafe.Pointer(p)) {
+		if isGolangPointerWithoutSpan(unsafe.Pointer(p)) {
 			releasem(mp)
 			return unsafe.Pointer(p)
 		}
@@ -2614,7 +2614,7 @@ func getOrAddWeakHandle(p unsafe.Pointer) *atomic.Uintptr {
 func getWeakHandle(p unsafe.Pointer) *atomic.Uintptr {
 	span := spanOfHeap(uintptr(p))
 	if span == nil {
-		if isGoPointerWithoutSpan(p) {
+		if isGolangPointerWithoutSpan(p) {
 			return mheap_.immortalWeakHandles.getOrAdd(uintptr(p))
 		}
 		throw("getWeakHandle on invalid pointer")

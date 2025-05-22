@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -68,7 +68,7 @@ func epipecheck(file *File, e error) {
 // On Unix-like systems, it is "/dev/null"; on Windows, "NUL".
 const DevNull = "/dev/null"
 
-// syscallMode returns the syscall-specific mode bits from Go's portable mode bits.
+// syscallMode returns the syscall-specific mode bits from Golang's portable mode bits.
 func syscallMode(i FileMode) (o uint32) {
 	o |= uint32(i.Perm())
 	if i&ModeAppend != 0 {

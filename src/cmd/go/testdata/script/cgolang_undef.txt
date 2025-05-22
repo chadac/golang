@@ -45,7 +45,7 @@ package a
 // extern int CFn(int);
 import "C"
 
-func GoFn(v int) int { return int(C.CFn(C.int(v))) }
+func GolangFn(v int) int { return int(C.CFn(C.int(v))) }
 
 -- b/b.c --
 extern int LibFn(int);
@@ -63,7 +63,7 @@ import "C"
 import "m/a"
 
 func Fn(i int) (int, int) {
-     return a.GoFn(i), int(C.D(C.int(i)))
+     return a.GolangFn(i), int(C.D(C.int(i)))
 }
 
 -- d/d.golang --
@@ -76,7 +76,7 @@ import "C"
 import "m/a"
 
 func Fn(i int) (int, int) {
-     return a.GoFn(i), int(C.D(C.int(i)))
+     return a.GolangFn(i), int(C.D(C.int(i)))
 }
 
 -- main.golang --

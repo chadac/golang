@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -283,7 +283,7 @@ func (po *poset) aliasnodes(n1 *Value, i2s bitset) {
 		panic("aliasnode i2s contains n1 node")
 	}
 
-	// Go through all the nodes to adjust parent/chidlren of nodes in i2s
+	// Golang through all the nodes to adjust parent/chidlren of nodes in i2s
 	for idx, n := range po.nodes {
 		// Do not touch i1 itself, otherwise we can create useless self-loops
 		if uint32(idx) == i1 {

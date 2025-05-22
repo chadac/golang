@@ -1,13 +1,13 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Package comment implements parsing and reformatting of Go doc comments,
+Package comment implements parsing and reformatting of Golang doc comments,
 (documentation comments), which are comments that immediately precede
 a top-level declaration of a package, const, func, type, or var.
 
-Go doc comment syntax is a simplified subset of Markdown that supports
+Golang doc comment syntax is a simplified subset of Markdown that supports
 links, headings, paragraphs, lists (without nesting), and preformatted text blocks.
 The details of the syntax are documented at https://golang.dev/doc/comment.
 

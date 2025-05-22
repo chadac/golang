@@ -1,4 +1,4 @@
-# Test support for declaring needed Go version in module.
+# Test support for declaring needed Golang version in module.
 
 env GO111MODULE=on
 env TESTGO_VERSION=golang1.21

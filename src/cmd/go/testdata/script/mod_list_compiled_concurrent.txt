@@ -4,7 +4,7 @@ env GO111MODULE=on
 [!cgolang] skip
 
 # Regression test for golanglang.org/issue/29667:
-# spurious 'failed to cache compiled Go files' errors.
+# spurious 'failed to cache compiled Golang files' errors.
 
 env GOCACHE=$WORK/golangcache
 mkdir $GOCACHE

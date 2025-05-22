@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -57,7 +57,7 @@ const (
 	AllErrors            = SpuriousErrors             // report all errors (not just the first 10 on different lines)
 )
 
-// ParseFile parses the source code of a single Go source file and returns
+// ParseFile parses the source code of a single Golang source file and returns
 // the corresponding [ast.File] node. The source code may be provided via
 // the filename of the source file, or via the src parameter.
 //
@@ -108,7 +108,7 @@ func ParseFile(fset *token.FileSet, filename string, src any, mode Mode) (f *ast
 
 		// set result values
 		if f == nil {
-			// source is not a valid Go source file - satisfy
+			// source is not a valid Golang source file - satisfy
 			// ParseFile API and return a valid (but) empty
 			// *ast.File
 			f = &ast.File{
@@ -192,7 +192,7 @@ func ParseDir(fset *token.FileSet, path string, filter func(fs.FileInfo) bool, m
 
 // ParseExprFrom is a convenience function for parsing an expression.
 // The arguments have the same meaning as for [ParseFile], but the source must
-// be a valid Go (type or value) expression. Specifically, fset must not
+// be a valid Golang (type or value) expression. Specifically, fset must not
 // be nil.
 //
 // If the source couldn't be read, the returned AST is nil and the error

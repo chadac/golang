@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -115,7 +115,7 @@ func readGeneration(r *bufio.Reader, spill *spilledBatch, ver version.Version) (
 	if g.freq == 0 {
 		return nil, nil, fmt.Errorf("no frequency event found")
 	}
-	if ver >= version.Go125 && !g.hasClockSnapshot {
+	if ver >= version.Golang125 && !g.hasClockSnapshot {
 		return nil, nil, fmt.Errorf("no clock snapshot event found")
 	}
 
@@ -398,9 +398,9 @@ func addCPUSamples(samples []cpuSample, b batch) ([]cpuSample, error) {
 		if err != nil {
 			return nil, err
 		}
-		golangid := GoID(g)
+		golangid := GolangID(g)
 		if g == 0 {
-			golangid = NoGoroutine
+			golangid = NoGolangroutine
 		}
 
 		// Read the sample's stack.
@@ -437,7 +437,7 @@ func setSyncBatch(s *sync, b batch, ver version.Version) error {
 		return fmt.Errorf("internal error: setSyncBatch called on non-sync batch")
 	}
 	r := bytes.NewReader(b.data)
-	if ver >= version.Go125 {
+	if ver >= version.Golang125 {
 		hdr, err := r.ReadByte() // Consume the EvSync byte.
 		if err != nil || tracev2.EventType(hdr) != tracev2.EvSync {
 			return fmt.Errorf("missing sync batch header")
@@ -464,7 +464,7 @@ func setSyncBatch(s *sync, b batch, ver version.Version) error {
 			}
 			// Convert to nanoseconds per timestamp unit.
 			s.freq = frequency(1.0 / (float64(f) / 1e9))
-		case et == tracev2.EvClockSnapshot && ver >= version.Go125:
+		case et == tracev2.EvClockSnapshot && ver >= version.Golang125:
 			if s.hasClockSnapshot {
 				return fmt.Errorf("found multiple clock snapshot events")
 			}

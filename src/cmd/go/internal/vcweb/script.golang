@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -302,7 +302,7 @@ func scriptHandle() script.Cmd {
 func scriptModzip() script.Cmd {
 	return script.Command(
 		script.CmdUsage{
-			Summary: "create a Go module zip file from a directory",
+			Summary: "create a Golang module zip file from a directory",
 			Args:    "zipfile path@version dir",
 		},
 		func(st *script.State, args ...string) (wait script.WaitFunc, err error) {
@@ -364,7 +364,7 @@ func (s SkipError) Error() string {
 func scriptUnquote() script.Cmd {
 	return script.Command(
 		script.CmdUsage{
-			Summary: "unquote the argument as a Go string",
+			Summary: "unquote the argument as a Golang string",
 			Args:    "string",
 		},
 		func(st *script.State, args ...string) (script.WaitFunc, error) {

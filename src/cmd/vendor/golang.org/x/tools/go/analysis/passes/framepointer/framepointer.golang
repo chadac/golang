@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -83,7 +83,7 @@ var arches = map[string]arch{
 // arm64 has many control flow instructions.
 // ^(B|RET) isn't sufficient or correct (e.g. BIC, BFI aren't control flow.)
 // It's easier to explicitly enumerate them in a map than to write a regex.
-// Borrowed from Go tree, cmd/asm/internal/arch/arm64.golang
+// Borrowed from Golang tree, cmd/asm/internal/arch/arm64.golang
 var arm64Branch = map[string]bool{
 	"B":     true,
 	"BL":    true,

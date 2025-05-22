@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@
 
 package main
 
-// Regression test for https://golang.dev/issue/72870. Go code called from C should
+// Regression test for https://golang.dev/issue/72870. Golang code called from C should
 // never be reported as external code.
 
 /*
@@ -120,7 +120,7 @@ func flattenFrames(s *profile.Sample) []*profile.Function {
 
 //export golang_callback1
 func golang_callback1() {
-	// This is a separate function just to ensure we have another Go
+	// This is a separate function just to ensure we have another Golang
 	// function as the caller in the profile.
 	golang_callback1_callee()
 }

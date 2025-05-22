@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -145,7 +145,7 @@ func testPCs(t *testing.T) (addr1, addr2 uint64, map1, map2 *profile.Mapping) {
 	default:
 		addr1 = uint64(abi.FuncPCABIInternal(f1))
 		addr2 = uint64(abi.FuncPCABIInternal(f2))
-		// Fake mapping - HasFunctions will be true because two PCs from Go
+		// Fake mapping - HasFunctions will be true because two PCs from Golang
 		// will be fully symbolized.
 		fake := &profile.Mapping{ID: 1, HasFunctions: true}
 		map1, map2 = fake, fake
@@ -350,17 +350,17 @@ func TestProcSelfMaps(t *testing.T) {
 // The test generates a CPU profile that includes PCs from C side
 // that the runtime can't symbolize. See ./testdata/mappingtest.
 func TestMapping(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	testenv.MustHaveCGO(t)
 
 	prog := "./testdata/mappingtest/main.golang"
 
-	// GoOnly includes only Go symbols that runtime will symbolize.
-	// Go+C includes C symbols that runtime will not symbolize.
-	for _, traceback := range []string{"GoOnly", "Go+C"} {
+	// GolangOnly includes only Golang symbols that runtime will symbolize.
+	// Golang+C includes C symbols that runtime will not symbolize.
+	for _, traceback := range []string{"GolangOnly", "Golang+C"} {
 		t.Run("traceback"+traceback, func(t *testing.T) {
-			cmd := exec.Command(testenv.GoToolPath(t), "run", prog)
-			if traceback != "GoOnly" {
+			cmd := exec.Command(testenv.GolangToolPath(t), "run", prog)
+			if traceback != "GolangOnly" {
 				cmd.Env = append(os.Environ(), "SETCGOTRACEBACK=1")
 			}
 			cmd.Stderr = new(bytes.Buffer)
@@ -400,7 +400,7 @@ func TestMapping(t *testing.T) {
 				}
 			}
 
-			if traceback == "Go+C" {
+			if traceback == "Golang+C" {
 				// The test code was arranged to have PCs from C and
 				// they are not symbolized.
 				// Check no Location containing those unsymbolized PCs contains multiple lines.

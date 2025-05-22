@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -125,7 +125,7 @@ func cpuHog0(x, n int) int {
 	for i := 0; i < n; i++ {
 		if i%1000 == 0 {
 			// Spend time in mcall, stored as gp.m.curg, with g0 running
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 		if foo > 0 {
 			foo *= foo

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,18 +21,18 @@ var golangtypesFix = fix{
 }
 
 func golangtypes(f *ast.File) bool {
-	fixed := fixGoTypes(f)
-	if fixGoExact(f) {
+	fixed := fixGolangTypes(f)
+	if fixGolangExact(f) {
 		fixed = true
 	}
 	return fixed
 }
 
-func fixGoTypes(f *ast.File) bool {
+func fixGolangTypes(f *ast.File) bool {
 	return rewriteImport(f, "golanglang.org/x/tools/golang/types", "golang/types")
 }
 
-func fixGoExact(f *ast.File) bool {
+func fixGolangExact(f *ast.File) bool {
 	// This one is harder because the import name changes.
 	// First find the import spec.
 	var importSpec *ast.ImportSpec

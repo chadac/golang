@@ -1,10 +1,10 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package crashmonitor
 
-// This file defines a monitor that reports arbitrary Go runtime
+// This file defines a monitor that reports arbitrary Golang runtime
 // crashes to telemetry.
 
 import (
@@ -106,7 +106,7 @@ func writeSentinel(out io.Writer) {
 	fmt.Fprintf(out, "sentinel %x\n", sentinel())
 }
 
-// telemetryCounterName parses a crash report produced by the Go
+// telemetryCounterName parses a crash report produced by the Golang
 // runtime, extracts the stack of the first runnable golangroutine,
 // converts each line into telemetry form ("symbol:relative-line"),
 // and returns this as the name of a counter.

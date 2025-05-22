@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -215,7 +215,7 @@ const detailOutput = false
 // by the linker in debug_info, for each function in the main package,
 // corresponds to what we expect it to be.
 func TestScopeRanges(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	if !platform.ExecutableHasDWARF(runtime.GOOS, runtime.GOARCH) {
@@ -470,7 +470,7 @@ func golangbuild(t *testing.T, dir string, optimized bool, testfile []testline) 
 	}
 	args = append(args, "-o", dst, src)
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), args...)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), args...)
 	if b, err := cmd.CombinedOutput(); err != nil {
 		t.Logf("build: %s\n", string(b))
 		t.Fatal(err)
@@ -486,7 +486,7 @@ func golangbuild(t *testing.T, dir string, optimized bool, testfile []testline) 
 // TestEmptyDwarfRanges tests that no list entry in debug_ranges has start == end.
 // See issue #23928.
 func TestEmptyDwarfRanges(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	t.Parallel()
 
 	if !platform.ExecutableHasDWARF(runtime.GOOS, runtime.GOARCH) {

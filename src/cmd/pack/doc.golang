@@ -1,10 +1,10 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
 Pack is a simple version of the traditional Unix ar tool.
-It implements only the operations needed by Go.
+It implements only the operations needed by Golang.
 
 Usage:
 

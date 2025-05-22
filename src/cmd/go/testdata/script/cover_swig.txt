@@ -1,6 +1,6 @@
 
 # Testcase for issue 64661.  This testcase is intended to verify that
-# we don't try to send swig-generated Go files through the cover tool
+# we don't try to send swig-generated Golang files through the cover tool
 # for "golang test -cover" runs on packages that have *.swig source files.
 
 [!exec:swig] skip

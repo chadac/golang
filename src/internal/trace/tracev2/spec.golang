@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@ package tracev2
 type EventType uint8
 
 // EventSpec is a specification for a trace event. It contains sufficient information
-// to perform basic parsing of any trace event for any version of Go.
+// to perform basic parsing of any trace event for any version of Golang.
 type EventSpec struct {
 	// Name is the human-readable name of the trace event.
 	Name string
@@ -29,7 +29,7 @@ type EventSpec struct {
 	// In sum, it's a name followed by an optional type.
 	// If the type is present, it is preceded with an underscore.
 	// Arguments without types will be interpreted as just raw uint64s.
-	// The valid argument types and the Go types they map to are listed
+	// The valid argument types and the Golang types they map to are listed
 	// in the ArgTypes variable.
 	Args []string
 
@@ -82,7 +82,7 @@ var EventArgTypes = [...]string{
 	"seq",     // sequence number
 	"pstatus", // P status
 	"gstatus", // G status
-	"g",       // trace.GoID
+	"g",       // trace.GolangID
 	"m",       // trace.ThreadID
 	"p",       // trace.ProcID
 	"string",  // string ID

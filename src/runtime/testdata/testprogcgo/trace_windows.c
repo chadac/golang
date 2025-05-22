@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ static unsigned int cCalledFromCThread(void *p) {
 	return 0;
 }
 
-void cCalledFromGo(void) {
+void cCalledFromGolang(void) {
 	golangCalledFromC();
 
 	uintptr_t thread;

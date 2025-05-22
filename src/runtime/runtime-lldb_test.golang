@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -134,7 +134,7 @@ intvar = 42
 `
 
 func TestLldbPython(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.SkipFlaky(t, 31188)
 
 	checkLldbPython(t)
@@ -155,7 +155,7 @@ func TestLldbPython(t *testing.T) {
 
 	// As of 2018-07-17, lldb doesn't support compressed DWARF, so
 	// disable it for this test.
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-gcflags=all=-N -l", "-ldflags=-compressdwarf=false", "-o", "a.exe")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-gcflags=all=-N -l", "-ldflags=-compressdwarf=false", "-o", "a.exe")
 	cmd.Dir = dir
 	cmd.Env = append(os.Environ(), "GOPATH=") // issue 31100
 	out, err := cmd.CombinedOutput()

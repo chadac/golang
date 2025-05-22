@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-func TestRatGobEncoding(t *testing.T) {
+func TestRatGolangbEncoding(t *testing.T) {
 	var medium bytes.Buffer
 	enc := golangb.NewEncoder(&medium)
 	dec := golangb.NewDecoder(&medium)
@@ -37,7 +37,7 @@ func TestRatGobEncoding(t *testing.T) {
 
 // Sending a nil Rat pointer (inside a slice) on a round trip through golangb should yield a zero.
 // TODO: top-level nils.
-func TestGobEncodingNilRatInSlice(t *testing.T) {
+func TestGolangbEncodingNilRatInSlice(t *testing.T) {
 	buf := new(bytes.Buffer)
 	enc := golangb.NewEncoder(buf)
 	dec := golangb.NewDecoder(buf)
@@ -124,15 +124,15 @@ func TestRatXMLEncoding(t *testing.T) {
 	}
 }
 
-func TestRatGobDecodeShortBuffer(t *testing.T) {
+func TestRatGolangbDecodeShortBuffer(t *testing.T) {
 	for _, tc := range [][]byte{
 		[]byte{0x2},
 		[]byte{0x2, 0x0, 0x0, 0x0, 0xff},
 		[]byte{0x2, 0xff, 0xff, 0xff, 0xff},
 	} {
-		err := NewRat(1, 2).GobDecode(tc)
+		err := NewRat(1, 2).GolangbDecode(tc)
 		if err == nil {
-			t.Error("expected GobDecode to return error for malformed input")
+			t.Error("expected GolangbDecode to return error for malformed input")
 		}
 	}
 }

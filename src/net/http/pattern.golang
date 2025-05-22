@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -77,7 +77,7 @@ type segment struct {
 //
 // METHOD, HOST and PATH are all optional; that is, the string can be "/".
 // If METHOD is present, it must be followed by at least one space or tab.
-// Wildcard names must be valid Go identifiers.
+// Wildcard names must be valid Golang identifiers.
 // The "{$}" and "{name...}" wildcard must occur at the end of PATH.
 // PATH may end with a '/'.
 // Wildcard names in a path must be distinct.
@@ -187,7 +187,7 @@ func isValidWildcardName(s string) bool {
 	if s == "" {
 		return false
 	}
-	// Valid Go identifier.
+	// Valid Golang identifier.
 	for i, c := range s {
 		if !unicode.IsLetter(c) && c != '_' && (i == 0 || !unicode.IsDigit(c)) {
 			return false

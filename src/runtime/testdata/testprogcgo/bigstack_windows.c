@@ -1,9 +1,9 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test source is used by both TestBigStackCallbackCgolang (linked
-// directly into the Go binary) and TestBigStackCallbackSyscall
+// directly into the Golang binary) and TestBigStackCallbackSyscall
 // (compiled into a DLL).
 
 #include <windows.h>

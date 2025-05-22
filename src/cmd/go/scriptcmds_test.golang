@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -39,9 +39,9 @@ func scriptCommands(interrupt os.Signal, waitDelay time.Duration) map[string]scr
 	}
 
 	add("cc", scriptCC(cmdExec))
-	cmdGo := scriptGo(cancel, waitDelay)
-	add("golang", cmdGo)
-	add("stale", scriptStale(cmdGo))
+	cmdGolang := scriptGolang(cancel, waitDelay)
+	add("golang", cmdGolang)
+	add("stale", scriptStale(cmdGolang))
 
 	return cmds
 }
@@ -70,27 +70,27 @@ func scriptCC(cmdExec script.Cmd) script.Cmd {
 		})
 }
 
-var scriptGoInvoked sync.Map // testing.TB → golang command was invoked
+var scriptGolangInvoked sync.Map // testing.TB → golang command was invoked
 
-// scriptGo runs the golang command.
-func scriptGo(cancel func(*exec.Cmd) error, waitDelay time.Duration) script.Cmd {
-	cmd := script.Program(testGo, cancel, waitDelay)
-	// Inject code to update scriptGoInvoked before invoking the Go command.
+// scriptGolang runs the golang command.
+func scriptGolang(cancel func(*exec.Cmd) error, waitDelay time.Duration) script.Cmd {
+	cmd := script.Program(testGolang, cancel, waitDelay)
+	// Inject code to update scriptGolangInvoked before invoking the Golang command.
 	return script.Command(*cmd.Usage(), func(state *script.State, s ...string) (script.WaitFunc, error) {
 		t, ok := tbFromContext(state.Context())
 		if !ok {
 			return nil, errors.New("script Context unexpectedly missing testing.TB key")
 		}
-		_, dup := scriptGoInvoked.LoadOrStore(t, true)
+		_, dup := scriptGolangInvoked.LoadOrStore(t, true)
 		if !dup {
-			t.Cleanup(func() { scriptGoInvoked.Delete(t) })
+			t.Cleanup(func() { scriptGolangInvoked.Delete(t) })
 		}
 		return cmd.Run(state, s...)
 	})
 }
 
 // scriptStale checks that the named build targets are stale.
-func scriptStale(cmdGo script.Cmd) script.Cmd {
+func scriptStale(cmdGolang script.Cmd) script.Cmd {
 	return script.Command(
 		script.CmdUsage{
 			Summary: "check that build targets are stale",
@@ -104,7 +104,7 @@ func scriptStale(cmdGo script.Cmd) script.Cmd {
 				"{{else}}{{if not .Stale}}{{.ImportPath}} ({{.Target}}) is not stale{{end}}" +
 				"{{end}}"
 
-			wait, err := cmdGo.Run(s, append([]string{"list", "-e", "-f=" + tmpl}, args...)...)
+			wait, err := cmdGolang.Run(s, append([]string{"list", "-e", "-f=" + tmpl}, args...)...)
 			if err != nil {
 				return nil, err
 			}

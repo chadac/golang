@@ -1,8 +1,8 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Goroutine preemption
+// Golangroutine preemption
 //
 // A golangroutine can be preempted at any safe-point. Currently, there
 // are a few categolangries of safe-points:
@@ -383,7 +383,7 @@ func isAsyncSafePoint(gp *g, pc, sp, lr uintptr) (bool, uintptr) {
 	// Check if PC is an unsafe-point.
 	f := findfunc(pc)
 	if !f.valid() {
-		// Not Go code.
+		// Not Golang code.
 		return false, 0
 	}
 	if (GOARCH == "mips" || GOARCH == "mipsle" || GOARCH == "mips64" || GOARCH == "mips64le") && lr == pc+8 && funcspdelta(f, pc) == 0 {

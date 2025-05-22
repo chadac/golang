@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -89,10 +89,10 @@ func testClientHelloFailure(t *testing.T, serverConfig *Config, m handshakeMessa
 	t.Helper()
 	if len(expectedSubStr) == 0 {
 		if err != nil && err != io.EOF {
-			t.Errorf("Got error: %s; expected to succeed", err)
+			t.Errorf("Golangt error: %s; expected to succeed", err)
 		}
 	} else if err == nil || !strings.Contains(err.Error(), expectedSubStr) {
-		t.Errorf("Got error: %v; expected to match substring '%s'", err, expectedSubStr)
+		t.Errorf("Golangt error: %v; expected to match substring '%s'", err, expectedSubStr)
 	}
 }
 
@@ -311,7 +311,7 @@ func TestTLS12OnlyCipherSuites(t *testing.T) {
 	}
 	serverHello, ok := reply.(*serverHelloMsg)
 	if !ok {
-		t.Fatalf("didn't get ServerHello message in reply. Got %v\n", reply)
+		t.Fatalf("didn't get ServerHello message in reply. Golangt %v\n", reply)
 	}
 	if s := serverHello.cipherSuite; s != TLS_RSA_WITH_RC4_128_SHA {
 		t.Fatalf("bad cipher suite from server: %x", s)
@@ -379,7 +379,7 @@ func TestTLSPointFormats(t *testing.T) {
 			}
 			serverHello, ok := reply.(*serverHelloMsg)
 			if !ok {
-				t.Fatalf("didn't get ServerHello message in reply. Got %v\n", reply)
+				t.Fatalf("didn't get ServerHello message in reply. Golangt %v\n", reply)
 			}
 			if tt.wantSupportedPoints {
 				if !bytes.Equal(serverHello.supportedPoints, []uint8{pointFormatUncompressed}) {
@@ -405,7 +405,7 @@ func TestAlertForwarding(t *testing.T) {
 	s.Close()
 	var opErr *net.OpError
 	if !errors.As(err, &opErr) || opErr.Err != error(alertUnknownCA) {
-		t.Errorf("Got error: %s; expected: %s", err, error(alertUnknownCA))
+		t.Errorf("Golangt error: %s; expected: %s", err, error(alertUnknownCA))
 	}
 }
 
@@ -416,7 +416,7 @@ func TestClose(t *testing.T) {
 	err := Server(s, testConfig).Handshake()
 	s.Close()
 	if err != io.EOF {
-		t.Errorf("Got error: %s; expected: %s", err, io.EOF)
+		t.Errorf("Golangt error: %s; expected: %s", err, io.EOF)
 	}
 }
 
@@ -953,7 +953,7 @@ func TestHandshakeServerALPN(t *testing.T) {
 		validate: func(state ConnectionState) error {
 			// The server's preferences should override the client.
 			if state.NegolangtiatedProtocol != "proto1" {
-				return fmt.Errorf("Got protocol %q, wanted proto1", state.NegolangtiatedProtocol)
+				return fmt.Errorf("Golangt protocol %q, wanted proto1", state.NegolangtiatedProtocol)
 			}
 			return nil
 		},
@@ -990,7 +990,7 @@ func TestHandshakeServerALPNNotConfigured(t *testing.T) {
 		config:  config,
 		validate: func(state ConnectionState) error {
 			if state.NegolangtiatedProtocol != "" {
-				return fmt.Errorf("Got protocol %q, wanted nothing", state.NegolangtiatedProtocol)
+				return fmt.Errorf("Golangt protocol %q, wanted nothing", state.NegolangtiatedProtocol)
 			}
 			return nil
 		},
@@ -1011,7 +1011,7 @@ func TestHandshakeServerALPNFallback(t *testing.T) {
 		config:  config,
 		validate: func(state ConnectionState) error {
 			if state.NegolangtiatedProtocol != "" {
-				return fmt.Errorf("Got protocol %q, wanted nothing", state.NegolangtiatedProtocol)
+				return fmt.Errorf("Golangt protocol %q, wanted nothing", state.NegolangtiatedProtocol)
 			}
 			return nil
 		},
@@ -1107,7 +1107,7 @@ func TestHandshakeServerGetCertificateExtensions(t *testing.T) {
 				expectedExtensions = append(expectedExtensions, extensionSupportedVersions)
 			}
 
-			// Go's TLS client presents extensions in the ClientHello sorted by extension ID
+			// Golang's TLS client presents extensions in the ClientHello sorted by extension ID
 			slices.Sort(expectedExtensions)
 
 			serverConfig := testConfig.Clone()
@@ -1284,7 +1284,7 @@ func TestHandshakeServerExportKeyingMaterial(t *testing.T) {
 			if km, err := state.ExportKeyingMaterial("test", nil, 42); err != nil {
 				return fmt.Errorf("ExportKeyingMaterial failed: %v", err)
 			} else if len(km) != 42 {
-				return fmt.Errorf("Got %d bytes from ExportKeyingMaterial, wanted %d", len(km), 42)
+				return fmt.Errorf("Golangt %d bytes from ExportKeyingMaterial, wanted %d", len(km), 42)
 			}
 			return nil
 		},

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -54,7 +54,7 @@ var typeStrings = []intName{
 }
 
 func (t Type) String() string   { return stringName(uint32(t), typeStrings, false) }
-func (t Type) GoString() string { return stringName(uint32(t), typeStrings, true) }
+func (t Type) GolangString() string { return stringName(uint32(t), typeStrings, true) }
 
 // A Cpu is a Mach-O cpu type.
 type Cpu uint32
@@ -80,7 +80,7 @@ var cpuStrings = []intName{
 }
 
 func (i Cpu) String() string   { return stringName(uint32(i), cpuStrings, false) }
-func (i Cpu) GoString() string { return stringName(uint32(i), cpuStrings, true) }
+func (i Cpu) GolangString() string { return stringName(uint32(i), cpuStrings, true) }
 
 // A LoadCmd is a Mach-O load command.
 type LoadCmd uint32
@@ -107,7 +107,7 @@ var cmdStrings = []intName{
 }
 
 func (i LoadCmd) String() string   { return stringName(uint32(i), cmdStrings, false) }
-func (i LoadCmd) GoString() string { return stringName(uint32(i), cmdStrings, true) }
+func (i LoadCmd) GolangString() string { return stringName(uint32(i), cmdStrings, true) }
 
 type (
 	// A Segment32 is a 32-bit Mach-O segment load command.

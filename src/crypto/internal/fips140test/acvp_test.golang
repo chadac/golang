@@ -1,10 +1,10 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fipstest
 
-// A module wrapper adapting the Go FIPS module to the protocol used by the
+// A module wrapper adapting the Golang FIPS module to the protocol used by the
 // BoringSSL project's `acvptool`.
 //
 // The `acvptool` "lowers" the NIST ACVP server JSON test vectors into a simpler
@@ -2096,7 +2096,7 @@ func TestACVP(t *testing.T) {
 
 	// Build the acvptool binary.
 	toolPath := filepath.Join(t.TempDir(), "acvptool.exe")
-	golangTool := testenv.GoToolPath(t)
+	golangTool := testenv.GolangToolPath(t)
 	cmd := testenv.Command(t, golangTool,
 		"build",
 		"-o", toolPath,

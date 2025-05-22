@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -69,7 +69,7 @@ func zerorange(pp *objw.Progs, p *obj.Prog, off, cnt int64, state *uint32) *obj.
 			p = pp.Append(p, x86.AMOVUPS, obj.TYPE_REG, x86.REG_X15, 0, obj.TYPE_MEM, x86.REG_SP, off+cnt-int64(16))
 		}
 	} else if cnt <= int64(128*types.RegSize) {
-		// Save DI to r12. With the amd64 Go register abi, DI can contain
+		// Save DI to r12. With the amd64 Golang register abi, DI can contain
 		// an incoming parameter, whereas R12 is always scratch.
 		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_DI, 0, obj.TYPE_REG, x86.REG_R12, 0)
 		// Emit duffzero call
@@ -89,7 +89,7 @@ func zerorange(pp *objw.Progs, p *obj.Prog, off, cnt int64, state *uint32) *obj.
 		// restore. Note that R12 and R13 are always available as
 		// scratch regs; here we also use R15 (this is safe to do
 		// since there won't be any globals accessed in the prolog).
-		// See rewriteToUseGot() in obj6.golang for more on r15 use.
+		// See rewriteToUseGolangt() in obj6.golang for more on r15 use.
 
 		// Save rax/rdi/rcx
 		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_DI, 0, obj.TYPE_REG, x86.REG_R12, 0)

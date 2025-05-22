@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ const (
 	GENERIC_RELOC_TLV            RelocTypeGeneric = 5
 )
 
-func (r RelocTypeGeneric) GoString() string { return "macho." + r.String() }
+func (r RelocTypeGeneric) GolangString() string { return "macho." + r.String() }
 
 type RelocTypeX86_64 int
 
@@ -34,7 +34,7 @@ const (
 	X86_64_RELOC_TLV        RelocTypeX86_64 = 9
 )
 
-func (r RelocTypeX86_64) GoString() string { return "macho." + r.String() }
+func (r RelocTypeX86_64) GolangString() string { return "macho." + r.String() }
 
 type RelocTypeARM int
 
@@ -51,7 +51,7 @@ const (
 	ARM_RELOC_HALF_SECTDIFF  RelocTypeARM = 9
 )
 
-func (r RelocTypeARM) GoString() string { return "macho." + r.String() }
+func (r RelocTypeARM) GolangString() string { return "macho." + r.String() }
 
 type RelocTypeARM64 int
 
@@ -69,4 +69,4 @@ const (
 	ARM64_RELOC_ADDEND              RelocTypeARM64 = 10
 )
 
-func (r RelocTypeARM64) GoString() string { return "macho." + r.String() }
+func (r RelocTypeARM64) GolangString() string { return "macho." + r.String() }

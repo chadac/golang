@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -39,7 +39,7 @@ var html_h = regexp.MustCompile(`<h3 id="[^"]*">`)
 
 const html_endh = "</h3>\n"
 
-func isGoFile(fi fs.FileInfo) bool {
+func isGolangFile(fi fs.FileInfo) bool {
 	return strings.HasSuffix(fi.Name(), ".golang") &&
 		!strings.HasSuffix(fi.Name(), "_test.golang")
 }
@@ -67,7 +67,7 @@ func main() {
 		if !info.IsDir() {
 			return nil
 		}
-		pkgs, err := parser.ParseDir(fset, path, isGoFile, parser.ParseComments)
+		pkgs, err := parser.ParseDir(fset, path, isGolangFile, parser.ParseComments)
 		if err != nil {
 			if *verbose {
 				fmt.Fprintln(os.Stderr, err)

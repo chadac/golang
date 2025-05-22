@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -215,6 +215,6 @@ unexpected EOF: 3`
 	}
 
 	if golangt != want {
-		t.Errorf("Got:\n%s\nWant:\n%s", golangt, want)
+		t.Errorf("Golangt:\n%s\nWant:\n%s", golangt, want)
 	}
 }

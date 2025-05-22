@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -90,7 +90,7 @@ func TestNoRaceAtomicLoadAddInt32(t *testing.T) {
 		atomic.AddInt32(&s, 1)
 	}()
 	for atomic.LoadInt32(&s) != 1 {
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	x = 1
 }
@@ -104,7 +104,7 @@ func TestNoRaceAtomicLoadStoreInt32(t *testing.T) {
 		atomic.StoreInt32(&s, 1)
 	}()
 	for atomic.LoadInt32(&s) != 1 {
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	x = 1
 }
@@ -118,7 +118,7 @@ func TestNoRaceAtomicStoreCASInt32(t *testing.T) {
 		atomic.StoreInt32(&s, 1)
 	}()
 	for !atomic.CompareAndSwapInt32(&s, 1, 0) {
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	x = 1
 }
@@ -134,7 +134,7 @@ func TestNoRaceAtomicCASLoadInt32(t *testing.T) {
 		}
 	}()
 	for atomic.LoadInt32(&s) != 1 {
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	x = 1
 }
@@ -150,7 +150,7 @@ func TestNoRaceAtomicCASCASInt32(t *testing.T) {
 		}
 	}()
 	for !atomic.CompareAndSwapInt32(&s, 1, 0) {
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	x = 1
 }
@@ -187,7 +187,7 @@ func TestNoRaceAtomicLoadInt64(t *testing.T) {
 		atomic.AddInt64(&s, 1)
 	}()
 	for atomic.LoadInt64(&s) != 1 {
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	x = 1
 }
@@ -203,7 +203,7 @@ func TestNoRaceAtomicCASCASUInt64(t *testing.T) {
 		}
 	}()
 	for !atomic.CompareAndSwapUint64(&s, 1, 0) {
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	x = 1
 }
@@ -219,7 +219,7 @@ func TestNoRaceAtomicLoadStorePointer(t *testing.T) {
 		atomic.StorePointer(&s, p)
 	}()
 	for atomic.LoadPointer(&s) != p {
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	x = 1
 }
@@ -233,7 +233,7 @@ func TestNoRaceAtomicStoreCASUint64(t *testing.T) {
 		atomic.StoreUint64(&s, 1)
 	}()
 	for !atomic.CompareAndSwapUint64(&s, 1, 0) {
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	x = 1
 }

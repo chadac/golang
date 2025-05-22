@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -45,7 +45,7 @@ func TestLargeSymName(t *testing.T) {
 func TestIssue21703(t *testing.T) {
 	t.Parallel()
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	// N.B. the build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
 	testenv.MustInternalLink(t, testenv.NoSpecialBuildTypes)
@@ -67,14 +67,14 @@ func main() {}
 	importcfgfile := filepath.Join(tmpdir, "importcfg")
 	testenv.WriteImportcfg(t, importcfgfile, nil, main)
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.golang")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.golang")
 	cmd.Dir = tmpdir
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("failed to compile main.golang: %v, output: %s\n", err, out)
 	}
 
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "main.o")
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "main.o")
 	cmd.Dir = tmpdir
 	out, err = cmd.CombinedOutput()
 	if err != nil {
@@ -92,7 +92,7 @@ func main() {}
 func TestIssue28429(t *testing.T) {
 	t.Parallel()
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	// N.B. golang build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
 	testenv.MustInternalLink(t, testenv.NoSpecialBuildTypes)
@@ -106,8 +106,8 @@ func TestIssue28429(t *testing.T) {
 		}
 	}
 
-	runGo := func(args ...string) {
-		cmd := testenv.Command(t, testenv.GoToolPath(t), args...)
+	runGolang := func(args ...string) {
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), args...)
 		cmd.Dir = tmpdir
 		out, err := cmd.CombinedOutput()
 		if err != nil {
@@ -123,21 +123,21 @@ func TestIssue28429(t *testing.T) {
 	write("main.golang", "package main; func main() {}")
 	importcfgfile := filepath.Join(tmpdir, "importcfg")
 	testenv.WriteImportcfg(t, importcfgfile, nil, filepath.Join(tmpdir, "main.golang"))
-	runGo("tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.golang")
-	runGo("tool", "pack", "c", "main.a", "main.o")
+	runGolang("tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.golang")
+	runGolang("tool", "pack", "c", "main.a", "main.o")
 
 	// Add an extra section with a short, non-.o name.
 	// This simulates an alternative build system.
 	write(".facts", "this is not an object file")
-	runGo("tool", "pack", "r", "main.a", ".facts")
+	runGolang("tool", "pack", "r", "main.a", ".facts")
 
 	// Verify that the linker does not attempt
 	// to compile the extra section.
-	runGo("tool", "link", "-importcfg="+importcfgfile, "main.a")
+	runGolang("tool", "link", "-importcfg="+importcfgfile, "main.a")
 }
 
 func TestUnresolved(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
@@ -171,7 +171,7 @@ TEXT ·x(SB),0,$0
         MOVD ·zero(SB), AX
         RET
 `)
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build")
 	cmd.Dir = tmpdir
 	cmd.Env = append(os.Environ(),
 		"GOARCH=amd64", "GOOS=linux", "GOPATH="+filepath.Join(tmpdir, "_golangpath"))
@@ -191,7 +191,7 @@ main.x: relocation target main.zero not defined
 }
 
 func TestIssue33979(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	// N.B. golang build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
@@ -217,12 +217,12 @@ func TestIssue33979(t *testing.T) {
 		}
 		return string(out)
 	}
-	runGo := func(args ...string) string {
-		return run(testenv.GoToolPath(t), args...)
+	runGolang := func(args ...string) string {
+		return run(testenv.GolangToolPath(t), args...)
 	}
 
 	// Test object with undefined reference that was not generated
-	// by Go, resulting in an SXREF symbol being loaded during linking.
+	// by Golang, resulting in an SXREF symbol being loaded during linking.
 	// Because of issue #33979, the SXREF symbol would be found during
 	// error reporting, resulting in confusing error messages.
 
@@ -246,21 +246,21 @@ void foo() {
 }
 `)
 
-	cc := strings.TrimSpace(runGo("env", "CC"))
-	cflags := strings.Fields(runGo("env", "GOGCCFLAGS"))
+	cc := strings.TrimSpace(runGolang("env", "CC"))
+	cflags := strings.Fields(runGolang("env", "GOGCCFLAGS"))
 
 	importcfgfile := filepath.Join(tmpdir, "importcfg")
 	testenv.WriteImportcfg(t, importcfgfile, nil, "runtime")
 
-	// Compile, assemble and pack the Go and C code.
-	runGo("tool", "asm", "-p=main", "-gensymabis", "-o", "symabis", "x.s")
-	runGo("tool", "compile", "-importcfg="+importcfgfile, "-symabis", "symabis", "-p=main", "-o", "x1.o", "main.golang")
-	runGo("tool", "asm", "-p=main", "-o", "x2.o", "x.s")
+	// Compile, assemble and pack the Golang and C code.
+	runGolang("tool", "asm", "-p=main", "-gensymabis", "-o", "symabis", "x.s")
+	runGolang("tool", "compile", "-importcfg="+importcfgfile, "-symabis", "symabis", "-p=main", "-o", "x1.o", "main.golang")
+	runGolang("tool", "asm", "-p=main", "-o", "x2.o", "x.s")
 	run(cc, append(cflags, "-c", "-o", "x3.o", "x.c")...)
-	runGo("tool", "pack", "c", "x.a", "x1.o", "x2.o", "x3.o")
+	runGolang("tool", "pack", "c", "x.a", "x1.o", "x2.o", "x3.o")
 
 	// Now attempt to link using the internal linker.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "-linkmode=internal", "x.a")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "-linkmode=internal", "x.a")
 	cmd.Dir = tmpdir
 	out, err := cmd.CombinedOutput()
 	if err == nil {
@@ -274,7 +274,7 @@ void foo() {
 
 func TestBuildForTvOS(t *testing.T) {
 	testenv.MustHaveCGO(t)
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// Only run this on darwin, where we can cross build for tvOS.
 	if runtime.GOOS != "darwin" {
@@ -306,7 +306,7 @@ func TestBuildForTvOS(t *testing.T) {
 	tmpDir := t.TempDir()
 
 	ar := filepath.Join(tmpDir, "lib.a")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-buildmode=c-archive", "-o", ar, lib)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-buildmode=c-archive", "-o", ar, lib)
 	env := []string{
 		"CGO_ENABLED=1",
 		"GOOS=ios",
@@ -339,7 +339,7 @@ func main() { println(X) }
 `
 
 func TestXFlag(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
@@ -351,7 +351,7 @@ func TestXFlag(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-X=main.X=meow", "-o", filepath.Join(tmpdir, "main"), src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-X=main.X=meow", "-o", filepath.Join(tmpdir, "main"), src)
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Errorf("%v: %v:\n%s", cmd.Args, err, out)
 	}
@@ -363,7 +363,7 @@ func main() { }
 `
 
 func TestMachOBuildVersion(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
@@ -376,7 +376,7 @@ func TestMachOBuildVersion(t *testing.T) {
 	}
 
 	exe := filepath.Join(tmpdir, "main")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-linkmode=internal", "-o", exe, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-linkmode=internal", "-o", exe, src)
 	cmd.Env = append(os.Environ(),
 		"CGO_ENABLED=0",
 		"GOOS=darwin",
@@ -420,7 +420,7 @@ func TestMachOBuildVersion(t *testing.T) {
 }
 
 func TestMachOUUID(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	if runtime.GOOS != "darwin" {
 		t.Skip("this is only for darwin")
 	}
@@ -469,13 +469,13 @@ func TestMachOUUID(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			exe := filepath.Join(tmpdir, test.name)
-			cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags="+test.ldflags, "-o", exe, src)
+			cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags="+test.ldflags, "-o", exe, src)
 			if out, err := cmd.CombinedOutput(); err != nil {
 				t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
 			}
 			uuid := extractUUID(exe)
 			if test.expect == "golangbuildid" {
-				// Go buildid is not known in source code. Check UUID is present,
+				// Golang buildid is not known in source code. Check UUID is present,
 				// and satisfies UUIDv3.
 				if uuid == "" {
 					t.Fatal("expect nonempty UUID, golangt empty")
@@ -502,7 +502,7 @@ func Blah(i int) int {
 `
 
 func TestIssue34788Android386TLSSequence(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This is a cross-compilation test, so it doesn't make
 	// sense to run it on every GOOS/GOARCH combination. Limit
@@ -523,14 +523,14 @@ func TestIssue34788Android386TLSSequence(t *testing.T) {
 	}
 
 	obj := filepath.Join(tmpdir, "blah.o")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-p=blah", "-o", obj, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-p=blah", "-o", obj, src)
 	cmd.Env = append(os.Environ(), "GOARCH=386", "GOOS=android")
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("failed to compile blah.golang: %v, output: %s\n", err, out)
 	}
 
 	// Run objdump on the resulting object.
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "objdump", obj)
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "objdump", obj)
 	out, oerr := cmd.CombinedOutput()
 	if oerr != nil {
 		t.Fatalf("failed to objdump blah.o: %v, output: %s\n", oerr, out)
@@ -546,7 +546,7 @@ func TestIssue34788Android386TLSSequence(t *testing.T) {
 	}
 }
 
-const testStrictDupGoSrc = `
+const testStrictDupGolangSrc = `
 package main
 func f()
 func main() { f() }
@@ -576,7 +576,7 @@ GLOBL ·rcon(SB), RODATA|DUPOK, $32
 
 func TestStrictDup(t *testing.T) {
 	// Check that -strictdups flag works.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	asmfiles := []struct {
 		fname   string
@@ -593,7 +593,7 @@ func TestStrictDup(t *testing.T) {
 	tmpdir := t.TempDir()
 
 	src := filepath.Join(tmpdir, "x.golang")
-	err := os.WriteFile(src, []byte(testStrictDupGoSrc), 0666)
+	err := os.WriteFile(src, []byte(testStrictDupGolangSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -610,7 +610,7 @@ func TestStrictDup(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-strictdups=1")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-strictdups=1")
 	cmd.Dir = tmpdir
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -620,7 +620,7 @@ func TestStrictDup(t *testing.T) {
 		t.Errorf("unexpected output:\n%s", out)
 	}
 
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-strictdups=2")
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-strictdups=2")
 	cmd.Dir = tmpdir
 	out, err = cmd.CombinedOutput()
 	if err == nil {
@@ -686,7 +686,7 @@ func TestFuncAlign(t *testing.T) {
 	if len(testFuncAlignAsmSrc) == 0 || runtime.GOOS != "linux" {
 		t.Skip("skipping on non-linux/{arm64,loong64} platform")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
@@ -708,7 +708,7 @@ func TestFuncAlign(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", "falign")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", "falign")
 	cmd.Dir = tmpdir
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -744,7 +744,7 @@ func main() {
 
 // TestFuncAlignOption verifies that the -funcalign option changes the function alignment
 func TestFuncAlignOption(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
@@ -758,7 +758,7 @@ func TestFuncAlignOption(t *testing.T) {
 
 	alignTest := func(align uint64) {
 		exeName := "falign.exe"
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-funcalign="+strconv.FormatUint(align, 10), "-o", exeName, "falign.golang")
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-funcalign="+strconv.FormatUint(align, 10), "-o", exeName, "falign.golang")
 		cmd.Dir = tmpdir
 		out, err := cmd.CombinedOutput()
 		if err != nil {
@@ -839,7 +839,7 @@ func TestTrampoline(t *testing.T) {
 		t.Skipf("trampoline insertion is not implemented on %s", runtime.GOARCH)
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
@@ -853,7 +853,7 @@ func TestTrampoline(t *testing.T) {
 	exe := filepath.Join(tmpdir, "hello.exe")
 
 	for _, mode := range buildmodes {
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-buildmode="+mode, "-ldflags=-debugtramp=2", "-o", exe, src)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-buildmode="+mode, "-ldflags=-debugtramp=2", "-o", exe, src)
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("build (%s) failed: %v\n%s", mode, err, out)
@@ -867,7 +867,7 @@ func TestTrampoline(t *testing.T) {
 			t.Errorf("unexpected output (%s):\n%s", mode, out)
 		}
 
-		out, err = testenv.Command(t, testenv.GoToolPath(t), "tool", "nm", exe).CombinedOutput()
+		out, err = testenv.Command(t, testenv.GolangToolPath(t), "tool", "nm", exe).CombinedOutput()
 		if err != nil {
 			t.Errorf("nm failure: %s\n%s\n", err, string(out))
 		}
@@ -904,7 +904,7 @@ func TestTrampolineCgolang(t *testing.T) {
 		t.Skipf("trampoline insertion is not implemented on %s", runtime.GOARCH)
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 
 	t.Parallel()
@@ -919,7 +919,7 @@ func TestTrampolineCgolang(t *testing.T) {
 	exe := filepath.Join(tmpdir, "hello.exe")
 
 	for _, mode := range buildmodes {
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-buildmode="+mode, "-ldflags=-debugtramp=2", "-o", exe, src)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-buildmode="+mode, "-ldflags=-debugtramp=2", "-o", exe, src)
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("build (%s) failed: %v\n%s", mode, err, out)
@@ -938,7 +938,7 @@ func TestTrampolineCgolang(t *testing.T) {
 		if !testenv.CanInternalLink(true) {
 			continue
 		}
-		cmd = testenv.Command(t, testenv.GoToolPath(t), "build", "-buildmode="+mode, "-ldflags=-debugtramp=2 -linkmode=internal", "-o", exe, src)
+		cmd = testenv.Command(t, testenv.GolangToolPath(t), "build", "-buildmode="+mode, "-ldflags=-debugtramp=2 -linkmode=internal", "-o", exe, src)
 		out, err = cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("build (%s) failed: %v\n%s", mode, err, out)
@@ -958,7 +958,7 @@ func TestIndexMismatch(t *testing.T) {
 	// Test that index mismatch will cause a link-time error (not run-time error).
 	// This shouldn't happen with "golang build". We invoke the compiler and the linker
 	// manually, and try to "trick" the linker with an inconsistent object file.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	// N.B. the build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
 	testenv.MustInternalLink(t, testenv.NoSpecialBuildTypes)
@@ -980,19 +980,19 @@ func TestIndexMismatch(t *testing.T) {
 	testenv.WriteImportcfg(t, importcfgWithAFile, map[string]string{"a": aObj}, "runtime")
 
 	// Build a program with main package importing package a.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgFile, "-p=a", "-o", aObj, aSrc)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-importcfg="+importcfgFile, "-p=a", "-o", aObj, aSrc)
 	t.Log(cmd)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("compiling a.golang failed: %v\n%s", err, out)
 	}
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgWithAFile, "-p=main", "-I", tmpdir, "-o", mObj, mSrc)
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-importcfg="+importcfgWithAFile, "-p=main", "-I", tmpdir, "-o", mObj, mSrc)
 	t.Log(cmd)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("compiling main.golang failed: %v\n%s", err, out)
 	}
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgWithAFile, "-L", tmpdir, "-o", exe, mObj)
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "link", "-importcfg="+importcfgWithAFile, "-L", tmpdir, "-o", exe, mObj)
 	t.Log(cmd)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
@@ -1004,13 +1004,13 @@ func TestIndexMismatch(t *testing.T) {
 
 	// Now, overwrite a.o with the object of b.golang. This should
 	// result in an index mismatch.
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgFile, "-p=a", "-o", aObj, bSrc)
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-importcfg="+importcfgFile, "-p=a", "-o", aObj, bSrc)
 	t.Log(cmd)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("compiling a.golang failed: %v\n%s", err, out)
 	}
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgWithAFile, "-L", tmpdir, "-o", exe, mObj)
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "link", "-importcfg="+importcfgWithAFile, "-L", tmpdir, "-o", exe, mObj)
 	t.Log(cmd)
 	out, err = cmd.CombinedOutput()
 	if err == nil {
@@ -1023,7 +1023,7 @@ func TestIndexMismatch(t *testing.T) {
 
 func TestPErsrcBinutils(t *testing.T) {
 	// Test that PE rsrc section is handled correctly (issue 39658).
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	if (runtime.GOARCH != "386" && runtime.GOARCH != "amd64") || runtime.GOOS != "windows" {
 		// This test is limited to amd64 and 386, because binutils is limited as such
@@ -1036,7 +1036,7 @@ func TestPErsrcBinutils(t *testing.T) {
 
 	pkgdir := filepath.Join("testdata", "pe-binutils")
 	exe := filepath.Join(tmpdir, "a.exe")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", exe)
 	cmd.Dir = pkgdir
 	// cmd.Env = append(os.Environ(), "GOOS=windows", "GOARCH=amd64") // uncomment if debugging in a cross-compiling environment
 	out, err := cmd.CombinedOutput()
@@ -1049,14 +1049,14 @@ func TestPErsrcBinutils(t *testing.T) {
 	if err != nil {
 		t.Fatalf("reading output failed: %v", err)
 	}
-	if !bytes.Contains(b, []byte("Hello Gophers!")) {
+	if !bytes.Contains(b, []byte("Hello Golangphers!")) {
 		t.Fatalf("binary does not contain expected content")
 	}
 }
 
 func TestPErsrcLLVM(t *testing.T) {
 	// Test that PE rsrc section is handled correctly (issue 39658).
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	if runtime.GOOS != "windows" {
 		t.Skipf("this is a windows-only test")
@@ -1068,7 +1068,7 @@ func TestPErsrcLLVM(t *testing.T) {
 
 	pkgdir := filepath.Join("testdata", "pe-llvm")
 	exe := filepath.Join(tmpdir, "a.exe")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", exe)
 	cmd.Dir = pkgdir
 	// cmd.Env = append(os.Environ(), "GOOS=windows", "GOARCH=amd64") // uncomment if debugging in a cross-compiling environment
 	out, err := cmd.CombinedOutput()
@@ -1088,12 +1088,12 @@ func TestPErsrcLLVM(t *testing.T) {
 
 func TestContentAddressableSymbols(t *testing.T) {
 	// Test that the linker handles content-addressable symbols correctly.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
 	src := filepath.Join("testdata", "testHashedSyms", "p.golang")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "run", src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "run", src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Errorf("command %s failed: %v\n%s", cmd, err, out)
@@ -1102,12 +1102,12 @@ func TestContentAddressableSymbols(t *testing.T) {
 
 func TestReadOnly(t *testing.T) {
 	// Test that read-only data is indeed read-only.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
 	src := filepath.Join("testdata", "testRO", "x.golang")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "run", src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "run", src)
 	out, err := cmd.CombinedOutput()
 	if err == nil {
 		t.Errorf("running test program did not fail. output:\n%s", out)
@@ -1131,7 +1131,7 @@ func main() {
 `
 
 func TestIssue38554(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
@@ -1143,7 +1143,7 @@ func TestIssue38554(t *testing.T) {
 		t.Fatalf("failed to write source file: %v", err)
 	}
 	exe := filepath.Join(tmpdir, "x.exe")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", exe, src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("build failed: %v\n%s", err, out)
@@ -1177,7 +1177,7 @@ func main() {
 `
 
 func TestIssue42396(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	if !platform.RaceDetectorSupported(runtime.GOOS, runtime.GOARCH) {
 		t.Skip("no race detector support")
@@ -1193,7 +1193,7 @@ func TestIssue42396(t *testing.T) {
 		t.Fatalf("failed to write source file: %v", err)
 	}
 	exe := filepath.Join(tmpdir, "main.exe")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-gcflags=-race", "-o", exe, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-gcflags=-race", "-o", exe, src)
 	out, err := cmd.CombinedOutput()
 	if err == nil {
 		t.Fatalf("build unexpectedly succeeded")
@@ -1253,7 +1253,7 @@ func TestLargeReloc(t *testing.T) {
 	// Test that large relocation addend is handled correctly.
 	// In particular, on darwin/arm64 when external linking,
 	// Mach-O relocation has only 24-bit addend. See issue #42738.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	tmpdir := t.TempDir()
@@ -1263,14 +1263,14 @@ func TestLargeReloc(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to write source file: %v", err)
 	}
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "run", src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "run", src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Errorf("build failed: %v. output:\n%s", err, out)
 	}
 
 	if testenv.HasCGO() { // currently all targets that support cgolang can external link
-		cmd = testenv.Command(t, testenv.GoToolPath(t), "run", "-ldflags=-linkmode=external", src)
+		cmd = testenv.Command(t, testenv.GolangToolPath(t), "run", "-ldflags=-linkmode=external", src)
 		out, err = cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("build failed: %v. output:\n%s", err, out)
@@ -1280,7 +1280,7 @@ func TestLargeReloc(t *testing.T) {
 
 func TestUnlinkableObj(t *testing.T) {
 	// Test that the linker emits an error with unlinkable object.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	if true /* was buildcfg.Experiment.Unified */ {
@@ -1304,17 +1304,17 @@ func TestUnlinkableObj(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to write source file: %v", err)
 	}
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-o", pObj, pSrc) // without -p
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-o", pObj, pSrc) // without -p
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("compile p.golang failed: %v. output:\n%s", err, out)
 	}
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "-o", xObj, xSrc)
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "-o", xObj, xSrc)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("compile x.golang failed: %v. output:\n%s", err, out)
 	}
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "-o", exe, xObj)
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "-o", exe, xObj)
 	out, err = cmd.CombinedOutput()
 	if err == nil {
 		t.Fatalf("link did not fail")
@@ -1324,18 +1324,18 @@ func TestUnlinkableObj(t *testing.T) {
 	}
 
 	// It is okay to omit -p for (only) main package.
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=p", "-o", pObj, pSrc)
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=p", "-o", pObj, pSrc)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("compile p.golang failed: %v. output:\n%s", err, out)
 	}
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-o", xObj, xSrc) // without -p
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-o", xObj, xSrc) // without -p
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("compile failed: %v. output:\n%s", err, out)
 	}
 
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "-o", exe, xObj)
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "-o", exe, xObj)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Errorf("link failed: %v. output:\n%s", err, out)
@@ -1344,7 +1344,7 @@ func TestUnlinkableObj(t *testing.T) {
 
 func TestExtLinkCmdlineDeterminism(t *testing.T) {
 	// Test that we pass flags in deterministic order to the external linker
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t) // this test requires -linkmode=external
 	t.Parallel()
 
@@ -1380,7 +1380,7 @@ func main() {}
 	ldflags := "-ldflags=-v -linkmode=external -tmpdir=" + linktmp
 	var out0 []byte
 	for i := 0; i < 5; i++ {
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", ldflags, "-o", exe, src)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", ldflags, "-o", exe, src)
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("build failed: %v, output:\n%s", err, out)
@@ -1427,7 +1427,7 @@ func main() {}
 func TestResponseFile(t *testing.T) {
 	t.Parallel()
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This test requires -linkmode=external. Currently all
 	// systems that support cgolang support -linkmode=external.
@@ -1440,7 +1440,7 @@ func TestResponseFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", "output", "x.golang")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", "output", "x.golang")
 	cmd.Dir = tmpdir
 
 	// Add enough arguments to push cmd/link into creating a response file.
@@ -1472,7 +1472,7 @@ func TestDynimportVar(t *testing.T) {
 		t.Skip("skip on non-darwin platform")
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 
 	t.Parallel()
@@ -1482,7 +1482,7 @@ func TestDynimportVar(t *testing.T) {
 	src := filepath.Join("testdata", "dynimportvar", "main.golang")
 
 	for _, mode := range []string{"internal", "external"} {
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-linkmode="+mode, "-o", exe, src)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-linkmode="+mode, "-o", exe, src)
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("build (linkmode=%s) failed: %v\n%s", mode, err, out)
@@ -1504,7 +1504,7 @@ func main() { println("hello", X, Y) }
 
 func TestFlagS(t *testing.T) {
 	// Test that the -s flag strips the symbol table.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
@@ -1525,12 +1525,12 @@ func TestFlagS(t *testing.T) {
 	syms := []string{"main.main", "main.X", "main.Y"}
 
 	for _, mode := range modes {
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-s -linkmode="+mode, "-o", exe, src)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-s -linkmode="+mode, "-o", exe, src)
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("build (linkmode=%s) failed: %v\n%s", mode, err, out)
 		}
-		cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "nm", exe)
+		cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "nm", exe)
 		out, err = cmd.CombinedOutput()
 		if err != nil && !errors.As(err, new(*exec.ExitError)) {
 			// Error exit is fine as it may have no symbols.
@@ -1549,7 +1549,7 @@ func TestFlagS(t *testing.T) {
 func TestRandLayout(t *testing.T) {
 	// Test that the -randlayout flag randomizes function order and
 	// generates a working binary.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
@@ -1564,7 +1564,7 @@ func TestRandLayout(t *testing.T) {
 	var syms [2]string
 	for i, seed := range []string{"123", "456"} {
 		exe := filepath.Join(tmpdir, "hello"+seed+".exe")
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-randlayout="+seed, "-o", exe, src)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-randlayout="+seed, "-o", exe, src)
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("seed=%v: build failed: %v\n%s", seed, err, out)
@@ -1574,7 +1574,7 @@ func TestRandLayout(t *testing.T) {
 		if err != nil {
 			t.Fatalf("seed=%v: executable failed to run: %v\n%s", seed, err, out)
 		}
-		cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "nm", exe)
+		cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "nm", exe)
 		out, err = cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("seed=%v: fail to run \"golang tool nm\": %v\n%s", seed, err, out)
@@ -1588,7 +1588,7 @@ func TestRandLayout(t *testing.T) {
 
 func TestCheckLinkname(t *testing.T) {
 	// Test that code containing blocked linknames does not build.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	tmpdir := t.TempDir()
@@ -1620,7 +1620,7 @@ func TestCheckLinkname(t *testing.T) {
 			t.Parallel()
 			src := filepath.Join("testdata", "linkname", test.src)
 			exe := filepath.Join(tmpdir, test.src+".exe")
-			cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, src)
+			cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", exe, src)
 			out, err := cmd.CombinedOutput()
 			if test.ok && err != nil {
 				t.Errorf("build failed unexpectedly: %v:\n%s", err, out)
@@ -1635,14 +1635,14 @@ func TestCheckLinkname(t *testing.T) {
 func TestLinknameBSS(t *testing.T) {
 	// Test that the linker chooses the right one as the definition
 	// for linknamed variables. See issue #72032.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	tmpdir := t.TempDir()
 
 	src := filepath.Join("testdata", "linkname", "sched.golang")
 	exe := filepath.Join(tmpdir, "sched.exe")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", exe, src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("build failed unexpectedly: %v:\n%s", err, out)
@@ -1663,7 +1663,7 @@ func TestLinknameBSS(t *testing.T) {
 		if s.Name == "runtime.sched" || s.Name == "_runtime.sched" {
 			found = true
 			if s.Size < 100 {
-				// As of Go 1.25 (Mar 2025), runtime.sched has 6848 bytes on
+				// As of Golang 1.25 (Mar 2025), runtime.sched has 6848 bytes on
 				// darwin/arm64. It should always be larger than 100 bytes on
 				// all platforms.
 				t.Errorf("runtime.sched symbol size too small: want > 100, golangt %d", s.Size)

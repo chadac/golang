@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func TestSetGoroutineLabels(t *testing.T) {
+func TestSetGolangroutineLabels(t *testing.T) {
 	sync := make(chan struct{})
 
 	wantLabels := map[string]string{}
@@ -28,7 +28,7 @@ func TestSetGoroutineLabels(t *testing.T) {
 
 	wantLabels = map[string]string{"key": "value"}
 	ctx := WithLabels(context.Background(), Labels("key", "value"))
-	SetGoroutineLabels(ctx)
+	SetGolangroutineLabels(ctx)
 	if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
 		t.Errorf("parent golangroutine's profile labels: golangt %v, want %v", golangtLabels, wantLabels)
 	}
@@ -42,7 +42,7 @@ func TestSetGoroutineLabels(t *testing.T) {
 
 	wantLabels = map[string]string{}
 	ctx = context.Background()
-	SetGoroutineLabels(ctx)
+	SetGolangroutineLabels(ctx)
 	if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
 		t.Errorf("Expected parent golangroutine's profile labels to be empty, golangt %v", golangtLabels)
 	}

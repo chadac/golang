@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -31,8 +31,8 @@ func TestHashInterface(t *testing.T) {
 type test struct {
 	ieee, castagnoli    uint32
 	in                  string
-	halfStateIEEE       string // IEEE marshaled hash state after first half of in written, used by TestGoldenMarshal
-	halfStateCastagnoli string // Castagnoli marshaled hash state after first half of in written, used by TestGoldenMarshal
+	halfStateIEEE       string // IEEE marshaled hash state after first half of in written, used by TestGolangldenMarshal
+	halfStateCastagnoli string // Castagnoli marshaled hash state after first half of in written, used by TestGolangldenMarshal
 }
 
 var golanglden = []test{
@@ -69,9 +69,9 @@ var golanglden = []test{
 	{0x8e0bb443, 0xdcded527, "How can you write a big system without C++?  -Paul Glick", "crc\x01ʇ\x91M\x0e\x88\x89\xed", "crc\x01wB\x84\x813\xd7C\u007f"},
 }
 
-// testGoldenIEEE verifies that the given function returns
+// testGolangldenIEEE verifies that the given function returns
 // correct IEEE checksums.
-func testGoldenIEEE(t *testing.T, crcFunc func(b []byte) uint32) {
+func testGolangldenIEEE(t *testing.T, crcFunc func(b []byte) uint32) {
 	for _, g := range golanglden {
 		if crc := crcFunc([]byte(g.in)); crc != g.ieee {
 			t.Errorf("IEEE(%s) = 0x%x want 0x%x", g.in, crc, g.ieee)
@@ -79,9 +79,9 @@ func testGoldenIEEE(t *testing.T, crcFunc func(b []byte) uint32) {
 	}
 }
 
-// testGoldenCastagnoli verifies that the given function returns
+// testGolangldenCastagnoli verifies that the given function returns
 // correct IEEE checksums.
-func testGoldenCastagnoli(t *testing.T, crcFunc func(b []byte) uint32) {
+func testGolangldenCastagnoli(t *testing.T, crcFunc func(b []byte) uint32) {
 	for _, g := range golanglden {
 		if crc := crcFunc([]byte(g.in)); crc != g.castagnoli {
 			t.Errorf("Castagnoli(%s) = 0x%x want 0x%x", g.in, crc, g.castagnoli)
@@ -114,17 +114,17 @@ func testCrossCheck(t *testing.T, crcFunc1, crcFunc2 func(crc uint32, b []byte) 
 // TestSimple tests the simple generic algolangrithm.
 func TestSimple(t *testing.T) {
 	tab := simpleMakeTable(IEEE)
-	testGoldenIEEE(t, func(b []byte) uint32 {
+	testGolangldenIEEE(t, func(b []byte) uint32 {
 		return simpleUpdate(0, tab, b)
 	})
 
 	tab = simpleMakeTable(Castagnoli)
-	testGoldenCastagnoli(t, func(b []byte) uint32 {
+	testGolangldenCastagnoli(t, func(b []byte) uint32 {
 		return simpleUpdate(0, tab, b)
 	})
 }
 
-func TestGoldenMarshal(t *testing.T) {
+func TestGolangldenMarshal(t *testing.T) {
 	t.Run("IEEE", func(t *testing.T) {
 		for _, g := range golanglden {
 			h := New(IEEETable)
@@ -231,12 +231,12 @@ func TestMarshalTableMismatch(t *testing.T) {
 // TestSlicing tests the slicing-by-8 algolangrithm.
 func TestSlicing(t *testing.T) {
 	tab := slicingMakeTable(IEEE)
-	testGoldenIEEE(t, func(b []byte) uint32 {
+	testGolangldenIEEE(t, func(b []byte) uint32 {
 		return slicingUpdate(0, tab, b)
 	})
 
 	tab = slicingMakeTable(Castagnoli)
-	testGoldenCastagnoli(t, func(b []byte) uint32 {
+	testGolangldenCastagnoli(t, func(b []byte) uint32 {
 		return slicingUpdate(0, tab, b)
 	})
 
@@ -276,13 +276,13 @@ func TestArchCastagnoli(t *testing.T) {
 	})
 }
 
-func TestGolden(t *testing.T) {
-	testGoldenIEEE(t, ChecksumIEEE)
+func TestGolanglden(t *testing.T) {
+	testGolangldenIEEE(t, ChecksumIEEE)
 
 	// Some implementations have special code to deal with misaligned
 	// data; test that as well.
 	for delta := 1; delta <= 7; delta++ {
-		testGoldenIEEE(t, func(b []byte) uint32 {
+		testGolangldenIEEE(t, func(b []byte) uint32 {
 			ieee := NewIEEE()
 			d := delta
 			if d >= len(b) {
@@ -299,7 +299,7 @@ func TestGolden(t *testing.T) {
 		t.Errorf("nil Castagnoli Table")
 	}
 
-	testGoldenCastagnoli(t, func(b []byte) uint32 {
+	testGolangldenCastagnoli(t, func(b []byte) uint32 {
 		castagnoli := New(castagnoliTab)
 		castagnoli.Write(b)
 		return castagnoli.Sum32()
@@ -308,7 +308,7 @@ func TestGolden(t *testing.T) {
 	// Some implementations have special code to deal with misaligned
 	// data; test that as well.
 	for delta := 1; delta <= 7; delta++ {
-		testGoldenCastagnoli(t, func(b []byte) uint32 {
+		testGolangldenCastagnoli(t, func(b []byte) uint32 {
 			castagnoli := New(castagnoliTab)
 			d := delta
 			if d >= len(b) {

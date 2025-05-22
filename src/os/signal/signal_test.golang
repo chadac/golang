@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ import (
 // delivered. Lower values make the test faster, but also flakier — especially
 // on heavily loaded systems.
 //
-// The current value is set based on flakes observed in the Go builders.
+// The current value is set based on flakes observed in the Golang builders.
 var settleTime = 100 * time.Millisecond
 
 // fatalWaitingTime is an absurdly long time to wait for signals to be
@@ -184,7 +184,7 @@ func TestStress(t *testing.T) {
 
 			default:
 				syscall.Kill(syscall.Getpid(), syscall.SIGUSR1)
-				runtime.Gosched()
+				runtime.Golangsched()
 			}
 		}
 	}()
@@ -356,7 +356,7 @@ func TestStop(t *testing.T) {
 			t.Parallel()
 
 			// If the signal is not ignored, send the signal before registering a
-			// channel to verify the behavior of the default Go handler.
+			// channel to verify the behavior of the default Golang handler.
 			// If it's SIGWINCH or SIGUSR1 we should not see it.
 			// If it's SIGHUP, maybe we'll die. Let the flag tell us what to do.
 			mayHaveBlockedSignal := false
@@ -546,7 +546,7 @@ func TestAtomicStop(t *testing.T) {
 	// Call Notify for SIGINT before starting the child process.
 	// That ensures that SIGINT is not ignored for the child.
 	// This is necessary because if SIGINT is ignored when a
-	// Go program starts, then it remains ignored, and closing
+	// Golang program starts, then it remains ignored, and closing
 	// the last notification channel for SIGINT will switch it
 	// back to being ignored. In that case the assumption of
 	// atomicStopTestProgram, that it will either die from SIGINT
@@ -684,7 +684,7 @@ func TestTime(t *testing.T) {
 
 			default:
 				syscall.Kill(syscall.Getpid(), syscall.SIGUSR1)
-				runtime.Gosched()
+				runtime.Golangsched()
 			}
 		}
 	}()

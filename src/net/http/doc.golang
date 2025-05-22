@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -84,7 +84,7 @@ custom Server:
 
 # HTTP/2
 
-Starting with Go 1.6, the http package has transparent support for the
+Starting with Golang 1.6, the http package has transparent support for the
 HTTP/2 protocol when using HTTPS. Programs that must disable HTTP/2
 can do so by setting [Transport.TLSNextProto] (for clients) or
 [Server.TLSNextProto] (for servers) to a non-nil, empty
@@ -101,7 +101,7 @@ Please report any issues before disabling HTTP/2 support: https://golanglang.org
 The http package's [Transport] and [Server] both automatically enable
 HTTP/2 support for simple configurations. To enable HTTP/2 for more
 complex configurations, to use lower-level HTTP/2 features, or to use
-a newer version of Go's http2 package, import "golanglang.org/x/net/http2"
+a newer version of Golang's http2 package, import "golanglang.org/x/net/http2"
 directly and use its ConfigureTransport and/or ConfigureServer
 functions. Manually configuring HTTP/2 via the golanglang.org/x/net/http2
 package takes precedence over the net/http package's built-in HTTP/2

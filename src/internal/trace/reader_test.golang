@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,7 +26,7 @@ var (
 	dumpTraces = flag.Bool("dump-traces", false, "dump traces even on success")
 )
 
-func TestReaderGolden(t *testing.T) {
+func TestReaderGolanglden(t *testing.T) {
 	matches, err := filepath.Glob("./testdata/tests/*.test")
 	if err != nil {
 		t.Fatalf("failed to glob for tests: %v", err)
@@ -43,7 +43,7 @@ func TestReaderGolden(t *testing.T) {
 				t.Fatalf("failed to parse test file at %s: %v", testPath, err)
 			}
 			v := testtrace.NewValidator()
-			v.GoVersion = ver
+			v.GolangVersion = ver
 			testReader(t, tr, v, exp)
 		})
 	}

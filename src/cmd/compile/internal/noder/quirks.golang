@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,7 +14,7 @@ import (
 // after parsing the given type expression.
 //
 // Deprecated: This function exists to emulate position semantics from
-// Go 1.17, necessary for compatibility with the backend DWARF
+// Golang 1.17, necessary for compatibility with the backend DWARF
 // generation logic that assigns variables to their appropriate scope.
 func typeExprEndPos(expr0 syntax.Expr) syntax.Pos {
 	for {

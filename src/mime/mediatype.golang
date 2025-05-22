@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -290,7 +290,7 @@ func consumeValue(v string) (value, rest string) {
 		// for simple token characters like numbers and letters.
 		//
 		// If we see an unnecessary backslash escape, assume it is from MSIE
-		// and intended as a literal backslash. This makes Go servers deal better
+		// and intended as a literal backslash. This makes Golang servers deal better
 		// with MSIE without affecting the way they handle conforming MIME
 		// generators.
 		if r == '\\' && i+1 < len(v) && isTSpecial(v[i+1]) {

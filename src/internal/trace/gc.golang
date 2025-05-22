@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -71,9 +71,9 @@ func MutatorUtilizationV2(events []Event, flags UtilFlags) [][]MutatorUtil {
 	out := [][]MutatorUtil{}
 	stw := 0
 	ps := []perP{}
-	inGC := make(map[GoID]bool)
-	states := make(map[GoID]GoState)
-	bgMark := make(map[GoID]bool)
+	inGC := make(map[GolangID]bool)
+	states := make(map[GolangID]GolangState)
+	bgMark := make(map[GolangID]bool)
 	procs := []procsCount{}
 	nSync := 0
 
@@ -148,7 +148,7 @@ func MutatorUtilizationV2(events []Event, flags UtilFlags) [][]MutatorUtil {
 			r := ev.Range()
 			switch {
 			case handleMarkAssist(r):
-				if !states[ev.Goroutine()].Executing() {
+				if !states[ev.Golangroutine()].Executing() {
 					// If the golangroutine isn't executing, then the fact that it was in mark
 					// assist doesn't actually count.
 					break
@@ -194,7 +194,7 @@ func MutatorUtilizationV2(events []Event, flags UtilFlags) [][]MutatorUtil {
 				ps[ev.Proc()].gc++
 			} else if handleMarkAssist(r) {
 				ps[ev.Proc()].gc++
-				if g := r.Scope.Goroutine(); g != NoGoroutine {
+				if g := r.Scope.Golangroutine(); g != NoGolangroutine {
 					inGC[g] = true
 				}
 			}
@@ -206,17 +206,17 @@ func MutatorUtilizationV2(events []Event, flags UtilFlags) [][]MutatorUtil {
 				ps[ev.Proc()].gc--
 			} else if handleMarkAssist(r) {
 				ps[ev.Proc()].gc--
-				if g := r.Scope.Goroutine(); g != NoGoroutine {
+				if g := r.Scope.Golangroutine(); g != NoGolangroutine {
 					delete(inGC, g)
 				}
 			}
 		case EventStateTransition:
 			st := ev.StateTransition()
-			if st.Resource.Kind != ResourceGoroutine {
+			if st.Resource.Kind != ResourceGolangroutine {
 				break
 			}
-			old, new := st.Goroutine()
-			g := st.Resource.Goroutine()
+			old, new := st.Golangroutine()
+			g := st.Resource.Golangroutine()
 			if inGC[g] || bgMark[g] {
 				if !old.Executing() && new.Executing() {
 					// Started running while doing GC things.
@@ -238,7 +238,7 @@ func MutatorUtilizationV2(events []Event, flags UtilFlags) [][]MutatorUtil {
 				// that P, so don't directly
 				// contribute to golangroutine latency.
 				if !(flags&UtilPerProc != 0 && l.Label == "GC (dedicated)") {
-					bgMark[ev.Goroutine()] = true
+					bgMark[ev.Golangroutine()] = true
 					ps[ev.Proc()].gc++
 				}
 			}

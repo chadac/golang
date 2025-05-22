@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -65,8 +65,8 @@ func main() {
 	)
 
 	// issue 13830
-	// cgolang converts C void* to Go unsafe.Pointer, so despite appearances C
-	// void** is Go *unsafe.Pointer. This test verifies that we detect the
+	// cgolang converts C void* to Golang unsafe.Pointer, so despite appearances C
+	// void** is Golang *unsafe.Pointer. This test verifies that we detect the
 	// problem at build time.
 	{
 		type v [0]byte

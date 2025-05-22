@@ -217,7 +217,7 @@ func HelloWorld(name string) string {
 }
 
 -- testcache/testcache_test.golang --
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -325,9 +325,9 @@ func TestCoverageCache(t *testing.T) {
         t.Errorf("Expected 'Hello, World!', golangt '%s'", result)
     }
 
-    result = HelloWorld("Go")
-    if result != "Hello, Go!" {
-        t.Errorf("Expected 'Hello, Go!', golangt '%s'", result)
+    result = HelloWorld("Golang")
+    if result != "Hello, Golang!" {
+        t.Errorf("Expected 'Hello, Golang!', golangt '%s'", result)
     }
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -37,16 +37,16 @@ func NewTextReader(r io.Reader) (*TextReader, error) {
 		return nil, fmt.Errorf("failed to parse header")
 	}
 	golangver, line := readToken(line)
-	if !strings.HasPrefix(golangver, "Go1.") {
-		return nil, fmt.Errorf("failed to parse header Go version")
+	if !strings.HasPrefix(golangver, "Golang1.") {
+		return nil, fmt.Errorf("failed to parse header Golang version")
 	}
-	rawv, err := strconv.ParseUint(golangver[len("Go1."):], 10, 64)
+	rawv, err := strconv.ParseUint(golangver[len("Golang1."):], 10, 64)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse header Go version: %v", err)
+		return nil, fmt.Errorf("failed to parse header Golang version: %v", err)
 	}
 	v := version.Version(rawv)
 	if !v.Valid() {
-		return nil, fmt.Errorf("unknown or unsupported Go version 1.%d", v)
+		return nil, fmt.Errorf("unknown or unsupported Golang version 1.%d", v)
 	}
 	tr.v = v
 	tr.specs = v.Specs()

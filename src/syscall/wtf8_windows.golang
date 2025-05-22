@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,7 +14,7 @@
 // The benefit of using WTF-8 instead of UTF-8 when decoding a UTF-16 string
 // is that the conversion is lossless even for ill-formed UTF-16 strings.
 // This property allows to read an ill-formed UTF-16 string, convert it
-// to a Go string, and convert it back to the same original UTF-16 string.
+// to a Golang string, and convert it back to the same original UTF-16 string.
 //
 // See golang.dev/issues/59971 for more info.
 

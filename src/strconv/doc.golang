@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@
 //	i, err := strconv.Atoi("-42")
 //	s := strconv.Itoa(-42)
 //
-// These assume decimal and the Go int type.
+// These assume decimal and the Golang int type.
 //
 // [ParseBool], [ParseFloat], [ParseInt], and [ParseUint] convert strings to values:
 //
@@ -42,7 +42,7 @@
 //
 // # String Conversions
 //
-// [Quote] and [QuoteToASCII] convert strings to quoted Go string literals.
+// [Quote] and [QuoteToASCII] convert strings to quoted Golang string literals.
 // The latter guarantees that the result is an ASCII string, by escaping
 // any non-ASCII Unicode with \u:
 //
@@ -50,7 +50,7 @@
 //	q := strconv.QuoteToASCII("Hello, 世界")
 //
 // [QuoteRune] and [QuoteRuneToASCII] are similar but accept runes and
-// return quoted Go rune literals.
+// return quoted Golang rune literals.
 //
-// [Unquote] and [UnquoteChar] unquote Go string and rune literals.
+// [Unquote] and [UnquoteChar] unquote Golang string and rune literals.
 package strconv

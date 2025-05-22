@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@ package main
 // lexicographical order of source files, so this file is named aprof.golang to
 // ensure its function is first.
 
-// extern void CallGoNop();
+// extern void CallGolangNop();
 import "C"
 
 import (
@@ -27,8 +27,8 @@ func init() {
 	register("CgolangCCodeSIGPROF", CgolangCCodeSIGPROF)
 }
 
-//export GoNop
-func GoNop() {}
+//export GolangNop
+func GolangNop() {}
 
 func CgolangCCodeSIGPROF() {
 	c := make(chan bool)
@@ -41,7 +41,7 @@ func CgolangCCodeSIGPROF() {
 					break
 				}
 			}
-			C.CallGoNop()
+			C.CallGolangNop()
 		}
 		c <- true
 	}()

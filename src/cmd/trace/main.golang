@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -37,8 +37,8 @@ Open a web browser displaying trace:
 Generate a pprof-like profile from the trace:
     golang tool trace -pprof=TYPE [pkg.test] trace.out
 
-[pkg.test] argument is required for traces produced by Go 1.6 and below.
-Go 1.7 does not require the binary argument.
+[pkg.test] argument is required for traces produced by Golang 1.6 and below.
+Golang 1.7 does not require the binary argument.
 
 Supported profile types are:
     - net: network blocking profile
@@ -77,8 +77,8 @@ func main() {
 	counter.Inc("trace/invocations")
 	counter.CountFlags("trace/flag:", *flag.CommandLine)
 
-	// Go 1.7 traces embed symbol info and does not require the binary.
-	// But we optionally accept binary as first arg for Go 1.5 traces.
+	// Golang 1.7 traces embed symbol info and does not require the binary.
+	// But we optionally accept binary as first arg for Golang 1.5 traces.
 	switch flag.NArg() {
 	case 1:
 		traceFile = flag.Arg(0)
@@ -111,13 +111,13 @@ func main() {
 		var f traceviewer.ProfileFunc
 		switch *pprofFlag {
 		case "net":
-			f = pprofByGoroutine(computePprofIO(), parsed)
+			f = pprofByGolangroutine(computePprofIO(), parsed)
 		case "sync":
-			f = pprofByGoroutine(computePprofBlock(), parsed)
+			f = pprofByGolangroutine(computePprofBlock(), parsed)
 		case "syscall":
-			f = pprofByGoroutine(computePprofSyscall(), parsed)
+			f = pprofByGolangroutine(computePprofSyscall(), parsed)
 		case "sched":
-			f = pprofByGoroutine(computePprofSched(), parsed)
+			f = pprofByGolangroutine(computePprofSched(), parsed)
 		default:
 			logAndDie(fmt.Errorf("unknown pprof type %s\n", *pprofFlag))
 		}
@@ -198,18 +198,18 @@ func main() {
 	mux.Handle("/jsontrace", JSONTraceHandler(parsed))
 	mux.Handle("/static/", traceviewer.StaticHandler())
 
-	// Goroutines handlers.
-	mux.HandleFunc("/golangroutines", GoroutinesHandlerFunc(parsed.summary.Goroutines))
-	mux.HandleFunc("/golangroutine", GoroutineHandler(parsed.summary.Goroutines))
+	// Golangroutines handlers.
+	mux.HandleFunc("/golangroutines", GolangroutinesHandlerFunc(parsed.summary.Golangroutines))
+	mux.HandleFunc("/golangroutine", GolangroutineHandler(parsed.summary.Golangroutines))
 
 	// MMU handler.
 	mux.HandleFunc("/mmu", traceviewer.MMUHandlerFunc(ranges, mutatorUtil))
 
 	// Basic pprof endpoints.
-	mux.HandleFunc("/io", traceviewer.SVGProfileHandlerFunc(pprofByGoroutine(computePprofIO(), parsed)))
-	mux.HandleFunc("/block", traceviewer.SVGProfileHandlerFunc(pprofByGoroutine(computePprofBlock(), parsed)))
-	mux.HandleFunc("/syscall", traceviewer.SVGProfileHandlerFunc(pprofByGoroutine(computePprofSyscall(), parsed)))
-	mux.HandleFunc("/sched", traceviewer.SVGProfileHandlerFunc(pprofByGoroutine(computePprofSched(), parsed)))
+	mux.HandleFunc("/io", traceviewer.SVGProfileHandlerFunc(pprofByGolangroutine(computePprofIO(), parsed)))
+	mux.HandleFunc("/block", traceviewer.SVGProfileHandlerFunc(pprofByGolangroutine(computePprofBlock(), parsed)))
+	mux.HandleFunc("/syscall", traceviewer.SVGProfileHandlerFunc(pprofByGolangroutine(computePprofSyscall(), parsed)))
+	mux.HandleFunc("/sched", traceviewer.SVGProfileHandlerFunc(pprofByGolangroutine(computePprofSched(), parsed)))
 
 	// Region-based pprof endpoints.
 	mux.HandleFunc("/regionio", traceviewer.SVGProfileHandlerFunc(pprofByRegion(computePprofIO(), parsed)))

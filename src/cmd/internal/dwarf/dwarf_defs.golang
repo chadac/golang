@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -94,7 +94,7 @@ const (
 	DW_CLS_ADDRLOC
 	DW_CLS_STRING
 
-	// Go-specific internal hackery.
+	// Golang-specific internal hackery.
 	DW_CLS_GO_TYPEREF
 )
 
@@ -383,7 +383,7 @@ const (
 	// Dwarf4
 	DW_LANG_Python = 0x0014
 	// Dwarf5
-	DW_LANG_Go = 0x0016
+	DW_LANG_Golang = 0x0016
 
 	DW_LANG_lo_user = 0x8000
 	DW_LANG_hi_user = 0xffff

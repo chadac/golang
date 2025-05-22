@@ -41,7 +41,7 @@ Scripts also have access to other environment variables, including:
 	TMPDIR=$WORK/tmp
 	GODEBUG=<actual GODEBUG>
 	devnull=<value of os.DevNull>
-	golangversion=<current Go version; for example, 1.12>
+	golangversion=<current Golang version; for example, 1.12>
 
 On Plan 9, the variables $path and $home are set instead of $PATH and $HOME.
 On Windows, the variables $USERPROFILE and $TMP are set instead of
@@ -303,7 +303,7 @@ replace [old new]... file
 	replace strings in a file
 
 	The 'old' and 'new' arguments are unquoted as if in quoted
-	Go strings.
+	Golang strings.
 
 rm path...
 	remove a file or directory
@@ -318,7 +318,7 @@ skip [msg]
 sleep duration [&]
 	sleep for a specified duration
 
-	The duration must be given as a Go time.Duration string.
+	The duration must be given as a Golang time.Duration string.
 
 stale target...
 	check that build targets are stale

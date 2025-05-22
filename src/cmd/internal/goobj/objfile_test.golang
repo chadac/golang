@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -94,7 +94,7 @@ func TestIssue41621LargeNumberOfRelocations(t *testing.T) {
 	if testing.Short() || (buildcfg.GOARCH != "amd64") {
 		t.Skipf("Skipping large number of relocations test in short mode or on %s", buildcfg.GOARCH)
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	tmpdir := t.TempDir()
 
@@ -120,7 +120,7 @@ func TestIssue41621LargeNumberOfRelocations(t *testing.T) {
 	w.Reset()
 
 	// Build.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", "large")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", "large")
 	cmd.Dir = tmpdir
 	out, err := cmd.CombinedOutput()
 	if err != nil {

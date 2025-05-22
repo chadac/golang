@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,12 +12,12 @@ import (
 	"runtime"
 )
 
-// RunGoroutines starts some golangroutines that don't do anything.
+// RunGolangroutines starts some golangroutines that don't do anything.
 // The idea is to get some threads golanging, so that a signal will be delivered
-// to a thread started by Go.
+// to a thread started by Golang.
 //
-//export RunGoroutines
-func RunGoroutines() {
+//export RunGolangroutines
+func RunGolangroutines() {
 	for i := 0; i < 4; i++ {
 		golang func() {
 			runtime.LockOSThread()
@@ -28,7 +28,7 @@ func RunGoroutines() {
 
 var P *byte
 
-// TestSEGV makes sure that an invalid address turns into a run-time Go panic.
+// TestSEGV makes sure that an invalid address turns into a run-time Golang panic.
 //
 //export TestSEGV
 func TestSEGV() {

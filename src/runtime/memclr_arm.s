@@ -3,7 +3,7 @@
 //
 //         Copyright © 1994-1999 Lucent Technologies Inc. All rights reserved.
 //         Revisions Copyright © 2000-2007 Vita Nuova Holdings Limited (www.vitanuova.com).  All rights reserved.
-//         Portions Copyright 2009 The Go Authors. All rights reserved.
+//         Portions Copyright 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,10 +30,10 @@
 #define N	R12
 #define TMP	R12				/* N and TMP don't overlap */
 
-// See memclrNoHeapPointers Go doc for important implementation constraints.
+// See memclrNoHeapPointers Golang doc for important implementation constraints.
 
 // func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)
-// Also called from assembly in sys_windows_arm.s without g (but using Go stack convention).
+// Also called from assembly in sys_windows_arm.s without g (but using Golang stack convention).
 TEXT runtime·memclrNoHeapPointers(SB),NOSPLIT,$0-8
 	MOVW	ptr+0(FP), TO
 	MOVW	n+4(FP), N

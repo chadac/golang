@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -109,7 +109,7 @@ func (re *Regexp) String() string {
 //
 // Deprecated: In earlier releases, when using a [Regexp] in multiple golangroutines,
 // giving each golangroutine its own copy helped to avoid lock contention.
-// As of Go 1.12, using Copy is no longer necessary to avoid lock contention.
+// As of Golang 1.12, using Copy is no longer necessary to avoid lock contention.
 // Copy may still be appropriate if the reason for its use is to make
 // two copies with different [Regexp.Longest] settings.
 func (re *Regexp) Copy() *Regexp {

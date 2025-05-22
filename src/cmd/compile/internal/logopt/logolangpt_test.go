@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -84,7 +84,7 @@ func TestPathStuff(t *testing.T) {
 func TestLogOpt(t *testing.T) {
 	t.Parallel()
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	dir := fixSlash(t.TempDir()) // Normalize the directory name as much as possible, for Windows testing
 	src := filepath.Join(dir, "file.golang")
@@ -218,7 +218,7 @@ func s15a8(x *[15]int64) [15]int64 {
 }
 
 func testLogOpt(t *testing.T, flag, src, outfile string) (string, error) {
-	run := []string{testenv.GoToolPath(t), "tool", "compile", "-p=p", flag, "-o", outfile, src}
+	run := []string{testenv.GolangToolPath(t), "tool", "compile", "-p=p", flag, "-o", outfile, src}
 	t.Log(run)
 	cmd := testenv.Command(t, run[0], run[1:]...)
 	out, err := cmd.CombinedOutput()
@@ -228,7 +228,7 @@ func testLogOpt(t *testing.T, flag, src, outfile string) (string, error) {
 
 func testLogOptDir(t *testing.T, dir, flag, src, outfile string) (string, error) {
 	// Notice the specified import path "x"
-	run := []string{testenv.GoToolPath(t), "tool", "compile", "-p=x", flag, "-o", outfile, src}
+	run := []string{testenv.GolangToolPath(t), "tool", "compile", "-p=x", flag, "-o", outfile, src}
 	t.Log(run)
 	cmd := testenv.Command(t, run[0], run[1:]...)
 	cmd.Dir = dir
@@ -239,7 +239,7 @@ func testLogOptDir(t *testing.T, dir, flag, src, outfile string) (string, error)
 
 func testCopy(t *testing.T, dir, golangarch, golangos, src, outfile string) (string, error) {
 	// Notice the specified import path "x"
-	run := []string{testenv.GoToolPath(t), "tool", "compile", "-p=x", "-json=0,file://log/opt", "-o", outfile, src}
+	run := []string{testenv.GolangToolPath(t), "tool", "compile", "-p=x", "-json=0,file://log/opt", "-o", outfile, src}
 	t.Log(run)
 	cmd := testenv.Command(t, run[0], run[1:]...)
 	cmd.Dir = dir

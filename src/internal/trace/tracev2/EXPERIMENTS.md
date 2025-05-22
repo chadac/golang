@@ -53,12 +53,12 @@ that allocation events can refer to.
    the `orderingDispatch` table.
    If your events are always emitted in a regular user golangroutine context,
    then the handler should be trivial and just validate the scheduling
-   context to match userGoReqs.
+   context to match userGolangReqs.
    If it's more complicated, see `(*ordering).advanceAllocFree` for a
    slightly more complicated example that handles events from a larger
    variety of execution environments.
    If you need to encode a partial ordering, look toward the scheduler
-   events (names beginning with `Go`) or just ask someone for help.
+   events (names beginning with `Golang`) or just ask someone for help.
 4. Add your new events to the `tracev2Type2Kind` table in
    `src/internal/trace/event.golang`.
 

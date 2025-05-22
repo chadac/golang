@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -178,7 +178,7 @@ func TestSyscallNoError(t *testing.T) {
 		t.Skip("skipping root only test")
 	}
 	if testing.Short() && testenv.Builder() != "" && os.Getenv("USER") == "swarming" {
-		// The Go build system's swarming user is known not to be root.
+		// The Golang build system's swarming user is known not to be root.
 		// Unfortunately, it sometimes appears as root due the current
 		// implementation of a no-network check using 'unshare -n -r'.
 		// Since this test does need root to work, we need to skip it.
@@ -368,7 +368,7 @@ func TestAllThreadsSyscall(t *testing.T) {
 				t.Errorf("[%d,%d] %s(PR_SET_KEEPCAPS, %d, ...): %v", i, j, v.label, j&1, err)
 			}
 
-			// At this point, we want all launched Go
+			// At this point, we want all launched Golang
 			// routines to confirm that they see the
 			// wanted value for KEEPCAPS.
 			for k := 0; k < routines; k++ {
@@ -384,9 +384,9 @@ func TestAllThreadsSyscall(t *testing.T) {
 				}
 			}
 
-			// Provide an explicit opportunity for this Go
+			// Provide an explicit opportunity for this Golang
 			// routine to change Ms.
-			runtime.Gosched()
+			runtime.Golangsched()
 
 			if once {
 				// One waiter routine will have exited.
@@ -490,7 +490,7 @@ func killAThread(c <-chan struct{}) {
 // CGO_ENABLED=0 or 1. Note, there is an extended copy of this same
 // test in ../../misc/cgolang/test/issue1435.golang which requires
 // CGO_ENABLED=1 and launches pthreads from C that run concurrently
-// with the Go code of the test - and the test validates that these
+// with the Golang code of the test - and the test validates that these
 // pthreads are also kept in sync with the security state changed with
 // the syscalls. Care should be taken to mirror any enhancements to
 // this test here in that file too.
@@ -502,7 +502,7 @@ func TestSetuidEtc(t *testing.T) {
 		t.Skip("skipping the test when root's gid is not default value 0")
 	}
 	if testing.Short() && testenv.Builder() != "" && os.Getenv("USER") == "swarming" {
-		// The Go build system's swarming user is known not to be root.
+		// The Golang build system's swarming user is known not to be root.
 		// Unfortunately, it sometimes appears as root due the current
 		// implementation of a no-network check using 'unshare -n -r'.
 		// Since this test does need root to work, we need to skip it.
@@ -626,7 +626,7 @@ func TestAllThreadsSyscallBlockedSyscall(t *testing.T) {
 		}
 		// Provide an explicit opportunity for this golangroutine
 		// to change Ms.
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	wr.Close()
 	wg.Wait()
@@ -700,7 +700,7 @@ func TestPrlimitOtherProcess(t *testing.T) {
 
 const magicRlimitValue = 42
 
-// TestPrlimitFileLimit tests that we can start a Go program, use
+// TestPrlimitFileLimit tests that we can start a Golang program, use
 // prlimit to change its NOFILE limit, and have that updated limit be
 // seen by children. See issue #66797.
 func TestPrlimitFileLimit(t *testing.T) {

@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,25 +9,25 @@
 const int MYCONST = 0;
 
 // Do the actual manipulation of the life board in C.  This could be
-// done easily in Go, we are just using C for demonstration
+// done easily in Golang, we are just using C for demonstration
 // purposes.
 void
 Step(int x, int y, int *a, int *n)
 {
-	struct GoStart_return r;
+	struct GolangStart_return r;
 
-	// Use Go to start 4 golangroutines each of which handles 1/4 of the
+	// Use Golang to start 4 golangroutines each of which handles 1/4 of the
 	// board.
-	r = GoStart(0, x, y, 0, x / 2, 0, y / 2, a, n);
+	r = GolangStart(0, x, y, 0, x / 2, 0, y / 2, a, n);
 	assert(r.r0 == 0 && r.r1 == 100);	// test multiple returns
-	r = GoStart(1, x, y, x / 2, x, 0, y / 2, a, n);
+	r = GolangStart(1, x, y, x / 2, x, 0, y / 2, a, n);
 	assert(r.r0 == 1 && r.r1 == 101);	// test multiple returns
-	GoStart(2, x, y, 0, x / 2, y / 2, y, a, n);
-	GoStart(3, x, y, x / 2, x, y / 2, y, a, n);
-	GoWait(0);
-	GoWait(1);
-	GoWait(2);
-	GoWait(3);
+	GolangStart(2, x, y, 0, x / 2, y / 2, y, a, n);
+	GolangStart(3, x, y, x / 2, x, y / 2, y, a, n);
+	GolangWait(0);
+	GolangWait(1);
+	GolangWait(2);
+	GolangWait(3);
 }
 
 // The actual computation.  This is called in parallel.

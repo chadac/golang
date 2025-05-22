@@ -1,15 +1,15 @@
 env GO111MODULE=off
 ! golang test testdep/p1
-stderr 'package testdep/p1 \(test\)\n\timports testdep/p2\n\timports testdep/p3: build constraints exclude all Go files ' # check for full import stack
+stderr 'package testdep/p1 \(test\)\n\timports testdep/p2\n\timports testdep/p3: build constraints exclude all Golang files ' # check for full import stack
 ! golang vet testdep/p1
-stderr 'package testdep/p1 \(test\)\n\timports testdep/p2\n\timports testdep/p3: build constraints exclude all Go files ' # check for full import stack
+stderr 'package testdep/p1 \(test\)\n\timports testdep/p2\n\timports testdep/p3: build constraints exclude all Golang files ' # check for full import stack
 
 env GO111MODULE=on
 cd testdep
 ! golang test testdep/p1
-stderr 'package testdep/p1 \(test\)\n\timports testdep/p2\n\timports testdep/p3: build constraints exclude all Go files ' # check for full import stack
+stderr 'package testdep/p1 \(test\)\n\timports testdep/p2\n\timports testdep/p3: build constraints exclude all Golang files ' # check for full import stack
 ! golang vet testdep/p1
-stderr 'package testdep/p1 \(test\)\n\timports testdep/p2\n\timports testdep/p3: build constraints exclude all Go files ' # check for full import stack
+stderr 'package testdep/p1 \(test\)\n\timports testdep/p2\n\timports testdep/p3: build constraints exclude all Golang files ' # check for full import stack
 
 -- testdep/golang.mod --
 module testdep

@@ -1,12 +1,12 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package testenv provides information about what functionality
-// is available in different testing environments run by the Go team.
+// is available in different testing environments run by the Golang team.
 //
 // It is an internal package because these details are specific
-// to the Go team's test setup (on build.golanglang.org) and not
+// to the Golang team's test setup (on build.golanglang.org) and not
 // fundamental to tests in general.
 package testenv
 
@@ -42,9 +42,9 @@ func Builder() string {
 	return os.Getenv("GO_BUILDER_NAME")
 }
 
-// HasGoBuild reports whether the current system can build programs with “golang build”
+// HasGolangBuild reports whether the current system can build programs with “golang build”
 // and then run them with os.StartProcess or exec.Command.
-func HasGoBuild() bool {
+func HasGolangBuild() bool {
 	if os.Getenv("GO_GCFLAGS") != "" {
 		// It's too much work to require every caller of the golang command
 		// to pass along "-gcflags="+os.Getenv("GO_GCFLAGS").
@@ -53,10 +53,10 @@ func HasGoBuild() bool {
 		return false
 	}
 
-	return tryGoBuild() == nil
+	return tryGolangBuild() == nil
 }
 
-var tryGoBuild = sync.OnceValue(func() error {
+var tryGolangBuild = sync.OnceValue(func() error {
 	// To run 'golang build', we need to be able to exec a 'golang' command.
 	// We somewhat arbitrarily choose to exec 'golang tool -n compile' because that
 	// also confirms that cmd/golang can find the compiler. (Before CL 472096,
@@ -81,8 +81,8 @@ var tryGoBuild = sync.OnceValue(func() error {
 	}
 
 	if platform.MustLinkExternal(runtime.GOOS, runtime.GOARCH, false) {
-		// We can assume that we always have a complete Go toolchain available.
-		// However, this platform requires a C linker to build even pure Go
+		// We can assume that we always have a complete Golang toolchain available.
+		// However, this platform requires a C linker to build even pure Golang
 		// programs, including tests. Do we have one in the test environment?
 		// (On Android, for example, the device running the test might not have a
 		// C toolchain installed.)
@@ -107,30 +107,30 @@ var tryGoBuild = sync.OnceValue(func() error {
 	return nil
 })
 
-// MustHaveGoBuild checks that the current system can build programs with “golang build”
+// MustHaveGolangBuild checks that the current system can build programs with “golang build”
 // and then run them with os.StartProcess or exec.Command.
-// If not, MustHaveGoBuild calls t.Skip with an explanation.
-func MustHaveGoBuild(t testing.TB) {
+// If not, MustHaveGolangBuild calls t.Skip with an explanation.
+func MustHaveGolangBuild(t testing.TB) {
 	if os.Getenv("GO_GCFLAGS") != "" {
 		t.Helper()
 		t.Skipf("skipping test: 'golang build' not compatible with setting $GO_GCFLAGS")
 	}
-	if !HasGoBuild() {
+	if !HasGolangBuild() {
 		t.Helper()
-		t.Skipf("skipping test: 'golang build' unavailable: %v", tryGoBuild())
+		t.Skipf("skipping test: 'golang build' unavailable: %v", tryGolangBuild())
 	}
 }
 
-// HasGoRun reports whether the current system can run programs with “golang run”.
-func HasGoRun() bool {
+// HasGolangRun reports whether the current system can run programs with “golang run”.
+func HasGolangRun() bool {
 	// For now, having golang run and having golang build are the same.
-	return HasGoBuild()
+	return HasGolangBuild()
 }
 
-// MustHaveGoRun checks that the current system can run programs with “golang run”.
-// If not, MustHaveGoRun calls t.Skip with an explanation.
-func MustHaveGoRun(t testing.TB) {
-	if !HasGoRun() {
+// MustHaveGolangRun checks that the current system can run programs with “golang run”.
+// If not, MustHaveGolangRun calls t.Skip with an explanation.
+func MustHaveGolangRun(t testing.TB) {
+	if !HasGolangRun() {
 		t.Helper()
 		t.Skipf("skipping test: 'golang run' not available on %s/%s", runtime.GOOS, runtime.GOARCH)
 	}
@@ -156,17 +156,17 @@ func MustHaveParallelism(t testing.TB) {
 	}
 }
 
-// GoToolPath reports the path to the Go tool.
-// It is a convenience wrapper around GoTool.
-// If the tool is unavailable GoToolPath calls t.Skip.
-// If the tool should be available and isn't, GoToolPath calls t.Fatal.
-func GoToolPath(t testing.TB) string {
-	MustHaveGoBuild(t)
-	path, err := GoTool()
+// GolangToolPath reports the path to the Golang tool.
+// It is a convenience wrapper around GolangTool.
+// If the tool is unavailable GolangToolPath calls t.Skip.
+// If the tool should be available and isn't, GolangToolPath calls t.Fatal.
+func GolangToolPath(t testing.TB) string {
+	MustHaveGolangBuild(t)
+	path, err := GolangTool()
 	if err != nil {
 		t.Fatal(err)
 	}
-	// Add all environment variables that affect the Go command to test metadata.
+	// Add all environment variables that affect the Golang command to test metadata.
 	// Cached test results will be invalidate when these variables change.
 	// See golanglang.org/issue/32285.
 	for _, envVar := range strings.Fields(cfg.KnownEnv) {
@@ -237,7 +237,7 @@ var findGOROOT = sync.OnceValues(func() (path string, err error) {
 	}
 })
 
-// GOROOT reports the path to the directory containing the root of the Go
+// GOROOT reports the path to the directory containing the root of the Golang
 // project source tree. This is normally equivalent to runtime.GOROOT, but
 // works even if the test binary was built with -trimpath and cannot exec
 // 'golang env GOROOT'.
@@ -256,9 +256,9 @@ func GOROOT(t testing.TB) string {
 	return path
 }
 
-// GoTool reports the path to the Go tool.
-func GoTool() (string, error) {
-	if !HasGoBuild() {
+// GolangTool reports the path to the Golang tool.
+func GolangTool() (string, error) {
+	if !HasGolangBuild() {
 		return "", errors.New("platform cannot run golang tool")
 	}
 	return golangTool()
@@ -464,7 +464,7 @@ func SkipIfOptimizationOff(t testing.TB) {
 // as for the packages transitively imported by the package(s) in pkgs.
 //
 // pkgs may include any package pattern that is valid to pass to 'golang list',
-// so it may also be a list of Go source files all in the same directory.
+// so it may also be a list of Golang source files all in the same directory.
 func WriteImportcfg(t testing.TB, dstPath string, packageFiles map[string]string, pkgs ...string) {
 	t.Helper()
 
@@ -476,7 +476,7 @@ func WriteImportcfg(t testing.TB, dstPath string, packageFiles map[string]string
 
 	if len(pkgs) > 0 {
 		// Use 'golang list' to resolve any missing packages and rewrite the import map.
-		cmd := Command(t, GoToolPath(t), "list", "-export", "-deps", "-f", `{{if ne .ImportPath "command-line-arguments"}}{{if .Export}}{{.ImportPath}}={{.Export}}{{end}}{{end}}`)
+		cmd := Command(t, GolangToolPath(t), "list", "-export", "-deps", "-f", `{{if ne .ImportPath "command-line-arguments"}}{{if .Export}}{{.ImportPath}}={{.Export}}{{end}}{{end}}`)
 		cmd.Args = append(cmd.Args, pkgs...)
 		cmd.Stderr = new(strings.Builder)
 		out, err := cmd.Output()

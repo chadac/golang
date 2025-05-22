@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ import (
 	"sync"
 )
 
-var NetLimitGodebug = golangdebug.New("#cmdgolangnetlimit")
+var NetLimitGolangdebug = golangdebug.New("#cmdgolangnetlimit")
 
 // NetLimit returns the limit on concurrent network operations
 // configured by GODEBUG=cmdgolangnetlimit, if any.
@@ -21,14 +21,14 @@ var NetLimitGodebug = golangdebug.New("#cmdgolangnetlimit")
 // be allowed.
 func NetLimit() (int, bool) {
 	netLimitOnce.Do(func() {
-		s := NetLimitGodebug.Value()
+		s := NetLimitGolangdebug.Value()
 		if s == "" {
 			return
 		}
 
 		n, err := strconv.Atoi(s)
 		if err != nil {
-			Fatalf("invalid %s: %v", NetLimitGodebug.Name(), err)
+			Fatalf("invalid %s: %v", NetLimitGolangdebug.Name(), err)
 		}
 		if n < 0 {
 			// Treat negative values as unlimited.
@@ -45,7 +45,7 @@ func AcquireNet() (release func(), err error) {
 	hasToken := false
 	if n, ok := NetLimit(); ok {
 		if n == 0 {
-			return nil, fmt.Errorf("network disabled by %v=%v", NetLimitGodebug.Name(), NetLimitGodebug.Value())
+			return nil, fmt.Errorf("network disabled by %v=%v", NetLimitGolangdebug.Name(), NetLimitGolangdebug.Value())
 		}
 		netLimitSem <- struct{}{}
 		hasToken = true

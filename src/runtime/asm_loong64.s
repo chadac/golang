@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -100,8 +100,8 @@ TEXT runtime·cputicks<ABIInternal>(SB),NOSPLIT,$0-8
  *  golang-routine
  */
 
-// void golanggolang(Gobuf*)
-// restore state from Gobuf; longjmp
+// void golanggolang(Golangbuf*)
+// restore state from Golangbuf; longjmp
 TEXT runtime·golanggolang(SB), NOSPLIT|NOFRAME, $0-8
 	MOVV	buf+0(FP), R4
 	MOVV	golangbuf_g(R4), R5
@@ -413,7 +413,7 @@ check8:;					\
 
 // callRet copies return values back at the end of call*. This is a
 // separate function so it can allocate stack space for the arguments
-// to reflectcallmove. It does not follow the Go ABI; it expects its
+// to reflectcallmove. It does not follow the Golang ABI; it expects its
 // arguments in registers.
 TEXT callRet<>(SB), NOSPLIT, $40-0
 	NO_LOCAL_POINTERS
@@ -539,8 +539,8 @@ loadg:
 	JAL	runtime·load_g(SB)
 nocgolang:
 
-	// If g is nil, Go did not create the current thread,
-	// or if this thread never called into Go on pthread platforms.
+	// If g is nil, Golang did not create the current thread,
+	// or if this thread never called into Golang on pthread platforms.
 	// Call needm to obtain one for temporary use.
 	// In this case, we're running on the thread stack, so there's
 	// lots of space, but the linker doesn't know. Hide the call from
@@ -629,7 +629,7 @@ havem:
 	// 1. for the duration of the call on non-pthread platforms,
 	// 2. or the duration of the C thread alive on pthread platforms.
 	// If the m on entry wasn't nil,
-	// 1. the thread might be a Go thread,
+	// 1. the thread might be a Golang thread,
 	// 2. or it wasn't the first call from a C thread on pthread platforms,
 	//    since then we skip dropm to resue the m in the first call.
 	MOVV	savedm-8(SP), R12
@@ -702,7 +702,7 @@ TEXT runtime·golangexit(SB),NOSPLIT|NOFRAME|TOPFRAME,$0-0
 	// traceback from golangexit1 must hit code range of golangexit
 	NOOP
 
-// This is called from .init_array and follows the platform, not Go, ABI.
+// This is called from .init_array and follows the platform, not Golang, ABI.
 TEXT runtime·addmoduledata(SB),NOSPLIT,$0-0
 	ADDV	$-0x10, R3
 	MOVV	R30, 8(R3) // The access to global variables below implicitly uses R30, which is callee-save
@@ -792,7 +792,7 @@ TEXT ·unspillArgs(SB),NOSPLIT,$0-0
 
 // gcWriteBarrier informs the GC about heap pointer writes.
 //
-// gcWriteBarrier does NOT follow the Go ABI. It accepts the
+// gcWriteBarrier does NOT follow the Golang ABI. It accepts the
 // number of bytes of buffer needed in R29, and returns a pointer
 // to the buffer space in R29.
 // It clobbers R30 (the linker temp register).
@@ -951,7 +951,7 @@ GLOBL	debugCallFrameTooLarge<>(SB), RODATA, $20	// Size duplicated below
 // a stack pointer to an escaping argument. debugCallV2 cannot check
 // this invariant.
 //
-// This is ABIInternal because Go code injects its PC directly into new
+// This is ABIInternal because Golang code injects its PC directly into new
 // golangroutine stacks.
 TEXT runtime·debugCallV2<ABIInternal>(SB),NOSPLIT|NOFRAME,$0-0
 	MOVV    R1, -272(R3)

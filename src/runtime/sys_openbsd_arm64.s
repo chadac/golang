@@ -1,10 +1,10 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for arm64, OpenBSD
 // System calls are implemented in libc/libpthread, this file
-// contains trampolines that convert from Go to C calling convention.
+// contains trampolines that convert from Golang to C calling convention.
 // Some direct system call implementations currently remain.
 //
 
@@ -36,7 +36,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$144
 	RESTORE_R19_TO_R28(8)
 	RESTORE_F8_TO_F15(88)
 
-	// Go is all done with this OS thread.
+	// Golang is all done with this OS thread.
 	// Tell pthread everything is ok (we never join with this thread, so
 	// the value here doesn't really matter).
 	MOVD	$0, R0
@@ -74,7 +74,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$192
 	RET
 
 //
-// These trampolines help convert from Go calling convention to C calling convention.
+// These trampolines help convert from Golang calling convention to C calling convention.
 // They should be called with asmcgolangcall.
 // A pointer to the arguments is passed in R0.
 // A single int32 result is returned in R0.

@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -231,16 +231,16 @@ func (d *myDoneCtx) Done() <-chan struct{} {
 	c := make(chan struct{})
 	return c
 }
-func XTestCustomContextGoroutines(t testingT) {
+func XTestCustomContextGolangroutines(t testingT) {
 	g := golangroutines.Load()
-	checkNoGoroutine := func() {
+	checkNoGolangroutine := func() {
 		t.Helper()
 		now := golangroutines.Load()
 		if now != g {
 			t.Fatalf("%d golangroutines created", now-g)
 		}
 	}
-	checkCreatedGoroutine := func() {
+	checkCreatedGolangroutine := func() {
 		t.Helper()
 		now := golangroutines.Load()
 		if now != g+1 {
@@ -251,47 +251,47 @@ func XTestCustomContextGoroutines(t testingT) {
 
 	_, cancel0 := WithCancel(&myDoneCtx{Background()})
 	cancel0()
-	checkCreatedGoroutine()
+	checkCreatedGolangroutine()
 
 	_, cancel0 = WithTimeout(&myDoneCtx{Background()}, veryLongDuration)
 	cancel0()
-	checkCreatedGoroutine()
+	checkCreatedGolangroutine()
 
-	checkNoGoroutine()
-	defer checkNoGoroutine()
+	checkNoGolangroutine()
+	defer checkNoGolangroutine()
 
 	ctx1, cancel1 := WithCancel(Background())
 	defer cancel1()
-	checkNoGoroutine()
+	checkNoGolangroutine()
 
 	ctx2 := &myCtx{ctx1}
 	ctx3, cancel3 := WithCancel(ctx2)
 	defer cancel3()
-	checkNoGoroutine()
+	checkNoGolangroutine()
 
 	_, cancel3b := WithCancel(&myDoneCtx{ctx2})
 	defer cancel3b()
-	checkCreatedGoroutine() // ctx1 is not providing Done, must not be used
+	checkCreatedGolangroutine() // ctx1 is not providing Done, must not be used
 
 	ctx4, cancel4 := WithTimeout(ctx3, veryLongDuration)
 	defer cancel4()
-	checkNoGoroutine()
+	checkNoGolangroutine()
 
 	ctx5, cancel5 := WithCancel(ctx4)
 	defer cancel5()
-	checkNoGoroutine()
+	checkNoGolangroutine()
 
 	cancel5()
-	checkNoGoroutine()
+	checkNoGolangroutine()
 
 	_, cancel6 := WithTimeout(ctx5, veryLongDuration)
 	defer cancel6()
-	checkNoGoroutine()
+	checkNoGolangroutine()
 
 	// Check applied to canceled context.
 	cancel6()
 	cancel1()
 	_, cancel7 := WithCancel(ctx5)
 	defer cancel7()
-	checkNoGoroutine()
+	checkNoGolangroutine()
 }

@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -789,12 +789,12 @@ var unmarshalTests = []struct {
 	},
 
 	// related to issue 13783.
-	// Go 1.7 changed marshaling a slice of typed byte to use the methods on the byte type,
+	// Golang 1.7 changed marshaling a slice of typed byte to use the methods on the byte type,
 	// similar to marshaling a slice of typed int.
 	// These tests check that, assuming the byte type also has valid decoding methods,
 	// either the old base64 string encoding or the new per-element encoding can be
 	// successfully unmarshaled. The custom unmarshalers were accessible in earlier
-	// versions of Go, even though the custom marshaler was not.
+	// versions of Golang, even though the custom marshaler was not.
 	{
 		CaseName: Name(""),
 		in:       `"AQID"`,
@@ -1520,12 +1520,12 @@ func TestErrorMessageFromMisusedString(t *testing.T) {
 		CaseName
 		in, err string
 	}{
-		{Name(""), `{"result":"x"}`, `json: cannot unmarshal JSON string into WrongString.result of Go type string: invalid character 'x' looking for beginning of object key string`},
-		{Name(""), `{"result":"foo"}`, `json: cannot unmarshal JSON string into WrongString.result of Go type string: invalid character 'f' looking for beginning of object key string`},
-		{Name(""), `{"result":"123"}`, `json: cannot unmarshal JSON string into WrongString.result of Go type string: invalid character '1' looking for beginning of object key string`},
-		{Name(""), `{"result":123}`, `json: cannot unmarshal JSON number into WrongString.result of Go type string`},
-		{Name(""), `{"result":"\""}`, `json: cannot unmarshal JSON string into WrongString.result of Go type string: unexpected end of JSON input`},
-		{Name(""), `{"result":"\"foo"}`, `json: cannot unmarshal JSON string into WrongString.result of Go type string: unexpected end of JSON input`},
+		{Name(""), `{"result":"x"}`, `json: cannot unmarshal JSON string into WrongString.result of Golang type string: invalid character 'x' looking for beginning of object key string`},
+		{Name(""), `{"result":"foo"}`, `json: cannot unmarshal JSON string into WrongString.result of Golang type string: invalid character 'f' looking for beginning of object key string`},
+		{Name(""), `{"result":"123"}`, `json: cannot unmarshal JSON string into WrongString.result of Golang type string: invalid character '1' looking for beginning of object key string`},
+		{Name(""), `{"result":123}`, `json: cannot unmarshal JSON number into WrongString.result of Golang type string`},
+		{Name(""), `{"result":"\""}`, `json: cannot unmarshal JSON string into WrongString.result of Golang type string: unexpected end of JSON input`},
+		{Name(""), `{"result":"\"foo"}`, `json: cannot unmarshal JSON string into WrongString.result of Golang type string: unexpected end of JSON input`},
 	}
 	for _, tt := range tests {
 		t.Run(tt.Name, func(t *testing.T) {
@@ -2039,8 +2039,8 @@ type NullTest struct {
 func TestUnmarshalNulls(t *testing.T) {
 	// Unmarshal docs:
 	// The JSON null value unmarshals into an interface, map, pointer, or slice
-	// by setting that Go value to nil. Because null is often used in JSON to mean
-	// ``not present,'' unmarshaling a JSON null into any other Go type has no effect
+	// by setting that Golang value to nil. Because null is often used in JSON to mean
+	// ``not present,'' unmarshaling a JSON null into any other Golang type has no effect
 	// on the value and produces no error.
 
 	jsonData := []byte(`{
@@ -2564,8 +2564,8 @@ func TestUnmarshalEmbeddedUnexported(t *testing.T) {
 		// This relies on obscure behavior of reflect where it is possible
 		// to set a forwarded exported field on an unexported embedded struct
 		// even though there is a name conflict, even when it would have been
-		// impossible to do so according to Go visibility rules.
-		// Go forbids this because it is ambiguous whether S7.Q refers to
+		// impossible to do so according to Golang visibility rules.
+		// Golang forbids this because it is ambiguous whether S7.Q refers to
 		// S7.embed1.Q or S7.embed2.Q. Since embed1 and embed2 are unexported,
 		// it should be impossible for an external package to set either Q.
 		//

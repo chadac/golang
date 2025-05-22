@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -146,7 +146,7 @@ func crypto_x509_syscall(fn, a1, a2, a3, a4, a5 uintptr, f1 float64) (r1 uintptr
 }
 func syscall_x509()
 
-// The *_trampoline functions convert from the Go calling convention to the C calling convention
+// The *_trampoline functions convert from the Golang calling convention to the C calling convention
 // and then call the underlying libc function.  They are defined in sys_darwin_$ARCH.s.
 
 //golang:nosplit
@@ -223,7 +223,7 @@ func pthread_kill_trampoline()
 // the once lock is held by the parent process and then calls
 // _os_once_gate_corruption_abort. The allocation is setting up the
 // globals for the notification subsystem. See the source code at [1].
-// To work around this, we can allocate the globals earlier in the Go
+// To work around this, we can allocate the globals earlier in the Golang
 // program's lifetime, before any execs are involved, by calling any
 // notify routine that is exported, calls _notify_globals, and doesn't do
 // anything too expensive otherwise. notify_is_valid_token(0) fits the bill.
@@ -274,7 +274,7 @@ func mmap_trampoline()
 //golang:cgolang_unsafe_args
 func munmap(addr unsafe.Pointer, n uintptr) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(munmap_trampoline)), unsafe.Pointer(&addr))
-	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Go address.
+	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Golang address.
 }
 func munmap_trampoline()
 
@@ -282,7 +282,7 @@ func munmap_trampoline()
 //golang:cgolang_unsafe_args
 func madvise(addr unsafe.Pointer, n uintptr, flags int32) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(madvise_trampoline)), unsafe.Pointer(&addr))
-	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Go address.
+	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Golang address.
 }
 func madvise_trampoline()
 
@@ -290,7 +290,7 @@ func madvise_trampoline()
 //golang:cgolang_unsafe_args
 func mlock(addr unsafe.Pointer, n uintptr) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(mlock_trampoline)), unsafe.Pointer(&addr))
-	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Go address.
+	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Golang address.
 }
 func mlock_trampoline()
 

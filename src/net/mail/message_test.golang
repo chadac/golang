@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -91,7 +91,7 @@ func TestParsing(t *testing.T) {
 			continue
 		}
 		if !headerEq(msg.Header, test.header) {
-			t.Errorf("test #%d: Incorrectly parsed message header.\nGot:\n%+v\nWant:\n%+v",
+			t.Errorf("test #%d: Incorrectly parsed message header.\nGolangt:\n%+v\nWant:\n%+v",
 				i, msg.Header, test.header)
 		}
 		body, err := io.ReadAll(msg.Body)
@@ -101,7 +101,7 @@ func TestParsing(t *testing.T) {
 		}
 		bodyStr := string(body)
 		if bodyStr != test.body {
-			t.Errorf("test #%d: Incorrectly parsed message body.\nGot:\n%+v\nWant:\n%+v",
+			t.Errorf("test #%d: Incorrectly parsed message body.\nGolangt:\n%+v\nWant:\n%+v",
 				i, bodyStr, test.body)
 		}
 	}

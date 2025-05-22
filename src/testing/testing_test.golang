@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -415,14 +415,14 @@ func TestTesting(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping building a binary in short mode")
 	}
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	fn := filepath.Join(t.TempDir(), "x.golang")
 	if err := os.WriteFile(fn, []byte(testingProg), 0644); err != nil {
 		t.Fatal(err)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "run", fn)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "run", fn)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("%v failed: %v\n%s", cmd, err, out)

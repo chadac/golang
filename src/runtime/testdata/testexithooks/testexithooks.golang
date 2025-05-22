@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ func main() {
 	case "simple":
 		testSimple()
 	case "golangodexit":
-		testGoodExit()
+		testGolangodExit()
 	case "badexit":
 		testBadExit()
 	case "panics":
@@ -42,7 +42,7 @@ func testSimple() {
 	// no explicit call to os.Exit
 }
 
-func testGoodExit() {
+func testGolangodExit() {
 	f1 := func() { println("apple") }
 	f2 := func() { println("orange") }
 	exithook.Add(exithook.Hook{F: f1})

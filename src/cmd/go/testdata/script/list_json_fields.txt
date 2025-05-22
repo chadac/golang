@@ -18,7 +18,7 @@ golang list -json=Name
 cmp stdout want-json-name.txt
 
 # Test -json=<field> with multiple fields.
-golang list -json=ImportPath,Name,GoFiles,Imports
+golang list -json=ImportPath,Name,GolangFiles,Imports
 cmp stdout want-json-multiple.txt
 
 # Test -json=<field> with Deps outputs the Deps field.
@@ -75,7 +75,7 @@ example.com/a
 {
 	"ImportPath": "example.com/a",
 	"Name": "a",
-	"GoFiles": [
+	"GolangFiles": [
 		"a.golang"
 	],
 	"Imports": [

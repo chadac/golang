@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -196,7 +196,7 @@ for common types, as well as the function [Any] for constructing Attrs of any
 type.
 
 The value part of an Attr is a type called [Value].
-Like an [any], a Value can hold any Go value,
+Like an [any], a Value can hold any Golang value,
 but it can represent typical values, including all numbers and strings,
 without an allocation.
 

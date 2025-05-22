@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -398,7 +398,7 @@ func upperCaseAndUnderscore(r rune) rune {
 		return '_'
 	case r == '=':
 		// Maybe not part of the CGI 'spec' but would mess up
-		// the environment in any case, as Go represents the
+		// the environment in any case, as Golang represents the
 		// environment as a slice of "key=value" strings.
 		return '_'
 	}

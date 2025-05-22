@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -22,8 +22,8 @@ clean                   deletes all built files
 env [-p]                print environment (-p: include $PATH)
 install [dir]           install individual directory
 list [-json] [-broken]  list all supported platforms
-test [-h]               run Go test(s)
-version                 print Go version
+test [-h]               run Golang test(s)
+version                 print Golang version
 
 All commands take -v flags to emit extra information.
 `)

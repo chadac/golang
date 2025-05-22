@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@ import (
 	"unsafe"
 )
 
-// cbs stores all registered Go callbacks.
+// cbs stores all registered Golang callbacks.
 var cbs struct {
 	lock  mutex // use cbsLock / cbsUnlock for race instrumentation.
 	ctxt  [cb_max]winCallback
@@ -36,9 +36,9 @@ func cbsUnlock() {
 	unlock(&cbs.lock)
 }
 
-// winCallback records information about a registered Go callback.
+// winCallback records information about a registered Golang callback.
 type winCallback struct {
-	fn     *funcval // Go function
+	fn     *funcval // Golang function
 	retPop uintptr  // For 386 cdecl, how many bytes to pop on return
 	abiMap abiDesc
 }
@@ -72,7 +72,7 @@ func (a *abiPart) tryMerge(b abiPart) bool {
 	return false
 }
 
-// abiDesc specifies how to translate from a C frame to a Go
+// abiDesc specifies how to translate from a C frame to a Golang
 // frame. This does not specify how to translate back because
 // the result is always a uintptr. If the C ABI is fastcall,
 // this assumes the four fastcall registers were first spilled
@@ -81,11 +81,11 @@ type abiDesc struct {
 	parts []abiPart
 
 	srcStackSize uintptr // stdcall/fastcall stack space tracking
-	dstStackSize uintptr // Go stack space used
+	dstStackSize uintptr // Golang stack space used
 	dstSpill     uintptr // Extra stack space for argument spill slots
-	dstRegisters int     // Go ABI int argument registers used
+	dstRegisters int     // Golang ABI int argument registers used
 
-	// retOffset is the offset of the uintptr-sized result in the Go
+	// retOffset is the offset of the uintptr-sized result in the Golang
 	// frame.
 	retOffset uintptr
 }
@@ -115,7 +115,7 @@ func (p *abiDesc) assignArg(t *_type) {
 	}
 
 	if t.Size_ == 0 {
-		// The Go ABI aligns for zero-sized types.
+		// The Golang ABI aligns for zero-sized types.
 		p.dstStackSize = alignUp(p.dstStackSize, uintptr(t.Align_))
 		return
 	}
@@ -141,11 +141,11 @@ func (p *abiDesc) assignArg(t *_type) {
 		// Undo the work and stack assign.
 		p.parts = oldParts
 
-		// The Go ABI aligns arguments.
+		// The Golang ABI aligns arguments.
 		p.dstStackSize = alignUp(p.dstStackSize, uintptr(t.Align_))
 
 		// Copy just the size of the argument. Note that this
-		// could be a small by-value struct, but C and Go
+		// could be a small by-value struct, but C and Golang
 		// struct layouts are compatible, so we can copy these
 		// directly, too.
 		part := abiPart{
@@ -158,7 +158,7 @@ func (p *abiDesc) assignArg(t *_type) {
 		if len(p.parts) == 0 || !p.parts[len(p.parts)-1].tryMerge(part) {
 			p.parts = append(p.parts, part)
 		}
-		// The Go ABI packs arguments.
+		// The Golang ABI packs arguments.
 		p.dstStackSize += t.Size_
 	}
 
@@ -255,7 +255,7 @@ func callbackasmAddr(i int) uintptr {
 
 const callbackMaxFrame = 64 * golangarch.PtrSize
 
-// compileCallback converts a Go function fn into a C function pointer
+// compileCallback converts a Golang function fn into a C function pointer
 // that can be passed to Windows APIs.
 //
 // On 386, if cdecl is true, the returned C function will use the
@@ -279,7 +279,7 @@ func compileCallback(fn eface, cdecl bool) (code uintptr) {
 	for _, t := range ft.InSlice() {
 		abiMap.assignArg(t)
 	}
-	// The Go ABI aligns the result to the word size. src is
+	// The Golang ABI aligns the result to the word size. src is
 	// already aligned.
 	abiMap.dstStackSize = alignUp(abiMap.dstStackSize, golangarch.PtrSize)
 	abiMap.retOffset = abiMap.dstStackSize
@@ -370,7 +370,7 @@ func callbackWrap(a *callbackArgs) {
 	c := cbs.ctxt[a.index]
 	a.retPop = c.retPop
 
-	// Convert from C to Go ABI.
+	// Convert from C to Golang ABI.
 	var regs abi.RegArgs
 	var frame [callbackMaxFrame]byte
 	golangArgs := unsafe.Pointer(&frame)
@@ -511,7 +511,7 @@ func syscall_syscalln(fn, n uintptr, args ...uintptr) (r1, r2, err uintptr) {
 
 	// The cgolangcall parameters are stored in m instead of in
 	// the stack because the stack can move during fn if it
-	// calls back into Go.
+	// calls back into Golang.
 	c := &getg().m.winsyscall
 	c.fn = fn
 	c.n = n

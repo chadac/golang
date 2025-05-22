@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,7 +18,7 @@ callback(void *f)
 }
 
 void
-callGoFoo(void)
+callGolangFoo(void)
 {
 	extern void golangFoo(void);
 	golangFoo();
@@ -27,7 +27,7 @@ callGoFoo(void)
 void
 IntoC(void)
 {
-	BackIntoGo();
+	BackIntoGolang();
 }
 
 void
@@ -37,7 +37,7 @@ Issue1560InC(void)
 }
 
 void
-callGoStackCheck(void)
+callGolangStackCheck(void)
 {
 	extern void golangStackCheck(void);
 	golangStackCheck();
@@ -52,16 +52,16 @@ returnAfterGrow(void)
 }
 
 int
-returnAfterGrowFromGo(void)
+returnAfterGrowFromGolang(void)
 {
 	extern int golangReturnVal(void);
 	return golangReturnVal();
 }
 
 void
-callGoWithString(void)
+callGolangWithString(void)
 {
-	extern void golangWithString(GoString);
-	const char *str = "string passed from C to Go";
-	golangWithString((GoString){str, strlen(str)});
+	extern void golangWithString(GolangString);
+	const char *str = "string passed from C to Golang";
+	golangWithString((GolangString){str, strlen(str)});
 }

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,7 +29,7 @@ import (
 // See issue 39021 and https://sourceware.org/bugzilla/show_bug.cgi?id=26056.
 
 func checkGdbEnvironment(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	switch runtime.GOOS {
 	case "darwin":
 		t.Skip("gdb does not work on darwin")
@@ -73,7 +73,7 @@ func checkGdbVersion(t *testing.T) {
 	if err1 != nil || err2 != nil {
 		t.Skipf("skipping: can't determine gdb version: %v, %v", err1, err2)
 	}
-	// The Go toolchain now generates DWARF 5 by default, which needs
+	// The Golang toolchain now generates DWARF 5 by default, which needs
 	// a GDB version of 10 or above.
 	if major < 10 {
 		t.Skipf("skipping: gdb version %d.%d too old", major, minor)
@@ -268,7 +268,7 @@ func testGdbPython(t *testing.T, cgolang bool) {
 	}
 	nLines := lastLine(src)
 
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "a.exe", "main.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", "a.exe", "main.golang")
 	cmd.Dir = dir
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
@@ -351,8 +351,8 @@ func testGdbPython(t *testing.T, cgolang bool) {
 		blocks[string(subs[1])] = string(subs[2])
 	}
 
-	infoGoroutinesRe := regexp.MustCompile(`\*\s+\d+\s+running\s+`)
-	if bl := blocks["info golangroutines"]; !infoGoroutinesRe.MatchString(bl) {
+	infoGolangroutinesRe := regexp.MustCompile(`\*\s+\d+\s+running\s+`)
+	if bl := blocks["info golangroutines"]; !infoGolangroutinesRe.MatchString(bl) {
 		t.Fatalf("info golangroutines failed: %s", bl)
 	}
 
@@ -412,17 +412,17 @@ func testGdbPython(t *testing.T, cgolang bool) {
 	checkCleanBacktrace(t, blocks["golangroutine 1 bt"])
 	checkCleanBacktrace(t, blocks["golangroutine 1 bt at the end"])
 
-	btGoroutine1Re := regexp.MustCompile(`(?m)^#0\s+(0x[0-9a-f]+\s+in\s+)?main\.main.+at`)
-	if bl := blocks["golangroutine 1 bt"]; !btGoroutine1Re.MatchString(bl) {
+	btGolangroutine1Re := regexp.MustCompile(`(?m)^#0\s+(0x[0-9a-f]+\s+in\s+)?main\.main.+at`)
+	if bl := blocks["golangroutine 1 bt"]; !btGolangroutine1Re.MatchString(bl) {
 		t.Fatalf("golangroutine 1 bt failed: %s", bl)
 	}
 
-	if bl := blocks["golangroutine all bt"]; !btGoroutine1Re.MatchString(bl) {
+	if bl := blocks["golangroutine all bt"]; !btGolangroutine1Re.MatchString(bl) {
 		t.Fatalf("golangroutine all bt failed: %s", bl)
 	}
 
-	btGoroutine1AtTheEndRe := regexp.MustCompile(`(?m)^#0\s+(0x[0-9a-f]+\s+in\s+)?main\.main.+at`)
-	if bl := blocks["golangroutine 1 bt at the end"]; !btGoroutine1AtTheEndRe.MatchString(bl) {
+	btGolangroutine1AtTheEndRe := regexp.MustCompile(`(?m)^#0\s+(0x[0-9a-f]+\s+in\s+)?main\.main.+at`)
+	if bl := blocks["golangroutine 1 bt at the end"]; !btGolangroutine1AtTheEndRe.MatchString(bl) {
 		t.Fatalf("golangroutine 1 bt at the end failed: %s", bl)
 	}
 }
@@ -481,7 +481,7 @@ func TestGdbBacktrace(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "a.exe", "main.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", "a.exe", "main.golang")
 	cmd.Dir = dir
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
@@ -503,7 +503,7 @@ func TestGdbBacktrace(t *testing.T) {
 	cmd = testenv.Command(t, "gdb", args...)
 
 	// Work around the GDB hang reported in https://golang.dev/issue/37405.
-	// Sometimes (rarely), the GDB process hangs completely when the Go program
+	// Sometimes (rarely), the GDB process hangs completely when the Golang program
 	// exits, and we suspect that the bug is on the GDB side.
 	//
 	// The default Cancel function added by testenv.Command will mark the test as
@@ -600,7 +600,7 @@ func TestGdbAutotmpTypes(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-gcflags=all=-N -l", "-o", "a.exe", "main.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-gcflags=all=-N -l", "-o", "a.exe", "main.golang")
 	cmd.Dir = dir
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
@@ -682,7 +682,7 @@ func TestGdbConst(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-gcflags=all=-N -l", "-o", "a.exe", "main.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-gcflags=all=-N -l", "-o", "a.exe", "main.golang")
 	cmd.Dir = dir
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
@@ -732,7 +732,7 @@ func crash() {
 `
 
 // TestGdbPanic tests that gdb can unwind the stack correctly
-// from SIGABRTs from Go panics.
+// from SIGABRTs from Golang panics.
 func TestGdbPanic(t *testing.T) {
 	checkGdbEnvironment(t)
 	t.Parallel()
@@ -751,7 +751,7 @@ func TestGdbPanic(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "a.exe", "main.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", "a.exe", "main.golang")
 	cmd.Dir = dir
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
@@ -827,7 +827,7 @@ func TestGdbInfCallstack(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "a.exe", "main.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", "a.exe", "main.golang")
 	cmd.Dir = dir
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {

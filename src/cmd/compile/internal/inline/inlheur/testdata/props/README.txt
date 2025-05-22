@@ -1,11 +1,11 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 Notes on the format of the testcase files in
 cmd/compile/internal/inline/inlheur/testdata/props:
 
-- each (compilable) file contains input Go code and expected results
+- each (compilable) file contains input Golang code and expected results
   in the form of column-0 comments.
 
 - functions or methods that begin with "T_" are targeted for testing,
@@ -42,7 +42,7 @@ cmd/compile/internal/inline/inlheur/testdata/props:
 		println(x)
 	}
 
-- when the test runs, it will compile the Go source file with an
+- when the test runs, it will compile the Golang source file with an
   option to dump out function properties, then compare the new dump
   for each function with the JSON appearing in the header comment for
   the function (in the example above, the JSON appears between

@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -38,11 +38,11 @@ var cfgChangedEnv []string
 
 func makeCfgChangedEnv() []string {
 	var env []string
-	if cfg.Getenv("GOOS") != cfg.Goos {
-		env = append(env, "GOOS="+cfg.Goos)
+	if cfg.Getenv("GOOS") != cfg.Golangos {
+		env = append(env, "GOOS="+cfg.Golangos)
 	}
-	if cfg.Getenv("GOARCH") != cfg.Goarch {
-		env = append(env, "GOARCH="+cfg.Goarch)
+	if cfg.Getenv("GOARCH") != cfg.Golangarch {
+		env = append(env, "GOARCH="+cfg.Golangarch)
 	}
 	if archenv, val, changed := cfg.GetArchEnv(); changed {
 		env = append(env, archenv+"="+val)
@@ -122,7 +122,7 @@ func BuildInit() {
 // instrumentation is added. 'golang test -fuzz' still works without coverage,
 // but it generates random inputs without guidance, so it's much less effective.
 func fuzzInstrumentFlags() []string {
-	if !platform.FuzzInstrumented(cfg.Goos, cfg.Goarch) {
+	if !platform.FuzzInstrumented(cfg.Golangos, cfg.Golangarch) {
 		return nil
 	}
 	return []string{"-d=libfuzzer"}
@@ -147,18 +147,18 @@ func instrumentInit() {
 		base.SetExitStatus(2)
 		base.Exit()
 	}
-	if cfg.BuildMSan && !platform.MSanSupported(cfg.Goos, cfg.Goarch) {
-		fmt.Fprintf(os.Stderr, "-msan is not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
+	if cfg.BuildMSan && !platform.MSanSupported(cfg.Golangos, cfg.Golangarch) {
+		fmt.Fprintf(os.Stderr, "-msan is not supported on %s/%s\n", cfg.Golangos, cfg.Golangarch)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
-	if cfg.BuildRace && !platform.RaceDetectorSupported(cfg.Goos, cfg.Goarch) {
-		fmt.Fprintf(os.Stderr, "-race is not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
+	if cfg.BuildRace && !platform.RaceDetectorSupported(cfg.Golangos, cfg.Golangarch) {
+		fmt.Fprintf(os.Stderr, "-race is not supported on %s/%s\n", cfg.Golangos, cfg.Golangarch)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
-	if cfg.BuildASan && !platform.ASanSupported(cfg.Goos, cfg.Goarch) {
-		fmt.Fprintf(os.Stderr, "-asan is not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
+	if cfg.BuildASan && !platform.ASanSupported(cfg.Golangos, cfg.Golangarch) {
+		fmt.Fprintf(os.Stderr, "-asan is not supported on %s/%s\n", cfg.Golangos, cfg.Golangarch)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
@@ -180,7 +180,7 @@ func instrumentInit() {
 		mode = "msan"
 		// MSAN needs PIE on all platforms except linux/amd64.
 		// https://github.com/llvm/llvm-project/blob/llvmorg-13.0.1/clang/lib/Driver/SanitizerArgs.cpp#L621
-		if cfg.BuildBuildmode == "default" && (cfg.Goos != "linux" || cfg.Goarch != "amd64") {
+		if cfg.BuildBuildmode == "default" && (cfg.Golangos != "linux" || cfg.Golangarch != "amd64") {
 			cfg.BuildBuildmode = "pie"
 		}
 	}
@@ -191,8 +191,8 @@ func instrumentInit() {
 
 	// Check that cgolang is enabled.
 	// Note: On macOS, -race does not require cgolang. -asan and -msan still do.
-	if !cfg.BuildContext.CgolangEnabled && (cfg.Goos != "darwin" || cfg.BuildASan || cfg.BuildMSan) {
-		if runtime.GOOS != cfg.Goos || runtime.GOARCH != cfg.Goarch {
+	if !cfg.BuildContext.CgolangEnabled && (cfg.Golangos != "darwin" || cfg.BuildASan || cfg.BuildMSan) {
+		if runtime.GOOS != cfg.Golangos || runtime.GOARCH != cfg.Golangarch {
 			fmt.Fprintf(os.Stderr, "golang: %s requires cgolang\n", modeFlag)
 		} else {
 			fmt.Fprintf(os.Stderr, "golang: %s requires cgolang; enable cgolang by setting CGO_ENABLED=1\n", modeFlag)
@@ -227,9 +227,9 @@ func buildModeInit() {
 		if gccgolang {
 			codegenArg = "-fPIC"
 		} else {
-			switch cfg.Goos {
+			switch cfg.Golangos {
 			case "darwin", "ios":
-				switch cfg.Goarch {
+				switch cfg.Golangarch {
 				case "arm64":
 					codegenArg = "-shared"
 				}
@@ -248,7 +248,7 @@ func buildModeInit() {
 		if gccgolang {
 			codegenArg = "-fPIC"
 		} else {
-			switch cfg.Goos {
+			switch cfg.Golangos {
 			case "linux", "android", "freebsd":
 				codegenArg = "-shared"
 			case "windows":
@@ -259,9 +259,9 @@ func buildModeInit() {
 		ldBuildmode = "c-shared"
 	case "default":
 		ldBuildmode = "exe"
-		if platform.DefaultPIE(cfg.Goos, cfg.Goarch, cfg.BuildRace) {
+		if platform.DefaultPIE(cfg.Golangos, cfg.Golangarch, cfg.BuildRace) {
 			ldBuildmode = "pie"
-			if cfg.Goos != "windows" && !gccgolang {
+			if cfg.Golangos != "windows" && !gccgolang {
 				codegenArg = "-shared"
 			}
 		}
@@ -275,13 +275,13 @@ func buildModeInit() {
 			pkgsFilter = oneMainPkg
 		}
 	case "pie":
-		if cfg.BuildRace && !platform.DefaultPIE(cfg.Goos, cfg.Goarch, cfg.BuildRace) {
-			base.Fatalf("-buildmode=pie not supported when -race is enabled on %s/%s", cfg.Goos, cfg.Goarch)
+		if cfg.BuildRace && !platform.DefaultPIE(cfg.Golangos, cfg.Golangarch, cfg.BuildRace) {
+			base.Fatalf("-buildmode=pie not supported when -race is enabled on %s/%s", cfg.Golangos, cfg.Golangarch)
 		}
 		if gccgolang {
 			codegenArg = "-fPIE"
 		} else {
-			switch cfg.Goos {
+			switch cfg.Golangos {
 			case "aix", "windows":
 			default:
 				codegenArg = "-shared"
@@ -312,13 +312,13 @@ func buildModeInit() {
 		base.Fatalf("buildmode=%s not supported", cfg.BuildBuildmode)
 	}
 
-	if cfg.BuildBuildmode != "default" && !platform.BuildModeSupported(cfg.BuildToolchainName, cfg.BuildBuildmode, cfg.Goos, cfg.Goarch) {
-		base.Fatalf("-buildmode=%s not supported on %s/%s\n", cfg.BuildBuildmode, cfg.Goos, cfg.Goarch)
+	if cfg.BuildBuildmode != "default" && !platform.BuildModeSupported(cfg.BuildToolchainName, cfg.BuildBuildmode, cfg.Golangos, cfg.Golangarch) {
+		base.Fatalf("-buildmode=%s not supported on %s/%s\n", cfg.BuildBuildmode, cfg.Golangos, cfg.Golangarch)
 	}
 
 	if cfg.BuildLinkshared {
-		if !platform.BuildModeSupported(cfg.BuildToolchainName, "shared", cfg.Goos, cfg.Goarch) {
-			base.Fatalf("-linkshared not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
+		if !platform.BuildModeSupported(cfg.BuildToolchainName, "shared", cfg.Golangos, cfg.Golangarch) {
+			base.Fatalf("-linkshared not supported on %s/%s\n", cfg.Golangos, cfg.Golangarch)
 		}
 		if gccgolang {
 			codegenArg = "-fPIC"

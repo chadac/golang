@@ -59,8 +59,8 @@ func After (d <type 1 "Duration" <type -4>
  func (t <type 3>) UnixNano () <type -4>;
  func (t <type 3>) MarshalBinary () (? <type 22 [] <type -20>>, ? <type -19>);
  func (t <type 23 *<type 3>>) UnmarshalBinary (data <type 24 [] <type -20>>) <type -19>;
- func (t <type 3>) GobEncode () (? <type 25 [] <type -20>>, ? <type -19>);
- func (t <type 23>) GobDecode (data <type 26 [] <type -20>>) <type -19>;
+ func (t <type 3>) GolangbEncode () (? <type 25 [] <type -20>>, ? <type -19>);
+ func (t <type 23>) GolangbDecode (data <type 26 [] <type -20>>) <type -19>;
  func (t <type 3>) MarshalJSON () (? <type 27 [] <type -20>>, ? <type -19>);
  func (t <type 23>) UnmarshalJSON (data <type 28 [] <type -20>>) <type -19>;
  func (t <type 3>) MarshalText () (? <type 29 [] <type -20>>, ? <type -19>);

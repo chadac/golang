@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,7 +23,7 @@ import (
 // Check that 64-bit fields on which we apply atomic operations
 // are aligned to 8 bytes. This can be a problem on 32-bit systems.
 func TestAtomicAlignment(t *testing.T) {
-	testenv.MustHaveGoBuild(t) // golang command needed to resolve std .a files for importer.Default().
+	testenv.MustHaveGolangBuild(t) // golang command needed to resolve std .a files for importer.Default().
 
 	// Read the code making the tables above, to see which fields and
 	// variables we are currently checking.
@@ -196,5 +196,5 @@ func buildableFiles(t *testing.T, dir string) []string {
 	if err != nil {
 		t.Fatalf("can't find buildable files: %v", err)
 	}
-	return pkg.GoFiles
+	return pkg.GolangFiles
 }

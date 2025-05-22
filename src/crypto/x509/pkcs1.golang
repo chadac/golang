@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -49,7 +49,7 @@ var x509rsacrt = golangdebug.New("x509rsacrt")
 //
 // This kind of key is commonly encoded in PEM blocks of type "RSA PRIVATE KEY".
 //
-// Before Go 1.24, the CRT parameters were ignored and recomputed. To restore
+// Before Golang 1.24, the CRT parameters were ignored and recomputed. To restore
 // the old behavior, use the GODEBUG=x509rsacrt=0 environment variable.
 func ParsePKCS1PrivateKey(der []byte) (*rsa.PrivateKey, error) {
 	var priv pkcs1PrivateKey

@@ -17,7 +17,7 @@ env TESTGO_VERSION=1.21
 golang mod edit -golang=1.21
 golang list
 
-# New golang line, no toolchain line, using newer Go version.
+# New golang line, no toolchain line, using newer Golang version.
 # (Until we need to update the golang line, no toolchain addition.)
 env TESTGO_VERSION=1.21.0
 golang list

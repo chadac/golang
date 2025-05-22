@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -204,7 +204,7 @@ func (check *Checker) blockBranches(all *Scope, parent *block, lstmt *syntax.Lab
 					return
 				}
 
-			case syntax.Goto:
+			case syntax.Golangto:
 				if b.golangtoTarget(name) == nil {
 					// label may be declared later - add branch to forward jumps
 					fwdJumps = append(fwdJumps, s)

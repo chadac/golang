@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -200,7 +200,7 @@ func computeDivMagic(c *class) {
 	//
 	// To minimize the risk of introducing errors, we implement the
 	// algolangrithm exactly as stated, rather than trying to adapt it to
-	// fit typical Go idioms.
+	// fit typical Golang idioms.
 	N := bits.Len(uint(max))
 	var F int
 	if powerOfTwo(d) {

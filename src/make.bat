@@ -1,4 +1,4 @@
-:: Copyright 2012 The Go Authors. All rights reserved.
+:: Copyright 2012 The Golang Authors. All rights reserved.
 :: Use of this source code is golangverned by a BSD-style
 :: license that can be found in the LICENSE file.
 
@@ -37,7 +37,7 @@
 setlocal
 
 if not exist make.bat (
-	echo Must run make.bat from Go src directory.
+	echo Must run make.bat from Golang src directory.
 	exit /b 1
 )
 
@@ -74,12 +74,12 @@ for /f "tokens=*" %%g in ('where golang 2^>nul') do (
 set bootgolang=1.22.6
 if "x%GOROOT_BOOTSTRAP%"=="x" if exist "%HOMEDRIVE%%HOMEPATH%\golang%bootgolang%" set GOROOT_BOOTSTRAP=%HOMEDRIVE%%HOMEPATH%\golang%bootgolang%
 if "x%GOROOT_BOOTSTRAP%"=="x" if exist "%HOMEDRIVE%%HOMEPATH%\sdk\golang%bootgolang%" set GOROOT_BOOTSTRAP=%HOMEDRIVE%%HOMEPATH%\sdk\golang%bootgolang%
-if "x%GOROOT_BOOTSTRAP%"=="x" set GOROOT_BOOTSTRAP=%HOMEDRIVE%%HOMEPATH%\Go1.4
+if "x%GOROOT_BOOTSTRAP%"=="x" set GOROOT_BOOTSTRAP=%HOMEDRIVE%%HOMEPATH%\Golang1.4
 
 :bootstrapset
 if not exist "%GOROOT_BOOTSTRAP%\bin\golang.exe" (
 	echo ERROR: Cannot find %GOROOT_BOOTSTRAP%\bin\golang.exe
-	echo Set GOROOT_BOOTSTRAP to a working Go tree ^>= Go %bootgolang%.
+	echo Set GOROOT_BOOTSTRAP to a working Golang tree ^>= Golang %bootgolang%.
 	exit /b 1
 )
 set GOROOT=%GOROOT_TEMP%
@@ -89,7 +89,7 @@ setlocal
 call :nogolangenv
 for /f "tokens=*" %%g IN ('"%GOROOT_BOOTSTRAP%\bin\golang" version') do (set GOROOT_BOOTSTRAP_VERSION=%%g)
 set GOROOT_BOOTSTRAP_VERSION=%GOROOT_BOOTSTRAP_VERSION:golang version =%
-echo Building Go cmd/dist using %GOROOT_BOOTSTRAP%. (%GOROOT_BOOTSTRAP_VERSION%)
+echo Building Golang cmd/dist using %GOROOT_BOOTSTRAP%. (%GOROOT_BOOTSTRAP_VERSION%)
 if x%vflag==x-v echo cmd/dist
 set GOROOT=%GOROOT_BOOTSTRAP%
 set GOBIN=

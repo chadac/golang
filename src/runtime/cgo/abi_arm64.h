@@ -1,8 +1,8 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Macros for transitioning from the host ABI to Go ABI0.
+// Macros for transitioning from the host ABI to Golang ABI0.
 //
 // These macros save and restore the callee-saved registers
 // from the stack, but they don't adjust stack pointer, so
@@ -13,7 +13,7 @@
 // SAVE_F8_TO_F15(offset) saves F8 ~ F15 to the stack space
 // of ((offset)+0*8)(RSP) ~ ((offset)+7*8)(RSP).
 //
-// R29 is not saved because Go will save and restore it.
+// R29 is not saved because Golang will save and restore it.
 
 #define SAVE_R19_TO_R28(offset) \
 	STP	(R19, R20), ((offset)+0*8)(RSP) \

@@ -16,7 +16,7 @@ git tag 'v2.0.0+incompatible'
 at 2022-02-23T13:48:35-05:00
 git rm -r README.txt
 git add golang.mod
-git commit -m 'migrate to Go modules'
+git commit -m 'migrate to Golang modules'
 git tag 'v0.1.0+build-metadata'
 
 at 2022-02-23T14:41:55-05:00

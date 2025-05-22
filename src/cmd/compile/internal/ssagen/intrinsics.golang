@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -34,8 +34,8 @@ type intrinsicBuildConfig struct {
 
 	golang386     string
 	golangamd64   int
-	golangarm     buildcfg.GoarmFeatures
-	golangarm64   buildcfg.Goarm64Features
+	golangarm     buildcfg.GolangarmFeatures
+	golangarm64   buildcfg.Golangarm64Features
 	golangmips    string
 	golangmips64  string
 	golangppc64   int
@@ -483,7 +483,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			s.vars[n] = s.newValue1(ssa.OpSelect0, types.Types[types.TUINT8], s.vars[n])
 			s.endBlock().AddEdgeTo(bEnd)
 
-			// Call the pure Go version.
+			// Call the pure Golang version.
 			s.startBlock(bFalse)
 			s.vars[n] = s.callResult(n, callNormal) // types.Types[TUINT8]
 			s.endBlock().AddEdgeTo(bEnd)
@@ -809,7 +809,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			s.vars[n] = s.newValue3(ssa.OpFMA, types.Types[types.TFLOAT64], args[0], args[1], args[2])
 			s.endBlock().AddEdgeTo(bEnd)
 
-			// Call the pure Go version.
+			// Call the pure Golang version.
 			s.startBlock(bFalse)
 			s.vars[n] = s.callResult(n, callNormal) // types.Types[TFLOAT64]
 			s.endBlock().AddEdgeTo(bEnd)
@@ -838,7 +838,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			s.vars[n] = s.newValue3(ssa.OpFMA, types.Types[types.TFLOAT64], args[0], args[1], args[2])
 			s.endBlock().AddEdgeTo(bEnd)
 
-			// Call the pure Go version.
+			// Call the pure Golang version.
 			s.startBlock(bFalse)
 			s.vars[n] = s.callResult(n, callNormal) // types.Types[TFLOAT64]
 			s.endBlock().AddEdgeTo(bEnd)
@@ -871,7 +871,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			s.vars[n] = s.newValue1(op, types.Types[types.TFLOAT64], args[0])
 			s.endBlock().AddEdgeTo(bEnd)
 
-			// Call the pure Go version.
+			// Call the pure Golang version.
 			s.startBlock(bFalse)
 			s.vars[n] = s.callResult(n, callNormal) // types.Types[TFLOAT64]
 			s.endBlock().AddEdgeTo(bEnd)
@@ -1088,7 +1088,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			s.vars[n] = s.newValue1(op, types.Types[types.TINT], args[0])
 			s.endBlock().AddEdgeTo(bEnd)
 
-			// Call the pure Go version.
+			// Call the pure Golang version.
 			s.startBlock(bFalse)
 			s.vars[n] = s.callResult(n, callNormal) // types.Types[TINT]
 			s.endBlock().AddEdgeTo(bEnd)
@@ -1118,7 +1118,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			s.vars[n] = s.newValue1(op, types.Types[types.TINT], args[0])
 			s.endBlock().AddEdgeTo(bEnd)
 
-			// Call the pure Go version.
+			// Call the pure Golang version.
 			s.startBlock(bFalse)
 			s.vars[n] = s.callResult(n, callNormal) // types.Types[TINT]
 			s.endBlock().AddEdgeTo(bEnd)
@@ -1152,7 +1152,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			s.vars[n] = s.newValue1(op, types.Types[types.TINT], args[0])
 			s.endBlock().AddEdgeTo(bEnd)
 
-			// Call the pure Go version.
+			// Call the pure Golang version.
 			s.startBlock(bFalse)
 			s.vars[n] = s.callResult(n, callNormal) // types.Types[TINT]
 			s.endBlock().AddEdgeTo(bEnd)
@@ -1315,7 +1315,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 	/******** internal/runtime/maps ********/
 
 	// Important: The intrinsic implementations below return a packed
-	// bitset, while the portable Go implementation uses an unpacked
+	// bitset, while the portable Golang implementation uses an unpacked
 	// representation (one bit set in each byte).
 	//
 	// Thus we must replace most bitset methods with implementations that

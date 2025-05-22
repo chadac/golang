@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -58,11 +58,11 @@ import (
 // can't re-associate with that right away, because event ports
 // are level triggered so it would cause a busy loop. Instead, that
 // association is effected only by the runtime·netpollarm code path,
-// when Go code actually asks for I/O.
+// when Golang code actually asks for I/O.
 //
 // The open and arming mechanisms are serialized using the lock
 // inside PollDesc. This is required because the netpoll loop runs
-// asynchronously in respect to other Go code and by the time we get
+// asynchronously in respect to other Golang code and by the time we get
 // to call port_associate to update the association in the loop, the
 // file descriptor might have been closed and reopened already. The
 // lock allows runtime·netpollupdate to be called synchronously from

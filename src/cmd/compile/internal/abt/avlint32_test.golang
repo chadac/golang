@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -150,11 +150,11 @@ func applicBounds(te *testing.T, x []int32) {
 	fmax := t.Find(max + 1)
 
 	if kg != NOT_KEY32 || kge != NOT_KEY32 || kl != NOT_KEY32 || kle != NOT_KEY32 {
-		te.Errorf("Got non-error-key for missing query")
+		te.Errorf("Golangt non-error-key for missing query")
 	}
 
 	if g != nil || ge != nil || l != nil || le != nil || fmin != nil || fmax != nil {
-		te.Errorf("Got non-error-data for missing query")
+		te.Errorf("Golangt non-error-data for missing query")
 	}
 }
 

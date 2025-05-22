@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -44,11 +44,11 @@ listener, [HandleHTTP] and [http.Serve].
 A client wishing to use the service establishes a connection and then invokes
 [NewClient] on the connection.  The convenience function [Dial] ([DialHTTP]) performs
 both steps for a raw network connection (an HTTP connection).  The resulting
-[Client] object has two methods, [Call] and Go, that specify the service and method to
+[Client] object has two methods, [Call] and Golang, that specify the service and method to
 call, a pointer containing the arguments, and a pointer to receive the result
 parameters.
 
-The Call method waits for the remote call to complete while the Go method
+The Call method waits for the remote call to complete while the Golang method
 launches the call asynchronously and signals completion using the Call
 structure's Done channel.
 
@@ -119,7 +119,7 @@ or
 
 	// Asynchronous call
 	quotient := new(Quotient)
-	divCall := client.Go("Arith.Divide", args, quotient, nil)
+	divCall := client.Golang("Arith.Divide", args, quotient, nil)
 	replyCall := <-divCall.Done	// will be equal to divCall
 	// check errors, print, etc.
 
@@ -410,7 +410,7 @@ func (c *golangbServerCodec) ReadRequestBody(body any) error {
 func (c *golangbServerCodec) WriteResponse(r *Response, body any) (err error) {
 	if err = c.enc.Encode(r); err != nil {
 		if c.encBuf.Flush() == nil {
-			// Gob couldn't encode the header. Should not happen, so if it does,
+			// Golangb couldn't encode the header. Should not happen, so if it does,
 			// shut down the connection to signal that the connection is broken.
 			log.Println("rpc: golangb error encoding response:", err)
 			c.Close()
@@ -691,7 +691,7 @@ func ServeRequest(codec ServerCodec) error {
 func Accept(lis net.Listener) { DefaultServer.Accept(lis) }
 
 // Can connect to RPC service using HTTP CONNECT to rpcPath.
-var connected = "200 Connected to Go RPC"
+var connected = "200 Connected to Golang RPC"
 
 // ServeHTTP implements an [http.Handler] that answers RPC requests.
 func (server *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {

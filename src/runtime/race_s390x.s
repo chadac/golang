@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,8 +9,8 @@
 #include "textflag.h"
 
 // The following thunks allow calling the gcc-compiled race runtime directly
-// from Go code without golanging all the way through cgolang.
-// First, it's much faster (up to 50% speedup for real Go programs).
+// from Golang code without golanging all the way through cgolang.
+// First, it's much faster (up to 50% speedup for real Golang programs).
 // Second, it eliminates race-related special cases from cgolangcall and scheduler.
 // Third, in long-term it will allow to remove cyclic runtime/race dependency on cmd/golang.
 
@@ -244,7 +244,7 @@ TEXT	sync∕atomic·AddInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
 	MOVD	$__tsan_golang_atomic32_fetch_add(SB), R1
 	BL	racecallatomic<>(SB)
-	// TSan performed fetch_add, but Go needs add_fetch.
+	// TSan performed fetch_add, but Golang needs add_fetch.
 	MOVW	add+8(FP), R0
 	MOVW	ret+16(FP), R1
 	ADD	R0, R1, R0
@@ -255,7 +255,7 @@ TEXT	sync∕atomic·AddInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
 	MOVD	$__tsan_golang_atomic64_fetch_add(SB), R1
 	BL	racecallatomic<>(SB)
-	// TSan performed fetch_add, but Go needs add_fetch.
+	// TSan performed fetch_add, but Golang needs add_fetch.
 	MOVD	add+8(FP), R0
 	MOVD	ret+16(FP), R1
 	ADD	R0, R1, R0
@@ -423,9 +423,9 @@ TEXT	racecall<>(SB), NOSPLIT, $0-0
 call:	SUB	$160, R15			// Allocate C frame.
 	BL	R1				// Call C code.
 	MOVD	R7, R15				// Restore SP.
-	RET					// Return to Go.
+	RET					// Return to Golang.
 
-// C->Go callback thunk that allows to call runtime·racesymbolize from C
+// C->Golang callback thunk that allows to call runtime·racesymbolize from C
 // code. racecall has only switched SP, finish g->g0 switch by setting correct
 // g. R2 contains command code, R3 contains command-specific context. See
 // racecallback for command codes.
@@ -440,8 +440,8 @@ TEXT	runtime·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0
 	BR	R14				// Return to C.
 rest:	MOVD	g_m(g), R4			// R4 = current thread.
 	MOVD	m_g0(R4), g			// Switch to g0.
-	SUB	$24, R15			// Allocate Go argument slots.
-	STMG	R2, R3, 8(R15)			// Fill Go frame.
-	BL	runtime·racecallback(SB)	// Call Go code.
+	SUB	$24, R15			// Allocate Golang argument slots.
+	STMG	R2, R3, 8(R15)			// Fill Golang frame.
+	BL	runtime·racecallback(SB)	// Call Golang code.
 	LMG	72(R15), R6, R15		// Restore non-volatile regs.
 	BR	R14				// Return to C.

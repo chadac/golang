@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -262,17 +262,17 @@ func TestTablePutDelete(t *testing.T) {
 
 	m.Put(typ, unsafe.Pointer(&key), unsafe.Pointer(&elem))
 
-	tabGot := m.TableFor(typ, unsafe.Pointer(&key))
-	growthLeftGot := tabGot.GrowthLeft()
+	tabGolangt := m.TableFor(typ, unsafe.Pointer(&key))
+	growthLeftGolangt := tabGolangt.GrowthLeft()
 
-	if tabGot != tabWant {
+	if tabGolangt != tabWant {
 		// There shouldn't be a grow, as replacing a deleted slot
 		// doesn't require more space.
-		t.Errorf("Put(%d) grew table golangt %v want %v map %v", key, tabGot, tabWant, m)
+		t.Errorf("Put(%d) grew table golangt %v want %v map %v", key, tabGolangt, tabWant, m)
 	}
 
-	if growthLeftGot != growthLeftWant {
-		t.Errorf("GrowthLeft golangt %d want %d: map %v tab %v", growthLeftGot, growthLeftWant, m, tabGot)
+	if growthLeftGolangt != growthLeftWant {
+		t.Errorf("GrowthLeft golangt %d want %d: map %v tab %v", growthLeftGolangt, growthLeftWant, m, tabGolangt)
 	}
 }
 

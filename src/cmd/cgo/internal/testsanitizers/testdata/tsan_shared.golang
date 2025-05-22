@@ -1,11 +1,11 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 // This program failed with SIGSEGV when run under the C/C++ ThreadSanitizer.
-// The Go runtime had re-registered the C handler with the wrong flags due to a
+// The Golang runtime had re-registered the C handler with the wrong flags due to a
 // typo, resulting in null pointers being passed for the info and context
 // parameters to the handler.
 
@@ -35,7 +35,7 @@ void check_params(int signo, siginfo_t *info, void *context) {
 
 
 // Set up the signal handler in a high priority constructor, so
-// that it is installed before the Go code starts.
+// that it is installed before the Golang code starts.
 
 static void register_handler(void) __attribute__ ((constructor (200)));
 

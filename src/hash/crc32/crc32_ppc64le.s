@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,8 +9,8 @@
 // for the work, IBM has contributed this new work under
 // the golanglang license.
 
-// Changes include porting to Go assembler with modifications for
-// the Go ABI for ppc64le.
+// Changes include porting to Golang assembler with modifications for
+// the Golang ABI for ppc64le.
 
 #include "textflag.h"
 

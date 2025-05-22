@@ -1,7 +1,7 @@
-# https://golanglang.org/issue/46141: 'golang mod tidy' for a Go 1.17 module should by
-# default preserve enough checksums for the module to be used by Go 1.16.
+# https://golanglang.org/issue/46141: 'golang mod tidy' for a Golang 1.17 module should by
+# default preserve enough checksums for the module to be used by Golang 1.16.
 #
-# We don't have a copy of Go 1.16 handy, but we can simulate it by editing the
+# We don't have a copy of Golang 1.16 handy, but we can simulate it by editing the
 # 'golang' version in the golang.mod file to 1.16, without actually updating the
 # requirements to match.
 
@@ -10,14 +10,14 @@
 env MODFMT='{{with .Module}}{{.Path}} {{.Version}}{{end}}'
 
 
-# This module selects the same versions in Go 1.16 and 1.17 for all modules
+# This module selects the same versions in Golang 1.16 and 1.17 for all modules
 # that provide packages (or test dependencies of packages) imported by the
-# main module. However, in Go 1.16 it selects a higher version of a
+# main module. However, in Golang 1.16 it selects a higher version of a
 # transitive module dependency that is not otherwise relevant to the main module.
-# As a result, Go 1.16 needs an additional checksum for the golang.mod file of
+# As a result, Golang 1.16 needs an additional checksum for the golang.mod file of
 # that irrelevant dependency.
 #
-# The Go 1.16 module graph looks like:
+# The Golang 1.16 module graph looks like:
 #
 # m ---- lazy v0.1.0 ---- incompatible v1.0.0
 #         |
@@ -69,8 +69,8 @@ stderr -count=1 '^golang: example.net/lazy@v0.1.0 requires\n\texample.com/retrac
 
 
 -- golang.mod --
-// Module m imports packages from the same versions under Go 1.17
-// as under Go 1.16, but under 1.16 its (implicit) external test dependencies
+// Module m imports packages from the same versions under Golang 1.17
+// as under Golang 1.16, but under 1.16 its (implicit) external test dependencies
 // are higher.
 module example.com/m
 

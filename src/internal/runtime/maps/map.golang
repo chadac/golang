@@ -1,8 +1,8 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package maps implements Go's builtin map type.
+// Package maps implements Golang's builtin map type.
 package maps
 
 import (
@@ -13,11 +13,11 @@ import (
 	"unsafe"
 )
 
-// This package contains the implementation of Go's builtin map type.
+// This package contains the implementation of Golang's builtin map type.
 //
 // The map design is based on Abseil's "Swiss Table" map design
 // (https://abseil.io/about/design/swisstables), with additional modifications
-// to cover Go's additional requirements, discussed below.
+// to cover Golang's additional requirements, discussed below.
 //
 // Terminology:
 // - Slot: A storage location of a single key/element pair.
@@ -131,7 +131,7 @@ import (
 //
 // Iteration
 //
-// Iteration is the most complex part of the map due to Go's generous iteration
+// Iteration is the most complex part of the map due to Golang's generous iteration
 // semantics. A summary of semantics from the spec:
 // 1. Adding and/or deleting entries during iteration MUST NOT cause iteration
 //    to return the same entry more than once.

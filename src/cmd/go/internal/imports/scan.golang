@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -91,12 +91,12 @@ Files:
 		}
 	}
 	if numFiles == 0 {
-		return nil, nil, ErrNoGo
+		return nil, nil, ErrNoGolang
 	}
 	return keys(imports), keys(testImports), nil
 }
 
-var ErrNoGo = fmt.Errorf("no Go source files")
+var ErrNoGolang = fmt.Errorf("no Golang source files")
 
 func keys(m map[string]bool) []string {
 	list := make([]string, 0, len(m))

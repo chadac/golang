@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,7 +29,7 @@ import _ "unsafe"
 // it to advertise support for 1.0 of the Vector extension. Versions 0.7.1 and 1.0 of the Vector
 // extension are binary incompatible. HWCAP can then not be used in isolation to populate the
 // HasV field as this field indicates that the underlying CPU is compatible with RVV 1.0.
-// Go will only support the ratified versions >= 1.0 and so any vector code it might generate
+// Golang will only support the ratified versions >= 1.0 and so any vector code it might generate
 // would crash on a Scaleway RV1 instance or a Lichee Pi 4a, if allowed to run.
 //
 // There is a way at runtime to distinguish between versions 0.7.1 and 1.0 of the Vector

@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@
 package scripttest
 
 // This package provides APIs for executing "script" tests; this
-// way of writing Go tests originated with the Go command, and has
+// way of writing Golang tests originated with the Golang command, and has
 // since been generalized to work with other commands, such as the
 // compiler, linker, and other tools.
 //

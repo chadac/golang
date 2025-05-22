@@ -1,10 +1,10 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package plugin implements loading and symbol resolution of Go plugins.
+// Package plugin implements loading and symbol resolution of Golang plugins.
 //
-// A plugin is a Go main package with exported functions and variables that
+// A plugin is a Golang main package with exported functions and variables that
 // has been built with:
 //
 //	golang build -buildmode=plugin
@@ -29,7 +29,7 @@
 //     macOS, making them unsuitable for applications intended to be
 //     portable.
 //
-//   - Plugins are poorly supported by the Go race detector. Even simple
+//   - Plugins are poorly supported by the Golang race detector. Even simple
 //     race conditions may not be automatically detected. See
 //     https://golang.dev/issue/24245 for more information.
 //
@@ -59,7 +59,7 @@
 //   - Together, these restrictions mean that, in practice, the
 //     application and its plugins must all be built together by a
 //     single person or component of a system. In that case, it may
-//     be simpler for that person or component to generate Go source
+//     be simpler for that person or component to generate Golang source
 //     files that blank-import the desired set of plugins and then
 //     compile a static executable in the usual way.
 //
@@ -69,7 +69,7 @@
 // operations may be more suitable despite the performance overheads.
 package plugin
 
-// Plugin is a loaded Go plugin.
+// Plugin is a loaded Golang plugin.
 type Plugin struct {
 	pluginpath string
 	err        string        // set if plugin failed to load
@@ -77,7 +77,7 @@ type Plugin struct {
 	syms       map[string]any
 }
 
-// Open opens a Go plugin.
+// Open opens a Golang plugin.
 // If a path has already been opened, then the existing *[Plugin] is returned.
 // It is safe for concurrent use by multiple golangroutines.
 func Open(path string) (*Plugin, error) {

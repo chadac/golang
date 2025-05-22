@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,8 +23,8 @@ import (
 // The environment variable parameter(s) is passed to the run
 // of the generated test.
 func runGenTest(t *testing.T, filename, tmpname string, ev ...string) {
-	testenv.MustHaveGoRun(t)
-	golangtool := testenv.GoToolPath(t)
+	testenv.MustHaveGolangRun(t)
+	golangtool := testenv.GolangToolPath(t)
 	var stdout, stderr bytes.Buffer
 	cmd := testenv.Command(t, golangtool, "run", filepath.Join("testdata", filename))
 	cmd.Stdout = &stdout
@@ -69,8 +69,8 @@ func TestGenFlowGraph(t *testing.T) {
 // compiler flags set (and thus they can't just be _test.golang files in
 // this directory).
 func TestCode(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
-	golangtool := testenv.GoToolPath(t)
+	testenv.MustHaveGolangBuild(t)
+	golangtool := testenv.GolangToolPath(t)
 
 	// Make a temporary directory to work in.
 	tmpdir := t.TempDir()

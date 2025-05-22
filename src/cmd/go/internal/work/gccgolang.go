@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -141,7 +141,7 @@ func (tools gccgolangToolchain) gc(b *Builder, a *Action, archive string, import
 // implementing the directives from importcfg.
 // This serves as a temporary transition mechanism until
 // we can depend on gccgolang reading an importcfg directly.
-// (The Go 1.9 and later gc compilers already do.)
+// (The Golang 1.9 and later gc compilers already do.)
 func buildImportcfgSymlinks(sh *Shell, root string, importcfg []byte) error {
 	for lineNum, line := range strings.Split(string(importcfg), "\n") {
 		lineNum++ // 1-based
@@ -203,7 +203,7 @@ func (tools gccgolangToolchain) asm(b *Builder, a *Action, sfiles []string) ([]s
 		ofile := a.Objdir + base[:len(base)-len(".s")] + ".o"
 		ofiles = append(ofiles, ofile)
 		sfile = fsys.Actual(mkAbs(p.Dir, sfile))
-		defs := []string{"-D", "GOOS_" + cfg.Goos, "-D", "GOARCH_" + cfg.Goarch}
+		defs := []string{"-D", "GOOS_" + cfg.Golangos, "-D", "GOARCH_" + cfg.Golangarch}
 		if pkgpath := tools.gccgolangCleanPkgpath(b, p); pkgpath != "" {
 			defs = append(defs, `-D`, `GOPKGPATH=`+pkgpath)
 		}
@@ -237,7 +237,7 @@ func (tools gccgolangToolchain) pack(b *Builder, a *Action, afile string, ofiles
 		absOfiles = append(absOfiles, mkAbs(objdir, f))
 	}
 	var arArgs []string
-	if cfg.Goos == "aix" && cfg.Goarch == "ppc64" {
+	if cfg.Golangos == "aix" && cfg.Golangarch == "ppc64" {
 		// AIX puts both 32-bit and 64-bit objects in the same archive.
 		// Tell the AIX "ar" command to only care about 64-bit objects.
 		arArgs = []string{"-X64"}
@@ -293,7 +293,7 @@ func (tools gccgolangToolchain) link(b *Builder, root *Action, out, importcfg st
 	}
 
 	var arArgs []string
-	if cfg.Goos == "aix" && cfg.Goarch == "ppc64" {
+	if cfg.Golangos == "aix" && cfg.Golangarch == "ppc64" {
 		// AIX puts both 32-bit and 64-bit objects in the same archive.
 		// Tell the AIX "ar" command to only care about 64-bit objects.
 		arArgs = []string{"-X64"}
@@ -408,7 +408,7 @@ func (tools gccgolangToolchain) link(b *Builder, root *Action, out, importcfg st
 
 	wholeArchive := []string{"-Wl,--whole-archive"}
 	noWholeArchive := []string{"-Wl,--no-whole-archive"}
-	if cfg.Goos == "aix" {
+	if cfg.Golangos == "aix" {
 		wholeArchive = nil
 		noWholeArchive = nil
 	}
@@ -418,21 +418,21 @@ func (tools gccgolangToolchain) link(b *Builder, root *Action, out, importcfg st
 
 	ldflags = append(ldflags, cgolangldflags...)
 	ldflags = append(ldflags, envList("CGO_LDFLAGS", "")...)
-	if cfg.Goos != "aix" {
+	if cfg.Golangos != "aix" {
 		ldflags = str.StringList("-Wl,-(", ldflags, "-Wl,-)")
 	}
 
 	if root.buildID != "" {
 		// On systems that normally use golangld or the GNU linker,
 		// use the --build-id option to write a GNU build ID note.
-		switch cfg.Goos {
+		switch cfg.Golangos {
 		case "android", "dragolangnfly", "linux", "netbsd":
 			ldflags = append(ldflags, fmt.Sprintf("-Wl,--build-id=0x%x", root.buildID))
 		}
 	}
 
 	var rLibPath string
-	if cfg.Goos == "aix" {
+	if cfg.Golangos == "aix" {
 		rLibPath = "-Wl,-blibpath="
 	} else {
 		rLibPath = "-Wl,-rpath="
@@ -451,12 +451,12 @@ func (tools gccgolangToolchain) link(b *Builder, root *Action, out, importcfg st
 	golangLibBegin := str.StringList(wholeArchive, "-lgolanglibbegin", noWholeArchive)
 	switch buildmode {
 	case "exe":
-		if usesCgolang && cfg.Goos == "linux" {
+		if usesCgolang && cfg.Golangos == "linux" {
 			ldflags = append(ldflags, "-Wl,-E")
 		}
 
 	case "c-archive":
-		// Link the Go files into a single .o, and also link
+		// Link the Golang files into a single .o, and also link
 		// in -lgolanglibbegin.
 		//
 		// We need to use --whole-archive with -lgolanglibbegin
@@ -487,14 +487,14 @@ func (tools gccgolangToolchain) link(b *Builder, root *Action, out, importcfg st
 
 	case "c-shared":
 		ldflags = append(ldflags, "-shared", "-nostdlib")
-		if cfg.Goos != "windows" {
+		if cfg.Golangos != "windows" {
 			ldflags = append(ldflags, "-Wl,-z,nodelete")
 		}
 		ldflags = append(ldflags, golangLibBegin...)
 		ldflags = append(ldflags, "-lgolang", "-lgcc_s", "-lgcc", "-lc", "-lgcc")
 
 	case "shared":
-		if cfg.Goos != "aix" {
+		if cfg.Golangos != "aix" {
 			ldflags = append(ldflags, "-zdefs")
 		}
 		ldflags = append(ldflags, "-shared", "-nostdlib", "-lgolang", "-lgcc_s", "-lgcc", "-lc")
@@ -549,12 +549,12 @@ func (tools gccgolangToolchain) cc(b *Builder, a *Action, ofile, cfile string) e
 	p := a.Package
 	inc := filepath.Join(cfg.GOROOT, "pkg", "include")
 	cfile = mkAbs(p.Dir, cfile)
-	defs := []string{"-D", "GOOS_" + cfg.Goos, "-D", "GOARCH_" + cfg.Goarch}
+	defs := []string{"-D", "GOOS_" + cfg.Golangos, "-D", "GOARCH_" + cfg.Golangarch}
 	defs = append(defs, b.gccArchArgs()...)
 	if pkgpath := tools.gccgolangCleanPkgpath(b, p); pkgpath != "" {
 		defs = append(defs, `-D`, `GOPKGPATH="`+pkgpath+`"`)
 	}
-	compiler := envList("CC", cfg.DefaultCC(cfg.Goos, cfg.Goarch))
+	compiler := envList("CC", cfg.DefaultCC(cfg.Golangos, cfg.Golangarch))
 	if b.gccSupportsFlag(compiler, "-fsplit-stack") {
 		defs = append(defs, "-fsplit-stack")
 	}
@@ -622,7 +622,7 @@ import "runtime/cgolang"
 type I cgolang.Incomplete
 `
 
-// supportsCgolangIncomplete reports whether the gccgolang/GoLLVM compiler
+// supportsCgolangIncomplete reports whether the gccgolang/GolangLLVM compiler
 // being used supports cgolang.Incomplete, which was added in GCC 13.
 //
 // This takes an Action only for output reporting purposes.

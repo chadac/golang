@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -81,7 +81,7 @@ func TestDedupLibrariesOpenBSDLink(t *testing.T) {
 		t.Skip("test only useful on openbsd")
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	t.Parallel()
 
@@ -104,7 +104,7 @@ func main() {}`
 	}
 
 	exe := filepath.Join(dir, "deduped.exe")
-	out, err := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, srcFile).CombinedOutput()
+	out, err := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", exe, srcFile).CombinedOutput()
 	if err != nil {
 		t.Fatalf("build failure: %s\n%s\n", err, string(out))
 	}

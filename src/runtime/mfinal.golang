@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -207,7 +207,7 @@ func runFinalizers() {
 		fb := finq
 		finq = nil
 		if fb == nil {
-			golangpark(finalizercommit, unsafe.Pointer(&finlock), waitReasonFinalizerWait, traceBlockSystemGoroutine, 1)
+			golangpark(finalizercommit, unsafe.Pointer(&finlock), waitReasonFinalizerWait, traceBlockSystemGolangroutine, 1)
 			continue
 		}
 		argRegs = intArgRegs
@@ -292,7 +292,7 @@ func runFinalizers() {
 	}
 }
 
-func isGoPointerWithoutSpan(p unsafe.Pointer) bool {
+func isGolangPointerWithoutSpan(p unsafe.Pointer) bool {
 	// 0-length objects are okay.
 	if p == unsafe.Pointer(&zerobase) {
 		return true
@@ -333,7 +333,7 @@ func blockUntilEmptyFinalizerQueue(timeout int64) bool {
 		if empty {
 			return true
 		}
-		Gosched()
+		Golangsched()
 	}
 	return false
 }
@@ -353,7 +353,7 @@ func unique_runtime_blockUntilEmptyFinalizerQueue(timeout int64) bool {
 //
 // SetFinalizer(obj, nil) clears any finalizer associated with obj.
 //
-// New Go code should consider using [AddCleanup] instead, which is much
+// New Golang code should consider using [AddCleanup] instead, which is much
 // less error-prone than SetFinalizer.
 //
 // The argument obj must be a pointer to an object allocated by calling
@@ -423,7 +423,7 @@ func unique_runtime_blockUntilEmptyFinalizerQueue(timeout int64) bool {
 // If a finalizer must run for a long time, it should do so by starting
 // a new golangroutine.
 //
-// In the terminology of the Go memory model, a call
+// In the terminology of the Golang memory model, a call
 // SetFinalizer(x, f) “synchronizes before” the finalization call f(x).
 // However, there is no guarantee that KeepAlive(x) or any other use of x
 // “synchronizes before” f(x), so in general a finalizer should use a mutex
@@ -461,7 +461,7 @@ func SetFinalizer(obj any, finalizer any) {
 	base, span, _ := findObject(uintptr(e.data), 0, 0)
 
 	if base == 0 {
-		if isGoPointerWithoutSpan(e.data) {
+		if isGolangPointerWithoutSpan(e.data) {
 			return
 		}
 		throw("runtime.SetFinalizer: pointer not in allocated block")

@@ -8,7 +8,7 @@
 //	Portions Copyright © 2004,2006 Bruce Ellis
 //	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 //	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-//	Portions Copyright © 2009 The Go Authors. All rights reserved.
+//	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -119,9 +119,9 @@ func putelfsym(ctxt *Link, x loader.Sym, typ elf.SymType, curbind elf.SymBind) {
 	// In external linking mode, we have to invoke gcc with -rdynamic
 	// to get the exported symbols put into the dynamic symbol table.
 	// To avoid filling the dynamic table with lots of unnecessary symbols,
-	// mark all Go symbols local (not global) in the final executable.
+	// mark all Golang symbols local (not global) in the final executable.
 	// But when we're dynamically linking, we need all those global symbols.
-	if !ctxt.DynlinkingGo() && ctxt.IsExternal() && !ldr.AttrCgolangExportStatic(x) && elfshnum != elf.SHN_UNDEF {
+	if !ctxt.DynlinkingGolang() && ctxt.IsExternal() && !ldr.AttrCgolangExportStatic(x) && elfshnum != elf.SHN_UNDEF {
 		bind = elf.STB_LOCAL
 	}
 
@@ -153,12 +153,12 @@ func putelfsym(ctxt *Link, x loader.Sym, typ elf.SymType, curbind elf.SymBind) {
 	// When dynamically linking, we create Symbols by reading the names from
 	// the symbol tables of the shared libraries and so the names need to
 	// match exactly. Tools like DTrace will have to wait for now.
-	if !ctxt.DynlinkingGo() {
+	if !ctxt.DynlinkingGolang() {
 		// Rewrite · to . for ASCII-only tools like DTrace (sigh)
 		sname = strings.ReplaceAll(sname, "·", ".")
 	}
 
-	if ctxt.DynlinkingGo() && bind == elf.STB_GLOBAL && curbind == elf.STB_LOCAL && ldr.SymType(x).IsText() {
+	if ctxt.DynlinkingGolang() && bind == elf.STB_GLOBAL && curbind == elf.STB_LOCAL && ldr.SymType(x).IsText() {
 		// When dynamically linking, we want references to functions defined
 		// in this module to always be to the function object, not to the
 		// PLT. We force this by writing an additional local symbol for every
@@ -461,7 +461,7 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 
 	// pseudo-symbols to mark locations of type, string, and golang string data.
 	var symtype, symtyperel loader.Sym
-	if !ctxt.DynlinkingGo() {
+	if !ctxt.DynlinkingGolang() {
 		if ctxt.UseRelro() && (ctxt.BuildMode == BuildModeCArchive || ctxt.BuildMode == BuildModeCShared || ctxt.BuildMode == BuildModePIE) {
 			s = ldr.CreateSymForUpdate("type:*", 0)
 			s.SetType(sym.STYPE)
@@ -541,12 +541,12 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 			ldr.SetCarrierSym(s, symgcbits)
 
 		case strings.HasSuffix(name, "·f"):
-			if !ctxt.DynlinkingGo() {
+			if !ctxt.DynlinkingGolang() {
 				ldr.SetAttrNotInSymbolTable(s, true)
 			}
 			if ctxt.UseRelro() {
 				symGroupType[s] = sym.SGOFUNCRELRO
-				if !ctxt.DynlinkingGo() {
+				if !ctxt.DynlinkingGolang() {
 					ldr.SetCarrierSym(s, symgolangfuncrel)
 				}
 			} else {
@@ -577,7 +577,7 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 		// That way symbols like "type:.eq.[2]interface {}.arginfo1" that belong
 		// in golang:func.* end up there.
 		case strings.HasPrefix(name, "type:"):
-			if !ctxt.DynlinkingGo() {
+			if !ctxt.DynlinkingGolang() {
 				ldr.SetAttrNotInSymbolTable(s, true)
 			}
 			if ctxt.UseRelro() {

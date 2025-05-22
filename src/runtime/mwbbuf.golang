@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@
 // The write barrier has a fast path and a slow path. The fast path
 // simply enqueues to a per-P write barrier buffer. It's written in
 // assembly and doesn't clobber any general purpose registers, so it
-// doesn't have the usual overheads of a Go call.
+// doesn't have the usual overheads of a Golang call.
 //
 // When the buffer fills up, the write barrier invokes the slow path
 // (wbBufFlush) to flush the buffer to the GC work queues. In this

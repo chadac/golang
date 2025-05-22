@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@
 // Intel, aq corresponds to an lfence, rl to an sfence, and aq+rl to an mfence
 // (or a lock prefix).
 //
-// Go's memory model requires that
+// Golang's memory model requires that
 //   - if a read happens after a write, the read must observe the write, and
 //     that
 //   - if a read happens concurrently with a write, the read may observe the

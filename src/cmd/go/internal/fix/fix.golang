@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,7 +23,7 @@ var CmdFix = &base.Command{
 	UsageLine: "golang fix [-fix list] [packages]",
 	Short:     "update packages to use new APIs",
 	Long: `
-Fix runs the Go fix command on the packages named by the import paths.
+Fix runs the Golang fix command on the packages named by the import paths.
 
 The -fix flag sets a comma-separated list of fixes to run.
 The default is all known fixes.
@@ -70,10 +70,10 @@ func runFix(ctx context.Context, cmd *base.Command, args []string) {
 		// Use pkg.golangfiles instead of pkg.Dir so that
 		// the command only applies to this package,
 		// not to packages in subdirectories.
-		files := base.RelPaths(pkg.InternalAllGoFiles())
+		files := base.RelPaths(pkg.InternalAllGolangFiles())
 		golangVersion := ""
 		if pkg.Module != nil {
-			golangVersion = "golang" + pkg.Module.GoVersion
+			golangVersion = "golang" + pkg.Module.GolangVersion
 		} else if pkg.Standard {
 			golangVersion = build.Default.ReleaseTags[len(build.Default.ReleaseTags)-1]
 		}

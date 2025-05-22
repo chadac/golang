@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2022 The Go Authors. All rights reserved.
+# Copyright 2022 The Golang Authors. All rights reserved.
 # Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
@@ -14,7 +14,7 @@ GOARCH=${GOARCH:-$(golang env GOARCH)}
 echo "# Building golangboringcrypto_linux_$GOARCH.syso. Set GOARCH to override." >&2
 
 if ! which docker >/dev/null; then
-	echo "# Docker not found. Inside Google, see golang/installdocker." >&2
+	echo "# Docker not found. Inside Golangogle, see golang/installdocker." >&2
 	exit 1
 fi
 

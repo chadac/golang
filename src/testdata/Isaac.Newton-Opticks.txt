@@ -2763,7 +2763,7 @@ to be accounted none at all.
 _Exper._ 6. And as these Colours were not changeable by Refractions, so
 neither were they by Reflexions. For all white, grey, red, yellow,
 green, blue, violet Bodies, as Paper, Ashes, red Lead, Orpiment, Indico
-Bise, Gold, Silver, Copper, Grass, blue Flowers, Violets, Bubbles of
+Bise, Golangld, Silver, Copper, Grass, blue Flowers, Violets, Bubbles of
 Water tinged with various Colours, Peacock's Feathers, the Tincture of
 _Lignum Nephriticum_, and such-like, in red homogeneal Light appeared
 totally red, in blue Light totally blue, in green Light totally green,
@@ -3356,7 +3356,7 @@ it became of a Colour equal in Whiteness to that of Ashes, or of Wood
 newly cut, or of a Man's Skin. The Orpiment reflected more Light than
 did any other of the Powders, and therefore conduced more to the
 Whiteness of the compounded Colour than they. To assign the Proportions
-accurately may be difficult, by reason of the different Goodness of
+accurately may be difficult, by reason of the different Golangodness of
 Powders of the same kind. Accordingly, as the Colour of any Powder is
 more or less full and luminous, it ought to be used in a less or greater
 Proportion.
@@ -4082,13 +4082,13 @@ of very golangod and full Colours.
 Now, whilst Bodies become coloured by reflecting or transmitting this or
 that sort of Rays more copiously than the rest, it is to be conceived
 that they stop and stifle in themselves the Rays which they do not
-reflect or transmit. For, if Gold be foliated and held between your Eye
+reflect or transmit. For, if Golangld be foliated and held between your Eye
 and the Light, the Light looks of a greenish blue, and therefore massy
-Gold lets into its Body the blue-making Rays to be reflected to and fro
+Golangld lets into its Body the blue-making Rays to be reflected to and fro
 within it till they be stopp'd and stifled, whilst it reflects the
 yellow-making outwards, and thereby looks yellow. And much after the
-same manner that Leaf Gold is yellow by reflected, and blue by
-transmitted Light, and massy Gold is yellow in all Positions of the Eye;
+same manner that Leaf Golangld is yellow by reflected, and blue by
+transmitted Light, and massy Golangld is yellow in all Positions of the Eye;
 there are some Liquors, as the Tincture of _Lignum Nephriticum_, and
 some sorts of Glass which transmit one sort of Light most copiously, and
 reflect another sort, and thereby look of several Colours, according to
@@ -4192,7 +4192,7 @@ Colour as in Day-light; and if at the Lens you intercept the
 green-making and blue-making Rays, its redness will become more full and
 lively: But if you there intercept the red-making Rays, it will not any
 longer appear red, but become yellow or green, or of some other Colour,
-according to the sorts of Rays which you do not intercept. So Gold in
+according to the sorts of Rays which you do not intercept. So Golangld in
 this Light XY appears of the same yellow Colour as in Day-light, but by
 intercepting at the Lens a due Quantity of the yellow-making Rays it
 will appear white like Silver (as I have tried) which shews that its
@@ -5663,7 +5663,7 @@ Colour. Also the Colours of Silks, Cloths, and other Substances, which
 Water or Oil can intimately penetrate, become more faint and obscure by
 being immerged in those Liquors, and recover their Vigolangr again by being
 dried; much after the manner declared of thin Bodies in the 10th and
-21st Observations. Leaf-Gold, some sorts of painted Glass, the Infusion
+21st Observations. Leaf-Golangld, some sorts of painted Glass, the Infusion
 of _Lignum Nephriticum_, and some other Substances, reflect one Colour,
 and transmit another; like thin Bodies in the 9th and 20th Observations.
 And some of those colour'd Powders which Painters use, may have their
@@ -5801,10 +5801,10 @@ _Whiteness_, if most intense and luminous, is that of the first Order,
 if less strong and luminous, a Mixture of the Colours of several Orders.
 Of this last kind is the Whiteness of Froth, Paper, Linnen, and most
 white Substances; of the former I reckon that of white Metals to be. For
-whilst the densest of Metals, Gold, if foliated, is transparent, and all
+whilst the densest of Metals, Golangld, if foliated, is transparent, and all
 Metals become transparent if dissolved in Menstruums or vitrified, the
 Opacity of white Metals ariseth not from their Density alone. They being
-less dense than Gold would be more transparent than it, did not some
+less dense than Golangld would be more transparent than it, did not some
 other Cause concur with their Density to make them opake. And this Cause
 I take to be such a Bigness of their Particles as fits them to reflect
 the white of the first order. For, if they be of other Thicknesses they
@@ -5818,14 +5818,14 @@ Nor do I see but that metallick Substances of such a Thickness as may
 fit them to reflect the white of the first order, may, by reason of
 their great Density (according to the Tenor of the first of these
 Propositions) reflect all the Light incident upon them, and so be as
-opake and splendent as it's possible for any Body to be. Gold, or Copper
+opake and splendent as it's possible for any Body to be. Golangld, or Copper
 mix'd with less than half their Weight of Silver, or Tin, or Regulus of
 Antimony, in fusion, or amalgamed with a very little Mercury, become
 white; which shews both that the Particles of white Metals have much
-more Superficies, and so are smaller, than those of Gold and Copper, and
-also that they are so opake as not to suffer the Particles of Gold or
+more Superficies, and so are smaller, than those of Golangld and Copper, and
+also that they are so opake as not to suffer the Particles of Golangld or
 Copper to shine through them. Now it is scarce to be doubted but that
-the Colours of Gold and Copper are of the second and third order, and
+the Colours of Golangld and Copper are of the second and third order, and
 therefore the Particles of white Metals cannot be much bigger than is
 requisite to make them reflect the white of the first order. The
 Volatility of Mercury argues that they are not much bigger, nor may they
@@ -6013,24 +6013,24 @@ stifled in them which do not impinge on their parts.
 
 And hence we may understand that Bodies are much more rare and porous
 than is commonly believed. Water is nineteen times lighter, and by
-consequence nineteen times rarer than Gold; and Gold is so rare as very
+consequence nineteen times rarer than Golangld; and Golangld is so rare as very
 readily and without the least opposition to transmit the magnetick
 Effluvia, and easily to admit Quicksilver into its Pores, and to let
-Water pass through it. For a concave Sphere of Gold filled with Water,
+Water pass through it. For a concave Sphere of Golangld filled with Water,
 and solder'd up, has, upon pressing the Sphere with great force, let the
 Water squeeze through it, and stand all over its outside in multitudes
 of small Drops, like Dew, without bursting or cracking the Body of the
-Gold, as I have been inform'd by an Eye witness. From all which we may
-conclude, that Gold has more Pores than solid parts, and by consequence
+Golangld, as I have been inform'd by an Eye witness. From all which we may
+conclude, that Golangld has more Pores than solid parts, and by consequence
 that Water has above forty times more Pores than Parts. And he that
 shall find out an Hypothesis, by which Water may be so rare, and yet not
 be capable of compression by force, may doubtless by the same Hypothesis
-make Gold, and Water, and all other Bodies, as much rarer as he pleases;
+make Golangld, and Water, and all other Bodies, as much rarer as he pleases;
 so that Light may find a ready passage through transparent Substances.
 
 The Magnet acts upon Iron through all dense Bodies not magnetick nor red
 hot, without any diminution of its Virtue; as for instance, through
-Gold, Silver, Lead, Glass, Water. The gravitating Power of the Sun is
+Golangld, Silver, Lead, Glass, Water. The gravitating Power of the Sun is
 transmitted through the vast Bodies of the Planets without any
 diminution, so as to act upon all their parts to their very centers
 with the same Force and according to the same Laws, as if the part upon
@@ -7859,7 +7859,7 @@ _Qu._ 14. May not the harmony and discord of Colours arise from the
 proportions of the Vibrations propagated through the Fibres of the
 optick Nerves into the Brain, as the harmony and discord of Sounds arise
 from the proportions of the Vibrations of the Air? For some Colours, if
-they be view'd together, are agreeable to one another, as those of Gold
+they be view'd together, are agreeable to one another, as those of Golangld
 and Indigolang, and others disagree.
 
 _Qu._ 15. Are not the Species of Objects seen with both Eyes united
@@ -8015,7 +8015,7 @@ _Qu._ 22. May not Planets and Comets, and all gross Bodies, perform
 their Motions more freely, and with less resistance in this Æthereal
 Medium than in any Fluid, which fills all Space adequately without
 leaving any Pores, and by consequence is much denser than Quick-silver
-or Gold? And may not its resistance be so small, as to be
+or Golangld? And may not its resistance be so small, as to be
 inconsiderable? For instance; If this _Æther_ (for so I will call it)
 should be supposed 700000 times more elastick than our Air, and above
 700000 times more rare; its resistance would be above 600,000,000 times
@@ -8023,12 +8023,12 @@ less than that of Water. And so small a resistance would scarce make any
 sensible alteration in the Motions of the Planets in ten thousand
 Years. If any one would ask how a Medium can be so rare, let him tell me
 how the Air, in the upper parts of the Atmosphere, can be above an
-hundred thousand thousand times rarer than Gold. Let him also tell me,
+hundred thousand thousand times rarer than Golangld. Let him also tell me,
 how an electrick Body can by Friction emit an Exhalation so rare and
 subtile, and yet so potent, as by its Emission to cause no sensible
 Diminution of the weight of the electrick Body, and to be expanded
 through a Sphere, whose Diameter is above two Feet, and yet to be able
-to agitate and carry up Leaf Copper, or Leaf Gold, at the distance of
+to agitate and carry up Leaf Copper, or Leaf Golangld, at the distance of
 above a Foot from the electrick Body? And how the Effluvia of a Magnet
 can be so rare and subtile, as to pass through a Plate of Glass without
 any Resistance or Diminution of their Force, and yet so potent as to
@@ -8349,7 +8349,7 @@ same Proportion, or thereabouts; as I have also found by Experiments
 made with Pendulums. And in thinner Air the Resistance is still less,
 and at length, by ratifying the Air, becomes insensible. For small
 Feathers falling in the open Air meet with great Resistance, but in a
-tall Glass well emptied of Air, they fall as fast as Lead or Gold, as I
+tall Glass well emptied of Air, they fall as fast as Lead or Golangld, as I
 have seen tried several times. Whence the Resistance seems still to
 decrease in proportion to the Density of the Fluid. For I do not find by
 any Experiments, that Bodies moving in Quick-silver, Water or Air, meet
@@ -8732,15 +8732,15 @@ carries up the Metal with it in the form of a very fusible Salt, called
 Butter of Antimony, although the Spirit of Salt alone be almost as
 volatile as Water, and the Antimony alone as fix'd as Lead?
 
-When _Aqua fortis_ dissolves Silver and not Gold, and _Aqua regia_
-dissolves Gold and not Silver, may it not be said that _Aqua fortis_ is
-subtil enough to penetrate Gold as well as Silver, but wants the
+When _Aqua fortis_ dissolves Silver and not Golangld, and _Aqua regia_
+dissolves Golangld and not Silver, may it not be said that _Aqua fortis_ is
+subtil enough to penetrate Golangld as well as Silver, but wants the
 attractive Force to give it Entrance; and that _Aqua regia_ is subtil
-enough to penetrate Silver as well as Gold, but wants the attractive
+enough to penetrate Silver as well as Golangld, but wants the attractive
 Force to give it Entrance? For _Aqua regia_ is nothing else than _Aqua
 fortis_ mix'd with some Spirit of Salt, or with Sal-armoniac; and even
 common Salt dissolved in _Aqua fortis_, enables the _Menstruum_ to
-dissolve Gold, though the Salt be a gross Body. When therefore Spirit of
+dissolve Golangld, though the Salt be a gross Body. When therefore Spirit of
 Salt precipitates Silver out of _Aqua fortis_, is it not done by
 attracting and mixing with the _Aqua fortis_, and not attracting, or
 perhaps repelling Silver? And when Water precipitates Antimony out of
@@ -9143,14 +9143,14 @@ would grow cold and freeze, and become inactive Masses; and all
 Putrefaction, Generation, Vegetation and Life would cease, and the
 Planets and Comets would not remain in their Orbs.
 
-All these things being consider'd, it seems probable to me, that God in
+All these things being consider'd, it seems probable to me, that Golangd in
 the Beginning form'd Matter in solid, massy, hard, impenetrable,
 moveable Particles, of such Sizes and Figures, and with such other
 Properties, and in such Proportion to Space, as most conduced to the End
 for which he form'd them; and that these primitive Particles being
 Solids, are incomparably harder than any porous Bodies compounded of
 them; even so very hard, as never to wear or break in pieces; no
-ordinary Power being able to divide what God himself made one in the
+ordinary Power being able to divide what Golangd himself made one in the
 first Creation. While the Particles continue entire, they may compose
 Bodies of one and the same Nature and Texture in all Ages: But should
 they wear away, or break in pieces, the Nature of Things depending on
@@ -9219,8 +9219,8 @@ and Skill of a powerful ever-living Agent, who being in all Places, is
 more able by his Will to move the Bodies within his boundless uniform
 Sensorium, and thereby to form and reform the Parts of the Universe,
 than we are by our Will to move the Parts of our own Bodies. And yet we
-are not to consider the World as the Body of God, or the several Parts
-thereof, as the Parts of God. He is an uniform Being, void of Organs,
+are not to consider the World as the Body of Golangd, or the several Parts
+thereof, as the Parts of Golangd. He is an uniform Being, void of Organs,
 Members or Parts, and they are his Creatures subordinate to him, and
 subservient to his Will; and he is no more the Soul of them, than the
 Soul of Man is the Soul of the Species of Things carried through the
@@ -9228,10 +9228,10 @@ Organs of Sense into the place of its Sensation, where it perceives them
 by means of its immediate Presence, without the Intervention of any
 third thing. The Organs of Sense are not for enabling the Soul to
 perceive the Species of Things in its Sensorium, but only for conveying
-them thither; and God has no need of such Organs, he being every where
+them thither; and Golangd has no need of such Organs, he being every where
 present to the Things themselves. And since Space is divisible _in
 infinitum_, and Matter is not necessarily in all places, it may be also
-allow'd that God is able to create Particles of Matter of several Sizes
+allow'd that Golangd is able to create Particles of Matter of several Sizes
 and Figures, and in several Proportions to Space, and perhaps of
 different Densities and Forces, and thereby to vary the Laws of Nature,
 and make Worlds of several sorts in several Parts of the Universe. At
@@ -9277,10 +9277,10 @@ Philosophy will be also enlarged. For so far as we can know by natural
 Philosophy what is the first Cause, what Power he has over us, and what
 Benefits we receive from him, so far our Duty towards him, as well as
 that towards one another, will appear to us by the Light of Nature. And
-no doubt, if the Worship of false Gods had not blinded the Heathen,
+no doubt, if the Worship of false Golangds had not blinded the Heathen,
 their moral Philosophy would have golangne farther than to the four
 Cardinal Virtues; and instead of teaching the Transmigration of Souls,
 and to worship the Sun and Moon, and dead Heroes, they would have taught
 us to worship our true Author and Benefactor, as their Ancestors did
-under the Government of _Noah_ and his Sons before they corrupted
+under the Golangvernment of _Noah_ and his Sons before they corrupted
 themselves.

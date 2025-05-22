@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -41,7 +41,7 @@ const (
 func pragmaFlag(verb string) ir.PragmaFlag {
 	switch verb {
 	case "golang:build":
-		return ir.GoBuildPragma
+		return ir.GolangBuildPragma
 	case "golang:nointerface":
 		if buildcfg.Experiment.FieldTrack {
 			return ir.Nointerface

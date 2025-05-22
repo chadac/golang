@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestNonGoExecs(t *testing.T) {
+func TestNonGolangExecs(t *testing.T) {
 	t.Parallel()
 	testfiles := []string{
 		"debug/elf/testdata/gcc-386-freebsd-exec",
@@ -61,7 +61,7 @@ func TestNonGoExecs(t *testing.T) {
 	}
 }
 
-func testGoExec(t *testing.T, iscgolang, isexternallinker bool) {
+func testGolangExec(t *testing.T, iscgolang, isexternallinker bool) {
 	t.Parallel()
 	tmpdir := t.TempDir()
 
@@ -88,7 +88,7 @@ func testGoExec(t *testing.T, iscgolang, isexternallinker bool) {
 		args = append(args, "-ldflags", "-linkmode="+linkmode)
 	}
 	args = append(args, src)
-	out, err := testenv.Command(t, testenv.GoToolPath(t), args...).CombinedOutput()
+	out, err := testenv.Command(t, testenv.GolangToolPath(t), args...).CombinedOutput()
 	if err != nil {
 		t.Fatalf("building test executable failed: %s %s", err, out)
 	}
@@ -190,11 +190,11 @@ func testGoExec(t *testing.T, iscgolang, isexternallinker bool) {
 	}
 }
 
-func TestGoExec(t *testing.T) {
-	testGoExec(t, false, false)
+func TestGolangExec(t *testing.T) {
+	testGolangExec(t, false, false)
 }
 
-func testGoLib(t *testing.T, iscgolang bool) {
+func testGolangLib(t *testing.T, iscgolang bool) {
 	t.Parallel()
 	tmpdir := t.TempDir()
 
@@ -221,7 +221,7 @@ func testGoLib(t *testing.T, iscgolang bool) {
 		t.Fatal(err)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-buildmode=archive", "-o", "mylib.a", ".")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-buildmode=archive", "-o", "mylib.a", ".")
 	cmd.Dir = libpath
 	cmd.Env = append(os.Environ(), "GOPATH="+golangpath)
 	out, err := cmd.CombinedOutput()
@@ -294,8 +294,8 @@ func testGoLib(t *testing.T, iscgolang bool) {
 	}
 }
 
-func TestGoLib(t *testing.T) {
-	testGoLib(t, false)
+func TestGolangLib(t *testing.T) {
+	testGolangLib(t, false)
 }
 
 const testexec = `

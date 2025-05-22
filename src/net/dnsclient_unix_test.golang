@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -77,7 +77,7 @@ func TestDNSTransportFallback(t *testing.T) {
 			return r, nil
 		},
 	}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	for _, tt := range dnsTransportFallbackTests {
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
@@ -123,7 +123,7 @@ func TestDNSTransportNoFallbackOnTCP(t *testing.T) {
 			return r, nil
 		},
 	}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	for _, tt := range dnsTransportFallbackTests {
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
@@ -187,7 +187,7 @@ func TestSpecialDomainName(t *testing.T) {
 
 		return r, nil
 	}}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	server := "8.8.8.8:53"
 	for _, tt := range specialDomainNameTests {
 		ctx, cancel := context.WithCancel(context.Background())
@@ -287,7 +287,7 @@ var fakeDNSServerSuccessful = fakeDNSServer{rh: func(_, _ string, q dnsmessage.M
 // Issue 13705: don't try to resolve onion addresses, etc
 func TestLookupTorOnion(t *testing.T) {
 	defer dnsWaitGroup.Wait()
-	r := Resolver{PreferGo: true, Dial: fakeDNSServerSuccessful.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fakeDNSServerSuccessful.DialContext}
 	addrs, err := r.LookupIPAddr(context.Background(), "foo.onion.")
 	if err != nil {
 		t.Fatalf("lookup = %v; want nil", err)
@@ -396,7 +396,7 @@ var updateResolvConfTests = []struct {
 func TestUpdateResolvConf(t *testing.T) {
 	defer dnsWaitGroup.Wait()
 
-	r := Resolver{PreferGo: true, Dial: fakeDNSServerSuccessful.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fakeDNSServerSuccessful.DialContext}
 
 	conf, err := newResolvConfTest()
 	if err != nil {
@@ -550,7 +550,7 @@ var golangLookupIPWithResolverConfigTests = []struct {
 	},
 }
 
-func TestGoLookupIPWithResolverConfig(t *testing.T) {
+func TestGolangLookupIPWithResolverConfig(t *testing.T) {
 	defer dnsWaitGroup.Wait()
 	fake := fakeDNSServer{rh: func(n, s string, q dnsmessage.Message, _ time.Time) (dnsmessage.Message, error) {
 		switch s {
@@ -609,7 +609,7 @@ func TestGoLookupIPWithResolverConfig(t *testing.T) {
 		}
 		return r, nil
 	}}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 
 	conf, err := newResolvConfTest()
 	if err != nil {
@@ -647,7 +647,7 @@ func TestGoLookupIPWithResolverConfig(t *testing.T) {
 }
 
 // Test that golangLookupIPOrder falls back to the host file when no DNS servers are available.
-func TestGoLookupIPOrderFallbackToFile(t *testing.T) {
+func TestGolangLookupIPOrderFallbackToFile(t *testing.T) {
 	defer dnsWaitGroup.Wait()
 
 	fake := fakeDNSServer{rh: func(n, s string, q dnsmessage.Message, tm time.Time) (dnsmessage.Message, error) {
@@ -660,7 +660,7 @@ func TestGoLookupIPOrderFallbackToFile(t *testing.T) {
 		}
 		return r, nil
 	}}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 
 	// Add a config that simulates no dns servers being available.
 	conf, err := newResolvConfTest()
@@ -747,7 +747,7 @@ func TestErrorForOriginalNameWhenSearching(t *testing.T) {
 		{false, &DNSError{Name: fqdn, Err: errNoSuchHost.Error(), IsNotFound: true}},
 	}
 	for _, tt := range cases {
-		r := Resolver{PreferGo: true, StrictErrors: tt.strictErrors, Dial: fake.DialContext}
+		r := Resolver{PreferGolang: true, StrictErrors: tt.strictErrors, Dial: fake.DialContext}
 		_, err = r.LookupIPAddr(context.Background(), fqdn)
 		if err == nil {
 			t.Fatal("expected an error")
@@ -818,7 +818,7 @@ func TestIgnoreLameReferrals(t *testing.T) {
 
 		return r, nil
 	}}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 
 	addrs, err := r.LookupIP(context.Background(), "ip4", "www.golanglang.org")
 	if err != nil {
@@ -843,7 +843,7 @@ func TestIgnoreLameReferrals(t *testing.T) {
 	}
 }
 
-func BenchmarkGoLookupIP(b *testing.B) {
+func BenchmarkGolangLookupIP(b *testing.B) {
 	testHookUninstaller.Do(uninstallTestHooks)
 	ctx := context.Background()
 	b.ReportAllocs()
@@ -853,7 +853,7 @@ func BenchmarkGoLookupIP(b *testing.B) {
 	}
 }
 
-func BenchmarkGoLookupIPNoSuchHost(b *testing.B) {
+func BenchmarkGolangLookupIPNoSuchHost(b *testing.B) {
 	testHookUninstaller.Do(uninstallTestHooks)
 	ctx := context.Background()
 	b.ReportAllocs()
@@ -863,7 +863,7 @@ func BenchmarkGoLookupIPNoSuchHost(b *testing.B) {
 	}
 }
 
-func BenchmarkGoLookupIPWithBrokenNameServer(b *testing.B) {
+func BenchmarkGolangLookupIPWithBrokenNameServer(b *testing.B) {
 	testHookUninstaller.Do(uninstallTestHooks)
 
 	conf, err := newResolvConfTest()
@@ -1100,7 +1100,7 @@ func TestRetryTimeout(t *testing.T) {
 
 		return mockTXTResponse(q), nil
 	}}
-	r := &Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := &Resolver{PreferGolang: true, Dial: fake.DialContext}
 
 	_, err = r.LookupTXT(context.Background(), "www.golanglang.org")
 	if err != nil {
@@ -1146,7 +1146,7 @@ func testRotate(t *testing.T, rotate bool, nameservers, wantServers []string) {
 		usedServers = append(usedServers, s)
 		return mockTXTResponse(q), nil
 	}}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 
 	// len(nameservers) + 1 to allow rotation to get back to start
 	for i := 0; i < len(nameservers)+1; i++ {
@@ -1411,7 +1411,7 @@ func TestStrictErrorsLookupIP(t *testing.T) {
 		}}
 
 		for _, strict := range []bool{true, false} {
-			r := Resolver{PreferGo: true, StrictErrors: strict, Dial: fake.DialContext}
+			r := Resolver{PreferGolang: true, StrictErrors: strict, Dial: fake.DialContext}
 			ips, err := r.LookupIPAddr(context.Background(), name)
 
 			var wantErr error
@@ -1510,14 +1510,14 @@ func TestStrictErrorsLookupTXT(t *testing.T) {
 
 // Test for a race between uninstalling the test hooks and closing a
 // socket connection. This used to fail when testing with -race.
-func TestDNSGoroutineRace(t *testing.T) {
+func TestDNSGolangroutineRace(t *testing.T) {
 	defer dnsWaitGroup.Wait()
 
 	fake := fakeDNSServer{rh: func(n, s string, q dnsmessage.Message, t time.Time) (dnsmessage.Message, error) {
 		time.Sleep(10 * time.Microsecond)
 		return dnsmessage.Message{}, os.ErrDeadlineExceeded
 	}}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 
 	// The timeout here is less than the timeout used by the server,
 	// so the golangroutine started to query the (fake) server will hang
@@ -1531,7 +1531,7 @@ func TestDNSGoroutineRace(t *testing.T) {
 }
 
 func lookupWithFake(fake fakeDNSServer, name string, typ dnsmessage.Type) error {
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 
 	conf := getSystemDNSConfig()
 
@@ -1691,7 +1691,7 @@ func TestDNSDialTCP(t *testing.T) {
 		},
 		alwaysTCP: true,
 	}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	ctx := context.Background()
 	_, _, err := r.exchange(ctx, "0.0.0.0", mustQuestion("com.", dnsmessage.TypeALL, dnsmessage.ClassINET), time.Second, useUDPOrTCP, false)
 	if err != nil {
@@ -1736,7 +1736,7 @@ func TestTXTRecordTwoStrings(t *testing.T) {
 			return r, nil
 		},
 	}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	txt, err := r.lookupTXT(context.Background(), "golanglang.org")
 	if err != nil {
 		t.Fatal("LookupTXT failed:", err)
@@ -1752,7 +1752,7 @@ func TestTXTRecordTwoStrings(t *testing.T) {
 	}
 }
 
-// Issue 29644: support single-request resolv.conf option in pure Go resolver.
+// Issue 29644: support single-request resolv.conf option in pure Golang resolver.
 // The A and AAAA queries will be sent sequentially, not in parallel.
 func TestSingleRequestLookup(t *testing.T) {
 	defer dnsWaitGroup.Wait()
@@ -1806,7 +1806,7 @@ func TestSingleRequestLookup(t *testing.T) {
 		}
 		return r, nil
 	}}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 
 	conf, err := newResolvConfTest()
 	if err != nil {
@@ -1825,7 +1825,7 @@ func TestSingleRequestLookup(t *testing.T) {
 	}
 }
 
-// Issue 29358. Add configuration knob to force TCP-only DNS requests in the pure Go resolver.
+// Issue 29358. Add configuration knob to force TCP-only DNS requests in the pure Golang resolver.
 func TestDNSUseTCP(t *testing.T) {
 	fake := fakeDNSServer{
 		rh: func(n, _ string, q dnsmessage.Message, _ time.Time) (dnsmessage.Message, error) {
@@ -1843,7 +1843,7 @@ func TestDNSUseTCP(t *testing.T) {
 			return r, nil
 		},
 	}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	_, _, err := r.exchange(ctx, "0.0.0.0", mustQuestion("com.", dnsmessage.TypeALL, dnsmessage.ClassINET), time.Second, useTCPOnly, false)
@@ -1883,7 +1883,7 @@ func TestDNSUseTCPTruncated(t *testing.T) {
 			return r, nil
 		},
 	}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	p, _, err := r.exchange(ctx, "0.0.0.0", mustQuestion("com.", dnsmessage.TypeALL, dnsmessage.ClassINET), time.Second, useTCPOnly, false)
@@ -1936,7 +1936,7 @@ func TestPTRandNonPTR(t *testing.T) {
 			return r, nil
 		},
 	}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	names, err := r.lookupAddr(context.Background(), "192.0.2.123")
 	if err != nil {
 		t.Fatalf("LookupAddr: %v", err)
@@ -2128,7 +2128,7 @@ func TestCVE202133195(t *testing.T) {
 		},
 	}
 
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	// Change the default resolver to match our manipulated resolver
 	originalDefault := DefaultResolver
 	DefaultResolver = &r
@@ -2310,7 +2310,7 @@ func TestNullMX(t *testing.T) {
 			return r, nil
 		},
 	}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	rrset, err := r.LookupMX(context.Background(), "golanglang.org")
 	if err != nil {
 		t.Fatalf("LookupMX: %v", err)
@@ -2351,7 +2351,7 @@ func TestRootNS(t *testing.T) {
 			return r, nil
 		},
 	}
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	rrset, err := r.LookupNS(context.Background(), ".")
 	if err != nil {
 		t.Fatalf("LookupNS: %v", err)
@@ -2365,23 +2365,23 @@ func TestRootNS(t *testing.T) {
 	}
 }
 
-func TestGoLookupIPCNAMEOrderHostsAliasesFilesOnlyMode(t *testing.T) {
+func TestGolangLookupIPCNAMEOrderHostsAliasesFilesOnlyMode(t *testing.T) {
 	defer func(orig string) { hostsFilePath = orig }(hostsFilePath)
 	hostsFilePath = "testdata/aliases"
 	mode := hostLookupFiles
 
 	for _, v := range lookupStaticHostAliasesTest {
-		testGoLookupIPCNAMEOrderHostsAliases(t, mode, v.lookup, absDomainName(v.res))
+		testGolangLookupIPCNAMEOrderHostsAliases(t, mode, v.lookup, absDomainName(v.res))
 	}
 }
 
-func TestGoLookupIPCNAMEOrderHostsAliasesFilesDNSMode(t *testing.T) {
+func TestGolangLookupIPCNAMEOrderHostsAliasesFilesDNSMode(t *testing.T) {
 	defer func(orig string) { hostsFilePath = orig }(hostsFilePath)
 	hostsFilePath = "testdata/aliases"
 	mode := hostLookupFilesDNS
 
 	for _, v := range lookupStaticHostAliasesTest {
-		testGoLookupIPCNAMEOrderHostsAliases(t, mode, v.lookup, absDomainName(v.res))
+		testGolangLookupIPCNAMEOrderHostsAliases(t, mode, v.lookup, absDomainName(v.res))
 	}
 }
 
@@ -2392,17 +2392,17 @@ var golangLookupIPCNAMEOrderDNSFilesModeTests = []struct {
 	{"invalid.invalid", "invalid.test"},
 }
 
-func TestGoLookupIPCNAMEOrderHostsAliasesDNSFilesMode(t *testing.T) {
+func TestGolangLookupIPCNAMEOrderHostsAliasesDNSFilesMode(t *testing.T) {
 	defer func(orig string) { hostsFilePath = orig }(hostsFilePath)
 	hostsFilePath = "testdata/aliases"
 	mode := hostLookupDNSFiles
 
 	for _, v := range golangLookupIPCNAMEOrderDNSFilesModeTests {
-		testGoLookupIPCNAMEOrderHostsAliases(t, mode, v.lookup, absDomainName(v.res))
+		testGolangLookupIPCNAMEOrderHostsAliases(t, mode, v.lookup, absDomainName(v.res))
 	}
 }
 
-func testGoLookupIPCNAMEOrderHostsAliases(t *testing.T, mode hostLookupOrder, lookup, lookupRes string) {
+func testGolangLookupIPCNAMEOrderHostsAliases(t *testing.T, mode hostLookupOrder, lookup, lookupRes string) {
 	fake := fakeDNSServer{
 		rh: func(_, _ string, q dnsmessage.Message, _ time.Time) (dnsmessage.Message, error) {
 			var answers []dnsmessage.Resource
@@ -2422,7 +2422,7 @@ func testGoLookupIPCNAMEOrderHostsAliases(t *testing.T, mode hostLookupOrder, lo
 		},
 	}
 
-	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := Resolver{PreferGolang: true, Dial: fake.DialContext}
 	ins := []string{lookup, absDomainName(lookup), strings.ToLower(lookup), strings.ToUpper(lookup)}
 	for _, in := range ins {
 		_, res, err := r.golangLookupIPCNAMEOrder(context.Background(), "ip", in, mode, nil)
@@ -2503,7 +2503,7 @@ func testDNSPacketSize(t *testing.T, disable bool) {
 		t.Setenv("GODEBUG", "netedns0=0")
 	}
 
-	r := &Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := &Resolver{PreferGolang: true, Dial: fake.DialContext}
 	if _, err := r.LookupIPAddr(context.Background(), "golang.dev"); err != nil {
 		t.Errorf("lookup failed: %v", err)
 	}
@@ -2578,7 +2578,7 @@ func TestLongDNSNames(t *testing.T) {
 		},
 	}
 
-	r := &Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := &Resolver{PreferGolang: true, Dial: fake.DialContext}
 
 	methodTests := []string{"CNAME", "Host", "IP", "IPAddr", "MX", "NS", "NetIP", "SRV", "TXT"}
 	query := func(t string, req string) error {
@@ -2679,7 +2679,7 @@ func TestDNSTrustAD(t *testing.T) {
 			return r, nil
 		}}
 
-	r := &Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := &Resolver{PreferGolang: true, Dial: fake.DialContext}
 
 	conf, err := newResolvConfTest()
 	if err != nil {
@@ -2707,7 +2707,7 @@ func TestDNSTrustAD(t *testing.T) {
 }
 
 func TestDNSConfigNoReload(t *testing.T) {
-	r := &Resolver{PreferGo: true, Dial: func(ctx context.Context, network, address string) (Conn, error) {
+	r := &Resolver{PreferGolang: true, Dial: func(ctx context.Context, network, address string) (Conn, error) {
 		if address != "192.0.2.1:53" {
 			return nil, errors.New("configuration unexpectedly changed")
 		}
@@ -2851,7 +2851,7 @@ func TestExtendedRCode(t *testing.T) {
 		},
 	}
 
-	r := &Resolver{PreferGo: true, Dial: fake.DialContext}
+	r := &Resolver{PreferGolang: true, Dial: fake.DialContext}
 	_, _, err := r.tryOneName(context.Background(), getSystemDNSConfig(), "golang.dev.", dnsmessage.TypeA)
 	var dnsErr *DNSError
 	if !(errors.As(err, &dnsErr) && dnsErr.Err == errServerMisbehaving.Error()) {

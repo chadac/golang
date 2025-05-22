@@ -1,8 +1,8 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Writing Go object files.
+// Writing Golang object files.
 
 package obj
 
@@ -339,7 +339,7 @@ func (w *writer) Sym(s *LSym) {
 		flag |= golangobj.SymFlagReflectMethod
 	}
 	if strings.HasPrefix(s.Name, "type:") && s.Name[5] != '.' && s.Type == objabi.SRODATA {
-		flag |= golangobj.SymFlagGoType
+		flag |= golangobj.SymFlagGolangType
 	}
 	flag2 := uint8(0)
 	if s.UsedInIface() {
@@ -586,8 +586,8 @@ func (w *writer) aux1(typ uint8, rs *LSym) {
 }
 
 func (w *writer) Aux(s *LSym) {
-	if s.Gotype != nil {
-		w.aux1(golangobj.AuxGotype, s.Gotype)
+	if s.Golangtype != nil {
+		w.aux1(golangobj.AuxGolangtype, s.Golangtype)
 	}
 	if fn := s.Func(); fn != nil {
 		w.aux1(golangobj.AuxFuncInfo, fn.FuncInfoSym)
@@ -705,7 +705,7 @@ func (w *writer) refNames() {
 // return the number of aux symbols s have.
 func nAuxSym(s *LSym) int {
 	n := 0
-	if s.Gotype != nil {
+	if s.Golangtype != nil {
 		n++
 	}
 	if fn := s.Func(); fn != nil {

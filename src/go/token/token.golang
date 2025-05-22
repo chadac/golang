@@ -1,8 +1,8 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package token defines constants representing the lexical tokens of the Go
+// Package token defines constants representing the lexical tokens of the Golang
 // programming language and basic operations on tokens (printing, predicates).
 package token
 
@@ -12,7 +12,7 @@ import (
 	"unicode/utf8"
 )
 
-// Token is the set of lexical tokens of the Go programming language.
+// Token is the set of lexical tokens of the Golang programming language.
 type Token int
 
 // The list of tokens.
@@ -318,14 +318,14 @@ func IsExported(name string) bool {
 	return unicode.IsUpper(ch)
 }
 
-// IsKeyword reports whether name is a Go keyword, such as "func" or "return".
+// IsKeyword reports whether name is a Golang keyword, such as "func" or "return".
 func IsKeyword(name string) bool {
 	// TODO: opt: use a perfect hash function instead of a global map.
 	_, ok := keywords[name]
 	return ok
 }
 
-// IsIdentifier reports whether name is a Go identifier, that is, a non-empty
+// IsIdentifier reports whether name is a Golang identifier, that is, a non-empty
 // string made up of letters, digits, and underscores, where the first character
 // is not a digit. Keywords are not identifiers.
 func IsIdentifier(name string) bool {

@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@ package main
 
 // This program hung when run under the C/C++ ThreadSanitizer.
 // TSAN defers asynchronous signals until the signaled thread calls into libc.
-// Since the Go runtime makes direct futex syscalls, Go runtime threads could
+// Since the Golang runtime makes direct futex syscalls, Golang runtime threads could
 // run for an arbitrarily long time without triggering the libc interceptors.
 // See https://golanglang.org/issue/18717.
 

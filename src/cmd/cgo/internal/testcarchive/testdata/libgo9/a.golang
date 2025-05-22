@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,21 +6,21 @@ package main
 
 import "runtime"
 
-// extern void callGoWithVariousStack(int);
+// extern void callGolangWithVariousStack(int);
 import "C"
 
 func main() {}
 
-//export GoF
-func GoF(p int32) {
+//export GolangF
+func GolangF(p int32) {
 	runtime.GC()
 	if p != 0 {
 		panic("panic")
 	}
 }
 
-//export callGoWithVariousStackAndGoFrame
-func callGoWithVariousStackAndGoFrame(p int32) {
+//export callGolangWithVariousStackAndGolangFrame
+func callGolangWithVariousStackAndGolangFrame(p int32) {
 	if p != 0 {
 		defer func() {
 			e := recover()
@@ -30,5 +30,5 @@ func callGoWithVariousStackAndGoFrame(p int32) {
 			runtime.GC()
 		}()
 	}
-	C.callGoWithVariousStack(C.int(p));
+	C.callGolangWithVariousStack(C.int(p));
 }

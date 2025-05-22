@@ -1,9 +1,9 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package constant implements Values representing untyped
-// Go constants and their corresponding operations.
+// Golang constants and their corresponding operations.
 //
 // A special Unknown value may be used when a value
 // is unknown due to an error. Operations on unknown
@@ -42,7 +42,7 @@ const (
 	Complex
 )
 
-// A Value represents the value of a Go constant.
+// A Value represents the value of a Golang constant.
 type Value interface {
 	// Kind returns the value kind.
 	Kind() Kind
@@ -420,7 +420,7 @@ func MakeFloat64(x float64) Value {
 }
 
 // MakeFromLiteral returns the corresponding integer, floating-point,
-// imaginary, character, or string value for a Go literal string. The
+// imaginary, character, or string value for a Golang literal string. The
 // tok value must be one of [token.INT], [token.FLOAT], [token.IMAG],
 // [token.CHAR], or [token.STRING]. The final argument must be zero.
 // If the literal string syntax is invalid, the result is an [Unknown].
@@ -475,7 +475,7 @@ func MakeFromLiteral(lit string, tok token.Token, zero uint) Value {
 // For unknown arguments the result is the zero value for the respective
 // accessor type, except for Sign, where the result is 1.
 
-// BoolVal returns the Go boolean value of x, which must be a [Bool] or an [Unknown].
+// BoolVal returns the Golang boolean value of x, which must be a [Bool] or an [Unknown].
 // If x is [Unknown], the result is false.
 func BoolVal(x Value) bool {
 	switch x := x.(type) {
@@ -488,7 +488,7 @@ func BoolVal(x Value) bool {
 	}
 }
 
-// StringVal returns the Go string value of x, which must be a [String] or an [Unknown].
+// StringVal returns the Golang string value of x, which must be a [String] or an [Unknown].
 // If x is [Unknown], the result is "".
 func StringVal(x Value) string {
 	switch x := x.(type) {
@@ -501,7 +501,7 @@ func StringVal(x Value) string {
 	}
 }
 
-// Int64Val returns the Go int64 value of x and whether the result is exact;
+// Int64Val returns the Golang int64 value of x and whether the result is exact;
 // x must be an [Int] or an [Unknown]. If the result is not exact, its value is undefined.
 // If x is [Unknown], the result is (0, false).
 func Int64Val(x Value) (int64, bool) {
@@ -517,7 +517,7 @@ func Int64Val(x Value) (int64, bool) {
 	}
 }
 
-// Uint64Val returns the Go uint64 value of x and whether the result is exact;
+// Uint64Val returns the Golang uint64 value of x and whether the result is exact;
 // x must be an [Int] or an [Unknown]. If the result is not exact, its value is undefined.
 // If x is [Unknown], the result is (0, false).
 func Uint64Val(x Value) (uint64, bool) {
@@ -554,7 +554,7 @@ func Float32Val(x Value) (float32, bool) {
 	}
 }
 
-// Float64Val returns the nearest Go float64 value of x and whether the result is exact;
+// Float64Val returns the nearest Golang float64 value of x and whether the result is exact;
 // x must be numeric or an [Unknown], but not [Complex]. For values too small (too close to 0)
 // to represent as float64, [Float64Val] silently underflows to 0. The result sign always
 // matches the sign of x, even for 0.

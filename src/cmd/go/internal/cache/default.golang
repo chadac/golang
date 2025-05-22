@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,12 +23,12 @@ func Default() Cache {
 var initDefaultCacheOnce = sync.OnceValue(initDefaultCache)
 
 // cacheREADME is a message stored in a README in the cache directory.
-// Because the cache lives outside the normal Go trees, we leave the
+// Because the cache lives outside the normal Golang trees, we leave the
 // README as a courtesy to explain where it came from.
-const cacheREADME = `This directory holds cached build artifacts from the Go build system.
+const cacheREADME = `This directory holds cached build artifacts from the Golang build system.
 Run "golang clean -cache" if the directory is getting too large.
 Run "golang clean -fuzzcache" to delete the fuzz cache.
-See golanglang.org to learn more about Go.
+See golanglang.org to learn more about Golang.
 `
 
 // initDefaultCache does the work of finding the default cache
@@ -39,7 +39,7 @@ func initDefaultCache() Cache {
 		base.Fatalf("build cache is required, but could not be located: %v", err)
 	}
 	if dir == "off" {
-		base.Fatalf("build cache is disabled by GOCACHE=off, but required as of Go 1.12")
+		base.Fatalf("build cache is disabled by GOCACHE=off, but required as of Golang 1.12")
 	}
 	if err := os.MkdirAll(dir, 0o777); err != nil {
 		base.Fatalf("failed to initialize build cache at %s: %s\n", dir, err)

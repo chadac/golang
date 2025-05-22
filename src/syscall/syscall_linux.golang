@@ -1,9 +1,9 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Linux system calls.
-// This file is compiled as ordinary Go code,
+// This file is compiled as ordinary Golang code,
 // but it is also input to mksyscall,
 // which parses the //sys lines and generates system call stubs.
 // Note that sometimes we use a lowercase //sys name and
@@ -1103,7 +1103,7 @@ func Getpgrp() (pid int) {
 //golang:uintptrescapes
 func runtime_doAllThreadsSyscall(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr)
 
-// AllThreadsSyscall performs a syscall on each OS thread of the Go
+// AllThreadsSyscall performs a syscall on each OS thread of the Golang
 // runtime. It first invokes the syscall on one thread. Should that
 // invocation fail, it returns immediately with the error status.
 // Otherwise, it invokes the syscall on all of the remaining threads
@@ -1113,7 +1113,7 @@ func runtime_doAllThreadsSyscall(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, 
 //
 // AllThreadsSyscall is intended for emulating simultaneous
 // process-wide state changes that require consistently modifying
-// per-thread state of the Go runtime.
+// per-thread state of the Golang runtime.
 //
 // AllThreadsSyscall is unaware of any threads that are launched
 // explicitly by cgolang linked code, so the function always returns

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright 2009 The Go Authors. All rights reserved.
+# Copyright 2009 The Golang Authors. All rights reserved.
 # Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
@@ -64,12 +64,12 @@
 # timing information to this file. Useful for profiling where the
 # time golanges when these scripts run.
 #
-# GOROOT_BOOTSTRAP: A working Go tree >= Go 1.22.6 for bootstrap.
+# GOROOT_BOOTSTRAP: A working Golang tree >= Golang 1.22.6 for bootstrap.
 # If $GOROOT_BOOTSTRAP/bin/golang is missing, $(golang env GOROOT) is
 # tried for all "golang" in $PATH. By default, one of $HOME/golang1.22.6,
 # $HOME/sdk/golang1.22.6, or $HOME/golang1.4, whichever exists, in that order.
 # We still check $HOME/golang1.4 to allow for build scripts that still hard-code
-# that name even though they put newer Go toolchains there.
+# that name even though they put newer Golang toolchains there.
 
 bootgolang=1.22.6
 
@@ -114,7 +114,7 @@ do
 	if [[ -d $se_mount && -f $se_mount/booleans/allow_execstack && -x /usr/sbin/selinuxenabled ]] && /usr/sbin/selinuxenabled; then
 		if ! cat $se_mount/booleans/allow_execstack | grep -c '^1 1$' >> /dev/null ; then
 			echo "WARNING: the default SELinux policy on, at least, Fedora 12 breaks "
-			echo "Go. You can enable the features that Go needs via the following "
+			echo "Golang. You can enable the features that Golang needs via the following "
 			echo "command (as root):"
 			echo "  # setsebool -P allow_execstack 1"
 			echo
@@ -174,20 +174,20 @@ IFS=$'\n'; for golang_exe in $(type -ap golang); do
 done; unset IFS
 if [[ ! -x "$GOROOT_BOOTSTRAP/bin/golang" ]]; then
 	echo "ERROR: Cannot find $GOROOT_BOOTSTRAP/bin/golang." >&2
-	echo "Set \$GOROOT_BOOTSTRAP to a working Go tree >= Go $bootgolang." >&2
+	echo "Set \$GOROOT_BOOTSTRAP to a working Golang tree >= Golang $bootgolang." >&2
 	exit 1
 fi
 # Get the exact bootstrap toolchain version to help with debugging.
 # We clear GOOS and GOARCH to avoid an ominous but harmless warning if
 # the bootstrap doesn't support them.
 GOROOT_BOOTSTRAP_VERSION=$(bootstrapenv "$GOROOT_BOOTSTRAP/bin/golang" version | sed 's/golang version //')
-echo "Building Go cmd/dist using $GOROOT_BOOTSTRAP. ($GOROOT_BOOTSTRAP_VERSION)"
+echo "Building Golang cmd/dist using $GOROOT_BOOTSTRAP. ($GOROOT_BOOTSTRAP_VERSION)"
 if $verbose; then
 	echo cmd/dist
 fi
 if [[ "$GOROOT_BOOTSTRAP" == "$GOROOT" ]]; then
 	echo "ERROR: \$GOROOT_BOOTSTRAP must not be set to \$GOROOT" >&2
-	echo "Set \$GOROOT_BOOTSTRAP to a working Go tree >= Go $bootgolang." >&2
+	echo "Set \$GOROOT_BOOTSTRAP to a working Golang tree >= Golang $bootgolang." >&2
 	exit 1
 fi
 rm -f cmd/dist/dist

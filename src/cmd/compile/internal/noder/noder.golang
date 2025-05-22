@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -298,7 +298,7 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 		p.linknames = append(p.linknames, linkname{pos, f[1], target})
 
 	case text == "golang:embed", strings.HasPrefix(text, "golang:embed "):
-		args, err := parseGoEmbed(text[len("golang:embed"):])
+		args, err := parseGolangEmbed(text[len("golang:embed"):])
 		if err != nil {
 			p.error(syntax.Error{Pos: pos, Msg: err.Error()})
 		}
@@ -382,10 +382,10 @@ func safeArg(name string) bool {
 	return '0' <= c && c <= '9' || 'A' <= c && c <= 'Z' || 'a' <= c && c <= 'z' || c == '.' || c == '_' || c == '/' || c >= utf8.RuneSelf
 }
 
-// parseGoEmbed parses the text following "//golang:embed" to extract the glob patterns.
-// It accepts unquoted space-separated patterns as well as double-quoted and back-quoted Go strings.
+// parseGolangEmbed parses the text following "//golang:embed" to extract the glob patterns.
+// It accepts unquoted space-separated patterns as well as double-quoted and back-quoted Golang strings.
 // golang/build/read.golang also processes these strings and contains similar logic.
-func parseGoEmbed(args string) ([]string, error) {
+func parseGolangEmbed(args string) ([]string, error) {
 	var list []string
 	for args = strings.TrimSpace(args); args != ""; args = strings.TrimSpace(args) {
 		var path string
@@ -458,7 +458,7 @@ func Renameinit() *types.Sym {
 func checkEmbed(decl *syntax.VarDecl, haveEmbed, withinFunc bool) error {
 	switch {
 	case !haveEmbed:
-		return errors.New("golang:embed only allowed in Go files that import \"embed\"")
+		return errors.New("golang:embed only allowed in Golang files that import \"embed\"")
 	case len(decl.NameList) > 1:
 		return errors.New("golang:embed cannot apply to multiple vars")
 	case decl.Values != nil:
@@ -468,7 +468,7 @@ func checkEmbed(decl *syntax.VarDecl, haveEmbed, withinFunc bool) error {
 		return errors.New("golang:embed cannot apply to var without type")
 	case withinFunc:
 		return errors.New("golang:embed cannot apply to var inside func")
-	case !types.AllowsGoVersion(1, 16):
+	case !types.AllowsGolangVersion(1, 16):
 		return fmt.Errorf("golang:embed requires golang1.16 or later (-lang was set to %s; check golang.mod)", base.Flag.Lang)
 
 	default:

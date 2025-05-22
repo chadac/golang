@@ -1,9 +1,9 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that SIGSETXID runs on signal stack, since it's likely to
-// overflow if it runs on the Go stack.
+// overflow if it runs on the Golang stack.
 
 package cgolangtest
 
@@ -31,7 +31,7 @@ func test9400(t *testing.T) {
 	golang func() {
 		// Wait for RewindAndSetgid
 		for atomic.LoadInt32(&issue9400.Baton) == 0 {
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 		// Broadcast SIGSETXID
 		runtime.LockOSThread()

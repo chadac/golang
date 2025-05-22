@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -57,7 +57,7 @@ type DLL struct {
 // LoadDLL loads the named DLL file into memory.
 //
 // If name is not an absolute path and is not a known system DLL used by
-// Go, Windows will search for the named DLL in many locations, causing
+// Golang, Windows will search for the named DLL in many locations, causing
 // potential DLL preloading attacks.
 //
 // Use [LazyDLL] in golanglang.org/x/sys/windows for a secure way to

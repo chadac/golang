@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,7 +24,7 @@ TEXT crosscall2_trampoline<>(SB),NOSPLIT,$0-0
 TEXT crosscall2(SB),NOSPLIT|NOFRAME,$0
 	SUB	$(8*9), R13 // Reserve space for the floating point registers.
 	// The C arguments arrive in R0, R1, R2, and R3. We want to
-	// pass R0, R1, and R3 to Go, so we push those on the stack.
+	// pass R0, R1, and R3 to Golang, so we push those on the stack.
 	// Also, save C callee-save registers R4-R12.
 	MOVM.WP	[R0, R1, R3, R4, R5, R6, R7, R8, R9, g, R11, R12], (R13)
 	// Finally, save the link register R14. This also puts the

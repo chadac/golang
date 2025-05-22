@@ -1,7 +1,7 @@
 -- expect --
 SUCCESS
 -- trace --
-Trace Go1.23
+Trace Golang1.23
 EventBatch gen=1 m=1 time=15 size=4
 ProcStatus dt=1 p=0 pstatus=1
 EventBatch gen=1 m=18446744073709551615 time=10 size=6

@@ -1,14 +1,14 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This header file describes the BoringCrypto ABI as built for use in Go.
-// The BoringCrypto build for Go (which generates golangboringcrypto_*.syso)
+// This header file describes the BoringCrypto ABI as built for use in Golang.
+// The BoringCrypto build for Golang (which generates golangboringcrypto_*.syso)
 // takes the standard libcrypto.a from BoringCrypto and adds the prefix
 // _golangboringcrypto_ to every symbol, to avoid possible conflicts with
 // code wrapping a different BoringCrypto or OpenSSL.
 //
-// To make this header standalone (so that building Go does not require
+// To make this header standalone (so that building Golang does not require
 // having a full set of BoringCrypto headers), the struct details are not here.
 // Instead, while building the syso, we compile and run a C++ program
 // that checks that the sizes match. The program also checks (during compilation)

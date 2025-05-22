@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,8 +40,8 @@ func AddToolChainScriptConditions(t *testing.T, conds map[string]script.Cond, go
 	add("cross", script.BoolCondition("cmd/golang GOOS/GOARCH != GOHOSTOS/GOHOSTARCH", golangHostOS != runtime.GOOS || golangHostArch != runtime.GOARCH))
 	add("fuzz", sysCondition("-fuzz", platform.FuzzSupported, false, golangHostOS, golangHostArch))
 	add("fuzz-instrumented", sysCondition("-fuzz with instrumentation", platform.FuzzInstrumented, false, golangHostOS, golangHostArch))
-	add("GODEBUG", script.PrefixCondition("GODEBUG contains <suffix>", hasGodebug))
-	add("GOEXPERIMENT", script.PrefixCondition("GOEXPERIMENT <suffix> is enabled", hasGoexperiment))
+	add("GODEBUG", script.PrefixCondition("GODEBUG contains <suffix>", hasGolangdebug))
+	add("GOEXPERIMENT", script.PrefixCondition("GOEXPERIMENT <suffix> is enabled", hasGolangexperiment))
 	add("golang-builder", script.BoolCondition("GO_BUILDER_NAME is non-empty", testenv.Builder() != ""))
 	add("link", lazyBool("testenv.HasLink()", testenv.HasLink))
 	add("msan", sysCondition("-msan", platform.MSanSupported, true, golangHostOS, golangHostArch))
@@ -86,7 +86,7 @@ func pieLinkExt(s *script.State) (bool, error) {
 	return !platform.InternalLinkPIESupported(GOOS, GOARCH), nil
 }
 
-func hasGodebug(s *script.State, value string) (bool, error) {
+func hasGolangdebug(s *script.State, value string) (bool, error) {
 	golangdebug, _ := s.LookupEnv("GODEBUG")
 	for _, p := range strings.Split(golangdebug, ",") {
 		if strings.TrimSpace(p) == value {
@@ -96,7 +96,7 @@ func hasGodebug(s *script.State, value string) (bool, error) {
 	return false, nil
 }
 
-func hasGoexperiment(s *script.State, value string) (bool, error) {
+func hasGolangexperiment(s *script.State, value string) (bool, error) {
 	GOOS, _ := s.LookupEnv("GOOS")
 	GOARCH, _ := s.LookupEnv("GOARCH")
 	golangexp, _ := s.LookupEnv("GOEXPERIMENT")

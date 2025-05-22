@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
@@ -43,7 +43,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$0
 	// Restore callee-save registers.
 	MOVM.IA.W (R13), [R4-R11]
 
-	// Go is all done with this OS thread.
+	// Golang is all done with this OS thread.
 	// Tell pthread everything is ok (we never join with this thread, so
 	// the value here doesn't really matter).
 	MOVW	$0, R0
@@ -94,7 +94,7 @@ TEXT runtime·read_tls_fallback(SB),NOSPLIT|NOFRAME,$0
 	MOVM.IAW (R13), [R1, R2, R3, R12]
 	RET
 
-// These trampolines help convert from Go calling convention to C calling convention.
+// These trampolines help convert from Golang calling convention to C calling convention.
 // They should be called with asmcgolangcall - note that while asmcgolangcall does
 // stack alignment, creation of a frame undoes it again.
 // A pointer to the arguments is passed in R0.

@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,8 +8,8 @@ package runtime
 
 import "unsafe"
 
-// adjust Gobuf as if it executed a call to fn with context ctxt
-// and then did an immediate Gosave.
+// adjust Golangbuf as if it executed a call to fn with context ctxt
+// and then did an immediate Golangsave.
 func golangstartcall(buf *golangbuf, fn, ctxt unsafe.Pointer) {
 	if buf.lr != 0 {
 		throw("invalid use of golangstartcall")
@@ -19,4 +19,4 @@ func golangstartcall(buf *golangbuf, fn, ctxt unsafe.Pointer) {
 	buf.ctxt = ctxt
 }
 
-func prepGoExitFrame(sp uintptr)
+func prepGolangExitFrame(sp uintptr)

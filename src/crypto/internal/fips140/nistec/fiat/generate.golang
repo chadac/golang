@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -89,7 +89,7 @@ func main() {
 
 		log.Printf("Generating %s_fiat64.golang...", c.Prefix)
 		cmd := exec.Command("docker", "run", "--rm", "--entrypoint", "word_by_word_montgolangmery",
-			"fiat-crypto:v0.0.9", "--lang", "Go", "--no-wide-int", "--cmovznz-by-mul",
+			"fiat-crypto:v0.0.9", "--lang", "Golang", "--no-wide-int", "--cmovznz-by-mul",
 			"--relax-primitive-carry-to-bitwidth", "32,64", "--internal-static",
 			"--public-function-case", "camelCase", "--public-type-case", "camelCase",
 			"--private-function-case", "camelCase", "--private-type-case", "camelCase",
@@ -143,7 +143,7 @@ func main() {
 	}
 }
 
-const tmplWrapper = `// Copyright 2021 The Go Authors. All rights reserved.
+const tmplWrapper = `// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -274,7 +274,7 @@ func {{ .Prefix }}InvertEndianness(v []byte) {
 }
 `
 
-const tmplAddchain = `// Copyright 2021 The Go Authors. All rights reserved.
+const tmplAddchain = `// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 

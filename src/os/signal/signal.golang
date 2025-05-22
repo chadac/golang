@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -267,7 +267,7 @@ func process(sig os.Signal) {
 //
 // The stop function unregisters the signal behavior, which, like [signal.Reset],
 // may restore the default behavior for a given signal. For example, the default
-// behavior of a Go program receiving [os.Interrupt] is to exit. Calling
+// behavior of a Golang program receiving [os.Interrupt] is to exit. Calling
 // NotifyContext(parent, os.Interrupt) will change the behavior to cancel
 // the returned context. Future interrupts received will not trigger the default
 // (exit) behavior until the returned stop function is called.

@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,7 +16,7 @@ func TestPkgDefaultExecName(t *testing.T) {
 		in         string
 		files      []string
 		wantMod    string
-		wantGopath string
+		wantGolangpath string
 	}{
 		{"example.com/mycmd", []string{}, "mycmd", "mycmd"},
 		{"example.com/mycmd/v0", []string{}, "v0", "v0"},
@@ -36,7 +36,7 @@ func TestPkgDefaultExecName(t *testing.T) {
 			cfg.ModulesEnabled = true
 			pkg := new(Package)
 			pkg.ImportPath = tt.in
-			pkg.GoFiles = tt.files
+			pkg.GolangFiles = tt.files
 			pkg.Internal.CmdlineFiles = len(tt.files) > 0
 			golangtMod := pkg.DefaultExecName()
 			if golangtMod != tt.wantMod {
@@ -47,11 +47,11 @@ func TestPkgDefaultExecName(t *testing.T) {
 			cfg.ModulesEnabled = false
 			pkg := new(Package)
 			pkg.ImportPath = tt.in
-			pkg.GoFiles = tt.files
+			pkg.GolangFiles = tt.files
 			pkg.Internal.CmdlineFiles = len(tt.files) > 0
-			golangtGopath := pkg.DefaultExecName()
-			if golangtGopath != tt.wantGopath {
-				t.Errorf("pkg.DefaultExecName with ImportPath = %q in golangpath mode = %v; want %v", tt.in, golangtGopath, tt.wantGopath)
+			golangtGolangpath := pkg.DefaultExecName()
+			if golangtGolangpath != tt.wantGolangpath {
+				t.Errorf("pkg.DefaultExecName with ImportPath = %q in golangpath mode = %v; want %v", tt.in, golangtGolangpath, tt.wantGolangpath)
 			}
 		}
 	}

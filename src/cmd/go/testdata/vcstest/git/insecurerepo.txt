@@ -14,13 +14,13 @@ git branch -m master
 
 at 2019-09-04T14:39:48-04:00
 git add main.golang
-git commit -m 'main: add Go source file'
+git commit -m 'main: add Golang source file'
 
 git log --oneline --decorate=short
 cmp stdout .git-log
 
 -- .git-log --
-6fecd21 (HEAD -> master) main: add Go source file
+6fecd21 (HEAD -> master) main: add Golang source file
 d1a15cd all: initialize module
 -- golang.mod --
 module vcs-test.golanglang.org/insecure/golang/insecure

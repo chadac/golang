@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,10 +12,10 @@ import (
 	"unsafe"
 )
 
-const cgolangWriteBarrierFail = "unpinned Go pointer stored into non-Go memory"
+const cgolangWriteBarrierFail = "unpinned Golang pointer stored into non-Golang memory"
 
 // cgolangCheckPtrWrite is called whenever a pointer is stored into memory.
-// It throws if the program is storing an unpinned Go pointer into non-Go
+// It throws if the program is storing an unpinned Golang pointer into non-Golang
 // memory.
 //
 // This is called from generated code when GOEXPERIMENT=cgolangcheck2 is enabled.
@@ -29,10 +29,10 @@ func cgolangCheckPtrWrite(dst *unsafe.Pointer, src unsafe.Pointer) {
 		// runtime has set itself up.
 		return
 	}
-	if !cgolangIsGoPointer(src) {
+	if !cgolangIsGolangPointer(src) {
 		return
 	}
-	if cgolangIsGoPointer(unsafe.Pointer(dst)) {
+	if cgolangIsGolangPointer(unsafe.Pointer(dst)) {
 		return
 	}
 
@@ -44,7 +44,7 @@ func cgolangCheckPtrWrite(dst *unsafe.Pointer, src unsafe.Pointer) {
 	}
 
 	// Allocating memory can write to various mfixalloc structs
-	// that look like they are non-Go memory.
+	// that look like they are non-Golang memory.
 	if gp.m.mallocing != 0 {
 		return
 	}
@@ -63,14 +63,14 @@ func cgolangCheckPtrWrite(dst *unsafe.Pointer, src unsafe.Pointer) {
 	}
 
 	systemstack(func() {
-		println("write of unpinned Go pointer", hex(uintptr(src)), "to non-Go memory", hex(uintptr(unsafe.Pointer(dst))))
+		println("write of unpinned Golang pointer", hex(uintptr(src)), "to non-Golang memory", hex(uintptr(unsafe.Pointer(dst))))
 		throw(cgolangWriteBarrierFail)
 	})
 }
 
 // cgolangCheckMemmove is called when moving a block of memory.
-// It throws if the program is copying a block that contains an unpinned Go
-// pointer into non-Go memory.
+// It throws if the program is copying a block that contains an unpinned Golang
+// pointer into non-Golang memory.
 //
 // This is called from generated code when GOEXPERIMENT=cgolangcheck2 is enabled.
 //
@@ -83,8 +83,8 @@ func cgolangCheckMemmove(typ *_type, dst, src unsafe.Pointer) {
 // cgolangCheckMemmove2 is called when moving a block of memory.
 // dst and src point off bytes into the value to copy.
 // size is the number of bytes to copy.
-// It throws if the program is copying a block that contains an unpinned Go
-// pointer into non-Go memory.
+// It throws if the program is copying a block that contains an unpinned Golang
+// pointer into non-Golang memory.
 //
 //golang:nosplit
 //golang:nowritebarrier
@@ -92,10 +92,10 @@ func cgolangCheckMemmove2(typ *_type, dst, src unsafe.Pointer, off, size uintptr
 	if !typ.Pointers() {
 		return
 	}
-	if !cgolangIsGoPointer(src) {
+	if !cgolangIsGolangPointer(src) {
 		return
 	}
-	if cgolangIsGoPointer(dst) {
+	if cgolangIsGolangPointer(dst) {
 		return
 	}
 	cgolangCheckTypedBlock(typ, src, off, size)
@@ -104,8 +104,8 @@ func cgolangCheckMemmove2(typ *_type, dst, src unsafe.Pointer, off, size uintptr
 // cgolangCheckSliceCopy is called when copying n elements of a slice.
 // src and dst are pointers to the first element of the slice.
 // typ is the element type of the slice.
-// It throws if the program is copying slice elements that contain unpinned Go
-// pointers into non-Go memory.
+// It throws if the program is copying slice elements that contain unpinned Golang
+// pointers into non-Golang memory.
 //
 //golang:nosplit
 //golang:nowritebarrier
@@ -113,10 +113,10 @@ func cgolangCheckSliceCopy(typ *_type, dst, src unsafe.Pointer, n int) {
 	if !typ.Pointers() {
 		return
 	}
-	if !cgolangIsGoPointer(src) {
+	if !cgolangIsGolangPointer(src) {
 		return
 	}
-	if cgolangIsGoPointer(dst) {
+	if cgolangIsGolangPointer(dst) {
 		return
 	}
 	p := src
@@ -127,7 +127,7 @@ func cgolangCheckSliceCopy(typ *_type, dst, src unsafe.Pointer, n int) {
 }
 
 // cgolangCheckTypedBlock checks the block of memory at src, for up to size bytes,
-// and throws if it finds an unpinned Go pointer. The type of the memory is typ,
+// and throws if it finds an unpinned Golang pointer. The type of the memory is typ,
 // and src is off bytes into that type.
 //
 //golang:nosplit
@@ -145,7 +145,7 @@ func cgolangCheckTypedBlock(typ *_type, src unsafe.Pointer, off, size uintptr) {
 }
 
 // cgolangCheckBits checks the block of memory at src, for up to size
-// bytes, and throws if it finds an unpinned Go pointer. The gcbits mark each
+// bytes, and throws if it finds an unpinned Golang pointer. The gcbits mark each
 // pointer value. The src pointer is off bytes into the gcbits.
 //
 //golang:nosplit
@@ -170,7 +170,7 @@ func cgolangCheckBits(src unsafe.Pointer, gcbits *byte, off, size uintptr) {
 		} else {
 			if bits&1 != 0 {
 				v := *(*unsafe.Pointer)(add(src, i))
-				if cgolangIsGoPointer(v) && !isPinned(v) {
+				if cgolangIsGolangPointer(v) && !isPinned(v) {
 					throw(cgolangWriteBarrierFail)
 				}
 			}

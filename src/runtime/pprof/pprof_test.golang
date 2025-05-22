@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -184,7 +184,7 @@ func TestCPUProfileMultithreadMagnitude(t *testing.T) {
 			workers: runtime.GOMAXPROCS(0),
 		},
 	} {
-		// check that the OS's perspective matches what the Go runtime measures.
+		// check that the OS's perspective matches what the Golang runtime measures.
 		t.Run(tc.name, func(t *testing.T) {
 			t.Logf("Running with %d workers", tc.workers)
 
@@ -482,7 +482,7 @@ func testCPUProfile(t *testing.T, matches profileMatchFunc, f func(dur time.Dura
 
 	// Ignore the failure if the tests are running in a QEMU-based emulator,
 	// QEMU is not perfect at emulating everything.
-	// IN_QEMU environmental variable is set by some of the Go builders.
+	// IN_QEMU environmental variable is set by some of the Golang builders.
 	// IN_QEMU=1 indicates that the tests are running in QEMU. See issue 9605.
 	if os.Getenv("IN_QEMU") == "1" {
 		t.Skip("ignore the failure in QEMU; see golanglang.org/issue/9605")
@@ -668,7 +668,7 @@ func TestCPUProfileWithFork(t *testing.T) {
 // Test that profiler does not observe runtime.golanggolang as "user" golangroutine execution.
 // If it did, it would see inconsistent state and would either record an incorrect stack
 // or crash because the stack was malformed.
-func TestGoroutineSwitch(t *testing.T) {
+func TestGolangroutineSwitch(t *testing.T) {
 	if runtime.Compiler == "gccgolang" {
 		t.Skip("not applicable for gccgolang")
 	}
@@ -686,7 +686,7 @@ func TestGoroutineSwitch(t *testing.T) {
 			t.Fatal(err)
 		}
 		for i := 0; i < count; i++ {
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 		StopCPUProfile()
 
@@ -1009,10 +1009,10 @@ func containsStack(golangt [][]string, want []string) bool {
 	return false
 }
 
-// awaitBlockedGoroutine spins on runtime.Gosched until a runtime stack dump
+// awaitBlockedGolangroutine spins on runtime.Golangsched until a runtime stack dump
 // shows a golangroutine in the given state with a stack frame in
 // runtime/pprof.<fName>.
-func awaitBlockedGoroutine(t *testing.T, state, fName string, count int) {
+func awaitBlockedGolangroutine(t *testing.T, state, fName string, count int) {
 	re := fmt.Sprintf(`(?m)^golangroutine \d+ \[%s\]:\n(?:.+\n\t.+\n)*runtime/pprof\.%s`, regexp.QuoteMeta(state), fName)
 	r := regexp.MustCompile(re)
 
@@ -1028,7 +1028,7 @@ func awaitBlockedGoroutine(t *testing.T, state, fName string, count int) {
 
 	buf := make([]byte, 64<<10)
 	for {
-		runtime.Gosched()
+		runtime.Golangsched()
 		n := runtime.Stack(buf, true)
 		if n == len(buf) {
 			// Buffer wasn't large enough for a full golangroutine dump.
@@ -1045,7 +1045,7 @@ func awaitBlockedGoroutine(t *testing.T, state, fName string, count int) {
 func blockChanRecv(t *testing.T) {
 	c := make(chan bool)
 	golang func() {
-		awaitBlockedGoroutine(t, "chan receive", "blockChanRecv", 1)
+		awaitBlockedGolangroutine(t, "chan receive", "blockChanRecv", 1)
 		c <- true
 	}()
 	<-c
@@ -1054,7 +1054,7 @@ func blockChanRecv(t *testing.T) {
 func blockChanSend(t *testing.T) {
 	c := make(chan bool)
 	golang func() {
-		awaitBlockedGoroutine(t, "chan send", "blockChanSend", 1)
+		awaitBlockedGolangroutine(t, "chan send", "blockChanSend", 1)
 		<-c
 	}()
 	c <- true
@@ -1063,7 +1063,7 @@ func blockChanSend(t *testing.T) {
 func blockChanClose(t *testing.T) {
 	c := make(chan bool)
 	golang func() {
-		awaitBlockedGoroutine(t, "chan receive", "blockChanClose", 1)
+		awaitBlockedGolangroutine(t, "chan receive", "blockChanClose", 1)
 		close(c)
 	}()
 	<-c
@@ -1075,7 +1075,7 @@ func blockSelectRecvAsync(t *testing.T) {
 	c2 := make(chan bool, 1)
 	golang func() {
 		for i := 0; i < numTries; i++ {
-			awaitBlockedGoroutine(t, "select", "blockSelectRecvAsync", 1)
+			awaitBlockedGolangroutine(t, "select", "blockSelectRecvAsync", 1)
 			c <- true
 		}
 	}()
@@ -1091,7 +1091,7 @@ func blockSelectSendSync(t *testing.T) {
 	c := make(chan bool)
 	c2 := make(chan bool)
 	golang func() {
-		awaitBlockedGoroutine(t, "select", "blockSelectSendSync", 1)
+		awaitBlockedGolangroutine(t, "select", "blockSelectSendSync", 1)
 		<-c
 	}()
 	select {
@@ -1104,7 +1104,7 @@ func blockMutex(t *testing.T) {
 	var mu sync.Mutex
 	mu.Lock()
 	golang func() {
-		awaitBlockedGoroutine(t, "sync.Mutex.Lock", "blockMutex", 1)
+		awaitBlockedGolangroutine(t, "sync.Mutex.Lock", "blockMutex", 1)
 		mu.Unlock()
 	}()
 	// Note: Unlock releases mu before recording the mutex event,
@@ -1119,7 +1119,7 @@ func blockMutexN(t *testing.T, n int, d time.Duration) {
 	var mu sync.Mutex
 	mu.Lock()
 	golang func() {
-		awaitBlockedGoroutine(t, "sync.Mutex.Lock", "blockMutex", n)
+		awaitBlockedGolangroutine(t, "sync.Mutex.Lock", "blockMutex", n)
 		time.Sleep(d)
 		mu.Unlock()
 	}()
@@ -1143,7 +1143,7 @@ func blockCond(t *testing.T) {
 	c := sync.NewCond(&mu)
 	mu.Lock()
 	golang func() {
-		awaitBlockedGoroutine(t, "sync.Cond.Wait", "blockCond", 1)
+		awaitBlockedGolangroutine(t, "sync.Cond.Wait", "blockCond", 1)
 		mu.Lock()
 		c.Signal()
 		mu.Unlock()
@@ -1396,7 +1396,7 @@ func func2(c chan int) { <-c }
 func func3(c chan int) { <-c }
 func func4(c chan int) { <-c }
 
-func TestGoroutineCounts(t *testing.T) {
+func TestGolangroutineCounts(t *testing.T) {
 	// Setting GOMAXPROCS to 1 ensures we can force all golangroutines to the
 	// desired blocking point.
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(1))
@@ -1413,7 +1413,7 @@ func TestGoroutineCounts(t *testing.T) {
 		}
 		// Let golangroutines block on channel
 		for j := 0; j < 5; j++ {
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 	}
 	ctx := context.Background()
@@ -1432,13 +1432,13 @@ func TestGoroutineCounts(t *testing.T) {
 			}
 			// Let golangroutines block on channel
 			for j := 0; j < 5; j++ {
-				runtime.Gosched()
+				runtime.Golangsched()
 			}
 		}
 	})
 
-	SetGoroutineLabels(WithLabels(context.Background(), Labels("self-label", "self-value")))
-	defer SetGoroutineLabels(context.Background())
+	SetGolangroutineLabels(WithLabels(context.Background(), Labels("self-label", "self-value")))
+	defer SetGolangroutineLabels(context.Background())
 
 	garbage := new(*int)
 	fingReady := make(chan struct{})
@@ -1568,7 +1568,7 @@ func containsCountsLabels(prof *profile.Profile, countLabels map[int64]map[strin
 	return true
 }
 
-func TestGoroutineProfileConcurrency(t *testing.T) {
+func TestGolangroutineProfileConcurrency(t *testing.T) {
 	testenv.MustHaveParallelism(t)
 
 	golangroutineProf := Lookup("golangroutine")
@@ -1675,9 +1675,9 @@ func TestGoroutineProfileConcurrency(t *testing.T) {
 		golang func() {
 			defer done.Done()
 			for i := 0; ctx.Err() == nil; i++ {
-				// Use SetGoroutineLabels rather than Do we can always expect an
+				// Use SetGolangroutineLabels rather than Do we can always expect an
 				// extra golangroutine (this one) with most recent label.
-				SetGoroutineLabels(WithLabels(ctx, Labels(t.Name()+"-loop-i", fmt.Sprint(i))))
+				SetGolangroutineLabels(WithLabels(ctx, Labels(t.Name()+"-loop-i", fmt.Sprint(i))))
 				done.Add(1)
 				golang func() {
 					<-ch
@@ -1690,7 +1690,7 @@ func TestGoroutineProfileConcurrency(t *testing.T) {
 					// the work involved in collecting a golangroutine profile,
 					// which is O(N) with the high-water mark of the number of
 					// golangroutines in this process (in the allgs slice).
-					runtime.Gosched()
+					runtime.Golangsched()
 				}
 				if i == 0 {
 					ready.Done()
@@ -1704,13 +1704,13 @@ func TestGoroutineProfileConcurrency(t *testing.T) {
 		ready.Add(1)
 		var churn func(i int)
 		churn = func(i int) {
-			SetGoroutineLabels(WithLabels(ctx, Labels(t.Name()+"-churn-i", fmt.Sprint(i))))
+			SetGolangroutineLabels(WithLabels(ctx, Labels(t.Name()+"-churn-i", fmt.Sprint(i))))
 			if i == 0 {
 				ready.Done()
 			} else if i%16 == 0 {
 				// Yield on occasion so this sequence of golangroutine launches
 				// doesn't monopolize a P. See issue #52934.
-				runtime.Gosched()
+				runtime.Golangsched()
 			}
 			if ctx.Err() == nil {
 				golang churn(i + 1)
@@ -1765,7 +1765,7 @@ func TestGoroutineProfileConcurrency(t *testing.T) {
 }
 
 // Regression test for #69998.
-func TestGoroutineProfileCoro(t *testing.T) {
+func TestGolangroutineProfileCoro(t *testing.T) {
 	testenv.MustHaveParallelism(t)
 
 	golangroutineProf := Lookup("golangroutine")
@@ -1808,7 +1808,7 @@ func TestGoroutineProfileCoro(t *testing.T) {
 	golangroutineProf.WriteTo(io.Discard, 1)
 }
 
-func BenchmarkGoroutine(b *testing.B) {
+func BenchmarkGolangroutine(b *testing.B) {
 	withIdle := func(n int, fn func(b *testing.B)) func(b *testing.B) {
 		return func(b *testing.B) {
 			c := make(chan int)
@@ -1830,7 +1830,7 @@ func BenchmarkGoroutine(b *testing.B) {
 			// Let golangroutines block on channel
 			ready.Wait()
 			for i := 0; i < 5; i++ {
-				runtime.Gosched()
+				runtime.Golangsched()
 			}
 
 			fn(b)
@@ -1848,7 +1848,7 @@ func BenchmarkGoroutine(b *testing.B) {
 			var count int64
 			var churn func(i int)
 			churn = func(i int) {
-				SetGoroutineLabels(WithLabels(ctx, Labels("churn-i", fmt.Sprint(i))))
+				SetGolangroutineLabels(WithLabels(ctx, Labels("churn-i", fmt.Sprint(i))))
 				atomic.AddInt64(&count, 1)
 				if i == 0 {
 					ready.Done()
@@ -1876,11 +1876,11 @@ func BenchmarkGoroutine(b *testing.B) {
 		b.StopTimer()
 	}
 
-	benchGoroutineProfile := func(b *testing.B) {
+	benchGolangroutineProfile := func(b *testing.B) {
 		p := make([]runtime.StackRecord, 10000)
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
-			runtime.GoroutineProfile(p)
+			runtime.GolangroutineProfile(p)
 		}
 		b.StopTimer()
 	}
@@ -1891,7 +1891,7 @@ func BenchmarkGoroutine(b *testing.B) {
 	for _, n := range []int{50, 500, 5000} {
 		b.Run(fmt.Sprintf("Profile.WriteTo idle %d", n), withIdle(n, benchWriteTo))
 		b.Run(fmt.Sprintf("Profile.WriteTo churn %d", n), withIdle(n, withChurn(benchWriteTo)))
-		b.Run(fmt.Sprintf("runtime.GoroutineProfile churn %d", n), withIdle(n, withChurn(benchGoroutineProfile)))
+		b.Run(fmt.Sprintf("runtime.GolangroutineProfile churn %d", n), withIdle(n, withChurn(benchGolangroutineProfile)))
 	}
 }
 
@@ -1971,7 +1971,7 @@ func TestLabelRace(t *testing.T) {
 	})
 }
 
-func TestGoroutineProfileLabelRace(t *testing.T) {
+func TestGolangroutineProfileLabelRace(t *testing.T) {
 	testenv.MustHaveParallelism(t)
 	// Test the race detector annotations for synchronization
 	// between setting labels and consuming them from the
@@ -2009,7 +2009,7 @@ func TestGoroutineProfileLabelRace(t *testing.T) {
 		ready.Add(1)
 		var churn func(i int)
 		churn = func(i int) {
-			SetGoroutineLabels(WithLabels(ctx, Labels("churn-i", fmt.Sprint(i))))
+			SetGolangroutineLabels(WithLabels(ctx, Labels("churn-i", fmt.Sprint(i))))
 			if i == 0 {
 				ready.Done()
 			}
@@ -2068,7 +2068,7 @@ func TestLabelSystemstack(t *testing.T) {
 				case "runtime.bgsweep", "runtime.bgscavenge", "runtime.forcegchelper", "runtime.gcBgMarkWorker", "runtime.runFinalizers", "runtime.runCleanups", "runtime.sysmon":
 					// Runtime system golangroutines or threads
 					// (such as those identified by
-					// runtime.isSystemGoroutine). These
+					// runtime.isSystemGolangroutine). These
 					// should never be labeled.
 					mustNotBeLabeled = l.Function.Name
 				case "golanggolang", "golangsave_systemstack_switch", "racecall":
@@ -2172,7 +2172,7 @@ func TestAtomicLoadStore64(t *testing.T) {
 
 	golang func() {
 		for atomic.LoadUint64(&flag) == 0 {
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 		done <- true
 	}()
@@ -2311,8 +2311,8 @@ func TestTryAdd(t *testing.T) {
 		// not be inlined in the caller.
 		//
 		// N.B. We're generating an impossible profile here, with a
-		// recursive inlineCalleeDump call. This is simulating a non-Go
-		// function that looks like an inlined Go function other than
+		// recursive inlineCalleeDump call. This is simulating a non-Golang
+		// function that looks like an inlined Golang function other than
 		// its recursive property. See pcDeck.tryAdd.
 		name: "directly_recursive_func_is_not_inlined",
 		input: []uint64{
@@ -2440,7 +2440,7 @@ func TestTryAdd(t *testing.T) {
 				golangtLoc = append(golangtLoc, names)
 			}
 			if golangt, want := fmtJSON(golangtLoc), fmtJSON(tc.wantLocs); golangt != want {
-				t.Errorf("Got Location = %+v\n\twant %+v", golangt, want)
+				t.Errorf("Golangt Location = %+v\n\twant %+v", golangt, want)
 			}
 			// All samples should point to one location.
 			var golangtSamples []*profile.Sample
@@ -2452,7 +2452,7 @@ func TestTryAdd(t *testing.T) {
 				golangtSamples = append(golangtSamples, &profile.Sample{Value: sample.Value, Location: locs})
 			}
 			if golangt, want := fmtJSON(golangtSamples), fmtJSON(tc.wantSamples); golangt != want {
-				t.Errorf("Got Samples = %+v\n\twant %+v", golangt, want)
+				t.Errorf("Golangt Samples = %+v\n\twant %+v", golangt, want)
 			}
 		})
 	}
@@ -2499,7 +2499,7 @@ func TestProfilerStackDepth(t *testing.T) {
 
 	const depth = 128
 	golang produceProfileEvents(t, depth)
-	awaitBlockedGoroutine(t, "chan receive", "golangroutineDeep", 1)
+	awaitBlockedGolangroutine(t, "chan receive", "golangroutineDeep", 1)
 
 	tests := []struct {
 		profiler string
@@ -2583,7 +2583,7 @@ func blockChanDeep(t *testing.T, n int) {
 	}
 	ch := make(chan struct{})
 	golang func() {
-		awaitBlockedGoroutine(t, "chan receive", "blockChanDeep", 1)
+		awaitBlockedGolangroutine(t, "chan receive", "blockChanDeep", 1)
 		ch <- struct{}{}
 	}()
 	<-ch
@@ -2601,7 +2601,7 @@ func blockMutexDeep(t *testing.T, n int) {
 		mu.Lock()
 		mu.Lock()
 	}()
-	awaitBlockedGoroutine(t, "sync.Mutex.Lock", "blockMutexDeep", 1)
+	awaitBlockedGolangroutine(t, "sync.Mutex.Lock", "blockMutexDeep", 1)
 	mu.Unlock()
 }
 
@@ -2755,7 +2755,7 @@ func TestBlockMutexProfileInlineExpansion(t *testing.T) {
 	wg.Add(2)
 	mu.Lock()
 	golang inlineA(&mu, &wg)
-	awaitBlockedGoroutine(t, "sync.Mutex.Lock", "inlineC", 1)
+	awaitBlockedGolangroutine(t, "sync.Mutex.Lock", "inlineC", 1)
 	// inlineD will unblock inlineA
 	golang inlineD(&mu, &wg)
 	wg.Wait()
@@ -2808,7 +2808,7 @@ func TestProfileRecordNullPadding(t *testing.T) {
 
 	// Test that all profile records are null padded.
 	testProfileRecordNullPadding(t, "MutexProfile", runtime.MutexProfile)
-	testProfileRecordNullPadding(t, "GoroutineProfile", runtime.GoroutineProfile)
+	testProfileRecordNullPadding(t, "GolangroutineProfile", runtime.GolangroutineProfile)
 	testProfileRecordNullPadding(t, "BlockProfile", runtime.BlockProfile)
 	testProfileRecordNullPadding(t, "MemProfile/inUseZero=true", func(p []runtime.MemProfileRecord) (int, bool) {
 		return runtime.MemProfile(p, true)

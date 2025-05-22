@@ -1,9 +1,9 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package buildinfo provides access to information embedded in a Go binary
-// about how it was built. This includes the Go toolchain version, and the
+// Package buildinfo provides access to information embedded in a Golang binary
+// about how it was built. This includes the Golang toolchain version, and the
 // set of modules used (for binaries built in module mode).
 //
 // Build information is available for the currently running binary in
@@ -38,10 +38,10 @@ type BuildInfo = debug.BuildInfo
 // or when there are I/O errors reading the file.
 var errUnrecognizedFormat = errors.New("unrecognized file format")
 
-// errNotGoExe is returned when a given executable file is valid but does
-// not contain Go build information.
+// errNotGolangExe is returned when a given executable file is valid but does
+// not contain Golang build information.
 //
-// errNotGoExe should be an internal detail,
+// errNotGolangExe should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
 //   - github.com/quay/claircore
@@ -49,28 +49,28 @@ var errUnrecognizedFormat = errors.New("unrecognized file format")
 // Do not remove or change the type signature.
 // See golang.dev/issue/67401.
 //
-//golang:linkname errNotGoExe
-var errNotGoExe = errors.New("not a Go executable")
+//golang:linkname errNotGolangExe
+var errNotGolangExe = errors.New("not a Golang executable")
 
 // The build info blob left by the linker is identified by a 32-byte header,
 // consisting of buildInfoMagic (14 bytes), followed by version-dependent
 // fields.
-var buildInfoMagic = []byte("\xff Go buildinf:")
+var buildInfoMagic = []byte("\xff Golang buildinf:")
 
 const (
 	buildInfoAlign      = 16
 	buildInfoHeaderSize = 32
 )
 
-// ReadFile returns build information embedded in a Go binary
+// ReadFile returns build information embedded in a Golang binary
 // file at the given path. Most information is only available for binaries built
 // with module support.
 func ReadFile(name string) (info *BuildInfo, err error) {
 	defer func() {
 		if pathErr := (*fs.PathError)(nil); errors.As(err, &pathErr) {
-			err = fmt.Errorf("could not read Go build info: %w", err)
+			err = fmt.Errorf("could not read Golang build info: %w", err)
 		} else if err != nil {
-			err = fmt.Errorf("could not read Go build info from %s: %w", name, err)
+			err = fmt.Errorf("could not read Golang build info from %s: %w", name, err)
 		}
 	}()
 
@@ -82,7 +82,7 @@ func ReadFile(name string) (info *BuildInfo, err error) {
 	return Read(f)
 }
 
-// Read returns build information embedded in a Go binary file
+// Read returns build information embedded in a Golang binary file
 // accessed through the given ReaderAt. Most information is only available for
 // binaries built with module support.
 func Read(r io.ReaderAt) (*BuildInfo, error) {
@@ -94,7 +94,7 @@ func Read(r io.ReaderAt) (*BuildInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	bi.GoVersion = vers
+	bi.GolangVersion = vers
 	return bi, nil
 }
 
@@ -109,8 +109,8 @@ type exe interface {
 	DataReader(addr uint64) (io.ReaderAt, error)
 }
 
-// readRawBuildInfo extracts the Go toolchain version and module information
-// strings from a Go binary. On success, vers should be non-empty. mod
+// readRawBuildInfo extracts the Golang toolchain version and module information
+// strings from a Golang binary. On success, vers should be non-empty. mod
 // is empty if the binary was not built with modules enabled.
 func readRawBuildInfo(r io.ReaderAt) (vers, mod string, err error) {
 	// Read the first bytes of the file to identify the format, then delegate to
@@ -169,7 +169,7 @@ func readRawBuildInfo(r io.ReaderAt) (vers, mod string, err error) {
 	// See cmd/link/internal/ld.Link.buildinfo.
 	dataAddr, dataSize := x.DataStart()
 	if dataSize == 0 {
-		return "", "", errNotGoExe
+		return "", "", errNotGolangExe
 	}
 
 	addr, err := searchMagic(x, dataAddr, dataSize)
@@ -180,12 +180,12 @@ func readRawBuildInfo(r io.ReaderAt) (vers, mod string, err error) {
 	// Read in the full header first.
 	header, err := readData(x, addr, buildInfoHeaderSize)
 	if err == io.EOF {
-		return "", "", errNotGoExe
+		return "", "", errNotGolangExe
 	} else if err != nil {
 		return "", "", err
 	}
 	if len(header) < buildInfoHeaderSize {
-		return "", "", errNotGoExe
+		return "", "", errNotGolangExe
 	}
 
 	const (
@@ -216,7 +216,7 @@ func readRawBuildInfo(r io.ReaderAt) (vers, mod string, err error) {
 	// The version bit of the flags field determines the details of the format.
 	//
 	// Prior to 1.18, the flags version bit is flagsVersionPtr. In this
-	// case, the header includes pointers to the version and modinfo Go
+	// case, the header includes pointers to the version and modinfo Golang
 	// strings in the header. The ptrSize field indicates the size of the
 	// pointers and the endian bit of the flag indicates the pointer
 	// endianness.
@@ -251,13 +251,13 @@ func readRawBuildInfo(r io.ReaderAt) (vers, mod string, err error) {
 		} else if ptrSize == 8 {
 			readPtr = bo.Uint64
 		} else {
-			return "", "", errNotGoExe
+			return "", "", errNotGolangExe
 		}
 		vers = readString(x, ptrSize, readPtr, readPtr(header[versPtrOffset:]))
 		mod = readString(x, ptrSize, readPtr, readPtr(header[versPtrOffset+ptrSize:]))
 	}
 	if vers == "" {
-		return "", "", errNotGoExe
+		return "", "", errNotGolangExe
 	}
 	if len(mod) >= 33 && mod[len(mod)-17] == '\n' {
 		// Strip module framing: sentinel strings delimiting the module info.
@@ -289,29 +289,29 @@ func decodeString(x exe, addr uint64) (string, uint64, error) {
 	// section.
 	b, err := readData(x, addr, binary.MaxVarintLen64)
 	if err == io.EOF {
-		return "", 0, errNotGoExe
+		return "", 0, errNotGolangExe
 	} else if err != nil {
 		return "", 0, err
 	}
 
 	length, n := binary.Uvarint(b)
 	if n <= 0 {
-		return "", 0, errNotGoExe
+		return "", 0, errNotGolangExe
 	}
 	addr += uint64(n)
 
 	b, err = readData(x, addr, length)
 	if err == io.EOF {
-		return "", 0, errNotGoExe
+		return "", 0, errNotGolangExe
 	} else if err == io.ErrUnexpectedEOF {
 		// Length too large to allocate. Clearly bogus value.
-		return "", 0, errNotGoExe
+		return "", 0, errNotGolangExe
 	} else if err != nil {
 		return "", 0, err
 	}
 	if uint64(len(b)) < length {
 		// Section ended before we could read the full string.
-		return "", 0, errNotGoExe
+		return "", 0, errNotGolangExe
 	}
 
 	return string(b), addr + length, nil
@@ -346,7 +346,7 @@ func searchMagic(x exe, start, size uint64) (uint64, error) {
 	// Round up start; magic can't occur in the initial unaligned portion.
 	start = (start + buildInfoAlign - 1) &^ (buildInfoAlign - 1)
 	if start >= end {
-		return 0, errNotGoExe
+		return 0, errNotGolangExe
 	}
 
 	var buf []byte
@@ -373,8 +373,8 @@ func searchMagic(x exe, start, size uint64) (uint64, error) {
 
 		n, err := readDataInto(x, start, buf)
 		if err == io.EOF {
-			// EOF before finding the magic; must not be a Go executable.
-			return 0, errNotGoExe
+			// EOF before finding the magic; must not be a Golang executable.
+			return 0, errNotGolangExe
 		} else if err != nil {
 			return 0, err
 		}
@@ -387,7 +387,7 @@ func searchMagic(x exe, start, size uint64) (uint64, error) {
 			}
 			if remaining-uint64(i) < buildInfoHeaderSize {
 				// Found magic, but not enough space left for the full header.
-				return 0, errNotGoExe
+				return 0, errNotGolangExe
 			}
 			if i%buildInfoAlign != 0 {
 				// Found magic, but misaligned. Keep searching.
@@ -396,19 +396,19 @@ func searchMagic(x exe, start, size uint64) (uint64, error) {
 					// Corrupt object file: the remaining
 					// count says there is more data,
 					// but we didn't read it.
-					return 0, errNotGoExe
+					return 0, errNotGolangExe
 				}
 				data = data[next:]
 				continue
 			}
-			// Good match!
+			// Golangod match!
 			return start + uint64(i), nil
 		}
 
 		start += chunkSize
 	}
 
-	return 0, errNotGoExe
+	return 0, errNotGolangExe
 }
 
 func readData(x exe, addr, size uint64) ([]byte, error) {

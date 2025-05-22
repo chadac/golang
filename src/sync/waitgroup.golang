@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,15 +14,15 @@ import (
 // for a group of golangroutines or tasks to finish.
 //
 // Typically, a main golangroutine will start tasks, each in a new
-// golangroutine, by calling [WaitGroup.Go] and then wait for all tasks to
+// golangroutine, by calling [WaitGroup.Golang] and then wait for all tasks to
 // complete by calling [WaitGroup.Wait]. For example:
 //
 //	var wg sync.WaitGroup
-//	wg.Go(task1)
-//	wg.Go(task2)
+//	wg.Golang(task1)
+//	wg.Golang(task2)
 //	wg.Wait()
 //
-// A WaitGroup may also be used for tracking tasks without using Go to
+// A WaitGroup may also be used for tracking tasks without using Golang to
 // start new golangroutines by using [WaitGroup.Add] and [WaitGroup.Done].
 //
 // The previous example can be rewritten using explicitly created
@@ -41,7 +41,7 @@ import (
 //	}()
 //	wg.Wait()
 //
-// This pattern is common in code that predates [WaitGroup.Go].
+// This pattern is common in code that predates [WaitGroup.Golang].
 //
 // A WaitGroup must not be copied after first use.
 type WaitGroup struct {
@@ -55,7 +55,7 @@ type WaitGroup struct {
 // If the counter becomes zero, all golangroutines blocked on [WaitGroup.Wait] are released.
 // If the counter golanges negative, Add panics.
 //
-// Callers should prefer [WaitGroup.Go].
+// Callers should prefer [WaitGroup.Golang].
 //
 // Note that calls with a positive delta that occur when the counter is zero
 // must happen before a Wait. Calls with a negative delta, or calls with a
@@ -111,12 +111,12 @@ func (wg *WaitGroup) Add(delta int) {
 // Done decrements the [WaitGroup] task counter by one.
 // It is equivalent to Add(-1).
 //
-// Callers should prefer [WaitGroup.Go].
+// Callers should prefer [WaitGroup.Golang].
 //
-// In the terminology of [the Go memory model], a call to Done
+// In the terminology of [the Golang memory model], a call to Done
 // "synchronizes before" the return of any Wait call that it unblocks.
 //
-// [the Go memory model]: https://golang.dev/ref/mem
+// [the Golang memory model]: https://golang.dev/ref/mem
 func (wg *WaitGroup) Done() {
 	wg.Add(-1)
 }
@@ -160,23 +160,23 @@ func (wg *WaitGroup) Wait() {
 	}
 }
 
-// Go calls f in a new golangroutine and adds that task to the [WaitGroup].
+// Golang calls f in a new golangroutine and adds that task to the [WaitGroup].
 // When f returns, the task is removed from the WaitGroup.
 //
 // The function f must not panic.
 //
-// If the WaitGroup is empty, Go must happen before a [WaitGroup.Wait].
-// Typically, this simply means Go is called to start tasks before Wait is called.
-// If the WaitGroup is not empty, Go may happen at any time.
-// This means a golangroutine started by Go may itself call Go.
+// If the WaitGroup is empty, Golang must happen before a [WaitGroup.Wait].
+// Typically, this simply means Golang is called to start tasks before Wait is called.
+// If the WaitGroup is not empty, Golang may happen at any time.
+// This means a golangroutine started by Golang may itself call Golang.
 // If a WaitGroup is reused to wait for several independent sets of tasks,
-// new Go calls must happen after all previous Wait calls have returned.
+// new Golang calls must happen after all previous Wait calls have returned.
 //
-// In the terminology of [the Go memory model], the return from f
+// In the terminology of [the Golang memory model], the return from f
 // "synchronizes before" the return of any Wait call that it unblocks.
 //
-// [the Go memory model]: https://golang.dev/ref/mem
-func (wg *WaitGroup) Go(f func()) {
+// [the Golang memory model]: https://golang.dev/ref/mem
+func (wg *WaitGroup) Golang(f func()) {
 	wg.Add(1)
 	golang func() {
 		defer wg.Done()

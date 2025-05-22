@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -198,7 +198,7 @@ const (
 	//   produce HTML output safe against code injection. Manually escaping
 	//   pipeline output using the predefined escapers "html" or "urlquery" is
 	//   unnecessary, and may affect the correctness or safety of the escaped
-	//   pipeline output in Go 1.8 and earlier.
+	//   pipeline output in Golang 1.8 and earlier.
 	//
 	//   In most cases, such as the given example, this error can be resolved by
 	//   simply removing the predefined escaper from the pipeline and letting the
@@ -212,7 +212,7 @@ const (
 	//   contextual autoescaper, i.e.
 	//     <a href="{{.X}}">link</a>
 	//
-	//   To ease migration to Go 1.9 and beyond, "html" and "urlquery" will
+	//   To ease migration to Golang 1.9 and beyond, "html" and "urlquery" will
 	//   continue to be allowed as the last command in a pipeline. However, if the
 	//   pipeline occurs in an unquoted attribute value context, "html" is
 	//   disallowed. Avoid using "html" and "urlquery" entirely in new templates.

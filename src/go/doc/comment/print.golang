@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -122,8 +122,8 @@ func (l *DocLink) DefaultURL(baseURL string) string {
 // The default anchor ID is constructed by converting every
 // rune that is not alphanumeric ASCII to an underscore
 // and then adding the prefix “hdr-”.
-// For example, if the heading text is “Go Doc Comments”,
-// the default ID is “hdr-Go_Doc_Comments”.
+// For example, if the heading text is “Golang Doc Comments”,
+// the default ID is “hdr-Golang_Doc_Comments”.
 func (h *Heading) DefaultID() string {
 	// Note: The “hdr-” prefix is important to avoid DOM clobbering attacks.
 	// See https://pkg.golang.dev/github.com/golangogle/safehtml#Identifier.
@@ -150,7 +150,7 @@ type commentPrinter struct {
 	*Printer
 }
 
-// Comment returns the standard Go formatting of the [Doc],
+// Comment returns the standard Golang formatting of the [Doc],
 // without any comment markers.
 func (p *Printer) Comment(d *Doc) []byte {
 	cp := &commentPrinter{Printer: p}

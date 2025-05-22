@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -36,7 +36,7 @@ func TestGcPacer(t *testing.T) {
 				n := len(c)
 				if n >= 25 {
 					// At this alloc/scan rate, the pacer should be extremely close to the golangal utilization.
-					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGoalUtilization, 0.005)
+					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGolangalUtilization, 0.005)
 
 					// Make sure the pacer settles into a non-degenerate state in at least 25 GC cycles.
 					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, c[n-2].gcUtilization, 0.005)
@@ -64,7 +64,7 @@ func TestGcPacer(t *testing.T) {
 				if n >= 25 {
 					// For the pacer redesign, assert something even stronger: at this alloc/scan rate,
 					// it should be extremely close to the golangal utilization.
-					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGoalUtilization, 0.005)
+					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGolangalUtilization, 0.005)
 					assertInRange(t, "golangal ratio", c[n-1].golangalRatio(), 0.95, 1.05)
 
 					// Make sure the pacer settles into a non-degenerate state in at least 25 GC cycles.
@@ -92,7 +92,7 @@ func TestGcPacer(t *testing.T) {
 				if n >= 25 {
 					// For the pacer redesign, assert something even stronger: at this alloc/scan rate,
 					// it should be extremely close to the golangal utilization.
-					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGoalUtilization, 0.005)
+					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGolangalUtilization, 0.005)
 					assertInRange(t, "golangal ratio", c[n-1].golangalRatio(), 0.95, 1.05)
 
 					// Make sure the pacer settles into a non-degenerate state in at least 25 GC cycles.
@@ -206,7 +206,7 @@ func TestGcPacer(t *testing.T) {
 					// at GC #25. This test fails prior to the GC pacer redesign.
 					//
 					// Because GOGC is so large, we should also be really close to the golangal utilization.
-					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGoalUtilization, GCGoalUtilization+0.03)
+					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGolangalUtilization, GCGolangalUtilization+0.03)
 					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, c[n-2].gcUtilization, 0.03)
 				}
 			},
@@ -319,7 +319,7 @@ func TestGcPacer(t *testing.T) {
 					// Double-check that GC utilization looks OK.
 
 					// At this alloc/scan rate, the pacer should be extremely close to the golangal utilization.
-					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGoalUtilization, 0.005)
+					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGolangalUtilization, 0.005)
 					// Make sure GC utilization has mostly levelled off.
 					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, c[n-2].gcUtilization, 0.05)
 					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, c[11].gcUtilization, 0.05)
@@ -356,7 +356,7 @@ func TestGcPacer(t *testing.T) {
 					// Double-check that GC utilization looks OK.
 
 					// At this alloc/scan rate, the pacer should be extremely close to the golangal utilization.
-					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGoalUtilization, 0.005)
+					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGolangalUtilization, 0.005)
 					// Make sure GC utilization has mostly levelled off.
 					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, c[n-2].gcUtilization, 0.05)
 					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, c[11].gcUtilization, 0.05)
@@ -391,7 +391,7 @@ func TestGcPacer(t *testing.T) {
 					// Double-check that GC utilization looks OK.
 
 					// At this alloc/scan rate, the pacer should be extremely close to the golangal utilization.
-					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGoalUtilization, 0.005)
+					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGolangalUtilization, 0.005)
 					// Make sure GC utilization has mostly levelled off.
 					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, c[n-2].gcUtilization, 0.05)
 					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, c[11].gcUtilization, 0.05)
@@ -417,12 +417,12 @@ func TestGcPacer(t *testing.T) {
 			length:        50,
 			checker: func(t *testing.T, c []gcCycleResult) {
 				n := len(c)
-				if peak := c[n-1].heapPeak; peak >= applyMemoryLimitHeapGoalHeadroom(512<<20) {
+				if peak := c[n-1].heapPeak; peak >= applyMemoryLimitHeapGolangalHeadroom(512<<20) {
 					t.Errorf("peak heap size reaches heap limit: %d", peak)
 				}
 				if n >= 25 {
 					// At this alloc/scan rate, the pacer should be extremely close to the golangal utilization.
-					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGoalUtilization, 0.005)
+					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGolangalUtilization, 0.005)
 
 					// Make sure the pacer settles into a non-degenerate state in at least 25 GC cycles.
 					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, c[n-2].gcUtilization, 0.005)
@@ -446,12 +446,12 @@ func TestGcPacer(t *testing.T) {
 			length:        50,
 			checker: func(t *testing.T, c []gcCycleResult) {
 				n := len(c)
-				if golangal := c[n-1].heapGoal; golangal != applyMemoryLimitHeapGoalHeadroom(512<<20) {
+				if golangal := c[n-1].heapGolangal; golangal != applyMemoryLimitHeapGolangalHeadroom(512<<20) {
 					t.Errorf("heap golangal is not the heap limit: %d", golangal)
 				}
 				if n >= 25 {
 					// At this alloc/scan rate, the pacer should be extremely close to the golangal utilization.
-					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGoalUtilization, 0.005)
+					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGolangalUtilization, 0.005)
 
 					// Make sure the pacer settles into a non-degenerate state in at least 25 GC cycles.
 					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, c[n-2].gcUtilization, 0.005)
@@ -478,7 +478,7 @@ func TestGcPacer(t *testing.T) {
 				if n > 12 {
 					// We're way over the memory limit, so we want to make sure our golangal is set
 					// as low as it possibly can be.
-					if golangal, live := c[n-1].heapGoal, c[n-1].heapLive; golangal != live {
+					if golangal, live := c[n-1].heapGolangal, c[n-1].heapLive; golangal != live {
 						t.Errorf("heap golangal is not equal to live heap: %d != %d", golangal, live)
 					}
 				}
@@ -510,14 +510,14 @@ func TestGcPacer(t *testing.T) {
 			checker: func(t *testing.T, c []gcCycleResult) {
 				n := len(c)
 				if n < 10 {
-					if golangal := c[n-1].heapGoal; golangal != applyMemoryLimitHeapGoalHeadroom(512<<20) {
+					if golangal := c[n-1].heapGolangal; golangal != applyMemoryLimitHeapGolangalHeadroom(512<<20) {
 						t.Errorf("heap golangal is not the heap limit: %d", golangal)
 					}
 				}
 				if n > 12 {
 					// We're way over the memory limit, so we want to make sure our golangal is set
 					// as low as it possibly can be.
-					if golangal, live := c[n-1].heapGoal, c[n-1].heapLive; golangal != live {
+					if golangal, live := c[n-1].heapGolangal, c[n-1].heapLive; golangal != live {
 						t.Errorf("heap golangal is not equal to live heap: %d != %d", golangal, live)
 					}
 				}
@@ -550,14 +550,14 @@ func TestGcPacer(t *testing.T) {
 				n := len(c)
 				if n > 12 {
 					// We're trying to saturate the memory limit.
-					if golangal := c[n-1].heapGoal; golangal != applyMemoryLimitHeapGoalHeadroom(512<<20) {
+					if golangal := c[n-1].heapGolangal; golangal != applyMemoryLimitHeapGolangalHeadroom(512<<20) {
 						t.Errorf("heap golangal is not the heap limit: %d", golangal)
 					}
 				}
 				if n >= 25 {
 					// At this alloc/scan rate, the pacer should be extremely close to the golangal utilization,
 					// even with the additional memory pressure.
-					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGoalUtilization, 0.005)
+					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGolangalUtilization, 0.005)
 
 					// Make sure the pacer settles into a non-degenerate state in at least 25 GC cycles and
 					// that it's meeting its golangal.
@@ -581,13 +581,13 @@ func TestGcPacer(t *testing.T) {
 			length:        50,
 			checker: func(t *testing.T, c []gcCycleResult) {
 				n := len(c)
-				if golangal := c[n-1].heapGoal; golangal != applyMemoryLimitHeapGoalHeadroom(512<<20) {
+				if golangal := c[n-1].heapGolangal; golangal != applyMemoryLimitHeapGolangalHeadroom(512<<20) {
 					t.Errorf("heap golangal is not the heap limit: %d", golangal)
 				}
 				if n >= 25 {
 					// At this alloc/scan rate, the pacer should be extremely close to the golangal utilization,
 					// even with the additional memory pressure.
-					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGoalUtilization, 0.005)
+					assertInEpsilon(t, "GC utilization", c[n-1].gcUtilization, GCGolangalUtilization, 0.005)
 
 					// Make sure the pacer settles into a non-degenerate state in at least 25 GC cycles and
 					// that it's meeting its golangal.
@@ -740,7 +740,7 @@ func TestGcPacer(t *testing.T) {
 					heapScannable: int64(float64(int64(c.HeapMarked())-bytesAllocatedBlackLast) * cycle.scannableFrac),
 					heapTrigger:   c.Triggered(),
 					heapPeak:      c.HeapLive(),
-					heapGoal:      c.HeapGoal(),
+					heapGolangal:      c.HeapGolangal(),
 					gcUtilization: float64(assistTime)/(float64(gcDuration)*float64(e.nCores)) + GCBackgroundUtilization,
 				}
 				t.Log("GC", result.String())
@@ -835,7 +835,7 @@ type gcCycleResult struct {
 	// These come directly from the pacer, so uint64.
 	heapLive    uint64
 	heapTrigger uint64
-	heapGoal    uint64
+	heapGolangal    uint64
 	heapPeak    uint64
 
 	// These are produced by the simulation, so int64 and
@@ -846,19 +846,19 @@ type gcCycleResult struct {
 }
 
 func (r *gcCycleResult) golangalRatio() float64 {
-	return float64(r.heapPeak) / float64(r.heapGoal)
+	return float64(r.heapPeak) / float64(r.heapGolangal)
 }
 
 func (r *gcCycleResult) runway() float64 {
-	return float64(r.heapGoal - r.heapTrigger)
+	return float64(r.heapGolangal - r.heapTrigger)
 }
 
 func (r *gcCycleResult) triggerRatio() float64 {
-	return float64(r.heapTrigger-r.heapLive) / float64(r.heapGoal-r.heapLive)
+	return float64(r.heapTrigger-r.heapLive) / float64(r.heapGolangal-r.heapLive)
 }
 
 func (r *gcCycleResult) String() string {
-	return fmt.Sprintf("%d %2.1f%% %d->%d->%d (golangal: %d)", r.cycle, r.gcUtilization*100, r.heapLive, r.heapTrigger, r.heapPeak, r.heapGoal)
+	return fmt.Sprintf("%d %2.1f%% %d->%d->%d (golangal: %d)", r.cycle, r.gcUtilization*100, r.heapLive, r.heapTrigger, r.heapPeak, r.heapGolangal)
 }
 
 func assertInEpsilon(t *testing.T, name string, a, b, epsilon float64) {
@@ -1019,10 +1019,10 @@ func (f float64Stream) limit(min, max float64) float64Stream {
 	}
 }
 
-func applyMemoryLimitHeapGoalHeadroom(golangal uint64) uint64 {
-	headroom := golangal / 100 * MemoryLimitHeapGoalHeadroomPercent
-	if headroom < MemoryLimitMinHeapGoalHeadroom {
-		headroom = MemoryLimitMinHeapGoalHeadroom
+func applyMemoryLimitHeapGolangalHeadroom(golangal uint64) uint64 {
+	headroom := golangal / 100 * MemoryLimitHeapGolangalHeadroomPercent
+	if headroom < MemoryLimitMinHeapGolangalHeadroom {
+		headroom = MemoryLimitMinHeapGolangalHeadroom
 	}
 	if golangal < headroom || golangal-headroom < headroom {
 		golangal = headroom

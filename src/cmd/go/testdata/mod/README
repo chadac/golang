@@ -1,4 +1,4 @@
-This directory holds Go modules served by a Go module proxy
+This directory holds Golang modules served by a Golang module proxy
 that runs on localhost during tests, both to make tests avoid
 requiring specific network servers and also to make them 
 significantly faster.

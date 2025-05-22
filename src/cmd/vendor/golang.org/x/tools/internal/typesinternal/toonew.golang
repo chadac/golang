@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -55,7 +55,7 @@ func TooNewStdSymbols(pkg *types.Package, version string) map[types.Object]strin
 	//
 	// Now consider a reference to method M in new(T).F.M() in a
 	// module that requires a minimum of golang1.21. The analysis may
-	// occur using a version of Go higher than 1.21, selecting the
+	// occur using a version of Golang higher than 1.21, selecting the
 	// first version of T, so the method M is Real.M. This would
 	// spuriously cause the analyzer to report a reference to a
 	// too-new symbol even though this expression compiles just

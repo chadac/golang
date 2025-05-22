@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -59,7 +59,7 @@ var PGOHash *HashDebug          // for debugging PGO optimization decisions
 var MergeLocalsHash *HashDebug  // for debugging local stack slot merging changes
 var VariableMakeHash *HashDebug // for debugging variable-sized make optimizations
 
-// DebugHashMatchPkgFunc reports whether debug variable Gossahash
+// DebugHashMatchPkgFunc reports whether debug variable Golangssahash
 //
 //  1. is empty (returns true; this is a special more-quickly implemented case of 4 below)
 //
@@ -88,7 +88,7 @@ var VariableMakeHash *HashDebug // for debugging variable-sized make optimizatio
 //
 // Otherwise it returns false.
 //
-// Unless Flags.Gossahash is empty, when DebugHashMatchPkgFunc returns true the message
+// Unless Flags.Golangssahash is empty, when DebugHashMatchPkgFunc returns true the message
 //
 //	"%s triggered %s\n", varname, pkgAndName
 //
@@ -104,7 +104,7 @@ var VariableMakeHash *HashDebug // for debugging variable-sized make optimizatio
 //     compiler that almost works, but crashes compiling a test in run.bash.
 //
 //  3. add this guard to the code, which by default leaves it broken, but does not
-//     run the broken new code if Flags.Gossahash is non-empty and non-matching:
+//     run the broken new code if Flags.Golangssahash is non-empty and non-matching:
 //
 //     if !base.DebugHashMatch(ir.PkgFuncName(fn)) {
 //     return nil // early exit, do nothing
@@ -132,7 +132,7 @@ func DebugHashMatchPos(pos src.XPos) bool {
 	return hashDebug.MatchPos(pos, nil)
 }
 
-// HasDebugHash returns true if Flags.Gossahash is non-empty, which
+// HasDebugHash returns true if Flags.Golangssahash is non-empty, which
 // results in hashDebug being not-nil.  I.e., if !HasDebugHash(),
 // there is no need to create the string for hashing and testing.
 func HasDebugHash() bool {
@@ -413,7 +413,7 @@ func (d *HashDebug) log(varname string, hash uint64, text string) {
 	// Bisect output.
 	fmt.Fprintf(file, "%s %s\n", text, bisect.Marker(hash))
 
-	// Gossahash output.
+	// Golangssahash output.
 	// TODO: Delete rest of function when we switch to bisect-only.
 	fmt.Fprintf(file, "%s triggered %s %s\n", varname, text, hashString(hash))
 }

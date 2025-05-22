@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Copyright 2015 The Go Authors. All rights reserved.
+# Copyright 2015 The Golang Authors. All rights reserved.
 # Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
 # Usage: buildall.bash [-e] [pattern]
 #
-# buildall.bash builds the standard library for all Go-supported
+# buildall.bash builds the standard library for all Golang-supported
 # architectures.
 #
-# Originally the Go build system used it as a smoke test to quickly
+# Originally the Golang build system used it as a smoke test to quickly
 # flag portability issues in builders named "misc-compile" or "all-compile".
 # As of CL 464955, the build system uses make.bash -compile-only instead,
 # so this script no longer runs in any automated fashion.

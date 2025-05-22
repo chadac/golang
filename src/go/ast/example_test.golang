@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-// This example demonstrates how to inspect the AST of a Go program.
+// This example demonstrates how to inspect the AST of a Golang program.
 func ExampleInspect() {
 	// src is the input for which we want to inspect the AST.
 	src := `
@@ -136,7 +136,7 @@ func main() {
 	//     57  .  Unresolved: []*ast.Ident (len = 1) {
 	//     58  .  .  0: *(obj @ 29)
 	//     59  .  }
-	//     60  .  GoVersion: ""
+	//     60  .  GolangVersion: ""
 	//     61  }
 }
 
@@ -176,7 +176,7 @@ func f(x, y int) {
 }
 
 // This example illustrates how to remove a variable declaration
-// in a Go program while maintaining correct comment association
+// in a Golang program while maintaining correct comment association
 // using an ast.CommentMap.
 func ExampleCommentMap() {
 	// src is the input for which we create the AST that we

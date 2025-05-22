@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -388,7 +388,7 @@ func BpxCondTimedWait(sec uint32, nsec uint32, events uint32, secrem *uint32, ns
 }
 func BpxGetthent(in *Pgtha, outlen *uint32, out unsafe.Pointer) (rv int32, rc int32, rn int32) {
 	var parms [7]unsafe.Pointer
-	inlen := uint32(26) // nothing else will work. Go says Pgtha is 28-byte because of alignment, but Pgtha is "packed" and must be 26-byte
+	inlen := uint32(26) // nothing else will work. Golang says Pgtha is 28-byte because of alignment, but Pgtha is "packed" and must be 26-byte
 	parms[0] = unsafe.Pointer(&inlen)
 	parms[1] = unsafe.Pointer(&in)
 	parms[2] = unsafe.Pointer(outlen)

@@ -1,10 +1,10 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // System calls and other sys.stuff for ARM64, Darwin
 // System calls are implemented in libSystem, this file contains
-// trampolines that convert from Go to C calling convention.
+// trampolines that convert from Golang to C calling convention.
 
 #include "golang_asm.h"
 #include "golang_tls.h"
@@ -366,7 +366,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$160
 	RESTORE_R19_TO_R28(8)
 	RESTORE_F8_TO_F15(88)
 
-	// Go is all done with this OS thread.
+	// Golang is all done with this OS thread.
 	// Tell pthread everything is ok (we never join with this thread, so
 	// the value here doesn't really matter).
 	MOVD	$0, R0

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -280,7 +280,7 @@ func validateSparseEntries(sp []sparseEntry, size int64) bool {
 // starting offset is aligned up to the nearest block edge, and each
 // ending offset is aligned down to the nearest block edge.
 //
-// Even though the Go tar Reader and the BSD tar utility can handle entries
+// Even though the Golang tar Reader and the BSD tar utility can handle entries
 // with arbitrary offsets and lengths, the GNU tar utility can only handle
 // offsets and lengths that are multiples of blockSize.
 func alignSparseEntries(src []sparseEntry, size int64) []sparseEntry {

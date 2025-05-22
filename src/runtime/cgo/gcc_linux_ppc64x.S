@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -7,9 +7,9 @@
 .file "gcc_linux_ppc64x.S"
 
 // Define a frame which has no argument space, but is compatible with
-// a call into a Go ABI. We allocate 32B to match FIXED_FRAME with
+// a call into a Golang ABI. We allocate 32B to match FIXED_FRAME with
 // similar semantics, except we store the backchain pointer, not the
-// LR at offset 0. R2 is stored in the Go TOC save slot (offset 24).
+// LR at offset 0. R2 is stored in the Golang TOC save slot (offset 24).
 .set GPR_OFFSET, 32
 .set FPR_OFFSET, GPR_OFFSET + 18*8
 .set VR_OFFSET, FPR_OFFSET + 18*8
@@ -58,10 +58,10 @@ crosscall_ppc64:
 	FOR_EACH_FPR stfd
 	FOR_EACH_VR stvx
 
-	// Set up Go ABI constant registers
+	// Set up Golang ABI constant registers
 	li	%r0, 0
 
-	// Restore g pointer (r30 in Go ABI, which may have been clobbered by C)
+	// Restore g pointer (r30 in Golang ABI, which may have been clobbered by C)
 	mr	%r30, %r4
 
 	// Call fn

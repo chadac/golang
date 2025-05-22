@@ -1,5 +1,5 @@
-extern void GoFunc();
+extern void GolangFunc();
 
 int main(int argc, char **argv) {
-	GoFunc();
+	GolangFunc();
 }

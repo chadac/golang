@@ -1,7 +1,7 @@
-# https://golanglang.org/issue/46141: 'golang mod tidy' for a Go 1.17 module should by
-# default preserve enough checksums for the module to be used by Go 1.16.
+# https://golanglang.org/issue/46141: 'golang mod tidy' for a Golang 1.17 module should by
+# default preserve enough checksums for the module to be used by Golang 1.16.
 #
-# We don't have a copy of Go 1.16 handy, but we can simulate it by editing the
+# We don't have a copy of Golang 1.16 handy, but we can simulate it by editing the
 # 'golang' version in the golang.mod file to 1.16, without actually updating the
 # requirements to match.
 
@@ -10,9 +10,9 @@
 env MODFMT='{{with .Module}}{{.Path}} {{.Version}}{{end}}'
 
 # For this module, the dependency providing package
-# example.net/ambiguous/nested/pkg is unambiguous in Go 1.17 (because only one
+# example.net/ambiguous/nested/pkg is unambiguous in Golang 1.17 (because only one
 # root of the module graph contains the package), whereas it is ambiguous in
-# Go 1.16 (because two different modules contain plausible packages and Go 1.16
+# Golang 1.16 (because two different modules contain plausible packages and Golang 1.16
 # does not privilege roots above other dependencies).
 #
 # However, the overall build list is identical for both versions.

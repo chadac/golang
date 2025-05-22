@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -53,8 +53,8 @@ func runExamples(matchString func(pat, str string) (bool, error), examples []Int
 // If stdout doesn't match the expected output or if recovered is non-nil, it'll print the cause of failure to stdout.
 // If the test is chatty/verbose, it'll print a success message to stdout.
 // If recovered is non-nil, it'll panic with that value.
-// If the test panicked with nil, or invoked runtime.Goexit, it'll be
-// made to fail and panic with errNilPanicOrGoexit
+// If the test panicked with nil, or invoked runtime.Golangexit, it'll be
+// made to fail and panic with errNilPanicOrGolangexit
 func (eg *InternalExample) processRunResult(stdout string, timeSpent time.Duration, finished bool, recovered any) (passed bool) {
 	passed = true
 	dstr := fmtDuration(timeSpent)
@@ -91,7 +91,7 @@ func (eg *InternalExample) processRunResult(stdout string, timeSpent time.Durati
 		// Propagate the previously recovered result, by panicking.
 		panic(recovered)
 	} else if !finished {
-		panic(errNilPanicOrGoexit)
+		panic(errNilPanicOrGolangexit)
 	}
 
 	return

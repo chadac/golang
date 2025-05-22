@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,7 +29,7 @@ import (
 // and also seems to rely on global configuration via well-known file paths, so
 // implementing a hermetic test using apache2 would require the test to run in a
 // complicated container environment, which wouldn't be nearly as
-// straightforward for Go contributors to set up and test against on their local
+// straightforward for Golang contributors to set up and test against on their local
 // machine.
 type svnHandler struct {
 	svnRoot string // a directory containing all svn repos to be served
@@ -68,7 +68,7 @@ func (h *svnHandler) Handler(dir string, env []string, logger *log.Logger) (http
 		return nil, ServerNotInstalledError{name: "svn"}
 	}
 
-	// Go ahead and start the listener now, so that if it fails (for example, due
+	// Golang ahead and start the listener now, so that if it fails (for example, due
 	// to port exhaustion) we can return an error from the Handler method instead
 	// of serving an error for each individual HTTP request.
 	h.listenOnce.Do(func() {

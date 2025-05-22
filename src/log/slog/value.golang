@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ import (
 	"unsafe"
 )
 
-// A Value can represent any Go value, but unlike type any,
+// A Value can represent any Golang value, but unlike type any,
 // it can represent most small values without an allocation.
 // The zero Value corresponds to nil.
 type Value struct {
@@ -208,7 +208,7 @@ func countEmptyGroups(as []Attr) int {
 // If the supplied value is of type Value, it is returned
 // unmodified.
 //
-// Given a value of one of Go's predeclared string, bool, or
+// Given a value of one of Golang's predeclared string, bool, or
 // (non-complex) numeric types, AnyValue returns a Value of kind
 // [KindString], [KindBool], [KindUint64], [KindInt64], or [KindFloat64].
 // The width of the original numeric type is not preserved.
@@ -417,7 +417,7 @@ func (v Value) group() []Attr {
 
 //////////////// Other
 
-// Equal reports whether v and w represent the same Go value.
+// Equal reports whether v and w represent the same Golang value.
 func (v Value) Equal(w Value) bool {
 	k1 := v.Kind()
 	k2 := w.Kind()
@@ -480,7 +480,7 @@ func (v Value) append(dst []byte) []byte {
 	}
 }
 
-// A LogValuer is any Go value that can convert itself into a Value for logging.
+// A LogValuer is any Golang value that can convert itself into a Value for logging.
 //
 // This mechanism may be used to defer expensive operations until they are
 // needed, or to expand a single value into a sequence of components.

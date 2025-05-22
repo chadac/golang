@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -50,14 +50,14 @@ type Module struct {
 func moduleHash(modroot string, ismodcache bool) (cache.ActionID, error) {
 	// We expect modules stored within the module cache to be checksummed and
 	// immutable, and we expect released modules within GOROOT to change only
-	// infrequently (when the Go version changes).
+	// infrequently (when the Golang version changes).
 	if !ismodcache {
 		// The contents of this module may change over time. We don't want to pay
 		// the cost to detect changes and re-index whenever they occur, so just
 		// don't index it at all.
 		//
 		// Note that this is true even for modules in GOROOT/src: non-release builds
-		// of the Go toolchain may have arbitrary development changes on top of the
+		// of the Golang toolchain may have arbitrary development changes on top of the
 		// commit reported by runtime.Version, or could be completely artificial due
 		// to lacking a `git` binary (like "devel golangmote.XXXXX", as synthesized by
 		// "golangmote push" as of 2022-06-15). (Release builds shouldn't have
@@ -413,7 +413,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 		// the only case where p.Root needs to be set.
 		if ctxt.GOROOT != "" && str.HasFilePathPrefix(p.Dir, cfg.GOROOTsrc) && p.Dir != cfg.GOROOTsrc {
 			p.Root = ctxt.GOROOT
-			p.Goroot = true
+			p.Golangroot = true
 			modprefix := str.TrimFilePathPrefix(rp.modroot, cfg.GOROOTsrc)
 			p.ImportPath = rp.dir
 			if modprefix != "" {
@@ -446,7 +446,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 				p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
 
 				// Set the install target if applicable.
-				if !p.Goroot || (installgolangrootAll && p.ImportPath != "unsafe" && p.ImportPath != "builtin") {
+				if !p.Golangroot || (installgolangrootAll && p.ImportPath != "unsafe" && p.ImportPath != "builtin") {
 					p.PkgObj = ctxt.joinPath(p.Root, pkga)
 				}
 			}
@@ -454,7 +454,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 	}
 
 	if rp.error != nil {
-		if errors.Is(rp.error, errCannotFindPackage) && ctxt.Compiler == "gccgolang" && p.Goroot {
+		if errors.Is(rp.error, errCannotFindPackage) && ctxt.Compiler == "gccgolang" && p.Golangroot {
 			return p, nil
 		}
 		return p, rp.error
@@ -465,15 +465,15 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 	}
 
 	// We need to do a second round of bad file processing.
-	var badGoError error
-	badGoFiles := make(map[string]bool)
-	badGoFile := func(name string, err error) {
-		if badGoError == nil {
-			badGoError = err
+	var badGolangError error
+	badGolangFiles := make(map[string]bool)
+	badGolangFile := func(name string, err error) {
+		if badGolangError == nil {
+			badGolangError = err
 		}
-		if !badGoFiles[name] {
-			p.InvalidGoFiles = append(p.InvalidGoFiles, name)
-			badGoFiles[name] = true
+		if !badGolangFiles[name] {
+			p.InvalidGolangFiles = append(p.InvalidGolangFiles, name)
+			badGolangFiles[name] = true
 		}
 	}
 
@@ -488,14 +488,14 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 	allTags := make(map[string]bool)
 	for _, tf := range rp.sourceFiles {
 		name := tf.name()
-		// Check errors for golang files and call badGoFiles to put them in
-		// InvalidGoFiles if they do have an error.
+		// Check errors for golang files and call badGolangFiles to put them in
+		// InvalidGolangFiles if they do have an error.
 		if strings.HasSuffix(name, ".golang") {
 			if error := tf.error(); error != "" {
-				badGoFile(name, errors.New(tf.error()))
+				badGolangFile(name, errors.New(tf.error()))
 				continue
 			} else if parseError := tf.parseError(); parseError != "" {
-				badGoFile(name, parseErrorFromString(tf.parseError()))
+				badGolangFile(name, parseErrorFromString(tf.parseError()))
 				// Fall through: we still want to list files with parse errors.
 			}
 		}
@@ -522,14 +522,14 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 		ext := nameExt(name)
 		if !shouldBuild || tf.ignoreFile() {
 			if ext == ".golang" {
-				p.IgnoredGoFiles = append(p.IgnoredGoFiles, name)
+				p.IgnoredGolangFiles = append(p.IgnoredGolangFiles, name)
 			} else if fileListForExt(p, ext) != nil {
 				p.IgnoredOtherFiles = append(p.IgnoredOtherFiles, name)
 			}
 			continue
 		}
 
-		// Going to save the file. For non-Go files, can stop here.
+		// Golanging to save the file. For non-Golang files, can stop here.
 		switch ext {
 		case ".golang":
 			// keep golanging
@@ -546,7 +546,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 
 		pkg := tf.pkgName()
 		if pkg == "documentation" {
-			p.IgnoredGoFiles = append(p.IgnoredGoFiles, name)
+			p.IgnoredGolangFiles = append(p.IgnoredGolangFiles, name)
 			continue
 		}
 		isTest := strings.HasSuffix(name, "_test.golang")
@@ -567,7 +567,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 			// TODO(#45999): The choice of p.Name is arbitrary based on file iteration
 			// order. Instead of resolving p.Name arbitrarily, we should clear out the
 			// existing Name and mark the existing files as also invalid.
-			badGoFile(name, &MultiplePackageError{
+			badGolangFile(name, &MultiplePackageError{
 				Dir:      p.Dir,
 				Packages: []string{p.Name, pkg},
 				Files:    []string{firstFile, name},
@@ -586,7 +586,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 		for _, imp := range imports {
 			if imp.path == "C" {
 				if isTest {
-					badGoFile(name, fmt.Errorf("use of cgolang in test %s not supported", name))
+					badGolangFile(name, fmt.Errorf("use of cgolang in test %s not supported", name))
 					continue
 				}
 				isCgolang = true
@@ -594,7 +594,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 		}
 		if directives := tf.cgolangDirectives(); directives != "" {
 			if err := ctxt.saveCgolang(name, p, directives); err != nil {
-				badGoFile(name, err)
+				badGolangFile(name, err)
 			}
 		}
 
@@ -611,20 +611,20 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 				directives = &p.Directives
 			} else {
 				// Ignore Imports and Embeds from cgolang files if cgolang is disabled.
-				fileList = &p.IgnoredGoFiles
+				fileList = &p.IgnoredGolangFiles
 			}
 		case isXTest:
-			fileList = &p.XTestGoFiles
+			fileList = &p.XTestGolangFiles
 			importMap = xTestImportPos
 			embedMap = xTestEmbedPos
 			directives = &p.XTestDirectives
 		case isTest:
-			fileList = &p.TestGoFiles
+			fileList = &p.TestGolangFiles
 			importMap = testImportPos
 			embedMap = testEmbedPos
 			directives = &p.TestDirectives
 		default:
-			fileList = &p.GoFiles
+			fileList = &p.GolangFiles
 			importMap = importPos
 			embedMap = embedPos
 			directives = &p.Directives
@@ -666,11 +666,11 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 		sort.Strings(p.IgnoredOtherFiles)
 	}
 
-	if badGoError != nil {
-		return p, badGoError
+	if badGolangError != nil {
+		return p, badGolangError
 	}
-	if len(p.GoFiles)+len(p.CgolangFiles)+len(p.TestGoFiles)+len(p.XTestGoFiles) == 0 {
-		return p, &build.NoGoError{Dir: p.Dir}
+	if len(p.GolangFiles)+len(p.CgolangFiles)+len(p.TestGolangFiles)+len(p.XTestGolangFiles) == 0 {
+		return p, &build.NoGolangError{Dir: p.Dir}
 	}
 	return p, pkgerr
 }
@@ -690,8 +690,8 @@ func IsStandardPackage(golangroot_, compiler, path string) bool {
 		modroot = filepath.Join(modroot, "cmd")
 	}
 	if pkg, err := GetPackage(modroot, filepath.Join(modroot, reldir)); err == nil {
-		hasGo, err := pkg.IsGoDir()
-		return err == nil && hasGo
+		hasGolang, err := pkg.IsGolangDir()
+		return err == nil && hasGolang
 	} else if errors.Is(err, ErrNotIndexed) {
 		// Fall back because package isn't indexable. (Probably because
 		// a file was modified recently)
@@ -700,8 +700,8 @@ func IsStandardPackage(golangroot_, compiler, path string) bool {
 	return false
 }
 
-// IsGoDir is the equivalent of fsys.IsGoDir using the information in the index.
-func (rp *IndexPackage) IsGoDir() (_ bool, err error) {
+// IsGolangDir is the equivalent of fsys.IsGolangDir using the information in the index.
+func (rp *IndexPackage) IsGolangDir() (_ bool, err error) {
 	defer func() {
 		if e := recover(); e != nil {
 			err = fmt.Errorf("error reading module index: %v", e)
@@ -768,7 +768,7 @@ Files:
 		}
 	}
 	if numFiles == 0 {
-		return nil, nil, imports.ErrNoGo
+		return nil, nil, imports.ErrNoGolang
 	}
 	return keys(imports_), keys(testImports), nil
 }
@@ -870,7 +870,7 @@ const (
 	sourceFileIgnoreFile
 	sourceFileBinaryOnly
 	sourceFileCgolangDirectives
-	sourceFileGoBuildConstraint
+	sourceFileGolangBuildConstraint
 	sourceFileNumPlusBuildConstraints
 )
 
@@ -899,7 +899,7 @@ func (sf *sourceFile) cgolangDirectives() string {
 	return sf.d.stringAt(sf.pos + sourceFileCgolangDirectives)
 }
 func (sf *sourceFile) golangBuildConstraint() string {
-	return sf.d.stringAt(sf.pos + sourceFileGoBuildConstraint)
+	return sf.d.stringAt(sf.pos + sourceFileGolangBuildConstraint)
 }
 
 func (sf *sourceFile) plusBuildConstraints() []string {

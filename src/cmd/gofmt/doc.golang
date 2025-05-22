@@ -1,9 +1,9 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Gofmt formats Go programs.
+Golangfmt formats Golang programs.
 It uses tabs for indentation and blanks for alignment.
 Alignment assumes that an editor is using a fixed-width font.
 
@@ -47,16 +47,16 @@ The rewrite rule specified with the -r flag must be a string of the form:
 
 	pattern -> replacement
 
-Both pattern and replacement must be valid Go expressions.
+Both pattern and replacement must be valid Golang expressions.
 In the pattern, single-character lowercase identifiers serve as
 wildcards matching arbitrary sub-expressions; those expressions
 will be substituted for the same identifiers in the replacement.
 
-When golangfmt reads from standard input, it accepts either a full Go program
+When golangfmt reads from standard input, it accepts either a full Golang program
 or a program fragment.  A program fragment must be a syntactically
 valid declaration list, statement list, or expression.  When formatting
 such a fragment, golangfmt preserves leading indentation as well as leading
-and trailing spaces, so that individual sections of a Go program can be
+and trailing spaces, so that individual sections of a Golang program can be
 formatted by piping them through golangfmt.
 
 # Examples
@@ -97,7 +97,7 @@ When invoked with -s golangfmt will make the following source transformations wh
 	will be simplified to:
 		for range v {...}
 
-This may result in changes that are incompatible with earlier versions of Go.
+This may result in changes that are incompatible with earlier versions of Golang.
 */
 package main
 

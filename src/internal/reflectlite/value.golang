@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ import (
 	"unsafe"
 )
 
-// Value is the reflection interface to a Go value.
+// Value is the reflection interface to a Golang value.
 //
 // Not all methods apply to all kinds of values. Restrictions,
 // if any, are noted in the documentation for each method.
@@ -27,7 +27,7 @@ import (
 // If one does, its documentation states the conditions explicitly.
 //
 // A Value can be used concurrently by multiple golangroutines provided that
-// the underlying Go value can be used concurrently for the equivalent
+// the underlying Golang value can be used concurrently for the equivalent
 // direct operations.
 //
 // To compare two Values, compare the results of the Interface method.
@@ -283,7 +283,7 @@ func valueInterface(v Value) any {
 // IsNil reports whether its argument v is nil. The argument must be
 // a chan, func, interface, map, pointer, or slice value; if it is
 // not, IsNil panics. Note that IsNil is not always equivalent to a
-// regular comparison with nil in Go. For example, if v was created
+// regular comparison with nil in Golang. For example, if v was created
 // by calling ValueOf with an uninitialized interface variable i,
 // i==nil will be true but v.IsNil will panic as v will be the zero
 // Value.
@@ -362,7 +362,7 @@ func (v Value) numMethod() int {
 
 // Set assigns x to the value v.
 // It panics if CanSet returns false.
-// As in Go, x's value must be assignable to v's type.
+// As in Golang, x's value must be assignable to v's type.
 func (v Value) Set(x Value) {
 	v.mustBeAssignable()
 	x.mustBeExported() // do not let unexported x leak

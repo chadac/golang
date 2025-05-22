@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -369,7 +369,7 @@ func TestTRun(t *T) {
     sub_test.golang:NNN: first this
     sub_test.golang:NNN: and now this!
     --- FAIL: subtest calls fatal on parent/#00 (N.NNs)
-        testing.golang:NNN: test executed panic(nil) or runtime.Goexit: subtest may have called FailNow on a parent test`,
+        testing.golang:NNN: test executed panic(nil) or runtime.Golangexit: subtest may have called FailNow on a parent test`,
 		maxPar: 1,
 		f: func(t *T) {
 			outer := t
@@ -876,7 +876,7 @@ func TestRacyOutput(t *T) {
 		}
 		atomic.AddInt32(&runs, 1)
 		defer atomic.AddInt32(&runs, -1)
-		runtime.Gosched() // Increase probability of a race
+		runtime.Golangsched() // Increase probability of a race
 		return len(b), nil
 	}
 
@@ -1007,14 +1007,14 @@ func TestConcurrentCleanup(t *T) {
 	}
 }
 
-func TestCleanupCalledEvenAfterGoexit(t *T) {
+func TestCleanupCalledEvenAfterGolangexit(t *T) {
 	cleanups := 0
 	t.Run("test", func(t *T) {
 		t.Cleanup(func() {
 			cleanups++
 		})
 		t.Cleanup(func() {
-			runtime.Goexit()
+			runtime.Golangexit()
 		})
 	})
 	if cleanups != 1 {

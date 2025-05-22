@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -31,7 +31,7 @@ func _C_pw_dir(p *_C_struct_passwd) *_C_char   { return p.Dir }
 func _C_gr_gid(g *_C_struct_group) _C_gid_t  { return g.Gid }
 func _C_gr_name(g *_C_struct_group) *_C_char { return g.Name }
 
-func _C_GoString(p *_C_char) string { return unix.GoString(p) }
+func _C_GolangString(p *_C_char) string { return unix.GolangString(p) }
 
 func _C_getpwnam_r(name *_C_char, buf *_C_char, size _C_size_t) (pwd _C_struct_passwd, found bool, errno syscall.Errno) {
 	var result *_C_struct_passwd

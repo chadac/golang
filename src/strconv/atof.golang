@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -670,7 +670,7 @@ func atof64(s string) (f float64, n int, err error) {
 // convertible to float32 without changing its value.
 //
 // ParseFloat accepts decimal and hexadecimal floating-point numbers
-// as defined by the Go syntax for [floating-point literals].
+// as defined by the Golang syntax for [floating-point literals].
 // If s is well-formed and near a valid floating-point number,
 // ParseFloat returns the nearest floating-point number rounded
 // using IEEE754 unbiased rounding.

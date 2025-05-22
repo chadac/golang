@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,5 +6,5 @@ package p3
 
 type ThirdBase struct{}
 
-func (tb *ThirdBase) GoodPlayer() (i, j, k int)
+func (tb *ThirdBase) GolangodPlayer() (i, j, k int)
 func BadHop(i, j, k int) (l, m bool, n, o *ThirdBase, err error)

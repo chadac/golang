@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -280,9 +280,9 @@ func WalkStackFrames(allFrames map[string]format.Frame, id int, fn func(id int))
 type Mode int
 
 const (
-	ModeGoroutineOriented Mode = 1 << iota
+	ModeGolangroutineOriented Mode = 1 << iota
 	ModeTaskOriented
-	ModeThreadOriented // Mutually exclusive with ModeGoroutineOriented.
+	ModeThreadOriented // Mutually exclusive with ModeGolangroutineOriented.
 )
 
 // NewEmitter returns a new Emitter that writes to c. The rangeStart and
@@ -325,7 +325,7 @@ type task struct {
 	sortIndex int
 }
 
-func (e *Emitter) Gomaxprocs(v uint64) {
+func (e *Emitter) Golangmaxprocs(v uint64) {
 	if v > e.golangmaxprocs {
 		e.golangmaxprocs = v
 	}
@@ -521,7 +521,7 @@ func (e *Emitter) Focus(id uint64) {
 	e.focusResource = id
 }
 
-func (e *Emitter) GoroutineTransition(ts time.Duration, from, to GState) {
+func (e *Emitter) GolangroutineTransition(ts time.Duration, from, to GState) {
 	e.gstates[from]--
 	e.gstates[to]++
 	if e.prevGstates == e.gstates {
@@ -529,11 +529,11 @@ func (e *Emitter) GoroutineTransition(ts time.Duration, from, to GState) {
 	}
 	if e.tsWithinRange(ts) {
 		e.OptionalEvent(&format.Event{
-			Name:  "Goroutines",
+			Name:  "Golangroutines",
 			Phase: "C",
 			Time:  viewerTime(ts),
 			PID:   1,
-			Arg: &format.GoroutineCountersArg{
+			Arg: &format.GolangroutineCountersArg{
 				Running:   uint64(e.gstates[GRunning]),
 				Runnable:  uint64(e.gstates[GRunnable]),
 				GCWaiting: uint64(e.gstates[GWaitingGC]),
@@ -564,7 +564,7 @@ func (e *Emitter) IncThreadStateCount(ts time.Duration, state ThreadState, delta
 	e.prevThreadStats = e.threadStats
 }
 
-func (e *Emitter) HeapGoal(ts time.Duration, v uint64) {
+func (e *Emitter) HeapGolangal(ts time.Duration, v uint64) {
 	// This cutoff at 1 PiB is a Workaround for https://github.com/golanglang/golang/issues/63864.
 	//
 	// TODO(mknyszek): Remove this once the problem has been fixed.
@@ -758,7 +758,7 @@ const (
 	colorBlue           = "vsync_highlight_color"        // 0, 0, 255
 	colorGrey           = "generic_work"                 // 125, 125, 125
 	colorGreen          = "golangod"                         // 0, 125, 0
-	colorDarkGoldenrod  = "bad"                          // 180, 125, 0
+	colorDarkGolangldenrod  = "bad"                          // 180, 125, 0
 	colorPeach          = "terrible"                     // 180, 0, 0
 	colorBlack          = "black"                        // 0, 0, 0
 	colorLightGrey      = "grey"                         // 221, 221, 221
@@ -791,7 +791,7 @@ var colorForTask = []string{
 	colorIrisBlue,
 	colorDeepMagenta,
 	colorGreen,
-	colorDarkGoldenrod,
+	colorDarkGolangldenrod,
 	colorPeach,
 	colorOlive,
 	colorCornflowerBlue,

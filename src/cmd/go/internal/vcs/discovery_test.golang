@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@ import (
 	"testing"
 )
 
-var parseMetaGoImportsTests = []struct {
+var parseMetaGolangImportsTests = []struct {
 	in  string
 	mod ModuleMode
 	out []metaImport
@@ -106,9 +106,9 @@ var parseMetaGoImportsTests = []struct {
 	},
 }
 
-func TestParseMetaGoImports(t *testing.T) {
-	for i, tt := range parseMetaGoImportsTests {
-		out, err := parseMetaGoImports(strings.NewReader(tt.in), tt.mod)
+func TestParseMetaGolangImports(t *testing.T) {
+	for i, tt := range parseMetaGolangImportsTests {
+		out, err := parseMetaGolangImports(strings.NewReader(tt.in), tt.mod)
 		if err != nil {
 			t.Errorf("test#%d: %v", i, err)
 			continue

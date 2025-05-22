@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -88,13 +88,13 @@
 // Since arenas are aligned, the address space can be viewed as a
 // series of arena frames. The arena map (mheap_.arenas) maps from
 // arena frame number to *heapArena, or nil for parts of the address
-// space not backed by the Go heap. The arena map is structured as a
+// space not backed by the Golang heap. The arena map is structured as a
 // two-level array consisting of a "L1" arena map and many "L2" arena
 // maps; however, since arenas are large, on many architectures, the
 // arena map consists of a single, large L2 map.
 //
 // The arena map covers the entire possible address space, allowing
-// the Go heap to use any part of the address space. The allocator
+// the Golang heap to use any part of the address space. The allocator
 // attempts to keep arenas contiguous so that large spans (and hence
 // large objects) can cross arenas.
 
@@ -170,7 +170,7 @@ const (
 	// bits, in the range [0, 1<<48).
 	//
 	// ppc64, mips64, and s390x support arbitrary 64 bit addresses
-	// in hardware. On Linux, Go leans on stricter OS limits. Based
+	// in hardware. On Linux, Golang leans on stricter OS limits. Based
 	// on Linux's processor.h, the user address space is limited as
 	// follows on 64-bit architectures:
 	//
@@ -186,7 +186,7 @@ const (
 	// most 48 bits except on s390x. On all architectures, Linux
 	// starts placing mmap'd regions at addresses that are
 	// significantly below 48 bits, so even if it's possible to
-	// exceed Go's 48 bit limit, it's extremely unlikely in
+	// exceed Golang's 48 bit limit, it's extremely unlikely in
 	// practice.
 	//
 	// On 32-bit platforms, we accept the full 32-bit address
@@ -483,7 +483,7 @@ func mallocinit() {
 		// makes it easier to grow out a contiguous range
 		// without running in to some other mapping.
 		//
-		// 2. This makes Go heap addresses more easily
+		// 2. This makes Golang heap addresses more easily
 		// recognizable when debugging.
 		//
 		// 3. Stack scanning in gccgolang is still conservative,

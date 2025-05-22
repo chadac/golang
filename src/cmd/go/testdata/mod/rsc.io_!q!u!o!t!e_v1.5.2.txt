@@ -11,7 +11,7 @@ module rsc.io/QUOTE
 
 require rsc.io/quote v1.5.2
 -- QUOTE/quote.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -44,7 +44,7 @@ func OPT() string {
 	return strings.ToUpper(quote.OPT())
 }
 -- QUOTE/quote_test.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 

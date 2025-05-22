@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -30,8 +30,8 @@ type AST interface {
 	// Copy itself returns either a copy or nil.
 	Copy(copy func(AST) AST, skip func(AST) bool) AST
 
-	// Implement the fmt.GoStringer interface.
-	GoString() string
+	// Implement the fmt.GolangStringer interface.
+	GolangString() string
 	golangString(indent int, field string) string
 }
 
@@ -245,7 +245,7 @@ func (n *Name) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return fn(n)
 }
 
-func (n *Name) GoString() string {
+func (n *Name) GolangString() string {
 	return n.golangString(0, "Name: ")
 }
 
@@ -312,7 +312,7 @@ func (t *Typed) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return t
 }
 
-func (t *Typed) GoString() string {
+func (t *Typed) GolangString() string {
 	return t.golangString(0, "")
 }
 
@@ -370,7 +370,7 @@ func (q *Qualified) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return q
 }
 
-func (q *Qualified) GoString() string {
+func (q *Qualified) GolangString() string {
 	return q.golangString(0, "")
 }
 
@@ -464,7 +464,7 @@ func (t *Template) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return t
 }
 
-func (t *Template) GoString() string {
+func (t *Template) GolangString() string {
 	return t.golangString(0, "")
 }
 
@@ -514,7 +514,7 @@ func (tp *TemplateParam) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return fn(tp)
 }
 
-func (tp *TemplateParam) GoString() string {
+func (tp *TemplateParam) GolangString() string {
 	return tp.golangString(0, "")
 }
 
@@ -548,7 +548,7 @@ func (la *LambdaAuto) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return fn(la)
 }
 
-func (la *LambdaAuto) GoString() string {
+func (la *LambdaAuto) GolangString() string {
 	return la.golangString(0, "")
 }
 
@@ -601,7 +601,7 @@ func (tpqa *TemplateParamQualifiedArg) Copy(fn func(AST) AST, skip func(AST) boo
 	return tpqa
 }
 
-func (tpqa *TemplateParamQualifiedArg) GoString() string {
+func (tpqa *TemplateParamQualifiedArg) GolangString() string {
 	return tpqa.golangString(0, "")
 }
 
@@ -660,7 +660,7 @@ func (qs *Qualifiers) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return qs
 }
 
-func (qs *Qualifiers) GoString() string {
+func (qs *Qualifiers) GolangString() string {
 	return qs.golangString(0, "")
 }
 
@@ -731,7 +731,7 @@ func (q *Qualifier) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return q
 }
 
-func (q *Qualifier) GoString() string {
+func (q *Qualifier) GolangString() string {
 	return q.golangString(0, "Qualifier: ")
 }
 
@@ -798,7 +798,7 @@ func (twq *TypeWithQualifiers) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return twq
 }
 
-func (twq *TypeWithQualifiers) GoString() string {
+func (twq *TypeWithQualifiers) GolangString() string {
 	return twq.golangString(0, "")
 }
 
@@ -874,7 +874,7 @@ func (mwq *MethodWithQualifiers) Copy(fn func(AST) AST, skip func(AST) bool) AST
 	return mwq
 }
 
-func (mwq *MethodWithQualifiers) GoString() string {
+func (mwq *MethodWithQualifiers) GolangString() string {
 	return mwq.golangString(0, "")
 }
 
@@ -917,7 +917,7 @@ func (bt *BuiltinType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return fn(bt)
 }
 
-func (bt *BuiltinType) GoString() string {
+func (bt *BuiltinType) GolangString() string {
 	return bt.golangString(0, "")
 }
 
@@ -974,7 +974,7 @@ func (pt *PointerType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return pt
 }
 
-func (pt *PointerType) GoString() string {
+func (pt *PointerType) GolangString() string {
 	return pt.golangString(0, "")
 }
 
@@ -1017,7 +1017,7 @@ func (rt *ReferenceType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return rt
 }
 
-func (rt *ReferenceType) GoString() string {
+func (rt *ReferenceType) GolangString() string {
 	return rt.golangString(0, "")
 }
 
@@ -1060,7 +1060,7 @@ func (rt *RvalueReferenceType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return rt
 }
 
-func (rt *RvalueReferenceType) GoString() string {
+func (rt *RvalueReferenceType) GolangString() string {
 	return rt.golangString(0, "")
 }
 
@@ -1103,7 +1103,7 @@ func (ct *ComplexType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return ct
 }
 
-func (ct *ComplexType) GoString() string {
+func (ct *ComplexType) GolangString() string {
 	return ct.golangString(0, "")
 }
 
@@ -1146,7 +1146,7 @@ func (it *ImaginaryType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return it
 }
 
-func (it *ImaginaryType) GoString() string {
+func (it *ImaginaryType) GolangString() string {
 	return it.golangString(0, "")
 }
 
@@ -1191,7 +1191,7 @@ func (st *SuffixType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return st
 }
 
-func (st *SuffixType) GoString() string {
+func (st *SuffixType) GolangString() string {
 	return st.golangString(0, "")
 }
 
@@ -1234,7 +1234,7 @@ func (tt *TransformedType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return tt
 }
 
-func (tt *TransformedType) GoString() string {
+func (tt *TransformedType) GolangString() string {
 	return tt.golangString(0, "")
 }
 
@@ -1296,7 +1296,7 @@ func (vq *VendorQualifier) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return vq
 }
 
-func (vq *VendorQualifier) GoString() string {
+func (vq *VendorQualifier) GolangString() string {
 	return vq.golangString(0, "")
 }
 
@@ -1386,7 +1386,7 @@ func (at *ArrayType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return at
 }
 
-func (at *ArrayType) GoString() string {
+func (at *ArrayType) GolangString() string {
 	return at.golangString(0, "")
 }
 
@@ -1534,7 +1534,7 @@ func (ft *FunctionType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return ft
 }
 
-func (ft *FunctionType) GoString() string {
+func (ft *FunctionType) GolangString() string {
 	return ft.golangString(0, "")
 }
 
@@ -1594,7 +1594,7 @@ func (fp *FunctionParam) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return fn(fp)
 }
 
-func (fp *FunctionParam) GoString() string {
+func (fp *FunctionParam) GolangString() string {
 	return fp.golangString(0, "")
 }
 
@@ -1657,7 +1657,7 @@ func (pm *PtrMem) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return pm
 }
 
-func (pm *PtrMem) GoString() string {
+func (pm *PtrMem) GolangString() string {
 	return pm.golangString(0, "")
 }
 
@@ -1712,7 +1712,7 @@ func (ft *FixedType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return ft
 }
 
-func (ft *FixedType) GoString() string {
+func (ft *FixedType) GolangString() string {
 	return ft.golangString(0, "")
 }
 
@@ -1742,7 +1742,7 @@ func (bfp *BinaryFP) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return fn(bfp)
 }
 
-func (bfp *BinaryFP) GoString() string {
+func (bfp *BinaryFP) GolangString() string {
 	return bfp.golangString(0, "")
 }
 
@@ -1787,7 +1787,7 @@ func (bt *BitIntType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return bt
 }
 
-func (bt *BitIntType) GoString() string {
+func (bt *BitIntType) GolangString() string {
 	return bt.golangString(0, "")
 }
 
@@ -1852,7 +1852,7 @@ func (vt *VectorType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return vt
 }
 
-func (vt *VectorType) GoString() string {
+func (vt *VectorType) GolangString() string {
 	return vt.golangString(0, "")
 }
 
@@ -1895,7 +1895,7 @@ func (et *ElaboratedType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return et
 }
 
-func (et *ElaboratedType) GoString() string {
+func (et *ElaboratedType) GolangString() string {
 	return et.golangString(0, "")
 }
 
@@ -1940,7 +1940,7 @@ func (dt *Decltype) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return dt
 }
 
-func (dt *Decltype) GoString() string {
+func (dt *Decltype) GolangString() string {
 	return dt.golangString(0, "")
 }
 
@@ -1976,7 +1976,7 @@ func (op *Operator) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return fn(op)
 }
 
-func (op *Operator) GoString() string {
+func (op *Operator) GolangString() string {
 	return op.golangString(0, "")
 }
 
@@ -2033,7 +2033,7 @@ func (c *Constructor) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return c
 }
 
-func (c *Constructor) GoString() string {
+func (c *Constructor) GolangString() string {
 	return c.golangString(0, "")
 }
 
@@ -2078,7 +2078,7 @@ func (d *Destructor) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return d
 }
 
-func (d *Destructor) GoString() string {
+func (d *Destructor) GolangString() string {
 	return d.golangString(0, "")
 }
 
@@ -2124,7 +2124,7 @@ func (gcd *GlobalCDtor) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return gcd
 }
 
-func (gcd *GlobalCDtor) GoString() string {
+func (gcd *GlobalCDtor) GolangString() string {
 	return gcd.golangString(0, "")
 }
 
@@ -2175,7 +2175,7 @@ func (t *TaggedName) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return t
 }
 
-func (t *TaggedName) GoString() string {
+func (t *TaggedName) GolangString() string {
 	return t.golangString(0, "")
 }
 
@@ -2228,7 +2228,7 @@ func (pe *PackExpansion) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return pe
 }
 
-func (pe *PackExpansion) GoString() string {
+func (pe *PackExpansion) GolangString() string {
 	return pe.golangString(0, "")
 }
 
@@ -2284,7 +2284,7 @@ func (ap *ArgumentPack) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return ap
 }
 
-func (ap *ArgumentPack) GoString() string {
+func (ap *ArgumentPack) GolangString() string {
 	return ap.golangString(0, "")
 }
 
@@ -2332,7 +2332,7 @@ func (sp *SizeofPack) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return sp
 }
 
-func (sp *SizeofPack) GoString() string {
+func (sp *SizeofPack) GolangString() string {
 	return sp.golangString(0, "")
 }
 
@@ -2393,7 +2393,7 @@ func (sa *SizeofArgs) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return sa
 }
 
-func (sa *SizeofArgs) GoString() string {
+func (sa *SizeofArgs) GolangString() string {
 	return sa.golangString(0, "")
 }
 
@@ -2437,7 +2437,7 @@ func (tpn *TemplateParamName) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return fn(tpn)
 }
 
-func (tpn *TemplateParamName) GoString() string {
+func (tpn *TemplateParamName) GolangString() string {
 	return tpn.golangString(0, "")
 }
 
@@ -2482,7 +2482,7 @@ func (ttp *TypeTemplateParam) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return ttp
 }
 
-func (ttp *TypeTemplateParam) GoString() string {
+func (ttp *TypeTemplateParam) GolangString() string {
 	return ttp.golangString(0, "")
 }
 
@@ -2541,7 +2541,7 @@ func (nttp *NonTypeTemplateParam) Copy(fn func(AST) AST, skip func(AST) bool) AS
 	return nttp
 }
 
-func (nttp *NonTypeTemplateParam) GoString() string {
+func (nttp *NonTypeTemplateParam) GolangString() string {
 	return nttp.golangString(0, "")
 }
 
@@ -2639,7 +2639,7 @@ func (ttp *TemplateTemplateParam) Copy(fn func(AST) AST, skip func(AST) bool) AS
 	return ttp
 }
 
-func (ttp *TemplateTemplateParam) GoString() string {
+func (ttp *TemplateTemplateParam) GolangString() string {
 	return ttp.golangString(0, "")
 }
 
@@ -2712,7 +2712,7 @@ func (cttp *ConstrainedTypeTemplateParam) Copy(fn func(AST) AST, skip func(AST) 
 	return cttp
 }
 
-func (cttp *ConstrainedTypeTemplateParam) GoString() string {
+func (cttp *ConstrainedTypeTemplateParam) GolangString() string {
 	return cttp.golangString(0, "")
 }
 
@@ -2771,7 +2771,7 @@ func (tpp *TemplateParamPack) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return tpp
 }
 
-func (tpp *TemplateParamPack) GoString() string {
+func (tpp *TemplateParamPack) GolangString() string {
 	return tpp.golangString(0, "")
 }
 
@@ -2811,7 +2811,7 @@ func (c *Cast) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return c
 }
 
-func (c *Cast) GoString() string {
+func (c *Cast) GolangString() string {
 	return c.golangString(0, "")
 }
 
@@ -2885,7 +2885,7 @@ func (n *Nullary) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return n
 }
 
-func (n *Nullary) GoString() string {
+func (n *Nullary) GolangString() string {
 	return n.golangString(0, "")
 }
 
@@ -3037,7 +3037,7 @@ func (u *Unary) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return u
 }
 
-func (u *Unary) GoString() string {
+func (u *Unary) GolangString() string {
 	return u.golangString(0, "")
 }
 
@@ -3287,7 +3287,7 @@ func (b *Binary) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return b
 }
 
-func (b *Binary) GoString() string {
+func (b *Binary) GolangString() string {
 	return b.golangString(0, "")
 }
 
@@ -3442,7 +3442,7 @@ func (t *Trinary) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return t
 }
 
-func (t *Trinary) GoString() string {
+func (t *Trinary) GolangString() string {
 	return t.golangString(0, "")
 }
 
@@ -3563,7 +3563,7 @@ func (f *Fold) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return f
 }
 
-func (f *Fold) GoString() string {
+func (f *Fold) GolangString() string {
 	return f.golangString(0, "")
 }
 
@@ -3635,7 +3635,7 @@ func (so *Subobject) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return so
 }
 
-func (so *Subobject) GoString() string {
+func (so *Subobject) GolangString() string {
 	return so.golangString(0, "")
 }
 
@@ -3705,7 +3705,7 @@ func (pmc *PtrMemCast) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return pmc
 }
 
-func (pmc *PtrMemCast) GoString() string {
+func (pmc *PtrMemCast) GolangString() string {
 	return pmc.golangString(0, "")
 }
 
@@ -3799,7 +3799,7 @@ func (n *New) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return n
 }
 
-func (n *New) GoString() string {
+func (n *New) GolangString() string {
 	return n.golangString(0, "")
 }
 
@@ -3915,7 +3915,7 @@ func (l *Literal) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return l
 }
 
-func (l *Literal) GoString() string {
+func (l *Literal) GolangString() string {
 	return l.golangString(0, "")
 }
 
@@ -3965,7 +3965,7 @@ func (sl *StringLiteral) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return sl
 }
 
-func (sl *StringLiteral) GoString() string {
+func (sl *StringLiteral) GolangString() string {
 	return sl.golangString(0, "")
 }
 
@@ -4008,7 +4008,7 @@ func (le *LambdaExpr) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return le
 }
 
-func (le *LambdaExpr) GoString() string {
+func (le *LambdaExpr) GolangString() string {
 	return le.golangString(0, "")
 }
 
@@ -4060,7 +4060,7 @@ func (el *ExprList) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return el
 }
 
-func (el *ExprList) GoString() string {
+func (el *ExprList) GolangString() string {
 	return el.golangString(0, "")
 }
 
@@ -4130,7 +4130,7 @@ func (il *InitializerList) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return il
 }
 
-func (il *InitializerList) GoString() string {
+func (il *InitializerList) GolangString() string {
 	return il.golangString(0, "")
 }
 
@@ -4179,7 +4179,7 @@ func (da *DefaultArg) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return da
 }
 
-func (da *DefaultArg) GoString() string {
+func (da *DefaultArg) GolangString() string {
 	return da.golangString(0, "")
 }
 
@@ -4322,7 +4322,7 @@ func (cl *Closure) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return cl
 }
 
-func (cl *Closure) GoString() string {
+func (cl *Closure) GolangString() string {
 	return cl.golangString(0, "")
 }
 
@@ -4408,7 +4408,7 @@ func (sb *StructuredBindings) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return sb
 }
 
-func (sb *StructuredBindings) GoString() string {
+func (sb *StructuredBindings) GolangString() string {
 	return sb.golangString(0, "")
 }
 
@@ -4450,7 +4450,7 @@ func (ut *UnnamedType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return fn(ut)
 }
 
-func (ut *UnnamedType) GoString() string {
+func (ut *UnnamedType) GolangString() string {
 	return ut.golangString(0, "")
 }
 
@@ -4497,7 +4497,7 @@ func (c *Clone) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return c
 }
 
-func (c *Clone) GoString() string {
+func (c *Clone) GolangString() string {
 	return c.golangString(0, "")
 }
 
@@ -4548,7 +4548,7 @@ func (s *Special) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return s
 }
 
-func (s *Special) GoString() string {
+func (s *Special) GolangString() string {
 	return s.golangString(0, "")
 }
 
@@ -4601,7 +4601,7 @@ func (s *Special2) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return s
 }
 
-func (s *Special2) GoString() string {
+func (s *Special2) GolangString() string {
 	return s.golangString(0, "")
 }
 
@@ -4662,7 +4662,7 @@ func (ei *EnableIf) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return ei
 }
 
-func (ei *EnableIf) GoString() string {
+func (ei *EnableIf) GolangString() string {
 	return ei.golangString(0, "")
 }
 
@@ -4732,7 +4732,7 @@ func (mn *ModuleName) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return mn
 }
 
-func (mn *ModuleName) GoString() string {
+func (mn *ModuleName) GolangString() string {
 	return mn.golangString(0, "")
 }
 
@@ -4789,7 +4789,7 @@ func (me *ModuleEntity) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return me
 }
 
-func (me *ModuleEntity) GoString() string {
+func (me *ModuleEntity) GolangString() string {
 	return me.golangString(0, "")
 }
 
@@ -4830,7 +4830,7 @@ func (f *Friend) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return f
 }
 
-func (f *Friend) GoString() string {
+func (f *Friend) GolangString() string {
 	return f.golangString(0, "")
 }
 
@@ -4880,7 +4880,7 @@ func (c *Constraint) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return c
 }
 
-func (c *Constraint) GoString() string {
+func (c *Constraint) GolangString() string {
 	return c.golangString(0, "")
 }
 
@@ -4967,7 +4967,7 @@ func (re *RequiresExpr) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return re
 }
 
-func (re *RequiresExpr) GoString() string {
+func (re *RequiresExpr) GolangString() string {
 	return re.golangString(0, "")
 }
 
@@ -5055,7 +5055,7 @@ func (er *ExprRequirement) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return er
 }
 
-func (er *ExprRequirement) GoString() string {
+func (er *ExprRequirement) GolangString() string {
 	return er.golangString(0, "")
 }
 
@@ -5103,7 +5103,7 @@ func (tr *TypeRequirement) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return tr
 }
 
-func (tr *TypeRequirement) GoString() string {
+func (tr *TypeRequirement) GolangString() string {
 	return tr.golangString(0, "")
 }
 
@@ -5144,7 +5144,7 @@ func (nr *NestedRequirement) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 	return nr
 }
 
-func (nr *NestedRequirement) GoString() string {
+func (nr *NestedRequirement) GolangString() string {
 	return nr.golangString(0, "")
 }
 
@@ -5184,7 +5184,7 @@ func (eop *ExplicitObjectParameter) Copy(fn func(AST) AST, skip func(AST) bool) 
 	return eop
 }
 
-func (eop *ExplicitObjectParameter) GoString() string {
+func (eop *ExplicitObjectParameter) GolangString() string {
 	return eop.golangString(0, "")
 }
 

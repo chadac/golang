@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -39,7 +39,7 @@ TEXT crosscall2(SB),NOSPLIT|NOFRAME,$0
 	SAVE_F24_TO_F31((14*8))
 	MOVV	R1, (22*8)(R3)
 
-	// Initialize Go ABI environment
+	// Initialize Golang ABI environment
 	JAL	runtime·load_g(SB)
 
 	JAL	runtime·cgolangcallback(SB)

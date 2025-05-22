@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,7 +16,7 @@ import "internal/runtime/exithook"
 // hook.
 //
 // If 'istest' is true (indicating that the program in question is a
-// Go test binary), then we tentatively queue up both emitMetaData and
+// Golang test binary), then we tentatively queue up both emitMetaData and
 // emitCounterData as exit hooks. In the normal case (e.g. regular "golang
 // test -cover" run) the testmain.golang boilerplate will run at the end
 // of the test, write out the coverage percentage, and then invoke

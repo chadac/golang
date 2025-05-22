@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@
 // Original code can be found at the link below:
 // https://github.com/dot-asm/cryptogams/blob/master/ppc/aesp8-ppc.pl
 
-// Some function names were changed to be consistent with Go function
+// Some function names were changed to be consistent with Golang function
 // names. For instance, function aes_p8_set_{en,de}crypt_key become
 // set{En,De}cryptKeyAsm. I also split setEncryptKeyAsm in two parts
 // and a new session was created (doEncryptKeyAsm). This was necessary to

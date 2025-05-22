@@ -1,18 +1,18 @@
 env TESTGO_VERSION=golang1.24
 
-golang list -f '{{.Module.GoVersion}}'
+golang list -f '{{.Module.GolangVersion}}'
 stdout 1.15
 
 golang mod tidy
-golang list -f '{{.Module.GoVersion}}'
+golang list -f '{{.Module.GolangVersion}}'
 stdout 1.15
 
 golang get example.com/a@v1.0.1
-golang list -f '{{.Module.GoVersion}}'
+golang list -f '{{.Module.GolangVersion}}'
 stdout 1.15
 
 golang get example.com/a@v1.0.1 golang@1.16
-golang list -f '{{.Module.GoVersion}}'
+golang list -f '{{.Module.GolangVersion}}'
 stdout 1.16
 
 -- golang.mod --

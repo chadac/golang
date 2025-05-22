@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -183,7 +183,7 @@ func (m *Match) MatchPackages() {
 			}
 			pkg, err := cfg.BuildContext.ImportDir(path, 0)
 			if err != nil {
-				if _, noGo := err.(*build.NoGoError); noGo {
+				if _, noGolang := err.(*build.NoGolangError); noGolang {
 					// The package does not actually exist, so record neither the package
 					// nor the error.
 					return nil
@@ -398,13 +398,13 @@ func (m *Match) MatchDirs(modRoots []string) {
 		}
 
 		// We keep the directory if we can import it, or if we can't import it
-		// due to invalid Go source files. This means that directories containing
+		// due to invalid Golang source files. This means that directories containing
 		// parse errors will be built (and fail) instead of being silently skipped
-		// as not matching the pattern. Go 1.5 and earlier skipped, but that
+		// as not matching the pattern. Golang 1.5 and earlier skipped, but that
 		// behavior means people miss serious mistakes.
 		// See golanglang.org/issue/11407.
-		if p, err := cfg.BuildContext.ImportDir(path, 0); err != nil && (p == nil || len(p.InvalidGoFiles) == 0) {
-			if _, noGo := err.(*build.NoGoError); noGo {
+		if p, err := cfg.BuildContext.ImportDir(path, 0); err != nil && (p == nil || len(p.InvalidGolangFiles) == 0) {
+			if _, noGolang := err.(*build.NoGolangError); noGolang {
 				// The package does not actually exist, so record neither the package
 				// nor the error.
 				return nil

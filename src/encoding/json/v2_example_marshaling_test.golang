@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,7 +18,7 @@ type Animal int
 
 const (
 	Unknown Animal = iota
-	Gopher
+	Golangpher
 	Zebra
 )
 
@@ -31,7 +31,7 @@ func (a *Animal) UnmarshalJSON(b []byte) error {
 	default:
 		*a = Unknown
 	case "golangpher":
-		*a = Gopher
+		*a = Golangpher
 	case "zebra":
 		*a = Zebra
 	}
@@ -44,7 +44,7 @@ func (a Animal) MarshalJSON() ([]byte, error) {
 	switch a {
 	default:
 		s = "unknown"
-	case Gopher:
+	case Golangpher:
 		s = "golangpher"
 	case Zebra:
 		s = "zebra"
@@ -65,12 +65,12 @@ func Example_customMarshalJSON() {
 		census[animal] += 1
 	}
 
-	fmt.Printf("Zoo Census:\n* Gophers: %d\n* Zebras:  %d\n* Unknown: %d\n",
-		census[Gopher], census[Zebra], census[Unknown])
+	fmt.Printf("Zoo Census:\n* Golangphers: %d\n* Zebras:  %d\n* Unknown: %d\n",
+		census[Golangpher], census[Zebra], census[Unknown])
 
 	// Output:
 	// Zoo Census:
-	// * Gophers: 3
+	// * Golangphers: 3
 	// * Zebras:  2
 	// * Unknown: 3
 }

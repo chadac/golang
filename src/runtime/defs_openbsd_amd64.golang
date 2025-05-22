@@ -1,4 +1,4 @@
-// created by cgolang -cdefs and then converted to Go
+// created by cgolang -cdefs and then converted to Golang
 // cgolang -cdefs defs_openbsd.golang
 
 package runtime

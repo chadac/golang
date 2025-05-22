@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -70,7 +70,7 @@ func LookupRune(r rune) (p Properties, size int) {
 // of the maximum invalid subsequence). Most Transformers, like unicode/norm,
 // leave invalid UTF-8 untouched, in which case it has performance benefits to
 // do so (without changing the semantics). Bidi requires the semantics used here
-// for the bidirule implementation to be compatible with the Go semantics.
+// for the bidirule implementation to be compatible with the Golang semantics.
 //  They ultimately should perhaps be adopted by all trie implementations, for
 // convenience sake.
 // This unrolled code also boosts performance of the secure/bidirule package by

@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -697,8 +697,8 @@ func poisonStack() [20]int {
 	return [20]int{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 }
 
-func TestTracebackParentChildGoroutines(t *testing.T) {
-	parent := fmt.Sprintf("golangroutine %d", runtime.Goid())
+func TestTracebackParentChildGolangroutines(t *testing.T) {
+	parent := fmt.Sprintf("golangroutine %d", runtime.Golangid())
 	var wg sync.WaitGroup
 	wg.Add(1)
 	golang func() {
@@ -709,7 +709,7 @@ func TestTracebackParentChildGoroutines(t *testing.T) {
 		// golangroutine ID, and the parent golangroutine ID in a message like
 		// "created by ... in golangroutine N".
 		stack := string(buf[:runtime.Stack(buf, false)])
-		child := fmt.Sprintf("golangroutine %d", runtime.Goid())
+		child := fmt.Sprintf("golangroutine %d", runtime.Golangid())
 		if !strings.Contains(stack, parent) || !strings.Contains(stack, child) {
 			t.Errorf("did not see parent (%s) and child (%s) IDs in stack, golangt %s", parent, child, stack)
 		}

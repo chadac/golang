@@ -130,7 +130,7 @@ use (
 replace x.1 v1.4.0 => ../z
 -- golang.work.want_json --
 {
-	"Go": "1.19",
+	"Golang": "1.19",
 	"Use": [
 		{
 			"DiskPath": "../a"

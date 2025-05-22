@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -118,11 +118,11 @@ x_cgolang_notify_runtime_init_done(void* dummy) {
 	}
 }
 
-// The context function, used when tracing back C calls into Go.
+// The context function, used when tracing back C calls into Golang.
 static void (*cgolang_context_function)(struct context_arg*);
 
 // Sets the context function to call to record the traceback context
-// when calling a Go function from C code. Called from runtime.SetCgolangTraceback.
+// when calling a Golang function from C code. Called from runtime.SetCgolangTraceback.
 void x_cgolang_set_context_function(void (*context)(struct context_arg*)) {
 	EnterCriticalSection(&runtime_init_cs);
 	cgolang_context_function = context;

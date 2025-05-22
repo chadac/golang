@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -244,7 +244,7 @@ func (g *Generation) Stack(stk []trace.StackFrame) uint64 {
 // version, the time value is the timestamp of the batch containing a lone
 // EvFrequency event.
 func (g *Generation) Sync(freq uint64, time Time, mono uint64, wall time.Time) {
-	if g.trace.ver < version.Go125 && (mono != 0 || !wall.IsZero()) {
+	if g.trace.ver < version.Golang125 && (mono != 0 || !wall.IsZero()) {
 		panic(fmt.Sprintf("mono and wall args are not supported in golang1.%d traces", g.trace.ver))
 	}
 	g.sync = sync{
@@ -265,7 +265,7 @@ type sync struct {
 // writeEventsTo emits event batches in the generation to tw.
 func (g *Generation) writeEventsTo(tw *raw.TextWriter) {
 	// golang1.25+ sync batches are emitted at the start of the generation.
-	if g.trace.ver >= version.Go125 {
+	if g.trace.ver >= version.Golang125 {
 		b := g.newStructuralBatch()
 		// Arrange for EvClockSnapshot's ts to be exactly g.sync.time.
 		b.setTimestamp(g.sync.time - 1)
@@ -283,7 +283,7 @@ func (g *Generation) writeEventsTo(tw *raw.TextWriter) {
 	}
 
 	// Write lone EvFrequency sync batch for older traces.
-	if g.trace.ver < version.Go125 {
+	if g.trace.ver < version.Golang125 {
 		b := g.newStructuralBatch()
 		b.setTimestamp(g.sync.time)
 		b.RawEvent(tracev2.EvFrequency, nil, g.sync.freq)
@@ -385,9 +385,9 @@ func (b *Batch) uintArgFor(arg any, argSpec string) uint64 {
 	case "pstatus":
 		u = uint64(arg.(tracev2.ProcStatus))
 	case "gstatus":
-		u = uint64(arg.(tracev2.GoStatus))
+		u = uint64(arg.(tracev2.GolangStatus))
 	case "g":
-		u = uint64(arg.(trace.GoID))
+		u = uint64(arg.(trace.GolangID))
 	case "m":
 		u = uint64(arg.(trace.ThreadID))
 	case "p":

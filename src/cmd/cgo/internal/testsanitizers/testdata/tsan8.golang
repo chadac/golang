@@ -1,11 +1,11 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 // This program failed when run under the C/C++ ThreadSanitizer.  The TSAN
-// sigaction function interceptor returned SIG_DFL instead of the Go runtime's
+// sigaction function interceptor returned SIG_DFL instead of the Golang runtime's
 // handler in registerSegvForwarder.
 
 /*
@@ -30,7 +30,7 @@ void forwardSignal(int signo, siginfo_t *info, void *context) {
 		return;
 	}
 
-	fprintf(stderr, "No Go handler to forward to!\n");
+	fprintf(stderr, "No Golang handler to forward to!\n");
 	abort();
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -185,7 +185,7 @@ func (ln *UnixListener) close() error {
 	// and replaced our socket name already--
 	// but this sequence (remove then close)
 	// is at least compatible with the auto-remove
-	// sequence in ListenUnix. It's only non-Go
+	// sequence in ListenUnix. It's only non-Golang
 	// programs that can mess us up.
 	// Even if there are racy calls to Close, we want to unlink only for the first one.
 	ln.unlinkOnce.Do(func() {

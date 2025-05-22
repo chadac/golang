@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,11 +8,11 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-// Functions exported from Go.
+// Functions exported from Golang.
 extern void G1(void);
 extern void G2(void);
-extern void TracebackContextPreemptionGoFunction(int);
-extern void TracebackContextProfileGoFunction(void);
+extern void TracebackContextPreemptionGolangFunction(int);
+extern void TracebackContextProfileGolangFunction(void);
 
 void C1() {
 	G1();
@@ -99,10 +99,10 @@ void tcSymbolizer(void *parg) {
 	arg->lineno = arg->pc + (arg->more << 16);
 }
 
-void TracebackContextPreemptionCallGo(int i) {
-	TracebackContextPreemptionGoFunction(i);
+void TracebackContextPreemptionCallGolang(int i) {
+	TracebackContextPreemptionGolangFunction(i);
 }
 
-void TracebackContextProfileCallGo(void) {
-	TracebackContextProfileGoFunction();
+void TracebackContextProfileCallGolang(void) {
+	TracebackContextProfileGolangFunction();
 }

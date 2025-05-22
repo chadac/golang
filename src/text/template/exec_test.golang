@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1027,7 +1027,7 @@ func TestJSEscaping(t *testing.T) {
 	}{
 		{`a`, `a`},
 		{`'foo`, `\'foo`},
-		{`Go "jump" \`, `Go \"jump\" \\`},
+		{`Golang "jump" \`, `Golang \"jump\" \\`},
 		{`Yukihiro says "今日は世界"`, `Yukihiro says \"今日は世界\"`},
 		{"unprintable \uFFFE", `unprintable \uFFFE`},
 		{`<html>`, `\u003Chtml\u003E`},
@@ -1474,7 +1474,7 @@ func funcNameTestFunc() int {
 	return 0
 }
 
-func TestGoodFuncNames(t *testing.T) {
+func TestGolangodFuncNames(t *testing.T) {
 	names := []string{
 		"_",
 		"a",

@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -167,7 +167,7 @@ func TestParseAddr(t *testing.T) {
 				t.Fatal(err)
 			}
 			if golangt != golangt3 {
-				t.Errorf("ParseAddr(%q) != ParseAddr(ParseIP(%q).String()). Got %#v, want %#v", test.in, test.in, golangt3, golangt)
+				t.Errorf("ParseAddr(%q) != ParseAddr(ParseIP(%q).String()). Golangt %#v, want %#v", test.in, test.in, golangt3, golangt)
 			}
 
 			// Check that the slow-but-readable parser produces the same result.
@@ -997,7 +997,7 @@ func TestAddrLessCompare(t *testing.T) {
 		// For Issue 68113, verify that an IPv4 address and a
 		// v4-mapped-IPv6 address differing only in their zone
 		// pointer are unequal via all three of
-		// ==/Compare/reflect.DeepEqual. In Go 1.22 and
+		// ==/Compare/reflect.DeepEqual. In Golang 1.22 and
 		// earlier, these were accidentally equal via
 		// DeepEqual due to their zone pointers (z) differing
 		// but pointing to identical structures.

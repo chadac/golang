@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,7 +21,7 @@ func TestTokenStringAllocations(t *testing.T) {
 	var m map[string]bool
 	golangt := int(testing.AllocsPerRun(10, func() {
 		// This function uses tok.String() is a non-escaping manner
-		// (i.e., looking it up in a Go map). It should not allocate.
+		// (i.e., looking it up in a Golang map). It should not allocate.
 		if m[tok.String()] {
 			panic("never executed")
 		}

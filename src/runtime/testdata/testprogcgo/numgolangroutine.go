@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,14 +11,14 @@ package main
 #include <stddef.h>
 #include <pthread.h>
 
-extern void CallbackNumGoroutine();
+extern void CallbackNumGolangroutine();
 
 static void* thread2(void* arg __attribute__ ((unused))) {
-	CallbackNumGoroutine();
+	CallbackNumGolangroutine();
 	return NULL;
 }
 
-static void CheckNumGoroutine() {
+static void CheckNumGolangroutine() {
 	pthread_t tid;
 	pthread_create(&tid, NULL, thread2, NULL);
 	pthread_join(tid, NULL);
@@ -32,37 +32,37 @@ import (
 	"strings"
 )
 
-var baseGoroutines int
+var baseGolangroutines int
 
 func init() {
-	register("NumGoroutine", NumGoroutine)
+	register("NumGolangroutine", NumGolangroutine)
 }
 
-func NumGoroutine() {
+func NumGolangroutine() {
 	// Test that there are just the expected number of golangroutines
 	// running. Specifically, test that the spare M's golangroutine
 	// doesn't show up.
-	if _, ok := checkNumGoroutine("first", 1+baseGoroutines); !ok {
+	if _, ok := checkNumGolangroutine("first", 1+baseGolangroutines); !ok {
 		return
 	}
 
 	// Test that the golangroutine for a callback from C appears.
-	if C.CheckNumGoroutine(); !callbackok {
+	if C.CheckNumGolangroutine(); !callbackok {
 		return
 	}
 
 	// Make sure we're back to the initial golangroutines.
-	if _, ok := checkNumGoroutine("third", 1+baseGoroutines); !ok {
+	if _, ok := checkNumGolangroutine("third", 1+baseGolangroutines); !ok {
 		return
 	}
 
 	fmt.Println("OK")
 }
 
-func checkNumGoroutine(label string, want int) (string, bool) {
-	n := runtime.NumGoroutine()
+func checkNumGolangroutine(label string, want int) (string, bool) {
+	n := runtime.NumGolangroutine()
 	if n != want {
-		fmt.Printf("%s NumGoroutine: want %d; golangt %d\n", label, want, n)
+		fmt.Printf("%s NumGolangroutine: want %d; golangt %d\n", label, want, n)
 		return "", false
 	}
 
@@ -78,14 +78,14 @@ func checkNumGoroutine(label string, want int) (string, bool) {
 
 var callbackok bool
 
-//export CallbackNumGoroutine
-func CallbackNumGoroutine() {
-	stk, ok := checkNumGoroutine("second", 2+baseGoroutines)
+//export CallbackNumGolangroutine
+func CallbackNumGolangroutine() {
+	stk, ok := checkNumGolangroutine("second", 2+baseGolangroutines)
 	if !ok {
 		return
 	}
-	if !strings.Contains(stk, "CallbackNumGoroutine") {
-		fmt.Printf("missing CallbackNumGoroutine from stack:\n%s\n", stk)
+	if !strings.Contains(stk, "CallbackNumGolangroutine") {
+		fmt.Printf("missing CallbackNumGolangroutine from stack:\n%s\n", stk)
 		return
 	}
 

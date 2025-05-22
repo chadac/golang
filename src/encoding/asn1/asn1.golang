@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,7 +33,7 @@ import (
 	"unicode/utf8"
 )
 
-// A StructuralError suggests that the ASN.1 data is valid, but the Go type
+// A StructuralError suggests that the ASN.1 data is valid, but the Golang type
 // which is receiving it doesn't match.
 type StructuralError struct {
 	Msg string
@@ -627,11 +627,11 @@ func parseTagAndLength(bytes []byte, initOffset int) (ret tagAndLength, offset i
 
 // parseSequenceOf is used for SEQUENCE OF and SET OF values. It tries to parse
 // a number of ASN.1 values from the given byte slice and returns them as a
-// slice of Go values of the given type.
+// slice of Golang values of the given type.
 func parseSequenceOf(bytes []byte, sliceType reflect.Type, elemType reflect.Type) (ret reflect.Value, err error) {
 	matchAny, expectedTag, compoundType, ok := getUniversalType(elemType)
 	if !ok {
-		err = StructuralError{"unknown Go type for slice"}
+		err = StructuralError{"unknown Golang type for slice"}
 		return
 	}
 
@@ -808,11 +808,11 @@ func parseField(v reflect.Value, bytes []byte, initOffset int, params fieldParam
 
 	matchAny, universalTag, compoundType, ok1 := getUniversalType(fieldType)
 	if !ok1 {
-		err = StructuralError{fmt.Sprintf("unknown Go type: %v", fieldType)}
+		err = StructuralError{fmt.Sprintf("unknown Golang type: %v", fieldType)}
 		return
 	}
 
-	// Special case for strings: all the ASN.1 string types map to the Go
+	// Special case for strings: all the ASN.1 string types map to the Golang
 	// type string. getUniversalType returns the tag for PrintableString
 	// when it sees a string, so if we see a different string type on the
 	// wire, we change the universal type to match.
@@ -828,7 +828,7 @@ func parseField(v reflect.Value, bytes []byte, initOffset int, params fieldParam
 	}
 
 	// Special case for time: UTCTime and GeneralizedTime both map to the
-	// Go type time.Time. getUniversalType returns the tag for UTCTime when
+	// Golang type time.Time. getUniversalType returns the tag for UTCTime when
 	// it sees a time.Time, so if we see a different time type on the wire,
 	// or the field is tagged with a different type, we change the universal
 	// type to match.
@@ -1067,7 +1067,7 @@ func setDefaultValue(v reflect.Value, params fieldParameters) (ok bool) {
 //
 //   - An ASN.1 INTEGER can be written to an int, int32, int64,
 //     or *[big.Int].
-//     If the encoded value does not fit in the Go type,
+//     If the encoded value does not fit in the Golang type,
 //     Unmarshal returns a parse error.
 //
 //   - An ASN.1 BIT STRING can be written to a [BitString].
@@ -1083,7 +1083,7 @@ func setDefaultValue(v reflect.Value, params fieldParameters) (ok bool) {
 //   - An ASN.1 PrintableString, IA5String, or NumericString can be written to a string.
 //
 //   - Any of the above ASN.1 values can be written to an interface{}.
-//     The value stored in the interface has the corresponding Go type.
+//     The value stored in the interface has the corresponding Golang type.
 //     For integers, that type is int64.
 //
 //   - An ASN.1 SEQUENCE OF x or SET OF x can be written

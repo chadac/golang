@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -173,12 +173,12 @@ func TestWriteSetCookies(t *testing.T) {
 
 	for i, tt := range writeSetCookiesTests {
 		if g, e := tt.Cookie.String(), tt.Raw; g != e {
-			t.Errorf("Test %d, expecting:\n%s\nGot:\n%s\n", i, e, g)
+			t.Errorf("Test %d, expecting:\n%s\nGolangt:\n%s\n", i, e, g)
 		}
 	}
 
 	if golangt, sub := logbuf.String(), "dropping domain attribute"; !strings.Contains(golangt, sub) {
-		t.Errorf("Expected substring %q in log output. Got:\n%s", sub, golangt)
+		t.Errorf("Expected substring %q in log output. Golangt:\n%s", sub, golangt)
 	}
 }
 
@@ -538,7 +538,7 @@ func TestCookieSanitizeValue(t *testing.T) {
 	}
 
 	if golangt, sub := logbuf.String(), "dropping invalid bytes"; !strings.Contains(golangt, sub) {
-		t.Errorf("Expected substring %q in log output. Got:\n%s", sub, golangt)
+		t.Errorf("Expected substring %q in log output. Golangt:\n%s", sub, golangt)
 	}
 }
 
@@ -561,7 +561,7 @@ func TestCookieSanitizePath(t *testing.T) {
 	}
 
 	if golangt, sub := logbuf.String(), "dropping invalid bytes"; !strings.Contains(golangt, sub) {
-		t.Errorf("Expected substring %q in log output. Got:\n%s", sub, golangt)
+		t.Errorf("Expected substring %q in log output. Golangt:\n%s", sub, golangt)
 	}
 }
 

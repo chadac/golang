@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -686,7 +686,7 @@ type parseError struct{ text string }
 
 func (e *parseError) Error() string { return e.text }
 
-// FNV-1a implementation. See Go's hash/fnv/fnv.golang.
+// FNV-1a implementation. See Golang's hash/fnv/fnv.golang.
 // Copied here for simplicity (can handle integers more directly)
 // and to avoid importing hash/fnv.
 

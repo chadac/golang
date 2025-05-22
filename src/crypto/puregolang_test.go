@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,12 +14,12 @@ import (
 	"testing"
 )
 
-// TestPureGoTag checks that when built with the puregolang build tag, crypto
+// TestPureGolangTag checks that when built with the puregolang build tag, crypto
 // packages don't require any assembly. This is used by alternative compilers
-// such as TinyGo. See also the "crypto/...:puregolang" test in cmd/dist, which
+// such as TinyGolang. See also the "crypto/...:puregolang" test in cmd/dist, which
 // ensures the packages build correctly.
-func TestPureGoTag(t *testing.T) {
-	cmd := exec.Command(testenv.GoToolPath(t), "list", "-e", "crypto/...", "math/big")
+func TestPureGolangTag(t *testing.T) {
+	cmd := exec.Command(testenv.GolangToolPath(t), "list", "-e", "crypto/...", "math/big")
 	cmd.Env = append(cmd.Env, "GOOS=linux")
 	cmd.Stderr = os.Stderr
 	out, err := cmd.Output()
@@ -28,7 +28,7 @@ func TestPureGoTag(t *testing.T) {
 	}
 	pkgs := strings.Split(strings.TrimSpace(string(out)), "\n")
 
-	cmd = exec.Command(testenv.GoToolPath(t), "tool", "dist", "list")
+	cmd = exec.Command(testenv.GolangToolPath(t), "tool", "dist", "list")
 	cmd.Stderr = os.Stderr
 	out, err = cmd.Output()
 	if err != nil {

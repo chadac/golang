@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -124,7 +124,7 @@ func mktzdata(dir, file string) {
 }
 
 // quote is like strconv.Quote but simpler and has output
-// that does not depend on the exact Go bootstrap version.
+// that does not depend on the exact Golang bootstrap version.
 func quote(s string) string {
 	const hex = "0123456789abcdef"
 	var out strings.Builder

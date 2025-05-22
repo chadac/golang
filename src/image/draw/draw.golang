@@ -1,10 +1,10 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package draw provides image composition functions.
 //
-// See "The Go image/draw package" for an introduction to this package:
+// See "The Golang image/draw package" for an introduction to this package:
 // https://golanglang.org/doc/articles/image_draw.html
 package draw
 
@@ -262,7 +262,7 @@ func DrawMask(dst Image, r image.Rectangle, src image.Image, sp image.Point, mas
 	// FALLBACK1.17
 	//
 	// Try the draw.RGBA64Image and image.RGBA64Image interfaces, part of the
-	// standard library since Go 1.17. These are like the draw.Image and
+	// standard library since Golang 1.17. These are like the draw.Image and
 	// image.Image interfaces but they can avoid allocations from converting
 	// concrete color types to the color.Color interface type.
 
@@ -339,7 +339,7 @@ func DrawMask(dst Image, r image.Rectangle, src image.Image, sp image.Point, mas
 	// FALLBACK1.0
 	//
 	// If none of the faster code paths above apply, use the draw.Image and
-	// image.Image interfaces, part of the standard library since Go 1.0.
+	// image.Image interfaces, part of the standard library since Golang 1.0.
 
 	var out color.RGBA64
 	sy := sp.Y + y0 - r.Min.Y
@@ -811,7 +811,7 @@ func drawRGBA(dst *image.RGBA, r image.Rectangle, src image.Image, sp image.Poin
 	di := dx * 4
 
 	// Try the image.RGBA64Image interface, part of the standard library since
-	// Go 1.17.
+	// Golang 1.17.
 	//
 	// This optimization is similar to how FALLBACK1.17 optimizes FALLBACK1.0
 	// in DrawMask, except here the concrete type of dst is known to be
@@ -887,7 +887,7 @@ func drawRGBA(dst *image.RGBA, r image.Rectangle, src image.Image, sp image.Poin
 		}
 	}
 
-	// Use the image.Image interface, part of the standard library since Go
+	// Use the image.Image interface, part of the standard library since Golang
 	// 1.0.
 	//
 	// This is similar to FALLBACK1.0 in DrawMask, except here the concrete

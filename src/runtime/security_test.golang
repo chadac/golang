@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -77,7 +77,7 @@ func TestSUID(t *testing.T) {
 		t.Skip("-quick")
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	helloBin, err := buildTestProg(t, "testsuid")
 	if err != nil {

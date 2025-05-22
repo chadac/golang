@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -189,12 +189,12 @@ func ExampleScanner_earlyStop() {
 	scanner := bufio.NewScanner(strings.NewReader(input))
 	scanner.Split(onComma)
 	for scanner.Scan() {
-		fmt.Printf("Got a token %q\n", scanner.Text())
+		fmt.Printf("Golangt a token %q\n", scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "reading input:", err)
 	}
 	// Output:
-	// Got a token "1"
-	// Got a token "2"
+	// Golangt a token "1"
+	// Golangt a token "2"
 }

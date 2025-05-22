@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -104,7 +104,7 @@ const (
 	FuncType_TypeParams
 	GenDecl_Doc
 	GenDecl_Specs
-	GoStmt_Call
+	GolangStmt_Call
 	IfStmt_Body
 	IfStmt_Cond
 	IfStmt_Else
@@ -235,7 +235,7 @@ var fieldInfos = [...]fieldInfo{
 	FuncType_TypeParams:   info[*ast.FuncType]("TypeParams"),
 	GenDecl_Doc:           info[*ast.GenDecl]("Doc"),
 	GenDecl_Specs:         info[*ast.GenDecl]("Specs"),
-	GoStmt_Call:           info[*ast.GoStmt]("Call"),
+	GolangStmt_Call:           info[*ast.GolangStmt]("Call"),
 	IfStmt_Body:           info[*ast.IfStmt]("Body"),
 	IfStmt_Cond:           info[*ast.IfStmt]("Cond"),
 	IfStmt_Else:           info[*ast.IfStmt]("Else"),

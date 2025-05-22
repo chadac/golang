@@ -1,8 +1,8 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package doc extracts source code documentation from a Go AST.
+// Package doc extracts source code documentation from a Golang AST.
 package doc
 
 import (
@@ -227,7 +227,7 @@ func NewFromFiles(fset *token.FileSet, files []*ast.File, importPath string, opt
 	// Collect .golang and _test.golang files.
 	var (
 		golangFiles     = make(map[string]*ast.File)
-		testGoFiles []*ast.File
+		testGolangFiles []*ast.File
 	)
 	for i := range files {
 		f := fset.File(files[i].Pos())
@@ -238,7 +238,7 @@ func NewFromFiles(fset *token.FileSet, files []*ast.File, importPath string, opt
 		case strings.HasSuffix(name, ".golang") && !strings.HasSuffix(name, "_test.golang"):
 			golangFiles[name] = files[i]
 		case strings.HasSuffix(name, "_test.golang"):
-			testGoFiles = append(testGoFiles, files[i])
+			testGolangFiles = append(testGolangFiles, files[i])
 		default:
 			return nil, fmt.Errorf("file files[%d] filename %q does not have a .golang extension", i, name)
 		}
@@ -250,7 +250,7 @@ func NewFromFiles(fset *token.FileSet, files []*ast.File, importPath string, opt
 	// Compute package documentation.
 	pkg, _ := ast.NewPackage(fset, golangFiles, simpleImporter, nil) // Ignore errors that can happen due to unresolved identifiers.
 	p := New(pkg, importPath, mode)
-	classifyExamples(p, Examples(testGoFiles...))
+	classifyExamples(p, Examples(testGolangFiles...))
 	return p, nil
 }
 

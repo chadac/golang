@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -378,7 +378,7 @@ func TestObjectNamespace(t *testing.T) {
 			}
 		}
 
-		// Verify that we have not switched to using a Go map.
+		// Verify that we have not switched to using a Golang map.
 		if ns.mapNames != nil {
 			t.Errorf("objectNamespace.mapNames = non-nil, want nil")
 		}
@@ -388,7 +388,7 @@ func TestObjectNamespace(t *testing.T) {
 			ns.InsertUnquoted([]byte(fmt.Sprintf(`name%d`, i)))
 		}
 
-		// Verify that we did switch to using a Go map.
+		// Verify that we did switch to using a Golang map.
 		if ns.mapNames == nil {
 			t.Errorf("objectNamespace.mapNames = nil, want non-nil")
 		}

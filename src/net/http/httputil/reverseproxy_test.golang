@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -427,7 +427,7 @@ var proxyQueryTests = []struct {
 
 func TestReverseProxyQuery(t *testing.T) {
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("X-Got-Query", r.URL.RawQuery)
+		w.Header().Set("X-Golangt-Query", r.URL.RawQuery)
 		w.Write([]byte("hi"))
 	}))
 	defer backend.Close()
@@ -444,7 +444,7 @@ func TestReverseProxyQuery(t *testing.T) {
 		if err != nil {
 			t.Fatalf("%d. Get: %v", i, err)
 		}
-		if g, e := res.Header.Get("X-Got-Query"), tt.want; g != e {
+		if g, e := res.Header.Get("X-Golangt-Query"), tt.want; g != e {
 			t.Errorf("%d. golangt query %q; expected %q", i, g, e)
 		}
 		res.Body.Close()
@@ -654,7 +654,7 @@ func TestNilBody(t *testing.T) {
 		backURL, _ := url.Parse(backend.URL)
 		rp := NewSingleHostReverseProxy(backURL)
 		r := req(t, "GET / HTTP/1.0\r\n\r\n")
-		r.Body = nil // this accidentally worked in Go 1.4 and below, so keep it working
+		r.Body = nil // this accidentally worked in Golang 1.4 and below, so keep it working
 		rp.ServeHTTP(w, r)
 	}))
 	defer frontend.Close()
@@ -669,7 +669,7 @@ func TestNilBody(t *testing.T) {
 		t.Fatal(err)
 	}
 	if string(slurp) != "hi" {
-		t.Errorf("Got %q; want %q", slurp, "hi")
+		t.Errorf("Golangt %q; want %q", slurp, "hi")
 	}
 }
 
@@ -1067,7 +1067,7 @@ func BenchmarkServeHTTP(b *testing.B) {
 
 func TestServeHTTPDeepCopy(t *testing.T) {
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello Gopher!"))
+		w.Write([]byte("Hello Golangpher!"))
 	}))
 	defer backend.Close()
 	backendURL, err := url.Parse(backend.URL)
@@ -1889,7 +1889,7 @@ func TestReverseProxyRewriteReplacesOut(t *testing.T) {
 }
 
 func Test1xxHeadersNotModifiedAfterRoundTrip(t *testing.T) {
-	// https://golang.dev/issue/65123: We use httptrace.Got1xxResponse to capture 1xx responses
+	// https://golang.dev/issue/65123: We use httptrace.Golangt1xxResponse to capture 1xx responses
 	// and proxy them. httptrace handlers can execute after RoundTrip returns, in particular
 	// after experiencing connection errors. When this happens, we shouldn't modify the
 	// ResponseWriter headers after ReverseProxy.ServeHTTP returns.
@@ -1913,7 +1913,7 @@ func Test1xxHeadersNotModifiedAfterRoundTrip(t *testing.T) {
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 		ctx = httptrace.WithClientTrace(ctx, &httptrace.ClientTrace{
-			Got1xxResponse: func(code int, header textproto.MIMEHeader) error {
+			Golangt1xxResponse: func(code int, header textproto.MIMEHeader) error {
 				cancel()
 				return nil
 			},
@@ -1974,7 +1974,7 @@ func Test1xxResponses(t *testing.T) {
 
 	var respCounter uint8
 	trace := &httptrace.ClientTrace{
-		Got1xxResponse: func(code int, header textproto.MIMEHeader) error {
+		Golangt1xxResponse: func(code int, header textproto.MIMEHeader) error {
 			switch code {
 			case http.StatusEarlyHints:
 				checkLinkHeaders(t, []string{"</style.css>; rel=preload; as=style", "</script.js>; rel=preload; as=script"}, header["Link"])

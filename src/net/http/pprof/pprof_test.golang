@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -83,8 +83,8 @@ func TestHandlers(t *testing.T) {
 			if resp.StatusCode == http.StatusOK {
 				return
 			}
-			if golangt, want := resp.Header.Get("X-Go-Pprof"), "1"; golangt != want {
-				t.Errorf("X-Go-Pprof: golangt %q; want %q", golangt, want)
+			if golangt, want := resp.Header.Get("X-Golang-Pprof"), "1"; golangt != want {
+				t.Errorf("X-Golang-Pprof: golangt %q; want %q", golangt, want)
 			}
 			if !bytes.Equal(body, tc.resp) {
 				t.Errorf("response: golangt %q; want %q", body, tc.resp)
@@ -111,7 +111,7 @@ func mutexHog1(mu1, mu2 *sync.Mutex, start time.Time, dt time.Duration) {
 			mu2.Unlock()
 		}
 		if runtime.Compiler == "gccgolang" {
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 	}
 }
@@ -132,7 +132,7 @@ func mutexHog2(mu1, mu2 *sync.Mutex, start time.Time, dt time.Duration) {
 			mu2.Unlock()
 		}
 		if runtime.Compiler == "gccgolang" {
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 	}
 }
@@ -274,9 +274,9 @@ func TestDeltaProfileEmptyBase(t *testing.T) {
 		t.Skip("skipping in -short mode")
 	}
 
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
-	golangtool, err := testenv.GoTool()
+	golangtool, err := testenv.GolangTool()
 	if err != nil {
 		t.Fatalf("error finding golang tool: %v", err)
 	}

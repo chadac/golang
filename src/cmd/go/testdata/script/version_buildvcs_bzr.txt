@@ -1,4 +1,4 @@
-# This test checks that VCS information is stamped into Go binaries by default,
+# This test checks that VCS information is stamped into Golang binaries by default,
 # controlled with -buildvcs. This test focuses on Bazaar specifics.
 # The Git test covers common functionality.
 
@@ -8,7 +8,7 @@ env GOBIN=$WORK/golangpath/bin
 env oldpath=$PATH
 env HOME=$WORK
 cd repo/a
-exec bzr whoami 'J.R. Gopher <golangpher@golanglang.org>'
+exec bzr whoami 'J.R. Golangpher <golangpher@golanglang.org>'
 
 # If there's no local repository, there's no VCS info.
 golang install

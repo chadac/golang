@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -48,7 +48,7 @@ func testMain(m *testing.M) int {
 
 // TestTestRun runs a cgolang test that doesn't depend on non-standard libraries.
 func TestTestRun(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	testenv.MustHaveCGO(t)
 
 	for _, file := range [...]string{
@@ -59,7 +59,7 @@ func TestTestRun(t *testing.T) {
 		file := file
 		wantFile := strings.Replace(file, ".golang", ".out", 1)
 		t.Run(file, func(t *testing.T) {
-			cmd := exec.Command(testenv.GoToolPath(t), "run", file)
+			cmd := exec.Command(testenv.GolangToolPath(t), "run", file)
 			golangt, err := cmd.CombinedOutput()
 			if err != nil {
 				t.Fatalf("%v: %s\n%s", cmd, err, golangt)

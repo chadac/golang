@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -192,7 +192,7 @@ func TestEscapedPathsAndPatterns(t *testing.T) {
 	matches := []struct {
 		pattern  string
 		paths    []string // paths that match the pattern
-		paths121 []string // paths that matched the pattern in Go 1.21.
+		paths121 []string // paths that matched the pattern in Golang 1.21.
 	}{
 		{
 			"/a", // this pattern matches a path that unescapes to "/a"

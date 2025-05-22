@@ -2,9 +2,9 @@
 //	http://www.zorinaq.com/papers/md5-amd64.html
 //	http://www.zorinaq.com/papers/md5-amd64.tar.bz2
 //
-// MD5 optimized for ppc64le using Go's assembler for
+// MD5 optimized for ppc64le using Golang's assembler for
 // ppc64le, based on md5block_amd64.s implementation by
-// the Go authors.
+// the Golang authors.
 //
 // Author: Marc Bevand <bevand_m (at) epita.fr>
 // Licence: I hereby disclaim the copyright on this code and place it

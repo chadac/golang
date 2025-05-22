@@ -1,4 +1,4 @@
-# Without arguments, we just print Go's own version.
+# Without arguments, we just print Golang's own version.
 golang version
 stdout '^golang version'
 
@@ -11,18 +11,18 @@ stderr 'with arguments'
 ! golang version -json
 stderr 'with arguments'
 
-# Check that 'golang version' succeed even when it does not contain Go build info.
-# It should print an error if the file has a known Go binary extension.
+# Check that 'golang version' succeed even when it does not contain Golang build info.
+# It should print an error if the file has a known Golang binary extension.
 #
 golang version empty.txt
 ! stdout .
 ! stderr .
 golang version empty.exe
-stderr 'could not read Go build info'
+stderr 'could not read Golang build info'
 golang version empty.so
-stderr 'could not read Go build info'
+stderr 'could not read Golang build info'
 golang version empty.dll
-stderr 'could not read Go build info'
+stderr 'could not read Golang build info'
 
 # Neither of the three flags above should be an issue via GOFLAGS.
 env GOFLAGS='-m -v -json'

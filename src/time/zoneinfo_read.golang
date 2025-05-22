@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,7 +32,7 @@ func registerLoadFromEmbeddedTZData(f func(string) (string, error)) {
 var loadFromEmbeddedTZData func(zipname string) (string, error)
 
 // maxFileSize is the max permitted size of files read by readFile.
-// As reference, the zoneinfo.zip distributed by Go is ~350 KB,
+// As reference, the zoneinfo.zip distributed by Golang is ~350 KB,
 // so 10MB is overkill.
 const maxFileSize = 10 << 20
 

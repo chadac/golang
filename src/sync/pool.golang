@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -42,12 +42,12 @@ import (
 //
 // A Pool must not be copied after first use.
 //
-// In the terminology of [the Go memory model], a call to Put(x) “synchronizes before”
+// In the terminology of [the Golang memory model], a call to Put(x) “synchronizes before”
 // a call to [Pool.Get] returning that same value x.
 // Similarly, a call to New returning x “synchronizes before”
 // a call to Get returning that same value x.
 //
-// [the Go memory model]: https://golang.dev/ref/mem
+// [the Golang memory model]: https://golang.dev/ref/mem
 type Pool struct {
 	noCopy noCopy
 

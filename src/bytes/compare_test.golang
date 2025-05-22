@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -56,7 +56,7 @@ func TestCompare(t *testing.T) {
 }
 
 func TestCompareIdenticalSlice(t *testing.T) {
-	var b = []byte("Hello Gophers!")
+	var b = []byte("Hello Golangphers!")
 	if Compare(b, b) != 0 {
 		t.Error("b != b")
 	}
@@ -154,8 +154,8 @@ func TestEndianBaseCompare(t *testing.T) {
 }
 
 func BenchmarkCompareBytesEqual(b *testing.B) {
-	b1 := []byte("Hello Gophers!")
-	b2 := []byte("Hello Gophers!")
+	b1 := []byte("Hello Golangphers!")
+	b2 := []byte("Hello Golangphers!")
 	for i := 0; i < b.N; i++ {
 		if Compare(b1, b2) != 0 {
 			b.Fatal("b1 != b2")
@@ -164,7 +164,7 @@ func BenchmarkCompareBytesEqual(b *testing.B) {
 }
 
 func BenchmarkCompareBytesToNil(b *testing.B) {
-	b1 := []byte("Hello Gophers!")
+	b1 := []byte("Hello Golangphers!")
 	var b2 []byte
 	for i := 0; i < b.N; i++ {
 		if Compare(b1, b2) != 1 {
@@ -184,7 +184,7 @@ func BenchmarkCompareBytesEmpty(b *testing.B) {
 }
 
 func BenchmarkCompareBytesIdentical(b *testing.B) {
-	b1 := []byte("Hello Gophers!")
+	b1 := []byte("Hello Golangphers!")
 	b2 := b1
 	for i := 0; i < b.N; i++ {
 		if Compare(b1, b2) != 0 {
@@ -194,8 +194,8 @@ func BenchmarkCompareBytesIdentical(b *testing.B) {
 }
 
 func BenchmarkCompareBytesSameLength(b *testing.B) {
-	b1 := []byte("Hello Gophers!")
-	b2 := []byte("Hello, Gophers")
+	b1 := []byte("Hello Golangphers!")
+	b2 := []byte("Hello, Golangphers")
 	for i := 0; i < b.N; i++ {
 		if Compare(b1, b2) != -1 {
 			b.Fatal("b1 < b2 failed")
@@ -204,8 +204,8 @@ func BenchmarkCompareBytesSameLength(b *testing.B) {
 }
 
 func BenchmarkCompareBytesDifferentLength(b *testing.B) {
-	b1 := []byte("Hello Gophers!")
-	b2 := []byte("Hello, Gophers!")
+	b1 := []byte("Hello Golangphers!")
+	b2 := []byte("Hello, Golangphers!")
 	for i := 0; i < b.N; i++ {
 		if Compare(b1, b2) != -1 {
 			b.Fatal("b1 < b2 failed")
@@ -217,7 +217,7 @@ func benchmarkCompareBytesBigUnaligned(b *testing.B, offset int) {
 	b.StopTimer()
 	b1 := make([]byte, 0, 1<<20)
 	for len(b1) < 1<<20 {
-		b1 = append(b1, "Hello Gophers!"...)
+		b1 = append(b1, "Hello Golangphers!"...)
 	}
 	b2 := append([]byte("12345678")[:offset], b1...)
 	b.StartTimer()
@@ -239,7 +239,7 @@ func BenchmarkCompareBytesBigUnaligned(b *testing.B) {
 
 func benchmarkCompareBytesBigBothUnaligned(b *testing.B, offset int) {
 	b.StopTimer()
-	pattern := []byte("Hello Gophers!")
+	pattern := []byte("Hello Golangphers!")
 	b1 := make([]byte, 0, 1<<20+len(pattern))
 	for len(b1) < 1<<20 {
 		b1 = append(b1, pattern...)
@@ -267,7 +267,7 @@ func BenchmarkCompareBytesBig(b *testing.B) {
 	b.StopTimer()
 	b1 := make([]byte, 0, 1<<20)
 	for len(b1) < 1<<20 {
-		b1 = append(b1, "Hello Gophers!"...)
+		b1 = append(b1, "Hello Golangphers!"...)
 	}
 	b2 := append([]byte{}, b1...)
 	b.StartTimer()
@@ -283,7 +283,7 @@ func BenchmarkCompareBytesBigIdentical(b *testing.B) {
 	b.StopTimer()
 	b1 := make([]byte, 0, 1<<20)
 	for len(b1) < 1<<20 {
-		b1 = append(b1, "Hello Gophers!"...)
+		b1 = append(b1, "Hello Golangphers!"...)
 	}
 	b2 := b1
 	b.StartTimer()

@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,15 +12,15 @@ import (
 
 // Error identifies a runtime error used in panic.
 //
-// The Go runtime triggers panics for a variety of cases, as described by the
-// Go Language Spec, such as out-of-bounds slice/array access, close of nil
+// The Golang runtime triggers panics for a variety of cases, as described by the
+// Golang Language Spec, such as out-of-bounds slice/array access, close of nil
 // channels, type assertion failures, etc.
 //
-// When these cases occur, the Go runtime panics with an error that implements
+// When these cases occur, the Golang runtime panics with an error that implements
 // Error. This can be useful when recovering from panics to distinguish between
 // custom application panics and fundamental runtime panics.
 //
-// Packages outside of the Go standard library should not implement Error.
+// Packages outside of the Golang standard library should not implement Error.
 type Error interface {
 	error
 

@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -96,7 +96,7 @@ func TestPackagesFor(ctx context.Context, opts PackageOpts, p *Package, cover *T
 // package structs in a golangroutine and call done once finished. The members of the
 // returned packages should not be accessed until done is called.
 //
-// The caller is expected to have checked that len(p.TestGoFiles)+len(p.XTestGoFiles) > 0,
+// The caller is expected to have checked that len(p.TestGolangFiles)+len(p.XTestGolangFiles) > 0,
 // or else there's no point in any of this.
 func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p *Package, cover *TestCover) (pmain, ptest, pxtest *Package) {
 	ctx, span := trace.StartSpan(ctx, "load.TestPackagesAndErrors")
@@ -172,7 +172,7 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 	stk.Pop()
 
 	// Test package.
-	if len(p.TestGoFiles) > 0 || p.Name == "main" || cover != nil && cover.Local {
+	if len(p.TestGolangFiles) > 0 || p.Name == "main" || cover != nil && cover.Local {
 		ptest = new(Package)
 		*ptest = *p
 		if ptest.Error == nil {
@@ -180,9 +180,9 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 		}
 		ptest.Incomplete = ptest.Incomplete || incomplete
 		ptest.ForTest = p.ImportPath
-		ptest.GoFiles = nil
-		ptest.GoFiles = append(ptest.GoFiles, p.GoFiles...)
-		ptest.GoFiles = append(ptest.GoFiles, p.TestGoFiles...)
+		ptest.GolangFiles = nil
+		ptest.GolangFiles = append(ptest.GolangFiles, p.GolangFiles...)
+		ptest.GolangFiles = append(ptest.GolangFiles, p.TestGolangFiles...)
 		ptest.Target = ""
 		// Note: The preparation of the vet config requires that common
 		// indexes in ptest.Imports and ptest.Internal.RawImports
@@ -225,15 +225,15 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 	}
 
 	// External test package.
-	if len(p.XTestGoFiles) > 0 {
+	if len(p.XTestGolangFiles) > 0 {
 		pxtest = &Package{
 			PackagePublic: PackagePublic{
 				Name:       p.Name + "_test",
 				ImportPath: p.ImportPath + "_test",
 				Root:       p.Root,
 				Dir:        p.Dir,
-				Goroot:     p.Goroot,
-				GoFiles:    p.XTestGoFiles,
+				Golangroot:     p.Golangroot,
+				GolangFiles:    p.XTestGolangFiles,
 				Imports:    p.XTestImports,
 				ForTest:    p.ImportPath,
 				Module:     p.Module,
@@ -273,7 +273,7 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 		PackagePublic: PackagePublic{
 			Name:       "main",
 			Dir:        p.Dir,
-			GoFiles:    []string{"_testmain.golang"},
+			GolangFiles:    []string{"_testmain.golang"},
 			ImportPath: p.ImportPath + ".test",
 			Root:       p.Root,
 			Imports:    str.StringList(TestMainDeps),
@@ -347,7 +347,7 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 			pmain.setLoadPackageDataError(err, p.ImportPath, &stk, nil)
 		}
 		t.Cover = cover
-		if len(ptest.GoFiles)+len(ptest.CgolangFiles) > 0 {
+		if len(ptest.GolangFiles)+len(ptest.CgolangFiles) > 0 {
 			pmain.Internal.Imports = append(pmain.Internal.Imports, ptest)
 			pmain.Imports = append(pmain.Imports, ptest.ImportPath)
 			t.ImportTest = true
@@ -380,7 +380,7 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 
 		if cover != nil {
 			// Here ptest needs to inherit the proper coverage mode (since
-			// it contains p's Go files), whereas pmain contains only
+			// it contains p's Golang files), whereas pmain contains only
 			// test harness code (don't want to instrument it, and
 			// we don't want coverage hooks in the pkg init).
 			ptest.Internal.Cover.Mode = p.Internal.Cover.Mode
@@ -400,9 +400,9 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 			pmain.Error = &PackageError{Err: err}
 			pmain.Incomplete = true
 		}
-		// Set TestmainGo even if it is empty: the presence of a TestmainGo
+		// Set TestmainGolang even if it is empty: the presence of a TestmainGolang
 		// indicates that this package is, in fact, a test main.
-		pmain.Internal.TestmainGo = &data
+		pmain.Internal.TestmainGolang = &data
 	}
 
 	if done != nil {
@@ -599,12 +599,12 @@ func loadTestFuncs(ptest *Package) (*testFuncs, error) {
 		Package: ptest,
 	}
 	var err error
-	for _, file := range ptest.TestGoFiles {
+	for _, file := range ptest.TestGolangFiles {
 		if lerr := t.load(filepath.Join(ptest.Dir, file), "_test", &t.ImportTest, &t.NeedTest); lerr != nil && err == nil {
 			err = lerr
 		}
 	}
-	for _, file := range ptest.XTestGoFiles {
+	for _, file := range ptest.XTestGolangFiles {
 		if lerr := t.load(filepath.Join(ptest.Dir, file), "_xtest", &t.ImportXtest, &t.NeedXtest); lerr != nil && err == nil {
 			err = lerr
 		}

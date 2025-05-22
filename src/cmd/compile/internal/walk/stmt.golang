@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -103,7 +103,7 @@ func walkStmt(n ir.Node) ir.Node {
 		panic("unreachable")
 
 	case ir.ODEFER:
-		n := n.(*ir.GoDeferStmt)
+		n := n.(*ir.GolangDeferStmt)
 		ir.CurFunc.SetHasDefer(true)
 		ir.CurFunc.NumDefers++
 		if ir.CurFunc.NumDefers > maxOpenDefers || n.DeferAt != nil {
@@ -120,8 +120,8 @@ func walkStmt(n ir.Node) ir.Node {
 		}
 		fallthrough
 	case ir.OGO:
-		n := n.(*ir.GoDeferStmt)
-		return walkGoDefer(n)
+		n := n.(*ir.GolangDeferStmt)
+		return walkGolangDefer(n)
 
 	case ir.OFOR:
 		n := n.(*ir.ForStmt)
@@ -192,10 +192,10 @@ func walkFor(n *ir.ForStmt) ir.Node {
 	return n
 }
 
-// validGoDeferCall reports whether call is a valid call to appear in
+// validGolangDeferCall reports whether call is a valid call to appear in
 // a golang or defer statement; that is, whether it's a regular function
 // call without arguments or results.
-func validGoDeferCall(call ir.Node) bool {
+func validGolangDeferCall(call ir.Node) bool {
 	if call, ok := call.(*ir.CallExpr); ok && call.Op() == ir.OCALLFUNC && len(call.KeepAlive) == 0 {
 		sig := call.Fun.Type()
 		return sig.NumParams()+sig.NumResults() == 0
@@ -203,9 +203,9 @@ func validGoDeferCall(call ir.Node) bool {
 	return false
 }
 
-// walkGoDefer walks an OGO or ODEFER node.
-func walkGoDefer(n *ir.GoDeferStmt) ir.Node {
-	if !validGoDeferCall(n.Call) {
+// walkGolangDefer walks an OGO or ODEFER node.
+func walkGolangDefer(n *ir.GolangDeferStmt) ir.Node {
+	if !validGolangDeferCall(n.Call) {
 		base.FatalfAt(n.Pos(), "invalid %v call: %v", n.Op(), n.Call)
 	}
 

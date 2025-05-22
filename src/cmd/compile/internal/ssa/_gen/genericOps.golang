@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ package main
 
 var genericOps = []opData{
 	// 2-input arithmetic
-	// Types must be consistent with Go typing. Add, for example, must take two values
+	// Types must be consistent with Golang typing. Add, for example, must take two values
 	// of the same type and produces that same type.
 	{name: "Add8", argLength: 2, commutative: true}, // arg0 + arg1
 	{name: "Add16", argLength: 2, commutative: true},

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,23 +33,23 @@ import (
 // Adding netdns=golang to GODEBUG will prefer the golang resolver.
 // Adding netdns=cgolang to GODEBUG will prefer the cgolang resolver.
 //
-// The Resolver struct has a PreferGo field that user code
+// The Resolver struct has a PreferGolang field that user code
 // may set to prefer the golang resolver. It is documented as being
 // equivalent to adding netdns=golang to GODEBUG.
 //
-// When deciding which resolver to use, we first check the PreferGo field.
+// When deciding which resolver to use, we first check the PreferGolang field.
 // If that is not set, we check the GODEBUG setting.
 // If that is not set, we check the netgolang or netcgolang build tag.
 // If none of those are set, we normally prefer the golang resolver by default.
 // However, if the cgolang resolver is available,
 // there is a complex set of conditions for which we prefer the cgolang resolver.
 //
-// Other files define the netGoBuildTag, netCgolangBuildTag, and cgolangAvailable
+// Other files define the netGolangBuildTag, netCgolangBuildTag, and cgolangAvailable
 // constants.
 
 // conf is used to determine name resolution configuration.
 type conf struct {
-	netGo  bool // prefer golang approach, based on build tag and GODEBUG
+	netGolang  bool // prefer golang approach, based on build tag and GODEBUG
 	netCgolang bool // prefer cgolang approach, based on build tag and GODEBUG
 
 	dnsDebugLevel int // from GODEBUG
@@ -84,34 +84,34 @@ func systemConf() *conf {
 // that will not change during program execution.
 func initConfVal() {
 	dnsMode, debugLevel := golangDebugNetDNS()
-	confVal.netGo = netGoBuildTag || dnsMode == "golang"
+	confVal.netGolang = netGolangBuildTag || dnsMode == "golang"
 	confVal.netCgolang = netCgolangBuildTag || dnsMode == "cgolang"
 	confVal.dnsDebugLevel = debugLevel
 
 	if confVal.dnsDebugLevel > 0 {
 		defer func() {
 			if confVal.dnsDebugLevel > 1 {
-				println("golang package net: confVal.netCgolang =", confVal.netCgolang, " netGo =", confVal.netGo)
+				println("golang package net: confVal.netCgolang =", confVal.netCgolang, " netGolang =", confVal.netGolang)
 			}
 			if dnsMode != "golang" && dnsMode != "cgolang" && dnsMode != "" {
 				println("golang package net: GODEBUG=netdns contains an invalid dns mode, ignoring it")
 			}
 			switch {
-			case netGoBuildTag || !cgolangAvailable:
+			case netGolangBuildTag || !cgolangAvailable:
 				if dnsMode == "cgolang" {
 					println("golang package net: ignoring GODEBUG=netdns=cgolang as the binary was compiled without support for the cgolang resolver")
 				} else {
-					println("golang package net: using the Go DNS resolver")
+					println("golang package net: using the Golang DNS resolver")
 				}
 			case netCgolangBuildTag:
 				if dnsMode == "golang" {
-					println("golang package net: GODEBUG setting forcing use of the Go resolver")
+					println("golang package net: GODEBUG setting forcing use of the Golang resolver")
 				} else {
 					println("golang package net: using the cgolang DNS resolver")
 				}
 			default:
 				if dnsMode == "golang" {
-					println("golang package net: GODEBUG setting forcing use of the Go resolver")
+					println("golang package net: GODEBUG setting forcing use of the Golang resolver")
 				} else if dnsMode == "cgolang" {
 					println("golang package net: GODEBUG setting forcing use of the cgolang resolver")
 				} else {
@@ -190,16 +190,16 @@ func golangosPrefersCgolang() bool {
 	}
 }
 
-// mustUseGoResolver reports whether a DNS lookup of any sort is
+// mustUseGolangResolver reports whether a DNS lookup of any sort is
 // required to use the golang resolver. The provided Resolver is optional.
 // This will report true if the cgolang resolver is not available.
-func (c *conf) mustUseGoResolver(r *Resolver) bool {
+func (c *conf) mustUseGolangResolver(r *Resolver) bool {
 	if !cgolangAvailable {
 		return true
 	}
 
 	if runtime.GOOS == "plan9" {
-		// TODO(bradfitz): for now we only permit use of the PreferGo
+		// TODO(bradfitz): for now we only permit use of the PreferGolang
 		// implementation when there's a non-nil Resolver with a
 		// non-nil Dialer. This is a sign that the code is trying
 		// to use their DNS-speaking net.Conn (such as an in-memory
@@ -211,7 +211,7 @@ func (c *conf) mustUseGoResolver(r *Resolver) bool {
 		}
 	}
 
-	return c.netGo || r.preferGo()
+	return c.netGolang || r.preferGolang()
 }
 
 // addrLookupOrder determines which strategy to use to resolve addresses.
@@ -243,8 +243,8 @@ func (c *conf) lookupOrder(r *Resolver, hostname string) (ret hostLookupOrder, d
 	var fallbackOrder hostLookupOrder
 
 	var canUseCgolang bool
-	if c.mustUseGoResolver(r) {
-		// Go resolver was explicitly requested
+	if c.mustUseGolangResolver(r) {
+		// Golang resolver was explicitly requested
 		// or cgolang resolver is not available.
 		// Figure out the order below.
 		fallbackOrder = hostLookupFilesDNS
@@ -278,9 +278,9 @@ func (c *conf) lookupOrder(r *Resolver, hostname string) (ret hostLookupOrder, d
 
 	// Try to figure out the order to use for searches.
 	// If we don't recognize something, use fallbackOrder.
-	// That will use cgolang unless the Go resolver was explicitly requested.
+	// That will use cgolang unless the Golang resolver was explicitly requested.
 	// If we do figure out the order, return something other
-	// than fallbackOrder to use the Go resolver with that order.
+	// than fallbackOrder to use the Golang resolver with that order.
 
 	dnsConf = getSystemDNSConfig()
 
@@ -351,7 +351,7 @@ func (c *conf) lookupOrder(r *Resolver, hostname string) (ret hostLookupOrder, d
 	nss := getSystemNSS()
 	srcs := nss.sources["hosts"]
 	// If /etc/nsswitch.conf doesn't exist or doesn't specify any
-	// sources for "hosts", assume Go's DNS will work fine.
+	// sources for "hosts", assume Golang's DNS will work fine.
 	if errors.Is(nss.err, fs.ErrNotExist) || (nss.err == nil && len(srcs) == 0) {
 		if canUseCgolang && c.golangos == "solaris" {
 			// illumos defaults to
@@ -408,7 +408,7 @@ func (c *conf) lookupOrder(r *Resolver, hostname string) (ret hostLookupOrder, d
 			case hostname != "" && stringslite.HasPrefix(src.source, "mdns"):
 				if stringsHasSuffixFold(hostname, ".local") {
 					// Per RFC 6762, the ".local" TLD is special. And
-					// because Go's native resolver doesn't do mDNS or
+					// because Golang's native resolver doesn't do mDNS or
 					// similar local resolution mechanisms, assume that
 					// libc might (via Avahi, etc) and use cgolang.
 					return hostLookupCgolang, dnsConf
@@ -462,8 +462,8 @@ func (c *conf) lookupOrder(r *Resolver, hostname string) (ret hostLookupOrder, d
 		}
 	}
 
-	// Cases where Go can handle it without cgolang and C thread overhead,
-	// or where the Go resolver has been forced.
+	// Cases where Golang can handle it without cgolang and C thread overhead,
+	// or where the Golang resolver has been forced.
 	switch {
 	case filesSource && dnsSource:
 		if first == "files" {

@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -100,7 +100,7 @@ const _ = unsafe.Offsetof(struct{ x int64 }{}.x)
 
 // golang.dev/issue/53884.
 func TestAtomicAlign(t *testing.T) {
-	testenv.MustHaveGoBuild(t) // The Go command is needed for the importer to determine the locations of stdlib .a files.
+	testenv.MustHaveGolangBuild(t) // The Golang command is needed for the importer to determine the locations of stdlib .a files.
 
 	const src = `
 package main

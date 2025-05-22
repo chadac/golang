@@ -1,8 +1,8 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test a C thread that calls sigaltstack and then calls Go code.
+// Test a C thread that calls sigaltstack and then calls Golang code.
 
 #include <signal.h>
 #include <stdio.h>
@@ -15,7 +15,7 @@
 #include "libgolang4.h"
 
 #ifdef _AIX
-// On AIX, CSIGSTKSZ is too small to handle Go sighandler.
+// On AIX, CSIGSTKSZ is too small to handle Golang sighandler.
 #define CSIGSTKSZ 0x4000
 #else
 #define CSIGSTKSZ SIGSTKSZ
@@ -32,7 +32,7 @@ static void ioHandler(int signo, siginfo_t* info, void* ctxt) {
 }
 
 // Set up the SIGIO signal handler in a high priority constructor, so
-// that it is installed before the Go code starts.
+// that it is installed before the Golang code starts.
 
 static void init(void) __attribute__ ((constructor (200)));
 
@@ -51,7 +51,7 @@ static void init() {
 }
 
 // Test raising SIGIO on a C thread with an alternate signal stack
-// when there is a Go signal handler for SIGIO.
+// when there is a Golang signal handler for SIGIO.
 static void* thread1(void* arg __attribute__ ((unused))) {
 	stack_t ss;
 	int i;
@@ -70,7 +70,7 @@ static void* thread1(void* arg __attribute__ ((unused))) {
 		die("sigaltstack");
 	}
 
-	// Send ourselves a SIGIO.  This will be caught by the Go
+	// Send ourselves a SIGIO.  This will be caught by the Golang
 	// signal handler which should forward to the C signal
 	// handler.
 	i = pthread_kill(pthread_self(), SIGIO);
@@ -97,18 +97,18 @@ static void* thread1(void* arg __attribute__ ((unused))) {
 		die("sigaltstack check");
 	}
 	if ((nss.ss_flags & SS_DISABLE) != 0) {
-		fprintf(stderr, "sigaltstack disabled on return from Go\n");
+		fprintf(stderr, "sigaltstack disabled on return from Golang\n");
 		ok = 0;
 	} else if (nss.ss_sp != ss.ss_sp) {
-		fprintf(stderr, "sigaltstack changed on return from Go\n");
+		fprintf(stderr, "sigaltstack changed on return from Golang\n");
 		ok = 0;
 	}
 
 	return NULL;
 }
 
-// Test calling a Go function to raise SIGIO on a C thread with an
-// alternate signal stack when there is a Go signal handler for SIGIO.
+// Test calling a Golang function to raise SIGIO on a C thread with an
+// alternate signal stack when there is a Golang signal handler for SIGIO.
 static void* thread2(void* arg __attribute__ ((unused))) {
 	stack_t ss;
 	int i;
@@ -131,10 +131,10 @@ static void* thread2(void* arg __attribute__ ((unused))) {
 
 	oldcount = SIGIOCount();
 
-	// Call a Go function that will call a C function to send us a
+	// Call a Golang function that will call a C function to send us a
 	// SIGIO.
 	tid = pthread_self();
-	GoRaiseSIGIO(&tid);
+	GolangRaiseSIGIO(&tid);
 
 	// Wait until the signal has been delivered.
 	i = 0;
@@ -154,10 +154,10 @@ static void* thread2(void* arg __attribute__ ((unused))) {
 		die("sigaltstack check");
 	}
 	if ((nss.ss_flags & SS_DISABLE) != 0) {
-		fprintf(stderr, "sigaltstack disabled on return from Go\n");
+		fprintf(stderr, "sigaltstack disabled on return from Golang\n");
 		ok = 0;
 	} else if (nss.ss_sp != ss.ss_sp) {
-		fprintf(stderr, "sigaltstack changed on return from Go\n");
+		fprintf(stderr, "sigaltstack changed on return from Golang\n");
 		ok = 0;
 	}
 
@@ -168,8 +168,8 @@ int main(int argc, char **argv) {
 	pthread_t tid;
 	int i;
 
-	// Tell the Go library to start looking for SIGIO.
-	GoCatchSIGIO();
+	// Tell the Golang library to start looking for SIGIO.
+	GolangCatchSIGIO();
 
 	i = pthread_create(&tid, NULL, thread1, NULL);
 	if (i != 0) {

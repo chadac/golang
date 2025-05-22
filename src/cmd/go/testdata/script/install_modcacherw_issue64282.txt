@@ -42,4 +42,4 @@ cp $WORK/extraneous.txt $GOPATH/pkg/mod/example.com/printversion@v0.1.0/extraneo
 
 
 -- $WORK/extraneous.txt --
-This is not a Go source file.
+This is not a Golang source file.

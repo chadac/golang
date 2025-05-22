@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ import "unsafe"
 //
 //  1. find the C-defined function start
 //  2. force the local byte alias to be mapped to that location
-//  3. map the Go pointer to the function to the syscall package
+//  3. map the Golang pointer to the function to the syscall package
 
 //golang:cgolang_import_static _cgolang_libc_setegid
 //golang:linkname _cgolang_libc_setegid _cgolang_libc_setegid

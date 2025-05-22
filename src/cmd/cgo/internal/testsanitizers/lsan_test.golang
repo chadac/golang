@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -74,7 +74,7 @@ func TestLSAN(t *testing.T) {
 }
 
 func mustHaveLSAN(t *testing.T) *config {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	golangos, err := golangEnv("GOOS")
 	if err != nil {

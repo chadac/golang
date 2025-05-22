@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -89,7 +89,7 @@ func TestEvalArith(t *testing.T) {
 }
 
 func TestEvalPos(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// The contents of /*-style comments are of the form
 	//	expr => value, type
@@ -217,7 +217,7 @@ func split(s, sep string) (string, string) {
 }
 
 func TestCheckExpr(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// Each comment has the form /* expr => object */:
 	// expr is an identifier or selector expression that is passed

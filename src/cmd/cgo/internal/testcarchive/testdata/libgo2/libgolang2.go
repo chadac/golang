@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -36,12 +36,12 @@ import (
 	"runtime"
 )
 
-// RunGoroutines starts some golangroutines that don't do anything.
+// RunGolangroutines starts some golangroutines that don't do anything.
 // The idea is to get some threads golanging, so that a signal will be delivered
-// to a thread started by Go.
+// to a thread started by Golang.
 //
-//export RunGoroutines
-func RunGoroutines() {
+//export RunGolangroutines
+func RunGolangroutines() {
 	for i := 0; i < 4; i++ {
 		golang func() {
 			runtime.LockOSThread()
@@ -50,7 +50,7 @@ func RunGoroutines() {
 	}
 }
 
-// Block blocks the current thread while running Go code.
+// Block blocks the current thread while running Golang code.
 //
 //export Block
 func Block() {
@@ -59,7 +59,7 @@ func Block() {
 
 var P *byte
 
-// TestSEGV makes sure that an invalid address turns into a run-time Go panic.
+// TestSEGV makes sure that an invalid address turns into a run-time Golang panic.
 //
 //export TestSEGV
 func TestSEGV() {
@@ -74,7 +74,7 @@ func TestSEGV() {
 	os.Exit(1)
 }
 
-// Noop ensures that the Go runtime is initialized.
+// Noop ensures that the Golang runtime is initialized.
 //
 //export Noop
 func Noop() {
@@ -82,8 +82,8 @@ func Noop() {
 
 // Raise SIGPIPE.
 //
-//export GoRaiseSIGPIPE
-func GoRaiseSIGPIPE() {
+//export GolangRaiseSIGPIPE
+func GolangRaiseSIGPIPE() {
 	C.CRaiseSIGPIPE()
 }
 

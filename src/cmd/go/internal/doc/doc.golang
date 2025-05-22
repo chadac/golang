@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -37,7 +37,7 @@ it prints the package documentation for the package in the current directory.
 If the package is a command (package main), the exported symbols of the package
 are elided from the presentation unless the -cmd flag is provided.
 
-When run with one argument, the argument is treated as a Go-syntax-like
+When run with one argument, the argument is treated as a Golang-syntax-like
 representation of the item to be documented. What the argument selects depends
 on what is installed in GOROOT and GOPATH, as well as the form of the argument,
 which is schematically one of these:
@@ -122,7 +122,7 @@ Flags:
 		One-line representation for each symbol.
 	-src
 		Show the full source code for the symbol. This will
-		display the full Go source of its declaration and
+		display the full Golang source of its declaration and
 		definition, such as a function definition (including
 		the body), type declaration or enclosing const
 		block. The output may therefore include unexported

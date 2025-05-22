@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,7 +26,7 @@ func initLocal() {
 	z.offset = offset * 60
 	// According to https://tc39.github.io/ecma262/#sec-timezoneestring,
 	// the timezone name from (new Date()).toTimeString() is an implementation-dependent
-	// result, and in Google Chrome, it gives the fully expanded name rather than
+	// result, and in Golangogle Chrome, it gives the fully expanded name rather than
 	// the abbreviation.
 	// Hence, we construct the name from the offset.
 	z.name = "UTC"

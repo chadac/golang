@@ -6,7 +6,7 @@ mkdir m1_22_0
 golang mod init -C m1_22_0
 golang mod edit -C m1_22_0 -golang=1.22.0 -toolchain=golang1.99.0
 
-# work init writes the current Go version to the golang line
+# work init writes the current Golang version to the golang line
 golang work init
 grep '^golang 1.50$' golang.work
 ! grep toolchain golang.work

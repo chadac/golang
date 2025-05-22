@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@ import (
 )
 
 // resultsAnalyzer stores state information for the process of
-// computing flags/properties for the return values of a specific Go
+// computing flags/properties for the return values of a specific Golang
 // function, as part of inline heuristics synthesis.
 type resultsAnalyzer struct {
 	fname           string

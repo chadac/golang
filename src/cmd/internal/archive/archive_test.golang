@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,7 +24,7 @@ import (
 var buildDir string
 
 func TestMain(m *testing.M) {
-	if !testenv.HasGoBuild() {
+	if !testenv.HasGolangBuild() {
 		return
 	}
 
@@ -80,7 +80,7 @@ func copyFile(dst, src string) (err error) {
 
 var (
 	buildOnce   sync.Once
-	builtGoobjs golangobjPaths
+	builtGolangobjs golangobjPaths
 	buildErr    error
 )
 
@@ -91,10 +91,10 @@ type golangobjPaths struct {
 	cgolangarchive string
 }
 
-func buildGoobj(t *testing.T) golangobjPaths {
+func buildGolangobj(t *testing.T) golangobjPaths {
 	buildOnce.Do(func() {
 		buildErr = func() (err error) {
-			buildDir, err = os.MkdirTemp("", "TestGoobj")
+			buildDir, err = os.MkdirTemp("", "TestGolangobj")
 			if err != nil {
 				return err
 			}
@@ -104,7 +104,7 @@ func buildGoobj(t *testing.T) golangobjPaths {
 			golangarchive := filepath.Join(buildDir, "golang.a")
 			cgolangarchive := ""
 
-			golangtool, err := testenv.GoTool()
+			golangtool, err := testenv.GolangTool()
 			if err != nil {
 				return err
 			}
@@ -147,7 +147,7 @@ func buildGoobj(t *testing.T) golangobjPaths {
 				}
 			}
 
-			builtGoobjs = golangobjPaths{
+			builtGolangobjs = golangobjPaths{
 				golang1obj:     golang1obj,
 				golang2obj:     golang2obj,
 				golangarchive:  golangarchive,
@@ -161,11 +161,11 @@ func buildGoobj(t *testing.T) golangobjPaths {
 		t.Helper()
 		t.Fatal(buildErr)
 	}
-	return builtGoobjs
+	return builtGolangobjs
 }
 
-func TestParseGoobj(t *testing.T) {
-	path := buildGoobj(t).golang1obj
+func TestParseGolangobj(t *testing.T) {
+	path := buildGolangobj(t).golang1obj
 
 	f, err := os.Open(path)
 	if err != nil {
@@ -184,8 +184,8 @@ func TestParseGoobj(t *testing.T) {
 		if e.Type == EntryPkgDef {
 			continue
 		}
-		if e.Type != EntryGoObj {
-			t.Errorf("wrong type of object: want EntryGoObj, golangt %v", e.Type)
+		if e.Type != EntryGolangObj {
+			t.Errorf("wrong type of object: want EntryGolangObj, golangt %v", e.Type)
 		}
 		if !bytes.Contains(e.Obj.TextHeader, []byte(runtime.GOARCH)) {
 			t.Errorf("text header does not contain GOARCH %s: %q", runtime.GOARCH, e.Obj.TextHeader)
@@ -194,7 +194,7 @@ func TestParseGoobj(t *testing.T) {
 }
 
 func TestParseArchive(t *testing.T) {
-	path := buildGoobj(t).golangarchive
+	path := buildGolangobj(t).golangarchive
 
 	f, err := os.Open(path)
 	if err != nil {
@@ -215,8 +215,8 @@ func TestParseArchive(t *testing.T) {
 		if e.Type == EntryPkgDef {
 			continue
 		}
-		if e.Type != EntryGoObj {
-			t.Errorf("wrong type of object: want EntryGoObj, golangt %v", e.Type)
+		if e.Type != EntryGolangObj {
+			t.Errorf("wrong type of object: want EntryGolangObj, golangt %v", e.Type)
 		}
 		if !bytes.Contains(e.Obj.TextHeader, []byte(runtime.GOARCH)) {
 			t.Errorf("text header does not contain GOARCH %s: %q", runtime.GOARCH, e.Obj.TextHeader)
@@ -239,7 +239,7 @@ func TestParseArchive(t *testing.T) {
 func TestParseCGOArchive(t *testing.T) {
 	testenv.MustHaveCGO(t)
 
-	path := buildGoobj(t).cgolangarchive
+	path := buildGolangobj(t).cgolangarchive
 
 	f, err := os.Open(path)
 	if err != nil {
@@ -276,7 +276,7 @@ func TestParseCGOArchive(t *testing.T) {
 			t.Errorf("unknown object type")
 		case EntryPkgDef:
 			continue
-		case EntryGoObj:
+		case EntryGolangObj:
 			foundgolang = true
 			if !bytes.Contains(e.Obj.TextHeader, []byte(runtime.GOARCH)) {
 				t.Errorf("text header does not contain GOARCH %s: %q", runtime.GOARCH, e.Obj.TextHeader)

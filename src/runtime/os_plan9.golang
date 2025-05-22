@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -360,7 +360,7 @@ func crash() {
 
 // Don't read from /dev/random, since this device can only
 // return a few hundred bits a second and would slow creation
-// of Go processes down significantly.
+// of Golang processes down significantly.
 //
 //golang:nosplit
 func readRandom(r []byte) int {
@@ -517,7 +517,7 @@ func write1(fd uintptr, buf unsafe.Pointer, n int32) int32 {
 	return pwrite(int32(fd), buf, n, -1)
 }
 
-var _badsignal = []byte("runtime: signal received on thread not created by Go.\n")
+var _badsignal = []byte("runtime: signal received on thread not created by Golang.\n")
 
 // This runs on a foreign stack, without an m or a g. No stack split.
 //

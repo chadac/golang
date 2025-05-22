@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2020 The Go Authors. All rights reserved.
+# Copyright 2020 The Golang Authors. All rights reserved.
 # Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ id
 date
 cd /boring
 
-# Go requires -fPIC for linux/amd64 cgolang builds.
+# Golang requires -fPIC for linux/amd64 cgolang builds.
 # Setting -fPIC only affects the compilation of the non-module code in libcrypto.a,
 # because the FIPS module itself is already built with -fPIC.
 echo '#!/bin/bash
@@ -22,12 +22,12 @@ exec clang++-'$ClangV' -DGOBORING -fPIC "$@"
 ' >/usr/local/bin/clang++
 chmod +x /usr/local/bin/clang /usr/local/bin/clang++
 
-# The BoringSSL tests use Go, and cgolang would look for gcc.
+# The BoringSSL tests use Golang, and cgolang would look for gcc.
 export CGO_ENABLED=0
 
 # Modify the support code crypto/mem.c (outside the FIPS module)
 # to not try to use weak symbols, because they don't work with some
-# Go toolchain / clang toolchain combinations.
+# Golang toolchain / clang toolchain combinations.
 perl -p -i -e 's/defined.*ELF.*defined.*GNUC.*/$0 \&\& !defined(GOBORING)/' boringssl/crypto/mem.c
 
 # We build all of libcrypto, which includes a bunch of I/O operations that we

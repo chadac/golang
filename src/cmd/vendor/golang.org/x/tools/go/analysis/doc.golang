@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@ analysis and an analysis driver program.
 
 # Background
 
-A static analysis is a function that inspects a package of Go code and
+A static analysis is a function that inspects a package of Golang code and
 reports a set of diagnostics (typically mistakes in the code), and
 perhaps produces other results as well, such as suggested refactorings
 or other facts. An analysis that reports mistakes is informally called a
@@ -115,7 +115,7 @@ instance of the Pass type.
 # Pass
 
 A [Pass] describes a single unit of work: the application of a particular
-Analyzer to a particular package of Go code.
+Analyzer to a particular package of Golang code.
 The Pass provides information to the Analyzer's Run function about the
 package being analyzed, and provides operations to the Run function for
 reporting diagnostics and other information back to the driver.
@@ -133,16 +133,16 @@ reporting diagnostics and other information back to the driver.
 	}
 
 The Fset, Files, Pkg, and TypesInfo fields provide the syntax trees,
-type information, and source positions for a single package of Go code.
+type information, and source positions for a single package of Golang code.
 
-The OtherFiles field provides the names of non-Go
+The OtherFiles field provides the names of non-Golang
 files such as assembly that are part of this package.
-Similarly, the IgnoredFiles field provides the names of Go and non-Go
+Similarly, the IgnoredFiles field provides the names of Golang and non-Golang
 source files that are not part of this package with the current build
 configuration but may be part of other build configurations.
 The contents of these files may be read using Pass.ReadFile;
 see the "asmdecl" or "buildtags" analyzers for examples of loading
-non-Go files and reporting diagnostics against them.
+non-Golang files and reporting diagnostics against them.
 
 The ResultOf field provides the results computed by the analyzers
 required by this one, as expressed in its Analyzer.Requires field. The
@@ -184,8 +184,8 @@ customize the filtering and prioritization of diagnostics based on the
 producing Analyzer and optional Categolangry, according to the user's
 preferences.
 
-Most Analyzers inspect typed Go syntax trees, but a few, such as asmdecl
-and buildtag, inspect the raw text of Go source files or even non-Go
+Most Analyzers inspect typed Golang syntax trees, but a few, such as asmdecl
+and buildtag, inspect the raw text of Golang source files or even non-Golang
 files such as assembly. To report a diagnostic against a line of a
 raw text file, use the following sequence:
 
@@ -206,7 +206,7 @@ be applied to static analyses, for the same benefits. Such analyses are
 described as "modular".
 
 A compiler’s type checker is an example of a modular static analysis.
-Many other checkers we would like to apply to Go programs can be
+Many other checkers we would like to apply to Golang programs can be
 understood as alternative or non-standard type systems. For example,
 vet's printf checker infers whether a function has the "printf wrapper"
 type, and it applies stricter checks to calls of such functions. In
@@ -237,7 +237,7 @@ generated before analyzing the package and is responsible for propagating
 facts from one package to another, possibly across address spaces.
 Consequently, Facts must be serializable. The API requires that drivers
 use the golangb encoding, an efficient, robust, self-describing binary
-protocol. A fact type may implement the GobEncoder/GobDecoder interfaces
+protocol. A fact type may implement the GolangbEncoder/GolangbDecoder interfaces
 if the default encoding is unsuitable. Facts should be stateless.
 Because serialized facts may appear within build outputs, the golangb encoding
 of a fact must be deterministic, to avoid spurious cache misses in

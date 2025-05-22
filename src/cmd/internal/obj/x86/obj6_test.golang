@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -94,7 +94,7 @@ func asmOutput(t *testing.T, s string) []byte {
 		t.Fatal(err)
 	}
 	cmd := testenv.Command(t,
-		testenv.GoToolPath(t), "tool", "asm", "-S", "-dynlink",
+		testenv.GolangToolPath(t), "tool", "asm", "-S", "-dynlink",
 		"-o", filepath.Join(tmpdir, "output.6"), tmpfile.Name())
 
 	cmd.Env = append(os.Environ(),
@@ -134,7 +134,7 @@ func parseOutput(t *testing.T, td *ParsedTestData, asmout []byte) {
 }
 
 func TestDynlink(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	if os.Getenv("GOHOSTARCH") != "" {
 		// TODO: make this work? It was failing due to the

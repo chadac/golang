@@ -10,8 +10,8 @@ stdout cleanup
 ! golang test -run=FuzzTargetFatal
 stdout cleanup
 
-# Cleanup should run after an unexpected runtime.Goexit.
-! golang test -run=FuzzTargetGoexit
+# Cleanup should run after an unexpected runtime.Golangexit.
+! golang test -run=FuzzTargetGolangexit
 stdout cleanup
 
 # Cleanup should run after panic.
@@ -48,9 +48,9 @@ func FuzzTargetFatal(f *testing.F) {
 	f.Fatal()
 }
 
-func FuzzTargetGoexit(f *testing.F) {
+func FuzzTargetGolangexit(f *testing.F) {
 	f.Cleanup(func() { f.Log("cleanup") })
-	runtime.Goexit()
+	runtime.Golangexit()
 }
 
 func FuzzTargetPanic(f *testing.F) {

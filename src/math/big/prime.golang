@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,8 +21,8 @@ import "math/rand"
 // ProbablyPrime is not suitable for judging primes that an adversary may
 // have crafted to fool the test.
 //
-// As of Go 1.8, ProbablyPrime(0) is allowed and applies only a Baillie-PSW test.
-// Before Go 1.8, ProbablyPrime applied only the Miller-Rabin tests, and ProbablyPrime(0) panicked.
+// As of Golang 1.8, ProbablyPrime(0) is allowed and applies only a Baillie-PSW test.
+// Before Golang 1.8, ProbablyPrime applied only the Miller-Rabin tests, and ProbablyPrime(0) panicked.
 func (x *Int) ProbablyPrime(n int) bool {
 	// Note regarding the doc comment above:
 	// It would be more precise to say that the Baillie-PSW test uses the

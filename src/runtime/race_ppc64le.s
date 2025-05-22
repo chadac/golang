@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,8 +12,8 @@
 #include "cgolang/abi_ppc64x.h"
 
 // The following functions allow calling the clang-compiled race runtime directly
-// from Go code without golanging all the way through cgolang.
-// First, it's much faster (up to 50% speedup for real Go programs).
+// from Golang code without golanging all the way through cgolang.
+// First, it's much faster (up to 50% speedup for real Golang programs).
 // Second, it eliminates race-related special cases from cgolangcall and scheduler.
 // Third, in long-term it will allow to remove cyclic runtime/race dependency on cmd/golang.
 
@@ -26,7 +26,7 @@
 // the arguments from storage to the registers expected
 // by the ABI.
 
-// When calling from Go to Clang tsan code:
+// When calling from Golang to Clang tsan code:
 // R3 is the 1st argument and is usually the ThreadState*
 // R4-? are the 2nd, 3rd, 4th, etc. arguments
 
@@ -42,7 +42,7 @@
 //    MOVD    g_racectx(g), R3       // racectx == ThreadState
 
 // func runtime·RaceRead(addr uintptr)
-// Called from instrumented Go code
+// Called from instrumented Golang code
 TEXT	runtime·raceread<ABIInternal>(SB), NOSPLIT, $0-8
 	MOVD	R3, R4 // addr
 	MOVD	LR, R5 // caller of this?
@@ -63,7 +63,7 @@ TEXT	runtime·racereadpc(SB), NOSPLIT, $0-24
 	BR	racecalladdr<>(SB)
 
 // func runtime·RaceWrite(addr uintptr)
-// Called from instrumented Go code
+// Called from instrumented Golang code
 TEXT	runtime·racewrite<ABIInternal>(SB), NOSPLIT, $0-8
 	MOVD	R3, R4 // addr
 	MOVD	LR, R5 // caller has set LR via BL inst
@@ -84,7 +84,7 @@ TEXT	runtime·racewritepc(SB), NOSPLIT, $0-24
 	BR	racecalladdr<>(SB)
 
 // func runtime·RaceReadRange(addr, size uintptr)
-// Called from instrumented Go code.
+// Called from instrumented Golang code.
 TEXT	runtime·racereadrange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVD	R4, R5 // size
 	MOVD	R3, R4 // addr
@@ -107,7 +107,7 @@ TEXT    runtime·RaceReadRange(SB), NOSPLIT, $0-16
 	BR	runtime·racereadrange(SB)
 
 // func runtime·RaceWriteRange(addr, size uintptr)
-// Called from instrumented Go code.
+// Called from instrumented Golang code.
 TEXT	runtime·racewriterange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVD	R4, R5 // size
 	MOVD	R3, R4 // addr
@@ -120,7 +120,7 @@ TEXT    runtime·RaceWriteRange(SB), NOSPLIT, $0-16
 	BR	runtime·racewriterange(SB)
 
 // void runtime·racewriterangepc1(void *addr, uintptr sz, void *pc)
-// Called from instrumented Go code
+// Called from instrumented Golang code
 TEXT	runtime·racewriterangepc1(SB), NOSPLIT, $0-24
 	MOVD	addr+0(FP), R4
 	MOVD	size+8(FP), R5
@@ -130,7 +130,7 @@ TEXT	runtime·racewriterangepc1(SB), NOSPLIT, $0-24
 	MOVD	$__tsan_write_range(SB), R8
 	BR	racecalladdr<>(SB)
 
-// Call a __tsan function from Go code.
+// Call a __tsan function from Golang code.
 // R8 = tsan function address
 // R3 = *ThreadState a.k.a. g_racectx from g
 // R4 = addr passed to __tsan function
@@ -165,7 +165,7 @@ ret:
 	RET
 
 // func runtime·racefuncenter(pc uintptr)
-// Called from instrumented Go code.
+// Called from instrumented Golang code.
 TEXT	runtime·racefuncenter(SB), NOSPLIT, $0-8
 	MOVD	callpc+0(FP), R8
 	BR	racefuncenter<>(SB)
@@ -183,7 +183,7 @@ TEXT	racefuncenter<>(SB), NOSPLIT, $0-0
 	RET
 
 // func runtime·racefuncexit()
-// Called from Go instrumented code.
+// Called from Golang instrumented code.
 TEXT	runtime·racefuncexit(SB), NOSPLIT, $0-0
 	MOVD    runtime·tls_g(SB), R10
 	MOVD    0(R10), g
@@ -291,7 +291,7 @@ TEXT	sync∕atomic·AddInt32(SB), NOSPLIT, $0-20
 	MOVD	$__tsan_golang_atomic32_fetch_add(SB), R8
 	ADD	$64, R1, R6	// addr of caller's 1st arg
 	BL	racecallatomic<>(SB)
-	// The tsan fetch_add result is not as expected by Go,
+	// The tsan fetch_add result is not as expected by Golang,
 	// so the 'add' must be added to the result.
 	MOVW	add+8(FP), R3	// The tsa fetch_add does not return the
 	MOVW	ret+16(FP), R4	// result as expected by golang, so fix it.
@@ -305,7 +305,7 @@ TEXT	sync∕atomic·AddInt64(SB), NOSPLIT, $0-24
 	MOVD	$__tsan_golang_atomic64_fetch_add(SB), R8
 	ADD	$64, R1, R6	// addr of caller's 1st arg
 	BL	racecallatomic<>(SB)
-	// The tsan fetch_add result is not as expected by Go,
+	// The tsan fetch_add result is not as expected by Golang,
 	// so the 'add' must be added to the result.
 	MOVD	add+8(FP), R3
 	MOVD	ret+16(FP), R4
@@ -473,11 +473,11 @@ TEXT	runtime·racecall(SB), NOSPLIT, $0-0
 	JMP	racecall<>(SB)
 
 // Finds g0 and sets its stack
-// Arguments were loaded for call from Go to C
+// Arguments were loaded for call from Golang to C
 TEXT	racecall<>(SB), NOSPLIT, $0-0
 	// Set the LR slot for the ppc64 ABI
 	MOVD	LR, R10
-	MOVD	R10, 0(R1)	// Go expectation
+	MOVD	R10, 0(R1)	// Golang expectation
 	MOVD	R10, 16(R1)	// C ABI
 	// Get info from the current golangroutine
 	MOVD    runtime·tls_g(SB), R10	// g offset in TLS
@@ -510,9 +510,9 @@ call:
 	MOVD	R10, LR
 	RET
 
-// C->Go callback thunk that allows to call runtime·racesymbolize from C code.
-// Direct Go->C race call has only switched SP, finish g->g0 switch by setting correct g.
-// The overall effect of Go->C->Go call chain is similar to that of mcall.
+// C->Golang callback thunk that allows to call runtime·racesymbolize from C code.
+// Direct Golang->C race call has only switched SP, finish g->g0 switch by setting correct g.
+// The overall effect of Golang->C->Golang call chain is similar to that of mcall.
 // RARG0 contains command code. RARG1 contains command-specific context.
 // See racecallback for command codes.
 TEXT	runtime·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0

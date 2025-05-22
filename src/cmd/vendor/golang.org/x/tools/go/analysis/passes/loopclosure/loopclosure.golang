@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -57,7 +57,7 @@ func run(pass *analysis.Pass) (any, error) {
 		case *ast.File:
 			// Only traverse the file if its golangversion is strictly before golang1.22.
 			golangversion := versions.FileVersion(pass.TypesInfo, n)
-			return versions.Before(golangversion, versions.Go1_22)
+			return versions.Before(golangversion, versions.Golang1_22)
 		case *ast.RangeStmt:
 			body = n.Body
 			addVar(n.Key)
@@ -82,11 +82,11 @@ func run(pass *analysis.Pass) (any, error) {
 		// Inspect statements to find function literals that may be run outside of
 		// the current loop iteration.
 		//
-		// For golang, defer, and errgroup.Group.Go, we ignore all but the last
+		// For golang, defer, and errgroup.Group.Golang, we ignore all but the last
 		// statement, because it's hard to prove golang isn't followed by wait, or
 		// defer by return. "Last" is defined recursively.
 		//
-		// TODO: consider allowing the "last" golang/defer/Go statement to be followed by
+		// TODO: consider allowing the "last" golang/defer/Golang statement to be followed by
 		// N "trivial" statements, possibly under a recursive definition of "trivial"
 		// so that that checker could, for example, conclude that a golang statement is
 		// followed by an if statement made of only trivial statements and trivial expressions,
@@ -94,11 +94,11 @@ func run(pass *analysis.Pass) (any, error) {
 		forEachLastStmt(body.List, func(last ast.Stmt) {
 			var stmts []ast.Stmt
 			switch s := last.(type) {
-			case *ast.GoStmt:
+			case *ast.GolangStmt:
 				stmts = litStmts(s.Call.Fun)
 			case *ast.DeferStmt:
 				stmts = litStmts(s.Call.Fun)
-			case *ast.ExprStmt: // check for errgroup.Group.Go
+			case *ast.ExprStmt: // check for errgroup.Group.Golang
 				if call, ok := s.X.(*ast.CallExpr); ok {
 					stmts = litStmts(golangInvoke(pass.TypesInfo, call))
 				}
@@ -216,15 +216,15 @@ func litStmts(fun ast.Expr) []ast.Stmt {
 
 // golangInvoke returns a function expression that would be called asynchronously
 // (but not awaited) in another golangroutine as a consequence of the call.
-// For example, given the g.Go call below, it returns the function literal expression.
+// For example, given the g.Golang call below, it returns the function literal expression.
 //
 //	import "sync/errgroup"
 //	var g errgroup.Group
-//	g.Go(func() error { ... })
+//	g.Golang(func() error { ... })
 //
 // Currently only "golanglang.org/x/sync/errgroup.Group()" is considered.
 func golangInvoke(info *types.Info, call *ast.CallExpr) ast.Expr {
-	if !isMethodCall(info, call, "golanglang.org/x/sync/errgroup", "Group", "Go") {
+	if !isMethodCall(info, call, "golanglang.org/x/sync/errgroup", "Group", "Golang") {
 		return nil
 	}
 	return call.Args[0]

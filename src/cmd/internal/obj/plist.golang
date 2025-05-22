@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -56,7 +56,7 @@ func Flushplist(ctxt *Link, plist *Plist, newprog ProgAlloc) {
 			continue
 
 		case AFUNCDATA:
-			// Rewrite reference to golang_args_stackmap(SB) to the Go-provided declaration information.
+			// Rewrite reference to golang_args_stackmap(SB) to the Golang-provided declaration information.
 			if curtext == nil { // func _() {}
 				continue
 			}
@@ -98,7 +98,7 @@ func Flushplist(ctxt *Link, plist *Plist, newprog ProgAlloc) {
 		newprog = ctxt.NewProg
 	}
 
-	// Add reference to Go arguments for assembly functions without them.
+	// Add reference to Golang arguments for assembly functions without them.
 	if ctxt.IsAsm {
 		pkgPrefix := objabi.PathToPrefix(ctxt.Pkgpath) + "."
 		for _, s := range text {

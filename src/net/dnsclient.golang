@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -146,7 +146,7 @@ func isDomainName(s string) bool {
 }
 
 // absDomainName returns an absolute domain name which ends with a
-// trailing dot to match pure Go reverse resolver and all other lookup
+// trailing dot to match pure Golang reverse resolver and all other lookup
 // routines.
 // See golanglang.org/issue/12189.
 // But we don't want to add dots for local names from /etc/hosts.

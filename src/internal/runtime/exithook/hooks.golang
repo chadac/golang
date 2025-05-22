@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,7 +9,7 @@
 // handler, preemption enabled, allocation allowed, write barriers
 // allowed, etc), and that the exit function F will be invoked under
 // similar circumstances. That is the say, we are expecting that F
-// uses normal / high-level Go code as opposed to one of the more
+// uses normal / high-level Golang code as opposed to one of the more
 // restricted dialects used for the trickier parts of the runtime.
 package exithook
 
@@ -29,20 +29,20 @@ type Hook struct {
 
 var (
 	locked  atomic.Int32
-	runGoid atomic.Uint64
+	runGolangid atomic.Uint64
 	hooks   []Hook
 	running bool
 
 	// runtime sets these for us
-	Gosched func()
-	Goid    func() uint64
+	Golangsched func()
+	Golangid    func() uint64
 	Throw   func(string)
 )
 
 // Add adds a new exit hook.
 func Add(h Hook) {
 	for !locked.CompareAndSwap(0, 1) {
-		Gosched()
+		Golangsched()
 	}
 	hooks = append(hooks, h)
 	locked.Store(0)
@@ -55,14 +55,14 @@ func Add(h Hook) {
 // If an exit hook invokes exit in another golangroutine, that exit will block.
 func Run(code int) {
 	for !locked.CompareAndSwap(0, 1) {
-		if Goid() == runGoid.Load() {
+		if Golangid() == runGolangid.Load() {
 			Throw("exit hook invoked exit")
 		}
-		Gosched()
+		Golangsched()
 	}
 	defer locked.Store(0)
-	runGoid.Store(Goid())
-	defer runGoid.Store(0)
+	runGolangid.Store(Golangid())
+	defer runGolangid.Store(0)
 
 	defer func() {
 		if e := recover(); e != nil {

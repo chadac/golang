@@ -7,8 +7,8 @@
 
 golang build -ldflags='-linkmode=external -extldflags=-Wl,--gc-sections'
 golang version hello$GOEXE
-! stdout 'not a Go executable'
-! stderr 'not a Go executable'
+! stdout 'not a Golang executable'
+! stderr 'not a Golang executable'
 
 -- golang.mod --
 module hello

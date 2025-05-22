@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -55,7 +55,7 @@ type DeadlineExceededError struct{}
 
 // Implement the net.Error interface.
 // The string is "i/o timeout" because that is what was returned
-// by earlier Go versions. Changing it may break programs that
+// by earlier Golang versions. Changing it may break programs that
 // match on error strings.
 func (e *DeadlineExceededError) Error() string   { return "i/o timeout" }
 func (e *DeadlineExceededError) Timeout() bool   { return true }

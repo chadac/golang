@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,7 +33,7 @@ func runHello(t *testing.T, flag string) {
 		// takes a while.
 		t.Skip("skip in short mode")
 	}
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	t.Parallel()
 
 	tmpdir := t.TempDir()
@@ -43,7 +43,7 @@ func runHello(t *testing.T, flag string) {
 		t.Fatalf("write file failed: %v", err)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "run", "-gcflags=all="+flag, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "run", "-gcflags=all="+flag, src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang run failed: %v\n%s", err, out)

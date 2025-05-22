@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -303,7 +303,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.To.Reg = r
 
 	case ssa.OpRISCV64LoweredFMAXD, ssa.OpRISCV64LoweredFMIND, ssa.OpRISCV64LoweredFMAXS, ssa.OpRISCV64LoweredFMINS:
-		// Most of FMIN/FMAX result match Go's required behaviour, unless one of the
+		// Most of FMIN/FMAX result match Golang's required behaviour, unless one of the
 		// inputs is a NaN. As such, we need to explicitly test for NaN
 		// before using FMIN/FMAX.
 

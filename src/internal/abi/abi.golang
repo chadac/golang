@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,7 +40,7 @@ type RegArgs struct {
 	// ReturnIsPtr is a bitmap that indicates which registers
 	// contain or will contain pointers on the return path from
 	// a reflectcall. The i'th bit indicates whether the i'th
-	// register contains or will contain a valid Go pointer.
+	// register contains or will contain a valid Golang pointer.
 	ReturnIsPtr IntArgRegBitmap
 }
 

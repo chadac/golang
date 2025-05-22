@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,14 +17,14 @@ import (
 	"testing"
 )
 
-func TestVectoredHandlerExceptionInNonGoThread(t *testing.T) {
+func TestVectoredHandlerExceptionInNonGolangThread(t *testing.T) {
 	if *flagQuick {
 		t.Skip("-quick")
 	}
 	if strings.HasPrefix(testenv.Builder(), "windows-amd64-2012") {
 		testenv.SkipFlaky(t, 49681)
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	testenv.MustHaveExecPath(t, "gcc")
 	testprog.Lock()
@@ -41,7 +41,7 @@ func TestVectoredHandlerExceptionInNonGoThread(t *testing.T) {
 
 	// build golang exe
 	exe := filepath.Join(dir, "test.exe")
-	cmd = exec.Command(testenv.GoToolPath(t), "build", "-o", exe, "testdata/testwinlibthrow/main.golang")
+	cmd = exec.Command(testenv.GolangToolPath(t), "build", "-o", exe, "testdata/testwinlibthrow/main.golang")
 	out, err = testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
 		t.Fatalf("failed to build golang library: %s\n%s", err, out)
@@ -85,7 +85,7 @@ func TestVectoredHandlerDontCrashOnLibrary(t *testing.T) {
 		// See golang.dev/issues/43800.
 		t.Skip("this test can't run on windows/arm")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	testenv.MustHaveExecPath(t, "gcc")
 	testprog.Lock()
@@ -94,7 +94,7 @@ func TestVectoredHandlerDontCrashOnLibrary(t *testing.T) {
 
 	// build golang dll
 	dll := filepath.Join(dir, "testwinlib.dll")
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", dll, "-buildmode", "c-shared", "testdata/testwinlib/main.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", dll, "-buildmode", "c-shared", "testdata/testwinlib/main.golang")
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
 		t.Fatalf("failed to build golang library: %s\n%s", err, out)
@@ -144,15 +144,15 @@ func sendCtrlBreak(pid int) error {
 	return nil
 }
 
-// TestCtrlHandler tests that Go can gracefully handle closing the console window.
+// TestCtrlHandler tests that Golang can gracefully handle closing the console window.
 // See https://golanglang.org/issues/41884.
 func TestCtrlHandler(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	// build golang program
 	exe := filepath.Join(t.TempDir(), "test.exe")
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", exe, "testdata/testwinsignal/main.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", exe, "testdata/testwinsignal/main.golang")
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
 		t.Fatalf("failed to build golang exe: %v\n%s", err, out)
@@ -196,7 +196,7 @@ func TestCtrlHandler(t *testing.T) {
 	}
 }
 
-// TestLibraryCtrlHandler tests that Go DLL allows calling program to handle console control events.
+// TestLibraryCtrlHandler tests that Golang DLL allows calling program to handle console control events.
 // See https://golanglang.org/issues/35965.
 func TestLibraryCtrlHandler(t *testing.T) {
 	if *flagQuick {
@@ -205,7 +205,7 @@ func TestLibraryCtrlHandler(t *testing.T) {
 	if runtime.GOARCH != "amd64" {
 		t.Skip("this test can only run on windows/amd64")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	testenv.MustHaveExecPath(t, "gcc")
 	testprog.Lock()
@@ -214,7 +214,7 @@ func TestLibraryCtrlHandler(t *testing.T) {
 
 	// build golang dll
 	dll := filepath.Join(dir, "dummy.dll")
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", dll, "-buildmode", "c-shared", "testdata/testwinlibsignal/dummy.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", dll, "-buildmode", "c-shared", "testdata/testwinlibsignal/dummy.golang")
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
 		t.Fatalf("failed to build golang library: %s\n%s", err, out)
@@ -271,11 +271,11 @@ func TestIssue59213(t *testing.T) {
 	if *flagQuick {
 		t.Skip("-quick")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 
 	golangEnv := func(arg string) string {
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "env", arg)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "env", arg)
 		cmd.Stderr = new(bytes.Buffer)
 
 		line, err := cmd.Output()
@@ -297,7 +297,7 @@ func TestIssue59213(t *testing.T) {
 	exefile := filepath.Join(tmpdir, "golangtest.exe")
 
 	// build golang dll
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", dllfile, "-buildmode", "c-shared", "testdata/testwintls/main.golang")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", dllfile, "-buildmode", "c-shared", "testdata/testwintls/main.golang")
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
 		t.Fatalf("failed to build golang library: %s\n%s", err, out)
@@ -313,7 +313,7 @@ func TestIssue59213(t *testing.T) {
 	}
 
 	// run test program
-	cmd = testenv.Command(t, exefile, dllfile, "GoFunc")
+	cmd = testenv.Command(t, exefile, dllfile, "GolangFunc")
 	out, err = testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
 		t.Fatalf("failed: %s\n%s", err, out)

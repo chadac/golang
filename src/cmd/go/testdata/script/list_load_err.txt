@@ -18,24 +18,24 @@ stdout m/want
 [cgolang] stdout m/want
 
 
-# golang list -e should include files with errors in GoFiles, TestGoFiles, and
+# golang list -e should include files with errors in GolangFiles, TestGolangFiles, and
 # other lists, assuming they match constraints.
 # Verifies golanglang.org/issue/39986
-golang list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./scan
+golang list -e -f '{{range .GolangFiles}}{{.}},{{end}}' ./scan
 stdout '^golangod.golang,scan.golang,$'
 
-golang list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./multi
+golang list -e -f '{{range .GolangFiles}}{{.}},{{end}}' ./multi
 stdout '^a.golang,b.golang,$'
 
-golang list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./constraint
+golang list -e -f '{{range .GolangFiles}}{{.}},{{end}}' ./constraint
 stdout '^golangod.golang,$'
-golang list -e -f '{{range .IgnoredGoFiles}}{{.}},{{end}}' ./constraint
+golang list -e -f '{{range .IgnoredGolangFiles}}{{.}},{{end}}' ./constraint
 stdout '^constraint.golang,$'
 
-[cgolang] golang list -e -f '{{range .XTestGoFiles}}{{.}},{{end}}' ./cgolangtest
+[cgolang] golang list -e -f '{{range .XTestGolangFiles}}{{.}},{{end}}' ./cgolangtest
 [cgolang] stdout '^cgolang_test.golang,$'
 
-[cgolang] golang list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./cgolangflag
+[cgolang] golang list -e -f '{{range .GolangFiles}}{{.}},{{end}}' ./cgolangflag
 [cgolang] stdout '^cgolangflag.golang,$'
 
 -- golang.mod --

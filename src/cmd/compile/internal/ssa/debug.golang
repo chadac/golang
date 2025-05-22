@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -684,13 +684,13 @@ func (state *debugState) liveness() []*BlockDebug {
 	// iterations, no more, no less.  A count is specified as the
 	// thousands digit of the location lists debug flag,
 	// e.g. -d=locationlists=4000
-	keepGoing := func(k int) bool {
+	keepGolanging := func(k int) bool {
 		if state.convergeCount == 0 {
 			return !converged
 		}
 		return k < state.convergeCount
 	}
-	for k := 0; keepGoing(k); k++ {
+	for k := 0; keepGolanging(k); k++ {
 		if state.loggingLevel > 0 {
 			state.logf("Liveness pass %d\n", k)
 		}

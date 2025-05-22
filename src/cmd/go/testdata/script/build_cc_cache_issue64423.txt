@@ -104,7 +104,7 @@ func main() {
 		if line != "" {
 			if strings.Contains(line, "clang version") {
 				// Simulate a clang version string with an arbitrary vendor prefix.
-				const vendorString = "Gopher Solutions Unlimited "
+				const vendorString = "Golangpher Solutions Unlimited "
 				os.Stderr.WriteString(vendorString)
 			}
 			os.Stderr.WriteString(line)

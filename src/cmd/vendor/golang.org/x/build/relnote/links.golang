@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -249,7 +249,7 @@ func splitRef(s string) (pkg, name string, ok bool) {
 
 // The following functions were copied from golang/doc/comment/parse.golang.
 
-// If text is of the form before.Name, where Name is a capitalized Go identifier,
+// If text is of the form before.Name, where Name is a capitalized Golang identifier,
 // then splitDocName returns before, name, true.
 // Otherwise it returns text, "", false.
 func splitDocName(text string) (before, name string, foundDot bool) {
@@ -264,7 +264,7 @@ func splitDocName(text string) (before, name string, foundDot bool) {
 	return before, name, true
 }
 
-// isName reports whether s is a capitalized Go identifier (like Name).
+// isName reports whether s is a capitalized Golang identifier (like Name).
 func isName(s string) bool {
 	t, ok := ident(s)
 	if !ok || t != s {
@@ -274,7 +274,7 @@ func isName(s string) bool {
 	return unicode.IsUpper(r)
 }
 
-// ident checks whether s begins with a Go identifier.
+// ident checks whether s begins with a Golang identifier.
 // If so, it returns the identifier, which is a prefix of s, and ok == true.
 // Otherwise it returns "", false.
 // The caller should skip over the first len(id) bytes of s

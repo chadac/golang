@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -193,7 +193,7 @@ func Walk(v Visitor, node Node) {
 		walkList(v, n.Lhs)
 		walkList(v, n.Rhs)
 
-	case *GoStmt:
+	case *GolangStmt:
 		Walk(v, n.Call)
 
 	case *DeferStmt:

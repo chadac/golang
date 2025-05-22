@@ -8,7 +8,7 @@
 // 	Portions Copyright © 2004,2006 Bruce Ellis
 // 	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 // 	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-// 	Portions Copyright © 2009 The Go Authors. All rights reserved.
+// 	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -1073,7 +1073,7 @@ func (o *Optab) size(ctxt *obj.Link, p *obj.Prog) int {
 	if sz != -1 {
 		// Relocations R_AARCH64_LDST{64,32,16,8}_ABS_LO12_NC can only generate 8-byte, 4-byte,
 		// 2-byte and 1-byte aligned addresses, so the address of load/store must be aligned.
-		// Also symbols with prefix of "golang:string." are Go strings, which will golang into
+		// Also symbols with prefix of "golang:string." are Golang strings, which will golang into
 		// the symbol table, their addresses are not necessary aligned, rule this out.
 		//
 		// Note that the code generation routines for these addressing forms call o.size
@@ -1524,7 +1524,7 @@ func isADDSop(op obj.As) bool {
 	return false
 }
 
-func isNEGop(op obj.As) bool {
+func isNEGolangp(op obj.As) bool {
 	switch op {
 	case ANEG, ANEGW, ANEGS, ANEGSW:
 		return true
@@ -3520,7 +3520,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		if p.To.Type == obj.TYPE_NONE {
 			rt = REGZERO
 		}
-		if p.As == AMVN || p.As == AMVNW || isNEGop(p.As) {
+		if p.As == AMVN || p.As == AMVNW || isNEGolangp(p.As) {
 			r = REGZERO
 		} else if r == obj.REG_NONE {
 			r = rt
@@ -3533,7 +3533,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 			c.ctxt.Diag("shift amount out of range 0 to 31: %v", p)
 		}
 		shift := (p.From.Offset >> 22) & 3
-		if (shift > 2 || shift < 0) && (isADDop(p.As) || isADDWop(p.As) || isNEGop(p.As)) {
+		if (shift > 2 || shift < 0) && (isADDop(p.As) || isADDWop(p.As) || isNEGolangp(p.As)) {
 			c.ctxt.Diag("unsupported shift operator: %v", p)
 		}
 		o1 |= uint32(p.From.Offset) /* includes reg, op, etc */
@@ -7789,7 +7789,7 @@ func (c *ctxt7) encRegShiftOrExt(p *obj.Prog, a *obj.Addr, r int16) uint32 {
 			if num == 0 {
 				// According to the arm64 specification, for instructions MOVB, MOVBU and FMOVB,
 				// the extension amount must be 0, encoded in "S" as 0 if omitted, or as 1 if present.
-				// But in Go, we don't distinguish between Rn.UXTW and Rn.UXTW<<0, so we encode it as
+				// But in Golang, we don't distinguish between Rn.UXTW and Rn.UXTW<<0, so we encode it as
 				// that does not present. This makes no difference to the function of the instruction.
 				// This is also true for extensions LSL, SXTW and SXTX.
 				return roff(rm, 2, 2)

@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -55,7 +55,7 @@ source directories corresponding to the import paths:
 	*.so             from SWIG
 
 In the list, DIR represents the final path element of the
-directory, and MAINFILE is the base name of any Go source
+directory, and MAINFILE is the base name of any Golang source
 file in the directory that is not included when building
 the package.
 
@@ -79,7 +79,7 @@ The -modcache flag causes clean to remove the entire module
 download cache, including unpacked source code of versioned
 dependencies.
 
-The -fuzzcache flag causes clean to remove files stored in the Go build
+The -fuzzcache flag causes clean to remove files stored in the Golang build
 cache for fuzz testing. The fuzzing engine caches files that expand
 code coverage, so removing them may make fuzzing less effective until
 new inputs are found that provide the same coverage. These files are
@@ -320,10 +320,10 @@ func clean(p *load.Package) {
 				packageFile[f] = true
 			}
 		}
-		keep(p.GoFiles)
+		keep(p.GolangFiles)
 		keep(p.CgolangFiles)
-		keep(p.TestGoFiles)
-		keep(p.XTestGoFiles)
+		keep(p.TestGolangFiles)
+		keep(p.XTestGolangFiles)
 	}
 
 	_, elem := filepath.Split(p.Dir)

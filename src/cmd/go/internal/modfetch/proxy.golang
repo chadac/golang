@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,11 +27,11 @@ import (
 	"golanglang.org/x/mod/semver"
 )
 
-var HelpGoproxy = &base.Command{
+var HelpGolangproxy = &base.Command{
 	UsageLine: "golangproxy",
 	Short:     "module proxy protocol",
 	Long: `
-A Go module proxy is any web server that can respond to GET requests for
+A Golang module proxy is any web server that can respond to GET requests for
 URLs of a specified form. The requests have no query parameters, so even
 a site serving from a fixed file system (including a file:/// URL)
 can be a module proxy.
@@ -399,9 +399,9 @@ func (p *proxyRepo) Latest(ctx context.Context) (*RevInfo, error) {
 	return info, nil
 }
 
-func (p *proxyRepo) GoMod(ctx context.Context, version string) ([]byte, error) {
+func (p *proxyRepo) GolangMod(ctx context.Context, version string) ([]byte, error) {
 	if version != module.CanonicalVersion(version) {
-		return nil, p.versionError(version, fmt.Errorf("internal error: version passed to GoMod is not canonical"))
+		return nil, p.versionError(version, fmt.Errorf("internal error: version passed to GolangMod is not canonical"))
 	}
 
 	encVer, err := module.EscapeVersion(version)

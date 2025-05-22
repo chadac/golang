@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@
 //   fun := Fun("entry",
 //       Bloc("entry",
 //           Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-//           Goto("exit")),
+//           Golangto("exit")),
 //       Bloc("exit",
 //           Exit("mem")),
 //       Bloc("deadblock",
@@ -32,7 +32,7 @@
 
 package ssa
 
-// TODO(matloob): Choose better names for Fun, Bloc, Goto, etc.
+// TODO(matloob): Choose better names for Fun, Bloc, Golangto, etc.
 // TODO(matloob): Write a parser for the Func disassembly. Maybe
 // the parser can be used instead of Fun.
 
@@ -205,7 +205,7 @@ func (c *Conf) Fun(entry string, blocs ...bloc) fun {
 
 // Bloc defines a block for Fun. The bloc name should be unique
 // across the containing Fun. entries should consist of calls to valu,
-// as well as one call to Goto, If, or Exit to specify the block kind.
+// as well as one call to Golangto, If, or Exit to specify the block kind.
 func Bloc(name string, entries ...interface{}) bloc {
 	b := bloc{}
 	b.name = name
@@ -234,9 +234,9 @@ func Valu(name string, op Op, t *types.Type, auxint int64, aux Aux, args ...stri
 	return valu{name, op, t, auxint, aux, args}
 }
 
-// Goto specifies that this is a BlockPlain and names the single successor.
+// Golangto specifies that this is a BlockPlain and names the single successor.
 // TODO(matloob): choose a better name.
-func Goto(succ string) ctrl {
+func Golangto(succ string) ctrl {
 	return ctrl{BlockPlain, "", []string{succ}}
 }
 
@@ -255,7 +255,7 @@ func Eq(cond, sub, alt string) ctrl {
 	return ctrl{BlockAMD64EQ, cond, []string{sub, alt}}
 }
 
-// bloc, ctrl, and valu are internal structures used by Bloc, Valu, Goto,
+// bloc, ctrl, and valu are internal structures used by Bloc, Valu, Golangto,
 // If, and Exit to help define blocks.
 
 type bloc struct {
@@ -287,7 +287,7 @@ func TestArgs(t *testing.T) {
 			Valu("b", OpConst64, c.config.Types.Int64, 26, nil),
 			Valu("sum", OpAdd64, c.config.Types.Int64, 0, nil, "a", "b"),
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 	sum := fun.values["sum"]
@@ -310,7 +310,7 @@ func TestEquiv(t *testing.T) {
 					Valu("b", OpConst64, cfg.config.Types.Int64, 26, nil),
 					Valu("sum", OpAdd64, cfg.config.Types.Int64, 0, nil, "a", "b"),
 					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-					Goto("exit")),
+					Golangto("exit")),
 				Bloc("exit",
 					Exit("mem"))),
 			cfg.Fun("entry",
@@ -319,7 +319,7 @@ func TestEquiv(t *testing.T) {
 					Valu("b", OpConst64, cfg.config.Types.Int64, 26, nil),
 					Valu("sum", OpAdd64, cfg.config.Types.Int64, 0, nil, "a", "b"),
 					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-					Goto("exit")),
+					Golangto("exit")),
 				Bloc("exit",
 					Exit("mem"))),
 		},
@@ -331,7 +331,7 @@ func TestEquiv(t *testing.T) {
 					Valu("b", OpConst64, cfg.config.Types.Int64, 26, nil),
 					Valu("sum", OpAdd64, cfg.config.Types.Int64, 0, nil, "a", "b"),
 					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-					Goto("exit")),
+					Golangto("exit")),
 				Bloc("exit",
 					Exit("mem"))),
 			cfg.Fun("entry",
@@ -342,7 +342,7 @@ func TestEquiv(t *testing.T) {
 					Valu("b", OpConst64, cfg.config.Types.Int64, 26, nil),
 					Valu("sum", OpAdd64, cfg.config.Types.Int64, 0, nil, "a", "b"),
 					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-					Goto("exit"))),
+					Golangto("exit"))),
 		},
 	}
 	for _, c := range equivalentCases {
@@ -359,7 +359,7 @@ func TestEquiv(t *testing.T) {
 			cfg.Fun("entry",
 				Bloc("entry",
 					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-					Goto("exit")),
+					Golangto("exit")),
 				Bloc("exit",
 					Exit("mem"))),
 			cfg.Fun("entry",

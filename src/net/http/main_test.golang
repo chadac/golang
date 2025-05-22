@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ func TestMain(m *testing.M) {
 	os.Exit(v)
 }
 
-func interestingGoroutines() (gs []string) {
+func interestingGolangroutines() (gs []string) {
 	buf := make([]byte, 2<<20)
 	buf = buf[:runtime.Stack(buf, true)]
 	for g := range strings.SplitSeq(string(buf), "\n\n") {
@@ -44,7 +44,7 @@ func interestingGoroutines() (gs []string) {
 			// These only show up with GOTRACEBACK=2; Issue 5005 (comment 28)
 			strings.Contains(stack, "runtime.golangexit") ||
 			strings.Contains(stack, "created by runtime.gc") ||
-			strings.Contains(stack, "interestingGoroutines") ||
+			strings.Contains(stack, "interestingGolangroutines") ||
 			strings.Contains(stack, "runtime.MHeap_Scavenger") {
 			continue
 		}
@@ -66,7 +66,7 @@ func golangroutineLeaked() bool {
 	for i := 0; i < 5; i++ {
 		n := 0
 		stackCount = make(map[string]int)
-		gs := interestingGoroutines()
+		gs := interestingGolangroutines()
 		for _, g := range gs {
 			stackCount[g]++
 			n++
@@ -139,12 +139,12 @@ func afterTest(t testing.TB) {
 		"created by net/http/httptest.(*Server).Start": "an httptest.Server",
 		"timeoutHandler":        "a TimeoutHandler",
 		"net.(*netFD).connect(": "a timing out dial",
-		").noteClientGone(":     "a closenotifier sender",
+		").noteClientGolangne(":     "a closenotifier sender",
 	}
 	var stacks string
 	for i := 0; i < 2500; i++ {
 		bad = ""
-		stacks = strings.Join(interestingGoroutines(), "\n\n")
+		stacks = strings.Join(interestingGolangroutines(), "\n\n")
 		for substr, what := range badSubstring {
 			if strings.Contains(stacks, substr) {
 				bad = what

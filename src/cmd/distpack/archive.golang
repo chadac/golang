@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -108,7 +108,7 @@ func nameLess(x, y string) bool {
 }
 
 // Sort sorts the files in the archive.
-// It is only necessary to call Sort after calling Add or RenameGoMod.
+// It is only necessary to call Sort after calling Add or RenameGolangMod.
 // NewArchive returns a sorted archive, and the other methods
 // preserve the sorting of the archive.
 func (a *Archive) Sort() {
@@ -180,9 +180,9 @@ func (a *Archive) SetTime(t time.Time) {
 	}
 }
 
-// RenameGoMod renames the golang.mod files in the archive to _golang.mod,
+// RenameGolangMod renames the golang.mod files in the archive to _golang.mod,
 // for use with the module form, which cannot contain other golang.mod files.
-func (a *Archive) RenameGoMod() {
+func (a *Archive) RenameGolangMod() {
 	for i, f := range a.Files {
 		if strings.HasSuffix(f.Name, "/golang.mod") {
 			a.Files[i].Name = strings.TrimSuffix(f.Name, "golang.mod") + "_golang.mod"

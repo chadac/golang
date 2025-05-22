@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -384,7 +384,7 @@ var lexTests = []lexTest{
 		mkItem(itemError, `comment ends before closing delimiter`),
 	}},
 	// This one is an error that we can't catch because it breaks templates with
-	// minimized JavaScript. Should have fixed it before Go 1.1.
+	// minimized JavaScript. Should have fixed it before Golang 1.1.
 	{"unmatched right delimiter", "hello-{.}}-world", []item{
 		mkItem(itemText, "hello-{.}}-world"),
 		tEOF,

@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,12 +10,12 @@ import (
 	"testing"
 )
 
-// BenchmarkExecGoEnv measures how long it takes for 'golang env GOARCH' to run.
+// BenchmarkExecGolangEnv measures how long it takes for 'golang env GOARCH' to run.
 // Since 'golang' is executed, remember to run 'golang install cmd/golang' before running
 // the benchmark if any changes were done.
-func BenchmarkExecGoEnv(b *testing.B) {
+func BenchmarkExecGolangEnv(b *testing.B) {
 	testenv.MustHaveExec(b)
-	golangtool, err := testenv.GoTool()
+	golangtool, err := testenv.GolangTool()
 	if err != nil {
 		b.Fatal(err)
 	}

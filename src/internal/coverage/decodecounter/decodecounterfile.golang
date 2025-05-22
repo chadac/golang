@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -207,19 +207,19 @@ func (cdr *CounterDataReader) OsArgs() []string {
 	return cdr.osargs
 }
 
-// Goos returns the GOOS setting in effect for the "-cover" binary
+// Golangos returns the GOOS setting in effect for the "-cover" binary
 // that produced this counter data file. The GOOS value may be
 // empty in the case where the counter data file was produced
 // from a merge in which more than one GOOS value was present.
-func (cdr *CounterDataReader) Goos() string {
+func (cdr *CounterDataReader) Golangos() string {
 	return cdr.golangos
 }
 
-// Goarch returns the GOARCH setting in effect for the "-cover" binary
+// Golangarch returns the GOARCH setting in effect for the "-cover" binary
 // that produced this counter data file. The GOARCH value may be
 // empty in the case where the counter data file was produced
 // from a merge in which more than one GOARCH value was present.
-func (cdr *CounterDataReader) Goarch() string {
+func (cdr *CounterDataReader) Golangarch() string {
 	return cdr.golangarch
 }
 

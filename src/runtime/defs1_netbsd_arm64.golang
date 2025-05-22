@@ -1,4 +1,4 @@
-// created by cgolang -cdefs and then converted to Go
+// created by cgolang -cdefs and then converted to Golang
 // cgolang -cdefs defs_netbsd.golang defs_netbsd_arm.golang
 
 package runtime
@@ -166,7 +166,7 @@ type keventt struct {
 	udata     *byte
 }
 
-// created by cgolang -cdefs and then converted to Go
+// created by cgolang -cdefs and then converted to Golang
 // cgolang -cdefs defs_netbsd.golang defs_netbsd_arm.golang
 
 const (

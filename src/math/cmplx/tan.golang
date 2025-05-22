@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -117,7 +117,7 @@ func Tanh(x complex128) complex128 {
 // "Elementary Function Evaluation:  Algolangrithms and Implementation"
 // Jean-Michel Muller, 1997.
 // For very large arguments it uses Payne-Hanek range reduction based on:
-// "ARGUMENT REDUCTION FOR HUGE ARGUMENTS: Good to the Last Bit"
+// "ARGUMENT REDUCTION FOR HUGE ARGUMENTS: Golangod to the Last Bit"
 // K. C. Ng et al, March 24, 1992.
 func reducePi(x float64) float64 {
 	// reduceThreshold is the maximum value of x where the reduction using

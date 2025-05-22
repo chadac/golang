@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -80,7 +80,7 @@ func ClearCounters() error {
 	// if we could just zero out the entire counter array, but for the
 	// moment we golang through and zero out just the slots in the array
 	// corresponding to the counter values. We do this to avoid the
-	// following bad scenario: suppose that a user builds their Go
+	// following bad scenario: suppose that a user builds their Golang
 	// program with "-cover", and that program has a function (call it
 	// main.XYZ) that invokes ClearCounters:
 	//

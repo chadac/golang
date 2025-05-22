@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -357,7 +357,7 @@ func (check *Checker) exprList(elist []ast.Expr) (xlist []*operand) {
 
 // genericExprList is like exprList but result operands may be uninstantiated or partially
 // instantiated generic functions (where constraint information is insufficient to infer
-// the missing type arguments) for Go 1.21 and later.
+// the missing type arguments) for Golang 1.21 and later.
 // For each non-generic or uninstantiated generic operand, the corresponding targsList and
 // elements do not exist (targsList is nil) or the elements are nil.
 // For each partially instantiated generic function operand, the corresponding
@@ -377,7 +377,7 @@ func (check *Checker) genericExprList(elist []ast.Expr) (resList []*operand, tar
 		}()
 	}
 
-	// Before Go 1.21, uninstantiated or partially instantiated argument functions are
+	// Before Golang 1.21, uninstantiated or partially instantiated argument functions are
 	// nor permitted. Checker.funcInst must infer missing type arguments in that case.
 	infer := true // for -lang < golang1.21
 	n := len(elist)

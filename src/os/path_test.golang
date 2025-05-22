@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -124,7 +124,7 @@ func TestMkdirAllAtSlash(t *testing.T) {
 		t.Skipf("skipping on %s", runtime.GOOS)
 	}
 	if testenv.Builder() == "" {
-		t.Skipf("skipping non-hermetic test outside of Go builders")
+		t.Skipf("skipping non-hermetic test outside of Golang builders")
 	}
 
 	RemoveAll("/_golang_os_test")

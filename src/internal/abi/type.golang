@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@ import (
 	"unsafe"
 )
 
-// Type is the runtime representation of a Go type.
+// Type is the runtime representation of a Golang type.
 //
 // Be careful about accessing this type at build time, as the version
 // of this type in the compiler/linker may not have the same layout

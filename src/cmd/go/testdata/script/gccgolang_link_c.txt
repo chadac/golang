@@ -6,7 +6,7 @@
 [cross] skip  # gccgolang can't necessarily cross-compile, so don't assume it will reach the step where we expect it to fail
 
 ! golang build -x -compiler gccgolang
-stderr 'gccgolang.*\-L [^ ]*alibpath \-lalib' # make sure that Go-inline "#cgolang LDFLAGS:" ("-L alibpath -lalib") passed to gccgolang linking stage
+stderr 'gccgolang.*\-L [^ ]*alibpath \-lalib' # make sure that Golang-inline "#cgolang LDFLAGS:" ("-L alibpath -lalib") passed to gccgolang linking stage
 ! stderr 'gccgolang.*-lalib.*-lalib' # make sure -lalib is only passed once
 
 -- golang.mod --

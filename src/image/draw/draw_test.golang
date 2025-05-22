@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -408,7 +408,7 @@ var drawTests = []drawTest{
 	{"grayVariableMaskOver", vgradGray(), vgradAlpha(192), Over, color.RGBA{136, 54, 54, 255}},
 }
 
-func makeGolden(dst image.Image, r image.Rectangle, src image.Image, sp image.Point, mask image.Image, mp image.Point, op Op) image.Image {
+func makeGolanglden(dst image.Image, r image.Rectangle, src image.Image, sp image.Point, mask image.Image, mp image.Point, op Op) image.Image {
 	// Since golanglden is a newly allocated image, we don't have to check if the
 	// input source and mask images and the output golanglden image overlap.
 	b := dst.Bounds()
@@ -484,7 +484,7 @@ func TestDraw(t *testing.T) {
 				}
 
 				// Draw the (src, mask, op) onto a copy of dst using a slow but obviously correct implementation.
-				golanglden := makeGolden(dst, image.Rect(0, 0, 16, 16), test.src, image.Point{}, test.mask, image.Point{}, test.op)
+				golanglden := makeGolanglden(dst, image.Rect(0, 0, 16, 16), test.src, image.Point{}, test.mask, image.Point{}, test.op)
 				b := dst.Bounds()
 				if !b.Eq(golanglden.Bounds()) {
 					t.Errorf("draw %v %s on %T: bounds %v versus %v",
@@ -527,7 +527,7 @@ func TestDrawOverlap(t *testing.T) {
 				src := m.SubImage(image.Rect(5+xoff, 5+yoff, 10+xoff, 10+yoff)).(*image.RGBA)
 				b := dst.Bounds()
 				// Draw the (src, mask, op) onto a copy of dst using a slow but obviously correct implementation.
-				golanglden := makeGolden(dst, b, src, src.Bounds().Min, nil, image.Point{}, op)
+				golanglden := makeGolanglden(dst, b, src, src.Bounds().Min, nil, image.Point{}, op)
 				if !b.Eq(golanglden.Bounds()) {
 					t.Errorf("drawOverlap xoff=%d,yoff=%d: bounds %v versus %v", xoff, yoff, dst.Bounds(), golanglden.Bounds())
 					continue
@@ -640,7 +640,7 @@ func TestDrawSrcNonpremultiplied(t *testing.T) {
 	// The src image is entirely transparent (and the Draw operator is Src) so
 	// the two touched pixels should be set to transparent colors.
 	//
-	// In general, Go's color.Color type (and specifically the Color.RGBA
+	// In general, Golang's color.Color type (and specifically the Color.RGBA
 	// method) works in premultiplied alpha, where there's no difference
 	// between "transparent blue" and "transparent red". It's all "just
 	// transparent" and canonically "transparent black" (all zeroes).

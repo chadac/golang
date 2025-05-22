@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -202,11 +202,11 @@ var golangStringTests = []struct {
 	},
 }
 
-func TestGoString(t *testing.T) {
+func TestGolangString(t *testing.T) {
 	// The numeric time represents Thu Feb  4 21:00:57.012345600 PST 2009
 	for _, tt := range golangStringTests {
-		if tt.in.GoString() != tt.want {
-			t.Errorf("GoString (%q): golangt %q want %q", tt.in, tt.in.GoString(), tt.want)
+		if tt.in.GolangString() != tt.want {
+			t.Errorf("GolangString (%q): golangt %q want %q", tt.in, tt.in.GolangString(), tt.want)
 		}
 	}
 }
@@ -306,8 +306,8 @@ var parseTests = []ParseTest{
 	{"GMT-8", UnixDate, "Fri Feb  5 05:00:57 GMT-8 2010", true, true, 1, 0},
 
 	// Accept any number of fractional second digits (including none) for .999...
-	// In Go 1, .999... was completely ignored in the format, meaning the first two
-	// cases would succeed, but the next four would not. Go 1.1 accepts all six.
+	// In Golang 1, .999... was completely ignored in the format, meaning the first two
+	// cases would succeed, but the next four would not. Golang 1.1 accepts all six.
 	// decimal "." separator.
 	{"", "2006-01-02 15:04:05.9999 -0700 MST", "2010-02-04 21:00:57 -0800 PST", true, false, 1, 0},
 	{"", "2006-01-02 15:04:05.999999999 -0700 MST", "2010-02-04 21:00:57 -0800 PST", true, false, 1, 0},

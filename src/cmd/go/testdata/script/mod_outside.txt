@@ -169,7 +169,7 @@ golang build -n -o ignore ./stdonly/stdonly.golang
 # 'golang build' should succeed for standard-library packages.
 golang build -n fmt
 
-# 'golang build' should use the latest version of the Go language.
+# 'golang build' should use the latest version of the Golang language.
 golang build ./newgolang/newgolang.golang
 
 # 'golang doc' without arguments implicitly operates on the current directory, and should fail.
@@ -302,7 +302,7 @@ func Test(t *testing.T) {
 }
 
 -- newgolang/newgolang.golang --
-// Package newgolang requires Go 1.14 or newer.
+// Package newgolang requires Golang 1.14 or newer.
 package newgolang
 
 import "io"

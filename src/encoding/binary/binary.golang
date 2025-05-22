@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -147,7 +147,7 @@ func (littleEndian) AppendUint64(b []byte, v uint64) []byte {
 
 func (littleEndian) String() string { return "LittleEndian" }
 
-func (littleEndian) GoString() string { return "binary.LittleEndian" }
+func (littleEndian) GolangString() string { return "binary.LittleEndian" }
 
 type bigEndian struct{}
 
@@ -233,11 +233,11 @@ func (bigEndian) AppendUint64(b []byte, v uint64) []byte {
 
 func (bigEndian) String() string { return "BigEndian" }
 
-func (bigEndian) GoString() string { return "binary.BigEndian" }
+func (bigEndian) GolangString() string { return "binary.BigEndian" }
 
 func (nativeEndian) String() string { return "NativeEndian" }
 
-func (nativeEndian) GoString() string { return "binary.NativeEndian" }
+func (nativeEndian) GolangString() string { return "binary.NativeEndian" }
 
 // Read reads structured binary data from r into data.
 // Data must be a pointer to a fixed-size value or a slice

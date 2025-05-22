@@ -2,7 +2,7 @@ package main
 
 import "C"
 
-//export GoFunc
-func GoFunc() {}
+//export GolangFunc
+func GolangFunc() {}
 
 func main() {}

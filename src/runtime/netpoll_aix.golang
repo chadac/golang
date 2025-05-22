@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@ import (
 )
 
 // This is based on the former libgolang/runtime/netpoll_select.c implementation
-// except that it uses poll instead of select and is written in Go.
+// except that it uses poll instead of select and is written in Golang.
 // It's also based on Solaris implementation for the arming mechanisms
 
 //golang:cgolang_import_dynamic libc_poll poll "libc.a/shr_64.o"

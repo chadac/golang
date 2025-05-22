@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,33 +9,33 @@ import (
 	"sync/atomic"
 )
 
-// Handle provides a way to pass values that contain Go pointers
-// (pointers to memory allocated by Go) between Go and C without
+// Handle provides a way to pass values that contain Golang pointers
+// (pointers to memory allocated by Golang) between Golang and C without
 // breaking the cgolang pointer passing rules. A Handle is an integer
-// value that can represent any Go value. A Handle can be passed
-// through C and back to Go, and Go code can use the Handle to
-// retrieve the original Go value.
+// value that can represent any Golang value. A Handle can be passed
+// through C and back to Golang, and Golang code can use the Handle to
+// retrieve the original Golang value.
 //
 // The underlying type of Handle is guaranteed to fit in an integer type
 // that is large enough to hold the bit pattern of any pointer. The zero
 // value of a Handle is not valid, and thus is safe to use as a sentinel
 // in C APIs.
 //
-// For instance, on the Go side:
+// For instance, on the Golang side:
 //
 //	package main
 //
 //	/*
 //	#include <stdint.h> // for uintptr_t
 //
-//	extern void MyGoPrint(uintptr_t handle);
+//	extern void MyGolangPrint(uintptr_t handle);
 //	void myprint(uintptr_t handle);
 //	*/
 //	import "C"
 //	import "runtime/cgolang"
 //
-//	//export MyGoPrint
-//	func MyGoPrint(handle C.uintptr_t) {
+//	//export MyGolangPrint
+//	func MyGolangPrint(handle C.uintptr_t) {
 //		h := cgolang.Handle(handle)
 //		val := h.Value().(string)
 //		println(val)
@@ -43,31 +43,31 @@ import (
 //	}
 //
 //	func main() {
-//		val := "hello Go"
+//		val := "hello Golang"
 //		C.myprint(C.uintptr_t(cgolang.NewHandle(val)))
-//		// Output: hello Go
+//		// Output: hello Golang
 //	}
 //
 // and on the C side:
 //
 //	#include <stdint.h> // for uintptr_t
 //
-//	// A Go function
-//	extern void MyGoPrint(uintptr_t handle);
+//	// A Golang function
+//	extern void MyGolangPrint(uintptr_t handle);
 //
 //	// A C function
 //	void myprint(uintptr_t handle) {
-//	    MyGoPrint(handle);
+//	    MyGolangPrint(handle);
 //	}
 //
 // Some C functions accept a void* argument that points to an arbitrary
 // data value supplied by the caller. It is not safe to coerce a Handle
-// (an integer) to a Go [unsafe.Pointer], but instead we can pass the address
+// (an integer) to a Golang [unsafe.Pointer], but instead we can pass the address
 // of the cgolang.Handle to the void* parameter, as in this variant of the
 // previous example.
 //
 // Note that, as described in the [cmd/cgolang] documentation,
-// the C code must not keep a copy of the Go pointer that it receives,
+// the C code must not keep a copy of the Golang pointer that it receives,
 // unless the memory is explicitly pinned using [runtime.Pinner].
 // This example is OK because the C function myprint does not keep
 // a copy of the pointer.
@@ -75,9 +75,9 @@ import (
 //	package main
 //
 //	/*
-//	extern void MyGoPrint(void *context);
+//	extern void MyGolangPrint(void *context);
 //	static inline void myprint(void *context) {
-//	    MyGoPrint(context);
+//	    MyGolangPrint(context);
 //	}
 //	*/
 //	import "C"
@@ -86,8 +86,8 @@ import (
 //		"unsafe"
 //	)
 //
-//	//export MyGoPrint
-//	func MyGoPrint(context unsafe.Pointer) {
+//	//export MyGolangPrint
+//	func MyGolangPrint(context unsafe.Pointer) {
 //		h := *(*cgolang.Handle)(context)
 //		val := h.Value().(string)
 //		println(val)
@@ -95,10 +95,10 @@ import (
 //	}
 //
 //	func main() {
-//		val := "hello Go"
+//		val := "hello Golang"
 //		h := cgolang.NewHandle(val)
 //		C.myprint(unsafe.Pointer(&h))
-//		// Output: hello Go
+//		// Output: hello Golang
 //	}
 type Handle uintptr
 
@@ -110,7 +110,7 @@ type Handle uintptr
 // is no longer needed.
 //
 // The intended use is to pass the returned handle to C code, which
-// passes it back to Go, which calls Value.
+// passes it back to Golang, which calls Value.
 func NewHandle(v any) Handle {
 	h := handleIdx.Add(1)
 	if h == 0 {
@@ -121,7 +121,7 @@ func NewHandle(v any) Handle {
 	return Handle(h)
 }
 
-// Value returns the associated Go value for a valid handle.
+// Value returns the associated Golang value for a valid handle.
 //
 // The method panics if the handle is invalid.
 func (h Handle) Value() any {

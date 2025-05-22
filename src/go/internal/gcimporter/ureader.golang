@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -668,7 +668,7 @@ func (r *reader) ident(marker pkgbits.SyncMarker) (*types.Package, string) {
 // pkgScope returns pkg.Scope().
 // If pkg is nil, it returns types.Universe instead.
 //
-// TODO(mdempsky): Remove after x/tools can depend on Go 1.19.
+// TODO(mdempsky): Remove after x/tools can depend on Golang 1.19.
 func pkgScope(pkg *types.Package) *types.Scope {
 	if pkg != nil {
 		return pkg.Scope()

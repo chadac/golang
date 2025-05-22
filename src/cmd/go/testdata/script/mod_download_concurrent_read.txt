@@ -1,7 +1,7 @@
 # This test simulates a process watching for changes and reading files in
 # module cache as a module is extracted.
 #
-# Before Go 1.16, we extracted each module zip to a temporary directory with
+# Before Golang 1.16, we extracted each module zip to a temporary directory with
 # a random name, then renamed that into place with os.Rename. On Windows,
 # this failed with ERROR_ACCESS_DENIED when another process (usually an
 # anti-virus scanner) opened files in the temporary directory. This test

@@ -922,13 +922,13 @@ func (n *ForStmt) editChildrenWithHidden(edit func(Node) Node) {
 
 func (n *Func) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
 
-func (n *GoDeferStmt) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
-func (n *GoDeferStmt) copy() Node {
+func (n *GolangDeferStmt) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
+func (n *GolangDeferStmt) copy() Node {
 	c := *n
 	c.init = copyNodes(c.init)
 	return &c
 }
-func (n *GoDeferStmt) doChildren(do func(Node) bool) bool {
+func (n *GolangDeferStmt) doChildren(do func(Node) bool) bool {
 	if doNodes(n.init, do) {
 		return true
 	}
@@ -940,7 +940,7 @@ func (n *GoDeferStmt) doChildren(do func(Node) bool) bool {
 	}
 	return false
 }
-func (n *GoDeferStmt) doChildrenWithHidden(do func(Node) bool) bool {
+func (n *GolangDeferStmt) doChildrenWithHidden(do func(Node) bool) bool {
 	if doNodes(n.init, do) {
 		return true
 	}
@@ -952,7 +952,7 @@ func (n *GoDeferStmt) doChildrenWithHidden(do func(Node) bool) bool {
 	}
 	return false
 }
-func (n *GoDeferStmt) editChildren(edit func(Node) Node) {
+func (n *GolangDeferStmt) editChildren(edit func(Node) Node) {
 	editNodes(n.init, edit)
 	if n.Call != nil {
 		n.Call = edit(n.Call).(Node)
@@ -961,7 +961,7 @@ func (n *GoDeferStmt) editChildren(edit func(Node) Node) {
 		n.DeferAt = edit(n.DeferAt).(Expr)
 	}
 }
-func (n *GoDeferStmt) editChildrenWithHidden(edit func(Node) Node) {
+func (n *GolangDeferStmt) editChildrenWithHidden(edit func(Node) Node) {
 	editNodes(n.init, edit)
 	if n.Call != nil {
 		n.Call = edit(n.Call).(Node)

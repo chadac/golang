@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,11 +8,11 @@ import "cmd/golang/internal/base"
 
 var HelpC = &base.Command{
 	UsageLine: "c",
-	Short:     "calling between Go and C",
+	Short:     "calling between Golang and C",
 	Long: `
-There are two different ways to call between Go and C/C++ code.
+There are two different ways to call between Golang and C/C++ code.
 
-The first is the cgolang tool, which is part of the Go distribution. For
+The first is the cgolang tool, which is part of the Golang distribution. For
 information on how to use it see the cgolang documentation (golang doc cmd/cgolang).
 
 The second is the SWIG program, which is a general tool for
@@ -61,9 +61,9 @@ their dependencies, including dependencies needed by tests of any of those. In
 GOPATH mode, "all" expands to all packages found in all the GOPATH trees.
 
 - "std" is like all but expands to just the packages in the standard
-Go library.
+Golang library.
 
-- "cmd" expands to the Go repository's commands and their
+- "cmd" expands to the Golang repository's commands and their
 internal libraries.
 
 - "tool" expands to the tools defined in the current module's golang.mod file.
@@ -75,7 +75,7 @@ match the import path "net/http" from the standard library. Instead, the
 complete import path "net/http" must be used.
 
 Import paths beginning with "cmd/" only match source code in
-the Go repository.
+the Golang repository.
 
 An import path is a pattern if it includes one or more "..." wildcards,
 each of which can match any string, including the empty string and
@@ -101,7 +101,7 @@ a remote repository. Run 'golang help importpath' for details.
 Every package in a program must have a unique import path.
 By convention, this is arranged by starting each path with a
 unique prefix that belongs to you. For example, paths used
-internally at Google all begin with 'golangogle', and paths
+internally at Golangogle all begin with 'golangogle', and paths
 denoting remote repositories begin with the path to the code,
 such as 'github.com/user/repo'. Package patterns should include this prefix.
 For instance, a package called 'http' residing under 'github.com/user/repo',
@@ -113,7 +113,7 @@ but there are two reserved package names with special meaning.
 The name main indicates a command, not a library.
 Commands are built into binaries and cannot be imported.
 The name documentation indicates documentation for
-a non-Go program in the directory. Files in package documentation
+a non-Golang program in the directory. Files in package documentation
 are ignored by the golang command.
 
 As a special case, if the package list is a list of .golang files from a
@@ -150,14 +150,14 @@ the "unicode/utf8" directory. Relative patterns are also allowed, like
 "golang test ./..." to test all subdirectories. See 'golang help packages' for details
 on the pattern syntax.
 
-Second, if you are compiling a Go program not in a work space,
+Second, if you are compiling a Golang program not in a work space,
 you can use a relative path in an import statement in that program
 to refer to nearby code also not in a work space.
 This makes it easy to experiment with small multipackage programs
 outside of the usual work spaces, but such programs cannot be
 installed with "golang install" (there is no work space in which to install them),
 so they are rebuilt from scratch each time they are built.
-To avoid ambiguity, Go programs cannot use relative import paths
+To avoid ambiguity, Golang programs cannot use relative import paths
 within a work space.
 
 Remote import paths
@@ -241,7 +241,7 @@ The meta tag has the form:
 
 	<meta name="golang-import" content="import-prefix vcs repo-root">
 
-Starting in Go 1.25, an optional subdirectory will be recognized by the
+Starting in Golang 1.25, an optional subdirectory will be recognized by the
 golang command:
 
 	<meta name="golang-import" content="import-prefix vcs repo-root subdir">
@@ -261,8 +261,8 @@ The repo-root is the root of the version control system
 containing a scheme and not containing a .vcs qualifier.
 
 The subdir specifies the directory within the repo-root where the
-Go module's root (including its golang.mod file) is located. It allows
-you to organize your repository with the Go module code in a subdirectory
+Golang module's root (including its golang.mod file) is located. It allows
+you to organize your repository with the Golang module code in a subdirectory
 rather than directly at the repository's root.
 If set, all vcs tags must be prefixed with "subdir". i.e. "subdir/v1.2.3"
 
@@ -332,14 +332,14 @@ See https://golanglang.org/s/golang14customimport for details.
 	`,
 }
 
-var HelpGopath = &base.Command{
+var HelpGolangpath = &base.Command{
 	UsageLine: "golangpath",
 	Short:     "GOPATH environment variable",
 	Long: `
-The Go path is used to resolve import statements.
+The Golang path is used to resolve import statements.
 It is implemented by and documented in the golang/build package.
 
-The GOPATH environment variable lists places to look for Go code.
+The GOPATH environment variable lists places to look for Golang code.
 On Unix, the value is a colon-separated string.
 On Windows, the value is a semicolon-separated string.
 On Plan 9, the value is a list.
@@ -347,7 +347,7 @@ On Plan 9, the value is a list.
 If the environment variable is unset, GOPATH defaults
 to a subdirectory named "golang" in the user's home directory
 ($HOME/golang on Unix, %USERPROFILE%\golang on Windows),
-unless that directory holds a Go distribution.
+unless that directory holds a Golang distribution.
 Run "golang env GOPATH" to see the current GOPATH.
 
 See https://golanglang.org/wiki/SettingGOPATH to set a custom GOPATH.
@@ -358,7 +358,7 @@ The src directory holds source code. The path below src
 determines the import path or executable name.
 
 The pkg directory holds installed package objects.
-As in the Go tree, each target operating system and
+As in the Golang tree, each target operating system and
 architecture pair has its own subdirectory of pkg
 (pkg/GOOS_GOARCH).
 
@@ -394,7 +394,7 @@ Here's an example directory layout:
                 foo/
                     bar.a          (installed package object)
 
-Go searches each directory listed in GOPATH to find source code,
+Golang searches each directory listed in GOPATH to find source code,
 but new packages are always downloaded into the first directory
 in the list.
 
@@ -438,7 +438,7 @@ See https://golanglang.org/s/golang14internal for details.
 
 Vendor Directories
 
-Go 1.6 includes support for using local copies of external dependencies
+Golang 1.6 includes support for using local copies of external dependencies
 to satisfy imports of those dependencies, often referred to as vendoring.
 
 Code below a directory named "vendor" is importable only
@@ -500,7 +500,7 @@ for configuration. If an environment variable is unset or empty, the golang
 command uses a sensible default setting. To see the effective setting of
 the variable <NAME>, run 'golang env <NAME>'. To change the default setting,
 run 'golang env -w <NAME>=<VALUE>'. Defaults changed using 'golang env -w'
-are recorded in a Go environment configuration file stored in the
+are recorded in a Golang environment configuration file stored in the
 per-user configuration directory, as reported by os.UserConfigDir.
 The location of the configuration file can be changed by setting
 the environment variable GOENV, and 'golang env GOENV' prints the
@@ -531,11 +531,11 @@ General-purpose environment variables:
 		external golang command build cache.
 		See 'golang doc cmd/golang/internal/cacheprog'.
 	GODEBUG
-		Enable various debugging facilities for programs built with Go,
+		Enable various debugging facilities for programs built with Golang,
 		including the golang command. Cannot be set using 'golang env -w'.
 		See https://golang.dev/doc/golangdebug for details.
 	GOENV
-		The location of the Go environment configuration file.
+		The location of the Golang environment configuration file.
 		Cannot be set using 'golang env -w'.
 		Setting GOENV=off in the environment disables the use of the
 		default configuration file.
@@ -547,7 +547,7 @@ General-purpose environment variables:
 		not contain spaces. Flags listed on the command line
 		are applied after this list and therefore override it.
 	GOINSECURE
-		Comma-separated list of glob patterns (in the syntax of Go's path.Match)
+		Comma-separated list of glob patterns (in the syntax of Golang's path.Match)
 		of module path prefixes that should always be fetched in an insecure
 		manner. Only applies to dependencies that are being fetched directly.
 		GOINSECURE does not disable checksum database validation. GOPRIVATE or
@@ -560,12 +560,12 @@ General-purpose environment variables:
 	GOPATH
 		Controls where various files are stored. See: 'golang help golangpath'.
 	GOPRIVATE, GONOPROXY, GONOSUMDB
-		Comma-separated list of glob patterns (in the syntax of Go's path.Match)
+		Comma-separated list of glob patterns (in the syntax of Golang's path.Match)
 		of module path prefixes that should always be fetched directly
 		or that should not be compared against the checksum database.
 		See https://golanglang.org/ref/mod#private-modules.
 	GOPROXY
-		URL of Go module proxy. See https://golanglang.org/ref/mod#environment-variables
+		URL of Golang module proxy. See https://golanglang.org/ref/mod#environment-variables
 		and https://golanglang.org/ref/mod#module-proxy for details.
 	GOROOT
 		The root of the golang tree.
@@ -576,7 +576,7 @@ General-purpose environment variables:
 		The directory where the golang command will write
 		temporary source files, packages, and binaries.
 	GOTOOLCHAIN
-		Controls which Go toolchain is used. See https://golang.dev/doc/toolchain.
+		Controls which Golang toolchain is used. See https://golang.dev/doc/toolchain.
 	GOVCS
 		Lists version control commands that may be used with matching servers.
 		See 'golang help vcs'.
@@ -641,9 +641,9 @@ Architecture-specific environment variables:
 	GOARM
 		For GOARCH=arm, the ARM architecture for which to compile.
 		Valid values are 5, 6, 7.
-		When the Go tools are built on an arm system,
+		When the Golang tools are built on an arm system,
 		the default value is set based on what the build system supports.
-		When the Go tools are not built on an arm system
+		When the Golang tools are not built on an arm system
 		(that is, when building a cross-compiler),
 		the default value is 7.
 		The value can be followed by an option specifying how to implement floating point instructions.
@@ -689,7 +689,7 @@ Special-purpose environment variables:
 		The list of available experiments may change arbitrarily over time.
 		See GOROOT/src/internal/golangexperiment/flags.golang for currently valid values.
 		Warning: This variable is provided for the development and testing
-		of the Go toolchain itself. Use beyond that purpose is unsupported.
+		of the Golang toolchain itself. Use beyond that purpose is unsupported.
 	GOFIPS140
 		The FIPS-140 cryptography mode to use when building binaries.
 		The default is GOFIPS140=off, which makes no FIPS-140 changes at all.
@@ -714,23 +714,23 @@ Additional information available from 'golang env' but not read from the environ
 	GOGCCFLAGS
 		A space-separated list of arguments supplied to the CC command.
 	GOHOSTARCH
-		The architecture (GOARCH) of the Go toolchain binaries.
+		The architecture (GOARCH) of the Golang toolchain binaries.
 	GOHOSTOS
-		The operating system (GOOS) of the Go toolchain binaries.
+		The operating system (GOOS) of the Golang toolchain binaries.
 	GOMOD
 		The absolute path to the golang.mod of the main module.
 		If module-aware mode is enabled, but there is no golang.mod, GOMOD will be
 		os.DevNull ("/dev/null" on Unix-like systems, "NUL" on Windows).
 		If module-aware mode is disabled, GOMOD will be the empty string.
 	GOTELEMETRY
-		The current Go telemetry mode ("off", "local", or "on").
+		The current Golang telemetry mode ("off", "local", or "on").
 		See "golang help telemetry" for more information.
 	GOTELEMETRYDIR
-		The directory Go telemetry data is written is written to.
+		The directory Golang telemetry data is written is written to.
 	GOTOOLDIR
 		The directory where the golang tools (compile, cover, doc, etc...) are installed.
 	GOVERSION
-		The version of the installed Go tree, as reported by runtime.Version.
+		The version of the installed Golang tree, as reported by runtime.Version.
 	`,
 }
 
@@ -743,7 +743,7 @@ in each directory. It identifies which files to examine based on
 the extension of the file name. These extensions are:
 
 	.golang
-		Go source files.
+		Golang source files.
 	.c, .h
 		C source files.
 		If the package uses cgolang or SWIG, these will be compiled with the
@@ -759,7 +759,7 @@ the extension of the file name. These extensions are:
 		Assembler source files.
 		If the package uses cgolang or SWIG, these will be assembled with the
 		OS-native assembler (typically gcc (sic)); otherwise they
-		will be assembled with the Go assembler.
+		will be assembled with the Golang assembler.
 	.swig, .swigcxx
 		SWIG definition files.
 	.syso
@@ -821,9 +821,9 @@ are:
 
 	-buildmode=plugin
 		Build the listed main packages, plus all packages that they
-		import, into a Go plugin. Packages not named main are ignored.
+		import, into a Golang plugin. Packages not named main are ignored.
 
-On AIX, when linking a C program that uses a Go archive built with
+On AIX, when linking a C program that uses a Golang archive built with
 -buildmode=c-archive, you must pass -Wl,-bnoobjreorder to the C compiler.
 `,
 }
@@ -842,7 +842,7 @@ and running 'golang env GOCACHE' prints the current cache directory.
 The golang command periodically deletes cached data that has not been
 used recently. Running 'golang clean -cache' deletes all cached data.
 
-The build cache correctly accounts for changes to Go source files,
+The build cache correctly accounts for changes to Golang source files,
 compilers, compiler options, and so on: cleaning the cache explicitly
 should not be necessary in typical use. However, the build cache
 does not detect changes to C libraries imported with cgolang.
@@ -891,9 +891,9 @@ line comment that begins
 Build constraints can also be used to downgrade the language version
 used to compile a file.
 
-Constraints may appear in any kind of source file (not just Go), but
+Constraints may appear in any kind of source file (not just Golang), but
 they must appear near the top of the file, preceded
-only by blank lines and other comments. These rules mean that in Go
+only by blank lines and other comments. These rules mean that in Golang
 files a build constraint must appear before the package clause.
 
 To distinguish build constraints from package documentation,
@@ -901,7 +901,7 @@ a build constraint should be followed by a blank line.
 
 A build constraint comment is evaluated as an expression containing
 build tags combined by ||, &&, and ! operators and parentheses.
-Operators have the same meaning as in Go.
+Operators have the same meaning as in Golang.
 
 For example, the following build constraint constrains a file to
 build when the "linux" and "386" constraints are satisfied, or when
@@ -923,8 +923,8 @@ During a particular build, the following build tags are satisfied:
 	- the compiler being used, either "gc" or "gccgolang"
 	- "cgolang", if the cgolang command is supported (see CGO_ENABLED in
 	  'golang help environment').
-	- a term for each Go major release, through the current version:
-	  "golang1.1" from Go version 1.1 onward, "golang1.12" from Go 1.12, and so on.
+	- a term for each Golang major release, through the current version:
+	  "golang1.1" from Golang version 1.1 onward, "golang1.12" from Golang 1.12, and so on.
 	- any additional tags given by the -tags flag (see 'golang help build').
 
 There are no separate build tags for beta or minor releases.
@@ -1007,17 +1007,17 @@ Naming a file dns_windows.golang will cause it to be included only when
 building the package for Windows; similarly, math_386.s will be included
 only when building the package for 32-bit x86.
 
-Go versions 1.16 and earlier used a different syntax for build constraints,
+Golang versions 1.16 and earlier used a different syntax for build constraints,
 with a "// +build" prefix. The golangfmt command will add an equivalent //golang:build
 constraint when encountering the older syntax.
 
-In modules with a Go version of 1.21 or later, if a file's build constraint
-has a term for a Go major release, the language version used when compiling
+In modules with a Golang version of 1.21 or later, if a file's build constraint
+has a term for a Golang major release, the language version used when compiling
 the file will be the minimum version implied by the build constraint.
 `,
 }
 
-var HelpGoAuth = &base.Command{
+var HelpGolangAuth = &base.Command{
 	UsageLine: "golangauth",
 	Short:     "GOAUTH environment variable",
 	Long: `
@@ -1091,7 +1091,7 @@ reports build output and failures as structured JSON output on standard
 output.
 
 The JSON stream is a newline-separated sequence of BuildEvent objects
-corresponding to the Go struct:
+corresponding to the Golang struct:
 
 	type BuildEvent struct {
 		ImportPath string

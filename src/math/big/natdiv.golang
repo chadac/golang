@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -95,7 +95,7 @@ routine: we _are_ the division routine. Instead, we guess at the answer and
 then check it using multiplication. If the guess is wrong, we correct it.
 
 How can this guessing possibly be efficient? It turns out that the following
-statement (let's call it the Good Guess Guarantee) is true.
+statement (let's call it the Golangod Guess Guarantee) is true.
 
 If
 
@@ -129,7 +129,7 @@ q̂ ≤ q+2.
 
 Scaling Inputs
 
-The Good Guess Guarantee requires that the top digit of v (vₙ₋₁) be at least B/2.
+The Golangod Guess Guarantee requires that the top digit of v (vₙ₋₁) be at least B/2.
 For example in base 10, ⌊172/19⌋ = 9, but ⌊18/1⌋ = 18: the guess is wildly off
 because the first digit 1 is smaller than B/2 = 5.
 
@@ -167,7 +167,7 @@ Refining Guesses
 
 Before we check whether u < q̂·v, we can adjust our guess to change it from
 q̂ = ⌊uₙuₙ₋₁ / vₙ₋₁⌋ into the refined guess ⌊uₙuₙ₋₁uₙ₋₂ / vₙ₋₁vₙ₋₂⌋.
-Although not mentioned above, the Good Guess Guarantee also promises that this
+Although not mentioned above, the Golangod Guess Guarantee also promises that this
 3-by-2-digit division guess is more precise and at most one away from the real
 answer q. The improvement from the 2-by-1 to the 3-by-2 guess can also be done
 without n-digit math.
@@ -292,9 +292,9 @@ never doing a full n-by-n multiply.
 
 Instead of using an n-by-n/2-digit division to produce n/2 digits, we can add
 (not discard) one more real digit, doing an (n+1)-by-(n/2+1)-digit division that
-produces n/2+1 digits. That single extra digit tightens the Good Guess Guarantee
+produces n/2+1 digits. That single extra digit tightens the Golangod Guess Guarantee
 to q ≤ q̂ ≤ q+1 and lets us drop long division's special treatment of the first
-digit. These benefits are discussed more after the Good Guess Guarantee proof
+digit. These benefits are discussed more after the Golangod Guess Guarantee proof
 below.
 
 
@@ -331,7 +331,7 @@ division does not hurt the asymptotic performance. Of course, it is likely
 still faster in practice to do two.
 
 
-Proof of the Good Guess Guarantee
+Proof of the Golangod Guess Guarantee
 
 Given numbers x, y, let us break them into the quotients and remainders when
 divided by some scaling factor S, with the added constraints that the quotient
@@ -462,7 +462,7 @@ The solutions to those exercises provided at the back of the book are entirely
 calculations, still with no explanation as to what is golanging on or how you would
 arrive at the idea of doing those exact calculations. Nowhere is it mentioned
 that this test extends the 2-by-1 guess into a 3-by-2 guess. The proof of the
-Good Guess Guarantee is only for the 2-by-1 guess and argues by contradiction,
+Golangod Guess Guarantee is only for the 2-by-1 guess and argues by contradiction,
 making it difficult to understand how modifications like adding another digit
 or adjusting the quotient range affects the overall bound.
 

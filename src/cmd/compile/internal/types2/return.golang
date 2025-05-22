@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -35,7 +35,7 @@ func (check *Checker) isTerminating(s syntax.Stmt, label string) bool {
 		return true
 
 	case *syntax.BranchStmt:
-		if s.Tok == syntax.Goto || s.Tok == syntax.Fallthrough {
+		if s.Tok == syntax.Golangto || s.Tok == syntax.Fallthrough {
 			return true
 		}
 

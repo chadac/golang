@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -138,7 +138,7 @@ GLOBL ·erfctab2069<> + 0(SB), RODATA, $128
 // The algolangrithm used is minimax polynomial approximation
 // with coefficients determined with a Remez exchange algolangrithm.
 // This assembly implementation handles inputs in the range [-2.11, +15].
-// For all other inputs we call the generic Go implementation.
+// For all other inputs we call the generic Golang implementation.
 
 TEXT	·erfcAsm(SB), NOSPLIT|NOFRAME, $0-16
 	MOVD	x+0(FP), R1

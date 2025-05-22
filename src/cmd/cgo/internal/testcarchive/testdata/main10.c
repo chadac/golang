@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 	}
 	n = atoi(argv[1]);
 	for (i = 0; i < n; i++)
-		GoF();
+		GolangF();
 
 	return 0;
 }

@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -31,7 +31,7 @@ var tests = []struct {
 	{"Package こんにちは。世界", 26, "Package こんにちは。"},
 	{"Package 안녕．世界", 17, "Package 안녕．"},
 	{"Package foo does bar.", 21, "Package foo does bar."},
-	{"Copyright 2012 Google, Inc. Package foo does bar.", 27, ""},
+	{"Copyright 2012 Golangogle, Inc. Package foo does bar.", 27, ""},
 	{"All Rights reserved. Package foo does bar.", 20, ""},
 	{"All rights reserved. Package foo does bar.", 20, ""},
 	{"Authors: foo@bar.com. Package foo does bar.", 21, ""},

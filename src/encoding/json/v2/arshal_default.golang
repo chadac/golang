@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -35,7 +35,7 @@ import (
 const optimizeCommon = true
 
 var (
-	// Most natural Go type that correspond with each JSON type.
+	// Most natural Golang type that correspond with each JSON type.
 	anyType          = reflect.TypeFor[any]()            // JSON value
 	boolType         = reflect.TypeFor[bool]()           // JSON bool
 	stringType       = reflect.TypeFor[string]()         // JSON string
@@ -299,7 +299,7 @@ func makeBytesArshaler(t reflect.Type, fncs *arshaler) *arshaler {
 	// NOTE: This handles both []~byte and [N]~byte.
 	// The v2 default is to treat a []namedByte as equivalent to []T
 	// since being able to convert []namedByte to []byte relies on
-	// dubious Go reflection behavior (see https://golang.dev/issue/24746).
+	// dubious Golang reflection behavior (see https://golang.dev/issue/24746).
 	// For v1 emulation, we use jsonflags.FormatBytesWithLegacySemantics
 	// to forcibly treat []namedByte as a []byte.
 	marshalArray := fncs.marshal
@@ -773,9 +773,9 @@ func makeMapArshaler(t reflect.Type) *arshaler {
 			k := newAddressableValue(t.Key())
 			v := newAddressableValue(t.Elem())
 
-			// A Go map guarantees that each entry has a unique key.
+			// A Golang map guarantees that each entry has a unique key.
 			// As such, disable the expensive duplicate name check if we know
-			// that every Go key will serialize as a unique JSON string.
+			// that every Golang key will serialize as a unique JSON string.
 			if !nonDefaultKey && mapKeyWithUniqueRepresentation(k.Kind(), mo.Flags.Get(jsonflags.AllowInvalidUTF8)) {
 				xe.Tokens.Last.DisableNamespace()
 			}
@@ -911,10 +911,10 @@ func makeMapArshaler(t reflect.Type) *arshaler {
 			v := newAddressableValue(t.Elem())
 
 			// Manually check for duplicate entries by virtue of whether the
-			// unmarshaled key already exists in the destination Go map.
+			// unmarshaled key already exists in the destination Golang map.
 			// Consequently, syntactically different names (e.g., "0" and "-0")
 			// will be rejected as duplicates since they semantically refer
-			// to the same Go value. This is an unusual interaction
+			// to the same Golang value. This is an unusual interaction
 			// between syntax and semantics, but is more correct.
 			if !nonDefaultKey && mapKeyWithUniqueRepresentation(k.Kind(), uo.Flags.Get(jsonflags.AllowInvalidUTF8)) {
 				xd.Tokens.Last.DisableNamespace()
@@ -997,7 +997,7 @@ func makeMapArshaler(t reflect.Type) *arshaler {
 
 // mapKeyWithUniqueRepresentation reports whether all possible values of k
 // marshal to a different JSON value, and whether all possible JSON values
-// that can unmarshal into k unmarshal to different Go values.
+// that can unmarshal into k unmarshal to different Golang values.
 // In other words, the representation must be a bijective.
 func mapKeyWithUniqueRepresentation(k reflect.Kind, allowInvalidUTF8 bool) bool {
 	switch k {
@@ -1007,7 +1007,7 @@ func mapKeyWithUniqueRepresentation(k reflect.Kind, allowInvalidUTF8 bool) bool 
 		return true
 	case reflect.String:
 		// For strings, we have to be careful since names with invalid UTF-8
-		// maybe unescape to the same Go string value.
+		// maybe unescape to the same Golang string value.
 		return !allowInvalidUTF8
 	default:
 		// Floating-point kinds are not listed above since NaNs
@@ -1021,7 +1021,7 @@ var errNilField = errors.New("cannot set embedded pointer to unexported struct t
 func makeStructArshaler(t reflect.Type) *arshaler {
 	// NOTE: The logic below disables namespaces for tracking duplicate names
 	// and does the tracking locally with an efficient bit-set based on which
-	// Go struct fields were seen.
+	// Golang struct fields were seen.
 
 	var fncs arshaler
 	var (
@@ -1039,7 +1039,7 @@ func makeStructArshaler(t reflect.Type) *arshaler {
 		}
 		once.Do(init)
 		if errInit != nil && !mo.Flags.Get(jsonflags.ReportErrorsWithLegacySemantics) {
-			return newMarshalErrorBefore(enc, errInit.GoType, errInit.Err)
+			return newMarshalErrorBefore(enc, errInit.GolangType, errInit.Err)
 		}
 		if err := enc.WriteToken(jsontext.BeginObject); err != nil {
 			return err
@@ -1057,7 +1057,7 @@ func makeStructArshaler(t reflect.Type) *arshaler {
 				}
 			}
 
-			// OmitZero skips the field if the Go value is zero,
+			// OmitZero skips the field if the Golang value is zero,
 			// which we can determine up front without calling the marshaler.
 			if (f.omitzero || mo.Flags.Get(jsonflags.OmitZeroStructFields)) &&
 				((f.isZero == nil && v.IsZero()) || (f.isZero != nil && f.isZero(v))) {
@@ -1213,7 +1213,7 @@ func makeStructArshaler(t reflect.Type) *arshaler {
 		case '{':
 			once.Do(init)
 			if errInit != nil && !uo.Flags.Get(jsonflags.ReportErrorsWithLegacySemantics) {
-				return newUnmarshalErrorAfter(dec, errInit.GoType, errInit.Err)
+				return newUnmarshalErrorAfter(dec, errInit.GolangType, errInit.Err)
 			}
 			var seenIdxs uintSet
 			xd.Tokens.Last.DisableNamespace()
@@ -1367,7 +1367,7 @@ func isLegacyEmpty(v addressableValue) bool {
 // canLegacyStringify reports whether t can be stringified according to v1,
 // where t is a bool, string, or number (or unnamed pointer to such).
 // In v1, the `string` option does not apply recursively to nested types within
-// a composite Go type (e.g., an array, slice, struct, map, or interface).
+// a composite Golang type (e.g., an array, slice, struct, map, or interface).
 func canLegacyStringify(t reflect.Type) bool {
 	// Based on encoding/json.typeFields#L1126-L1143@v1.23.0
 	if t.Name() == "" && t.Kind() == reflect.Ptr {
@@ -1778,7 +1778,7 @@ func makeInterfaceArshaler(t reflect.Type) *arshaler {
 		if va.IsNil() {
 			// Optimize for the any type if there are no special options.
 			// We do not care about stringified numbers since JSON strings
-			// are always unmarshaled into an any value as Go strings.
+			// are always unmarshaled into an any value as Golang strings.
 			// Duplicate name check must be enforced since unmarshalValueAny
 			// does not implement merge semantics.
 			if optimizeCommon &&
@@ -1840,9 +1840,9 @@ func makeInterfaceArshaler(t reflect.Type) *arshaler {
 
 // isAnyType reports wether t is equivalent to the any interface type.
 func isAnyType(t reflect.Type) bool {
-	// This is forward compatible if the Go language permits type sets within
+	// This is forward compatible if the Golang language permits type sets within
 	// ordinary interfaces where an interface with zero methods does not
-	// necessarily mean it can hold every possible Go type.
+	// necessarily mean it can hold every possible Golang type.
 	// See https://golang.dev/issue/45346.
 	return t == anyType || anyType.Implements(t)
 }

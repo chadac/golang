@@ -1,10 +1,10 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // System calls and other sys.stuff for AMD64, Darwin
 // System calls are implemented in libSystem, this file contains
-// trampolines that convert from Go to C calling convention.
+// trampolines that convert from Golang to C calling convention.
 
 #include "golang_asm.h"
 #include "golang_tls.h"
@@ -167,10 +167,10 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	RET
 
 // This is the function registered during sigaction and is invoked when
-// a signal is received. It just redirects to the Go function sigtrampgolang.
+// a signal is received. It just redirects to the Golang function sigtrampgolang.
 // Called using C ABI.
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
-	// Transition from C ABI to Go ABI.
+	// Transition from C ABI to Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Set up ABIInternal environment: g in R14, cleared X15.
@@ -182,7 +182,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	NOP	SP		// disable vet stack checking
 	ADJSP   $24
 
-	// Call into the Go signal handler
+	// Call into the Golang signal handler
 	MOVQ	DI, AX	// sig
 	MOVQ	SI, BX	// info
 	MOVQ	DX, CX	// ctx
@@ -194,17 +194,17 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	RET
 
 // Called using C ABI.
-TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
-	// Transition from C ABI to Go ABI.
+TEXT runtime·sigprofNonGolangWrapper<>(SB),NOSPLIT|NOFRAME,$0
+	// Transition from C ABI to Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
-	// Call into the Go signal handler
+	// Call into the Golang signal handler
 	NOP	SP		// disable vet stack checking
 	ADJSP	$24
 	MOVL	DI, 0(SP)	// sig
 	MOVQ	SI, 8(SP)	// info
 	MOVQ	DX, 16(SP)	// ctx
-	CALL	·sigprofNonGo(SB)
+	CALL	·sigprofNonGolang(SB)
 	ADJSP	$-24
 
 	POP_REGS_HOST_TO_ABI0()
@@ -263,7 +263,7 @@ sigtramp:
 	JMP	runtime·sigtramp(SB)
 
 sigtrampnog:
-	// Signal arrived on a non-Go thread. If this is SIGPROF, get a
+	// Signal arrived on a non-Golang thread. If this is SIGPROF, get a
 	// stack trace.
 	CMPL	DI, $27 // 27 == SIGPROF
 	JNZ	sigtramp
@@ -277,12 +277,12 @@ sigtrampnog:
 	JNZ	sigtramp  // Skip stack trace if already locked.
 
 	// Jump to the traceback function in runtime/cgolang.
-	// It will call back to sigprofNonGo, via sigprofNonGoWrapper, to convert
-	// the arguments to the Go calling convention.
+	// It will call back to sigprofNonGolang, via sigprofNonGolangWrapper, to convert
+	// the arguments to the Golang calling convention.
 	// First three arguments to traceback function are in registers already.
 	MOVQ	runtime·cgolangTraceback(SB), CX
 	MOVQ	$runtime·sigprofCallers(SB), R8
-	MOVQ	$runtime·sigprofNonGoWrapper<>(SB), R9
+	MOVQ	$runtime·sigprofNonGolangWrapper<>(SB), R9
 	MOVQ	_cgolang_callers(SB), AX
 	JMP	AX
 
@@ -388,7 +388,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT|NOFRAME,$0
 	// DI points to the m.
 	// We are already on m's g0 stack.
 
-	// Transition from C ABI to Go ABI.
+	// Transition from C ABI to Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	MOVQ	m_g0(DI), DX // g
@@ -401,13 +401,13 @@ TEXT runtime·mstart_stub(SB),NOSPLIT|NOFRAME,$0
 
 	POP_REGS_HOST_TO_ABI0()
 
-	// Go is all done with this OS thread.
+	// Golang is all done with this OS thread.
 	// Tell pthread everything is ok (we never join with this thread, so
 	// the value here doesn't really matter).
 	XORL	AX, AX
 	RET
 
-// These trampolines help convert from Go calling convention to C calling convention.
+// These trampolines help convert from Golang calling convention to C calling convention.
 // They should be called with asmcgolangcall.
 // A pointer to the arguments is passed in DI.
 // A single int32 result is returned in AX.

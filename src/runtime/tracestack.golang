@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -49,9 +49,9 @@ func traceStack(skip int, gp *g, gen uintptr) uint64 {
 			// Use the trace status to check this. There are a number of cases
 			// where a running golangroutine might be in _Gwaiting, and these cases
 			// are totally fine for taking a stack trace. They're captured
-			// correctly in golangStatusToTraceGoStatus.
-			switch golangStatusToTraceGoStatus(status, gp.waitreason) {
-			case tracev2.GoRunning, tracev2.GoSyscall:
+			// correctly in golangStatusToTraceGolangStatus.
+			switch golangStatusToTraceGolangStatus(status, gp.waitreason) {
+			case tracev2.GolangRunning, tracev2.GolangSyscall:
 				if getg() == gp || mp.curg == gp {
 					break
 				}

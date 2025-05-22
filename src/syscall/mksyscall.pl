@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# Copyright 2009 The Go Authors. All rights reserved.
+# Copyright 2009 The Golang Authors. All rights reserved.
 # Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
@@ -147,7 +147,7 @@ while(<>) {
 		$text .= "//golang:nosplit\n"
 	}
 
-	# Go function header.
+	# Golang function header.
 	my $out_decl = @out ? sprintf(" (%s)", join(', ', @out)) : "";
 	$text .= sprintf "func %s(%s)%s {\n", $func, join(', ', @in), $out_decl;
 

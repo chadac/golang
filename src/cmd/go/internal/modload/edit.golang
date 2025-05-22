@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -66,15 +66,15 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	rootPruning := orig.pruning
 	for _, m := range mustSelect {
 		if m.Path == "golang" {
-			rootPruning = pruningForGoVersion(m.Version)
+			rootPruning = pruningForGolangVersion(m.Version)
 			break
-		} else if m.Path == "toolchain" && pruningForGoVersion(golangver.FromToolchain(m.Version)) == unpruned {
+		} else if m.Path == "toolchain" && pruningForGolangVersion(golangver.FromToolchain(m.Version)) == unpruned {
 			// We don't know exactly what golang version we will end up at, but we know
 			// that it must be a version supported by the requested toolchain, and
 			// that toolchain does not support pruning.
 			//
 			// TODO(bcmills): 'golang get' ought to reject explicit toolchain versions
-			// older than golangver.GoStrictVersion. Once that is fixed, is this still
+			// older than golangver.GolangStrictVersion. Once that is fixed, is this still
 			// needed?
 			rootPruning = unpruned
 			break
@@ -576,7 +576,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	// those two modules will never be downgraded due to a conflict with any other
 	// constraint.
 	if rootPruning == unpruned {
-		if v, ok := edited.rootSelected("golang"); ok && pruningForGoVersion(v) == pruned {
+		if v, ok := edited.rootSelected("golang"); ok && pruningForGolangVersion(v) == pruned {
 			// Since we computed the edit with the unpruned graph, and the pruned
 			// graph is a strict subset of the unpruned graph, this conversion
 			// preserves the exact (edited) build list that we already computed.

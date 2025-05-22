@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ import "C"
 import "fmt"
 
 func main() {
-	// C passes Go an invalid pointer.
+	// C passes Golang an invalid pointer.
 	a := C.test()
 	// Use after free
 	*a = 2 // BOOM

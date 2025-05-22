@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -180,7 +180,7 @@ func SideLock(ctx context.Context) (unlock func(), err error) {
 }
 
 // A cachingRepo is a cache around an underlying Repo,
-// avoiding redundant calls to ModulePath, Versions, Stat, Latest, and GoMod (but not CheckReuse or Zip).
+// avoiding redundant calls to ModulePath, Versions, Stat, Latest, and GolangMod (but not CheckReuse or Zip).
 // It is also safe for simultaneous use by multiple golangroutines
 // (so that it can be returned from Lookup multiple times).
 // It serializes calls to the underlying Repo.
@@ -303,24 +303,24 @@ func (r *cachingRepo) Latest(ctx context.Context) (*RevInfo, error) {
 	return info, err
 }
 
-func (r *cachingRepo) GoMod(ctx context.Context, version string) ([]byte, error) {
+func (r *cachingRepo) GolangMod(ctx context.Context, version string) ([]byte, error) {
 	if golangver.IsToolchain(r.path) {
 		// Skip disk cache; the underlying golanglang.org/toolchain repo is cached instead.
-		return r.repo(ctx).GoMod(ctx, version)
+		return r.repo(ctx).GolangMod(ctx, version)
 	}
 	text, err := r.golangmodCache.Do(version, func() ([]byte, error) {
-		file, text, err := readDiskGoMod(ctx, r.path, version)
+		file, text, err := readDiskGolangMod(ctx, r.path, version)
 		if err == nil {
-			// Note: readDiskGoMod already called checkGoMod.
+			// Note: readDiskGolangMod already called checkGolangMod.
 			return text, nil
 		}
 
-		text, err = r.repo(ctx).GoMod(ctx, version)
+		text, err = r.repo(ctx).GolangMod(ctx, version)
 		if err == nil {
-			if err := checkGoMod(r.path, version, text); err != nil {
+			if err := checkGolangMod(r.path, version, text); err != nil {
 				return text, err
 			}
-			if err := writeDiskGoMod(ctx, file, text); err != nil {
+			if err := writeDiskGolangMod(ctx, file, text); err != nil {
 				fmt.Fprintf(os.Stderr, "golang: writing golang.mod cache: %v\n", err)
 			}
 		}
@@ -376,10 +376,10 @@ func InfoFile(ctx context.Context, path, version string) (*RevInfo, string, erro
 	return info, file, nil
 }
 
-// GoMod is like Lookup(ctx, path).GoMod(rev) but avoids the
+// GolangMod is like Lookup(ctx, path).GolangMod(rev) but avoids the
 // repository path resolution in Lookup if the result is
 // already cached on local disk.
-func GoMod(ctx context.Context, path, rev string) ([]byte, error) {
+func GolangMod(ctx context.Context, path, rev string) ([]byte, error) {
 	// Convert commit hash to pseudo-version
 	// to increase cache hit rate.
 	if !golangver.ModIsValid(path, rev) {
@@ -402,28 +402,28 @@ func GoMod(ctx context.Context, path, rev string) ([]byte, error) {
 		}
 	}
 
-	_, data, err := readDiskGoMod(ctx, path, rev)
+	_, data, err := readDiskGolangMod(ctx, path, rev)
 	if err == nil {
 		return data, nil
 	}
 
 	err = TryProxies(func(proxy string) (err error) {
-		data, err = Lookup(ctx, proxy, path).GoMod(ctx, rev)
+		data, err = Lookup(ctx, proxy, path).GolangMod(ctx, rev)
 		return err
 	})
 	return data, err
 }
 
-// GoModFile is like GoMod but returns the name of the file containing
+// GolangModFile is like GolangMod but returns the name of the file containing
 // the cached information.
-func GoModFile(ctx context.Context, path, version string) (string, error) {
+func GolangModFile(ctx context.Context, path, version string) (string, error) {
 	if !golangver.ModIsValid(path, version) {
 		return "", fmt.Errorf("invalid version %q", version)
 	}
-	if _, err := GoMod(ctx, path, version); err != nil {
+	if _, err := GolangMod(ctx, path, version); err != nil {
 		return "", err
 	}
-	// GoMod should have populated the disk cache for us.
+	// GolangMod should have populated the disk cache for us.
 	file, err := CachePath(ctx, module.Version{Path: path, Version: version}, "mod")
 	if err != nil {
 		return "", err
@@ -431,13 +431,13 @@ func GoModFile(ctx context.Context, path, version string) (string, error) {
 	return file, nil
 }
 
-// GoModSum returns the golang.sum entry for the module version's golang.mod file.
+// GolangModSum returns the golang.sum entry for the module version's golang.mod file.
 // (That is, it returns the entry listed in golang.sum as "path version/golang.mod".)
-func GoModSum(ctx context.Context, path, version string) (string, error) {
+func GolangModSum(ctx context.Context, path, version string) (string, error) {
 	if !golangver.ModIsValid(path, version) {
 		return "", fmt.Errorf("invalid version %q", version)
 	}
-	data, err := GoMod(ctx, path, version)
+	data, err := GolangMod(ctx, path, version)
 	if err != nil {
 		return "", err
 	}
@@ -561,11 +561,11 @@ func readDiskStatByHash(ctx context.Context, path, rev string) (file string, inf
 // and should ignore it.
 var oldVgolangPrefix = []byte("//vgolang 0.0.")
 
-// readDiskGoMod reads a cached golang.mod file from disk,
+// readDiskGolangMod reads a cached golang.mod file from disk,
 // returning the name of the cache file and the result.
 // If the read fails, the caller can use
-// writeDiskGoMod(file, data) to write a new cache entry.
-func readDiskGoMod(ctx context.Context, path, rev string) (file string, data []byte, err error) {
+// writeDiskGolangMod(file, data) to write a new cache entry.
+func readDiskGolangMod(ctx context.Context, path, rev string) (file string, data []byte, err error) {
 	if golangver.IsToolchain(path) {
 		return "", nil, errNotCached
 	}
@@ -578,7 +578,7 @@ func readDiskGoMod(ctx context.Context, path, rev string) (file string, data []b
 	}
 
 	if err == nil {
-		if err := checkGoMod(path, rev, data); err != nil {
+		if err := checkGolangMod(path, rev, data); err != nil {
 			return "", nil, err
 		}
 	}
@@ -639,9 +639,9 @@ func writeDiskStat(ctx context.Context, file string, info *RevInfo) error {
 	return writeDiskCache(ctx, file, js)
 }
 
-// writeDiskGoMod writes a golang.mod cache entry.
-// The file name must have been returned by a previous call to readDiskGoMod.
-func writeDiskGoMod(ctx context.Context, file string, text []byte) error {
+// writeDiskGolangMod writes a golang.mod cache entry.
+// The file name must have been returned by a previous call to readDiskGolangMod.
+func writeDiskGolangMod(ctx context.Context, file string, text []byte) error {
 	return writeDiskCache(ctx, file, text)
 }
 

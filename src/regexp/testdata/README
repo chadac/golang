@@ -6,14 +6,14 @@ basic.dat	http://www2.research.att.com/~gsf/testregex/basic.dat
 nullsubexpr.dat	http://www2.research.att.com/~gsf/testregex/nullsubexpr.dat
 repetition.dat	http://www2.research.att.com/~gsf/testregex/repetition.dat
 
-The test data has been edited to reflect RE2/Go differences:
+The test data has been edited to reflect RE2/Golang differences:
   * In a star of a possibly empty match like (a*)* matching x,
     the no match case runs the starred subexpression zero times,
     not once.  This is consistent with (a*)* matching a, which
     runs the starred subexpression one time, not twice.
   * The submatch choice is first match, not the POSIX rule.
 
-Such changes are marked with 'RE2/Go'.
+Such changes are marked with 'RE2/Golang'.
 
 
 RE2 Test Files

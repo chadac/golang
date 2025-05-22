@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -224,7 +224,7 @@ func MemclrBytes(b []byte) {
 const HashLoad = hashLoad
 
 // entry point for testing
-func GostringW(w []uint16) (s string) {
+func GolangstringW(w []uint16) (s string) {
 	systemstack(func() {
 		s = golangstringw(&w[0])
 	})
@@ -559,7 +559,7 @@ func Getg() *G {
 	return getg()
 }
 
-func Goid() uint64 {
+func Golangid() uint64 {
 	return getg().golangid
 }
 
@@ -1108,7 +1108,7 @@ func PageBase(c ChunkIdx, pageIdx uint) uintptr {
 
 type BitsMismatch struct {
 	Base      uintptr
-	Got, Want uint64
+	Golangt, Want uint64
 }
 
 func CheckScavengedBitsCleared(mismatches []BitsMismatch) (n int, ok bool) {
@@ -1141,7 +1141,7 @@ func CheckScavengedBitsCleared(mismatches []BitsMismatch) (n int, ok bool) {
 					}
 					mismatches[n] = BitsMismatch{
 						Base: chunkBase(i) + uintptr(j)*64*pageSize,
-						Got:  golangt,
+						Golangt:  golangt,
 						Want: want,
 					}
 					n++
@@ -1351,10 +1351,10 @@ const Raceenabled = raceenabled
 
 const (
 	GCBackgroundUtilization            = gcBackgroundUtilization
-	GCGoalUtilization                  = gcGoalUtilization
+	GCGolangalUtilization                  = gcGolangalUtilization
 	DefaultHeapMinimum                 = defaultHeapMinimum
-	MemoryLimitHeapGoalHeadroomPercent = memoryLimitHeapGoalHeadroomPercent
-	MemoryLimitMinHeapGoalHeadroom     = memoryLimitMinHeapGoalHeadroom
+	MemoryLimitHeapGolangalHeadroomPercent = memoryLimitHeapGolangalHeadroomPercent
+	MemoryLimitMinHeapGolangalHeadroom     = memoryLimitMinHeapGolangalHeadroom
 )
 
 type GCController struct {
@@ -1388,8 +1388,8 @@ func (c *GCController) AssistWorkPerByte() float64 {
 	return c.assistWorkPerByte.Load()
 }
 
-func (c *GCController) HeapGoal() uint64 {
-	return c.heapGoal()
+func (c *GCController) HeapGolangal() uint64 {
+	return c.heapGolangal()
 }
 
 func (c *GCController) HeapLive() uint64 {
@@ -1549,7 +1549,7 @@ type Scavenger struct {
 	Sleep      func(int64) int64
 	Scavenge   func(uintptr) (uintptr, int64)
 	ShouldStop func() bool
-	GoMaxProcs func() int32
+	GolangMaxProcs func() int32
 
 	released  atomic.Uintptr
 	scavenger scavengerState
@@ -1558,7 +1558,7 @@ type Scavenger struct {
 }
 
 func (s *Scavenger) Start() {
-	if s.Sleep == nil || s.Scavenge == nil || s.ShouldStop == nil || s.GoMaxProcs == nil {
+	if s.Sleep == nil || s.Scavenge == nil || s.ShouldStop == nil || s.GolangMaxProcs == nil {
 		panic("must populate all stubs")
 	}
 
@@ -1566,7 +1566,7 @@ func (s *Scavenger) Start() {
 	s.scavenger.sleepStub = s.Sleep
 	s.scavenger.scavenge = s.Scavenge
 	s.scavenger.shouldStop = s.ShouldStop
-	s.scavenger.golangmaxprocs = s.GoMaxProcs
+	s.scavenger.golangmaxprocs = s.GolangMaxProcs
 
 	// Start up scavenger golangroutine, and wait for it to be ready.
 	stop := make(chan struct{})
@@ -1618,7 +1618,7 @@ func (s *Scavenger) BlockUntilParked(timeout int64) bool {
 		if parked {
 			return true
 		}
-		Gosched()
+		Golangsched()
 	}
 	return false
 }
@@ -1804,7 +1804,7 @@ func FrameStartLine(f *Frame) int {
 	return f.startLine
 }
 
-// PersistentAlloc allocates some memory that lives outside the Go heap.
+// PersistentAlloc allocates some memory that lives outside the Golang heap.
 // This memory will never be freed; use sparingly.
 func PersistentAlloc(n, align uintptr) unsafe.Pointer {
 	return persistentalloc(n, align, &memstats.other_sys)
@@ -1890,7 +1890,7 @@ func GCMarkDoneResetRestartFlag() {
 	mp := acquirem()
 	for gcphase != _GCoff {
 		releasem(mp)
-		Gosched()
+		Golangsched()
 		mp = acquirem()
 	}
 	gcDebugMarkDone.restartedDueTo27993 = false

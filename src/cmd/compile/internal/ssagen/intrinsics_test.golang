@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1376,7 +1376,7 @@ func TestIntrinsics(t *testing.T) {
 	}
 	for ik, _ := range golangtIntrinsics {
 		if _, found := wantIntrinsics[ik]; !found {
-			t.Errorf("Got unwanted intrinsic %v %v.%v", ik.archName, ik.pkg, ik.fn)
+			t.Errorf("Golangt unwanted intrinsic %v %v.%v", ik.archName, ik.pkg, ik.fn)
 		}
 	}
 

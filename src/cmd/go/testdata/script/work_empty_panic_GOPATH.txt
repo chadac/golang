@@ -1,6 +1,6 @@
 # Regression test for https://golang.dev/issue/58767:
 # with an empty golang.work file in GOPATH mode, calls to load.defaultGODEBUG for a
-# package named "main" panicked in modload.MainModules.GoVersion.
+# package named "main" panicked in modload.MainModules.GolangVersion.
 
 env GO111MODULE=off
 cd example

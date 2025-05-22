@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -42,7 +42,7 @@ func TestEscape(t *testing.T) {
 		F: false,
 		T: true,
 		C: "<Cincinnati>",
-		G: "<Goodbye>",
+		G: "<Golangodbye>",
 		H: "<Hello>",
 		A: []string{"<a>", "<b>"},
 		E: []string{},
@@ -69,7 +69,7 @@ func TestEscape(t *testing.T) {
 		{
 			"else",
 			"{{if .F}}{{.H}}{{else}}{{.G}}{{end}}!",
-			"&lt;Goodbye&gt;!",
+			"&lt;Golangodbye&gt;!",
 		},
 		{
 			"overescaping1",
@@ -381,12 +381,12 @@ func TestEscape(t *testing.T) {
 			`<a style="background: 'javascript\\3a alert\28 1337\29 '">`,
 		},
 		{
-			"styleURLGoodProtocolPassed",
+			"styleURLGolangodProtocolPassed",
 			`<a style="background: url('{{"http://oreilly.com/O'Reilly Animals(1)<2>;{}.html"}}')">`,
 			`<a style="background: url('http://oreilly.com/O%27Reilly%20Animals%281%29%3c2%3e;%7b%7d.html')">`,
 		},
 		{
-			"styleStrGoodProtocolPassed",
+			"styleStrGolangodProtocolPassed",
 			`<a style="background: '{{"http://oreilly.com/O'Reilly Animals(1)<2>;{}.html"}}'">`,
 			`<a style="background: 'http\3a\2f\2foreilly.com\2fO\27Reilly Animals\28 1\29\3c 2\3e\3b\7b\7d.html'">`,
 		},

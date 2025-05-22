@@ -8,7 +8,7 @@
 //	Portions Copyright © 2004,2006 Bruce Ellis
 //	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 //	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-//	Portions Copyright © 2009 The Go Authors. All rights reserved.
+//	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ import (
 )
 
 func gentext(ctxt *ld.Link, ldr *loader.Loader) {
-	if ctxt.DynlinkingGo() {
+	if ctxt.DynlinkingGolang() {
 		// We need get_pc_thunk.
 	} else {
 		switch ctxt.BuildMode {
@@ -199,10 +199,10 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 			return false
 		}
 
-		ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_386_GLOB_DAT))
+		ld.AddGolangtSym(target, ldr, syms, targ, uint32(elf.R_386_GLOB_DAT))
 		su.SetRelocType(rIdx, objabi.R_CONST) // write r->add during relocsym
 		su.SetRelocSym(rIdx, 0)
-		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGot(targ)))
+		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGolangt(targ)))
 		return true
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_386_GOTOFF):
@@ -264,9 +264,9 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 			return true
 		}
 
-		ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_386_GLOB_DAT))
+		ld.AddGolangtSym(target, ldr, syms, targ, uint32(elf.R_386_GLOB_DAT))
 		su.SetRelocSym(rIdx, syms.GOT)
-		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGot(targ)))
+		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGolangt(targ)))
 		su.SetRelocType(rIdx, objabi.R_PCREL)
 		return true
 	}

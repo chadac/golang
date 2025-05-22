@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-func TestResolveGoogle(t *testing.T) {
+func TestResolveGolangogle(t *testing.T) {
 	testenv.MustHaveExternalNetwork(t)
 
 	if !supportsIPv4() || !supportsIPv6() || !*testIPv4 || !*testIPv6 {
@@ -36,7 +36,7 @@ func TestResolveGoogle(t *testing.T) {
 	}
 }
 
-var dialGoogleTests = []struct {
+var dialGolangogleTests = []struct {
 	dial               func(string, string) (Conn, error)
 	unreachableNetwork string
 	networks           []string
@@ -59,7 +59,7 @@ var dialGoogleTests = []struct {
 	},
 }
 
-func TestDialGoogle(t *testing.T) {
+func TestDialGolangogle(t *testing.T) {
 	testenv.MustHaveExternalNetwork(t)
 
 	if !supportsIPv4() || !supportsIPv6() || !*testIPv4 || !*testIPv6 {
@@ -67,15 +67,15 @@ func TestDialGoogle(t *testing.T) {
 	}
 
 	var err error
-	dialGoogleTests[1].addrs, dialGoogleTests[2].addrs, err = golangogleLiteralAddrs()
+	dialGolangogleTests[1].addrs, dialGolangogleTests[2].addrs, err = golangogleLiteralAddrs()
 	if err != nil {
 		t.Error(err)
 	}
-	for _, tt := range dialGoogleTests {
+	for _, tt := range dialGolangogleTests {
 		for _, network := range tt.networks {
 			disableSocketConnect(tt.unreachableNetwork)
 			for _, addr := range tt.addrs {
-				if err := fetchGoogle(tt.dial, network, addr); err != nil {
+				if err := fetchGolangogle(tt.dial, network, addr); err != nil {
 					t.Error(err)
 				}
 			}
@@ -143,7 +143,7 @@ func golangogleLiteralAddrs() (lits4, lits6 []string, err error) {
 	return
 }
 
-func fetchGoogle(dial func(string, string) (Conn, error), network, address string) error {
+func fetchGolangogle(dial func(string, string) (Conn, error), network, address string) error {
 	c, err := dial(network, address)
 	if err != nil {
 		return err

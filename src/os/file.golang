@@ -1,10 +1,10 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package os provides a platform-independent interface to operating system
 // functionality. The design is Unix-like, although the error handling is
-// Go-like; failing calls return values of type error rather than error numbers.
+// Golang-like; failing calls return values of type error rather than error numbers.
 // Often, more information is available within the error. For example,
 // if a call that takes a file name fails, such as [Open] or [Stat], the error
 // will include the failing file name when printed and will be of type
@@ -65,7 +65,7 @@ func (f *File) Name() string { return f.name }
 // Stdin, Stdout, and Stderr are open Files pointing to the standard input,
 // standard output, and standard error file descriptors.
 //
-// Note that the Go runtime writes to standard error for panics and crashes;
+// Note that the Golang runtime writes to standard error for panics and crashes;
 // closing Stderr may cause those messages to golang elsewhere, perhaps
 // to a file opened later.
 var (
@@ -123,7 +123,7 @@ func (e *LinkError) Unwrap() error {
 //   - On Unix, if fd is in non-blocking mode, NewFile will attempt to return a pollable file.
 //   - On Windows, if fd is opened for asynchronous I/O (that is, [syscall.FILE_FLAG_OVERLAPPED]
 //     has been specified in the [syscall.CreateFile] call), NewFile will attempt to return a pollable
-//     file by associating fd with the Go runtime I/O completion port.
+//     file by associating fd with the Golang runtime I/O completion port.
 //     The I/O operations will be performed synchronously if the association fails.
 //
 // Only pollable files support [File.SetDeadline], [File.SetReadDeadline], and [File.SetWriteDeadline].
@@ -638,7 +638,7 @@ func UserHomeDir() (string, error) {
 //
 // On Windows, only the 0o200 bit (owner writable) of mode is used; it
 // controls whether the file's read-only attribute is set or cleared.
-// The other bits are currently unused. For compatibility with Go 1.12
+// The other bits are currently unused. For compatibility with Golang 1.12
 // and earlier, use a non-zero mode. Use mode 0o400 for a read-only
 // file and 0o600 for a readable+writable file.
 //
@@ -718,7 +718,7 @@ func (f *File) SyscallConn() (syscall.RawConn, error) {
 //
 //   - On Unix and Windows, [File.SetDeadline] methods will stop working.
 //   - On Windows, the file descriptor will be disassociated from the
-//     Go runtime I/O completion port if there are no concurrent I/O
+//     Golang runtime I/O completion port if there are no concurrent I/O
 //     operations on the file.
 //
 // For most uses prefer the f.SyscallConn method.

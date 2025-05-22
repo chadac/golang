@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -286,8 +286,8 @@ func testScan(t *testing.T, mode uint) {
 }
 
 func TestScan(t *testing.T) {
-	testScan(t, GoTokens)
-	testScan(t, GoTokens&^SkipComments)
+	testScan(t, GolangTokens)
+	testScan(t, GolangTokens&^SkipComments)
 }
 
 func TestInvalidExponent(t *testing.T) {
@@ -314,7 +314,7 @@ func TestInvalidExponent(t *testing.T) {
 func TestPosition(t *testing.T) {
 	src := makeSource("\t\t\t\t%s\n")
 	s := new(Scanner).Init(src)
-	s.Mode = GoTokens &^ SkipComments
+	s.Mode = GolangTokens &^ SkipComments
 	s.Scan()
 	pos := Position{"", 4, 1, 5}
 	for _, k := range tokenList {

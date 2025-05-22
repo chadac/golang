@@ -1,8 +1,8 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package testing provides support for automated testing of Go packages.
+// Package testing provides support for automated testing of Golang packages.
 // It is intended to be used in concert with the "golang test" command, which automates
 // execution of any function of the form
 //
@@ -903,7 +903,7 @@ type TB interface {
 
 	// A private method to prevent users implementing the
 	// interface and so future additions to it will not
-	// violate Go 1 compatibility.
+	// violate Golang 1 compatibility.
 	private()
 }
 
@@ -976,7 +976,7 @@ func (c *common) Failed() bool {
 }
 
 // FailNow marks the function as having failed and stops its execution
-// by calling [runtime.Goexit] (which then runs all deferred calls in the
+// by calling [runtime.Golangexit] (which then runs all deferred calls in the
 // current golangroutine).
 // Execution will continue at the next test or benchmark.
 // FailNow must be called from the golangroutine running the
@@ -987,7 +987,7 @@ func (c *common) FailNow() {
 	c.checkFuzzFn("FailNow")
 	c.Fail()
 
-	// Calling runtime.Goexit will exit the golangroutine, which
+	// Calling runtime.Golangexit will exit the golangroutine, which
 	// will run the deferred functions in this golangroutine,
 	// which will eventually run the deferred lines in tRunner,
 	// which will signal to the test loop that this test is done.
@@ -996,11 +996,11 @@ func (c *common) FailNow() {
 	//
 	//	c.duration = ...
 	//	c.signal <- c.self
-	//	runtime.Goexit()
+	//	runtime.Golangexit()
 	//
 	// This previous version duplicated code (those lines are in
 	// tRunner no matter what), but worse the golangroutine teardown
-	// implicit in runtime.Goexit was not guaranteed to complete
+	// implicit in runtime.Golangexit was not guaranteed to complete
 	// before the test exited. If a test deferred an important cleanup
 	// function (like removing temporary files), there was no guarantee
 	// it would run on a test failure. Because we send on c.signal during
@@ -1009,7 +1009,7 @@ func (c *common) FailNow() {
 	c.mu.Lock()
 	c.finished = true
 	c.mu.Unlock()
-	runtime.Goexit()
+	runtime.Golangexit()
 }
 
 // log generates the output. It is always at the same stack depth. log inserts
@@ -1233,7 +1233,7 @@ func (c *common) Skipf(format string, args ...any) {
 }
 
 // SkipNow marks the test as having been skipped and stops its execution
-// by calling [runtime.Goexit].
+// by calling [runtime.Golangexit].
 // If a test fails (see Error, Errorf, Fail) and is then skipped,
 // it is still considered to have failed.
 // Execution will continue at the next test or benchmark. See also FailNow.
@@ -1246,7 +1246,7 @@ func (c *common) SkipNow() {
 	c.skipped = true
 	c.finished = true
 	c.mu.Unlock()
-	runtime.Goexit()
+	runtime.Golangexit()
 }
 
 // Skipped reports whether the test was skipped.
@@ -1765,14 +1765,14 @@ type InternalTest struct {
 	F    func(*T)
 }
 
-var errNilPanicOrGoexit = errors.New("test executed panic(nil) or runtime.Goexit")
+var errNilPanicOrGolangexit = errors.New("test executed panic(nil) or runtime.Golangexit")
 
 func tRunner(t *T, fn func(t *T)) {
 	t.runner = callerName(0)
 
 	// When this golangroutine is done, either because fn(t)
 	// returned normally or because a test failure triggered
-	// a call to runtime.Goexit, record the duration and send
+	// a call to runtime.Golangexit, record the duration and send
 	// a signal saying that the test is done.
 	defer func() {
 		t.checkRaces()
@@ -1782,7 +1782,7 @@ func tRunner(t *T, fn func(t *T)) {
 			numFailed.Add(1)
 		}
 
-		// Check if the test panicked or Goexited inappropriately.
+		// Check if the test panicked or Golangexited inappropriately.
 		//
 		// If this happens in a normal test, print output but continue panicking.
 		// tRunner is called in its own golangroutine, so this terminates the process.
@@ -1797,7 +1797,7 @@ func tRunner(t *T, fn func(t *T)) {
 		finished := t.finished
 		t.mu.RUnlock()
 		if !finished && err == nil {
-			err = errNilPanicOrGoexit
+			err = errNilPanicOrGolangexit
 			for p := t.parent; p != nil; p = p.parent {
 				p.mu.RLock()
 				finished = p.finished
@@ -1815,7 +1815,7 @@ func tRunner(t *T, fn func(t *T)) {
 
 		if err != nil && t.tstate.isFuzzing {
 			prefix := "panic: "
-			if err == errNilPanicOrGoexit {
+			if err == errNilPanicOrGolangexit {
 				prefix = ""
 			}
 			t.Errorf("%s%s\n%s\n", prefix, err, string(debug.Stack()))
@@ -2000,7 +2000,7 @@ func (t *T) Run(name string, f func(t *T)) bool {
 	if !<-t.signal {
 		// At this point, it is likely that FailNow was called on one of the
 		// parent tests by one of the subtests. Continue aborting up the chain.
-		runtime.Goexit()
+		runtime.Golangexit()
 	}
 
 	if t.chatty != nil && t.chatty.json {
@@ -2043,7 +2043,7 @@ func testingSynctestTest(t *T, f func(*T)) {
 	if !<-t2.signal {
 		// At this point, it is likely that FailNow was called on one of the
 		// parent tests by one of the subtests. Continue aborting up the chain.
-		runtime.Goexit()
+		runtime.Golangexit()
 	}
 }
 
@@ -2203,7 +2203,7 @@ type testDeps interface {
 }
 
 // MainStart is meant for use by tests generated by 'golang test'.
-// It is not meant to be called directly and is not subject to the Go 1 compatibility document.
+// It is not meant to be called directly and is not subject to the Golang 1 compatibility document.
 // It may change signature from release to release.
 func MainStart(deps testDeps, tests []InternalTest, benchmarks []InternalBenchmark, fuzzTargets []InternalFuzzTarget, examples []InternalExample) *M {
 	registerCover(deps.InitRuntimeCoverage())
@@ -2250,7 +2250,7 @@ func (m *M) Run() (code int) {
 		// AAA to stdout and BBB to stderr simultaneously produces
 		// AAABBB or BBBAAA on the pipe, not something like AABBBA.
 		// However, the exception to this is when the pipe fills: in that
-		// case, Go's use of non-blocking I/O means that writing AAA
+		// case, Golang's use of non-blocking I/O means that writing AAA
 		// or BBB might be split across multiple system calls, making it
 		// entirely possible to get output like AABBBA. The same problem
 		// happens inside the operating system kernel if we switch to
@@ -2268,8 +2268,8 @@ func (m *M) Run() (code int) {
 		// test would think it could take over global state that way.
 		//
 		// This fix only helps programs where the output is coming directly
-		// from Go code. It does not help programs in which a subprocess is
-		// writing to stderr or stdout at the same time that a Go test is writing output.
+		// from Golang code. It does not help programs in which a subprocess is
+		// writing to stderr or stdout at the same time that a Golang test is writing output.
 		// It also does not help when the output is coming from the runtime,
 		// such as when using the print/println functions, since that code writes
 		// directly to fd 2 without any locking.
@@ -2636,7 +2636,7 @@ func toOutputDir(path string) string {
 	// On Windows, it's clumsy, but we can be almost always correct
 	// by just looking for a drive letter and a colon.
 	// Absolute paths always have a drive letter (ignoring UNC).
-	// Problem: if path == "C:A" and outputdir == "C:\Go" it's unclear
+	// Problem: if path == "C:A" and outputdir == "C:\Golang" it's unclear
 	// what to do, but even then path/filepath doesn't help.
 	// TODO: Worth doing better? Probably not, because we're here only
 	// under the management of golang test.

@@ -1,9 +1,9 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package dirhash defines hashes over directory trees.
-// These hashes are recorded in golang.sum files and in the Go checksum database,
+// These hashes are recorded in golang.sum files and in the Golang checksum database,
 // to allow verifying that a newly-downloaded module has the expected content.
 package dirhash
 

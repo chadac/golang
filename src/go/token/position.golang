@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -248,7 +248,7 @@ type lineInfo struct {
 }
 
 // AddLineInfo is like [File.AddLineColumnInfo] with a column = 1 argument.
-// It is here for backward-compatibility for code prior to Go 1.11.
+// It is here for backward-compatibility for code prior to Golang 1.11.
 func (f *File) AddLineInfo(offset int, filename string, line int) {
 	f.AddLineColumnInfo(offset, filename, line, 1)
 }

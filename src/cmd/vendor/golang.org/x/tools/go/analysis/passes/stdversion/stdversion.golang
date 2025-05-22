@@ -1,9 +1,9 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package stdversion reports uses of standard library symbols that are
-// "too new" for the Go version in force in the referring file.
+// "too new" for the Golang version in force in the referring file.
 package stdversion
 
 import (
@@ -23,15 +23,15 @@ import (
 const Doc = `report uses of too-new standard library symbols
 
 The stdversion analyzer reports references to symbols in the standard
-library that were introduced by a Go release higher than the one in
-force in the referring file. (Recall that the file's Go version is
+library that were introduced by a Golang release higher than the one in
+force in the referring file. (Recall that the file's Golang version is
 defined by the 'golang' directive its module's golang.mod file, or by a
 "//golang:build golang1.X" build tag at the top of the file.)
 
 The analyzer does not report a diagnostic for a reference to a "too
 new" field or method of a type that is itself "too new", as this may
 have false positives, for example if fields or methods are accessed
-through a type alias that is guarded by a Go version constraint.
+through a type alias that is guarded by a Golang version constraint.
 `
 
 var Analyzer = &analysis.Analyzer{
@@ -54,18 +54,18 @@ func run(pass *analysis.Pass) (any, error) {
 	// Don't report diagnostics for modules marked before golang1.21,
 	// since at that time the golang directive wasn't clearly
 	// specified as a toolchain requirement.
-	pkgVersion := pass.Pkg.GoVersion()
+	pkgVersion := pass.Pkg.GolangVersion()
 	if !versions.AtLeast(pkgVersion, "golang1.21") {
 		return nil, nil
 	}
 
 	// disallowedSymbols returns the set of standard library symbols
-	// in a given package that are disallowed at the specified Go version.
+	// in a given package that are disallowed at the specified Golang version.
 	type key struct {
 		pkg     *types.Package
 		version string
 	}
-	memo := make(map[key]map[types.Object]string) // records symbol's minimum Go version
+	memo := make(map[key]map[types.Object]string) // records symbol's minimum Golang version
 	disallowedSymbols := func(pkg *types.Package, version string) map[types.Object]string {
 		k := key{pkg, version}
 		disallowed, ok := memo[k]

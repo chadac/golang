@@ -1,4 +1,4 @@
-# Copyright 2020 The Go Authors. All rights reserved.
+# Copyright 2020 The Golang Authors. All rights reserved.
 # Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
@@ -50,17 +50,17 @@ RUN \
 	CC=clang-$ClangV CXX=clang++-$ClangV ./bootstrap && \
 	make && make install
 
-# Download, validate, unpack, and install Go.
+# Download, validate, unpack, and install Golang.
 ARG GOARCH
-ENV GoV=1.18.1
-ENV GoHamd64=b3b815f47ababac13810fc6021eb73d65478e0b2db4b09d348eefad9581a2334
-ENV GoHarm64=56a91851c97fb4697077abbca38860f735c32b38993ff79b088dac46e4735633
+ENV GolangV=1.18.1
+ENV GolangHamd64=b3b815f47ababac13810fc6021eb73d65478e0b2db4b09d348eefad9581a2334
+ENV GolangHarm64=56a91851c97fb4697077abbca38860f735c32b38993ff79b088dac46e4735633
 RUN \
-	eval GoH=\${GoH$GOARCH} && \
-	wget https://golanglang.org/dl/golang$GoV.linux-$GOARCH.tar.gz && \
-	echo "$GoH golang$GoV.linux-$GOARCH.tar.gz" >sha && sha256sum -c sha && \
-	tar -C /usr/local -xzf golang$GoV.linux-$GOARCH.tar.gz && \
-	rm golang$GoV.linux-$GOARCH.tar.gz && \
+	eval GolangH=\${GolangH$GOARCH} && \
+	wget https://golanglang.org/dl/golang$GolangV.linux-$GOARCH.tar.gz && \
+	echo "$GolangH golang$GolangV.linux-$GOARCH.tar.gz" >sha && sha256sum -c sha && \
+	tar -C /usr/local -xzf golang$GolangV.linux-$GOARCH.tar.gz && \
+	rm golang$GolangV.linux-$GOARCH.tar.gz && \
 	ln -s /usr/local/golang/bin/golang /usr/local/bin/
 
 # Download, validate, and unpack BoringCrypto.
@@ -75,7 +75,7 @@ RUN \
 ADD build-boring.sh /boring/build-boring.sh
 RUN /boring/build-boring.sh
 
-# Build Go BoringCrypto syso.
+# Build Golang BoringCrypto syso.
 # build.sh copies it back out of the Docker image.
 ADD golangboringcrypto.h /boring/golangdriver/golangboringcrypto.h
 ADD build-golangboring.sh /boring/build-golangboring.sh

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,8 +26,8 @@ var sigioCount int32
 
 // Catch SIGIO.
 //
-//export GoCatchSIGIO
-func GoCatchSIGIO() {
+//export GolangCatchSIGIO
+func GolangCatchSIGIO() {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGIO)
 	golang func() {
@@ -39,8 +39,8 @@ func GoCatchSIGIO() {
 
 // Raise SIGIO.
 //
-//export GoRaiseSIGIO
-func GoRaiseSIGIO(p *C.pthread_t) {
+//export GolangRaiseSIGIO
+func GolangRaiseSIGIO(p *C.pthread_t) {
 	C.CRaiseSIGIO(p)
 }
 

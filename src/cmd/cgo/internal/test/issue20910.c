@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -7,7 +7,7 @@
 #include <string.h>
 #include "_cgolang_export.h"
 
-/* Test calling a Go function with multiple return values.  */
+/* Test calling a Golang function with multiple return values.  */
 
 void
 callMulti(void)

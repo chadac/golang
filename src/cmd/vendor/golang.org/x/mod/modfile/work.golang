@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,9 +12,9 @@ import (
 
 // A WorkFile is the parsed, interpreted form of a golang.work file.
 type WorkFile struct {
-	Go        *Go
+	Golang        *Golang
 	Toolchain *Toolchain
-	Godebug   []*Godebug
+	Golangdebug   []*Golangdebug
 	Use       []*Use
 	Replace   []*Replace
 
@@ -109,13 +109,13 @@ func (f *WorkFile) Cleanup() {
 	f.Syntax.Cleanup()
 }
 
-func (f *WorkFile) AddGoStmt(version string) error {
-	if !GoVersionRE.MatchString(version) {
+func (f *WorkFile) AddGolangStmt(version string) error {
+	if !GolangVersionRE.MatchString(version) {
 		return fmt.Errorf("invalid language version %q", version)
 	}
-	if f.Go == nil {
+	if f.Golang == nil {
 		stmt := &Line{Token: []string{"golang", version}}
-		f.Go = &Go{
+		f.Golang = &Golang{
 			Version: version,
 			Syntax:  stmt,
 		}
@@ -129,8 +129,8 @@ func (f *WorkFile) AddGoStmt(version string) error {
 		}
 		f.Syntax.Stmt = append(append(f.Syntax.Stmt[:i:i], stmt), f.Syntax.Stmt[i:]...)
 	} else {
-		f.Go.Version = version
-		f.Syntax.updateLine(f.Go.Syntax, "golang", version)
+		f.Golang.Version = version
+		f.Syntax.updateLine(f.Golang.Syntax, "golang", version)
 	}
 	return nil
 }
@@ -169,11 +169,11 @@ func (f *WorkFile) AddToolchainStmt(name string) error {
 	return nil
 }
 
-// DropGoStmt deletes the golang statement from the file.
-func (f *WorkFile) DropGoStmt() {
-	if f.Go != nil {
-		f.Go.Syntax.markRemoved()
-		f.Go = nil
+// DropGolangStmt deletes the golang statement from the file.
+func (f *WorkFile) DropGolangStmt() {
+	if f.Golang != nil {
+		f.Golang.Syntax.markRemoved()
+		f.Golang = nil
 	}
 }
 
@@ -185,15 +185,15 @@ func (f *WorkFile) DropToolchainStmt() {
 	}
 }
 
-// AddGodebug sets the first golangdebug line for key to value,
+// AddGolangdebug sets the first golangdebug line for key to value,
 // preserving any existing comments for that line and removing all
 // other golangdebug lines for key.
 //
-// If no line currently exists for key, AddGodebug adds a new line
+// If no line currently exists for key, AddGolangdebug adds a new line
 // at the end of the last golangdebug block.
-func (f *WorkFile) AddGodebug(key, value string) error {
+func (f *WorkFile) AddGolangdebug(key, value string) error {
 	need := true
-	for _, g := range f.Godebug {
+	for _, g := range f.Golangdebug {
 		if g.Key == key {
 			if need {
 				g.Value = value
@@ -201,34 +201,34 @@ func (f *WorkFile) AddGodebug(key, value string) error {
 				need = false
 			} else {
 				g.Syntax.markRemoved()
-				*g = Godebug{}
+				*g = Golangdebug{}
 			}
 		}
 	}
 
 	if need {
-		f.addNewGodebug(key, value)
+		f.addNewGolangdebug(key, value)
 	}
 	return nil
 }
 
-// addNewGodebug adds a new golangdebug key=value line at the end
+// addNewGolangdebug adds a new golangdebug key=value line at the end
 // of the last golangdebug block, regardless of any existing golangdebug lines for key.
-func (f *WorkFile) addNewGodebug(key, value string) {
+func (f *WorkFile) addNewGolangdebug(key, value string) {
 	line := f.Syntax.addLine(nil, "golangdebug", key+"="+value)
-	g := &Godebug{
+	g := &Golangdebug{
 		Key:    key,
 		Value:  value,
 		Syntax: line,
 	}
-	f.Godebug = append(f.Godebug, g)
+	f.Golangdebug = append(f.Golangdebug, g)
 }
 
-func (f *WorkFile) DropGodebug(key string) error {
-	for _, g := range f.Godebug {
+func (f *WorkFile) DropGolangdebug(key string) error {
+	for _, g := range f.Golangdebug {
 		if g.Key == key {
 			g.Syntax.markRemoved()
-			*g = Godebug{}
+			*g = Golangdebug{}
 		}
 	}
 	return nil

@@ -1,9 +1,9 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package tlog implements a tamper-evident log
-// used in the Go module golang.sum database server.
+// used in the Golang module golang.sum database server.
 //
 // This package follows the design of Certificate Transparency (RFC 6962)
 // and its proofs are compatible with that system.
@@ -40,7 +40,7 @@ func (h *Hash) UnmarshalJSON(data []byte) error {
 		return errors.New("cannot decode hash")
 	}
 
-	// As of Go 1.12, base64.StdEncoding.Decode insists on
+	// As of Golang 1.12, base64.StdEncoding.Decode insists on
 	// slicing into target[33:] even when it only writes 32 bytes.
 	// Since we already checked that the hash ends in = above,
 	// we can use base64.RawStdEncoding with the = removed;

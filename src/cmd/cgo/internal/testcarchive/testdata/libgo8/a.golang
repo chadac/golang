@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,10 +24,10 @@ func init() {
 	}()
 }
 
-//export GoFunction8
-func GoFunction8() {
+//export GolangFunction8
+func GolangFunction8() {
 	for atomic.LoadInt32(&started) == 0 {
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 	os.Exit(0)
 }

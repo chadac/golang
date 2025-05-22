@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -46,7 +46,7 @@ struct ThreadStart
 extern void (*_cgolang_thread_start)(ThreadStart *ts);
 
 /*
- * Creates a new operating system thread without updating any Go state
+ * Creates a new operating system thread without updating any Golang state
  * (OS dependent).
  */
 extern void (*_cgolang_sys_thread_create)(void* (*func)(void*), void* arg);
@@ -62,7 +62,7 @@ extern uintptr_t *_cgolang_pthread_key_created;
 void _cgolang_sys_thread_start(ThreadStart *ts);
 
 /*
- * Waits for the Go runtime to be initialized (OS dependent).
+ * Waits for the Golang runtime to be initialized (OS dependent).
  * If runtime.SetCgolangTraceback is used to set a context function,
  * calls the context function and returns the context value.
  */
@@ -123,7 +123,7 @@ struct cgolangTracebackArg {
 
 // These must match the definitions in yesTsanProlog in cmd/cgolang/out.golang.
 // In general we should call _cgolang_tsan_acquire when we enter C code,
-// and call _cgolang_tsan_release when we return to Go code.
+// and call _cgolang_tsan_release when we return to Golang code.
 // This is only necessary when calling code that might be instrumented
 // by TSAN, which mostly means system library calls that TSAN intercepts.
 // See the comment in cmd/cgolang/out.golang for more details.

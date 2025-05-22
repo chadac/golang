@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -54,7 +54,7 @@ func compile(t *testing.T, dirname, filename, outdirname string, packagefiles ma
 		}
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-p", pkgpath, "-D", "testdata", "-importcfg", importcfgfile, "-o", outname, filename)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-p", pkgpath, "-D", "testdata", "-importcfg", importcfgfile, "-o", outname, filename)
 	cmd.Dir = dirname
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -90,7 +90,7 @@ func TestImportTestdata(t *testing.T) {
 		t.Skipf("gc-built packages not available (compiler = %s)", runtime.Compiler)
 	}
 
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	testfiles := map[string][]string{
 		"exports.golang":  {"golang/ast"},
@@ -127,7 +127,7 @@ func TestImportTestdata(t *testing.T) {
 }
 
 func TestVersionHandling(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
@@ -234,16 +234,16 @@ func TestImportStdLib(t *testing.T) {
 	if testing.Short() {
 		t.Skip("the imports can be expensive, and this test is especially slow when the build cache is empty")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
 		t.Skipf("gc-built packages not available (compiler = %s)", runtime.Compiler)
 	}
 
-	// Get list of packages in stdlib. Filter out test-only packages with {{if .GoFiles}} check.
+	// Get list of packages in stdlib. Filter out test-only packages with {{if .GolangFiles}} check.
 	var stderr bytes.Buffer
-	cmd := exec.Command(testenv.GoToolPath(t), "list", "-f", "{{if .GoFiles}}{{.ImportPath}}{{end}}", "std")
+	cmd := exec.Command(testenv.GolangToolPath(t), "list", "-f", "{{if .GolangFiles}}{{.ImportPath}}{{end}}", "std")
 	cmd.Stderr = &stderr
 	out, err := cmd.Output()
 	if err != nil {
@@ -292,7 +292,7 @@ var importedObjectTests = []struct {
 }
 
 func TestImportedTypes(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
@@ -372,7 +372,7 @@ func verifyInterfaceMethodRecvs(t *testing.T, named *types2.Named, level int) {
 }
 
 func TestIssue5815(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
@@ -401,7 +401,7 @@ func TestIssue5815(t *testing.T) {
 
 // Smoke test to ensure that imported methods get the correct package.
 func TestCorrectMethodPackage(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
@@ -423,7 +423,7 @@ func TestCorrectMethodPackage(t *testing.T) {
 }
 
 func TestIssue13566(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
@@ -461,7 +461,7 @@ func TestIssue13566(t *testing.T) {
 }
 
 func TestIssue13898(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
@@ -507,7 +507,7 @@ func TestIssue13898(t *testing.T) {
 }
 
 func TestIssue15517(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
@@ -539,7 +539,7 @@ func TestIssue15517(t *testing.T) {
 }
 
 func TestIssue15920(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
@@ -550,7 +550,7 @@ func TestIssue15920(t *testing.T) {
 }
 
 func TestIssue20046(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
@@ -565,7 +565,7 @@ func TestIssue20046(t *testing.T) {
 	}
 }
 func TestIssue25301(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
@@ -576,7 +576,7 @@ func TestIssue25301(t *testing.T) {
 }
 
 func TestIssue25596(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {
@@ -617,7 +617,7 @@ type importMap map[string]*types2.Package
 func (m importMap) Import(path string) (*types2.Package, error) { return m[path], nil }
 
 func TestIssue69912(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// This package only handles gc export data.
 	if runtime.Compiler != "gc" {

@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,7 +16,7 @@ import (
 func TestErrIsExist(t *testing.T) {
 	t.Parallel()
 
-	f, err := os.CreateTemp("", "_Go_ErrIsExist")
+	f, err := os.CreateTemp("", "_Golang_ErrIsExist")
 	if err != nil {
 		t.Fatalf("open ErrIsExist tempfile: %s", err)
 		return
@@ -148,12 +148,12 @@ func TestIsPermission(t *testing.T) {
 func TestErrPathNUL(t *testing.T) {
 	t.Parallel()
 
-	f, err := os.CreateTemp("", "_Go_ErrPathNUL\x00")
+	f, err := os.CreateTemp("", "_Golang_ErrPathNUL\x00")
 	if err == nil {
 		f.Close()
 		t.Fatal("TempFile should have failed")
 	}
-	f, err = os.CreateTemp("", "_Go_ErrPathNUL")
+	f, err = os.CreateTemp("", "_Golang_ErrPathNUL")
 	if err != nil {
 		t.Fatalf("open ErrPathNUL tempfile: %s", err)
 	}

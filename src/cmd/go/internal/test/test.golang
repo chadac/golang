@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -51,7 +51,7 @@ var CmdTest = &base.Command{
 	UsageLine:   testUsage,
 	Short:       "test packages",
 	Long: `
-'Go test' automates testing the packages named by the import paths.
+'Golang test' automates testing the packages named by the import paths.
 It prints a summary of the test results in the format:
 
 	ok   archive/tar   0.011s
@@ -61,7 +61,7 @@ It prints a summary of the test results in the format:
 
 followed by detailed output for each failed package.
 
-'Go test' recompiles each package along with any files with names matching
+'Golang test' recompiles each package along with any files with names matching
 the file pattern "*_test.golang".
 These additional files can contain test functions, benchmark functions, fuzz
 tests and example functions. See 'golang help testfunc' for more.
@@ -93,7 +93,7 @@ The golang command places $GOROOT/bin at the beginning of $PATH
 in the test's environment, so that tests that execute
 'golang' commands use the same 'golang' as the parent 'golang test' command.
 
-Go test runs in two different modes:
+Golang test runs in two different modes:
 
 The first, called local directory mode, occurs when golang test is
 invoked with no package arguments (for example, 'golang test' or 'golang
@@ -316,7 +316,7 @@ control the execution of any test:
 	-short
 	    Tell long-running tests to shorten their run time.
 	    It is off by default but set during all.bash so that installing
-	    the Go tree can run a sanity check but not spend time running
+	    the Golang tree can run a sanity check but not spend time running
 	    exhaustive tests.
 
 	-shuffle off,on,N
@@ -503,7 +503,7 @@ comment, however the order of the lines is ignored. An example with no such
 comment is compiled but not executed. An example with no text after
 "Output:" is compiled, executed, and expected to produce no output.
 
-Godoc displays the body of ExampleXxx to demonstrate the use
+Golangdoc displays the body of ExampleXxx to demonstrate the use
 of the function, constant, or variable Xxx. An example of a method M with
 receiver type T or *T is named ExampleT_M. There may be multiple examples
 for a given function, constant, or variable, distinguished by a trailing _xxx,
@@ -712,8 +712,8 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	if testFuzz != "" {
-		if !platform.FuzzSupported(cfg.Goos, cfg.Goarch) {
-			base.Fatalf("-fuzz flag is not supported on %s/%s", cfg.Goos, cfg.Goarch)
+		if !platform.FuzzSupported(cfg.Golangos, cfg.Golangarch) {
+			base.Fatalf("-fuzz flag is not supported on %s/%s", cfg.Golangos, cfg.Golangarch)
 		}
 		if len(pkgs) != 1 {
 			base.Fatalf("cannot use -fuzz flag with multiple packages")
@@ -740,18 +740,18 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 			// they are only treated as part of a module in 'golang mod' subcommands and
 			// 'golang get'. However, we still don't want to accidentally corrupt their
 			// testdata during fuzzing, nor do we want to fail with surprising errors
-			// if GOROOT isn't writable (as is often the case for Go toolchains
+			// if GOROOT isn't writable (as is often the case for Golang toolchains
 			// installed through package managers).
 			//
 			// If the user is requesting to fuzz a standard-library package, ensure
 			// that they are in the same module as that package (just like when
 			// fuzzing any other package).
 			if strings.HasPrefix(pkgs[0].ImportPath, "cmd/") {
-				if !mainMods.Contains("cmd") || !mainMods.InGorootSrc(module.Version{Path: "cmd"}) {
+				if !mainMods.Contains("cmd") || !mainMods.InGolangrootSrc(module.Version{Path: "cmd"}) {
 					base.Fatalf("cannot use -fuzz flag on package outside the main module")
 				}
 			} else {
-				if !mainMods.Contains("std") || !mainMods.InGorootSrc(module.Version{Path: "std"}) {
+				if !mainMods.Contains("std") || !mainMods.InGolangrootSrc(module.Version{Path: "std"}) {
 					base.Fatalf("cannot use -fuzz flag on package outside the main module")
 				}
 			}
@@ -985,7 +985,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 			// later package. Note that if -coverpkg is in effect
 			// p.Internal.Cover.GenMeta will wind up being set for
 			// all matching packages.
-			if len(p.TestGoFiles)+len(p.XTestGoFiles) == 0 && cfg.BuildCoverPkg == nil {
+			if len(p.TestGolangFiles)+len(p.XTestGolangFiles) == 0 && cfg.BuildCoverPkg == nil {
 				p.Internal.Cover.GenMeta = true
 			}
 		}
@@ -1090,7 +1090,7 @@ var windowsBadWords = []string{
 }
 
 func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts, p *load.Package, imported bool, writeCoverMetaAct *work.Action) (buildAction, runAction, printAction *work.Action, perr *load.Package, err error) {
-	if len(p.TestGoFiles)+len(p.XTestGoFiles) == 0 {
+	if len(p.TestGolangFiles)+len(p.XTestGolangFiles) == 0 {
 		if cfg.BuildCover {
 			if p.Internal.Cover.GenMeta {
 				p.Internal.Cover.Mode = cfg.BuildCoverMode
@@ -1179,7 +1179,7 @@ func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts,
 	if !cfg.BuildN {
 		// writeTestmain writes _testmain.golang,
 		// using the test description gathered in t.
-		if err := os.WriteFile(testDir+"_testmain.golang", *pmain.Internal.TestmainGo, 0666); err != nil {
+		if err := os.WriteFile(testDir+"_testmain.golang", *pmain.Internal.TestmainGolang, 0666); err != nil {
 			return nil, nil, nil, nil, err
 		}
 	}
@@ -1190,7 +1190,7 @@ func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts,
 
 	a := b.LinkAction(work.ModeBuild, work.ModeBuild, pmain)
 	a.Target = testDir + testBinary + cfg.ExeSuffix
-	if cfg.Goos == "windows" {
+	if cfg.Golangos == "windows" {
 		// There are many reserved words on Windows that,
 		// if used in the name of an executable, cause Windows
 		// to try to ask for extra permissions.
@@ -1200,7 +1200,7 @@ func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts,
 		// golang.codereview/patch tests.
 		// For package names containing those words, use test.test.exe
 		// instead of pkgname.test.exe.
-		// Note that this file name is only used in the Go command's
+		// Note that this file name is only used in the Golang command's
 		// temporary directory. If the -c or other flags are
 		// given, the code below will still use pkgname.test.exe.
 		// There are two user-visible effects of this change.
@@ -1313,7 +1313,7 @@ func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts,
 		}
 	}
 
-	if len(ptest.GoFiles)+len(ptest.CgolangFiles) > 0 {
+	if len(ptest.GolangFiles)+len(ptest.CgolangFiles) > 0 {
 		addTestVet(b, ptest, vetRunAction, installAction)
 	}
 	if pxtest != nil {
@@ -1426,7 +1426,7 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 	// set to 1, and if we're displaying all output (testShowPass), we can
 	// hurry the output along, echoing it as soon as it comes in.
 	// We still have to copy to &buf for caching the result. This special
-	// case was introduced in Go 1.5 and is intentionally undocumented:
+	// case was introduced in Golang 1.5 and is intentionally undocumented:
 	// the exact details of output buffering are up to the golang command and
 	// subject to change. It would be nice to remove this special case
 	// entirely, but it is surely very helpful to see progress being made
@@ -1484,7 +1484,7 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 		return nil
 	}
 
-	if p := a.Package; len(p.TestGoFiles)+len(p.XTestGoFiles) == 0 {
+	if p := a.Package; len(p.TestGolangFiles)+len(p.XTestGolangFiles) == 0 {
 		reportNoTestFiles := true
 		if cfg.BuildCover && p.Internal.Cover.GenMeta {
 			if err := sh.Mkdir(a.Objdir); err != nil {

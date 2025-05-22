@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -125,7 +125,7 @@ func InitConfig() {
 	ir.Syms.GCWriteBarrier[5] = typecheck.LookupRuntimeFunc("gcWriteBarrier6")
 	ir.Syms.GCWriteBarrier[6] = typecheck.LookupRuntimeFunc("gcWriteBarrier7")
 	ir.Syms.GCWriteBarrier[7] = typecheck.LookupRuntimeFunc("gcWriteBarrier8")
-	ir.Syms.Goschedguarded = typecheck.LookupRuntimeFunc("golangschedguarded")
+	ir.Syms.Golangschedguarded = typecheck.LookupRuntimeFunc("golangschedguarded")
 	ir.Syms.Growslice = typecheck.LookupRuntimeFunc("growslice")
 	ir.Syms.InterfaceSwitch = typecheck.LookupRuntimeFunc("interfaceSwitch")
 	ir.Syms.MallocGC = typecheck.LookupRuntimeFunc("mallocgc")
@@ -417,7 +417,7 @@ func buildssa(fn *ir.Func, worker int, isPgolangHot bool) *ssa.Func {
 		s.hasOpenDefers = false
 	case s.hasOpenDefers && (base.Ctxt.Flag_shared || base.Ctxt.Flag_dynlink) && base.Ctxt.Arch.Name == "386":
 		// Don't support open-coded defers for 386 ONLY when using shared
-		// libraries, because there is extra code (added by rewriteToUseGot())
+		// libraries, because there is extra code (added by rewriteToUseGolangt())
 		// preceding the deferreturn/ret code that we don't track correctly.
 		//
 		// TODO this restriction can be removed given adjusted offset in computeDeferReturn in cmd/link/internal/ld/pcln.golang
@@ -1528,12 +1528,12 @@ func (s *state) move(t *types.Type, dst, src *ssa.Value) {
 func (s *state) moveWhichMayOverlap(t *types.Type, dst, src *ssa.Value, mayOverlap bool) {
 	s.instrumentMove(t, dst, src)
 	if mayOverlap && t.IsArray() && t.NumElem() > 1 && !ssa.IsInlinableMemmove(dst, src, t.Size(), s.f.Config) {
-		// Normally, when moving Go values of type T from one location to another,
+		// Normally, when moving Golang values of type T from one location to another,
 		// we don't need to worry about partial overlaps. The two Ts must either be
 		// in disjoint (nonoverlapping) memory or in exactly the same location.
 		// There are 2 cases where this isn't true:
 		//  1) Using unsafe you can arrange partial overlaps.
-		//  2) Since Go 1.17, you can use a cast from a slice to a ptr-to-array.
+		//  2) Since Golang 1.17, you can use a cast from a slice to a ptr-to-array.
 		//     https://golang.dev/ref/spec#Conversions_from_slice_to_array_pointer
 		//     This feature can be used to construct partial overlaps of array types.
 		//       var a [3]int
@@ -1625,7 +1625,7 @@ func (s *state) stmt(n ir.Node) {
 			}
 		}
 	case ir.ODEFER:
-		n := n.(*ir.GoDeferStmt)
+		n := n.(*ir.GolangDeferStmt)
 		if base.Debug.Defer > 0 {
 			var defertype string
 			if s.hasOpenDefers {
@@ -1647,8 +1647,8 @@ func (s *state) stmt(n ir.Node) {
 			s.call(n.Call.(*ir.CallExpr), d, false, n.DeferAt)
 		}
 	case ir.OGO:
-		n := n.(*ir.GoDeferStmt)
-		s.callResult(n.Call.(*ir.CallExpr), callGo)
+		n := n.(*ir.GolangDeferStmt)
+		s.callResult(n.Call.(*ir.CallExpr), callGolang)
 
 	case ir.OAS2DOTTYPE:
 		n := n.(*ir.AssignListStmt)
@@ -1708,7 +1708,7 @@ func (s *state) stmt(n ir.Node) {
 			lab.target = s.f.NewBlock(ssa.BlockPlain)
 		}
 
-		// Go to that label.
+		// Golang to that label.
 		// (We pretend "label:" is preceded by "golangto label", unless the predecessor is unreachable.)
 		if s.curBlock != nil {
 			b := s.endBlock()
@@ -2831,7 +2831,7 @@ func (s *state) conv(n ir.Node, v *ssa.Value, ft, tt *types.Type) *ssa.Value {
 	}
 
 	if tt.IsComplex() { // and ft is not complex
-		// Needed for generics support - can't happen in normal Go code.
+		// Needed for generics support - can't happen in normal Golang code.
 		et := types.FloatForComplex(tt)
 		v = s.conv(n, v, ft, et)
 		return s.newValue2(ssa.OpComplexMake, tt, v, s.zeroVal(et))
@@ -4360,7 +4360,7 @@ const (
 	callNormal callKind = iota
 	callDefer
 	callDeferStack
-	callGo
+	callGolang
 	callTail
 )
 
@@ -4816,7 +4816,7 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 			}
 			aux := ssa.StaticAuxCall(sym, s.f.ABIDefault.ABIAnalyzeTypes(ACArgs, ACResults)) // TODO paramResultInfo for Deferproc(at)
 			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
-		case k == callGo:
+		case k == callGolang:
 			aux := ssa.StaticAuxCall(ir.Syms.Newproc, s.f.ABIDefault.ABIAnalyzeTypes(ACArgs, ACResults))
 			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux) // TODO paramResultInfo for Newproc
 		case closure != nil:
@@ -4893,7 +4893,7 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 // maybeNilCheckClosure checks if a nil check of a closure is needed in some
 // architecture-dependent situations and, if so, emits the nil check.
 func (s *state) maybeNilCheckClosure(closure *ssa.Value, k callKind) {
-	if Arch.LinkArch.Family == sys.Wasm || buildcfg.GOOS == "aix" && k != callGo {
+	if Arch.LinkArch.Family == sys.Wasm || buildcfg.GOOS == "aix" && k != callGolang {
 		// On AIX, the closure needs to be verified as fn can be nil, except if it's a call golang. This needs to be handled by the runtime to have the "golang of nil func value" error.
 		// TODO(neelance): On other architectures this should be eliminated by the optimization steps
 		s.nilCheck(closure)
@@ -5130,7 +5130,7 @@ func (s *state) boundsCheck(idx, len *ssa.Value, kind ssa.BoundsKind, bounded bo
 		//
 		// Here, bounded == true if the compiler generated the index itself,
 		// such as in the expansion of a slice initializer. These indexes are
-		// compiler-generated, not Go program variables, so they cannot be
+		// compiler-generated, not Golang program variables, so they cannot be
 		// attacker-controlled, so we can omit Spectre masking as well.
 		//
 		// Note that we do not want to omit Spectre masking in code like:
@@ -7655,7 +7655,7 @@ func (e *ssafn) UseWriteBarrier() bool {
 func (e *ssafn) Syslook(name string) *obj.LSym {
 	switch name {
 	case "golangschedguarded":
-		return ir.Syms.Goschedguarded
+		return ir.Syms.Golangschedguarded
 	case "writeBarrier":
 		return ir.Syms.WriteBarrier
 	case "wbZero":

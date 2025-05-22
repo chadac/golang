@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -363,7 +363,7 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 
 	// drain1 removes one potential stale time value
 	// from the timer/ticker channel after Reset.
-	// When using Go 1.23 sync timers/tickers, draining is never needed
+	// When using Golang 1.23 sync timers/tickers, draining is never needed
 	// (that's the whole point of the sync timer/ticker change).
 	drain1 := func() {
 		for range drainTries {
@@ -377,7 +377,7 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 	}
 
 	// drainAsync removes potential stale time values after Stop/Reset.
-	// When using Go 1 async timers, draining one or two values
+	// When using Golang 1 async timers, draining one or two values
 	// may be needed after Reset or Stop (see comments in body for details).
 	drainAsync := func() {
 		if synctimerchan {
@@ -649,7 +649,7 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 }
 
 func TestManualTicker(t *testing.T) {
-	// Code should not do this, but some old code dating to Go 1.9 does.
+	// Code should not do this, but some old code dating to Golang 1.9 does.
 	// Make sure this doesn't crash.
 	// See golang.dev/issue/21874.
 	c := make(chan Time)

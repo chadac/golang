@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ type procGenerator struct {
 	stackSampleGenerator[trace.ProcID]
 	logEventGenerator[trace.ProcID]
 
-	gStates   map[trace.GoID]*gState[trace.ProcID]
+	gStates   map[trace.GolangID]*gState[trace.ProcID]
 	inSyscall map[trace.ProcID]*gState[trace.ProcID]
 	maxProc   trace.ProcID
 }
@@ -32,7 +32,7 @@ func newProcGenerator() *procGenerator {
 	}
 	pg.stackSampleGenerator.getResource = rg
 	pg.logEventGenerator.getResource = rg
-	pg.gStates = make(map[trace.GoID]*gState[trace.ProcID])
+	pg.gStates = make(map[trace.GolangID]*gState[trace.ProcID])
 	pg.inSyscall = make(map[trace.ProcID]*gState[trace.ProcID])
 	return pg
 }
@@ -42,27 +42,27 @@ func (g *procGenerator) Sync() {
 	g.procRangeGenerator.Sync()
 }
 
-func (g *procGenerator) GoroutineLabel(ctx *traceContext, ev *trace.Event) {
+func (g *procGenerator) GolangroutineLabel(ctx *traceContext, ev *trace.Event) {
 	l := ev.Label()
-	g.gStates[l.Resource.Goroutine()].setLabel(l.Label)
+	g.gStates[l.Resource.Golangroutine()].setLabel(l.Label)
 }
 
-func (g *procGenerator) GoroutineRange(ctx *traceContext, ev *trace.Event) {
+func (g *procGenerator) GolangroutineRange(ctx *traceContext, ev *trace.Event) {
 	r := ev.Range()
 	switch ev.Kind() {
 	case trace.EventRangeBegin:
-		g.gStates[r.Scope.Goroutine()].rangeBegin(ev.Time(), r.Name, ev.Stack())
+		g.gStates[r.Scope.Golangroutine()].rangeBegin(ev.Time(), r.Name, ev.Stack())
 	case trace.EventRangeActive:
-		g.gStates[r.Scope.Goroutine()].rangeActive(r.Name)
+		g.gStates[r.Scope.Golangroutine()].rangeActive(r.Name)
 	case trace.EventRangeEnd:
-		gs := g.gStates[r.Scope.Goroutine()]
+		gs := g.gStates[r.Scope.Golangroutine()]
 		gs.rangeEnd(ev.Time(), r.Name, ev.Stack(), ctx)
 	}
 }
 
-func (g *procGenerator) GoroutineTransition(ctx *traceContext, ev *trace.Event) {
+func (g *procGenerator) GolangroutineTransition(ctx *traceContext, ev *trace.Event) {
 	st := ev.StateTransition()
-	golangID := st.Resource.Goroutine()
+	golangID := st.Resource.Golangroutine()
 
 	// If we haven't seen this golangroutine before, create a new
 	// gState for it.
@@ -75,64 +75,64 @@ func (g *procGenerator) GoroutineTransition(ctx *traceContext, ev *trace.Event) 
 	gs.augmentName(st.Stack)
 
 	// Handle the golangroutine state transition.
-	from, to := st.Goroutine()
+	from, to := st.Golangroutine()
 	if from == to {
 		// Filter out no-op events.
 		return
 	}
-	if from == trace.GoRunning && !to.Executing() {
-		if to == trace.GoWaiting {
-			// Goroutine started blocking.
+	if from == trace.GolangRunning && !to.Executing() {
+		if to == trace.GolangWaiting {
+			// Golangroutine started blocking.
 			gs.block(ev.Time(), ev.Stack(), st.Reason, ctx)
 		} else {
 			gs.stop(ev.Time(), ev.Stack(), ctx)
 		}
 	}
-	if !from.Executing() && to == trace.GoRunning {
+	if !from.Executing() && to == trace.GolangRunning {
 		start := ev.Time()
-		if from == trace.GoUndetermined {
+		if from == trace.GolangUndetermined {
 			// Back-date the event to the start of the trace.
 			start = ctx.startTime
 		}
 		gs.start(start, ev.Proc(), ctx)
 	}
 
-	if from == trace.GoWaiting {
-		// Goroutine was unblocked.
+	if from == trace.GolangWaiting {
+		// Golangroutine was unblocked.
 		gs.unblock(ev.Time(), ev.Stack(), ev.Proc(), ctx)
 	}
-	if from == trace.GoNotExist && to == trace.GoRunnable {
-		// Goroutine was created.
+	if from == trace.GolangNotExist && to == trace.GolangRunnable {
+		// Golangroutine was created.
 		gs.created(ev.Time(), ev.Proc(), ev.Stack())
 	}
-	if from == trace.GoSyscall && to != trace.GoRunning {
-		// Goroutine exited a blocked syscall.
+	if from == trace.GolangSyscall && to != trace.GolangRunning {
+		// Golangroutine exited a blocked syscall.
 		gs.blockedSyscallEnd(ev.Time(), ev.Stack(), ctx)
 	}
 
 	// Handle syscalls.
-	if to == trace.GoSyscall && ev.Proc() != trace.NoProc {
+	if to == trace.GolangSyscall && ev.Proc() != trace.NoProc {
 		start := ev.Time()
-		if from == trace.GoUndetermined {
+		if from == trace.GolangUndetermined {
 			// Back-date the event to the start of the trace.
 			start = ctx.startTime
 		}
 		// Write down that we've entered a syscall. Note: we might have no P here
-		// if we're in a cgolang callback or this is a transition from GoUndetermined
+		// if we're in a cgolang callback or this is a transition from GolangUndetermined
 		// (i.e. the G has been blocked in a syscall).
 		gs.syscallBegin(start, ev.Proc(), ev.Stack())
 		g.inSyscall[ev.Proc()] = gs
 	}
 	// Check if we're exiting a non-blocking syscall.
 	_, didNotBlock := g.inSyscall[ev.Proc()]
-	if from == trace.GoSyscall && didNotBlock {
+	if from == trace.GolangSyscall && didNotBlock {
 		gs.syscallEnd(ev.Time(), false, ctx)
 		delete(g.inSyscall, ev.Proc())
 	}
 
 	// Note down the golangroutine transition.
 	_, inMarkAssist := gs.activeRanges["GC mark assist"]
-	ctx.GoroutineTransition(ctx.elapsed(ev.Time()), viewerGState(from, inMarkAssist), viewerGState(to, inMarkAssist))
+	ctx.GolangroutineTransition(ctx.elapsed(ev.Time()), viewerGState(from, inMarkAssist), viewerGState(to, inMarkAssist))
 }
 
 func (g *procGenerator) ProcTransition(ctx *traceContext, ev *trace.Event) {

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -191,9 +191,9 @@ func deepValueEqual(v1, v2 Value, visited map[visit]bool) bool {
 // Map values are deeply equal when all of the following are true:
 // they are both nil or both non-nil, they have the same length,
 // and either they are the same map object or their corresponding keys
-// (matched using Go equality) map to deeply equal values.
+// (matched using Golang equality) map to deeply equal values.
 //
-// Pointer values are deeply equal if they are equal using Go's == operator
+// Pointer values are deeply equal if they are equal using Golang's == operator
 // or if they point to deeply equal values.
 //
 // Slice values are deeply equal when all of the following are true:
@@ -204,9 +204,9 @@ func deepValueEqual(v1, v2 Value, visited map[visit]bool) bool {
 // are not deeply equal.
 //
 // Other values - numbers, bools, strings, and channels - are deeply equal
-// if they are equal using Go's == operator.
+// if they are equal using Golang's == operator.
 //
-// In general DeepEqual is a recursive relaxation of Go's == operator.
+// In general DeepEqual is a recursive relaxation of Golang's == operator.
 // However, this idea is impossible to implement without some inconsistency.
 // Specifically, it is possible for a value to be unequal to itself,
 // either because it is of func type (uncomparable in general)
@@ -215,7 +215,7 @@ func deepValueEqual(v1, v2 Value, visited map[visit]bool) bool {
 // such a value.
 // On the other hand, pointer values are always equal to themselves,
 // even if they point at or contain such problematic values,
-// because they compare equal using Go's == operator, and that
+// because they compare equal using Golang's == operator, and that
 // is a sufficient condition to be deeply equal, regardless of content.
 // DeepEqual has been defined so that the same short-cut applies
 // to slices and maps: if x and y are the same slice or the same map,

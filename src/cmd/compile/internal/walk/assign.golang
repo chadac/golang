@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -86,7 +86,7 @@ func walkAssign(init *ir.Nodes, n ir.Node) ir.Node {
 		// x = append(...)
 		call := as.Y.(*ir.CallExpr)
 		if call.Type().Elem().NotInHeap() {
-			base.Errorf("%v can't be allocated in Go; it is incomplete (or unallocatable)", call.Type().Elem())
+			base.Errorf("%v can't be allocated in Golang; it is incomplete (or unallocatable)", call.Type().Elem())
 		}
 		var r ir.Node
 		switch {

@@ -48,7 +48,7 @@ stdout 'ok  	m/t'
 # Finally, this one is a non-import-cycle load error that
 # is produced for the package under test.
 ! golang test -o=$devnull . ./t
-stderr '# \.\n.*no Go files in '$PWD'$'
+stderr '# \.\n.*no Golang files in '$PWD'$'
 stdout 'FAIL	. \[setup failed\]'
 stdout 'ok  	m/t'
 
@@ -60,7 +60,7 @@ package t
 
 import "testing"
 
-func TestGood(t *testing.T) {}
+func TestGolangod(t *testing.T) {}
 -- t1/p/p_test.golang --
 package p
 

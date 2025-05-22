@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -118,11 +118,11 @@ init_working_dir()
 	}
 
 	// The test harness in golang_ios_exec passes the relative working directory
-	// in the GoExecWrapperWorkingDirectory property of the app bundle.
-	wd_ref = CFBundleGetValueForInfoDictionaryKey(bundle, CFSTR("GoExecWrapperWorkingDirectory"));
+	// in the GolangExecWrapperWorkingDirectory property of the app bundle.
+	wd_ref = CFBundleGetValueForInfoDictionaryKey(bundle, CFSTR("GolangExecWrapperWorkingDirectory"));
 	if (wd_ref != NULL) {
 		if (!CFStringGetCString(wd_ref, buf, sizeof(buf), kCFStringEncodingUTF8)) {
-			fprintf(stderr, "runtime/cgolang: cannot get GoExecWrapperWorkingDirectory string\n");
+			fprintf(stderr, "runtime/cgolang: cannot get GolangExecWrapperWorkingDirectory string\n");
 			return;
 		}
 		if (chdir(buf) != 0) {

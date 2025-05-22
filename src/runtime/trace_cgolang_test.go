@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,7 +26,7 @@ func TestTraceUnwindCGO(t *testing.T) {
 	if *flagQuick {
 		t.Skip("-quick")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	if runtime.GOOS == "freebsd" && race.Enabled {
 		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}

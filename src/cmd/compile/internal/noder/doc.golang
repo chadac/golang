@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -35,7 +35,7 @@ determines its index in the series.
 
 # Sections
 A section is a series of elements of a type determined by the section's
-kind. Go constructs are mapped onto (potentially multiple) elements.
+kind. Golang constructs are mapped onto (potentially multiple) elements.
 Elements are accessed using an index relative to the start of the
 section.
 

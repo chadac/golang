@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,27 +6,27 @@
 
 void use(int *x) { (*x)++; }
 
-void callGoFWithDeepStack(int p) {
+void callGolangFWithDeepStack(int p) {
 	int x[10000];
 
 	use(&x[0]);
 	use(&x[9999]);
 
-	GoF(p);
+	GolangF(p);
 
 	use(&x[0]);
 	use(&x[9999]);
 }
 
-void callGoWithVariousStack(int p) {
-	GoF(0);                  // call GoF without using much stack
-	callGoFWithDeepStack(p); // call GoF with a deep stack
-	GoF(0);                  // again on a shallow stack
+void callGolangWithVariousStack(int p) {
+	GolangF(0);                  // call GolangF without using much stack
+	callGolangFWithDeepStack(p); // call GolangF with a deep stack
+	GolangF(0);                  // again on a shallow stack
 }
 
 int main() {
-	callGoWithVariousStack(0);
+	callGolangWithVariousStack(0);
 
-	callGoWithVariousStackAndGoFrame(0); // normal execution
-	callGoWithVariousStackAndGoFrame(1); // panic and recover
+	callGolangWithVariousStackAndGolangFrame(0); // normal execution
+	callGolangWithVariousStackAndGolangFrame(1); // panic and recover
 }

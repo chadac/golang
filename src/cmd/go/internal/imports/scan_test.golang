@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ import (
 )
 
 func TestScan(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	imports, testImports, err := ScanDir(filepath.Join(testenv.GOROOT(t), "src/cmd/golang/internal/imports/testdata/test"), Tags())
 	if err != nil {
@@ -54,7 +54,7 @@ func TestScan(t *testing.T) {
 	}
 }
 func TestScanDir(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	dirs, err := os.ReadDir("testdata")
 	if err != nil {

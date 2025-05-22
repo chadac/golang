@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -256,7 +256,7 @@ func TestScavengedBitsCleared(t *testing.T) {
 		t.Errorf("uncleared scavenged bits")
 		for _, m := range mismatches[:n] {
 			t.Logf("\t@ address 0x%x", m.Base)
-			t.Logf("\t|  golangt: %064b", m.Got)
+			t.Logf("\t|  golangt: %064b", m.Golangt)
 			t.Logf("\t| want: %064b", m.Want)
 		}
 		t.FailNow()
@@ -368,7 +368,7 @@ func BenchmarkMallocLargeStruct(b *testing.B) {
 
 var n = flag.Int("n", 1000, "number of golangroutines")
 
-func BenchmarkGoroutineSelect(b *testing.B) {
+func BenchmarkGolangroutineSelect(b *testing.B) {
 	quit := make(chan struct{})
 	read := func(ch chan struct{}) {
 		for {
@@ -385,7 +385,7 @@ func BenchmarkGoroutineSelect(b *testing.B) {
 	benchHelper(b, *n, read)
 }
 
-func BenchmarkGoroutineBlocking(b *testing.B) {
+func BenchmarkGolangroutineBlocking(b *testing.B) {
 	read := func(ch chan struct{}) {
 		for {
 			if _, ok := <-ch; !ok {
@@ -396,7 +396,7 @@ func BenchmarkGoroutineBlocking(b *testing.B) {
 	benchHelper(b, *n, read)
 }
 
-func BenchmarkGoroutineForRange(b *testing.B) {
+func BenchmarkGolangroutineForRange(b *testing.B) {
 	read := func(ch chan struct{}) {
 		for range ch {
 		}
@@ -432,7 +432,7 @@ func benchHelper(b *testing.B, n int, read func(chan struct{})) {
 	time.Sleep(10 * time.Millisecond)
 }
 
-func BenchmarkGoroutineIdle(b *testing.B) {
+func BenchmarkGolangroutineIdle(b *testing.B) {
 	quit := make(chan struct{})
 	fn := func() {
 		<-quit

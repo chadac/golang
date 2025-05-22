@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@
 // using the one provided by x/sys/unix to avoid having
 // the dependency between them. (See golanglang.org/issue/32102)
 // Moreover, this file will be used during the building of
-// gccgolang's libgolang and thus must not used a CGo method.
+// gccgolang's libgolang and thus must not used a CGolang method.
 
 //golang:build aix && gccgolang
 

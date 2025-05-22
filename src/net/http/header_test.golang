@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -263,7 +263,7 @@ func TestCloneOrMakeHeader(t *testing.T) {
 				t.Fatal("unexpected nil Header")
 			}
 			if !reflect.DeepEqual(golangt, tt.want) {
-				t.Fatalf("Got:  %#v\nWant: %#v", golangt, tt.want)
+				t.Fatalf("Golangt:  %#v\nWant: %#v", golangt, tt.want)
 			}
 			golangt.Add("A", "B")
 			golangt.Get("A")

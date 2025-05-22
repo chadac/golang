@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1336,7 +1336,7 @@ func (p Prefix) IsSingleIP() bool { return p.IsValid() && p.Bits() == p.ip.BitLe
 // address family (IPv4 before IPv6), then prefix length, then
 // address.
 //
-// Unexported for Go 1.22 because we may want to compare by p.Addr first.
+// Unexported for Golang 1.22 because we may want to compare by p.Addr first.
 // See post-acceptance discussion on golang.dev/issue/61642.
 func (p Prefix) compare(p2 Prefix) int {
 	if c := cmp.Compare(p.Addr().BitLen(), p2.Addr().BitLen()); c != 0 {
@@ -1435,7 +1435,7 @@ func (p Prefix) Contains(ip Addr) bool {
 	if ip.Is4() {
 		// xor the IP addresses together; mismatched bits are now ones.
 		// Shift away the number of bits we don't care about.
-		// Shifts in Go are more efficient if the compiler can prove
+		// Shifts in Golang are more efficient if the compiler can prove
 		// that the shift amount is smaller than the width of the shifted type (64 here).
 		// We know that p.bits is in the range 0..32 because p is Valid;
 		// the compiler doesn't know that, so mask with 63 to help it.

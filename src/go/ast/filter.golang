@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ func exportFilter(name string) bool {
 	return IsExported(name)
 }
 
-// FileExports trims the AST for a Go source file in place such that
+// FileExports trims the AST for a Golang source file in place such that
 // only exported nodes remain: all top-level identifiers which are not exported
 // and their associated information (such as type, initial value, or function
 // body) are removed. Non-exported fields and methods of exported types are
@@ -28,7 +28,7 @@ func FileExports(src *File) bool {
 	return filterFile(src, exportFilter, true)
 }
 
-// PackageExports trims the AST for a Go package in place such that
+// PackageExports trims the AST for a Golang package in place such that
 // only exported nodes remain. The pkg.Files list is not changed, so that
 // file names and top-level package comments don't get lost.
 //
@@ -220,7 +220,7 @@ func filterSpecList(list []Spec, f Filter, export bool) []Spec {
 	return list[0:j]
 }
 
-// FilterDecl trims the AST for a Go declaration in place by removing
+// FilterDecl trims the AST for a Golang declaration in place by removing
 // all names (including struct field and interface method names, but
 // not from parameter lists) that don't pass through the filter f.
 //
@@ -241,7 +241,7 @@ func filterDecl(decl Decl, f Filter, export bool) bool {
 	return false
 }
 
-// FilterFile trims the AST for a Go file in place by removing all
+// FilterFile trims the AST for a Golang file in place by removing all
 // names from top-level declarations (including struct field and
 // interface method names, but not from parameter lists) that don't
 // pass through the filter f. If the declaration is empty afterwards,
@@ -266,7 +266,7 @@ func filterFile(src *File, f Filter, export bool) bool {
 	return j > 0
 }
 
-// FilterPackage trims the AST for a Go package in place by removing
+// FilterPackage trims the AST for a Golang package in place by removing
 // all names from top-level declarations (including struct field and
 // interface method names, but not from parameter lists) that don't
 // pass through the filter f. If the declaration is empty afterwards,

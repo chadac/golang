@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -30,7 +30,7 @@ var AllowedInternalPackages = map[string]bool{
 }
 
 func TestImports(t *testing.T) {
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "list", "-f", `{{$path := .ImportPath -}}
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "list", "-f", `{{$path := .ImportPath -}}
 {{range .Imports -}}
 {{$path}} {{.}}
 {{end -}}

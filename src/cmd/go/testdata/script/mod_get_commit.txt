@@ -8,7 +8,7 @@ env GO111MODULE=on
 golang get -x golanglang.org/x/text/language@14c0d48
 ! stderr 'compile|cp|gccgolang .*language\.a$'
 
-# golang get should skip build with no Go files in root
+# golang get should skip build with no Golang files in root
 golang get golanglang.org/x/text@14c0d48
 
 # dropping -d, we should see a build.

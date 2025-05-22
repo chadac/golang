@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -223,7 +223,7 @@ func (check *Checker) genericType(e syntax.Expr, cause *string) Type {
 	return typ
 }
 
-// golangTypeName returns the Go type name for typ and
+// golangTypeName returns the Golang type name for typ and
 // removes any occurrences of "types2." from that name.
 func golangTypeName(typ Type) string {
 	return strings.ReplaceAll(fmt.Sprintf("%T", typ), "types2.", "")

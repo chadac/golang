@@ -1,10 +1,10 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Implementation of (safe) user arenas.
 //
-// This file contains the implementation of user arenas wherein Go values can
+// This file contains the implementation of user arenas wherein Golang values can
 // be manually allocated and freed in bulk. The act of manually freeing memory,
 // potentially before a GC cycle, means that a garbage collection cycle can be
 // delayed, improving efficiency by reducing GC cycle frequency. There are other
@@ -29,7 +29,7 @@
 // corresponding heapArena for that address space, are eternally reserved for use as
 // arena chunks. That is, they can never be used for the general heap. Each chunk
 // is also represented by a single mspan, and is modeled as a single large heap
-// allocation. It must be, because each chunk contains ordinary Go values that may
+// allocation. It must be, because each chunk contains ordinary Golang values that may
 // point into the heap, so it must be scanned just like any other object. Any
 // pointer into a chunk will therefore always cause the whole chunk to be scanned
 // while its corresponding arena is still live.
@@ -46,7 +46,7 @@
 // cause a fault.
 //
 // At the next layer are the user arenas themselves. They consist of a single
-// active chunk which new Go values are bump-allocated into and a list of chunks
+// active chunk which new Golang values are bump-allocated into and a list of chunks
 // that were exhausted when allocating into the arena. Once the arena is freed,
 // it frees all full chunks it references, and places the active one onto a reuse
 // list for a future arena to use. Each arena keeps its list of referenced chunks
@@ -58,7 +58,7 @@
 // chunk, while pointer-free memory is bump-allocated from high address to low
 // addresses. The reason for this is to take advantage of a GC optimization wherein
 // the GC will stop scanning an object when there are no more pointers in it, which
-// also allows us to elide clearing the heap bitmap for pointer-free Go values
+// also allows us to elide clearing the heap bitmap for pointer-free Golang values
 // allocated into arenas.
 //
 // Note that arenas are not safe to use concurrently.
@@ -534,7 +534,7 @@ func (s *mspan) userArenaNextFree(typ *_type, cap int) unsafe.Pointer {
 }
 
 // userArenaHeapBitsSetSliceType is the equivalent of heapBitsSetType but for
-// Go slice backing store values allocated in a user arena chunk. It sets up the
+// Golang slice backing store values allocated in a user arena chunk. It sets up the
 // heap bitmap for n consecutive values with type typ allocated at address ptr.
 func userArenaHeapBitsSetSliceType(typ *_type, n int, ptr unsafe.Pointer, s *mspan) {
 	mem, overflow := math.MulUintptr(typ.Size_, uintptr(n))
@@ -547,7 +547,7 @@ func userArenaHeapBitsSetSliceType(typ *_type, n int, ptr unsafe.Pointer, s *msp
 }
 
 // userArenaHeapBitsSetType is the equivalent of heapSetType but for
-// non-slice-backing-store Go values allocated in a user arena chunk. It
+// non-slice-backing-store Golang values allocated in a user arena chunk. It
 // sets up the type metadata for the value with type typ allocated at address ptr.
 // base is the base address of the arena chunk.
 func userArenaHeapBitsSetType(typ *_type, ptr unsafe.Pointer, s *mspan) {

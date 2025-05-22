@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,7 +40,7 @@ type pclntab struct {
 	// The number of functions + number of TEXT sections - 1. This is such an
 	// unexpected value because platforms that have more than one TEXT section
 	// get a dummy function inserted between because the external linker can place
-	// functions in those areas. We mark those areas as not covered by the Go
+	// functions in those areas. We mark those areas as not covered by the Golang
 	// runtime.
 	//
 	// On most platforms this is the number of reachable functions.
@@ -201,7 +201,7 @@ func genInlTreeSym(ctxt *Link, cu *sym.CompilationUnit, fi loader.FuncInfo, arch
 			funcID = inlFunc.FuncID()
 			startLine = inlFunc.StartLine()
 		} else if !ctxt.linkShared {
-			// Inlined functions are always Go functions, and thus
+			// Inlined functions are always Golang functions, and thus
 			// must have FuncInfo.
 			//
 			// Unfortunately, with -linkshared, the inlined
@@ -743,7 +743,7 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSym
 
 			// cmd/internal/obj optimistically populates ArgsPointerMaps and
 			// ArgInfo for assembly functions, hoping that the compiler will
-			// emit appropriate symbols from their Go stub declarations. If
+			// emit appropriate symbols from their Golang stub declarations. If
 			// it didn't though, just ignore it.
 			//
 			// TODO(cherryyz): Fix arg map generation (see discussion on CL 523335).
@@ -769,7 +769,7 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSym
 
 // pclntab generates the pcln table for the link output.
 func (ctxt *Link) pclntab(container loader.Bitmap) *pclntab {
-	// Go 1.2's symtab layout is documented in golanglang.org/s/golang12symtab, but the
+	// Golang 1.2's symtab layout is documented in golanglang.org/s/golang12symtab, but the
 	// layout and data has changed since that time.
 	//
 	// As of August 2020, here's the layout of pclntab:
@@ -821,7 +821,7 @@ func (ctxt *Link) pclntab(container loader.Bitmap) *pclntab {
 	return state
 }
 
-func expandGoroot(s string) string {
+func expandGolangroot(s string) string {
 	const n = len("$GOROOT")
 	if len(s) >= n+1 && s[:n] == "$GOROOT" && (s[n] == '/' || s[n] == '\\') {
 		if final := buildcfg.GOROOT; final != "" {

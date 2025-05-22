@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -129,7 +129,7 @@ func TestWriterSetBoundary(t *testing.T) {
 	}
 }
 
-func TestWriterBoundaryGoroutines(t *testing.T) {
+func TestWriterBoundaryGolangroutines(t *testing.T) {
 	// Verify there's no data race accessing any lazy boundary if it's used by
 	// different golangroutines. This was previously broken by
 	// https://codereview.appspot.com/95760043/ and reverted in

@@ -26,13 +26,13 @@ stdout 'this input caused a crash!'
 
 ! golang test -run=FuzzWithNilPanic -fuzz=FuzzWithNilPanic -fuzztime=100x -fuzzminimizetime=1000x
 stdout 'testdata[/\\]fuzz[/\\]FuzzWithNilPanic[/\\]'
-stdout 'panic called with nil argument|test executed panic.nil. or runtime.Goexit'
+stdout 'panic called with nil argument|test executed panic.nil. or runtime.Golangexit'
 golang run check_testdata.golang FuzzWithNilPanic
 
-! golang test -run=FuzzWithGoexit -fuzz=FuzzWithGoexit -fuzztime=100x -fuzzminimizetime=1000x
-stdout 'testdata[/\\]fuzz[/\\]FuzzWithGoexit[/\\]'
-stdout 'runtime.Goexit'
-golang run check_testdata.golang FuzzWithGoexit
+! golang test -run=FuzzWithGolangexit -fuzz=FuzzWithGolangexit -fuzztime=100x -fuzzminimizetime=1000x
+stdout 'testdata[/\\]fuzz[/\\]FuzzWithGolangexit[/\\]'
+stdout 'runtime.Golangexit'
+golang run check_testdata.golang FuzzWithGolangexit
 
 ! golang test -run=FuzzWithFail -fuzz=FuzzWithFail -fuzztime=100x -fuzzminimizetime=1000x
 stdout 'testdata[/\\]fuzz[/\\]FuzzWithFail[/\\]'
@@ -141,11 +141,11 @@ func FuzzWithNilPanic(f *testing.F) {
 	})
 }
 
-func FuzzWithGoexit(f *testing.F) {
+func FuzzWithGolangexit(f *testing.F) {
 	f.Add([]byte("aa"))
 	f.Fuzz(func(t *testing.T, b []byte) {
 		if string(b) != "aa" {
-			runtime.Goexit()
+			runtime.Golangexit()
 		}
 	})
 }

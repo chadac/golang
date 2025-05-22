@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -45,5 +45,5 @@ func TestChdir(t *testing.T) {
 			t.Errorf("%s has -C flag but not from AddChdirFlag", name)
 		}
 	}
-	walk("golang", base.Go)
+	walk("golang", base.Golang)
 }

@@ -2,9 +2,9 @@
 //	http://www.zorinaq.com/papers/md5-amd64.html
 //	http://www.zorinaq.com/papers/md5-amd64.tar.bz2
 //
-// MD5 adapted for s390x using Go's assembler for
+// MD5 adapted for s390x using Golang's assembler for
 // s390x, based on md5block_amd64.s implementation by
-// the Go authors.
+// the Golang authors.
 //
 // Author: Marc Bevand <bevand_m (at) epita.fr>
 // Licence: I hereby disclaim the copyright on this code and place it

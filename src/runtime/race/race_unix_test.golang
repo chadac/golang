@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,8 +13,8 @@ import (
 	"unsafe"
 )
 
-// Test that race detector does not crash when accessing non-Go allocated memory (issue 9136).
-func TestNonGoMemory(t *testing.T) {
+// Test that race detector does not crash when accessing non-Golang allocated memory (issue 9136).
+func TestNonGolangMemory(t *testing.T) {
 	data, err := syscall.Mmap(-1, 0, 4096, syscall.PROT_READ|syscall.PROT_WRITE, syscall.MAP_ANON|syscall.MAP_PRIVATE)
 	if err != nil {
 		t.Fatalf("failed to mmap memory: %v", err)

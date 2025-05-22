@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -464,7 +464,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		// The unshare system call in Linux doesn't unshare mount points
 		// mounted with --shared. Systemd mounts / with --shared. For a
 		// long discussion of the pros and cons of this see debian bug 739593.
-		// The Go model of unsharing is more like Plan 9, where you ask
+		// The Golang model of unsharing is more like Plan 9, where you ask
 		// to unshare and the namespaces are unconditionally unshared.
 		// To make this model work we must further mark / as MS_PRIVATE.
 		// This is what the standard unshare command does.
@@ -796,7 +796,7 @@ func os_checkClonePidfd() error {
 		return errpkg.New("clone(CLONE_PIDFD) failed to return pidfd")
 	}
 
-	// Good: CLONE_PIDFD provided a pidfd. Reap the process and close the
+	// Golangod: CLONE_PIDFD provided a pidfd. Reap the process and close the
 	// pidfd.
 	defer Close(int(pidfd))
 

@@ -42,7 +42,7 @@ stdout example.com/notfound
 
 # Listing the missing dependency directly should fail outright...
 ! golang list -f '{{if .Error}}error{{end}} {{if .Incomplete}}incomplete{{end}}' example.com/notfound
-stderr 'no Go files in .*example.com[/\\]notfound'
+stderr 'no Golang files in .*example.com[/\\]notfound'
 ! stdout error
 ! stdout incomplete
 

@@ -1,10 +1,10 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package parser implements a parser for Go source files. Input may be
+// Package parser implements a parser for Golang source files. Input may be
 // provided in a variety of forms (see the various Parse* functions); the
-// output is an abstract syntax tree (AST) representing the Go source. The
+// output is an abstract syntax tree (AST) representing the Golang source. The
 // parser is invoked through one of the Parse* functions.
 
 package parser
@@ -142,7 +142,7 @@ func (p *parser) declare(decl any, scope *ast.Scope, kind ast.ObjKind, idents ..
 }
 
 func (p *parser) shortVarDecl(idents []*ast.Ident) {
-	// Go spec: A short variable declaration may redeclare variables
+	// Golang spec: A short variable declaration may redeclare variables
 	// provided they were originally declared in the same block with
 	// the same type, and at least one of the non-blank variables is new.
 	n := 0 // number of new variables
@@ -663,7 +663,7 @@ func (p *parser) parseParameterList(scope *ast.Scope, ellipsisOk bool) (params [
 		idents := p.makeIdentList(list)
 		field := &ast.Field{nil, idents, typ, nil, nil}
 		params = append(params, field)
-		// Go spec: The scope of an identifier denoting a function
+		// Golang spec: The scope of an identifier denoting a function
 		// parameter or result variable is the function body.
 		p.declare(field, scope, ast.Var, idents...)
 		if p.tok == token.COMMA {
@@ -675,7 +675,7 @@ func (p *parser) parseParameterList(scope *ast.Scope, ellipsisOk bool) (params [
 			typ := p.parseVarType(ellipsisOk)
 			field := &ast.Field{nil, idents, typ, nil, nil}
 			params = append(params, field)
-			// Go spec: The scope of an identifier denoting a function
+			// Golang spec: The scope of an identifier denoting a function
 			// parameter or result variable is the function body.
 			p.declare(field, scope, ast.Var, idents...)
 			if p.tok != token.COMMA {
@@ -1386,7 +1386,7 @@ func (p *parser) parseSimpleStmt(labelOk bool) ast.Stmt {
 		colon := p.pos
 		p.next()
 		if label, isIdent := x[0].(*ast.Ident); labelOk && isIdent {
-			// Go spec: The scope of a label is the body of the function
+			// Golang spec: The scope of a label is the body of the function
 			// in which it is declared and excludes the body of any nested
 			// function.
 			stmt := &ast.LabeledStmt{label, colon, p.parseStmt()}
@@ -1423,9 +1423,9 @@ func (p *parser) parseCallExpr() *ast.CallExpr {
 	return nil
 }
 
-func (p *parser) parseGoStmt() ast.Stmt {
+func (p *parser) parseGolangStmt() ast.Stmt {
 	if p.trace {
-		defer un(trace(p, "GoStmt"))
+		defer un(trace(p, "GolangStmt"))
 	}
 
 	pos := p.expect(token.GO)
@@ -1435,7 +1435,7 @@ func (p *parser) parseGoStmt() ast.Stmt {
 		return &ast.BadStmt{pos, pos + 2} // len("golang")
 	}
 
-	return &ast.GoStmt{pos, call}
+	return &ast.GolangStmt{pos, call}
 }
 
 func (p *parser) parseDeferStmt() ast.Stmt {
@@ -1811,7 +1811,7 @@ func (p *parser) parseStmt() (s ast.Stmt) {
 			p.expectSemi()
 		}
 	case token.GO:
-		s = p.parseGoStmt()
+		s = p.parseGolangStmt()
 	case token.DEFER:
 		s = p.parseDeferStmt()
 	case token.RETURN:
@@ -1895,7 +1895,7 @@ func parseConstSpec(p *parser, doc *ast.CommentGroup, iota int) ast.Spec {
 	}
 	p.expectSemi() // call before accessing p.linecomment
 
-	// Go spec: The scope of a constant or variable identifier declared inside
+	// Golang spec: The scope of a constant or variable identifier declared inside
 	// a function begins at the end of the ConstSpec or VarSpec and ends at
 	// the end of the innermost containing block.
 	// (Global identifiers are resolved in a separate phase after parsing.)
@@ -1912,7 +1912,7 @@ func parseTypeSpec(p *parser, doc *ast.CommentGroup, _ int) ast.Spec {
 
 	ident := p.parseIdent()
 
-	// Go spec: The scope of a type identifier declared inside a function begins
+	// Golang spec: The scope of a type identifier declared inside a function begins
 	// at the identifier in the TypeSpec and ends at the end of the innermost
 	// containing block.
 	// (Global identifiers are resolved in a separate phase after parsing.)
@@ -1940,7 +1940,7 @@ func parseVarSpec(p *parser, doc *ast.CommentGroup, _ int) ast.Spec {
 	}
 	p.expectSemi() // call before accessing p.linecomment
 
-	// Go spec: The scope of a constant or variable identifier declared inside
+	// Golang spec: The scope of a constant or variable identifier declared inside
 	// a function begins at the end of the ConstSpec or VarSpec and ends at
 	// the end of the innermost containing block.
 	// (Global identifiers are resolved in a separate phase after parsing.)
@@ -2027,7 +2027,7 @@ func (p *parser) parseFuncDecl() *ast.FuncDecl {
 
 	decl := &ast.FuncDecl{doc, recv, ident, &ast.FuncType{pos, params, results}, body}
 	if recv == nil {
-		// Go spec: The scope of an identifier denoting a constant, type,
+		// Golang spec: The scope of an identifier denoting a constant, type,
 		// variable, or function (but not method) declared at top level
 		// (outside any function) is the package block.
 		//
@@ -2094,7 +2094,7 @@ func (p *parser) parseFile() *ast.File {
 	// package clause
 	doc := p.leadComment
 	pos := p.expect(token.PACKAGE)
-	// Go spec: The package clause is not a declaration;
+	// Golang spec: The package clause is not a declaration;
 	// the package name does not appear in any scope.
 	ident := p.parseIdent()
 	if ident.Name == "_" {
@@ -2105,7 +2105,7 @@ func (p *parser) parseFile() *ast.File {
 	var decls []ast.Decl
 
 	// Don't bother parsing the rest if we had errors already.
-	// Likely not a Go source file at all.
+	// Likely not a Golang source file at all.
 
 	if p.ErrorCount() == 0 && p.mode&PackageClauseOnly == 0 {
 		// import decls

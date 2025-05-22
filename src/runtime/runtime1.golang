@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -356,8 +356,8 @@ var debug struct {
 	panicnil atomic.Int32
 
 	// asynctimerchan controls whether timer channels
-	// behave asynchronously (as in Go 1.22 and earlier)
-	// instead of their Go 1.23+ synchronous behavior.
+	// behave asynchronously (as in Golang 1.22 and earlier)
+	// instead of their Golang 1.23+ synchronous behavior.
 	// The value can change at any time (in response to os.Setenv("GODEBUG"))
 	// and affects all extant timer channels immediately.
 	// Programs wouldn't normally change over an execution,
@@ -623,7 +623,7 @@ func timediv(v int64, div int32, rem *int32) int32 {
 	return res
 }
 
-// Helpers for Go. Must be NOSPLIT, must only call NOSPLIT functions, and must not block.
+// Helpers for Golang. Must be NOSPLIT, must only call NOSPLIT functions, and must not block.
 
 //golang:nosplit
 func acquirem() *m {

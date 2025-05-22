@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -92,8 +92,8 @@ TEXT runtime·mstart(SB),NOSPLIT|TOPFRAME,$0
  *  golang-routine
  */
 
-// void golanggolang(Gobuf*)
-// restore state from Gobuf; longjmp
+// void golanggolang(Golangbuf*)
+// restore state from Golangbuf; longjmp
 TEXT runtime·golanggolang(SB), NOSPLIT|NOFRAME, $0-8
 	MOVV	buf+0(FP), R3
 	MOVV	golangbuf_g(R3), R4
@@ -369,7 +369,7 @@ TEXT NAME(SB), WRAPPER, $MAXSIZE-48;		\
 
 // callRet copies return values back at the end of call*. This is a
 // separate function so it can allocate stack space for the arguments
-// to reflectcallmove. It does not follow the Go ABI; it expects its
+// to reflectcallmove. It does not follow the Golang ABI; it expects its
 // arguments in registers.
 TEXT callRet<>(SB), NOSPLIT, $40-0
 	MOVV	R5, 8(R29)
@@ -504,8 +504,8 @@ loadg:
 	JAL	runtime·load_g(SB)
 nocgolang:
 
-	// If g is nil, Go did not create the current thread,
-	// or if this thread never called into Go on pthread platforms.
+	// If g is nil, Golang did not create the current thread,
+	// or if this thread never called into Golang on pthread platforms.
 	// Call needm to obtain one for temporary use.
 	// In this case, we're running on the thread stack, so there's
 	// lots of space, but the linker doesn't know. Hide the call from
@@ -593,7 +593,7 @@ havem:
 	// 1. for the duration of the call on non-pthread platforms,
 	// 2. or the duration of the C thread alive on pthread platforms.
 	// If the m on entry wasn't nil,
-	// 1. the thread might be a Go thread,
+	// 1. the thread might be a Golang thread,
 	// 2. or it wasn't the first call from a C thread on pthread platforms,
 	//    since then we skip dropm to reuse the m in the first call.
 	MOVV	savedm-8(SP), R3
@@ -673,7 +673,7 @@ TEXT ·checkASM(SB),NOSPLIT,$0-1
 
 // gcWriteBarrier informs the GC about heap pointer writes.
 //
-// gcWriteBarrier does NOT follow the Go ABI. It accepts the
+// gcWriteBarrier does NOT follow the Golang ABI. It accepts the
 // number of bytes of buffer needed in R25, and returns a pointer
 // to the buffer space in R25.
 // It clobbers R23 (the linker temp register).
@@ -735,7 +735,7 @@ flush:
 	MOVV	R25, 176(R29)
 	// R26 is reserved by kernel.
 	// R27 is reserved by kernel.
-	// R28 is REGSB (not modified by Go code).
+	// R28 is REGSB (not modified by Golang code).
 	// R29 is SP.
 	// R30 is g.
 	// R31 is LR, which was saved by the prologue.

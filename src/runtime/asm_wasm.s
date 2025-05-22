@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -385,7 +385,7 @@ TEXT NAME(SB), WRAPPER, $MAXSIZE-48; \
 
 // callRet copies return values back at the end of call*. This is a
 // separate function so it can allocate stack space for the arguments
-// to reflectcallmove. It does not follow the Go ABI; it expects its
+// to reflectcallmove. It does not follow the Golang ABI; it expects its
 // arguments in registers.
 TEXT callRet<>(SB), NOSPLIT, $40-0
 	NO_LOCAL_POINTERS
@@ -435,7 +435,7 @@ TEXT runtime·cgolangcallback(SB), NOSPLIT, $0-24
 
 // gcWriteBarrier informs the GC about heap pointer writes.
 //
-// gcWriteBarrier does NOT follow the Go ABI. It accepts the
+// gcWriteBarrier does NOT follow the Golang ABI. It accepts the
 // number of bytes of buffer needed as a wasm argument
 // (put on the TOS by the caller, lives in local R0 in this body)
 // and returns a pointer to the buffer space as a wasm result
@@ -515,7 +515,7 @@ TEXT runtime·gcWriteBarrier8<ABIInternal>(SB),NOSPLIT,$0
 TEXT wasm_pc_f_loop(SB),NOSPLIT,$0
 // Call the function for the current PC_F. Repeat until PAUSE != 0 indicates pause or exit.
 // The WebAssembly stack may unwind, e.g. when switching golangroutines.
-// The Go stack on the linear memory is then used to jump to the correct functions
+// The Golang stack on the linear memory is then used to jump to the correct functions
 // with this loop, without having to restore the full WebAssembly stack.
 // It is expected to have a pending call before entering the loop, so check PAUSE first.
 	Get PAUSE

@@ -11,7 +11,7 @@ stdout FAIL
 
 # Test that fuzzing a target with a success in f.Add and a fuzztime of only
 # 1 does not produce a crash.
-golang test -fuzz=FuzzWithGoodAdd -run=FuzzWithGoodAdd -fuzztime=1x
+golang test -fuzz=FuzzWithGolangodAdd -run=FuzzWithGolangodAdd -fuzztime=1x
 stdout ok
 ! stdout FAIL
 
@@ -75,7 +75,7 @@ stdout FAIL
 
 # Test that fuzzing a target (with -run=None set) with a success in f.Add and a
 # fuzztime of only 1 does not produce a crash.
-golang test -fuzz=FuzzWithGoodAdd -run=None -fuzztime=1x
+golang test -fuzz=FuzzWithGolangodAdd -run=None -fuzztime=1x
 stdout ok
 ! stdout FAIL
 
@@ -138,7 +138,7 @@ func FuzzWithAdd(f *testing.F) {
     })
 }
 
-func FuzzWithGoodAdd(f *testing.F) {
+func FuzzWithGolangodAdd(f *testing.F) {
     f.Add(10)
     f.Fuzz(func(t *testing.T, i int) {
         if i != 10 {

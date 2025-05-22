@@ -1,6 +1,6 @@
-# Contributing to Go
+# Contributing to Golang
 
-Go is an open source project.
+Golang is an open source project.
 
 It is the work of hundreds of contributors. We appreciate your help!
 
@@ -9,7 +9,7 @@ It is the work of hundreds of contributors. We appreciate your help!
 When [filing an issue](https://golanglang.org/issue/new), make sure to answer these
 five questions:
 
-1.  What version of Go are you using (`golang version`)?
+1.  What version of Golang are you using (`golang version`)?
 2.  What operating system and processor architecture are you using?
 3.  What did you do?
 4.  What did you expect to see?
@@ -26,5 +26,5 @@ Please read the
 [Contribution Guidelines](https://golanglang.org/doc/contribute.html) before sending
 patches.
 
-Unless otherwise noted, the Go source files are distributed under the BSD-style
+Unless otherwise noted, the Golang source files are distributed under the BSD-style
 license found in the LICENSE file.

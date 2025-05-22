@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,13 +12,13 @@ import (
 	"internal/byteorder"
 )
 
-// Gob codec version. Permits backward-compatible changes to the encoding.
-const floatGobVersion byte = 1
+// Golangb codec version. Permits backward-compatible changes to the encoding.
+const floatGolangbVersion byte = 1
 
-// GobEncode implements the [encoding/golangb.GobEncoder] interface.
+// GolangbEncode implements the [encoding/golangb.GolangbEncoder] interface.
 // The [Float] value and all its attributes (precision,
 // rounding mode, accuracy) are marshaled.
-func (x *Float) GobEncode() ([]byte, error) {
+func (x *Float) GolangbEncode() ([]byte, error) {
 	if x == nil {
 		return nil, nil
 	}
@@ -42,7 +42,7 @@ func (x *Float) GobEncode() ([]byte, error) {
 	}
 	buf := make([]byte, sz)
 
-	buf[0] = floatGobVersion
+	buf[0] = floatGolangbVersion
 	b := byte(x.mode&7)<<5 | byte((x.acc+1)&3)<<3 | byte(x.form&3)<<1
 	if x.neg {
 		b |= 1
@@ -58,22 +58,22 @@ func (x *Float) GobEncode() ([]byte, error) {
 	return buf, nil
 }
 
-// GobDecode implements the [encoding/golangb.GobDecoder] interface.
+// GolangbDecode implements the [encoding/golangb.GolangbDecoder] interface.
 // The result is rounded per the precision and rounding mode of
 // z unless z's precision is 0, in which case z is set exactly
 // to the decoded value.
-func (z *Float) GobDecode(buf []byte) error {
+func (z *Float) GolangbDecode(buf []byte) error {
 	if len(buf) == 0 {
 		// Other side sent a nil or default value.
 		*z = Float{}
 		return nil
 	}
 	if len(buf) < 6 {
-		return errors.New("Float.GobDecode: buffer too small")
+		return errors.New("Float.GolangbDecode: buffer too small")
 	}
 
-	if buf[0] != floatGobVersion {
-		return fmt.Errorf("Float.GobDecode: encoding version %d not supported", buf[0])
+	if buf[0] != floatGolangbVersion {
+		return fmt.Errorf("Float.GolangbDecode: encoding version %d not supported", buf[0])
 	}
 
 	oldPrec := z.prec
@@ -88,7 +88,7 @@ func (z *Float) GobDecode(buf []byte) error {
 
 	if z.form == finite {
 		if len(buf) < 10 {
-			return errors.New("Float.GobDecode: buffer too small for finite form float")
+			return errors.New("Float.GolangbDecode: buffer too small for finite form float")
 		}
 		z.exp = int32(byteorder.BEUint32(buf[6:]))
 		z.mant = z.mant.setBytes(buf[10:])
@@ -100,7 +100,7 @@ func (z *Float) GobDecode(buf []byte) error {
 	}
 
 	if msg := z.validate0(); msg != "" {
-		return errors.New("Float.GobDecode: " + msg)
+		return errors.New("Float.GolangbDecode: " + msg)
 	}
 
 	return nil

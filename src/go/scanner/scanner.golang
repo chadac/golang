@@ -1,8 +1,8 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package scanner implements a scanner for Go source text.
+// Package scanner implements a scanner for Golang source text.
 // It takes a []byte as source which can then be tokenized
 // through repeated calls to the Scan method.
 package scanner

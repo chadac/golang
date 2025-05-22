@@ -1,8 +1,8 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Copied from Go distribution src/golang/build/read.golang.
+// Copied from Golang distribution src/golang/build/read.golang.
 
 package imports
 
@@ -224,7 +224,7 @@ func ReadComments(f io.Reader) ([]byte, error) {
 	return r.buf, r.err
 }
 
-// ReadImports is like io.ReadAll, except that it expects a Go file as input
+// ReadImports is like io.ReadAll, except that it expects a Golang file as input
 // and stops reading the input once the imports have completed.
 func ReadImports(f io.Reader, reportSyntaxError bool, imports *[]string) ([]byte, error) {
 	r := newImportReader(bufio.NewReader(f))

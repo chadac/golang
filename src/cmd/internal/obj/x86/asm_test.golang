@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -297,7 +297,7 @@ func TestRegIndex(t *testing.T) {
 // TestPCALIGN verifies the correctness of the PCALIGN by checking if the
 // code can be aligned to the alignment value.
 func TestPCALIGN(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	dir := t.TempDir()
 	tmpfile := filepath.Join(dir, "test.s")
 	tmpout := filepath.Join(dir, "test.o")
@@ -323,7 +323,7 @@ func TestPCALIGN(t *testing.T) {
 		if err := os.WriteFile(tmpfile, []byte(test.code), 0644); err != nil {
 			t.Fatal(err)
 		}
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-S", "-o", tmpout, tmpfile)
+		cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-S", "-o", tmpout, tmpfile)
 		cmd.Env = append(os.Environ(), "GOARCH=amd64", "GOOS=linux")
 		out, err := cmd.CombinedOutput()
 		if err != nil {

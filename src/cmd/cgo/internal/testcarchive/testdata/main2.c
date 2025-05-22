@@ -1,8 +1,8 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test installing a signal handler before the Go code starts.
+// Test installing a signal handler before the Golang code starts.
 // This is a lot like ../testcshared/main4.c.
 
 #include <setjmp.h>
@@ -90,7 +90,7 @@ static void segvHandler(int signo, siginfo_t* info, void* ctxt) {
 }
 
 // Set up the signal handlers in a high priority constructor,
-// so that they are installed before the Go code starts.
+// so that they are installed before the Golang code starts.
 
 static void init(void) __attribute__ ((constructor (200)));
 
@@ -137,10 +137,10 @@ int main(int argc, char** argv) {
 	setsid();
 
 	if (verbose) {
-		printf("calling RunGoroutines\n");
+		printf("calling RunGolangroutines\n");
 	}
 
-	RunGoroutines();
+	RunGolangroutines();
 
 	// Block SIGIO in this thread to make it more likely that it
 	// will be delivered to a golangroutine.
@@ -192,7 +192,7 @@ int main(int argc, char** argv) {
 
 	// SIGPIPE is never forwarded on Darwin, see golanglang.org/issue/33384.
 	if (!darwin) {
-		GoRaiseSIGPIPE();
+		GolangRaiseSIGPIPE();
 
 		if (verbose) {
 			printf("waiting for sigpipeSeen\n");

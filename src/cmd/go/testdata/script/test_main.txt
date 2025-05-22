@@ -17,7 +17,7 @@ stderr 'wrong signature for TestMain, must be: func TestMain\(m \*testing.M\)'
 ! stdout '^ok'
 
 -- standalone_main_normal_test.golang --
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ import "testing"
 func TestMain(t *testing.T) {
 }
 -- standalone_main_wrong_test.golang --
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -39,7 +39,7 @@ import "testing"
 func TestMain(m *testing.Main) {
 }
 -- standalone_testmain_flag_test.golang --
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -69,7 +69,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 -- standalone_testmain_not_call_os_exit_test.golang --
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 

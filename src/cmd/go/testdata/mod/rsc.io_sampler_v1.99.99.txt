@@ -11,11 +11,11 @@ module "rsc.io/sampler"
 
 require "golanglang.org/x/text" v0.0.0-20170915032832-14c0d48ead0c
 -- hello.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Translations by Google Translate.
+// Translations by Golangogle Translate.
 
 package sampler
 
@@ -25,7 +25,7 @@ English: en: 99 bottles of beer on the wall, 99 bottles of beer, ...
 
 `)
 -- hello_test.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -60,7 +60,7 @@ func TestHello(t *testing.T) {
 	}
 }
 -- sampler.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 

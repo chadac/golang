@@ -7,11 +7,11 @@ require "golanglang.org/x/text" v0.0.0-20170915032832-14c0d48ead0c
 -- .info --
 {"Version":"v1.2.1","Name":"cac3af4f8a0ab40054fa6f8d423108a63a1255bb","Short":"cac3af4f8a0a","Time":"2018-02-13T18:16:22Z"}
 -- hello.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Translations by Google Translate.
+// Translations by Golangogle Translate.
 
 package sampler
 
@@ -23,7 +23,7 @@ Spanish: es: Hola Mundo.
 
 `)
 -- hello_test.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -58,7 +58,7 @@ func TestHello(t *testing.T) {
 	}
 }
 -- sampler.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 

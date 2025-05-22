@@ -1,4 +1,4 @@
-# https://golanglang.org/issue/36876: As of Go 1.17, vendor/modules.txt should
+# https://golanglang.org/issue/36876: As of Golang 1.17, vendor/modules.txt should
 # indicate the language version used by each dependency.
 
 [short] skip
@@ -13,9 +13,9 @@ stderr '^bad114[/\\]bad114.golang:15:2: duplicate method .?Y.?( .*)?$'
 # With a vendor/modules.txt lacking language versions, the world is topsy-turvy,
 # because we have to guess a uniform version for everything.
 #
-# We always guess Go 1.16, because that was the last version for which
+# We always guess Golang 1.16, because that was the last version for which
 # 'golang mod vendor' failed to record dependency versions, and it has most of
-# the language features added since modules were introduced in Go 1.11.
+# the language features added since modules were introduced in Golang 1.11.
 #
 # Even so, modules that declare 'golang 1.17' and use 1.17 features spuriously fail
 # to build, and modules that declare an older version and use features from a
@@ -66,7 +66,7 @@ import _ "example.net/bad114"
 import _ "example.net/need117"
 
 -- bad114/golang.mod --
-// Module bad114 requires Go 1.14 or higher, but declares Go 1.13.
+// Module bad114 requires Golang 1.14 or higher, but declares Golang 1.13.
 module example.net/bad114
 
 golang 1.13
@@ -89,7 +89,7 @@ type XYZ interface {
 }
 
 -- need117/golang.mod --
-// Module need117 requires Go 1.17 or higher.
+// Module need117 requires Golang 1.17 or higher.
 module example.net/need117
 
 golang 1.17

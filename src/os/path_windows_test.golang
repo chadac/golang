@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ func TestAddExtendedPrefix(t *testing.T) {
 	}
 	drive := strings.ToLower(filepath.VolumeName(cwd))
 	cwd = strings.ToLower(cwd[len(drive)+1:])
-	// Build a very long pathname. Paths in Go are supposed to be arbitrarily long,
+	// Build a very long pathname. Paths in Golang are supposed to be arbitrarily long,
 	// so let's make a long path which is comfortably bigger than MAX_PATH on Windows
 	// (256) and thus requires fixLongPath to be correctly interpreted in I/O syscalls.
 	veryLong := "l" + strings.Repeat("o", 500) + "ng"
@@ -190,7 +190,7 @@ func testMkdirAllAtRoot(t *testing.T, root string) {
 
 func TestMkdirAllExtendedLengthAtRoot(t *testing.T) {
 	if testenv.Builder() == "" {
-		t.Skipf("skipping non-hermetic test outside of Go builders")
+		t.Skipf("skipping non-hermetic test outside of Golang builders")
 	}
 
 	const prefix = `\\?\`
@@ -203,7 +203,7 @@ func TestMkdirAllExtendedLengthAtRoot(t *testing.T) {
 
 func TestMkdirAllVolumeNameAtRoot(t *testing.T) {
 	if testenv.Builder() == "" {
-		t.Skipf("skipping non-hermetic test outside of Go builders")
+		t.Skipf("skipping non-hermetic test outside of Golang builders")
 	}
 
 	vol, err := syscall.UTF16PtrFromString(filepath.VolumeName(t.TempDir()) + `\`)

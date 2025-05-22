@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -356,8 +356,8 @@ const ThatPeskyUnicodeDot = "\u00b7"
 // removePeskyUnicodeDot strips the dot from the relevant TEXT directives such that they
 // can exist as internal assembly functions
 //
-// Avo v0.6.0 does not support the generation of internal assembly functions. Go's unicode
-// dot tells the compiler to link a TEXT symbol to a function in the current Go package
+// Avo v0.6.0 does not support the generation of internal assembly functions. Golang's unicode
+// dot tells the compiler to link a TEXT symbol to a function in the current Golang package
 // (or another package if specified). Avo unconditionally prepends the unicode dot to all
 // TEXT symbols, making it impossible to emit an internal function without this hack.
 //

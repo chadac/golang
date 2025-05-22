@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -90,7 +90,7 @@ func extractSimpleChain(simpleChain **syscall.CertSimpleChain, count int) (chain
 }
 
 // checkChainTrustStatus checks the trust status of the certificate chain, translating
-// any errors it finds into Go errors in the process.
+// any errors it finds into Golang errors in the process.
 func checkChainTrustStatus(c *Certificate, chainCtx *syscall.CertChainContext) error {
 	if chainCtx.TrustStatus.ErrorStatus != syscall.CERT_TRUST_NO_ERROR {
 		status := chainCtx.TrustStatus.ErrorStatus

@@ -1,9 +1,9 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Package builtin provides documentation for Go's predeclared identifiers.
+Package builtin provides documentation for Golang's predeclared identifiers.
 The items documented here are not actually in package builtin
 but their descriptions here allow golangdoc to present documentation
 for the language's special identifiers.
@@ -113,12 +113,12 @@ const iota = 0 // Untyped int.
 var nil Type // Type must be a pointer, channel, func, interface, map, or slice type
 
 // Type is here for the purposes of documentation only. It is a stand-in
-// for any Go type, but represents the same type for any given function
+// for any Golang type, but represents the same type for any given function
 // invocation.
 type Type int
 
 // Type1 is here for the purposes of documentation only. It is a stand-in
-// for any Go type, but represents the same type for any given function
+// for any Golang type, but represents the same type for any given function
 // invocation.
 type Type1 int
 
@@ -170,7 +170,7 @@ func delete(m map[Type]Type1, key Type)
 //     if v is nil, len(v) is zero.
 //
 // For some arguments, such as a string literal or a simple array expression, the
-// result can be a constant. See the Go language specification's "Length and
+// result can be a constant. See the Golang language specification's "Length and
 // capacity" section for details.
 func len(v Type) int
 
@@ -184,7 +184,7 @@ func len(v Type) int
 //     if v is nil, cap(v) is zero.
 //
 // For some arguments, such as a simple array expression, the result can be a
-// constant. See the Go language specification's "Length and capacity" section for
+// constant. See the Golang language specification's "Length and capacity" section for
 // details.
 func cap(v Type) int
 
@@ -273,7 +273,7 @@ func close(c chan<- Type)
 // termination sequence is called panicking and can be controlled by the
 // built-in function recover.
 //
-// Starting in Go 1.21, calling panic with a nil interface value or an
+// Starting in Golang 1.21, calling panic with a nil interface value or an
 // untyped nil causes a run-time error (a different panic).
 // The GODEBUG setting panicnil=1 disables the run-time error.
 func panic(v any)
@@ -286,7 +286,7 @@ func panic(v any)
 // not stop a panicking sequence. In this case, or when the golangroutine is not
 // panicking, recover returns nil.
 //
-// Prior to Go 1.21, recover would also return nil if panic is called with
+// Prior to Golang 1.21, recover would also return nil if panic is called with
 // a nil argument. See [panic] for details.
 func recover() any
 

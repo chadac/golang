@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1999,8 +1999,8 @@ func (p *printer) EscapeString(s string) {
 }
 
 // Escape is like [EscapeText] but omits the error return value.
-// It is provided for backwards compatibility with Go 1.0.
-// Code targeting Go 1.1 or later should use [EscapeText].
+// It is provided for backwards compatibility with Golang 1.0.
+// Code targeting Golang 1.1 or later should use [EscapeText].
 func Escape(w io.Writer, s []byte) {
 	EscapeText(w, s)
 }

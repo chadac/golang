@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,8 +8,8 @@
 // existing tools, the NUL character is not allowed. If the first character
 // in the source is a UTF-8 encoded byte order mark (BOM), it is discarded.
 //
-// By default, a [Scanner] skips white space and Go comments and recognizes all
-// literals as defined by the Go language specification. It may be
+// By default, a [Scanner] skips white space and Golang comments and recognizes all
+// literals as defined by the Golang language specification. It may be
 // customized to recognize only a subset of those literals and to recognize
 // different identifier and white space characters.
 package scanner
@@ -47,7 +47,7 @@ func (pos Position) String() string {
 }
 
 // Predefined mode bits to control recognition of tokens. For instance,
-// to configure a [Scanner] such that it only recognizes (Go) identifiers,
+// to configure a [Scanner] such that it only recognizes (Golang) identifiers,
 // integers, and skips comments, set the Scanner's Mode field to:
 //
 //	ScanIdents | ScanInts | ScanComments | SkipComments
@@ -58,8 +58,8 @@ func (pos Position) String() string {
 // For instance, if the mode is ScanIdents (not ScanStrings), the string
 // "foo" is scanned as the token sequence '"' [Ident] '"'.
 //
-// Use GoTokens to configure the Scanner such that it accepts all Go
-// literal tokens including Go identifiers. Comments will be skipped.
+// Use GolangTokens to configure the Scanner such that it accepts all Golang
+// literal tokens including Golang identifiers. Comments will be skipped.
 const (
 	ScanIdents     = 1 << -Ident
 	ScanInts       = 1 << -Int
@@ -69,7 +69,7 @@ const (
 	ScanRawStrings = 1 << -RawString
 	ScanComments   = 1 << -Comment
 	SkipComments   = 1 << -skipComment // if set with ScanComments, comments become white space
-	GoTokens       = ScanIdents | ScanFloats | ScanChars | ScanStrings | ScanRawStrings | ScanComments | SkipComments
+	GolangTokens       = ScanIdents | ScanFloats | ScanChars | ScanStrings | ScanRawStrings | ScanComments | SkipComments
 )
 
 // The result of Scan is one of these tokens or a Unicode character.
@@ -106,9 +106,9 @@ func TokenString(tok rune) string {
 	return fmt.Sprintf("%q", string(tok))
 }
 
-// GoWhitespace is the default value for the [Scanner]'s Whitespace field.
-// Its value selects Go's white space characters.
-const GoWhitespace = 1<<'\t' | 1<<'\n' | 1<<'\r' | 1<<' '
+// GolangWhitespace is the default value for the [Scanner]'s Whitespace field.
+// Its value selects Golang's white space characters.
+const GolangWhitespace = 1<<'\t' | 1<<'\n' | 1<<'\r' | 1<<' '
 
 const bufLen = 1024 // at least utf8.UTFMax
 
@@ -161,7 +161,7 @@ type Scanner struct {
 	// IsIdentRune is a predicate controlling the characters accepted
 	// as the ith rune in an identifier. The set of valid characters
 	// must not intersect with the set of white space characters.
-	// If no IsIdentRune function is set, regular Go identifiers are
+	// If no IsIdentRune function is set, regular Golang identifiers are
 	// accepted instead. The field may be changed at any time.
 	IsIdentRune func(ch rune, i int) bool
 
@@ -176,8 +176,8 @@ type Scanner struct {
 }
 
 // Init initializes a [Scanner] with a new source and returns s.
-// [Scanner.Error] is set to nil, [Scanner.ErrorCount] is set to 0, [Scanner.Mode] is set to [GoTokens],
-// and [Scanner.Whitespace] is set to [GoWhitespace].
+// [Scanner.Error] is set to nil, [Scanner.ErrorCount] is set to 0, [Scanner.Mode] is set to [GolangTokens],
+// and [Scanner.Whitespace] is set to [GolangWhitespace].
 func (s *Scanner) Init(src io.Reader) *Scanner {
 	s.src = src
 
@@ -204,8 +204,8 @@ func (s *Scanner) Init(src io.Reader) *Scanner {
 	// initialize public fields
 	s.Error = nil
 	s.ErrorCount = 0
-	s.Mode = GoTokens
-	s.Whitespace = GoWhitespace
+	s.Mode = GolangTokens
+	s.Whitespace = GolangWhitespace
 	s.Line = 0 // invalidate token position
 
 	return s

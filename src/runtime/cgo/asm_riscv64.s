@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -57,7 +57,7 @@ TEXT crosscall2(SB),NOSPLIT|NOFRAME,$0
 	MOVD	F26, (8*27)(X2)
 	MOVD	F27, (8*28)(X2)
 
-	// Initialize Go ABI environment
+	// Initialize Golang ABI environment
 	CALL	runtime·load_g(SB)
 	CALL	runtime·cgolangcallback(SB)
 

@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -43,7 +43,7 @@ import (
 //   - For performance, much of the implementation uses the pattern of calling
 //     the inlinable consumeXXX functions first, and if more work is necessary,
 //     then it calls the slower Decoder.consumeXXX methods.
-//     TODO: Revisit this pattern if the Go compiler provides finer control
+//     TODO: Revisit this pattern if the Golang compiler provides finer control
 //     over exactly which calls are inlined or not.
 
 // Decoder is a streaming decoder for raw JSON tokens and values.

@@ -1,10 +1,10 @@
 <!---
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 -->
 
-## Introduction to the Go compiler's SSA backend
+## Introduction to the Golang compiler's SSA backend
 
 This package contains the compiler's Static Single Assignment form component. If
 you're not familiar with SSA, its [Wikipedia
@@ -12,19 +12,19 @@ article](https://en.wikipedia.org/wiki/Static_single_assignment_form) is a golan
 starting point.
 
 It is recommended that you first read [cmd/compile/README.md](../../README.md)
-if you are not familiar with the Go compiler already. That document gives an
+if you are not familiar with the Golang compiler already. That document gives an
 overview of the compiler, and explains what is SSA's part and purpose in it.
 
 ### Key concepts
 
-The names described below may be loosely related to their Go counterparts, but
-note that they are not equivalent. For example, a Go block statement has a
+The names described below may be loosely related to their Golang counterparts, but
+note that they are not equivalent. For example, a Golang block statement has a
 variable scope, yet SSA has no notion of variables nor variable scopes.
 
 It may also be surprising that values and blocks are named after their unique
 sequential IDs. They rarely correspond to named entities in the original code,
 such as variables or function parameters. The sequential IDs also allow the
-compiler to avoid maps, and it is always possible to track back the values to Go
+compiler to avoid maps, and it is always possible to track back the values to Golang
 code using debug and position information.
 
 #### Values
@@ -41,9 +41,9 @@ Here is a possible SSA representation of the addition of two `uint8` values:
 	// var c uint8 = a + b
 	v4 = Add8 <uint8> v2 v3
 
-A value's type will usually be a Go type. For example, the value in the example
+A value's type will usually be a Golang type. For example, the value in the example
 above has a `uint8` type, and a constant boolean value will have a `bool` type.
-However, certain types don't come from Go and are special; below we will cover
+However, certain types don't come from Golang and are special; below we will cover
 `memory`, the most common of them.
 
 Some operators contain an auxiliary field. The aux fields are usually printed as
@@ -142,7 +142,7 @@ When a function is called, the control flow is handed to its entry block. If the
 function terminates, the control flow will eventually reach an exit block, thus
 ending the function call.
 
-Note that a function may have zero or multiple exit blocks, just like a Go
+Note that a function may have zero or multiple exit blocks, just like a Golang
 function can have any number of return points, but it must have exactly one
 entry point block.
 
@@ -163,7 +163,7 @@ See [func.golang](func.golang) for more information.
 
 Having a program in SSA form is not very useful on its own. Its advantage lies
 in how easy it is to write optimizations that modify the program to make it
-better. The way the Go compiler accomplishes this is via a list of passes.
+better. The way the Golang compiler accomplishes this is via a list of passes.
 
 Each pass transforms a SSA function in some way. For example, a dead code
 elimination pass will remove blocks and values that it can prove will never be
@@ -227,7 +227,7 @@ TODO: need more ideas for this section
 
 ### Hacking on SSA
 
-While most compiler passes are implemented directly in Go code, some others are
+While most compiler passes are implemented directly in Golang code, some others are
 code generated. This is currently done via rewrite rules, which have their own
 syntax and are maintained in `_gen/*.rules`. Simpler optimizations can be written
 easily and quickly this way, but rewrite rules are not suitable for more complex
@@ -239,7 +239,7 @@ To read more on rewrite rules, have a look at the top comments in
 Similarly, the code to manage operators is also code generated from
 `_gen/*Ops.golang`, as it is easier to maintain a few tables than a lot of code.
 After changing the rules or operators, run `golang generate cmd/compile/internal/ssa`
-to generate the Go code again.
+to generate the Golang code again.
 
 <!---
 TODO: more tips and info could likely golang here

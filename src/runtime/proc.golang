@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,14 +20,14 @@ import (
 // set using cmd/golang/internal/modload.ModInfoProg
 var modinfo string
 
-// Goroutine scheduler
+// Golangroutine scheduler
 // The scheduler's job is to distribute ready-to-run golangroutines over worker threads.
 //
 // The main concepts are:
 // G - golangroutine.
 // M - worker thread, or machine.
-// P - processor, a resource that is required to execute Go code.
-//     M must have an associated P to execute Go code, however it can be
+// P - processor, a resource that is required to execute Golang code.
+//     M must have an associated P to execute Golang code, however it can be
 //     blocked or in a syscall w/o an associated P.
 //
 // Design doc at https://golanglang.org/s/golang11sched.
@@ -201,7 +201,7 @@ func main() {
 
 	doInit(runtime_inittasks) // Must be before defer.
 
-	// Defer unlock so that runtime.Goexit during init does the unlock too.
+	// Defer unlock so that runtime.Golangexit during init does the unlock too.
 	needUnlock := true
 	defer func() {
 		if needUnlock {
@@ -239,7 +239,7 @@ func main() {
 		}
 		set_crosscall2()
 
-		// Start the template thread in case we enter Go from
+		// Start the template thread in case we enter Golang from
 		// a C-created thread and need to create a new thread.
 		startTemplateThread()
 		cgolangcall(_cgolang_notify_runtime_init_done, nil)
@@ -314,7 +314,7 @@ func main() {
 			if runningPanicDefers.Load() == 0 {
 				break
 			}
-			Gosched()
+			Golangsched()
 		}
 	}
 	if panicking.Load() != 0 {
@@ -347,8 +347,8 @@ func os_beforeExit(exitCode int) {
 }
 
 func init() {
-	exithook.Gosched = Gosched
-	exithook.Goid = func() uint64 { return getg().golangid }
+	exithook.Golangsched = Golangsched
+	exithook.Golangid = func() uint64 { return getg().golangid }
 	exithook.Throw = throw
 }
 
@@ -370,7 +370,7 @@ func forcegchelper() {
 			throw("forcegc: phase error")
 		}
 		forcegc.idle.Store(true)
-		golangparkunlock(&forcegc.lock, waitReasonForceGCIdle, traceBlockSystemGoroutine, 1)
+		golangparkunlock(&forcegc.lock, waitReasonForceGCIdle, traceBlockSystemGolangroutine, 1)
 		// this golangroutine is explicitly resumed by sysmon
 		if debug.gctrace > 0 {
 			println("GC forced")
@@ -380,11 +380,11 @@ func forcegchelper() {
 	}
 }
 
-// Gosched yields the processor, allowing other golangroutines to run. It does not
+// Golangsched yields the processor, allowing other golangroutines to run. It does not
 // suspend the current golangroutine, so execution resumes automatically.
 //
 //golang:nosplit
-func Gosched() {
+func Golangsched() {
 	checkTimeouts()
 	mcall(golangsched_m)
 }
@@ -750,7 +750,7 @@ func forEachGRace(fn func(gp *g)) {
 const (
 	// Number of golangroutine ids to grab from sched.golangidgen to local per-P cache at once.
 	// 16 seems to provide enough amortization, but other than that it's mostly arbitrary number.
-	_GoidCacheBatch = 16
+	_GolangidCacheBatch = 16
 )
 
 // cpuinit sets up CPU feature flags and calls internal/cpu.Initialize. env should be the complete
@@ -786,10 +786,10 @@ func cpuinit(env string) {
 	}
 }
 
-// getGodebugEarly extracts the environment variable GODEBUG from the environment on
+// getGolangdebugEarly extracts the environment variable GODEBUG from the environment on
 // Unix-like operating systems and returns it. This function exists to extract GODEBUG
 // early before much of the runtime is initialized.
-func getGodebugEarly() string {
+func getGolangdebugEarly() string {
 	const prefix = "GODEBUG="
 	var env string
 	switch GOOS {
@@ -862,7 +862,7 @@ func schedinit() {
 	moduledataverify()
 	stackinit()
 	mallocinit()
-	golangdebug := getGodebugEarly()
+	golangdebug := getGolangdebugEarly()
 	cpuinit(golangdebug) // must run before alginit
 	randinit()       // must run before alginit, mcommoninit
 	alginit()        // maps, hash, rand must not be used before this call
@@ -1091,7 +1091,7 @@ func ready(gp *g, traceskip int, next bool) {
 	trace := traceAcquire()
 	casgstatus(gp, _Gwaiting, _Grunnable)
 	if trace.ok() {
-		trace.GoUnpark(gp, traceskip)
+		trace.GolangUnpark(gp, traceskip)
 		traceRelease(trace)
 	}
 	runqput(mp.p.ptr(), gp, next)
@@ -1404,9 +1404,9 @@ const (
 	stwGCMarkTerm                                   // "GC mark termination"
 	stwGCSweepTerm                                  // "GC sweep termination"
 	stwWriteHeapDump                                // "write heap dump"
-	stwGoroutineProfile                             // "golangroutine profile"
-	stwGoroutineProfileCleanup                      // "golangroutine profile cleanup"
-	stwAllGoroutinesStack                           // "all golangroutines stack trace"
+	stwGolangroutineProfile                             // "golangroutine profile"
+	stwGolangroutineProfileCleanup                      // "golangroutine profile cleanup"
+	stwAllGolangroutinesStack                           // "all golangroutines stack trace"
 	stwReadMemStats                                 // "read mem stats"
 	stwAllThreadsSyscall                            // "AllThreadsSyscall"
 	stwGOMAXPROCS                                   // "GOMAXPROCS"
@@ -1435,9 +1435,9 @@ var stwReasonStrings = [...]string{
 	stwGCMarkTerm:                  "GC mark termination",
 	stwGCSweepTerm:                 "GC sweep termination",
 	stwWriteHeapDump:               "write heap dump",
-	stwGoroutineProfile:            "golangroutine profile",
-	stwGoroutineProfileCleanup:     "golangroutine profile cleanup",
-	stwAllGoroutinesStack:          "all golangroutines stack trace",
+	stwGolangroutineProfile:            "golangroutine profile",
+	stwGolangroutineProfileCleanup:     "golangroutine profile cleanup",
+	stwAllGolangroutinesStack:          "all golangroutines stack trace",
 	stwReadMemStats:                "read mem stats",
 	stwAllThreadsSyscall:           "AllThreadsSyscall",
 	stwGOMAXPROCS:                  "GOMAXPROCS",
@@ -1811,7 +1811,7 @@ func mStackIsSystemAllocated() bool {
 // It is written in assembly, uses ABI0, is marked TOPFRAME, and calls mstart0.
 func mstart()
 
-// mstart0 is the Go entry-point for new Ms.
+// mstart0 is the Golang entry-point for new Ms.
 // This must not split the stack because we may not even have stack
 // bounds set up yet.
 //
@@ -1841,7 +1841,7 @@ func mstart0() {
 		gp.stack.lo = gp.stack.hi - size + 1024
 	}
 	// Initialize stack guard so that we can start calling regular
-	// Go code.
+	// Golang code.
 	gp.stackguard0 = gp.stack.lo + stackGuard
 	// This is the g0, so we can also call golang:systemstack
 	// functions, which check stackguard1.
@@ -1910,7 +1910,7 @@ func mstart1() {
 //
 //golang:yeswritebarrierrec
 func mstartm0() {
-	// Create an extra M for callbacks on threads not created by Go.
+	// Create an extra M for callbacks on threads not created by Golang.
 	// An extra M is also needed on Windows for callbacks created by
 	// syscall.NewCallback. See issue #6751 for details.
 	if (iscgolang || GOOS == "windows") && !cgolangHasExtraM {
@@ -2060,7 +2060,7 @@ found:
 // safe point and execute fn on that P. If the P is not executing code
 // (it is idle or in a syscall), this will call fn(p) directly while
 // preventing the P from exiting its state. This does not ensure that
-// fn will run on every CPU executing Go code, but it acts as a global
+// fn will run on every CPU executing Golang code, but it acts as a global
 // memory barrier. GC uses this as a "ragged barrier."
 //
 // The caller must hold worldsema. fn must not refer to any
@@ -2305,7 +2305,7 @@ func allocm(pp *p, fn func(), id int64) *m {
 }
 
 // needm is called when a cgolang callback happens on a
-// thread without an m (a thread not created by Go).
+// thread without an m (a thread not created by Golang).
 // In this case, needm is expected to find an m to use
 // and return with m, g initialized correctly.
 // Since m and g are not set now (likely nil, but see below)
@@ -2345,7 +2345,7 @@ func allocm(pp *p, fn func(), id int64) *m {
 //golang:nosplit
 func needm(signal bool) {
 	if (iscgolang || GOOS == "windows") && !cgolangHasExtraM {
-		// Can happen if C/C++ code calls Go from a global ctor.
+		// Can happen if C/C++ code calls Golang from a global ctor.
 		// Can also happen on Windows if a global ctor uses a
 		// callback created by syscall.NewCallback. See issue #6751
 		// for details.
@@ -2362,7 +2362,7 @@ func needm(signal bool) {
 	// but we won't have the sigaltstack settings and other data
 	// set up appropriately until the end of minit, which will
 	// unblock the signals. This is the same dance as when
-	// starting a new m to run Go code via newosproc.
+	// starting a new m to run Golang code via newosproc.
 	var sigmask sigset
 	sigsave(&sigmask)
 	sigblock(false)
@@ -2394,7 +2394,7 @@ func needm(signal bool) {
 	sp := sys.GetCallerSP()
 	callbackUpdateSystemStack(mp, sp, signal)
 
-	// Should mark we are already in Go now.
+	// Should mark we are already in Golang now.
 	// Otherwise, we may call needm again when we get a signal, before cgolangcallbackg1,
 	// which means the extram list may be empty, that will cause a deadlock.
 	mp.isExtraInC = false
@@ -2419,7 +2419,7 @@ func needm(signal bool) {
 
 	if !signal {
 		if trace.ok() {
-			trace.GoCreateSyscall(mp.curg)
+			trace.GolangCreateSyscall(mp.curg)
 			traceRelease(trace)
 		}
 	}
@@ -2503,25 +2503,25 @@ func oneNewExtraM() {
 //
 // 1. On systems without pthreads, like Windows
 // dropm is called when a cgolang callback has called needm but is now
-// done with the callback and returning back into the non-Go thread.
+// done with the callback and returning back into the non-Golang thread.
 //
 // The main expense here is the call to signalstack to release the
 // m's signal stack, and then the call to needm on the next callback
 // from this thread. It is tempting to try to save the m for next time,
 // which would eliminate both these costs, but there might not be
-// a next time: the current thread (which Go does not control) might exit.
+// a next time: the current thread (which Golang does not control) might exit.
 // If we saved the m for that thread, there would be an m leak each time
 // such a thread exited. Instead, we acquire and release an m on each
 // call. These should typically not be scheduling operations, just a few
 // atomics, so the cost should be small.
 //
 // 2. On systems with pthreads
-// dropm is called while a non-Go thread is exiting.
+// dropm is called while a non-Golang thread is exiting.
 // We allocate a pthread per-thread variable using pthread_key_create,
 // to register a thread-exit-time destructor.
 // And store the g into a thread-specific value associated with the pthread key,
 // when first return back to C.
-// So that the destructor would invoke dropm while the non-Go thread is exiting.
+// So that the destructor would invoke dropm while the non-Golang thread is exiting.
 // This is much faster since it avoids expensive signal-related syscalls.
 //
 // This always runs without a P, so //golang:nowritebarrierrec is required.
@@ -2554,7 +2554,7 @@ func dropm() {
 
 	if !mp.isExtraInSig {
 		if trace.ok() {
-			trace.GoDestroySyscall()
+			trace.GolangDestroySyscall()
 			traceRelease(trace)
 		}
 	}
@@ -2597,7 +2597,7 @@ func dropm() {
 
 	// Block signals before unminit.
 	// Unminit unregisters the signal handling stack (but needs g on some systems).
-	// Setg(nil) clears g, which is the signal handler's cue not to run Go handlers.
+	// Setg(nil) clears g, which is the signal handler's cue not to run Golang handlers.
 	// It's important not to try to handle a signal between those two steps.
 	sigmask := mp.sigmask
 	sigblock(false)
@@ -2627,7 +2627,7 @@ func dropm() {
 // So that the pthread_key_destructor would dropm while the C thread is exiting.
 //
 // And the saved g will be used in pthread_key_destructor,
-// since the g stored in the TLS by Go might be cleared in some platforms,
+// since the g stored in the TLS by Golang might be cleared in some platforms,
 // before the destructor invoked, so, we restore g by the stored g, before dropm.
 //
 // We store g0 instead of m, to make the assembly code simpler,
@@ -3286,7 +3286,7 @@ func execute(gp *g, inheritTime bool) {
 		// Make sure that gp has had its stack written out to the golangroutine
 		// profile, exactly as it was when the golangroutine profiler first stopped
 		// the world.
-		tryRecordGoroutineProfile(gp, nil, osyield)
+		tryRecordGolangroutineProfile(gp, nil, osyield)
 	}
 
 	// Assign gp.m before entering _Grunning so running Gs have an
@@ -3309,7 +3309,7 @@ func execute(gp *g, inheritTime bool) {
 
 	trace := traceAcquire()
 	if trace.ok() {
-		trace.GoStart()
+		trace.GolangStart()
 		traceRelease(trace)
 	}
 
@@ -3350,7 +3350,7 @@ top:
 			trace := traceAcquire()
 			casgstatus(gp, _Gwaiting, _Grunnable)
 			if trace.ok() {
-				trace.GoUnpark(gp, 0)
+				trace.GolangUnpark(gp, 0)
 				traceRelease(trace)
 			}
 			return gp, false, true
@@ -3431,7 +3431,7 @@ top:
 			trace := traceAcquire()
 			casgstatus(gp, _Gwaiting, _Grunnable)
 			if trace.ok() {
-				trace.GoUnpark(gp, 0)
+				trace.GolangUnpark(gp, 0)
 				traceRelease(trace)
 			}
 			return gp, false, false
@@ -3479,7 +3479,7 @@ top:
 			trace := traceAcquire()
 			casgstatus(gp, _Gwaiting, _Grunnable)
 			if trace.ok() {
-				trace.GoUnpark(gp, 0)
+				trace.GolangUnpark(gp, 0)
 				traceRelease(trace)
 			}
 			return gp, false, false
@@ -3496,7 +3496,7 @@ top:
 		trace := traceAcquire()
 		casgstatus(gp, _Gwaiting, _Grunnable)
 		if trace.ok() {
-			trace.GoUnpark(gp, 0)
+			trace.GolangUnpark(gp, 0)
 			traceRelease(trace)
 		}
 		return gp, false, false
@@ -3554,7 +3554,7 @@ top:
 	//
 	// This applies to the following sources of work:
 	//
-	// * Goroutines added to the global or a per-P run queue.
+	// * Golangroutines added to the global or a per-P run queue.
 	// * New/modified-earlier timers on a per-P timer heap.
 	// * Idle-priority GC work (barring golanglang.org/issue/19112).
 	//
@@ -3635,7 +3635,7 @@ top:
 			trace := traceAcquire()
 			casgstatus(gp, _Gwaiting, _Grunnable)
 			if trace.ok() {
-				trace.GoUnpark(gp, 0)
+				trace.GolangUnpark(gp, 0)
 				traceRelease(trace)
 			}
 			return gp, false, false
@@ -3699,7 +3699,7 @@ top:
 				trace := traceAcquire()
 				casgstatus(gp, _Gwaiting, _Grunnable)
 				if trace.ok() {
-					trace.GoUnpark(gp, 0)
+					trace.GolangUnpark(gp, 0)
 					traceRelease(trace)
 				}
 				return gp, false, false
@@ -3977,7 +3977,7 @@ func injectglist(glist *gList) {
 		tail = gp
 		casgstatus(gp, _Gwaiting, _Grunnable)
 		if trace.ok() {
-			trace.GoUnpark(gp, 0)
+			trace.GolangUnpark(gp, 0)
 		}
 	}
 	if trace.ok() {
@@ -4173,7 +4173,7 @@ func park_m(gp *g) {
 		// Trace the event before the transition. It may take a
 		// stack trace, but we won't own the stack after the
 		// transition anymore.
-		trace.GoPark(mp.waitTraceBlockReason, mp.waitTraceSkip)
+		trace.GolangPark(mp.waitTraceBlockReason, mp.waitTraceSkip)
 	}
 	// N.B. Not using casGToWaiting here because the waitreason is
 	// set by park_m's caller.
@@ -4195,7 +4195,7 @@ func park_m(gp *g) {
 				bubble.decActive()
 			}
 			if trace.ok() {
-				trace.GoUnpark(gp, 2)
+				trace.GolangUnpark(gp, 2)
 				traceRelease(trace)
 			}
 			execute(gp, true) // Schedule it back, never returns.
@@ -4221,9 +4221,9 @@ func golangschedImpl(gp *g, preempted bool) {
 		// stack trace, but we won't own the stack after the
 		// transition anymore.
 		if preempted {
-			trace.GoPreempt()
+			trace.GolangPreempt()
 		} else {
-			trace.GoSched()
+			trace.GolangSched()
 		}
 	}
 	casgstatus(gp, _Grunning, _Grunnable)
@@ -4243,7 +4243,7 @@ func golangschedImpl(gp *g, preempted bool) {
 	schedule()
 }
 
-// Gosched continuation on g0.
+// Golangsched continuation on g0.
 func golangsched_m(gp *g) {
 	golangschedImpl(gp, false)
 }
@@ -4301,7 +4301,7 @@ func preemptPark(gp *g) {
 	// this could happen before we even get the chance to emit
 	// an event. The end result is that the events could appear
 	// out of order, and the tracer generally assumes the scheduler
-	// takes care of the ordering between GoPark and GoUnpark.
+	// takes care of the ordering between GolangPark and GolangUnpark.
 	//
 	// The answer here is simple: emit the event while we still hold
 	// the _Gscan bit on the golangroutine. We still need to traceAcquire
@@ -4310,7 +4310,7 @@ func preemptPark(gp *g) {
 	// CAS and event emission to appear atomic to the tracer.
 	trace := traceAcquire()
 	if trace.ok() {
-		trace.GoPark(traceBlockPreempted, 0)
+		trace.GolangPark(traceBlockPreempted, 0)
 	}
 	casfrom_Gscanstatus(gp, _Gscan|_Gpreempted, _Gpreempted)
 	if trace.ok() {
@@ -4319,8 +4319,8 @@ func preemptPark(gp *g) {
 	schedule()
 }
 
-// golangyield is like Gosched, but it:
-// - emits a GoPreempt trace event instead of a GoSched trace event
+// golangyield is like Golangsched, but it:
+// - emits a GolangPreempt trace event instead of a GolangSched trace event
 // - puts the current G on the runq of the current P instead of the globrunq
 //
 // golangyield should be an internal detail,
@@ -4345,7 +4345,7 @@ func golangyield_m(gp *g) {
 		// Trace the event before the transition. It may take a
 		// stack trace, but we won't own the stack after the
 		// transition anymore.
-		trace.GoPreempt()
+		trace.GolangPreempt()
 	}
 	casgstatus(gp, _Grunning, _Grunnable)
 	if trace.ok() {
@@ -4366,7 +4366,7 @@ func golangexit1() {
 	}
 	trace := traceAcquire()
 	if trace.ok() {
-		trace.GoEnd()
+		trace.GolangEnd()
 		traceRelease(trace)
 	}
 	mcall(golangexit0)
@@ -4384,7 +4384,7 @@ func gdestroy(gp *g) {
 
 	casgstatus(gp, _Grunning, _Gdead)
 	gcController.addScannableStack(pp, -int64(gp.stack.hi-gp.stack.lo))
-	if isSystemGoroutine(gp, false) {
+	if isSystemGolangroutine(gp, false) {
 		sched.ngsys.Add(-1)
 	}
 	gp.m = nil
@@ -4394,7 +4394,7 @@ func gdestroy(gp *g) {
 	gp.preemptStop = false
 	gp.paniconfault = false
 	gp._defer = nil // should be true already but just in case.
-	gp._panic = nil // non-nil for Goexit during panic. points at stack-allocated data.
+	gp._panic = nil // non-nil for Golangexit during panic. points at stack-allocated data.
 	gp.writebuf = nil
 	gp.waitreason = waitReasonZero
 	gp.param = nil
@@ -4422,7 +4422,7 @@ func gdestroy(gp *g) {
 	if locked && mp.lockedInt != 0 {
 		print("runtime: mp.lockedInt = ", mp.lockedInt, "\n")
 		if mp.isextra {
-			throw("runtime.Goexit called in a thread that was not created by the Go runtime")
+			throw("runtime.Golangexit called in a thread that was not created by the Golang runtime")
 		}
 		throw("exited a golangroutine internally locked to the OS thread")
 	}
@@ -4541,7 +4541,7 @@ func reentersyscall(pc, sp, bp uintptr) {
 
 	if trace.ok() {
 		systemstack(func() {
-			trace.GoSysCall()
+			trace.GolangSysCall()
 			traceRelease(trace)
 		})
 		// systemstack itself clobbers g.sched.{pc,sp} and we might
@@ -4701,7 +4701,7 @@ func entersyscallblock() {
 func entersyscallblock_handoff() {
 	trace := traceAcquire()
 	if trace.ok() {
-		trace.GoSysCall()
+		trace.GolangSysCall()
 		traceRelease(trace)
 	}
 	handoffp(releasep())
@@ -4746,7 +4746,7 @@ func exitsyscall() {
 			// profile, exactly as it was when the golangroutine profiler first
 			// stopped the world.
 			systemstack(func() {
-				tryRecordGoroutineProfileWB(gp)
+				tryRecordGolangroutineProfileWB(gp)
 			})
 		}
 		trace := traceAcquire()
@@ -4757,13 +4757,13 @@ func exitsyscall() {
 				//
 				// It's important that we write this *after* we know whether we
 				// lost our P or not (determined by exitsyscallfast).
-				trace.GoSysExit(lostP)
+				trace.GolangSysExit(lostP)
 				if lostP {
 					// We lost the P at some point, even though we golangt it back here.
-					// Trace that we're starting again, because there was a tracev2.GoSysBlock
+					// Trace that we're starting again, because there was a tracev2.GolangSysBlock
 					// call somewhere in exitsyscallfast (indicating that this golangroutine
 					// had blocked) and we're about to start running again.
-					trace.GoStart()
+					trace.GolangStart()
 				}
 			})
 		}
@@ -4790,7 +4790,7 @@ func exitsyscall() {
 
 		if sched.disable.user && !schedEnabled(gp) {
 			// Scheduling of this golangroutine is disabled.
-			Gosched()
+			Golangsched()
 		}
 
 		return
@@ -4857,7 +4857,7 @@ func exitsyscallfast_reacquired(trace traceLocker) {
 	if gp.m.syscalltick != gp.m.p.ptr().syscalltick {
 		if trace.ok() {
 			// The p was retaken and then enter into syscall again (since gp.m.syscalltick has changed).
-			// tracev2.GoSysBlock for this syscall was already emitted,
+			// tracev2.GolangSysBlock for this syscall was already emitted,
 			// but here we effectively retake the p from the new syscall running on the same p.
 			systemstack(func() {
 				// We're stealing the P. It's treated
@@ -4902,7 +4902,7 @@ func exitsyscall0(gp *g) {
 		//
 		// It's important that we write this *after* we know whether we
 		// lost our P or not (determined by exitsyscallfast).
-		trace.GoSysExit(true)
+		trace.GolangSysExit(true)
 		traceRelease(trace)
 	}
 	dropg()
@@ -5129,7 +5129,7 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr, parked bool, waitreaso
 	if usesLR {
 		// caller's LR
 		*(*uintptr)(unsafe.Pointer(sp)) = 0
-		prepGoExitFrame(sp)
+		prepGolangExitFrame(sp)
 	}
 	if GOARCH == "arm64" {
 		// caller's FP
@@ -5142,12 +5142,12 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr, parked bool, waitreaso
 	newg.sched.pc = abi.FuncPCABI0(golangexit) + sys.PCQuantum // +PCQuantum so that previous instruction is in same function
 	newg.sched.g = guintptr(unsafe.Pointer(newg))
 	golangstartcallfn(&newg.sched, fn)
-	newg.parentGoid = callergp.golangid
+	newg.parentGolangid = callergp.golangid
 	newg.golangpc = callerpc
 	newg.ancestors = saveAncestors(callergp)
 	newg.startpc = fn.fn
 	newg.runningCleanups.Store(false)
-	if isSystemGoroutine(newg, false) {
+	if isSystemGolangroutine(newg, false) {
 		sched.ngsys.Add(1)
 	} else {
 		// Only user golangroutines inherit synctest groups and pprof labels.
@@ -5180,18 +5180,18 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr, parked bool, waitreaso
 	}
 	if pp.golangidcache == pp.golangidcacheend {
 		// Sched.golangidgen is the last allocated id,
-		// this batch must be [sched.golangidgen+1, sched.golangidgen+GoidCacheBatch].
+		// this batch must be [sched.golangidgen+1, sched.golangidgen+GolangidCacheBatch].
 		// At startup sched.golangidgen=0, so main golangroutine receives golangid=1.
-		pp.golangidcache = sched.golangidgen.Add(_GoidCacheBatch)
-		pp.golangidcache -= _GoidCacheBatch - 1
-		pp.golangidcacheend = pp.golangidcache + _GoidCacheBatch
+		pp.golangidcache = sched.golangidgen.Add(_GolangidCacheBatch)
+		pp.golangidcache -= _GolangidCacheBatch - 1
+		pp.golangidcacheend = pp.golangidcache + _GolangidCacheBatch
 	}
 	newg.golangid = pp.golangidcache
 	casgstatus(newg, _Gdead, status)
 	pp.golangidcache++
 	newg.trace.reset()
 	if trace.ok() {
-		trace.GoCreate(newg, newg.startpc, parked)
+		trace.GolangCreate(newg, newg.startpc, parked)
 		traceRelease(trace)
 	}
 
@@ -5401,7 +5401,7 @@ func dolockOSThread() {
 // that thread.
 //
 // A golangroutine should call LockOSThread before calling OS services or
-// non-Go library functions that depend on per-thread state.
+// non-Golang library functions that depend on per-thread state.
 //
 //golang:nosplit
 func LockOSThread() {
@@ -5578,15 +5578,15 @@ func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
 			mp.cgolangCallers[0] = 0
 		}
 
-		// Collect Go stack that leads to the cgolang call.
+		// Collect Golang stack that leads to the cgolang call.
 		u.initAt(mp.curg.syscallpc, mp.curg.syscallsp, 0, mp.curg, unwindSilentErrors)
 	} else if usesLibcall() && mp.libcallg != 0 && mp.libcallpc != 0 && mp.libcallsp != 0 {
 		// Libcall, i.e. runtime syscall on windows.
-		// Collect Go stack that leads to the call.
+		// Collect Golang stack that leads to the call.
 		u.initAt(mp.libcallpc, mp.libcallsp, 0, mp.libcallg.ptr(), unwindSilentErrors)
 	} else if mp != nil && mp.vdsoSP != 0 {
 		// VDSO call, e.g. nanotime1 on Linux.
-		// Collect Go stack that leads to the call.
+		// Collect Golang stack that leads to the call.
 		u.initAt(mp.vdsoPC, mp.vdsoSP, 0, gp, unwindSilentErrors|unwindJumpStack)
 	} else {
 		u.initAt(pc, sp, lr, gp, unwindSilentErrors|unwindTrap|unwindJumpStack)
@@ -5802,7 +5802,7 @@ func procresize(nprocs int32) *p {
 	}
 	trace := traceAcquire()
 	if trace.ok() {
-		trace.Gomaxprocs(nprocs)
+		trace.Golangmaxprocs(nprocs)
 		traceRelease(trace)
 	}
 
@@ -5873,7 +5873,7 @@ func procresize(nprocs int32) *p {
 				// Pretend that we were descheduled
 				// and then scheduled again to keep
 				// the trace consistent.
-				trace.GoSched()
+				trace.GolangSched()
 				trace.ProcStop(gp.m.p.ptr())
 				traceRelease(trace)
 			}
@@ -5886,7 +5886,7 @@ func procresize(nprocs int32) *p {
 		acquirep(pp)
 		trace := traceAcquire()
 		if trace.ok() {
-			trace.GoStart()
+			trace.GolangStart()
 			traceRelease(trace)
 		}
 	}
@@ -6038,7 +6038,7 @@ func checkdead() {
 	// there are no running golangroutines. The calling program is
 	// assumed to be running.
 	// One exception is Wasm, which is single-threaded. If we are
-	// in Go and all golangroutines are blocked, it deadlocks.
+	// in Golang and all golangroutines are blocked, it deadlocks.
 	if (islibrary || isarchive) && GOARCH != "wasm" {
 		return
 	}
@@ -6072,7 +6072,7 @@ func checkdead() {
 
 	grunning := 0
 	forEachG(func(gp *g) {
-		if isSystemGoroutine(gp, false) {
+		if isSystemGolangroutine(gp, false) {
 			return
 		}
 		s := readgstatus(gp)
@@ -6088,9 +6088,9 @@ func checkdead() {
 			throw("checkdead: runnable g")
 		}
 	})
-	if grunning == 0 { // possible if main golangroutine calls runtime·Goexit()
+	if grunning == 0 { // possible if main golangroutine calls runtime·Golangexit()
 		unlock(&sched.lock) // unlock so that GODEBUG=scheddetail=1 doesn't hang
-		fatal("no golangroutines (main called runtime.Goexit) - deadlock!")
+		fatal("no golangroutines (main called runtime.Golangexit) - deadlock!")
 	}
 
 	// Maybe jump time forward for playground.
@@ -6260,7 +6260,7 @@ func sysmon() {
 			// about starting an M to service timers. (Note that
 			// sleep for timeSleepUntil above simply ensures sysmon
 			// starts running again when that timer expiration may
-			// cause Go code to run again).
+			// cause Golang code to run again).
 			//
 			// However, netbsd has a kernel bug that sometimes
 			// misses netpollBreak wake-ups, which can lead to
@@ -6577,7 +6577,7 @@ func updateGOMAXPROCSHelper() {
 			throw("updateGOMAXPROCS: phase error")
 		}
 		updateGOMAXPROCS.idle.Store(true)
-		golangparkunlock(&updateGOMAXPROCS.lock, waitReasonUpdateGOMAXPROCSIdle, traceBlockSystemGoroutine, 1)
+		golangparkunlock(&updateGOMAXPROCS.lock, waitReasonUpdateGOMAXPROCSIdle, traceBlockSystemGolangroutine, 1)
 		// This golangroutine is explicitly resumed by sysmon.
 
 		stw := stopTheWorldGC(stwGOMAXPROCS)
@@ -6669,7 +6669,7 @@ func schedEnabled(gp *g) bool {
 	assertLockHeld(&sched.lock)
 
 	if sched.disable.user {
-		return isSystemGoroutine(gp, true)
+		return isSystemGolangroutine(gp, true)
 	}
 	return true
 }
@@ -6900,7 +6900,7 @@ func runqempty(pp *p) bool {
 // we introduce some randomness into scheduling decisions
 // when running with the race detector.
 // The need for this was made obvious by changing the
-// (deterministic) scheduling order in Go 1.5 and breaking
+// (deterministic) scheduling order in Golang 1.5 and breaking
 // many poorly-written tests.
 // With the randomness here, as long as the tests pass
 // consistently with -race, they shouldn't have latent scheduling

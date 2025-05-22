@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ func TestLinkerGC(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping in short mode")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	const prog = `package main
 
 import (
@@ -44,7 +44,7 @@ func main() {
 	if err := os.WriteFile(filepath.Join(td, "x.golang"), []byte(prog), 0644); err != nil {
 		t.Fatal(err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "x.exe", "x.golang")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", "x.exe", "x.golang")
 	cmd.Dir = td
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("golang build: %v, %s", err, out)

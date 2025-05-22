@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@
 #ifdef GO_PPC64X_HAS_FUNCDESC
 // crosscall2 is marked with golang:cgolang_export_static. On AIX, this creates and exports
 // the symbol name and descriptor as the AIX linker expects, but does not work if
-// referenced from within Go. Create and use an aliased descriptor of crosscall2
+// referenced from within Golang. Create and use an aliased descriptor of crosscall2
 // to workaround this.
 DEFINE_PPC64X_FUNCDESC(_crosscall2<>, crosscall2)
 #define CROSSCALL2_FPTR $_crosscall2<>(SB)
@@ -42,7 +42,7 @@ TEXT crosscall2(SB),NOSPLIT|NOFRAME,$0
 	// Start with standard C stack frame layout and linkage, allocate
 	// 32 bytes of argument space, save callee-save regs, and set R0 to $0.
 	STACK_AND_SAVE_HOST_TO_GO_ABI(32)
-	// The above will not preserve R2 (TOC). Save it in case Go is
+	// The above will not preserve R2 (TOC). Save it in case Golang is
 	// compiled without a TOC pointer (e.g -buildmode=default).
 	MOVD	R2, 24(R1)
 

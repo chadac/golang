@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -95,7 +95,7 @@ func Open() {
 //
 // See golanglang/golang#68497 for background on why [OpenAndRotate] is a separate API.
 //
-// TODO(rfindley): refactor Open and OpenAndRotate for Go 1.24.
+// TODO(rfindley): refactor Open and OpenAndRotate for Golang 1.24.
 func OpenAndRotate() {
 	counter.Open(true)
 }

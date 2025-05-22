@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -49,7 +49,7 @@ type Requirements struct {
 	// outside workspace mode.
 	//
 	// The roots are always expected to contain an entry for the "golang" module,
-	// indicating the Go language version in use.
+	// indicating the Golang language version in use.
 	rootModules    []module.Version
 	maxRootVersion map[string]string
 
@@ -95,7 +95,7 @@ type cachedGraph struct {
 // accept and/or return an explicit parameter.
 var requirements *Requirements
 
-func mustHaveGoRoot(roots []module.Version) {
+func mustHaveGolangRoot(roots []module.Version) {
 	for _, m := range roots {
 		if m.Path == "golang" {
 			return
@@ -115,7 +115,7 @@ func mustHaveGoRoot(roots []module.Version) {
 // If vendoring is in effect, the caller must invoke initVendor on the returned
 // *Requirements before any other method.
 func newRequirements(pruning modPruning, rootModules []module.Version, direct map[string]bool) *Requirements {
-	mustHaveGoRoot(rootModules)
+	mustHaveGolangRoot(rootModules)
 
 	if pruning != workspace {
 		if workFilePath != "" {
@@ -200,7 +200,7 @@ func (rs *Requirements) initVendor(vendorList []module.Version) {
 				}
 			}
 			if inconsistent {
-				base.Fatal(errGoModDirty)
+				base.Fatal(errGolangModDirty)
 			}
 
 			// Now we can treat the rest of the module graph as effectively “pruned
@@ -236,8 +236,8 @@ func (rs *Requirements) initVendor(vendorList []module.Version) {
 	})
 }
 
-// GoVersion returns the Go language version for the Requirements.
-func (rs *Requirements) GoVersion() string {
+// GolangVersion returns the Golang language version for the Requirements.
+func (rs *Requirements) GolangVersion() string {
 	v, _ := rs.rootSelected("golang")
 	if v == "" {
 		panic("internal error: missing golang version in modload.Requirements")
@@ -318,7 +318,7 @@ var readModGraphDebugOnce sync.Once
 // Unlike LoadModGraph, readModGraph does not attempt to diagnose or update
 // inconsistent roots.
 func readModGraph(ctx context.Context, pruning modPruning, roots []module.Version, unprune map[module.Version]bool) (*ModuleGraph, error) {
-	mustHaveGoRoot(roots)
+	mustHaveGolangRoot(roots)
 	if pruning == pruned {
 		// Enable diagnostics for lazy module loading
 		// (https://golanglang.org/ref/mod#lazy-loading) only if the module graph is
@@ -428,7 +428,7 @@ func readModGraph(ctx context.Context, pruning modPruning, roots []module.Versio
 		})
 	}
 
-	mustHaveGoRoot(roots)
+	mustHaveGolangRoot(roots)
 	for _, m := range roots {
 		enqueue(m, pruning)
 	}
@@ -556,7 +556,7 @@ func (mg *ModuleGraph) allRootsSelected() bool {
 // without loading any packages.
 //
 // If the golangVersion string is non-empty, the returned graph is the graph
-// as interpreted by the given Go version (instead of the version indicated
+// as interpreted by the given Golang version (instead of the version indicated
 // in the golang.mod file).
 //
 // Modules are loaded automatically (and lazily) in LoadPackages:
@@ -570,11 +570,11 @@ func LoadModGraph(ctx context.Context, golangVersion string) (*ModuleGraph, erro
 
 	if golangVersion != "" {
 		v, _ := rs.rootSelected("golang")
-		if golangver.Compare(v, golangver.GoStrictVersion) >= 0 && golangver.Compare(golangVersion, v) < 0 {
-			return nil, fmt.Errorf("requested Go version %s cannot load module graph (requires Go >= %s)", golangVersion, v)
+		if golangver.Compare(v, golangver.GolangStrictVersion) >= 0 && golangver.Compare(golangVersion, v) < 0 {
+			return nil, fmt.Errorf("requested Golang version %s cannot load module graph (requires Golang >= %s)", golangVersion, v)
 		}
 
-		pruning := pruningForGoVersion(golangVersion)
+		pruning := pruningForGolangVersion(golangVersion)
 		if pruning == unpruned && rs.pruning != unpruned {
 			// Use newRequirements instead of convertDepth because convertDepth
 			// also updates roots; here, we want to report the unmodified roots
@@ -1131,7 +1131,7 @@ func updatePrunedRoots(ctx context.Context, direct map[string]bool, rs *Requirem
 				// the graph-pruning horizon, which could in turn change the selected
 				// versions of other modules. (For pruned modules adding or removing an
 				// explicit root is a semantic change, not just a cosmetic one.)
-				return rs, errGoModDirty
+				return rs, errGolangModDirty
 			}
 
 			rs = newRequirements(pruned, roots, direct)
@@ -1397,17 +1397,17 @@ func updateUnprunedRoots(ctx context.Context, direct map[string]bool, rs *Requir
 		if rs == nil {
 			// We're being asked to reconstruct the requirements from scratch,
 			// but we aren't even allowed to modify them.
-			return rs, errGoModDirty
+			return rs, errGolangModDirty
 		}
 		for _, m := range rs.rootModules {
 			if m.Version != mg.Selected(m.Path) {
 				// The root version v is misleading: the actual selected version is higher.
-				return rs, errGoModDirty
+				return rs, errGolangModDirty
 			}
 		}
 		for _, m := range add {
 			if m.Version != mg.Selected(m.Path) {
-				return rs, errGoModDirty
+				return rs, errGolangModDirty
 			}
 		}
 		for mPath := range direct {
@@ -1417,7 +1417,7 @@ func updateUnprunedRoots(ctx context.Context, direct map[string]bool, rs *Requir
 				// Note that this condition is also detected (and logged with more
 				// detail) earlier during package loading, so it shouldn't actually be
 				// possible at this point — this is just a defense in depth.
-				return rs, errGoModDirty
+				return rs, errGolangModDirty
 			}
 		}
 

@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -162,7 +162,7 @@ func (c *itemBuilder) extend(p *parseState, s line) (line, bool) {
 		return s, false
 	}
 	if s.isBlank() {
-		// Goldmark does this and apparently commonmark.js too.
+		// Golangldmark does this and apparently commonmark.js too.
 		// Not sure why it is necessary.
 		return line{}, true
 	}
@@ -253,7 +253,7 @@ Switch:
 		// not begin with a blank line,
 		// and (b) if the list item is ordered, the start number must be 1.”
 		if list == nil && p.para() != nil && (t.isBlank() || (bullet == '.' || bullet == ')') && num != 1) {
-			// Goldmark and Dingus both seem to get this wrong
+			// Golangldmark and Dingus both seem to get this wrong
 			// (or the words above don't mean what we think they do).
 			// when the paragraph that could be continued
 			// is inside a block quote.
@@ -351,12 +351,12 @@ func listCorner(list *List) bool {
 	for _, item := range list.Items {
 		item := item.(*Item)
 		if len(item.Blocks) == 0 {
-			// Goldmark mishandles what follows; see testdata/extra.txt 111.md.
+			// Golangldmark mishandles what follows; see testdata/extra.txt 111.md.
 			return true
 		}
 		switch item.Blocks[0].(type) {
 		case *List, *ThematicBreak, *CodeBlock:
-			// Goldmark mishandles a list with various block items inside it.
+			// Golangldmark mishandles a list with various block items inside it.
 			return true
 		}
 	}

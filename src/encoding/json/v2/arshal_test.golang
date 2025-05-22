@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -69,7 +69,7 @@ func (e *SemanticError) withPos(prefix string, pointer jsontext.Pointer) *Semant
 
 func (e *SemanticError) withType(k jsontext.Kind, t reflect.Type) *SemanticError {
 	e.JSONKind = k
-	e.GoType = t
+	e.GolangType = t
 	return e
 }
 
@@ -2914,7 +2914,7 @@ func TestMarshal(t *testing.T) {
 		name:    jsontest.Name("Structs/Invalid/Conflicting"),
 		in:      structConflicting{},
 		want:    ``,
-		wantErr: EM(errors.New("Go struct fields A and B conflict over JSON object name \"conflict\"")).withType(0, T[structConflicting]()),
+		wantErr: EM(errors.New("Golang struct fields A and B conflict over JSON object name \"conflict\"")).withType(0, T[structConflicting]()),
 	}, {
 		name:    jsontest.Name("Structs/Invalid/NoneExported"),
 		in:      structNoneExported{},
@@ -2924,17 +2924,17 @@ func TestMarshal(t *testing.T) {
 		name:    jsontest.Name("Structs/Invalid/MalformedTag"),
 		in:      structMalformedTag{},
 		want:    ``,
-		wantErr: EM(errors.New("Go struct field Malformed has malformed `json` tag: invalid character '\"' at start of option (expecting Unicode letter or single quote)")).withType(0, T[structMalformedTag]()),
+		wantErr: EM(errors.New("Golang struct field Malformed has malformed `json` tag: invalid character '\"' at start of option (expecting Unicode letter or single quote)")).withType(0, T[structMalformedTag]()),
 	}, {
 		name:    jsontest.Name("Structs/Invalid/UnexportedTag"),
 		in:      structUnexportedTag{},
 		want:    ``,
-		wantErr: EM(errors.New("unexported Go struct field unexported cannot have non-ignored `json:\"name\"` tag")).withType(0, T[structUnexportedTag]()),
+		wantErr: EM(errors.New("unexported Golang struct field unexported cannot have non-ignored `json:\"name\"` tag")).withType(0, T[structUnexportedTag]()),
 	}, {
 		name:    jsontest.Name("Structs/Invalid/ExportedEmbedded"),
 		in:      structExportedEmbedded{"hello"},
 		want:    ``,
-		wantErr: EM(errors.New("embedded Go struct field NamedString of non-struct type must be explicitly given a JSON name")).withType(0, T[structExportedEmbedded]()),
+		wantErr: EM(errors.New("embedded Golang struct field NamedString of non-struct type must be explicitly given a JSON name")).withType(0, T[structExportedEmbedded]()),
 	}, {
 		name: jsontest.Name("Structs/Valid/ExportedEmbedded"),
 		opts: []Options{jsonflags.ReportErrorsWithLegacySemantics | 1},
@@ -2948,7 +2948,7 @@ func TestMarshal(t *testing.T) {
 		name:    jsontest.Name("Structs/Invalid/UnexportedEmbedded"),
 		in:      structUnexportedEmbedded{},
 		want:    ``,
-		wantErr: EM(errors.New("embedded Go struct field namedString of non-struct type must be explicitly given a JSON name")).withType(0, T[structUnexportedEmbedded]()),
+		wantErr: EM(errors.New("embedded Golang struct field namedString of non-struct type must be explicitly given a JSON name")).withType(0, T[structUnexportedEmbedded]()),
 	}, {
 		name: jsontest.Name("Structs/Valid/UnexportedEmbedded"),
 		opts: []Options{jsonflags.ReportErrorsWithLegacySemantics | 1},
@@ -2957,7 +2957,7 @@ func TestMarshal(t *testing.T) {
 	}, {
 		name:    jsontest.Name("Structs/Invalid/UnexportedEmbeddedTag"),
 		in:      structUnexportedEmbeddedTag{},
-		wantErr: EM(errors.New("Go struct field namedString is not exported")).withType(0, T[structUnexportedEmbeddedTag]()),
+		wantErr: EM(errors.New("Golang struct field namedString is not exported")).withType(0, T[structUnexportedEmbeddedTag]()),
 	}, {
 		name: jsontest.Name("Structs/Valid/UnexportedEmbeddedTag"),
 		opts: []Options{jsonflags.ReportErrorsWithLegacySemantics | 1},
@@ -5503,7 +5503,7 @@ func TestUnmarshal(t *testing.T) {
 		want:    addr(float64(64.64)),
 		wantErr: EU(strconv.ErrSyntax).withVal(`"1 "`).withType('"', float64Type),
 	}, {
-		name:    jsontest.Name("Floats/Invalid/GoSyntax"),
+		name:    jsontest.Name("Floats/Invalid/GolangSyntax"),
 		opts:    []Options{StringifyNumbers(true)},
 		inBuf:   `"1p-2"`,
 		inVal:   addr(float64(64.64)),
@@ -7144,7 +7144,7 @@ func TestUnmarshal(t *testing.T) {
 		inBuf:   `{}`,
 		inVal:   addr(structConflicting{}),
 		want:    addr(structConflicting{}),
-		wantErr: EU(errors.New(`Go struct fields A and B conflict over JSON object name "conflict"`)).withType('{', T[structConflicting]()),
+		wantErr: EU(errors.New(`Golang struct fields A and B conflict over JSON object name "conflict"`)).withType('{', T[structConflicting]()),
 	}, {
 		name:    jsontest.Name("Structs/Invalid/NoneExported"),
 		inBuf:   ` {}`,
@@ -7156,19 +7156,19 @@ func TestUnmarshal(t *testing.T) {
 		inBuf:   `{}`,
 		inVal:   addr(structMalformedTag{}),
 		want:    addr(structMalformedTag{}),
-		wantErr: EU(errors.New("Go struct field Malformed has malformed `json` tag: invalid character '\"' at start of option (expecting Unicode letter or single quote)")).withType('{', T[structMalformedTag]()),
+		wantErr: EU(errors.New("Golang struct field Malformed has malformed `json` tag: invalid character '\"' at start of option (expecting Unicode letter or single quote)")).withType('{', T[structMalformedTag]()),
 	}, {
 		name:    jsontest.Name("Structs/Invalid/UnexportedTag"),
 		inBuf:   `{}`,
 		inVal:   addr(structUnexportedTag{}),
 		want:    addr(structUnexportedTag{}),
-		wantErr: EU(errors.New("unexported Go struct field unexported cannot have non-ignored `json:\"name\"` tag")).withType('{', T[structUnexportedTag]()),
+		wantErr: EU(errors.New("unexported Golang struct field unexported cannot have non-ignored `json:\"name\"` tag")).withType('{', T[structUnexportedTag]()),
 	}, {
 		name:    jsontest.Name("Structs/Invalid/ExportedEmbedded"),
 		inBuf:   `{"NamedString":"hello"}`,
 		inVal:   addr(structExportedEmbedded{}),
 		want:    addr(structExportedEmbedded{}),
-		wantErr: EU(errors.New("embedded Go struct field NamedString of non-struct type must be explicitly given a JSON name")).withType('{', T[structExportedEmbedded]()),
+		wantErr: EU(errors.New("embedded Golang struct field NamedString of non-struct type must be explicitly given a JSON name")).withType('{', T[structExportedEmbedded]()),
 	}, {
 		name:  jsontest.Name("Structs/Valid/ExportedEmbedded"),
 		opts:  []Options{jsonflags.ReportErrorsWithLegacySemantics | 1},
@@ -7185,7 +7185,7 @@ func TestUnmarshal(t *testing.T) {
 		inBuf:   `{}`,
 		inVal:   addr(structUnexportedEmbedded{}),
 		want:    addr(structUnexportedEmbedded{}),
-		wantErr: EU(errors.New("embedded Go struct field namedString of non-struct type must be explicitly given a JSON name")).withType('{', T[structUnexportedEmbedded]()),
+		wantErr: EU(errors.New("embedded Golang struct field namedString of non-struct type must be explicitly given a JSON name")).withType('{', T[structUnexportedEmbedded]()),
 	}, {
 		name:  jsontest.Name("Structs/UnexportedEmbeddedStruct"),
 		inBuf: `{"Bool":true,"FizzBuzz":5,"Addr":"192.168.0.1"}`,
@@ -8578,7 +8578,7 @@ func TestUnmarshal(t *testing.T) {
 				})
 
 				return JoinUnmarshalers(
-					// This is just like unmarshaling into a Go array,
+					// This is just like unmarshaling into a Golang array,
 					// but avoids zeroing the element before calling unmarshal.
 					UnmarshalFromFunc(func(dec *jsontext.Decoder, v *[14]any) error {
 						if _, err := dec.ReadToken(); err != nil {

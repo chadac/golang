@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -214,7 +214,7 @@ func (deb *debugger) uint64() uint64 {
 	return n
 }
 
-// GobStream:
+// GolangbStream:
 //
 //	DelimitedMessage* (until EOF)
 func (deb *debugger) golangbStream() {
@@ -421,11 +421,11 @@ func (deb *debugger) typeDefinition(indent tab, id typeId) {
 		deb.delta(1)
 		elemId := deb.typeId()
 		wire.MapT = &mapType{com, keyId, elemId}
-	case 4: // GobEncoder type, one field of {{Common}}
+	case 4: // GolangbEncoder type, one field of {{Common}}
 		// Field number 0 is CommonType
 		deb.delta(1)
 		com := deb.common()
-		wire.GobEncoderT = &golangbEncoderType{com}
+		wire.GolangbEncoderT = &golangbEncoderType{com}
 	case 5: // BinaryMarshaler type, one field of {{Common}}
 		// Field number 0 is CommonType
 		deb.delta(1)
@@ -560,8 +560,8 @@ func (deb *debugger) printWireType(indent tab, wire *wireType) {
 		for i, field := range wire.StructT.Field {
 			fmt.Fprintf(os.Stderr, "%sfield %d:\t%s\tid=%d\n", indent+1, i, field.Name, field.Id)
 		}
-	case wire.GobEncoderT != nil:
-		deb.printCommonType(indent, "GobEncoder", &wire.GobEncoderT.CommonType)
+	case wire.GolangbEncoderT != nil:
+		deb.printCommonType(indent, "GolangbEncoder", &wire.GolangbEncoderT.CommonType)
 	}
 	indent--
 	fmt.Fprintf(os.Stderr, "%s}\n", indent)
@@ -593,7 +593,7 @@ func (deb *debugger) fieldValue(indent tab, id typeId) {
 		deb.sliceValue(indent, wire)
 	case wire.StructT != nil:
 		deb.structValue(indent, id)
-	case wire.GobEncoderT != nil:
+	case wire.GolangbEncoderT != nil:
 		deb.golangbEncoderValue(indent, id)
 	default:
 		panic("bad wire type for field")
@@ -715,13 +715,13 @@ func (deb *debugger) structValue(indent tab, id typeId) {
 	deb.dump(">> End of struct value of type %d %q", id, id.name())
 }
 
-// GobEncoderValue:
+// GolangbEncoderValue:
 //
 //	uint(n) byte*n
 func (deb *debugger) golangbEncoderValue(indent tab, id typeId) {
 	len := deb.uint64()
-	deb.dump("GobEncoder value of %q id=%d, length %d\n", id.name(), id, len)
-	fmt.Fprintf(os.Stderr, "%s%s (implements GobEncoder)\n", indent, id.name())
+	deb.dump("GolangbEncoder value of %q id=%d, length %d\n", id.name(), id, len)
+	fmt.Fprintf(os.Stderr, "%s%s (implements GolangbEncoder)\n", indent, id.name())
 	data := make([]byte, len)
 	_, err := deb.r.Read(data)
 	if err != nil {

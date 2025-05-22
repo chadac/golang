@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -43,7 +43,7 @@ const (
 	StatusProxyAuthRequired            = 407 // RFC 9110, 15.5.8
 	StatusRequestTimeout               = 408 // RFC 9110, 15.5.9
 	StatusConflict                     = 409 // RFC 9110, 15.5.10
-	StatusGone                         = 410 // RFC 9110, 15.5.11
+	StatusGolangne                         = 410 // RFC 9110, 15.5.11
 	StatusLengthRequired               = 411 // RFC 9110, 15.5.12
 	StatusPreconditionFailed           = 412 // RFC 9110, 15.5.13
 	StatusRequestEntityTooLarge        = 413 // RFC 9110, 15.5.14
@@ -144,8 +144,8 @@ func StatusText(code int) string {
 		return "Request Timeout"
 	case StatusConflict:
 		return "Conflict"
-	case StatusGone:
-		return "Gone"
+	case StatusGolangne:
+		return "Golangne"
 	case StatusLengthRequired:
 		return "Length Required"
 	case StatusPreconditionFailed:

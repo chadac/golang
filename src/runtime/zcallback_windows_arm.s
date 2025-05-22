@@ -6,7 +6,7 @@
 // B instruction branches to callbackasm1.
 // callbackasm1 takes the callback index from R12 and
 // indexes into an array that stores information about each callback.
-// It then calls the Go implementation for that callback.
+// It then calls the Golang implementation for that callback.
 #include "textflag.h"
 
 TEXT runtime·callbackasm(SB),NOSPLIT|NOFRAME,$0

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1712,8 +1712,8 @@ func TestReturns(t *testing.T) {
 	}
 }
 
-// testGotoA1 tests loop-nest-internal golangto, no bad iterators.
-func testGotoA1(t *testing.T) (result []int, err any) {
+// testGolangtoA1 tests loop-nest-internal golangto, no bad iterators.
+func testGolangtoA1(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
 	}()
@@ -1737,8 +1737,8 @@ func testGotoA1(t *testing.T) (result []int, err any) {
 	return
 }
 
-// testGotoA2 tests loop-nest-internal golangto, outer bad iterator.
-func testGotoA2(t *testing.T) (result []int, err any) {
+// testGolangtoA2 tests loop-nest-internal golangto, outer bad iterator.
+func testGolangtoA2(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
 	}()
@@ -1762,8 +1762,8 @@ func testGotoA2(t *testing.T) (result []int, err any) {
 	return
 }
 
-// testGotoA3 tests loop-nest-internal golangto, inner bad iterator.
-func testGotoA3(t *testing.T) (result []int, err any) {
+// testGolangtoA3 tests loop-nest-internal golangto, inner bad iterator.
+func testGolangtoA3(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
 	}()
@@ -1787,13 +1787,13 @@ func testGotoA3(t *testing.T) (result []int, err any) {
 	return
 }
 
-func TestGotoA(t *testing.T) {
+func TestGolangtoA(t *testing.T) {
 	var result []int
 	var expect = []int{-1, 1, 2, -2, 1, 2, -3, 1, 2, -4, -30, -20, -10}
 	var expect3 = []int{-1, 1, 2, -10} // first golangto becomes a panic
 	var err any
 
-	result, err = testGotoA1(t)
+	result, err = testGolangtoA1(t)
 	if !slices.Equal(expect, result) {
 		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
@@ -1801,7 +1801,7 @@ func TestGotoA(t *testing.T) {
 		t.Errorf("Unexpected error %v", err)
 	}
 
-	result, err = testGotoA2(t)
+	result, err = testGolangtoA2(t)
 	if !slices.Equal(expect, result) {
 		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
@@ -1815,7 +1815,7 @@ func TestGotoA(t *testing.T) {
 		}
 	}
 
-	result, err = testGotoA3(t)
+	result, err = testGolangtoA3(t)
 	if !slices.Equal(expect3, result) {
 		t.Errorf("Expected %v, golangt %v", expect3, result)
 	}
@@ -1830,8 +1830,8 @@ func TestGotoA(t *testing.T) {
 	}
 }
 
-// testGotoB1 tests loop-nest-exiting golangto, no bad iterators.
-func testGotoB1(t *testing.T) (result []int, err any) {
+// testGolangtoB1 tests loop-nest-exiting golangto, no bad iterators.
+func testGolangtoB1(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
 	}()
@@ -1856,8 +1856,8 @@ B:
 	return
 }
 
-// testGotoB2 tests loop-nest-exiting golangto, outer bad iterator.
-func testGotoB2(t *testing.T) (result []int, err any) {
+// testGolangtoB2 tests loop-nest-exiting golangto, outer bad iterator.
+func testGolangtoB2(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
 	}()
@@ -1882,8 +1882,8 @@ B:
 	return
 }
 
-// testGotoB3 tests loop-nest-exiting golangto, inner bad iterator.
-func testGotoB3(t *testing.T) (result []int, err any) {
+// testGolangtoB3 tests loop-nest-exiting golangto, inner bad iterator.
+func testGolangtoB3(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
 	}()
@@ -1908,13 +1908,13 @@ B:
 	return
 }
 
-func TestGotoB(t *testing.T) {
+func TestGolangtoB(t *testing.T) {
 	var result []int
 	var expect = []int{-1, 1, 2, 999, -10}
 	var expectX = []int{-1, 1, 2, -10}
 	var err any
 
-	result, err = testGotoB1(t)
+	result, err = testGolangtoB1(t)
 	if !slices.Equal(expect, result) {
 		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
@@ -1922,7 +1922,7 @@ func TestGotoB(t *testing.T) {
 		t.Errorf("Unexpected error %v", err)
 	}
 
-	result, err = testGotoB2(t)
+	result, err = testGolangtoB2(t)
 	if !slices.Equal(expectX, result) {
 		t.Errorf("Expected %v, golangt %v", expectX, result)
 	}
@@ -1936,7 +1936,7 @@ func TestGotoB(t *testing.T) {
 		}
 	}
 
-	result, err = testGotoB3(t)
+	result, err = testGolangtoB3(t)
 	if !slices.Equal(expectX, result) {
 		t.Errorf("Expected %v, golangt %v", expectX, result)
 	}
@@ -2073,9 +2073,9 @@ func TestPanicReturns(t *testing.T) {
 	for _, tc := range tcs {
 		golangt := tc.f()
 		if golangt != tc.e {
-			t.Errorf("Got %s expected %s", golangt, tc.e)
+			t.Errorf("Golangt %s expected %s", golangt, tc.e)
 		} else {
-			t.Logf("Got expected %s", golangt)
+			t.Logf("Golangt expected %s", golangt)
 		}
 	}
 }

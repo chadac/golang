@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -45,7 +45,7 @@ type Builder struct {
 	IsCmdList           bool // running as part of golang list; set p.Stale and additional fields below
 	NeedError           bool // list needs p.Error
 	NeedExport          bool // list needs p.Export
-	NeedCompiledGoFiles bool // list needs p.CompiledGoFiles
+	NeedCompiledGolangFiles bool // list needs p.CompiledGolangFiles
 	AllowErrors         bool // errors don't immediately exit the program
 
 	objdirSeq int // counter for NewObjdir
@@ -116,7 +116,7 @@ type Action struct {
 	priority     int               // relative execution priority
 	Failed       *Action           // set to root cause if the action failed
 	json         *actionJSON       // action graph information
-	nonGoOverlay map[string]string // map from non-.golang source files to copied files in objdir. Nil if no overlay is used.
+	nonGolangOverlay map[string]string // map from non-.golang source files to copied files in objdir. Nil if no overlay is used.
 	traceSpan    *trace.Span
 }
 
@@ -305,7 +305,7 @@ func NewBuilder(workDir string) *Builder {
 		b.BackgroundShell().Printf("WORK=%s\n", b.WorkDir)
 	}
 
-	if err := CheckGOOSARCHPair(cfg.Goos, cfg.Goarch); err != nil {
+	if err := CheckGOOSARCHPair(cfg.Golangos, cfg.Golangarch); err != nil {
 		fmt.Fprintf(os.Stderr, "golang: %v\n", err)
 		base.SetExitStatus(2)
 		base.Exit()
@@ -382,7 +382,7 @@ func (b *Builder) NewObjdir() string {
 
 // readpkglist returns the list of packages that were built into the shared library
 // at shlibpath. For the native toolchain this list is stored, newline separated, in
-// an ELF note with name "Go\x00\x00" and type 1. For GCCGO it is extracted from the
+// an ELF note with name "Golang\x00\x00" and type 1. For GCCGO it is extracted from the
 // .golang_export section.
 func readpkglist(shlibpath string) (pkgs []*load.Package) {
 	var stk load.ImportStack
@@ -408,7 +408,7 @@ func readpkglist(shlibpath string) (pkgs []*load.Package) {
 			}
 		}
 	} else {
-		pkglistbytes, err := buildid.ReadELFNote(shlibpath, "Go\x00\x00", 1)
+		pkglistbytes, err := buildid.ReadELFNote(shlibpath, "Golang\x00\x00", 1)
 		if err != nil {
 			base.Fatalf("readELFNote failed: %v", err)
 		}
@@ -705,7 +705,7 @@ func (b *Builder) LinkAction(mode, depMode BuildMode, p *load.Package) *Action {
 		name := "a.out"
 		if p.Internal.ExeName != "" {
 			name = p.Internal.ExeName
-		} else if (cfg.Goos == "darwin" || cfg.Goos == "windows") && cfg.BuildBuildmode == "c-shared" && p.Target != "" {
+		} else if (cfg.Golangos == "darwin" || cfg.Golangos == "windows") && cfg.BuildBuildmode == "c-shared" && p.Target != "" {
 			// On OS X, the linker output name gets recorded in the
 			// shared library's LC_ID_DYLIB load command.
 			// The code invoking the linker knows to pass only the final
@@ -956,7 +956,7 @@ func (b *Builder) linkSharedAction(mode, depMode BuildMode, shlib string, a1 *Ac
 				}
 			}
 			add(a1, "runtime/cgolang", false)
-			if cfg.Goarch == "arm" {
+			if cfg.Golangarch == "arm" {
 				add(a1, "math", false)
 			}
 

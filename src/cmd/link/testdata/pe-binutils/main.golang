@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,7 +9,7 @@
 // where a.rc is a text file with the following content:
 //
 // resname RCDATA {
-//   "Hello Gophers!\0",
+//   "Hello Golangphers!\0",
 //   "This is a test.\0",
 // }
 

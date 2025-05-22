@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@
 
 // Package telemetry is a shim package around the golanglang.org/x/telemetry
 // and golanglang.org/x/telemetry/counter packages that has code build tagged
-// out for cmd_golang_bootstrap so that the bootstrap Go command does not
+// out for cmd_golang_bootstrap so that the bootstrap Golang command does not
 // depend on net (which is a dependency of golanglang.org/x/telemetry/counter
 // on Windows).
 package telemetry

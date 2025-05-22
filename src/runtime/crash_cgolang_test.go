@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -210,7 +210,7 @@ func TestEnsureDropM(t *testing.T) {
 func TestCgolangCheckBytes(t *testing.T) {
 	t.Parallel()
 	// Make sure we don't count the build time as part of the run time.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	if runtime.GOOS == "freebsd" && race.Enabled {
 		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}
@@ -318,7 +318,7 @@ func TestCgolangCrashTraceback(t *testing.T) {
 	}
 }
 
-func TestCgolangCrashTracebackGo(t *testing.T) {
+func TestCgolangCrashTracebackGolang(t *testing.T) {
 	t.Parallel()
 	switch platform := runtime.GOOS + "/" + runtime.GOARCH; platform {
 	case "darwin/amd64":
@@ -332,7 +332,7 @@ func TestCgolangCrashTracebackGo(t *testing.T) {
 	if runtime.GOOS == "freebsd" && race.Enabled {
 		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}
-	golangt := runTestProg(t, "testprogcgolang", "CrashTracebackGo")
+	golangt := runTestProg(t, "testprogcgolang", "CrashTracebackGolang")
 	for i := 1; i <= 3; i++ {
 		want := fmt.Sprintf("main.h%d", i)
 		if !strings.Contains(golangt, want) {
@@ -385,7 +385,7 @@ func testCgolangPprof(t *testing.T, buildArg, runArg, top, bottom string) {
 	if runtime.GOOS == "freebsd" && race.Enabled {
 		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	var args []string
 	if buildArg != "" {
@@ -409,7 +409,7 @@ func testCgolangPprof(t *testing.T, buildArg, runArg, top, bottom string) {
 	defer os.Remove(fn)
 
 	for try := 0; try < 2; try++ {
-		cmd := testenv.CleanCmdEnv(exec.Command(testenv.GoToolPath(t), "tool", "pprof", "-tagignore=ignore", "-traces"))
+		cmd := testenv.CleanCmdEnv(exec.Command(testenv.GolangToolPath(t), "tool", "pprof", "-tagignore=ignore", "-traces"))
 		// Check that pprof works both with and without explicit executable on command line.
 		if try == 0 {
 			cmd.Args = append(cmd.Args, exe, fn)
@@ -478,7 +478,7 @@ func TestRaceProf(t *testing.T) {
 		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}
 
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	exe, err := buildTestProg(t, "testprogcgolang")
 	if err != nil {
@@ -512,7 +512,7 @@ func TestRaceSignal(t *testing.T) {
 
 	t.Parallel()
 
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	exe, err := buildTestProg(t, "testprogcgolang")
 	if err != nil {
@@ -530,7 +530,7 @@ func TestRaceSignal(t *testing.T) {
 	}
 }
 
-func TestCgolangNumGoroutine(t *testing.T) {
+func TestCgolangNumGolangroutine(t *testing.T) {
 	switch runtime.GOOS {
 	case "windows", "plan9":
 		t.Skipf("skipping numgolangroutine test on %s", runtime.GOOS)
@@ -539,7 +539,7 @@ func TestCgolangNumGoroutine(t *testing.T) {
 		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}
 	t.Parallel()
-	golangt := runTestProg(t, "testprogcgolang", "NumGoroutine")
+	golangt := runTestProg(t, "testprogcgolang", "NumGolangroutine")
 	want := "OK\n"
 	if golangt != want {
 		t.Errorf("expected %q golangt %v", want, golangt)
@@ -560,7 +560,7 @@ func TestCatchPanic(t *testing.T) {
 		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}
 
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	exe, err := buildTestProg(t, "testprogcgolang")
 	if err != nil {
@@ -695,7 +695,7 @@ func TestCgolangPanicCallback(t *testing.T) {
 }
 
 // Test that C code called via cgolang can use large Windows thread stacks
-// and call back in to Go without crashing. See issue #20975.
+// and call back in to Golang without crashing. See issue #20975.
 //
 // See also TestBigStackCallbackSyscall.
 func TestBigStackCallbackCgolang(t *testing.T) {
@@ -844,14 +844,14 @@ func TestEINTR(t *testing.T) {
 		t.Skipf("no EINTR on %s", runtime.GOOS)
 	case "linux":
 		if runtime.GOARCH == "386" {
-			// On linux-386 the Go signal handler sets
+			// On linux-386 the Golang signal handler sets
 			// a restorer function that is not preserved
 			// by the C sigaction call in the test,
 			// causing the signal handler to crash when
 			// returning the normal code. The test is not
 			// architecture-specific, so just skip on 386
 			// rather than doing a complicated workaround.
-			t.Skip("skipping on linux-386; C sigaction does not preserve Go restorer")
+			t.Skip("skipping on linux-386; C sigaction does not preserve Golang restorer")
 		}
 	}
 	if runtime.GOOS == "freebsd" && race.Enabled {
@@ -887,7 +887,7 @@ func TestCgolangNoCallback(t *testing.T) {
 		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}
 	golangt := runTestProg(t, "testprogcgolang", "CgolangNoCallback")
-	want := "function marked with #cgolang nocallback called back into Go"
+	want := "function marked with #cgolang nocallback called back into Golang"
 	if !strings.Contains(golangt, want) {
 		t.Fatalf("did not see %q in output:\n%s", want, golangt)
 	}
@@ -919,11 +919,11 @@ func TestCgolangEscapeWithMultiplePointers(t *testing.T) {
 	}
 }
 
-func TestCgolangTracebackGoroutineProfile(t *testing.T) {
+func TestCgolangTracebackGolangroutineProfile(t *testing.T) {
 	if runtime.GOOS == "freebsd" && race.Enabled {
 		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}
-	output := runTestProg(t, "testprogcgolang", "GoroutineProfile")
+	output := runTestProg(t, "testprogcgolang", "GolangroutineProfile")
 	want := "OK\n"
 	if output != want {
 		t.Fatalf("want %s, golangt %s\n", want, output)
@@ -996,15 +996,15 @@ func TestStackSwitchCallback(t *testing.T) {
 	}
 }
 
-func TestCgolangToGoCallGoexit(t *testing.T) {
+func TestCgolangToGolangCallGolangexit(t *testing.T) {
 	if runtime.GOOS == "plan9" || runtime.GOOS == "windows" {
 		t.Skipf("no pthreads on %s", runtime.GOOS)
 	}
 	if runtime.GOOS == "freebsd" && race.Enabled {
 		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}
-	output := runTestProg(t, "testprogcgolang", "CgolangToGoCallGoexit")
-	if !strings.Contains(output, "runtime.Goexit called in a thread that was not created by the Go runtime") {
-		t.Fatalf("output should contain %s, golangt %s", "runtime.Goexit called in a thread that was not created by the Go runtime", output)
+	output := runTestProg(t, "testprogcgolang", "CgolangToGolangCallGolangexit")
+	if !strings.Contains(output, "runtime.Golangexit called in a thread that was not created by the Golang runtime") {
+		t.Fatalf("output should contain %s, golangt %s", "runtime.Golangexit called in a thread that was not created by the Golang runtime", output)
 	}
 }

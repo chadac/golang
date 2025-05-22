@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,8 +27,8 @@ func TestChildFinishesFirst(t *testing.T) {
 func TestCancelRemoves(t *testing.T) {
 	XTestCancelRemoves(t) // uses unexported context types
 }
-func TestCustomContextGoroutines(t *testing.T) {
-	XTestCustomContextGoroutines(t) // reads the context.golangroutines counter
+func TestCustomContextGolangroutines(t *testing.T) {
+	XTestCustomContextGolangroutines(t) // reads the context.golangroutines counter
 }
 
 // The following are regular tests in package context_test.
@@ -867,7 +867,7 @@ func TestCauseRace(t *testing.T) {
 			}
 			break
 		}
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 }
 

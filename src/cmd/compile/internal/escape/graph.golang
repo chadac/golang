@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -38,7 +38,7 @@ import (
 //        e.value(k, n.Left)
 //    }
 
-// A location represents an abstract location that stores a Go
+// A location represents an abstract location that stores a Golang
 // variable.
 type location struct {
 	n         ir.Node  // represented variable or expression, if any
@@ -110,7 +110,7 @@ const (
 
 func (l *location) hasAttr(attr locAttr) bool { return l.attrs&attr != 0 }
 
-// An edge represents an assignment edge between two Go variables.
+// An edge represents an assignment edge between two Golang variables.
 type edge struct {
 	src    *location
 	derefs int // >= -1
@@ -143,7 +143,7 @@ func (l *location) isName(c ir.Class) bool {
 	return l.n != nil && l.n.Op() == ir.ONAME && l.n.(*ir.Name).Class == c
 }
 
-// A hole represents a context for evaluation of a Go
+// A hole represents a context for evaluation of a Golang
 // expression. E.g., when evaluating p in "x = **p", we'd have a hole
 // with dst==x and derefs==2.
 type hole struct {

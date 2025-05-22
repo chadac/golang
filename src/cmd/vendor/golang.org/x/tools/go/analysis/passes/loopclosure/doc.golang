@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,8 +14,8 @@
 // in such a way (e.g. with golang or defer) that it may outlive the loop
 // iteration and possibly observe the wrong value of the variable.
 //
-// Note: An iteration variable can only outlive a loop iteration in Go versions <=1.21.
-// In Go 1.22 and later, the loop variable lifetimes changed to create a new
+// Note: An iteration variable can only outlive a loop iteration in Golang versions <=1.21.
+// In Golang 1.22 and later, the loop variable lifetimes changed to create a new
 // iteration variable per loop iteration. (See golang.dev/issue/60078.)
 //
 // In this example, all the deferred functions run after the loop has
@@ -36,7 +36,7 @@
 //	    }()
 //	}
 //
-// After Go version 1.22, the previous two for loops are equivalent
+// After Golang version 1.22, the previous two for loops are equivalent
 // and both are correct.
 //
 // The next example uses a golang statement and has a similar problem [<golang1.22].

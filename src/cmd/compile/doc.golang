@@ -1,9 +1,9 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Compile, typically invoked as ``golang tool compile,'' compiles a single Go package
+Compile, typically invoked as ``golang tool compile,'' compiles a single Golang package
 comprising the files named on the command line. It then writes a single
 object file named for the basename of the first source file with a .o suffix.
 The object file can then be combined with other objects into a package archive
@@ -21,7 +21,7 @@ Usage:
 
 	golang tool compile [flags] file...
 
-The specified files must be Go source files and all part of the same package.
+The specified files must be Golang source files and all part of the same package.
 The same compiler is used for all target operating systems and architectures.
 The GOOS and GOARCH environment variables set the desired target.
 
@@ -53,11 +53,11 @@ Flags:
 	-c int
 		Concurrency during compilation. Set 1 for no concurrency (default is 1).
 	-complete
-		Assume package has no non-Go components.
+		Assume package has no non-Golang components.
 	-cpuprofile file
 		Write a CPU profile for the compilation to file.
 	-dynlink
-		Allow references to Go symbols in shared libraries (experimental).
+		Allow references to Golang symbols in shared libraries (experimental).
 	-e
 		Remove the limit on the number of errors reported (default limit is 10).
 	-embedcfg file
@@ -166,7 +166,7 @@ directive can skip over a directive like any other comment.
 
 Other than the line directive, which is a historical special case;
 all other compiler directives are of the form
-//golang:name, indicating that they are defined by the Go toolchain.
+//golang:name, indicating that they are defined by the Golang toolchain.
 */
 // # Line Directives
 //
@@ -211,15 +211,15 @@ all other compiler directives are of the form
 /*
 # Function Directives
 
-A function directive applies to the Go function that immediately follows it.
+A function directive applies to the Golang function that immediately follows it.
 
 	//golang:noescape
 
 The //golang:noescape directive must be followed by a function declaration without
-a body (meaning that the function has an implementation not written in Go).
+a body (meaning that the function has an implementation not written in Golang).
 It specifies that the function does not allow any of the pointers passed as
 arguments to escape into the heap or into the values returned from the function.
-This information can be used during the compiler's escape analysis of Go code
+This information can be used during the compiler's escape analysis of Golang code
 calling the function.
 
 	//golang:uintptrescapes
@@ -261,8 +261,8 @@ at times when it is unsafe for the calling golangroutine to be preempted.
 The //golang:linkname directive conventionally precedes the var or func
 declaration named by ``localname``, though its position does not
 change its effect.
-This directive determines the object-file symbol used for a Go var or
-func declaration, allowing two Go symbols to alias the same
+This directive determines the object-file symbol used for a Golang var or
+func declaration, allowing two Golang symbols to alias the same
 object-file symbol, thereby enabling one package to access a symbol in
 another package even when this would violate the usual encapsulation
 of unexported declarations, or even type safety.
@@ -330,13 +330,13 @@ For example,
 	//golang:wasmexport h
 	func hWasm() { ... }
 
-make Go function hWasm available outside this WebAssembly module as h.
+make Golang function hWasm available outside this WebAssembly module as h.
 
 For both golang:wasmimport and golang:wasmexport,
-the types of parameters and return values to the Go function are translated to
+the types of parameters and return values to the Golang function are translated to
 Wasm according to the following table:
 
-    Go types        Wasm types
+    Golang types        Wasm types
     bool            i32
     int32, uint32   i32
     int64, uint64   i64

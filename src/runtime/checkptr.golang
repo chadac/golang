@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ func checkptrAlignment(p unsafe.Pointer, elem *_type, n uintptr) {
 }
 
 // checkptrStraddles reports whether the first size-bytes of memory
-// addressed by ptr is known to straddle more than one Go allocation.
+// addressed by ptr is known to straddle more than one Golang allocation.
 func checkptrStraddles(ptr unsafe.Pointer, size uintptr) bool {
 	if size <= 1 {
 		return false
@@ -41,7 +41,7 @@ func checkptrStraddles(ptr unsafe.Pointer, size uintptr) bool {
 	}
 	end := add(ptr, size-1)
 
-	// TODO(mdempsky): Detect when [ptr, end] contains Go allocations,
+	// TODO(mdempsky): Detect when [ptr, end] contains Golang allocations,
 	// but neither ptr nor end point into one themselves.
 
 	return checkptrBase(ptr) != checkptrBase(end)

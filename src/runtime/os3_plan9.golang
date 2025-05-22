@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -58,7 +58,7 @@ func sighandler(_ureg *ureg, note *byte, gp *g) int {
 		// stack. Abort in the signal handler instead.
 		flags = (flags &^ _SigPanic) | _SigThrow
 	}
-	if flags&_SigGoExit != 0 {
+	if flags&_SigGolangExit != 0 {
 		exits((*byte)(add(unsafe.Pointer(note), 9))) // Strip "golang: exit " prefix.
 	}
 	if flags&_SigPanic != 0 {

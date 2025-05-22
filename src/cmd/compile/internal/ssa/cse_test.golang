@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -45,7 +45,7 @@ func TestCSEAuxPartitionBug(t *testing.T) {
 			Valu("r5", OpAdd64, c.config.Types.Int64, 0, nil, "r2", "r3"),
 			Valu("r10", OpAdd64, c.config.Types.Int64, 0, nil, "r6", "r9"),
 			Valu("rstore", OpStore, types.TypeMem, 0, c.config.Types.Int64, "raddr", "r10", "raddrdef"),
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("rstore")))
 
@@ -112,7 +112,7 @@ func TestZCSE(t *testing.T) {
 			Valu("raddr", OpLocalAddr, c.config.Types.Int64.PtrTo(), 0, nil, "sp", "start"),
 			Valu("raddrdef", OpVarDef, types.TypeMem, 0, a, "start"),
 			Valu("rstore", OpStore, types.TypeMem, 0, c.config.Types.Int64, "raddr", "r3", "raddrdef"),
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("rstore")))
 

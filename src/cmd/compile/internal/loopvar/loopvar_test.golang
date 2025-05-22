@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -51,7 +51,7 @@ var cases = []testcase{
 }
 
 // TestLoopVar checks that the GOEXPERIMENT and debug flags behave as expected.
-func TestLoopVarGo1_21(t *testing.T) {
+func TestLoopVarGolang1_21(t *testing.T) {
 	switch runtime.GOOS {
 	case "linux", "darwin":
 	default:
@@ -63,8 +63,8 @@ func TestLoopVarGo1_21(t *testing.T) {
 		t.Skipf("Slow test, usually avoid it, arch=%s not amd64 or arm64", runtime.GOARCH)
 	}
 
-	testenv.MustHaveGoBuild(t)
-	golangcmd := testenv.GoToolPath(t)
+	testenv.MustHaveGolangBuild(t)
+	golangcmd := testenv.GolangToolPath(t)
 	tmpdir := t.TempDir()
 	output := filepath.Join(tmpdir, "foo.exe")
 
@@ -103,7 +103,7 @@ func TestLoopVarGo1_21(t *testing.T) {
 	}
 }
 
-func TestLoopVarInlinesGo1_21(t *testing.T) {
+func TestLoopVarInlinesGolang1_21(t *testing.T) {
 	switch runtime.GOOS {
 	case "linux", "darwin":
 	default:
@@ -115,8 +115,8 @@ func TestLoopVarInlinesGo1_21(t *testing.T) {
 		t.Skipf("Slow test, usually avoid it, arch=%s not amd64 or arm64", runtime.GOARCH)
 	}
 
-	testenv.MustHaveGoBuild(t)
-	golangcmd := testenv.GoToolPath(t)
+	testenv.MustHaveGolangBuild(t)
+	golangcmd := testenv.GolangToolPath(t)
 	tmpdir := t.TempDir()
 
 	root := "cmd/compile/internal/loopvar/testdata/inlines"
@@ -166,7 +166,7 @@ func countMatches(s, re string) int {
 }
 
 func TestLoopVarHashes(t *testing.T) {
-	// This behavior does not depend on Go version (1.21 or greater)
+	// This behavior does not depend on Golang version (1.21 or greater)
 	switch runtime.GOOS {
 	case "linux", "darwin":
 	default:
@@ -178,8 +178,8 @@ func TestLoopVarHashes(t *testing.T) {
 		t.Skipf("Slow test, usually avoid it, arch=%s not amd64 or arm64", runtime.GOARCH)
 	}
 
-	testenv.MustHaveGoBuild(t)
-	golangcmd := testenv.GoToolPath(t)
+	testenv.MustHaveGolangBuild(t)
+	golangcmd := testenv.GolangToolPath(t)
 	tmpdir := t.TempDir()
 
 	root := "cmd/compile/internal/loopvar/testdata/inlines"
@@ -187,7 +187,7 @@ func TestLoopVarHashes(t *testing.T) {
 	f := func(hash string) string {
 		// This disables the loopvar change, except for the specified hash pattern.
 		// -trimpath is necessary so we get the same answer no matter where the
-		// Go repository is checked out. This is not normally a concern since people
+		// Golang repository is checked out. This is not normally a concern since people
 		// do not normally rely on the meaning of specific hashes.
 		cmd := testenv.Command(t, golangcmd, "run", "-trimpath", root)
 		cmd.Env = append(cmd.Env, "GOCOMPILEDEBUG=loopvarhash="+hash, "HOME="+tmpdir)
@@ -239,8 +239,8 @@ func TestLoopVarVersionEnableFlag(t *testing.T) {
 		t.Skipf("Slow test, usually avoid it, arch=%s not amd64 or arm64", runtime.GOARCH)
 	}
 
-	testenv.MustHaveGoBuild(t)
-	golangcmd := testenv.GoToolPath(t)
+	testenv.MustHaveGolangBuild(t)
+	golangcmd := testenv.GolangToolPath(t)
 
 	// loopvar=3 logs info but does not change loopvarness
 	cmd := testenv.Command(t, golangcmd, "run", "-gcflags=-lang=golang1.22 -d=loopvar=3", "opt.golang")
@@ -265,8 +265,8 @@ func TestLoopVarVersionEnableFlag(t *testing.T) {
 	}
 }
 
-// TestLoopVarVersionEnableGoBuild checks for loopvar transformation enabled by golang:build version (1.22).
-func TestLoopVarVersionEnableGoBuild(t *testing.T) {
+// TestLoopVarVersionEnableGolangBuild checks for loopvar transformation enabled by golang:build version (1.22).
+func TestLoopVarVersionEnableGolangBuild(t *testing.T) {
 	switch runtime.GOOS {
 	case "linux", "darwin":
 	default:
@@ -278,8 +278,8 @@ func TestLoopVarVersionEnableGoBuild(t *testing.T) {
 		t.Skipf("Slow test, usually avoid it, arch=%s not amd64 or arm64", runtime.GOARCH)
 	}
 
-	testenv.MustHaveGoBuild(t)
-	golangcmd := testenv.GoToolPath(t)
+	testenv.MustHaveGolangBuild(t)
+	golangcmd := testenv.GolangToolPath(t)
 
 	// loopvar=3 logs info but does not change loopvarness
 	cmd := testenv.Command(t, golangcmd, "run", "-gcflags=-lang=golang1.21 -d=loopvar=3", "opt-122.golang")
@@ -317,8 +317,8 @@ func TestLoopVarVersionDisableFlag(t *testing.T) {
 		t.Skipf("Slow test, usually avoid it, arch=%s not amd64 or arm64", runtime.GOARCH)
 	}
 
-	testenv.MustHaveGoBuild(t)
-	golangcmd := testenv.GoToolPath(t)
+	testenv.MustHaveGolangBuild(t)
+	golangcmd := testenv.GolangToolPath(t)
 
 	// loopvar=3 logs info but does not change loopvarness
 	cmd := testenv.Command(t, golangcmd, "run", "-gcflags=-lang=golang1.21 -d=loopvar=3", "opt.golang")
@@ -343,8 +343,8 @@ func TestLoopVarVersionDisableFlag(t *testing.T) {
 	}
 }
 
-// TestLoopVarVersionDisableGoBuild checks for loopvar transformation DISABLED by golang:build version (1.21).
-func TestLoopVarVersionDisableGoBuild(t *testing.T) {
+// TestLoopVarVersionDisableGolangBuild checks for loopvar transformation DISABLED by golang:build version (1.21).
+func TestLoopVarVersionDisableGolangBuild(t *testing.T) {
 	switch runtime.GOOS {
 	case "linux", "darwin":
 	default:
@@ -356,8 +356,8 @@ func TestLoopVarVersionDisableGoBuild(t *testing.T) {
 		t.Skipf("Slow test, usually avoid it, arch=%s not amd64 or arm64", runtime.GOARCH)
 	}
 
-	testenv.MustHaveGoBuild(t)
-	golangcmd := testenv.GoToolPath(t)
+	testenv.MustHaveGolangBuild(t)
+	golangcmd := testenv.GolangToolPath(t)
 
 	// loopvar=3 logs info but does not change loopvarness
 	cmd := testenv.Command(t, golangcmd, "run", "-gcflags=-lang=golang1.22 -d=loopvar=3", "opt-121.golang")

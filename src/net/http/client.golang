@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -313,7 +313,7 @@ func timeBeforeContextDeadline(t time.Time, ctx context.Context) bool {
 }
 
 // knownRoundTripperImpl reports whether rt is a RoundTripper that's
-// maintained by the Go team and known to implement the latest
+// maintained by the Golang team and known to implement the latest
 // optional semantics (notably contexts). The Request is used
 // to check whether this particular request is using an alternate protocol,
 // in which case we need to check the RoundTripper for that protocol.
@@ -380,7 +380,7 @@ func setRequestCancel(req *Request, rt RoundTripper, deadline time.Time) (stopTi
 		// The second way in the func comment above:
 		close(cancel)
 		// The first way, used only for RoundTripper
-		// implementations written before Go 1.5 or Go 1.6.
+		// implementations written before Golang 1.5 or Golang 1.6.
 		type canceler interface{ CancelRequest(*Request) }
 		if v, ok := rt.(canceler); ok {
 			v.CancelRequest(req)
@@ -527,7 +527,7 @@ func redirectBehavior(reqMethod string, resp *Response, ireq *Request) (redirect
 			// We had a request body, and 307/308 require
 			// re-sending it, but GetBody is not defined. So just
 			// return this response to the user instead of an
-			// error, like we did in Go 1.7 and earlier.
+			// error, like we did in Golang 1.7 and earlier.
 			shouldRedirect = false
 		}
 	}
@@ -713,7 +713,7 @@ func (c *Client) do(req *Request) (retres *Response, reterr error) {
 			resp.Body.Close()
 
 			if err != nil {
-				// Special case for Go 1 compatibility: return both the response
+				// Special case for Golang 1 compatibility: return both the response
 				// and an error if the CheckRedirect function failed.
 				// See https://golanglang.org/issue/3795
 				// The resp.Body has already been closed.

@@ -8,7 +8,7 @@
 //	Portions Copyright © 2004,2006 Bruce Ellis
 //	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 //	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-//	Portions Copyright © 2009 The Go Authors. All rights reserved.
+//	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -125,12 +125,12 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	}
 
 	if ctxt.Flag_dynlink {
-		c.rewriteToUseGot(p)
+		c.rewriteToUseGolangt(p)
 	}
 }
 
 // Rewrite p, if necessary, to access global data via the global offset table.
-func (c *ctxt5) rewriteToUseGot(p *obj.Prog) {
+func (c *ctxt5) rewriteToUseGolangt(p *obj.Prog) {
 	if p.As == obj.ADUFFCOPY || p.As == obj.ADUFFZERO {
 		//     ADUFFxxx $offset
 		// becomes
@@ -167,7 +167,7 @@ func (c *ctxt5) rewriteToUseGot(p *obj.Prog) {
 	}
 
 	// We only care about global data: NAME_EXTERN means a global
-	// symbol in the Go sense, and p.Sym.Local is true for a few
+	// symbol in the Golang sense, and p.Sym.Local is true for a few
 	// internally defined symbols.
 	if p.From.Type == obj.TYPE_ADDR && p.From.Name == obj.NAME_EXTERN && !p.From.Sym.Local() {
 		// MOVW $sym, Rx becomes MOVW sym@GOT, Rx

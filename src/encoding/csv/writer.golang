@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -148,14 +148,14 @@ func (w *Writer) WriteAll(records [][]string) error {
 // fieldNeedsQuotes reports whether our field must be enclosed in quotes.
 // Fields with a Comma, fields with a quote or newline, and
 // fields which start with a space must be enclosed in quotes.
-// We used to quote empty strings, but we do not anymore (as of Go 1.4).
+// We used to quote empty strings, but we do not anymore (as of Golang 1.4).
 // The two representations should be equivalent, but Postgres distinguishes
 // quoted vs non-quoted empty string during database imports, and it has
 // an option to force the quoted behavior for non-quoted CSV but it has
 // no option to force the non-quoted behavior for quoted CSV, making
 // CSV with quoted empty strings strictly less useful.
 // Not quoting the empty string also makes this package match the behavior
-// of Microsoft Excel and Google Drive.
+// of Microsoft Excel and Golangogle Drive.
 // For Postgres, quote the data terminating string `\.`.
 func (w *Writer) fieldNeedsQuotes(field string) bool {
 	if field == "" {

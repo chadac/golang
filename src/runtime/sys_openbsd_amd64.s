@@ -1,10 +1,10 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for AMD64, OpenBSD.
 // System calls are implemented in libc/libpthread, this file
-// contains trampolines that convert from Go to C calling convention.
+// contains trampolines that convert from Golang to C calling convention.
 // Some direct system call implementations currently remain.
 //
 
@@ -26,7 +26,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$0
 	// DI points to the m.
 	// We are already on m's g0 stack.
 
-	// Transition from C ABI to Go ABI.
+	// Transition from C ABI to Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Load g and save to TLS entry.
@@ -38,7 +38,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$0
 
 	POP_REGS_HOST_TO_ABI0()
 
-	// Go is all done with this OS thread.
+	// Golang is all done with this OS thread.
 	// Tell pthread everything is ok (we never join with this thread, so
 	// the value here doesn't really matter).
 	XORL	AX, AX
@@ -57,7 +57,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 
 // Called using C ABI.
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
-	// Transition from C ABI to Go ABI.
+	// Transition from C ABI to Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Set up ABIInternal environment: g in R14, cleared X15.
@@ -69,7 +69,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	NOP	SP		// disable vet stack checking
 	ADJSP   $24
 
-	// Call into the Go signal handler
+	// Call into the Golang signal handler
 	MOVQ	DI, AX	// sig
 	MOVQ	SI, BX	// info
 	MOVQ	DX, CX	// ctx
@@ -81,7 +81,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	RET
 
 //
-// These trampolines help convert from Go calling convention to C calling convention.
+// These trampolines help convert from Golang calling convention to C calling convention.
 // They should be called with asmcgolangcall.
 // A pointer to the arguments is passed in DI.
 // A single int32 result is returned in AX.

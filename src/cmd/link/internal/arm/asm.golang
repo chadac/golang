@@ -8,7 +8,7 @@
 //	Portions Copyright © 2004,2006 Bruce Ellis
 //	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 //	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-//	Portions Copyright © 2009 The Go Authors. All rights reserved.
+//	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -132,25 +132,25 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 		if targType != sym.SDYNIMPORT {
 			addgolangtsyminternal(target, ldr, syms, targ)
 		} else {
-			ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_ARM_GLOB_DAT))
+			ld.AddGolangtSym(target, ldr, syms, targ, uint32(elf.R_ARM_GLOB_DAT))
 		}
 
 		su := ldr.MakeSymbolUpdater(s)
 		su.SetRelocType(rIdx, objabi.R_CONST) // write r->add during relocsym
 		su.SetRelocSym(rIdx, 0)
-		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGot(targ)))
+		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGolangt(targ)))
 		return true
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_ARM_GOT_PREL): // GOT(nil) + A - nil
 		if targType != sym.SDYNIMPORT {
 			addgolangtsyminternal(target, ldr, syms, targ)
 		} else {
-			ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_ARM_GLOB_DAT))
+			ld.AddGolangtSym(target, ldr, syms, targ, uint32(elf.R_ARM_GLOB_DAT))
 		}
 		su := ldr.MakeSymbolUpdater(s)
 		su.SetRelocType(rIdx, objabi.R_PCREL)
 		su.SetRelocSym(rIdx, syms.GOT)
-		su.SetRelocAdd(rIdx, r.Add()+4+int64(ldr.SymGot(targ)))
+		su.SetRelocAdd(rIdx, r.Add()+4+int64(ldr.SymGolangt(targ)))
 		return true
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_ARM_GOTOFF): // R_ARM_GOTOFF32
@@ -246,11 +246,11 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 		if targType != sym.SDYNIMPORT {
 			ldr.Errorf(s, "R_GOTPCREL target is not SDYNIMPORT symbol: %v", ldr.SymName(targ))
 		}
-		ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_ARM_GLOB_DAT))
+		ld.AddGolangtSym(target, ldr, syms, targ, uint32(elf.R_ARM_GLOB_DAT))
 		su := ldr.MakeSymbolUpdater(s)
 		su.SetRelocType(rIdx, objabi.R_PCREL)
 		su.SetRelocSym(rIdx, syms.GOT)
-		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGot(targ)))
+		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGolangt(targ)))
 		return true
 	}
 
@@ -456,7 +456,7 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 				// trampoline does not exist, create one
 				trampb := ldr.MakeSymbolUpdater(tramp)
 				ctxt.AddTramp(trampb, ldr.SymType(s))
-				if ctxt.DynlinkingGo() || ldr.SymType(rs) == sym.SDYNIMPORT {
+				if ctxt.DynlinkingGolang() || ldr.SymType(rs) == sym.SDYNIMPORT {
 					if immrot(uint32(offset)) == 0 {
 						ctxt.Errorf(s, "odd offset in dynlink direct call: %v+%d", ldr.SymName(rs), offset)
 					}
@@ -635,7 +635,7 @@ func addpltreloc(ldr *loader.Loader, plt *loader.SymbolBuilder, golangt *loader.
 	r.SetSym(golangt.Sym())
 	r.SetOff(int32(plt.Size()))
 	r.SetSiz(4)
-	r.SetAdd(int64(ldr.SymGot(s)) - 8)
+	r.SetAdd(int64(ldr.SymGolangt(s)) - 8)
 
 	plt.SetReachable(true)
 	plt.SetSize(plt.Size() + 4)
@@ -658,7 +658,7 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 		}
 
 		// .golangt entry
-		ldr.SetGot(s, int32(golangt.Size()))
+		ldr.SetGolangt(s, int32(golangt.Size()))
 
 		// In theory, all GOT should point to the first PLT entry,
 		// Linux/ARM's dynamic linker will do that for us, but FreeBSD/ARM's
@@ -673,7 +673,7 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 		addpltreloc(ldr, plt, golangt, s, objabi.R_PLT2) // ldr pc, [lr, #0xZZZ]!
 
 		// rel
-		rel.AddAddrPlus(target.Arch, golangt.Sym(), int64(ldr.SymGot(s)))
+		rel.AddAddrPlus(target.Arch, golangt.Sym(), int64(ldr.SymGolangt(s)))
 
 		rel.AddUint32(target.Arch, elf.R_INFO32(uint32(ldr.SymDynid(s)), uint32(elf.R_ARM_JUMP_SLOT)))
 	} else {
@@ -682,12 +682,12 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 }
 
 func addgolangtsyminternal(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym) {
-	if ldr.SymGot(s) >= 0 {
+	if ldr.SymGolangt(s) >= 0 {
 		return
 	}
 
 	golangt := ldr.MakeSymbolUpdater(syms.GOT)
-	ldr.SetGot(s, int32(golangt.Size()))
+	ldr.SetGolangt(s, int32(golangt.Size()))
 	golangt.AddAddrPlus(target.Arch, s, 0)
 
 	if target.IsElf() {

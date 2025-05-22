@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -68,8 +68,8 @@ func ExampleReader_Multistream() {
 		modTime time.Time
 		data    string
 	}{
-		{"file-1.txt", "file-header-1", time.Date(2006, time.February, 1, 3, 4, 5, 0, time.UTC), "Hello Gophers - 1"},
-		{"file-2.txt", "file-header-2", time.Date(2007, time.March, 2, 4, 5, 6, 1, time.UTC), "Hello Gophers - 2"},
+		{"file-1.txt", "file-header-1", time.Date(2006, time.February, 1, 3, 4, 5, 0, time.UTC), "Hello Golangphers - 1"},
+		{"file-2.txt", "file-header-2", time.Date(2007, time.March, 2, 4, 5, 6, 1, time.UTC), "Hello Golangphers - 2"},
 	}
 
 	for _, file := range files {
@@ -121,13 +121,13 @@ func ExampleReader_Multistream() {
 	// Comment: file-header-1
 	// ModTime: 2006-02-01 03:04:05 +0000 UTC
 	//
-	// Hello Gophers - 1
+	// Hello Golangphers - 1
 	//
 	// Name: file-2.txt
 	// Comment: file-header-2
 	// ModTime: 2007-03-02 04:05:06 +0000 UTC
 	//
-	// Hello Gophers - 2
+	// Hello Golangphers - 2
 }
 
 func Example_compressingReader() {

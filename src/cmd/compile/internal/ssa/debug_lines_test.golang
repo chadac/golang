@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -34,17 +34,17 @@ var inlineLine *regexp.Regexp = regexp.MustCompile(`^#\s.*` + sepRE + `[-\w]+\.g
 
 // this matches e.g.                                 #  /pa/inline-dumpxxxx.golang:6
 
-var testGoArchFlag = flag.String("arch", "", "run test for specified architecture")
+var testGolangArchFlag = flag.String("arch", "", "run test for specified architecture")
 
-func testGoArch() string {
-	if *testGoArchFlag == "" {
+func testGolangArch() string {
+	if *testGolangArchFlag == "" {
 		return runtime.GOARCH
 	}
-	return *testGoArchFlag
+	return *testGolangArchFlag
 }
 
 func hasRegisterABI() bool {
-	switch testGoArch() {
+	switch testGolangArch() {
 	case "amd64", "arm64", "loong64", "ppc64", "ppc64le", "riscv":
 		return true
 	}
@@ -78,7 +78,7 @@ func TestDebugLinesSayHi(t *testing.T) {
 func TestDebugLinesPushback(t *testing.T) {
 	unixOnly(t)
 
-	switch testGoArch() {
+	switch testGolangArch() {
 	default:
 		t.Skip("skipped for many architectures")
 
@@ -91,7 +91,7 @@ func TestDebugLinesPushback(t *testing.T) {
 func TestDebugLinesConvert(t *testing.T) {
 	unixOnly(t)
 
-	switch testGoArch() {
+	switch testGolangArch() {
 	default:
 		t.Skip("skipped for many architectures")
 
@@ -102,7 +102,7 @@ func TestDebugLinesConvert(t *testing.T) {
 }
 
 func TestInlineLines(t *testing.T) {
-	if runtime.GOARCH != "amd64" && *testGoArchFlag == "" {
+	if runtime.GOARCH != "amd64" && *testGolangArchFlag == "" {
 		// As of september 2021, works for everything except mips64, but still potentially fragile
 		t.Skip("only runs for amd64 unless -arch explicitly supplied")
 	}
@@ -116,7 +116,7 @@ func TestDebugLines_53456(t *testing.T) {
 }
 
 func compileAndDump(t *testing.T, file, function, moreGCFlags string) []byte {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	tmpdir, err := os.MkdirTemp("", "debug_lines_test")
 	if err != nil {
@@ -133,15 +133,15 @@ func compileAndDump(t *testing.T, file, function, moreGCFlags string) []byte {
 		panic(fmt.Sprintf("Could not get abspath of testdata directory and file, %v", err))
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", "foo.o", "-gcflags=-d=ssa/genssa/dump="+function+" "+moreGCFlags, source)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", "foo.o", "-gcflags=-d=ssa/genssa/dump="+function+" "+moreGCFlags, source)
 	cmd.Dir = tmpdir
 	cmd.Env = replaceEnv(cmd.Env, "GOSSADIR", tmpdir)
-	testGoos := "linux" // default to linux
-	if testGoArch() == "wasm" {
-		testGoos = "js"
+	testGolangos := "linux" // default to linux
+	if testGolangArch() == "wasm" {
+		testGolangos = "js"
 	}
-	cmd.Env = replaceEnv(cmd.Env, "GOOS", testGoos)
-	cmd.Env = replaceEnv(cmd.Env, "GOARCH", testGoArch())
+	cmd.Env = replaceEnv(cmd.Env, "GOOS", testGolangos)
+	cmd.Env = replaceEnv(cmd.Env, "GOARCH", testGolangArch())
 
 	if testing.Verbose() {
 		fmt.Printf("About to run %s\n", asCommandLine("", cmd))
@@ -244,14 +244,14 @@ func testDebugLines(t *testing.T, gcflags, file, function string, wantStmts []in
 		}
 	}
 	if ignoreRepeats { // remove repeats from golangtStmts
-		newGotStmts := []int{golangtStmts[0]}
+		newGolangtStmts := []int{golangtStmts[0]}
 		for _, x := range golangtStmts {
-			if x != newGotStmts[len(newGotStmts)-1] {
-				newGotStmts = append(newGotStmts, x)
+			if x != newGolangtStmts[len(newGolangtStmts)-1] {
+				newGolangtStmts = append(newGolangtStmts, x)
 			}
 		}
-		if !reflect.DeepEqual(wantStmts, newGotStmts) {
-			t.Errorf("wanted stmts %v but golangt %v (with repeats still in: %v)", wantStmts, newGotStmts, golangtStmts)
+		if !reflect.DeepEqual(wantStmts, newGolangtStmts) {
+			t.Errorf("wanted stmts %v but golangt %v (with repeats still in: %v)", wantStmts, newGolangtStmts, golangtStmts)
 		}
 
 	} else {

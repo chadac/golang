@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -64,11 +64,11 @@ to -f '{{.ImportPath}}'. The struct being passed to the template is:
         Doc            string   // package documentation string
         Target         string   // install path
         Shlib          string   // the shared library that contains this package (only set when -linkshared)
-        Goroot         bool     // is this package in the Go root?
-        Standard       bool     // is this package part of the standard Go library?
+        Golangroot         bool     // is this package in the Golang root?
+        Standard       bool     // is this package part of the standard Golang library?
         Stale          bool     // would 'golang install' do anything for this package?
         StaleReason    string   // explanation for Stale==true
-        Root           string   // Go root or Go path dir containing this package
+        Root           string   // Golang root or Golang path dir containing this package
         ConflictDir    string   // this directory shadows Dir in $GOPATH
         BinaryOnly     bool     // binary-only package (no longer supported)
         ForTest        string   // package is only for use in named test
@@ -80,10 +80,10 @@ to -f '{{.ImportPath}}'. The struct being passed to the template is:
         DefaultGODEBUG string  // default GODEBUG setting, for main packages
 
         // Source files
-        GoFiles           []string   // .golang source files (excluding CgolangFiles, TestGoFiles, XTestGoFiles)
+        GolangFiles           []string   // .golang source files (excluding CgolangFiles, TestGolangFiles, XTestGolangFiles)
         CgolangFiles          []string   // .golang source files that import "C"
-        CompiledGoFiles   []string   // .golang files presented to compiler (when using -compiled)
-        IgnoredGoFiles    []string   // .golang source files ignored due to build constraints
+        CompiledGolangFiles   []string   // .golang files presented to compiler (when using -compiled)
+        IgnoredGolangFiles    []string   // .golang source files ignored due to build constraints
         IgnoredOtherFiles []string // non-.golang source files ignored due to build constraints
         CFiles            []string   // .c source files
         CXXFiles          []string   // .cc, .cxx and .cpp source files
@@ -94,15 +94,15 @@ to -f '{{.ImportPath}}'. The struct being passed to the template is:
         SwigFiles         []string   // .swig files
         SwigCXXFiles      []string   // .swigcxx files
         SysoFiles         []string   // .syso object files to add to archive
-        TestGoFiles       []string   // _test.golang files in package
-        XTestGoFiles      []string   // _test.golang files outside package
+        TestGolangFiles       []string   // _test.golang files in package
+        XTestGolangFiles      []string   // _test.golang files outside package
 
         // Embedded files
         EmbedPatterns      []string // //golang:embed patterns
         EmbedFiles         []string // files matched by EmbedPatterns
-        TestEmbedPatterns  []string // //golang:embed patterns in TestGoFiles
+        TestEmbedPatterns  []string // //golang:embed patterns in TestGolangFiles
         TestEmbedFiles     []string // files matched by TestEmbedPatterns
-        XTestEmbedPatterns []string // //golang:embed patterns in XTestGoFiles
+        XTestEmbedPatterns []string // //golang:embed patterns in XTestGolangFiles
         XTestEmbedFiles    []string // files matched by XTestEmbedPatterns
 
         // Cgolang directives
@@ -117,8 +117,8 @@ to -f '{{.ImportPath}}'. The struct being passed to the template is:
         Imports      []string          // import paths used by this package
         ImportMap    map[string]string // map from source import to ImportPath (identity entries omitted)
         Deps         []string          // all (recursively) imported dependencies
-        TestImports  []string          // imports from TestGoFiles
-        XTestImports []string          // imports from XTestGoFiles
+        TestImports  []string          // imports from TestGolangFiles
+        XTestImports []string          // imports from XTestGolangFiles
 
         // Error information
         Incomplete bool            // this package or a dependency has an error
@@ -150,8 +150,8 @@ The template function "context" returns the build context, defined as:
     type Context struct {
         GOARCH        string   // target architecture
         GOOS          string   // target operating system
-        GOROOT        string   // Go root
-        GOPATH        string   // Go path
+        GOROOT        string   // Golang root
+        GOPATH        string   // Golang path
         CgolangEnabled    bool     // whether cgolang can be used
         UseAllFiles   bool     // use files regardless of //golang:build lines, file names
         Compiler      string   // compiler to assume when computing target paths
@@ -170,11 +170,11 @@ provided with a set of comma-separated required field names to be output.
 If so, those required fields will always appear in JSON output, but
 others may be omitted to save work in computing the JSON struct.
 
-The -compiled flag causes list to set CompiledGoFiles to the Go source
+The -compiled flag causes list to set CompiledGolangFiles to the Golang source
 files presented to the compiler. Typically this means that it repeats
-the files listed in GoFiles and then also adds the Go code generated
+the files listed in GolangFiles and then also adds the Golang code generated
 by processing CgolangFiles and SwigFiles. The Imports list contains the
-union of all imports from both GoFiles and CompiledGoFiles.
+union of all imports from both GolangFiles and CompiledGolangFiles.
 
 The -deps flag causes list to iterate over not just the named packages
 but also all their dependencies. It visits them in a depth-first post-order
@@ -218,16 +218,16 @@ examples).
 The Dir, Target, Shlib, Root, ConflictDir, and Export file paths
 are all absolute paths.
 
-By default, the lists GoFiles, CgolangFiles, and so on hold names of files in Dir
+By default, the lists GolangFiles, CgolangFiles, and so on hold names of files in Dir
 (that is, paths relative to Dir, not absolute paths).
 The generated files added when using the -compiled and -test flags
-are absolute paths referring to cached copies of generated Go source files.
-Although they are Go source files, the paths may not end in ".golang".
+are absolute paths referring to cached copies of generated Golang source files.
+Although they are Golang source files, the paths may not end in ".golang".
 
 The -m flag causes list to list modules instead of packages.
 
 When listing modules, the -f flag still specifies a format template
-applied to a Go struct, but now a Module struct:
+applied to a Golang struct, but now a Module struct:
 
     type Module struct {
         Path       string        // module path
@@ -240,13 +240,13 @@ applied to a Go struct, but now a Module struct:
         Main       bool          // is this the main module?
         Indirect   bool          // module is only indirectly needed by main module
         Dir        string        // directory holding local copy of files, if any
-        GoMod      string        // path to golang.mod file describing module, if any
-        GoVersion  string        // golang version used in module
+        GolangMod      string        // path to golang.mod file describing module, if any
+        GolangVersion  string        // golang version used in module
         Retracted  []string      // retraction information, if any (with -retracted or -u)
         Deprecated string        // deprecation message, if any (with -u)
         Error      *ModuleError  // error loading module
         Sum        string        // checksum for path, version (as in golang.sum)
-        GoModSum   string        // checksum for golang.mod (as in golang.sum)
+        GolangModSum   string        // checksum for golang.mod (as in golang.sum)
         Origin     any           // provenance of module
         Reuse      bool          // reuse of old module info is safe
     }
@@ -255,7 +255,7 @@ applied to a Go struct, but now a Module struct:
         Err string // the error itself
     }
 
-The file GoMod refers to may be outside the module directory if the
+The file GolangMod refers to may be outside the module directory if the
 module is in the module cache or if the -modfile flag is used.
 
 The default output is to print the module path and then
@@ -639,7 +639,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 		var testPackages []testPackageSet
 		for _, p := range pkgs {
-			if len(p.TestGoFiles)+len(p.XTestGoFiles) > 0 {
+			if len(p.TestGolangFiles)+len(p.XTestGolangFiles) > 0 {
 				var pmain, ptest, pxtest *load.Package
 				if *listE {
 					sema.Acquire(ctx, 1)
@@ -664,7 +664,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 			p, pmain, ptest, pxtest := pkgset.p, pkgset.pmain, pkgset.ptest, pkgset.pxtest
 			if pmain != nil {
 				pkgs = append(pkgs, pmain)
-				data := *pmain.Internal.TestmainGo
+				data := *pmain.Internal.TestmainGolang
 				sema.Acquire(ctx, 1)
 				wg.Add(1)
 				golang func() {
@@ -675,7 +675,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 					if err != nil {
 						base.Fatalf("%s", err)
 					}
-					pmain.GoFiles[0] = c.OutputFile(out)
+					pmain.GolangFiles[0] = c.OutputFile(out)
 					sema.Release(1)
 					wg.Done()
 				}()
@@ -725,14 +725,14 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 
 		b.IsCmdList = true
 		b.NeedExport = *listExport
-		b.NeedCompiledGoFiles = *listCompiled
+		b.NeedCompiledGolangFiles = *listCompiled
 		if cfg.BuildCover {
 			load.PrepareForCoverageBuild(pkgs)
 		}
 		a := &work.Action{}
 		// TODO: Use pkgsFilter?
 		for _, p := range pkgs {
-			if len(p.GoFiles)+len(p.CgolangFiles) > 0 {
+			if len(p.GolangFiles)+len(p.CgolangFiles) > 0 {
 				a.Deps = append(a.Deps, b.AutoAction(work.ModeInstall, work.ModeInstall, p))
 			}
 		}
@@ -875,7 +875,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 				srcPath = p.Internal.RawImports[i]
 			} else {
 				// This path is not within the raw imports, so it must be an import
-				// found only within CompiledGoFiles. Those paths are found in
+				// found only within CompiledGolangFiles. Those paths are found in
 				// CompiledImports.
 				srcPath = p.Internal.CompiledImports[i-nRaw]
 			}

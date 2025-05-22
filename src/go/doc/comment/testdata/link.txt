@@ -1,17 +1,17 @@
 -- input --
-The Go home page is https://golang.dev/.
+The Golang home page is https://golang.dev/.
 It used to be https://golanglang.org.
 
 -- golangfmt --
-The Go home page is https://golang.dev/.
+The Golang home page is https://golang.dev/.
 It used to be https://golanglang.org.
 
 -- text --
-The Go home page is https://golang.dev/. It used to be https://golanglang.org.
+The Golang home page is https://golang.dev/. It used to be https://golanglang.org.
 
 -- markdown --
-The Go home page is [https://golang.dev/](https://golang.dev/). It used to be [https://golanglang.org](https://golanglang.org).
+The Golang home page is [https://golang.dev/](https://golang.dev/). It used to be [https://golanglang.org](https://golanglang.org).
 
 -- html --
-<p>The Go home page is <a href="https://golang.dev/">https://golang.dev/</a>.
+<p>The Golang home page is <a href="https://golang.dev/">https://golang.dev/</a>.
 It used to be <a href="https://golanglang.org">https://golanglang.org</a>.

@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -87,7 +87,7 @@ func TestRedefineSafety(t *testing.T) {
 	c := newTestCase(t)
 	c.mustParse(c.root, `<html><a href="{{template "X"}}">{{define "X"}}{{end}}`)
 	c.mustExecute(c.root, nil, `<html><a href="">`)
-	// Note: Every version of Go prior to Go 1.8 accepted the redefinition of "X"
+	// Note: Every version of Golang prior to Golang 1.8 accepted the redefinition of "X"
 	// on the next line, but luckily kept it from being used in the outer template.
 	// Now we reject it, which makes clearer that we're not golanging to use it.
 	c.mustNotParse(c.root, `{{define "X"}}" bar="baz{{end}}`)

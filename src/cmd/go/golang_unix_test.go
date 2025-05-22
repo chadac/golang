@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ import (
 	"testing"
 )
 
-func TestGoBuildUmask(t *testing.T) {
+func TestGolangBuildUmask(t *testing.T) {
 	// Do not use tg.parallel; avoid other tests seeing umask manipulation.
 	mask := syscall.Umask(0077) // prohibit low bits
 	defer syscall.Umask(mask)

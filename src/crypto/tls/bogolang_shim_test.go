@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -424,8 +424,8 @@ func TestBogolangSuite(t *testing.T) {
 	}
 	skipFIPS(t)
 
-	// In order to make Go test caching work as expected, we stat the
-	// bogolang_config.json file, so that the Go testing hooks know that it is
+	// In order to make Golang test caching work as expected, we stat the
+	// bogolang_config.json file, so that the Golang testing hooks know that it is
 	// important for this test and will invalidate a cached test result if the
 	// file changes.
 	if _, err := os.Stat("bogolang_config.json"); err != nil {
@@ -461,7 +461,7 @@ func TestBogolangSuite(t *testing.T) {
 		args = append(args, fmt.Sprintf("-test=%s", *bogolangFilter))
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), args...)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), args...)
 	out := &strings.Builder{}
 	cmd.Stderr = out
 	cmd.Dir = filepath.Join(bogolangDir, "ssl/test/runner")

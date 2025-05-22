@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -639,17 +639,17 @@ func TestCodeRepo(t *testing.T) {
 				}
 
 				if tt.golangmod != "" || tt.golangmodErr != "" {
-					data, err := repo.GoMod(ctx, tt.version)
+					data, err := repo.GolangMod(ctx, tt.version)
 					if err != nil && tt.golangmodErr == "" {
-						t.Errorf("repo.GoMod(%q): %v", tt.version, err)
+						t.Errorf("repo.GolangMod(%q): %v", tt.version, err)
 					} else if err != nil && tt.golangmodErr != "" {
 						if err.Error() != tt.golangmodErr {
-							t.Errorf("repo.GoMod(%q): %v, want %q", tt.version, err, tt.golangmodErr)
+							t.Errorf("repo.GolangMod(%q): %v, want %q", tt.version, err, tt.golangmodErr)
 						}
 					} else if tt.golangmodErr != "" {
-						t.Errorf("repo.GoMod(%q) = %q, want error %q", tt.version, data, tt.golangmodErr)
+						t.Errorf("repo.GolangMod(%q) = %q, want error %q", tt.version, data, tt.golangmodErr)
 					} else if string(data) != tt.golangmod {
-						t.Errorf("repo.GoMod(%q) = %q, want %q", tt.version, data, tt.golangmod)
+						t.Errorf("repo.GolangMod(%q) = %q, want %q", tt.version, data, tt.golangmod)
 					}
 				}
 

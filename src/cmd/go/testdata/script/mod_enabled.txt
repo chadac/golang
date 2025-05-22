@@ -4,7 +4,7 @@ env GO111MODULE=auto
 cd $GOPATH/src/x/y/z
 golang env GOMOD
 stdout $GOPATH[/\\]src[/\\]x[/\\]y[/\\]z[/\\]golang.mod
-golang list -m -f {{.GoMod}}
+golang list -m -f {{.GolangMod}}
 stdout $GOPATH[/\\]src[/\\]x[/\\]y[/\\]z[/\\]golang.mod
 
 cd $GOPATH/src/x/y/z/w
@@ -18,7 +18,7 @@ golang env GOMOD
 cd $GOPATH/foo
 golang env GOMOD
 stdout foo[/\\]golang.mod
-golang list -m -f {{.GoMod}}
+golang list -m -f {{.GolangMod}}
 stdout foo[/\\]golang.mod
 
 cd $GOPATH/foo/bar/baz

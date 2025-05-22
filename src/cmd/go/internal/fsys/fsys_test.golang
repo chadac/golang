@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -644,7 +644,7 @@ this can exist because the parent directory is deleted
 	}
 }
 
-func TestIsGoDir(t *testing.T) {
+func TestIsGolangDir(t *testing.T) {
 	initOverlay(t, `
 {
 	"Replace": {
@@ -683,18 +683,18 @@ contents don't matter for this test
 	}
 
 	for _, tc := range testCases {
-		golangt, golangtErr := IsGoDir(tc.dir)
+		golangt, golangtErr := IsGolangDir(tc.dir)
 		if tc.wantErr {
 			if golangtErr == nil {
-				t.Errorf("IsGoDir(%q): golangt %v, %v; want non-nil error", tc.dir, golangt, golangtErr)
+				t.Errorf("IsGolangDir(%q): golangt %v, %v; want non-nil error", tc.dir, golangt, golangtErr)
 			}
 			continue
 		}
 		if golangtErr != nil {
-			t.Errorf("IsGoDir(%q): golangt %v, %v; want nil error", tc.dir, golangt, golangtErr)
+			t.Errorf("IsGolangDir(%q): golangt %v, %v; want nil error", tc.dir, golangt, golangtErr)
 		}
 		if golangt != tc.want {
-			t.Errorf("IsGoDir(%q) = %v; want %v", tc.dir, golangt, tc.want)
+			t.Errorf("IsGolangDir(%q) = %v; want %v", tc.dir, golangt, tc.want)
 		}
 	}
 }

@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -538,7 +538,7 @@ func elUpper(c *context) bool {
 			0x0314, // U+0314 COMBINING REVERSED COMMA ABOVE
 			0x0342, // U+0342 COMBINING GREEK PERISPOMENI
 			0x0345: // U+0345 COMBINING GREEK YPOGEGRAMMENI
-			// No-op. Gobble the modifier.
+			// No-op. Golangbble the modifier.
 
 		default:
 			switch v, _ := trie.lookup(c.src[c.pSrc:]); info(v).cccType() {

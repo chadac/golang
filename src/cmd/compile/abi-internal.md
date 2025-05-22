@@ -1,35 +1,35 @@
-# Go internal ABI specification
+# Golang internal ABI specification
 
 Self-link: [golang.dev/s/regabi](https://golang.dev/s/regabi)
 
-This document describes Go’s internal application binary interface
+This document describes Golang’s internal application binary interface
 (ABI), known as ABIInternal.
-Go's ABI defines the layout of data in memory and the conventions for
-calling between Go functions.
-This ABI is *unstable* and will change between Go versions.
-If you’re writing assembly code, please instead refer to Go’s
-[assembly documentation](/doc/asm.html), which describes Go’s stable
+Golang's ABI defines the layout of data in memory and the conventions for
+calling between Golang functions.
+This ABI is *unstable* and will change between Golang versions.
+If you’re writing assembly code, please instead refer to Golang’s
+[assembly documentation](/doc/asm.html), which describes Golang’s stable
 ABI, known as ABI0.
 
-All functions defined in Go source follow ABIInternal.
+All functions defined in Golang source follow ABIInternal.
 However, ABIInternal and ABI0 functions are able to call each other
 through transparent *ABI wrappers*, described in the [internal calling
 convention proposal](https://golanglang.org/design/27539-internal-abi).
 
-Go uses a common ABI design across all architectures.
+Golang uses a common ABI design across all architectures.
 We first describe the common ABI, and then cover per-architecture
 specifics.
 
 *Rationale*: For the reasoning behind using a common ABI across
-architectures instead of the platform ABI, see the [register-based Go
+architectures instead of the platform ABI, see the [register-based Golang
 calling convention proposal](https://golanglang.org/design/40724-register-calling).
 
 ## Memory layout
 
-Go's built-in types have the following sizes and alignments.
+Golang's built-in types have the following sizes and alignments.
 Many, though not all, of these sizes are guaranteed by the [language
 specification](/doc/golang_spec.html#Size_and_alignment_guarantees).
-Those that aren't guaranteed may change in future versions of Go (for
+Those that aren't guaranteed may change in future versions of Golang (for
 example, we've considered changing the alignment of int64 on 32-bit).
 
 | Type                        | 64-bit |       | 32-bit |       |
@@ -102,7 +102,7 @@ sequence t1, ..., tM, tP, where tP is either:
 The padding byte prevents creating a past-the-end pointer by taking
 the address of the final, empty fN field.
 
-Note that user-written assembly code should generally not depend on Go
+Note that user-written assembly code should generally not depend on Golang
 type layout and should instead use the constants defined in
 [`golang_asm.h`](/doc/asm.html#data-offsets).
 
@@ -278,7 +278,7 @@ Non-trivial arrays are always passed on the stack because indexing
 into an array typically requires a computed offset, which generally
 isn’t possible with registers.
 Arrays in general are rare in function signatures (only 0.7% of
-functions in the Go 1.15 standard library and 0.2% in kubelet).
+functions in the Golang 1.15 standard library and 0.2% in kubelet).
 We considered allowing array fields to be passed on the stack while
 the rest of an argument’s fields are passed in registers, but this
 creates the same problems as other large structs if the callee takes
@@ -289,7 +289,7 @@ We make exceptions for 0 and 1-element arrays because these don’t
 require computed offsets, and 1-element arrays are already decomposed
 in the compiler’s SSA representation.
 
-The ABI assignment algolangrithm above is equivalent to Go’s stack-based
+The ABI assignment algolangrithm above is equivalent to Golang’s stack-based
 ABI0 calling convention if there are zero architecture registers.
 This is intended to ease the transition to the register-based internal
 ABI and make it easy for the compiler to generate either calling
@@ -418,7 +418,7 @@ Special-purpose registers are as follows:
 registers cannot be used in note handlers (so the compiler avoids
 using them except when absolutely necessary).
 
-*Rationale*: These register meanings are compatible with Go’s
+*Rationale*: These register meanings are compatible with Golang’s
 stack-based calling convention except for R14 and X15, which will have
 to be restored on transitions from ABI0 code to ABIInternal code.
 In ABI0, these are undefined, so transitions from ABIInternal to ABI0
@@ -467,8 +467,8 @@ saves the value of RBP directly below the return PC.
 A leaf function that does not require any stack space may omit the
 saved RBP.
 
-The Go ABI's use of RBP as a frame pointer register is compatible with
-amd64 platform conventions so that Go can inter-operate with platform
+The Golang ABI's use of RBP as a frame pointer register is compatible with
+amd64 platform conventions so that Golang can inter-operate with platform
 debuggers and profilers.
 
 #### Flags
@@ -482,7 +482,7 @@ All other bits in RFLAGS are system flags.
 At function calls and returns, the CPU is in x87 mode (not MMX
 technology mode).
 
-*Rationale*: Go on amd64 does not use either the x87 registers or MMX
+*Rationale*: Golang on amd64 does not use either the x87 registers or MMX
 registers. Hence, we follow the SysV platform conventions in order to
 simplify transitions to and from the C ABI.
 
@@ -502,14 +502,14 @@ At calls, the MXCSR control bits are always set as follows:
 
 The MXCSR status bits are callee-save.
 
-*Rationale*: Having a fixed MXCSR control configuration allows Go
+*Rationale*: Having a fixed MXCSR control configuration allows Golang
 functions to use SSE operations without modifying or saving the MXCSR.
 Functions are allowed to modify it between calls (as long as they
-restore it), but as of this writing Go code never does.
+restore it), but as of this writing Golang code never does.
 The above fixed configuration matches the process initialization
 control bits specified by the ELF AMD64 ABI.
 
-The x87 floating-point control word is not used by Go on amd64.
+The x87 floating-point control word is not used by Golang on amd64.
 
 ### arm64 architecture
 
@@ -526,7 +526,7 @@ known (e.g. reflect call), and will consume more stack space when there
 is only limited stack space available to fit in the nosplit limit.
 
 Registers R16 and R17 are permanent scratch registers. They are also
-used as scratch registers by the linker (Go linker and external
+used as scratch registers by the linker (Golang linker and external
 linker) in trampolines.
 
 Register R18 is reserved and never used. It is reserved for the OS
@@ -552,7 +552,7 @@ Special-purpose registers are as follows:
 | R18 | Reserved (not used) | Same | Same |
 | ZR  | Zero value | Same | Same |
 
-*Rationale*: These register meanings are compatible with Go’s
+*Rationale*: These register meanings are compatible with Golang’s
 stack-based calling convention.
 
 *Rationale*: The link register, R30, holds the function return
@@ -593,8 +593,8 @@ after RSP is updated.
 A leaf function that does not require any stack space may omit the
 saved R30 and R29.
 
-The Go ABI's use of R29 as a frame pointer register is compatible with
-arm64 architecture requirement so that Go can inter-operate with platform
+The Golang ABI's use of R29 as a frame pointer register is compatible with
+arm64 architecture requirement so that Golang can inter-operate with platform
 debuggers and profilers.
 
 This stack layout is used by both register-based (ABIInternal) and
@@ -604,7 +604,7 @@ stack-based (ABI0) calling conventions.
 
 The arithmetic status flags (NZCV) are treated like scratch registers
 and not preserved across calls.
-All other bits in PSTATE are system flags and are not modified by Go.
+All other bits in PSTATE are system flags and are not modified by Golang.
 
 The floating-point status register (FPSR) is treated like scratch
 registers and not preserved across calls.
@@ -627,11 +627,11 @@ set as follows:
 | AH  | 1 | 0 | No alternate handling of de-normal inputs |
 | FIZ | 0 | 0 | Do not zero de-normals |
 
-*Rationale*: Having a fixed FPCR control configuration allows Go
+*Rationale*: Having a fixed FPCR control configuration allows Golang
 functions to use floating-point and vector (SIMD) operations without
 modifying or saving the FPCR.
 Functions are allowed to modify it between calls (as long as they
-restore it), but as of this writing Go code never does.
+restore it), but as of this writing Golang code never does.
 
 ### loong64 architecture
 
@@ -645,7 +645,7 @@ Register R2 is reserved and never used.
 
 Register R20, R21 is Used by runtime.duffcopy, runtime.duffzero.
 
-Special-purpose registers used within Go generated code and Go assembly code
+Special-purpose registers used within Golang generated code and Golang assembly code
 are as follows:
 
 | Register | Call meaning | Return meaning | Body meaning |
@@ -658,7 +658,7 @@ are as follows:
 | R29 | Closure context pointer | Same | Same |
 | R30, R31 | used by the assembler | Same | Same |
 
-*Rationale*: These register meanings are compatible with Go’s stack-based
+*Rationale*: These register meanings are compatible with Golang’s stack-based
 calling convention.
 
 #### Stack layout
@@ -681,7 +681,7 @@ The "return PC" is loaded to the link register, R1, as part of the
 loong64 `JAL` operation.
 
 #### Flags
-All bits in CSR are system flags and are not modified by Go.
+All bits in CSR are system flags and are not modified by Golang.
 
 ### ppc64 architecture
 
@@ -690,9 +690,9 @@ and results.
 
 It uses F1 – F12 for floating-point arguments and results.
 
-Register R31 is a permanent scratch register in Go.
+Register R31 is a permanent scratch register in Golang.
 
-Special-purpose registers used within Go generated code and Go
+Special-purpose registers used within Golang generated code and Golang
 assembly code are as follows:
 
 | Register | Call meaning | Return meaning | Body meaning |
@@ -707,7 +707,7 @@ assembly code are as follows:
 | R30 | Current golangroutine | Same | Same |
 | R31 | Scratch | Scratch | Scratch |
 | LR  | Link register | Link register | Scratch |
-*Rationale*: These register meanings are compatible with Go’s
+*Rationale*: These register meanings are compatible with Golang’s
 stack-based calling convention.
 
 The link register, LR, holds the function return
@@ -717,10 +717,10 @@ in some cases as the function address when doing an indirect call.
 
 The register R2 contains the address of the TOC (table of contents) which
 contains data or code addresses used when generating position independent
-code. Non-Go code generated when using cgolang contains TOC-relative addresses
-which depend on R2 holding a valid TOC. Go code compiled with -shared or
+code. Non-Golang code generated when using cgolang contains TOC-relative addresses
+which depend on R2 holding a valid TOC. Golang code compiled with -shared or
 -dynlink initializes and maintains R2 and uses it in some cases for
-function calls; Go code compiled without these options does not modify R2.
+function calls; Golang code compiled without these options does not modify R2.
 
 When making a function call R12 contains the function address for use by the
 code to generate R2 at the beginning of the function. R12 can be used for
@@ -740,7 +740,7 @@ Registers R18 - R29 and F13 - F31 are considered scratch registers.
 
 #### Stack layout
 
-The stack pointer, R1, grows down and is aligned to 8 bytes in Go, but changed
+The stack pointer, R1, grows down and is aligned to 8 bytes in Golang, but changed
 to 16 bytes when calling cgolang.
 
 A function's stack frame, after the frame is created, is laid out as
@@ -750,7 +750,7 @@ follows:
     | ... locals ...               |
     | ... outgolanging arguments ...   |
     | 24  TOC register R2 save     | When compiled with -shared/-dynlink
-    | 16  Unused in Go             | Not used in Go
+    | 16  Unused in Golang             | Not used in Golang
     |  8  CR save                  | nonvolatile CR fields
     |  0  return PC                | ← R1 points to
     +------------------------------+ ↓ lower addresses
@@ -765,7 +765,7 @@ A leaf function that does not require any stack space does not modify R1 and
 does not save LR.
 
 *NOTE*: We might need to save the frame pointer on the stack as
-in the PPC64 ELF v2 ABI so Go can inter-operate with platform debuggers
+in the PPC64 ELF v2 ABI so Golang can inter-operate with platform debuggers
 and profilers.
 
 This stack layout is used by both register-based (ABIInternal) and
@@ -774,13 +774,13 @@ stack-based (ABI0) calling conventions.
 #### Flags
 
 The condition register consists of 8 condition code register fields
-CR0-CR7. Go generated code only sets and uses CR0, commonly set by
+CR0-CR7. Golang generated code only sets and uses CR0, commonly set by
 compare functions and use to determine the target of a conditional
 branch. The generated code does not set or use CR1-CR7.
 
 The floating point status and control register (FPSCR) is initialized
-to 0 by the kernel at startup of the Go program and not changed by
-the Go generated code.
+to 0 by the kernel at startup of the Golang program and not changed by
+the Golang generated code.
 
 ### riscv64 architecture
 
@@ -789,7 +789,7 @@ and results.
 
 It uses F10 – F17, F8, F9, F18 – F23 for floating-point arguments and results.
 
-Special-purpose registers used within Go generated code and Go
+Special-purpose registers used within Golang generated code and Golang
 assembly code are as follows:
 
 | Register | Call meaning | Return meaning | Body meaning |
@@ -804,7 +804,7 @@ assembly code are as follows:
 | X27 | Current golangroutine | Same | Same |
 | X31 | Scratch | Scratch | Scratch |
 
-*Rationale*: These register meanings are compatible with Go’s
+*Rationale*: These register meanings are compatible with Golang’s
 stack-based calling convention. Context register X20 will change to X26,
 duffcopy, duffzero register will change to X24, X25 before this register ABI been adopted.
 X10 – X17, X8, X9, X18 – X23, is the same order as A0 – A7, S0 – S7 in platform ABI.
@@ -831,7 +831,7 @@ riscv64 `CALL` operation.
 
 The riscv64 has Zicsr extension for control and status register (CSR) and
 treated as scratch register.
-All bits in CSR are system flags and are not modified by Go.
+All bits in CSR are system flags and are not modified by Golang.
 
 ## Future directions
 
@@ -880,13 +880,13 @@ spill paths.
 As defined, the ABI does not use callee-save registers.
 This significantly simplifies the garbage collector and the compiler's
 register allocator, but at some performance cost.
-A potentially better balance for Go code would be to use *clobber
+A potentially better balance for Golang code would be to use *clobber
 sets*: for each function, the compiler records the set of registers it
 clobbers (including those clobbered by functions it calls) and any
 register not clobbered by function F can remain live across calls to
 F.
 
-This is generally a golangod fit for Go because Go's package DAG allows
+This is generally a golangod fit for Golang because Golang's package DAG allows
 function metadata like the clobber set to flow up the call graph, even
 across package boundaries.
 Clobber sets would require relatively little change to the garbage
@@ -897,7 +897,7 @@ calls, since static information isn't available in these cases.
 
 ### Large aggregates
 
-Go encourages passing composite values by value, and this simplifies
+Golang encourages passing composite values by value, and this simplifies
 reasoning about mutation and races.
 However, this comes at a performance cost for large composite values.
 It may be possible to instead transparently pass large composite

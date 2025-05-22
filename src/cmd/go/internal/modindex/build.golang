@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,8 +32,8 @@ import (
 type Context struct {
 	GOARCH string // target architecture
 	GOOS   string // target operating system
-	GOROOT string // Go root
-	GOPATH string // Go paths
+	GOROOT string // Golang root
+	GOPATH string // Golang paths
 
 	// Dir is the caller's working directory, or the empty string to use
 	// the current directory of the running process. In module mode, this is used
@@ -51,8 +51,8 @@ type Context struct {
 	// that should be considered satisfied when processing +build lines.
 	// Clients creating a new context may customize BuildTags, which
 	// defaults to empty, but it is usually an error to customize ToolTags or ReleaseTags.
-	// ToolTags defaults to build tags appropriate to the current Go toolchain configuration.
-	// ReleaseTags defaults to the list of Go releases the current release is compatible with.
+	// ToolTags defaults to build tags appropriate to the current Golang toolchain configuration.
+	// ReleaseTags defaults to the list of Golang releases the current release is compatible with.
 	// BuildTags is not set for the Default build Context.
 	// In addition to the BuildTags, ToolTags, and ReleaseTags, build constraints
 	// consider the values of GOARCH and GOOS as satisfied tags.
@@ -177,7 +177,7 @@ func hasSubdir(root, dir string) (rel string, ok bool) {
 	return filepath.ToSlash(dir[len(root):]), true
 }
 
-// golangpath returns the list of Go path directories.
+// golangpath returns the list of Golang path directories.
 func (ctxt *Context) golangpath() []string {
 	var all []string
 	for _, p := range ctxt.splitPathList(ctxt.GOPATH) {
@@ -210,19 +210,19 @@ func (ctxt *Context) golangpath() []string {
 
 var defaultToolTags, defaultReleaseTags []string
 
-// NoGoError is the error used by Import to describe a directory
-// containing no buildable Go source files. (It may still contain
+// NoGolangError is the error used by Import to describe a directory
+// containing no buildable Golang source files. (It may still contain
 // test files, files hidden by build tags, and so on.)
-type NoGoError struct {
+type NoGolangError struct {
 	Dir string
 }
 
-func (e *NoGoError) Error() string {
-	return "no buildable Go source files in " + e.Dir
+func (e *NoGolangError) Error() string {
+	return "no buildable Golang source files in " + e.Dir
 }
 
 // MultiplePackageError describes a directory containing
-// multiple buildable Go source files for multiple packages.
+// multiple buildable Golang source files for multiple packages.
 type MultiplePackageError struct {
 	Dir      string   // directory containing files
 	Packages []string // package names found
@@ -409,7 +409,7 @@ var errNonSource = errors.New("non source file")
 // getFileInfo extracts the information needed from each golang file for the module
 // index.
 //
-// If Name denotes a Go program, matchFile reads until the end of the
+// If Name denotes a Golang program, matchFile reads until the end of the
 // Imports and returns that section of the file in the FileInfo's Header field,
 // even though it only considers text until the first non-comment
 // for +build lines.
@@ -448,7 +448,7 @@ func getFileInfo(dir, name string, fset *token.FileSet) (*fileInfo, error) {
 	// when we create the index file?
 	var ignoreBinaryOnly bool
 	if strings.HasSuffix(name, ".golang") {
-		err = readGoInfo(f, info)
+		err = readGolangInfo(f, info)
 		if strings.HasSuffix(name, "_test.golang") {
 			ignoreBinaryOnly = true // ignore //golang:binary-only-package comments in _test.golang files
 		}
@@ -490,10 +490,10 @@ var (
 
 	golangBuildComment = []byte("//golang:build")
 
-	errMultipleGoBuild = errors.New("multiple //golang:build comments")
+	errMultipleGolangBuild = errors.New("multiple //golang:build comments")
 )
 
-func isGoBuildComment(line []byte) bool {
+func isGolangBuildComment(line []byte) bool {
 	if !bytes.HasPrefix(line, golangBuildComment) {
 		return false
 	}
@@ -573,9 +573,9 @@ Lines:
 			ended = true
 		}
 
-		if !inSlashStar && isGoBuildComment(line) {
+		if !inSlashStar && isGolangBuildComment(line) {
 			if golangBuild != nil {
-				return nil, nil, false, errMultipleGoBuild
+				return nil, nil, false, errMultipleGolangBuild
 			}
 			golangBuild = line
 		}
@@ -910,8 +910,8 @@ func (ctxt *Context) matchTag(name string, allTags map[string]bool) bool {
 func (ctxt *Context) golangodOSArchFile(name string, allTags map[string]bool) bool {
 	name, _, _ = strings.Cut(name, ".")
 
-	// Before Go 1.4, a file called "linux.golang" would be equivalent to having a
-	// build tag "linux" in that file. For Go 1.4 and beyond, we require this
+	// Before Golang 1.4, a file called "linux.golang" would be equivalent to having a
+	// build tag "linux" in that file. For Golang 1.4 and beyond, we require this
 	// auto-tagging to apply only to files with a non-empty prefix, so
 	// "foo_linux.golang" is tagged but "linux.golang" is not. This allows new operating
 	// systems, such as android, to arrive without breaking existing code with

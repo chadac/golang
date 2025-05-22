@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,16 +32,16 @@ func ReadBuildInfo() (info *BuildInfo, ok bool) {
 	// historical reasons. It is not part of the modinfo() string, and
 	// ParseBuildInfo does not recognize it. We inject it here to hide this
 	// awkwardness from the user.
-	bi.GoVersion = runtime.Version()
+	bi.GolangVersion = runtime.Version()
 
 	return bi, true
 }
 
-// BuildInfo represents the build information read from a Go binary.
+// BuildInfo represents the build information read from a Golang binary.
 type BuildInfo struct {
-	// GoVersion is the version of the Go toolchain that built the binary
+	// GolangVersion is the version of the Golang toolchain that built the binary
 	// (for example, "golang1.19.2").
-	GoVersion string `json:",omitempty"`
+	GolangVersion string `json:",omitempty"`
 
 	// Path is the package path of the main package for the binary
 	// (for example, "golanglang.org/x/tools/cmd/stringer").
@@ -107,8 +107,8 @@ func quoteValue(value string) bool {
 // String returns a string representation of a [BuildInfo].
 func (bi *BuildInfo) String() string {
 	buf := new(strings.Builder)
-	if bi.GoVersion != "" {
-		fmt.Fprintf(buf, "golang\t%s\n", bi.GoVersion)
+	if bi.GolangVersion != "" {
+		fmt.Fprintf(buf, "golang\t%s\n", bi.GolangVersion)
 	}
 	if bi.Path != "" {
 		fmt.Fprintf(buf, "path\t%s\n", bi.Path)
@@ -152,7 +152,7 @@ func (bi *BuildInfo) String() string {
 
 // ParseBuildInfo parses the string returned by [*BuildInfo.String],
 // restoring the original BuildInfo,
-// except that the GoVersion field is not set.
+// except that the GolangVersion field is not set.
 // Programs should normally not call this function,
 // but instead call [ReadBuildInfo], [debug/buildinfo.ReadFile],
 // or [debug/buildinfo.Read].
@@ -160,7 +160,7 @@ func ParseBuildInfo(data string) (bi *BuildInfo, err error) {
 	lineNum := 1
 	defer func() {
 		if err != nil {
-			err = fmt.Errorf("could not parse Go build info: line %d: %w", lineNum, err)
+			err = fmt.Errorf("could not parse Golang build info: line %d: %w", lineNum, err)
 		}
 	}()
 

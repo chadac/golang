@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,7 +40,7 @@ var sigtable = [...]sigTabT{
 	{_SigThrow, "sys:"},
 
 	// Issued to all other procs when calling runtime·exit.
-	{_SigGoExit, "golang: exit "},
+	{_SigGolangExit, "golang: exit "},
 
 	// Kill is sent by external programs to cause an exit.
 	{_SigKill, "kill"},

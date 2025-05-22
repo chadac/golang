@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ type TextWriter struct {
 
 // NewTextWriter creates a new write for the trace text format.
 func NewTextWriter(w io.Writer, v version.Version) (*TextWriter, error) {
-	_, err := fmt.Fprintf(w, "Trace Go1.%d\n", v)
+	_, err := fmt.Fprintf(w, "Trace Golang1.%d\n", v)
 	if err != nil {
 		return nil, err
 	}

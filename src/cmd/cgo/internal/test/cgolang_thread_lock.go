@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,10 +10,10 @@ package cgolangtest
 #include <unistd.h>
 #include <stdbool.h>
 #include <sys/syscall.h>
-void Gosched(void);
+void Golangsched(void);
 static bool Ctid(void) {
 	long tid1 = syscall(SYS_gettid);
-	Gosched();
+	Golangsched();
 	return tid1 == syscall(SYS_gettid);
 }
 */
@@ -25,9 +25,9 @@ import (
 	"time"
 )
 
-//export Gosched
-func Gosched() {
-	runtime.Gosched()
+//export Golangsched
+func Golangsched() {
+	runtime.Golangsched()
 }
 
 func init() {

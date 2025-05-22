@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ func init() {
 	// but doesn't change it, even if the runtime supports non-blocking
 	// stdio. Since WebAssembly modules are single-threaded, blocking
 	// system calls temporarily halt execution of the module. If the
-	// runtime supports non-blocking stdio, the Go runtime is able to
+	// runtime supports non-blocking stdio, the Golang runtime is able to
 	// use the WASI net poller to poll for read/write readiness and is
 	// able to schedule golangroutines while waiting.
 	SetNonblock(0, true)
@@ -680,7 +680,7 @@ func Fstat(fd int, st *Stat_t) error {
 }
 
 func setDefaultMode(st *Stat_t) {
-	// WASI does not support unix-like permissions, but Go programs are likely
+	// WASI does not support unix-like permissions, but Golang programs are likely
 	// to expect the permission bits to not be zero so we set defaults to help
 	// avoid breaking applications that are migrating to WASM.
 	if st.Filetype == FILETYPE_DIRECTORY {

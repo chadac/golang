@@ -8,7 +8,7 @@
 //	Portions Copyright © 2004,2006 Bruce Ellis
 //	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 //	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-//	Portions Copyright © 2009 The Go Authors. All rights reserved.
+//	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -311,7 +311,7 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	}
 
 	if ctxt.Flag_dynlink {
-		rewriteToUseGot(ctxt, p, newprog)
+		rewriteToUseGolangt(ctxt, p, newprog)
 	}
 
 	if ctxt.Flag_shared && ctxt.Arch.Family == sys.I386 {
@@ -320,7 +320,7 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 }
 
 // Rewrite p, if necessary, to access global data via the global offset table.
-func rewriteToUseGot(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
+func rewriteToUseGolangt(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	var lea, mov obj.As
 	var reg int16
 	if ctxt.Arch.Family == sys.AMD64 {
@@ -377,7 +377,7 @@ func rewriteToUseGot(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	}
 
 	// We only care about global data: NAME_EXTERN means a global
-	// symbol in the Go sense, and p.Sym.Local is true for a few
+	// symbol in the Golang sense, and p.Sym.Local is true for a few
 	// internally defined symbols.
 	if p.As == lea && p.From.Type == obj.TYPE_MEM && p.From.Name == obj.NAME_EXTERN && !p.From.Sym.Local() {
 		// $LEA sym, Rx becomes $MOV $sym, Rx which will be rewritten below
@@ -564,7 +564,7 @@ func rewriteToPcrel(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	var dst int16 = REG_CX
 	if (p.As == ALEAL || p.As == AMOVL) && p.To.Reg != p.From.Reg && p.To.Reg != p.From.Index {
 		dst = p.To.Reg
-		// Why? See the comment near the top of rewriteToUseGot above.
+		// Why? See the comment near the top of rewriteToUseGolangt above.
 		// AMOVLs might be introduced by the GOT rewrites.
 	}
 	q := obj.Appendp(p, newprog)
@@ -1268,7 +1268,7 @@ func addrUsesGlobal(a *obj.Addr) bool {
 }
 func progUsesGlobal(p *obj.Prog) bool {
 	if p.As == obj.ACALL || p.As == obj.ATEXT || p.As == obj.AFUNCDATA || p.As == obj.ARET || p.As == obj.AJMP {
-		// These opcodes don't use a GOT to access their argument (see rewriteToUseGot),
+		// These opcodes don't use a GOT to access their argument (see rewriteToUseGolangt),
 		// or R15 would be dead at them anyway.
 		return false
 	}

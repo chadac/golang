@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -579,7 +579,7 @@ func TestCgolangPIE(t *testing.T) {
 
 // Build a GOPATH package into a shared library that links against the golangroot runtime
 // and an executable that links against both.
-func TestGopathShlib(t *testing.T) {
+func TestGolangpathShlib(t *testing.T) {
 	globalSkip(t)
 	golangCmd(t, "install", "-buildmode=shared", "-linkshared", "./depBase")
 	shlib := golangCmd(t, "list", "-f", "{{.Shlib}}", "-buildmode=shared", "-linkshared", "./depBase")
@@ -643,7 +643,7 @@ func testABIHashNote(t *testing.T, f *elf.File, note *note) {
 	}
 }
 
-// A Go shared library contains a note indicating which other Go shared libraries it
+// A Golang shared library contains a note indicating which other Golang shared libraries it
 // was linked against in an unmapped section.
 func testDepsNote(t *testing.T, f *elf.File, note *note) {
 	if note.section.Flags != 0 {
@@ -676,7 +676,7 @@ func TestNotes(t *testing.T) {
 	abiHashNoteFound := false
 	depsNoteFound := false
 	for _, note := range notes {
-		if note.name != "Go\x00\x00" {
+		if note.name != "Golang\x00\x00" {
 			continue
 		}
 		switch note.tag {
@@ -714,7 +714,7 @@ func TestNotes(t *testing.T) {
 // Build a GOPATH package (depBase) into a shared library that links against the golangroot
 // runtime, another package (dep2) that links against the first, and an
 // executable that links against dep2.
-func TestTwoGopathShlibs(t *testing.T) {
+func TestTwoGolangpathShlibs(t *testing.T) {
 	globalSkip(t)
 	golangCmd(t, "install", "-buildmode=shared", "-linkshared", "./depBase")
 	golangCmd(t, "install", "-buildmode=shared", "-linkshared", "./dep2")
@@ -722,7 +722,7 @@ func TestTwoGopathShlibs(t *testing.T) {
 	run(t, "executable linked to GOPATH library", "../../bin/exe2")
 }
 
-func TestThreeGopathShlibs(t *testing.T) {
+func TestThreeGolangpathShlibs(t *testing.T) {
 	globalSkip(t)
 	golangCmd(t, "install", "-buildmode=shared", "-linkshared", "./depBase")
 	golangCmd(t, "install", "-buildmode=shared", "-linkshared", "./dep2")
@@ -775,7 +775,7 @@ func requireGccgolang(t *testing.T) {
 
 // Build a GOPATH package into a shared library with gccgolang and an executable that
 // links against it.
-func TestGoPathShlibGccgolang(t *testing.T) {
+func TestGolangPathShlibGccgolang(t *testing.T) {
 	globalSkip(t)
 	requireGccgolang(t)
 
@@ -796,10 +796,10 @@ func TestGoPathShlibGccgolang(t *testing.T) {
 	run(t, "gccgolang-built", "../../bin/exe")
 }
 
-// The gccgolang version of TestTwoGopathShlibs: build a GOPATH package into a shared
+// The gccgolang version of TestTwoGolangpathShlibs: build a GOPATH package into a shared
 // library with gccgolang, another GOPATH package that depends on the first and an
 // executable that links the second library.
-func TestTwoGopathShlibsGccgolang(t *testing.T) {
+func TestTwoGolangpathShlibsGccgolang(t *testing.T) {
 	globalSkip(t)
 	requireGccgolang(t)
 

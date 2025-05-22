@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# Copyright 2009 The Go Authors. All rights reserved.
+# Copyright 2009 The Golang Authors. All rights reserved.
 # Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
@@ -153,7 +153,7 @@ while(<>) {
 		push @vars, $sysvarname;
 	}
 
-	# Go function header.
+	# Golang function header.
 	$out = join(', ', @out);
 	if($out ne "") {
 		$out = " ($out)";

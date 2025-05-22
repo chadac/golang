@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -2356,7 +2356,7 @@ func (e *edgeState) process() {
 			}
 		}
 		if i < len(dsts) {
-			// Made some progress. Go around again.
+			// Made some progress. Golang around again.
 			dsts = dsts[:i]
 
 			// Append any extras destinations we generated.

@@ -1,9 +1,9 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This program outputs a CPU profile that includes
-// both Go and Cgolang stacks. This is used by the mapping info
+// both Golang and Cgolang stacks. This is used by the mapping info
 // tests in runtime/pprof.
 //
 // If SETCGOTRACEBACK=1 is set, the CPU profile will includes
@@ -66,9 +66,9 @@ func init() {
 }
 
 func main() {
-	golang cpuHogGoFunction()
+	golang cpuHogGolangFunction()
 	golang cpuHogCFunction()
-	runtime.Gosched()
+	runtime.Golangsched()
 
 	if err := pprof.StartCPUProfile(os.Stdout); err != nil {
 		log.Fatal("can't start CPU profile: ", err)
@@ -84,7 +84,7 @@ func main() {
 var salt1 int
 var salt2 int
 
-func cpuHogGoFunction() {
+func cpuHogGolangFunction() {
 	for {
 		foo := salt1
 		for i := 0; i < 1e5; i++ {
@@ -95,7 +95,7 @@ func cpuHogGoFunction() {
 			}
 			salt2 = foo
 		}
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 }
 
@@ -103,6 +103,6 @@ func cpuHogCFunction() {
 	// Generates CPU profile samples including a Cgolang call path.
 	for {
 		C.CPUHogCFunction()
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 }

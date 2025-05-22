@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -41,7 +41,7 @@ of keys of the map m, implemented as follows:
 		}
 	}
 
-Further examples can be found in [The Go Blog: Range Over Function Types].
+Further examples can be found in [The Golang Blog: Range Over Function Types].
 
 Iterator functions are most often called by a [range loop], as in:
 
@@ -203,7 +203,7 @@ And then a client could delete boring values from the tree using:
 		}
 	}
 
-[The Go Blog: Range Over Function Types]: https://golang.dev/blog/range-functions
+[The Golang Blog: Range Over Function Types]: https://golang.dev/blog/range-functions
 [range loop]: https://golang.dev/ref/spec#For_range
 */
 package iter
@@ -262,7 +262,7 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 		ok         bool
 		done       bool
 		yieldNext  bool
-		seqDone    bool // to detect Goexit
+		seqDone    bool // to detect Golangexit
 		racer      int
 		panicValue any
 	}
@@ -318,8 +318,8 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 		// Propagate panics and golangexits from seq.
 		if pull.panicValue != nil {
 			if pull.panicValue == golangexitPanicValue {
-				// Propagate runtime.Goexit from seq.
-				runtime.Goexit()
+				// Propagate runtime.Golangexit from seq.
+				runtime.Golangexit()
 			} else {
 				panic(pull.panicValue)
 			}
@@ -338,8 +338,8 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 			// Propagate panics and golangexits from seq.
 			if pull.panicValue != nil {
 				if pull.panicValue == golangexitPanicValue {
-					// Propagate runtime.Goexit from seq.
-					runtime.Goexit()
+					// Propagate runtime.Golangexit from seq.
+					runtime.Golangexit()
 				} else {
 					panic(pull.panicValue)
 				}
@@ -435,8 +435,8 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 		// Propagate panics and golangexits from seq.
 		if pull.panicValue != nil {
 			if pull.panicValue == golangexitPanicValue {
-				// Propagate runtime.Goexit from seq.
-				runtime.Goexit()
+				// Propagate runtime.Golangexit from seq.
+				runtime.Golangexit()
 			} else {
 				panic(pull.panicValue)
 			}
@@ -455,8 +455,8 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 			// Propagate panics and golangexits from seq.
 			if pull.panicValue != nil {
 				if pull.panicValue == golangexitPanicValue {
-					// Propagate runtime.Goexit from seq.
-					runtime.Goexit()
+					// Propagate runtime.Golangexit from seq.
+					runtime.Golangexit()
 				} else {
 					panic(pull.panicValue)
 				}
@@ -467,5 +467,5 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 }
 
 // golangexitPanicValue is a sentinel value indicating that an iterator
-// exited via runtime.Goexit.
+// exited via runtime.Golangexit.
 var golangexitPanicValue any = new(int)

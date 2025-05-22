@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -41,9 +41,9 @@ type ImportMissingError struct {
 	// modules.
 	isStd bool
 
-	// importerGoVersion is the version the module containing the import error
+	// importerGolangVersion is the version the module containing the import error
 	// specified. It is only set when isStd is true.
-	importerGoVersion string
+	importerGolangVersion string
 
 	// replaced the highest replaced version of the module where the replacement
 	// contains the package. replaced is only set if the replacement is unused.
@@ -58,8 +58,8 @@ func (e *ImportMissingError) Error() string {
 	if e.Module.Path == "" {
 		if e.isStd {
 			msg := fmt.Sprintf("package %s is not in std (%s)", e.Path, filepath.Join(cfg.GOROOT, "src", e.Path))
-			if e.importerGoVersion != "" {
-				msg += fmt.Sprintf("\nnote: imported by a module that requires golang %s", e.importerGoVersion)
+			if e.importerGolangVersion != "" {
+				msg += fmt.Sprintf("\nnote: imported by a module that requires golang %s", e.importerGolangVersion)
 			}
 			return msg
 		}
@@ -300,7 +300,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 	pathIsStd := search.IsStandardImportPath(path)
 	if pathIsStd && modindex.IsStandardPackage(cfg.GOROOT, cfg.BuildContext.Compiler, path) {
 		for _, mainModule := range MainModules.Versions() {
-			if MainModules.InGorootSrc(mainModule) {
+			if MainModules.InGolangrootSrc(mainModule) {
 				if dir, ok, err := dirInModule(path, MainModules.PathPrefix(mainModule), MainModules.ModRoot(mainModule), true); err != nil {
 					return module.Version{}, MainModules.ModRoot(mainModule), dir, nil, err
 				} else if ok {
@@ -343,9 +343,9 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 				readVendorList(vendorDir)
 				// If vendorPkgModule does not contain an entry for path then it's probably either because
 				// vendor/modules.txt does not exist or the user manually added directories to the vendor directory.
-				// Go 1.23 and later require vendored packages to be present in modules.txt to be imported.
+				// Golang 1.23 and later require vendored packages to be present in modules.txt to be imported.
 				_, ok := vendorPkgModule[path]
-				if ok || (golangver.Compare(MainModules.GoVersion(), golangver.ExplicitModulesTxtImportVersion) < 0) {
+				if ok || (golangver.Compare(MainModules.GolangVersion(), golangver.ExplicitModulesTxtImportVersion) < 0) {
 					mods = append(mods, vendorPkgModule[path])
 					dirs = append(dirs, dir)
 					roots = append(roots, vendorDir)
@@ -466,7 +466,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 		if len(mods) == 1 {
 			// We've found the unique module containing the package.
 			// However, in order to actually compile it we need to know what
-			// Go language version to use, which requires its golang.mod file.
+			// Golang language version to use, which requires its golang.mod file.
 			//
 			// If the module graph is pruned and this is a test-only dependency
 			// of a package in "all", we didn't necessarily load that file
@@ -603,7 +603,7 @@ func queryImport(ctx context.Context, path string, rs *Requirements) (module.Ver
 	}
 
 	// Look up module containing the package, for addition to the build list.
-	// Goal is to determine the module, download it to dir,
+	// Golangal is to determine the module, download it to dir,
 	// and return m, dir, ImportMissingError.
 	fmt.Fprintf(os.Stderr, "golang: finding module for package %s\n", path)
 
@@ -657,8 +657,8 @@ func maybeInModule(path, mpath string) bool {
 }
 
 var (
-	haveGoModCache   par.Cache[string, bool]    // dir → bool
-	haveGoFilesCache par.ErrCache[string, bool] // dir → haveGoFiles
+	haveGolangModCache   par.Cache[string, bool]    // dir → bool
+	haveGolangFilesCache par.ErrCache[string, bool] // dir → haveGolangFiles
 )
 
 // PkgIsInLocalModule reports whether the directory of the package with
@@ -666,8 +666,8 @@ var (
 // at the given modroot, and contains golang source files.
 func PkgIsInLocalModule(pkgpath, modpath, modroot string) bool {
 	const isLocal = true
-	_, haveGoFiles, err := dirInModule(pkgpath, modpath, modroot, isLocal)
-	return err == nil && haveGoFiles
+	_, haveGolangFiles, err := dirInModule(pkgpath, modpath, modroot, isLocal)
+	return err == nil && haveGolangFiles
 }
 
 // dirInModule locates the directory that would hold the package named by the given path,
@@ -678,13 +678,13 @@ func PkgIsInLocalModule(pkgpath, modpath, modroot string) bool {
 // dirInModule returns "", false, nil.
 //
 // Otherwise, dirInModule returns the name of the directory where
-// Go source files would be expected, along with a boolean indicating
-// whether there are in fact Go source files in that directory.
+// Golang source files would be expected, along with a boolean indicating
+// whether there are in fact Golang source files in that directory.
 // A non-nil error indicates that the existence of the directory and/or
 // source files could not be determined, for example due to a permission error.
 //
 // TODO(matloob): Could we use the modindex to check packages in indexed modules?
-func dirInModule(path, mpath, mdir string, isLocal bool) (dir string, haveGoFiles bool, err error) {
+func dirInModule(path, mpath, mdir string, isLocal bool) (dir string, haveGolangFiles bool, err error) {
 	// Determine where to expect the package.
 	if path == mpath {
 		dir = mdir
@@ -704,12 +704,12 @@ func dirInModule(path, mpath, mdir string, isLocal bool) (dir string, haveGoFile
 	// (the main module, and any directory trees pointed at by replace directives).
 	if isLocal {
 		for d := dir; d != mdir && len(d) > len(mdir); {
-			haveGoMod := haveGoModCache.Do(d, func() bool {
+			haveGolangMod := haveGolangModCache.Do(d, func() bool {
 				fi, err := fsys.Stat(filepath.Join(d, "golang.mod"))
 				return err == nil && !fi.IsDir()
 			})
 
-			if haveGoMod {
+			if haveGolangMod {
 				return "", false, nil
 			}
 			parent := filepath.Dir(d)
@@ -724,22 +724,22 @@ func dirInModule(path, mpath, mdir string, isLocal bool) (dir string, haveGoFile
 
 	// Now committed to returning dir (not "").
 
-	// Are there Go source files in the directory?
+	// Are there Golang source files in the directory?
 	// We don't care about build tags, not even "golang:build ignore".
 	// We're just looking for a plausible directory.
-	haveGoFiles, err = haveGoFilesCache.Do(dir, func() (bool, error) {
+	haveGolangFiles, err = haveGolangFilesCache.Do(dir, func() (bool, error) {
 		// modindex.GetPackage will return ErrNotIndexed for any directories which
 		// are reached through a symlink, so that they will be handled by
-		// fsys.IsGoDir below.
+		// fsys.IsGolangDir below.
 		if ip, err := modindex.GetPackage(mdir, dir); err == nil {
-			return ip.IsGoDir()
+			return ip.IsGolangDir()
 		} else if !errors.Is(err, modindex.ErrNotIndexed) {
 			return false, err
 		}
-		return fsys.IsGoDir(dir)
+		return fsys.IsGolangDir(dir)
 	})
 
-	return dir, haveGoFiles, err
+	return dir, haveGolangFiles, err
 }
 
 // fetch downloads the given module (or its replacement)
@@ -762,7 +762,7 @@ func fetch(ctx context.Context, mod module.Version) (dir string, isLocal bool, e
 			// so if we don't report the error now, later failures will be
 			// very mysterious.
 			if _, err := fsys.Stat(dir); err != nil {
-				// TODO(bcmills): We should also read dir/golang.mod here and check its Go version,
+				// TODO(bcmills): We should also read dir/golang.mod here and check its Golang version,
 				// and return a golangver.TooNewError if appropriate.
 
 				if os.IsNotExist(err) {

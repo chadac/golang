@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -224,7 +224,7 @@ func TestFIFONonBlockingEOF(t *testing.T) {
 	}
 	defer w.Close()
 
-	data := "Hello Gophers!"
+	data := "Hello Golangphers!"
 	if _, err := w.WriteString(data); err != nil {
 		t.Fatalf("Error writing to fifo: %v", err)
 	}

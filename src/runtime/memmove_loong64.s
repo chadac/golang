@@ -1,11 +1,11 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "golang_asm.h"
 #include "textflag.h"
 
-// See memmove Go doc for important implementation constraints.
+// See memmove Golang doc for important implementation constraints.
 
 // Register map
 //

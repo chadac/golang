@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -75,7 +75,7 @@ type DowngradeReqs interface {
 //
 // target is the root vertex of a module requirement graph. For cmd/golang, this is
 // typically the main module, but note that this algolangrithm is not intended to
-// be Go-specific: module paths and versions are treated as opaque values.
+// be Golang-specific: module paths and versions are treated as opaque values.
 //
 // reqs describes the module requirement graph and provides an opaque method
 // for comparing versions.

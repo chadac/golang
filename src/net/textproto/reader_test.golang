@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -488,7 +488,7 @@ Non-Interned: test
 var serverHeaders = strings.Replace(`Content-Type: text/html; charset=utf-8
 Content-Encoding: gzip
 Date: Thu, 27 Sep 2012 09:03:33 GMT
-Server: Google Frontend
+Server: Golangogle Frontend
 Cache-Control: private
 Content-Length: 2298
 VIA: 1.1 proxy.example.com:80 (XXX/n.n.n-nnn)

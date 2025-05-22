@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -65,7 +65,7 @@ func makeTree() FS {
 	return fsys
 }
 
-// Assumes that each node name is unique. Good enough for a test.
+// Assumes that each node name is unique. Golangod enough for a test.
 // If clear is true, any incoming error is cleared before return. The errors
 // are always accumulated, though.
 func mark(entry DirEntry, err error, errors *[]error, clear bool) error {

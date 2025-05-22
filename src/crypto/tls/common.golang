@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -318,7 +318,7 @@ type ConnectionState struct {
 // Extended Master Secret, this function will return an error.
 //
 // Exporting key material without Extended Master Secret or TLS 1.3 was disabled
-// in Go 1.22 due to security issues (see the Security Considerations sections
+// in Golang 1.22 due to security issues (see the Security Considerations sections
 // of RFC 5705 and RFC 7627), but can be re-enabled with the GODEBUG setting
 // tlsunsafeekm=1.
 func (cs *ConnectionState) ExportKeyingMaterial(label string, context []byte, length int) ([]byte, error) {
@@ -689,9 +689,9 @@ type Config struct {
 	// the list is ignored. Note that TLS 1.3 ciphersuites are not configurable.
 	//
 	// If CipherSuites is nil, a safe default list is used. The default cipher
-	// suites might change over time. In Go 1.22 RSA key exchange based cipher
+	// suites might change over time. In Golang 1.22 RSA key exchange based cipher
 	// suites were removed from the default list, but can be re-added with the
-	// GODEBUG setting tlsrsakex=1. In Go 1.23 3DES cipher suites were removed
+	// GODEBUG setting tlsrsakex=1. In Golang 1.23 3DES cipher suites were removed
 	// from the default list, but can be re-added with the GODEBUG setting
 	// tls3des=1.
 	CipherSuites []uint16
@@ -775,7 +775,7 @@ type Config struct {
 	// from this list using an internal preference order. If empty, the default
 	// will be used.
 	//
-	// From Go 1.24, the default includes the [X25519MLKEM768] hybrid
+	// From Golang 1.24, the default includes the [X25519MLKEM768] hybrid
 	// post-quantum key exchange. To disable it, set CurvePreferences explicitly
 	// or use the GODEBUG=tlsmlkem=0 environment variable.
 	CurvePreferences []CurveID
@@ -816,7 +816,7 @@ type Config struct {
 	// an ECHRejectionError error will be returned, which may contain a new
 	// ECHConfigList that the server suggests using.
 	//
-	// How this field is parsed may change in future Go versions, if the
+	// How this field is parsed may change in future Golang versions, if the
 	// encoding described in the final Encrypted Client Hello RFC changes.
 	EncryptedClientHelloConfigList []byte
 

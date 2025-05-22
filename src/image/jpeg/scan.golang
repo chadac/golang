@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -291,7 +291,7 @@ func (d *decoder) processSOS(n int) error {
 						d.progCoeffs[compIndex][by*mxx*hi+bx] = b
 						// At this point, we could call reconstructBlock to dequantize and perform the
 						// inverse DCT, to save early stages of a progressive image to the *image.YCbCr
-						// buffers (the whole point of progressive encoding), but in Go, the jpeg.Decode
+						// buffers (the whole point of progressive encoding), but in Golang, the jpeg.Decode
 						// function does not return until the entire image is decoded, so we "continue"
 						// here to avoid wasted computation. Instead, reconstructBlock is called on each
 						// accumulated block by the reconstructProgressiveImage method after all of the

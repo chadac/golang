@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,22 +17,22 @@ var (
 	nextFuncID uint32 = 1
 )
 
-// Func is a wrapped Go function to be called by JavaScript.
+// Func is a wrapped Golang function to be called by JavaScript.
 type Func struct {
-	Value  // the JavaScript function that invokes the Go function
+	Value  // the JavaScript function that invokes the Golang function
 	bubble *synctest.Bubble
 	id     uint32
 }
 
 // FuncOf returns a function to be used by JavaScript.
 //
-// The Go function fn is called with the value of JavaScript's "this" keyword and the
+// The Golang function fn is called with the value of JavaScript's "this" keyword and the
 // arguments of the invocation. The return value of the invocation is
-// the result of the Go function mapped back to JavaScript according to ValueOf.
+// the result of the Golang function mapped back to JavaScript according to ValueOf.
 //
-// Invoking the wrapped Go function from JavaScript will
+// Invoking the wrapped Golang function from JavaScript will
 // pause the event loop and spawn a new golangroutine.
-// Other wrapped functions which are triggered during a call from Go to JavaScript
+// Other wrapped functions which are triggered during a call from Golang to JavaScript
 // get executed on the same golangroutine.
 //
 // As a consequence, if one wrapped function blocks, JavaScript's event loop
@@ -62,7 +62,7 @@ func FuncOf(fn func(this Value, args []Value) any) Func {
 	return Func{
 		id:     id,
 		bubble: bubble,
-		Value:  jsGo.Call("_makeFuncWrapper", id),
+		Value:  jsGolang.Call("_makeFuncWrapper", id),
 	}
 }
 
@@ -87,11 +87,11 @@ func init() {
 // It returns true if an event was handled.
 func handleEvent() bool {
 	// Retrieve the event from js
-	cb := jsGo.Get("_pendingEvent")
+	cb := jsGolang.Get("_pendingEvent")
 	if cb.IsNull() {
 		return false
 	}
-	jsGo.Set("_pendingEvent", Null())
+	jsGolang.Set("_pendingEvent", Null())
 
 	id := uint32(cb.Get("id").Int())
 	if id == 0 { // zero indicates deadlock

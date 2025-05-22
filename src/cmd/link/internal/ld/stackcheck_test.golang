@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,10 +16,10 @@ import (
 // See also $GOROOT/test/nosplit.golang for multi-platform edge case tests.
 
 func TestStackCheckOutput(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", os.DevNull, "./testdata/stackcheck")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", os.DevNull, "./testdata/stackcheck")
 	// The rules for computing frame sizes on all of the
 	// architectures are complicated, so just do this on amd64.
 	cmd.Env = append(os.Environ(), "GOARCH=amd64", "GOOS=linux")

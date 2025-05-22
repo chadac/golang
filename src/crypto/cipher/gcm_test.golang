@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -591,7 +591,7 @@ func testGCMCounterWrap(t *testing.T, newCipher func(key []byte) cipher.Block) {
 
 func TestGCMAsm(t *testing.T) {
 	// Create a new pair of AEADs, one using the assembly implementation
-	// and one using the generic Go implementation.
+	// and one using the generic Golang implementation.
 	newAESGCM := func(key []byte) (asm, generic cipher.AEAD, err error) {
 		block, err := aes.NewCipher(key[:])
 		if err != nil {

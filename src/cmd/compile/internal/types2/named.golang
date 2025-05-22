@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -102,7 +102,7 @@ import (
 // Use [Named.Underlying] to access the underlying type.
 // Use [Named.Obj] to obtain the object S.
 //
-// Before type aliases (Go 1.9), the spec called defined types "named types".
+// Before type aliases (Golang 1.9), the spec called defined types "named types".
 type Named struct {
 	check *Checker  // non-nil during type-checking; nil otherwise
 	obj   *TypeName // corresponding declared object for declared types; see above for instantiated types

@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ int main() {
 	int i;
 
 	for (i = 0; i < 100000; i++) {
-		GoFunction7();
+		GolangFunction7();
 	}
 	return 0;
 }

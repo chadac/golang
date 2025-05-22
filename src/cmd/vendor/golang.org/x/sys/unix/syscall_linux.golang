@@ -1,9 +1,9 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Linux system calls.
-// This file is compiled as ordinary Go code,
+// This file is compiled as ordinary Golang code,
 // but it is also input to mksyscall,
 // which parses the //sys lines and generates system call stubs.
 // Note that sometimes we use a lowercase //sys name and
@@ -2063,7 +2063,7 @@ func Getrandom(buf []byte, flags int) (n int, err error) {
 func syscall_prlimit(pid, resource int, newlimit, old *syscall.Rlimit) error
 
 func Prlimit(pid, resource int, newlimit, old *Rlimit) error {
-	// Just call the syscall version, because as of Go 1.21
+	// Just call the syscall version, because as of Golang 1.21
 	// it will affect starting a new process.
 	return syscall_prlimit(pid, resource, (*syscall.Rlimit)(newlimit), (*syscall.Rlimit)(old))
 }
@@ -2498,7 +2498,7 @@ func Klogset(typ int, arg int) (err error) {
 // RemoteIovec is Iovec with the pointer replaced with an integer.
 // It is used for ProcessVMReadv and ProcessVMWritev, where the pointer
 // refers to a location in a different process' address space, which
-// would confuse the Go garbage collector.
+// would confuse the Golang garbage collector.
 type RemoteIovec struct {
 	Base uintptr
 	Len  int

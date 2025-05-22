@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ package golangdebugs
 type Info struct {
 	Name      string // name of the setting ("panicnil")
 	Package   string // package that uses the setting ("runtime")
-	Changed   int    // minor version when default changed, if any; 21 means Go 1.21
+	Changed   int    // minor version when default changed, if any; 21 means Golang 1.21
 	Old       string // value that restores behavior prior to Changed
 	Opaque    bool   // setting does not export information to runtime/metrics using [internal/golangdebug.Setting.IncNonDefault]
 	Immutable bool   // setting cannot be changed after program start

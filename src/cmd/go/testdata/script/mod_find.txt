@@ -89,7 +89,7 @@ package x // import "x"
 package y
 -- $GOPATH/src/example.com/x/y/z/z.golang --
 package z
--- $GOPATH/src/example.com/x/y/z/Godeps/Godeps.json --
+-- $GOPATH/src/example.com/x/y/z/Golangdeps/Golangdeps.json --
 {"ImportPath": "unexpected.com/z"}
 
 -- $WORK/golangmoddir/golang.mod/README.txt --

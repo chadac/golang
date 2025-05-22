@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@ import (
 	"fmt"
 )
 
-// A Package describes a Go package.
+// A Package describes a Golang package.
 type Package struct {
 	path      string
 	name      string
@@ -17,7 +17,7 @@ type Package struct {
 	complete  bool
 	fake      bool   // scope lookup errors are silently dropped if package is fake (internal use only)
 	cgolang       bool   // uses of this package will be rewritten into uses of declarations from _cgolang_golangtypes.golang
-	golangVersion string // minimum Go version required for package (by Config.GoVersion, typically from golang.mod)
+	golangVersion string // minimum Golang version required for package (by Config.GolangVersion, typically from golang.mod)
 }
 
 // NewPackage returns a new Package for the given package path and name.
@@ -36,11 +36,11 @@ func (pkg *Package) Name() string { return pkg.name }
 // SetName sets the package name.
 func (pkg *Package) SetName(name string) { pkg.name = name }
 
-// GoVersion returns the minimum Go version required by this package.
-// If the minimum version is unknown, GoVersion returns the empty string.
-// Individual source files may specify a different minimum Go version,
-// as reported in the [golang/ast.File.GoVersion] field.
-func (pkg *Package) GoVersion() string { return pkg.golangVersion }
+// GolangVersion returns the minimum Golang version required by this package.
+// If the minimum version is unknown, GolangVersion returns the empty string.
+// Individual source files may specify a different minimum Golang version,
+// as reported in the [golang/ast.File.GolangVersion] field.
+func (pkg *Package) GolangVersion() string { return pkg.golangVersion }
 
 // Scope returns the (complete or incomplete) package scope
 // holding the objects declared at package level (TypeNames,

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -16,7 +16,7 @@ import "syscall"
 // EAI_NONAME rather than a useful error. Limiting the number of
 // concurrent getaddrinfo calls to less than the permitted number of
 // file descriptors makes that error less likely. We don't bother to
-// apply the same limit to DNS lookups run directly from Go, because
+// apply the same limit to DNS lookups run directly from Golang, because
 // there we will return a meaningful "too many open files" error.
 func concurrentThreadsLimit() int {
 	var rlim syscall.Rlimit

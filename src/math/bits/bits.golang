@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@
 // the compiler, for better performance. For those functions
 // the code in this package will not be used. Which
 // functions are implemented by the compiler depends on the
-// architecture and the Go release.
+// architecture and the Golang release.
 package bits
 
 const uintSize = 32 << (^uint(0) >> 63) // 32 or 64

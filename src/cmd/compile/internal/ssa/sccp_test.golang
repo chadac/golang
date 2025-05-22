@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -49,7 +49,7 @@ func TestSCCPBasic(t *testing.T) {
 			Valu("t28", OpLsh64x64, c.config.Types.Int64, 0, nil, "v2", "v1"),
 			Valu("t29", OpIsInBounds, c.config.Types.Int64, 0, nil, "v2", "v1"),
 			Valu("t30", OpIsSliceInBounds, c.config.Types.Int64, 0, nil, "v2", "v1"),
-			Goto("b2")),
+			Golangto("b2")),
 		Bloc("b2",
 			Exit("mem")))
 	sccp(fun.f)
@@ -74,10 +74,10 @@ func TestSCCPIf(t *testing.T) {
 			If("cmp", "b2", "b3")),
 		Bloc("b2",
 			Valu("v3", OpConst64, c.config.Types.Int64, 3, nil),
-			Goto("b4")),
+			Golangto("b4")),
 		Bloc("b3",
 			Valu("v4", OpConst64, c.config.Types.Int64, 4, nil),
-			Goto("b4")),
+			Golangto("b4")),
 		Bloc("b4",
 			Valu("merge", OpPhi, c.config.Types.Int64, 0, nil, "v3", "v4"),
 			Exit("mem")))

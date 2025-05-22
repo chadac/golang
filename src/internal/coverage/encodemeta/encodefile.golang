@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,7 +18,7 @@ import (
 
 // This package contains APIs and helpers for writing out a meta-data
 // file (composed of a file header, offsets/lengths, and then a series of
-// meta-data blobs emitted by the compiler, one per Go package).
+// meta-data blobs emitted by the compiler, one per Golang package).
 
 type CoverageMetaFileWriter struct {
 	stab   stringtab.Writer

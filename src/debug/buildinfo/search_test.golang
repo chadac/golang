@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -78,7 +78,7 @@ func TestSearchMagic(t *testing.T) {
 				b := make([]byte, buildInfoHeaderSize)
 				return b
 			}(),
-			wantErr: errNotGoExe,
+			wantErr: errNotGolangExe,
 		},
 		{
 			name: "too_short",
@@ -89,7 +89,7 @@ func TestSearchMagic(t *testing.T) {
 				copy(b, buildInfoMagic)
 				return b
 			}(),
-			wantErr: errNotGoExe,
+			wantErr: errNotGolangExe,
 		},
 		{
 			name: "misaligned",
@@ -98,7 +98,7 @@ func TestSearchMagic(t *testing.T) {
 				copy(b[7:], buildInfoMagic)
 				return b
 			}(),
-			wantErr: errNotGoExe,
+			wantErr: errNotGolangExe,
 		},
 		{
 			name: "misaligned_across_chunk",
@@ -109,7 +109,7 @@ func TestSearchMagic(t *testing.T) {
 				copy(b[searchChunkSize-8:], buildInfoMagic)
 				return b
 			}(),
-			wantErr: errNotGoExe,
+			wantErr: errNotGolangExe,
 		},
 		{
 			name: "header_across_chunk",

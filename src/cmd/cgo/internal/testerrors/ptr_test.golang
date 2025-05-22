@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -42,37 +42,37 @@ type extra struct {
 
 var ptrTests = []ptrTest{
 	{
-		// Passing a pointer to a struct that contains a Go pointer.
+		// Passing a pointer to a struct that contains a Golang pointer.
 		name: "ptr1",
 		c:    `typedef struct s1 { int *p; } s1; void f1(s1 *ps) {}`,
 		body: `C.f1(&C.s1{new(C.int)})`,
 		fail: true,
 	},
 	{
-		// Passing a pointer to a struct that contains a Go pointer.
+		// Passing a pointer to a struct that contains a Golang pointer.
 		name: "ptr2",
 		c:    `typedef struct s2 { int *p; } s2; void f2(s2 *ps) {}`,
 		body: `p := &C.s2{new(C.int)}; C.f2(p)`,
 		fail: true,
 	},
 	{
-		// Passing a pointer to an int field of a Go struct
-		// that (irrelevantly) contains a Go pointer.
+		// Passing a pointer to an int field of a Golang struct
+		// that (irrelevantly) contains a Golang pointer.
 		name: "ok1",
 		c:    `struct s3 { int i; int *p; }; void f3(int *p) {}`,
 		body: `p := &C.struct_s3{i: 0, p: new(C.int)}; C.f3(&p.i)`,
 		fail: false,
 	},
 	{
-		// Passing a pointer to a pointer field of a Go struct.
+		// Passing a pointer to a pointer field of a Golang struct.
 		name: "ptrfield",
 		c:    `struct s4 { int i; int *p; }; void f4(int **p) {}`,
 		body: `p := &C.struct_s4{i: 0, p: new(C.int)}; C.f4(&p.p)`,
 		fail: true,
 	},
 	{
-		// Passing a pointer to a pointer field of a Go
-		// struct, where the field does not contain a Go
+		// Passing a pointer to a pointer field of a Golang
+		// struct, where the field does not contain a Golang
 		// pointer, but another field (irrelevantly) does.
 		name: "ptrfieldok",
 		c:    `struct s5 { int *p1; int *p2; }; void f5(int **p) {}`,
@@ -80,7 +80,7 @@ var ptrTests = []ptrTest{
 		fail: false,
 	},
 	{
-		// Passing the address of a slice with no Go pointers.
+		// Passing the address of a slice with no Golang pointers.
 		name:    "sliceok1",
 		c:       `void f6(void **p) {}`,
 		imports: []string{"unsafe"},
@@ -88,7 +88,7 @@ var ptrTests = []ptrTest{
 		fail:    false,
 	},
 	{
-		// Passing the address of a slice with a Go pointer.
+		// Passing the address of a slice with a Golang pointer.
 		name:    "sliceptr1",
 		c:       `void f7(void **p) {}`,
 		imports: []string{"unsafe"},
@@ -96,9 +96,9 @@ var ptrTests = []ptrTest{
 		fail:    true,
 	},
 	{
-		// Passing the address of a slice with a Go pointer,
+		// Passing the address of a slice with a Golang pointer,
 		// where we are passing the address of an element that
-		// is not a Go pointer.
+		// is not a Golang pointer.
 		name:    "sliceptr2",
 		c:       `void f8(void **p) {}`,
 		imports: []string{"unsafe"},
@@ -154,7 +154,7 @@ var ptrTests = []ptrTest{
 		fail:    true,
 	},
 	{
-		// Storing a Go pointer into C memory should fail.
+		// Storing a Golang pointer into C memory should fail.
 		name: "barrier",
 		c: `#include <stdlib.h>
 		    char **f14a() { return malloc(sizeof(char*)); }
@@ -164,7 +164,7 @@ var ptrTests = []ptrTest{
 		expensive: true,
 	},
 	{
-		// Storing a pinned Go pointer into C memory should succeed.
+		// Storing a pinned Golang pointer into C memory should succeed.
 		name: "barrierpinnedok",
 		c: `#include <stdlib.h>
 		    char **f14a2() { return malloc(sizeof(char*)); }
@@ -175,7 +175,7 @@ var ptrTests = []ptrTest{
 		expensive: true,
 	},
 	{
-		// Storing a Go pointer into C memory by assigning a
+		// Storing a Golang pointer into C memory by assigning a
 		// large value should fail.
 		name: "barrierstruct",
 		c: `#include <stdlib.h>
@@ -187,7 +187,7 @@ var ptrTests = []ptrTest{
 		expensive: true,
 	},
 	{
-		// Storing a Go pointer into C memory using a slice
+		// Storing a Golang pointer into C memory using a slice
 		// copy should fail.
 		name: "barrierslice",
 		c: `#include <stdlib.h>
@@ -250,15 +250,15 @@ var ptrTests = []ptrTest{
 		expensive: true,
 	},
 	{
-		// Exported functions may not return Go pointers.
+		// Exported functions may not return Golang pointers.
 		name: "export1",
 		c: `#ifdef _WIN32
 		    __declspec(dllexport)
 			#endif
-		    extern unsigned char *GoFn21();`,
-		support: `//export GoFn21
-		          func GoFn21() *byte { return new(byte) }`,
-		body: `C.GoFn21()`,
+		    extern unsigned char *GolangFn21();`,
+		support: `//export GolangFn21
+		          func GolangFn21() *byte { return new(byte) }`,
+		body: `C.GolangFn21()`,
 		fail: true,
 	},
 	{
@@ -268,13 +268,13 @@ var ptrTests = []ptrTest{
 		    #ifdef _WIN32
 		    __declspec(dllexport)
 			#endif
-		    extern unsigned char *GoFn22();`,
-		support: `//export GoFn22
-		          func GoFn22() *byte { return (*byte)(C.malloc(1)) }`,
-		body: `C.GoFn22()`,
+		    extern unsigned char *GolangFn22();`,
+		support: `//export GolangFn22
+		          func GolangFn22() *byte { return (*byte)(C.malloc(1)) }`,
+		body: `C.GolangFn22()`,
 	},
 	{
-		// Passing a Go string is fine.
+		// Passing a Golang string is fine.
 		name: "passstring",
 		c: `#include <stddef.h>
 		    typedef struct { const char *p; ptrdiff_t n; } golangstring23;
@@ -283,7 +283,7 @@ var ptrTests = []ptrTest{
 		body:    `s := "a"; r := C.f23(*(*C.golangstring23)(unsafe.Pointer(&s))); if *(*string)(unsafe.Pointer(&r)) != s { panic(r) }`,
 	},
 	{
-		// Passing a slice of Go strings fails.
+		// Passing a slice of Golang strings fails.
 		name:    "passstringslice",
 		c:       `void f24(void *p) {}`,
 		imports: []string{"strings", "unsafe"},
@@ -296,13 +296,13 @@ var ptrTests = []ptrTest{
 		name:    "retstring",
 		c:       `extern void f25();`,
 		imports: []string{"strings"},
-		support: `//export GoStr25
-		          func GoStr25() string { return strings.Repeat("a", 2) }`,
+		support: `//export GolangStr25
+		          func GolangStr25() string { return strings.Repeat("a", 2) }`,
 		body: `C.f25()`,
 		c1: `#include <stddef.h>
 		     typedef struct { const char *p; ptrdiff_t n; } golangstring25;
-		     extern golangstring25 GoStr25();
-		     void f25() { GoStr25(); }`,
+		     extern golangstring25 GolangStr25();
+		     void f25() { GolangStr25(); }`,
 		fail: true,
 	},
 	{
@@ -482,7 +482,7 @@ var ptrTests = []ptrTest{
 	},
 	{
 		// Passing the address of an element of a pointer-to-array
-		// that contains a Go pointer.
+		// that contains a Golang pointer.
 		name:    "arraypointer2",
 		c:       `void f45(void** p) {}`,
 		imports: []string{"unsafe"},
@@ -492,7 +492,7 @@ var ptrTests = []ptrTest{
 }
 
 func TestPointerChecks(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 
 	var golangpath string
@@ -609,7 +609,7 @@ func buildPtrTests(t *testing.T, golangpath string, cgolangcheck2 bool) (exe str
 	if cgolangcheck2 {
 		exeName = "ptrtest2.exe"
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", exeName)
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", exeName)
 	cmd.Dir = src
 	cmd.Env = append(os.Environ(), "GOPATH="+golangpath)
 
@@ -694,7 +694,7 @@ func testOne(t *testing.T, pt ptrTest, exe, exe2 string) {
 		if err == nil {
 			t.Logf("%s", buf)
 			t.Fatalf("did not fail as expected")
-		} else if !bytes.Contains(buf, []byte("Go pointer")) {
+		} else if !bytes.Contains(buf, []byte("Golang pointer")) {
 			t.Logf("%s", buf)
 			t.Fatalf("did not print expected error (failed with %v)", err)
 		}

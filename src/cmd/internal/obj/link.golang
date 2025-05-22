@@ -8,7 +8,7 @@
 //	Portions Copyright © 2004,2006 Bruce Ellis
 //	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 //	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-//	Portions Copyright © 2009 The Go Authors. All rights reserved.
+//	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -453,14 +453,14 @@ const (
 )
 
 // An LSym is the sort of symbol that is written to an object file.
-// It represents Go symbols in a flat pkg+"."+name namespace.
+// It represents Golang symbols in a flat pkg+"."+name namespace.
 type LSym struct {
 	Name string
 	Type objabi.SymKind
 	Attribute
 
 	Size   int64
-	Gotype *LSym
+	Golangtype *LSym
 	P      []byte
 	R      []Reloc
 
@@ -621,7 +621,7 @@ func (s *LSym) NewItabInfo() *ItabInfo {
 }
 
 // WasmImport represents a WebAssembly (WASM) imported function with
-// parameters and results translated into WASM types based on the Go function
+// parameters and results translated into WASM types based on the Golang function
 // declaration.
 type WasmImport struct {
 	// Module holds the WASM module name specified by the //golang:wasmimport
@@ -682,7 +682,7 @@ func (wi *WasmImport) Read(b []byte) {
 }
 
 // WasmFuncType represents a WebAssembly (WASM) function type with
-// parameters and results translated into WASM types based on the Go function
+// parameters and results translated into WASM types based on the Golang function
 // declaration.
 type WasmFuncType struct {
 	// Params holds the function parameter fields.
@@ -745,12 +745,12 @@ func (ft *WasmFuncType) Read(b []byte) {
 }
 
 // WasmExport represents a WebAssembly (WASM) exported function with
-// parameters and results translated into WASM types based on the Go function
+// parameters and results translated into WASM types based on the Golang function
 // declaration.
 type WasmExport struct {
 	WasmFuncType
 
-	WrappedSym *LSym // the wrapped Go function
+	WrappedSym *LSym // the wrapped Golang function
 	AuxSym     *LSym // aux symbol to pass metadata to the linker
 }
 
@@ -767,9 +767,9 @@ func (we *WasmExport) CreateAuxSym() {
 
 type WasmField struct {
 	Type WasmFieldType
-	// Offset holds the frame-pointer-relative locations for Go's stack-based
+	// Offset holds the frame-pointer-relative locations for Golang's stack-based
 	// ABI. This is used by the src/cmd/internal/wasm package to map WASM
-	// import parameters to the Go stack in a wrapper function.
+	// import parameters to the Golang stack in a wrapper function.
 	Offset int64
 }
 
@@ -783,7 +783,7 @@ const (
 	WasmPtr
 
 	// bool is not really a wasm type, but we allow it on wasmimport/wasmexport
-	// function parameters/results. 32-bit on Wasm side, 8-bit on Go side.
+	// function parameters/results. 32-bit on Wasm side, 8-bit on Golang side.
 	WasmBool
 )
 
@@ -831,8 +831,8 @@ const (
 	// an ABI and text symbols with ABI0.
 	ABI0 ABI = iota
 
-	// ABIInternal is the internal ABI that may change between Go
-	// versions. All Go functions use the internal ABI and the
+	// ABIInternal is the internal ABI that may change between Golang
+	// versions. All Golang functions use the internal ABI and the
 	// compiler generates wrappers for calls to and from other
 	// ABIs.
 	ABIInternal
@@ -921,11 +921,11 @@ const (
 	// Used by the linker to determine what methods can be pruned.
 	AttrReflectMethod
 
-	// Local means make the symbol local even when compiling Go code to reference Go
+	// Local means make the symbol local even when compiling Golang code to reference Golang
 	// symbols in other shared libraries, as in this mode symbols are global by
 	// default. "local" here means in the sense of the dynamic linker, i.e. not
 	// visible outside of the module (shared library or executable) that contains its
-	// definition. (When not compiling to support Go shared libraries, all symbols are
+	// definition. (When not compiling to support Golang shared libraries, all symbols are
 	// local in this sense unless there is a cgolang_export_* directive).
 	AttrLocal
 
@@ -1112,7 +1112,7 @@ type Auto struct {
 	Asym    *LSym
 	Aoffset int32
 	Name    AddrName
-	Gotype  *LSym
+	Golangtype  *LSym
 }
 
 // RegSpill provides spill/fill information for a register-resident argument
@@ -1127,7 +1127,7 @@ type RegSpill struct {
 	Spill, Unspill As
 }
 
-// A Func represents a Go function. If non-nil, it must be a *ir.Func.
+// A Func represents a Golang function. If non-nil, it must be a *ir.Func.
 type Func interface {
 	Pos() src.XPos
 }

@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@ package main
 
 /*
 typedef void callback(char*);
-extern void CallGoBigStack1(char*);
+extern void CallGolangBigStack1(char*);
 extern void bigStack(callback*);
 */
 import "C"
@@ -16,9 +16,9 @@ func init() {
 }
 
 func BigStack() {
-	// Create a large thread stack and call back into Go to test
-	// if Go correctly determines the stack bounds.
-	C.bigStack((*C.callback)(C.CallGoBigStack1))
+	// Create a large thread stack and call back into Golang to test
+	// if Golang correctly determines the stack bounds.
+	C.bigStack((*C.callback)(C.CallGolangBigStack1))
 }
 
 //export golangBigStack1

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ x_cgolang_mmap(void *addr, uintptr_t length, int32_t prot, int32_t flags, int32_
 	p = mmap(addr, length, prot, flags, fd, offset);
 	_cgolang_tsan_release();
 	if (p == MAP_FAILED) {
-		/* This is what the Go code expects on failure.  */
+		/* This is what the Golang code expects on failure.  */
 		return (uintptr_t)errno;
 	}
 	return (uintptr_t)p;
@@ -33,7 +33,7 @@ x_cgolang_munmap(void *addr, uintptr_t length) {
 	r = munmap(addr, length);
 	_cgolang_tsan_release();
 	if (r < 0) {
-		/* The Go runtime is not prepared for munmap to fail.  */
+		/* The Golang runtime is not prepared for munmap to fail.  */
 		abort();
 	}
 }

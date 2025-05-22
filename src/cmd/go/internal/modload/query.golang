@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -124,7 +124,7 @@ func checkReuseRepo(ctx context.Context, repo versionRepo, path, query string, o
 		// (and is often associated with an error result).
 
 	case query == module.CanonicalVersion(query):
-		// This query refers to a specific version, and Go module versions
+		// This query refers to a specific version, and Golang module versions
 		// are supposed to be cacheable and immutable (confirmed with checksums).
 		// If the version exists at all, we shouldn't need any extra information
 		// to identify which commit it resolves to.
@@ -602,7 +602,7 @@ func (qm *queryMatcher) filterVersions(ctx context.Context, versions []string) (
 				// ignore any version with a higher (+incompatible) major version. (See
 				// https://golanglang.org/issue/34165.) Note that we even prefer a
 				// compatible pre-release over an incompatible release.
-				ok, err := versionHasGoMod(ctx, module.Version{Path: qm.path, Version: lastCompatible})
+				ok, err := versionHasGolangMod(ctx, module.Version{Path: qm.path, Version: lastCompatible})
 				if err != nil {
 					return nil, nil, err
 				}
@@ -879,7 +879,7 @@ func queryPrefixModules(ctx context.Context, candidateModules []string, queryMod
 	var wg sync.WaitGroup
 	wg.Add(len(candidateModules))
 	for i, p := range candidateModules {
-		ctx := trace.StartGoroutine(ctx)
+		ctx := trace.StartGolangroutine(ctx)
 		golang func(p string, r *result) {
 			r.QueryResult, r.err = queryModule(ctx, p)
 			wg.Done()
@@ -1077,9 +1077,9 @@ func (e *PackageNotInModuleError) ImportPath() string {
 	return ""
 }
 
-// versionHasGoMod returns whether a version has a golang.mod file.
+// versionHasGolangMod returns whether a version has a golang.mod file.
 //
-// versionHasGoMod fetches the golang.mod file (possibly a fake) and true if it
+// versionHasGolangMod fetches the golang.mod file (possibly a fake) and true if it
 // contains anything other than a module directive with the same path. When a
 // module does not have a real golang.mod file, the golang command acts as if it had one
 // that only contained a module directive. Normal golang.mod files created after
@@ -1096,12 +1096,12 @@ func (e *PackageNotInModuleError) ImportPath() string {
 // golang.mod with different content. Second, if we don't fetch the .zip, then
 // we don't need to verify it in golang.sum. This makes 'golang list -m -u' faster
 // and simpler.
-func versionHasGoMod(_ context.Context, m module.Version) (bool, error) {
-	_, data, err := rawGoModData(m)
+func versionHasGolangMod(_ context.Context, m module.Version) (bool, error) {
+	_, data, err := rawGolangModData(m)
 	if err != nil {
 		return false, err
 	}
-	isFake := bytes.Equal(data, modfetch.LegacyGoMod(m.Path))
+	isFake := bytes.Equal(data, modfetch.LegacyGolangMod(m.Path))
 	return !isFake, nil
 }
 

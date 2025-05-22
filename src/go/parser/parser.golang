@@ -1,14 +1,14 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package parser implements a parser for Go source files. Input may be
+// Package parser implements a parser for Golang source files. Input may be
 // provided in a variety of forms (see the various Parse* functions); the
-// output is an abstract syntax tree (AST) representing the Go source. The
+// output is an abstract syntax tree (AST) representing the Golang source. The
 // parser is invoked through one of the Parse* functions.
 //
 // The parser accepts a larger language than is syntactically permitted by
-// the Go spec, for simplicity, and for improved robustness in the presence
+// the Golang spec, for simplicity, and for improved robustness in the presence
 // of syntax errors. For instance, in method declarations, the receiver is
 // treated like an ordinary parameter list and thus may contain multiple
 // entries where the spec permits exactly one. Consequently, the corresponding
@@ -40,7 +40,7 @@ type parser struct {
 	leadComment *ast.CommentGroup // last lead comment
 	lineComment *ast.CommentGroup // last line comment
 	top         bool              // in top of file (before package clause)
-	golangVersion   string            // minimum Go version found in //golang:build comment
+	golangVersion   string            // minimum Golang version found in //golang:build comment
 
 	// Next token
 	pos token.Pos   // token position
@@ -147,7 +147,7 @@ func (p *parser) next0() {
 		if p.tok == token.COMMENT {
 			if p.top && strings.HasPrefix(p.lit, "//golang:build") {
 				if x, err := constraint.Parse(p.lit); err == nil {
-					p.golangVersion = constraint.GoVersion(x)
+					p.golangVersion = constraint.GolangVersion(x)
 				}
 			}
 			if p.mode&ParseComments == 0 {
@@ -1969,7 +1969,7 @@ func (p *parser) parseSimpleStmt(mode int) (ast.Stmt, bool) {
 		colon := p.pos
 		p.next()
 		if label, isIdent := x[0].(*ast.Ident); mode == labelOk && isIdent {
-			// Go spec: The scope of a label is the body of the function
+			// Golang spec: The scope of a label is the body of the function
 			// in which it is declared and excludes the body of any nested
 			// function.
 			stmt := &ast.LabeledStmt{Label: label, Colon: colon, Stmt: p.parseStmt()}
@@ -2018,9 +2018,9 @@ func (p *parser) parseCallExpr(callType string) *ast.CallExpr {
 	return nil
 }
 
-func (p *parser) parseGoStmt() ast.Stmt {
+func (p *parser) parseGolangStmt() ast.Stmt {
 	if p.trace {
-		defer un(trace(p, "GoStmt"))
+		defer un(trace(p, "GolangStmt"))
 	}
 
 	pos := p.expect(token.GO)
@@ -2030,7 +2030,7 @@ func (p *parser) parseGoStmt() ast.Stmt {
 		return &ast.BadStmt{From: pos, To: pos + 2} // len("golang")
 	}
 
-	return &ast.GoStmt{Go: pos, Call: call}
+	return &ast.GolangStmt{Golang: pos, Call: call}
 }
 
 func (p *parser) parseDeferStmt() ast.Stmt {
@@ -2260,7 +2260,7 @@ func (p *parser) parseSwitchStmt() ast.Stmt {
 				//
 				//	switch t := 0; t := x.(T) { ... }
 				//
-				// (this code is not valid Go because the first t
+				// (this code is not valid Golang because the first t
 				// cannot be accessed and thus is never used, the extra
 				// scope is needed for the correct error message).
 				//
@@ -2464,7 +2464,7 @@ func (p *parser) parseStmt() (s ast.Stmt) {
 			p.expectSemi()
 		}
 	case token.GO:
-		s = p.parseGoStmt()
+		s = p.parseGolangStmt()
 	case token.DEFER:
 		s = p.parseDeferStmt()
 	case token.RETURN:
@@ -2878,7 +2878,7 @@ func (p *parser) parseFile() *ast.File {
 	}
 
 	// Don't bother parsing the rest if we had errors scanning the first token.
-	// Likely not a Go source file at all.
+	// Likely not a Golang source file at all.
 	if p.errors.Len() != 0 {
 		return nil
 	}
@@ -2886,7 +2886,7 @@ func (p *parser) parseFile() *ast.File {
 	// package clause
 	doc := p.leadComment
 	pos := p.expect(token.PACKAGE)
-	// Go spec: The package clause is not a declaration;
+	// Golang spec: The package clause is not a declaration;
 	// the package name does not appear in any scope.
 	ident := p.parseIdent()
 	if ident.Name == "_" && p.mode&DeclarationErrors != 0 {
@@ -2895,7 +2895,7 @@ func (p *parser) parseFile() *ast.File {
 	p.expectSemi()
 
 	// Don't bother parsing the rest if we had errors parsing the package clause.
-	// Likely not a Go source file at all.
+	// Likely not a Golang source file at all.
 	if p.errors.Len() != 0 {
 		return nil
 	}
@@ -2930,7 +2930,7 @@ func (p *parser) parseFile() *ast.File {
 		// File{Start,End} are set by the defer in the caller.
 		Imports:   p.imports,
 		Comments:  p.comments,
-		GoVersion: p.golangVersion,
+		GolangVersion: p.golangVersion,
 	}
 	var declErr func(token.Pos, string)
 	if p.mode&DeclarationErrors != 0 {

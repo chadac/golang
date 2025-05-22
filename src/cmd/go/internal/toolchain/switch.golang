@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -55,8 +55,8 @@ func (s *Switcher) addTooNew(err error) {
 
 	case *golangver.TooNewError:
 		if s.TooNew == nil ||
-			golangver.Compare(err.GoVersion, s.TooNew.GoVersion) > 0 ||
-			golangver.Compare(err.GoVersion, s.TooNew.GoVersion) == 0 && err.What < s.TooNew.What {
+			golangver.Compare(err.GolangVersion, s.TooNew.GolangVersion) > 0 ||
+			golangver.Compare(err.GolangVersion, s.TooNew.GolangVersion) == 0 && err.What < s.TooNew.What {
 			s.TooNew = err
 		}
 	}
@@ -88,17 +88,17 @@ func (s *Switcher) Switch(ctx context.Context) {
 		return
 	}
 
-	// Switch to newer Go toolchain if necessary and possible.
-	tv, err := NewerToolchain(ctx, s.TooNew.GoVersion)
+	// Switch to newer Golang toolchain if necessary and possible.
+	tv, err := NewerToolchain(ctx, s.TooNew.GolangVersion)
 	if err != nil {
 		for _, err := range s.Errors {
 			base.Error(err)
 		}
-		base.Error(fmt.Errorf("switching to golang >= %v: %w", s.TooNew.GoVersion, err))
+		base.Error(fmt.Errorf("switching to golang >= %v: %w", s.TooNew.GolangVersion, err))
 		return
 	}
 
-	fmt.Fprintf(os.Stderr, "golang: %v requires golang >= %v; switching to %v\n", s.TooNew.What, s.TooNew.GoVersion, tv)
+	fmt.Fprintf(os.Stderr, "golang: %v requires golang >= %v; switching to %v\n", s.TooNew.What, s.TooNew.GolangVersion, tv)
 	counterSwitchExec.Inc()
 	Exec(tv)
 	panic("unreachable")
@@ -116,7 +116,7 @@ func SwitchOrFatal(ctx context.Context, err error) {
 }
 
 // NewerToolchain returns the name of the toolchain to use when we need
-// to switch to a newer toolchain that must support at least the given Go version.
+// to switch to a newer toolchain that must support at least the given Golang version.
 // See https://golang.dev/doc/toolchain#switch.
 //
 // If the latest major release is 1.N.0, we use the latest patch release of 1.(N-1) if that's >= version.
@@ -211,7 +211,7 @@ func newerToolchain(need string, list []string) (string, error) {
 		newer := latest
 		latest = v
 		if newer != "" && !golangver.IsPrerelease(newer) {
-			// latest is the last patch release of Go 1.X, and we saw a non-prerelease of Go 1.(X+1),
+			// latest is the last patch release of Golang 1.X, and we saw a non-prerelease of Golang 1.(X+1),
 			// so latest is the one we want.
 			break
 		}

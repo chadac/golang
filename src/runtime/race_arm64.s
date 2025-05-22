@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,8 +11,8 @@
 #include "cgolang/abi_arm64.h"
 
 // The following thunks allow calling the gcc-compiled race runtime directly
-// from Go code without golanging all the way through cgolang.
-// First, it's much faster (up to 50% speedup for real Go programs).
+// from Golang code without golanging all the way through cgolang.
+// First, it's much faster (up to 50% speedup for real Golang programs).
 // Second, it eliminates race-related special cases from cgolangcall and scheduler.
 // Third, in long-term it will allow to remove cyclic runtime/race dependency on cmd/golang.
 
@@ -476,7 +476,7 @@ TEXT	racecall<>(SB), NOSPLIT|NOFRAME, $0-0
 	MOVD	(g_sched+golangbuf_sp)(R11), R12
 	MOVD	R12, RSP
 call:
-	// Decrement SP past where the frame pointer is saved in the Go arm64
+	// Decrement SP past where the frame pointer is saved in the Golang arm64
 	// ABI (one word below the stack pointer) so the race detector library
 	// code doesn't clobber it
 	SUB	$16, RSP
@@ -484,9 +484,9 @@ call:
 	MOVD	R19, RSP
 	JMP	(R20)
 
-// C->Go callback thunk that allows to call runtime·racesymbolize from C code.
-// Direct Go->C race call has only switched SP, finish g->g0 switch by setting correct g.
-// The overall effect of Go->C->Go call chain is similar to that of mcall.
+// C->Golang callback thunk that allows to call runtime·racesymbolize from C code.
+// Direct Golang->C race call has only switched SP, finish g->g0 switch by setting correct g.
+// The overall effect of Golang->C->Golang call chain is similar to that of mcall.
 // R0 contains command code. R1 contains command-specific context.
 // See racecallback for command codes.
 TEXT	runtime·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0
@@ -510,7 +510,7 @@ TEXT	runtime·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0
 	MOVD	R13, g
 	JMP	(LR)
 rest:
-	// Save callee-saved registers (Go code won't respect that).
+	// Save callee-saved registers (Golang code won't respect that).
 	// 8(RSP) and 16(RSP) are for args passed through racecallback
 	SUB	$176, RSP
 	MOVD	LR, 0(RSP)
@@ -534,7 +534,7 @@ rest:
 	MOVD	R1, 16(RSP)	// func arg
 	BL	runtime·racecallback(SB)
 
-	// All registers are smashed after Go code, reload.
+	// All registers are smashed after Golang code, reload.
 	MOVD	g_m(g), R13
 	MOVD	m_curg(R13), g	// g = m->curg
 ret:

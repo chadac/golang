@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,7 +26,7 @@ func setUpContext(arch *sys.Arch, iself bool, ht objabi.HeadType, bm, lm string)
 }
 
 // Make sure the addgolangtsym properly increases the symbols.
-func TestAddGotSym(t *testing.T) {
+func TestAddGolangtSym(t *testing.T) {
 	tests := []struct {
 		arch    *sys.Arch
 		ht      objabi.HeadType
@@ -74,7 +74,7 @@ func TestAddGotSym(t *testing.T) {
 		ctxt := setUpContext(test.arch, iself, test.ht, test.bm, test.lm)
 		foo := ctxt.loader.CreateSymForUpdate("foo", 0)
 		ctxt.loader.CreateExtSym("bar", 0)
-		AddGotSym(&ctxt.Target, ctxt.loader, &ctxt.ArchSyms, foo.Sym(), 0)
+		AddGolangtSym(&ctxt.Target, ctxt.loader, &ctxt.ArchSyms, foo.Sym(), 0)
 
 		if iself {
 			rel := ctxt.loader.Lookup(test.rel, 0)

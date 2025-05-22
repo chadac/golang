@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -37,19 +37,19 @@ func AddCredentials(client *http.Client, req *http.Request, res *http.Response, 
 	}
 	// Run all GOAUTH commands at least once.
 	authOnce.Do(func() {
-		runGoAuth(client, res, "")
+		runGolangAuth(client, res, "")
 	})
 	if url != "" {
 		// First fetch must have failed; re-invoke GOAUTH commands with url.
-		runGoAuth(client, res, url)
+		runGolangAuth(client, res, url)
 	}
 	return loadCredential(req, req.URL.String())
 }
 
-// runGoAuth executes authentication commands specified by the GOAUTH
+// runGolangAuth executes authentication commands specified by the GOAUTH
 // environment variable handling 'off', 'netrc', and 'git' methods specially,
 // and storing retrieved credentials for future access.
-func runGoAuth(client *http.Client, res *http.Response, url string) {
+func runGolangAuth(client *http.Client, res *http.Response, url string) {
 	var cmdErrs []error // store GOAUTH command errors to log later.
 	golangAuthCmds := strings.Split(cfg.GOAUTH, ";")
 	// The GOAUTH commands are processed in reverse order to prioritize

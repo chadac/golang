@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@
 #include <time.h>
 #include <unistd.h>
 
-extern void IntoGoAndBack();
+extern void IntoGolangAndBack();
 
 int CheckBlocked() {
 	sigset_t mask;
@@ -25,7 +25,7 @@ static void* sigthreadfunc(void* unused) {
 	sigemptyset(&mask);
 	sigaddset(&mask, SIGIO);
 	sigprocmask(SIG_BLOCK, &mask, NULL);
-	IntoGoAndBack();
+	IntoGolangAndBack();
 	return NULL;
 }
 

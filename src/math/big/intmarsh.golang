@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,17 +11,17 @@ import (
 	"fmt"
 )
 
-// Gob codec version. Permits backward-compatible changes to the encoding.
-const intGobVersion byte = 1
+// Golangb codec version. Permits backward-compatible changes to the encoding.
+const intGolangbVersion byte = 1
 
-// GobEncode implements the [encoding/golangb.GobEncoder] interface.
-func (x *Int) GobEncode() ([]byte, error) {
+// GolangbEncode implements the [encoding/golangb.GolangbEncoder] interface.
+func (x *Int) GolangbEncode() ([]byte, error) {
 	if x == nil {
 		return nil, nil
 	}
 	buf := make([]byte, 1+len(x.abs)*_S) // extra byte for version and sign bit
 	i := x.abs.bytes(buf) - 1            // i >= 0
-	b := intGobVersion << 1              // make space for sign bit
+	b := intGolangbVersion << 1              // make space for sign bit
 	if x.neg {
 		b |= 1
 	}
@@ -29,16 +29,16 @@ func (x *Int) GobEncode() ([]byte, error) {
 	return buf[i:], nil
 }
 
-// GobDecode implements the [encoding/golangb.GobDecoder] interface.
-func (z *Int) GobDecode(buf []byte) error {
+// GolangbDecode implements the [encoding/golangb.GolangbDecoder] interface.
+func (z *Int) GolangbDecode(buf []byte) error {
 	if len(buf) == 0 {
 		// Other side sent a nil or default value.
 		*z = Int{}
 		return nil
 	}
 	b := buf[0]
-	if b>>1 != intGobVersion {
-		return fmt.Errorf("Int.GobDecode: encoding version %d not supported", b>>1)
+	if b>>1 != intGolangbVersion {
+		return fmt.Errorf("Int.GolangbDecode: encoding version %d not supported", b>>1)
 	}
 	z.neg = b&1 != 0
 	z.abs = z.abs.setBytes(buf[1:])

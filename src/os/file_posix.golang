@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -56,7 +56,7 @@ func (f *File) pwrite(b []byte, off int64) (n int, err error) {
 	return n, err
 }
 
-// syscallMode returns the syscall-specific mode bits from Go's portable mode bits.
+// syscallMode returns the syscall-specific mode bits from Golang's portable mode bits.
 func syscallMode(i FileMode) (o uint32) {
 	o |= uint32(i.Perm())
 	if i&ModeSetuid != 0 {
@@ -68,7 +68,7 @@ func syscallMode(i FileMode) (o uint32) {
 	if i&ModeSticky != 0 {
 		o |= syscall.S_ISVTX
 	}
-	// No mapping for Go's ModeTemporary (plan9 only).
+	// No mapping for Golang's ModeTemporary (plan9 only).
 	return
 }
 

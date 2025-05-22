@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,16 +24,16 @@ func genLinear(size int) []bloc {
 	blocs = append(blocs,
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-			Goto(blockn(0)),
+			Golangto(blockn(0)),
 		),
 	)
 	for i := 0; i < size; i++ {
 		blocs = append(blocs, Bloc(blockn(i),
-			Goto(blockn(i+1))))
+			Golangto(blockn(i+1))))
 	}
 
 	blocs = append(blocs,
-		Bloc(blockn(size), Goto("exit")),
+		Bloc(blockn(size), Golangto("exit")),
 		Bloc("exit", Exit("mem")),
 	)
 
@@ -48,7 +48,7 @@ func genFwdBack(size int) []bloc {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("p", OpConstBool, types.Types[types.TBOOL], 1, nil),
-			Goto(blockn(0)),
+			Golangto(blockn(0)),
 		),
 	)
 	for i := 0; i < size; i++ {
@@ -63,7 +63,7 @@ func genFwdBack(size int) []bloc {
 	}
 
 	blocs = append(blocs,
-		Bloc(blockn(size), Goto("exit")),
+		Bloc(blockn(size), Golangto("exit")),
 		Bloc("exit", Exit("mem")),
 	)
 
@@ -78,7 +78,7 @@ func genManyPred(size int) []bloc {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("p", OpConstBool, types.Types[types.TBOOL], 1, nil),
-			Goto(blockn(0)),
+			Golangto(blockn(0)),
 		),
 	)
 
@@ -89,7 +89,7 @@ func genManyPred(size int) []bloc {
 		case 0:
 			blocs = append(blocs, Bloc(blockn(i),
 				Valu("a", OpConstBool, types.Types[types.TBOOL], 1, nil),
-				Goto(blockn(i+1))))
+				Golangto(blockn(i+1))))
 		case 1:
 			blocs = append(blocs, Bloc(blockn(i),
 				Valu("a", OpConstBool, types.Types[types.TBOOL], 1, nil),
@@ -102,7 +102,7 @@ func genManyPred(size int) []bloc {
 	}
 
 	blocs = append(blocs,
-		Bloc(blockn(size), Goto("exit")),
+		Bloc(blockn(size), Golangto("exit")),
 		Bloc("exit", Exit("mem")),
 	)
 
@@ -116,7 +116,7 @@ func genMaxPred(size int) []bloc {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("p", OpConstBool, types.Types[types.TBOOL], 1, nil),
-			Goto(blockn(0)),
+			Golangto(blockn(0)),
 		),
 	)
 
@@ -126,7 +126,7 @@ func genMaxPred(size int) []bloc {
 	}
 
 	blocs = append(blocs,
-		Bloc(blockn(size), Goto("exit")),
+		Bloc(blockn(size), Golangto("exit")),
 		Bloc("exit", Exit("mem")),
 	)
 
@@ -141,7 +141,7 @@ func genMaxPredValue(size int) []bloc {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("p", OpConstBool, types.Types[types.TBOOL], 1, nil),
-			Goto(blockn(0)),
+			Golangto(blockn(0)),
 		),
 	)
 
@@ -152,7 +152,7 @@ func genMaxPredValue(size int) []bloc {
 	}
 
 	blocs = append(blocs,
-		Bloc(blockn(size), Goto("exit")),
+		Bloc(blockn(size), Golangto("exit")),
 		Bloc("exit", Exit("mem")),
 	)
 
@@ -242,13 +242,13 @@ func TestDominatorsSimple(t *testing.T) {
 	fun := c.Fun("entry",
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-			Goto("a")),
+			Golangto("a")),
 		Bloc("a",
-			Goto("b")),
+			Golangto("b")),
 		Bloc("b",
-			Goto("c")),
+			Golangto("c")),
 		Bloc("c",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -275,9 +275,9 @@ func TestDominatorsMultPredFwd(t *testing.T) {
 		Bloc("a",
 			If("p", "b", "c")),
 		Bloc("b",
-			Goto("c")),
+			Golangto("c")),
 		Bloc("c",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -301,9 +301,9 @@ func TestDominatorsDeadCode(t *testing.T) {
 			Valu("p", OpConstBool, types.Types[types.TBOOL], 0, nil),
 			If("p", "b3", "b5")),
 		Bloc("b2", Exit("mem")),
-		Bloc("b3", Goto("b2")),
-		Bloc("b4", Goto("b2")),
-		Bloc("b5", Goto("b2")))
+		Bloc("b3", Golangto("b2")),
+		Bloc("b4", Golangto("b2")),
+		Bloc("b5", Golangto("b2")))
 
 	doms := map[string]string{
 		"b2": "entry",
@@ -320,15 +320,15 @@ func TestDominatorsMultPredRev(t *testing.T) {
 	c := testConfig(t)
 	fun := c.Fun("entry",
 		Bloc("entry",
-			Goto("first")),
+			Golangto("first")),
 		Bloc("first",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("p", OpConstBool, types.Types[types.TBOOL], 1, nil),
-			Goto("a")),
+			Golangto("a")),
 		Bloc("a",
 			If("p", "b", "first")),
 		Bloc("b",
-			Goto("c")),
+			Golangto("c")),
 		Bloc("c",
 			If("p", "exit", "b")),
 		Bloc("exit",
@@ -357,7 +357,7 @@ func TestDominatorsMultPred(t *testing.T) {
 		Bloc("a",
 			If("p", "b", "c")),
 		Bloc("b",
-			Goto("c")),
+			Golangto("c")),
 		Bloc("c",
 			If("p", "b", "exit")),
 		Bloc("exit",
@@ -382,11 +382,11 @@ func TestInfiniteLoop(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("p", OpConstBool, types.Types[types.TBOOL], 1, nil),
-			Goto("a")),
+			Golangto("a")),
 		Bloc("a",
-			Goto("b")),
+			Golangto("b")),
 		Bloc("b",
-			Goto("a")))
+			Golangto("a")))
 
 	CheckFunc(fun.f)
 	doms := map[string]string{"a": "entry",
@@ -419,9 +419,9 @@ func TestDomTricky(t *testing.T) {
 			Bloc("1",
 				Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 				Valu("p", OpConstBool, types.Types[types.TBOOL], 1, nil),
-				Goto("4")),
+				Golangto("4")),
 			Bloc("2",
-				Goto("11")),
+				Golangto("11")),
 			Bloc("4",
 				If("p", if4[a], if4[1-a])), // 2, 5
 			Bloc("5",
@@ -429,11 +429,11 @@ func TestDomTricky(t *testing.T) {
 			Bloc("10",
 				Exit("mem")),
 			Bloc("11",
-				Goto("15")),
+				Golangto("15")),
 			Bloc("15",
 				If("p", if15[c], if15[1-c])), //19, 10
 			Bloc("19",
-				Goto("10")))
+				Golangto("10")))
 		CheckFunc(fun.f)
 		verifyDominators(t, fun, dominators, doms)
 		verifyDominators(t, fun, dominatorsSimple, doms)
@@ -499,107 +499,107 @@ func testDominatorsPostTricky(t *testing.T, b7then, b7else, b12then, b12else, b1
 		Bloc("b3",
 			If("p", "b5", "b6")),
 		Bloc("b5",
-			Goto("b7")),
+			Golangto("b7")),
 		Bloc("b7",
 			If("p", b7then, b7else)),
 		Bloc("b8",
-			Goto("b13")),
+			Golangto("b13")),
 		Bloc("b13",
 			If("p", b13then, b13else)),
 		Bloc("b14",
-			Goto("b10")),
+			Golangto("b10")),
 		Bloc("b15",
-			Goto("b16")),
+			Golangto("b16")),
 		Bloc("b16",
-			Goto("b9")),
+			Golangto("b9")),
 		Bloc("b9",
-			Goto("b7")),
+			Golangto("b7")),
 		Bloc("b11",
-			Goto("b12")),
+			Golangto("b12")),
 		Bloc("b12",
 			If("p", b12then, b12else)),
 		Bloc("b10",
-			Goto("b6")),
+			Golangto("b6")),
 		Bloc("b6",
-			Goto("b17")),
+			Golangto("b17")),
 		Bloc("b17",
-			Goto("b18")),
+			Golangto("b18")),
 		Bloc("b18",
 			If("p", "b22", "b19")),
 		Bloc("b22",
-			Goto("b23")),
+			Golangto("b23")),
 		Bloc("b23",
 			If("p", "b21", "b19")),
 		Bloc("b19",
 			If("p", "b24", "b25")),
 		Bloc("b24",
-			Goto("b26")),
+			Golangto("b26")),
 		Bloc("b26",
-			Goto("b25")),
+			Golangto("b25")),
 		Bloc("b25",
 			If("p", "b27", "b29")),
 		Bloc("b27",
-			Goto("b30")),
+			Golangto("b30")),
 		Bloc("b30",
-			Goto("b28")),
+			Golangto("b28")),
 		Bloc("b29",
-			Goto("b31")),
+			Golangto("b31")),
 		Bloc("b31",
-			Goto("b28")),
+			Golangto("b28")),
 		Bloc("b28",
 			If("p", "b32", "b33")),
 		Bloc("b32",
-			Goto("b21")),
+			Golangto("b21")),
 		Bloc("b21",
-			Goto("b47")),
+			Golangto("b47")),
 		Bloc("b47",
 			If("p", "b45", "b46")),
 		Bloc("b45",
-			Goto("b48")),
+			Golangto("b48")),
 		Bloc("b48",
-			Goto("b49")),
+			Golangto("b49")),
 		Bloc("b49",
 			If("p", "b50", "b51")),
 		Bloc("b50",
-			Goto("b52")),
+			Golangto("b52")),
 		Bloc("b52",
-			Goto("b53")),
+			Golangto("b53")),
 		Bloc("b53",
-			Goto("b51")),
+			Golangto("b51")),
 		Bloc("b51",
-			Goto("b54")),
+			Golangto("b54")),
 		Bloc("b54",
-			Goto("b46")),
+			Golangto("b46")),
 		Bloc("b46",
 			Exit("mem")),
 		Bloc("b33",
-			Goto("b34")),
+			Golangto("b34")),
 		Bloc("b34",
-			Goto("b37")),
+			Golangto("b37")),
 		Bloc("b37",
 			If("p", "b35", "b36")),
 		Bloc("b35",
-			Goto("b38")),
+			Golangto("b38")),
 		Bloc("b38",
-			Goto("b39")),
+			Golangto("b39")),
 		Bloc("b39",
 			If("p", "b40", "b41")),
 		Bloc("b40",
-			Goto("b42")),
+			Golangto("b42")),
 		Bloc("b42",
-			Goto("b43")),
+			Golangto("b43")),
 		Bloc("b43",
-			Goto("b41")),
+			Golangto("b41")),
 		Bloc("b41",
-			Goto("b44")),
+			Golangto("b44")),
 		Bloc("b44",
-			Goto("b36")),
+			Golangto("b36")),
 		Bloc("b36",
-			Goto("b20")),
+			Golangto("b20")),
 		Bloc("b20",
-			Goto("b18")),
+			Golangto("b18")),
 		Bloc("b2",
-			Goto("b4")),
+			Golangto("b4")),
 		Bloc("b4",
 			Exit("mem")))
 	CheckFunc(fun.f)

@@ -9,7 +9,7 @@
 //	Portions Copyright © 2004,2006 Bruce Ellis
 //	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 //	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-//	Portions Copyright © 2009 The Go Authors. All rights reserved.
+//	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -252,7 +252,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 
 		// We need to be able to reference dynimport symbols when linking against
 		// shared libraries, and AIX, Darwin, OpenBSD and Solaris always need it.
-		if !target.IsAIX() && !target.IsDarwin() && !target.IsSolaris() && !target.IsOpenbsd() && rs != 0 && rst == sym.SDYNIMPORT && !target.IsDynlinkingGo() && !ldr.AttrSubSymbol(rs) {
+		if !target.IsAIX() && !target.IsDarwin() && !target.IsSolaris() && !target.IsOpenbsd() && rs != 0 && rst == sym.SDYNIMPORT && !target.IsDynlinkingGolang() && !ldr.AttrSubSymbol(rs) {
 			if !(target.IsPPC64() && target.IsExternal() && ldr.SymName(rs) == ".TOC.") {
 				st.err.Errorf(s, "unhandled relocation for %s (type %d (%s) rtype %d (%s))", ldr.SymName(rs), rst, rst, rt, sym.RelocName(target.Arch, rt))
 			}
@@ -507,7 +507,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 
 		// r.Sym() can be 0 when CALL $(constant) is transformed from absolute PC to relative PC call.
 		case objabi.R_GOTPCREL:
-			if target.IsDynlinkingGo() && target.IsDarwin() && rs != 0 {
+			if target.IsDynlinkingGolang() && target.IsDarwin() && rs != 0 {
 				nExtReloc++
 				o = r.Add()
 				break
@@ -629,7 +629,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 	}
 }
 
-// Convert a Go relocation to an external relocation.
+// Convert a Golang relocation to an external relocation.
 func extreloc(ctxt *Link, ldr *loader.Loader, s loader.Sym, r loader.Reloc) (loader.ExtReloc, bool) {
 	var rr loader.ExtReloc
 	target := &ctxt.Target
@@ -695,7 +695,7 @@ func extreloc(ctxt *Link, ldr *loader.Loader, s loader.Sym, r loader.Reloc) (loa
 	// r.Sym() can be 0 when CALL $(constant) is transformed from absolute PC to relative PC call.
 	case objabi.R_GOTPCREL, objabi.R_CALL, objabi.R_PCREL:
 		rs := r.Sym()
-		if rt == objabi.R_GOTPCREL && target.IsDynlinkingGo() && target.IsDarwin() && rs != 0 {
+		if rt == objabi.R_GOTPCREL && target.IsDynlinkingGolang() && target.IsDarwin() && rs != 0 {
 			rr.Xadd = r.Add()
 			rr.Xadd -= int64(siz) // relative to address after the relocated chunk
 			rr.Xsym = rs
@@ -840,8 +840,8 @@ func windynrelocsym(ctxt *Link, rel *loader.SymbolBuilder, s loader.Sym) error {
 			return fmt.Errorf("dynamic relocation to unreachable symbol %s",
 				ctxt.loader.SymName(targ))
 		}
-		tgolangt := ctxt.loader.SymGot(targ)
-		if tgolangt == loadpe.RedirectToDynImportGotToken {
+		tgolangt := ctxt.loader.SymGolangt(targ)
+		if tgolangt == loadpe.RedirectToDynImportGolangtToken {
 
 			// Consistency check: name should be __imp_X
 			sname := ctxt.loader.SymName(targ)
@@ -1232,7 +1232,7 @@ func addstrdata(arch *sys.Arch, l *loader.Loader, name, value string) {
 	if s == 0 {
 		return
 	}
-	if golangType := l.SymGoType(s); golangType == 0 {
+	if golangType := l.SymGolangType(s); golangType == 0 {
 		return
 	} else if typeName := l.SymName(golangType); typeName != "type:string" {
 		Errorf("%s: cannot set with -X: not a var of type string (%s)", name, typeName)
@@ -1267,7 +1267,7 @@ func (ctxt *Link) dostrdata() {
 	}
 }
 
-// addgolangstring adds str, as a Go string value, to s. symname is the name of the
+// addgolangstring adds str, as a Golang string value, to s. symname is the name of the
 // symbol used to define the string data and must be unique per linked object.
 func addgolangstring(ctxt *Link, ldr *loader.Loader, s *loader.SymbolBuilder, symname, str string) {
 	sdata := ldr.CreateSymForUpdate(symname, 0)
@@ -1347,7 +1347,7 @@ func (p *GCProg) End(size int64) {
 
 func (p *GCProg) AddSym(s loader.Sym) {
 	ldr := p.ctxt.loader
-	typ := ldr.SymGoType(s)
+	typ := ldr.SymGolangType(s)
 
 	// Things without pointers should be in sym.SNOPTRDATA or sym.SNOPTRBSS;
 	// everything we see should have pointers and should therefore have a type.
@@ -1359,7 +1359,7 @@ func (p *GCProg) AddSym(s loader.Sym) {
 			// the address function.
 			return
 		}
-		p.ctxt.Errorf(p.sym.Sym(), "missing Go type information for global symbol %s: size %d", ldr.SymName(s), ldr.SymSize(s))
+		p.ctxt.Errorf(p.sym.Sym(), "missing Golang type information for global symbol %s: size %d", ldr.SymName(s), ldr.SymSize(s))
 		return
 	}
 
@@ -1382,7 +1382,7 @@ func (p *GCProg) AddType(off int64, typ loader.Sym) {
 		p.ctxt.Errorf(p.sym.Sym(), "has no pointers but in data section")
 		// TODO: just skip these? They might occur in assembly
 		// that doesn't know to use NOPTR? But there must have been
-		// a Go declaration somewhere.
+		// a Golang declaration somewhere.
 	}
 	switch decodetypeKind(p.ctxt.Arch, typData) {
 	default:
@@ -1466,7 +1466,7 @@ func fixZeroSizedSymbols(ctxt *Link) {
 	// aren't real symbols, their alignment might not match the
 	// first symbol alignment. Therefore, there are explicitly put at the
 	// beginning of their section with the same alignment.
-	if !(ctxt.DynlinkingGo() && ctxt.HeadType == objabi.Hdarwin) && !(ctxt.HeadType == objabi.Haix && ctxt.LinkMode == LinkExternal) {
+	if !(ctxt.DynlinkingGolang() && ctxt.HeadType == objabi.Hdarwin) && !(ctxt.HeadType == objabi.Haix && ctxt.LinkMode == LinkExternal) {
 		return
 	}
 
@@ -1743,7 +1743,7 @@ func (ctxt *Link) dodata(symGroupType []sym.SymKind) {
 
 	if ctxt.HeadType == objabi.Haix && ctxt.LinkMode == LinkExternal {
 		// These symbols must have the same alignment as their section.
-		// Otherwise, ld might change the layout of Go sections.
+		// Otherwise, ld might change the layout of Golang sections.
 		ldr.SetSymAlign(ldr.Lookup("runtime.data", 0), state.dataMaxAlign[sym.SDATA])
 		ldr.SetSymAlign(ldr.Lookup("runtime.bss", 0), state.dataMaxAlign[sym.SBSS])
 	}
@@ -2334,7 +2334,7 @@ func (state *dodataState) dodataSect(ctxt *Link, symn sym.SymKind, syms []loader
 		// If the usually-special section-marker symbols are being laid
 		// out as regular symbols, put them either at the beginning or
 		// end of their section.
-		if (ctxt.DynlinkingGo() && ctxt.HeadType == objabi.Hdarwin) || (ctxt.HeadType == objabi.Haix && ctxt.LinkMode == LinkExternal) {
+		if (ctxt.DynlinkingGolang() && ctxt.HeadType == objabi.Hdarwin) || (ctxt.HeadType == objabi.Haix && ctxt.LinkMode == LinkExternal) {
 			switch ldr.SymName(s) {
 			case "runtime.text", "runtime.bss", "runtime.data", "runtime.types", "runtime.rodata",
 				"runtime.noptrdata", "runtime.noptrbss":
@@ -2402,7 +2402,7 @@ func (state *dodataState) dodataSect(ctxt *Link, symn sym.SymKind, syms []loader
 
 // Add buildid to beginning of text segment, on non-ELF systems.
 // Non-ELF binary formats are not always flexible enough to
-// give us a place to put the Go build ID. On those systems, we put it
+// give us a place to put the Golang build ID. On those systems, we put it
 // at the very beginning of the text segment.
 // This “header” is read by cmd/golang.
 func (ctxt *Link) textbuildid() {
@@ -2414,7 +2414,7 @@ func (ctxt *Link) textbuildid() {
 	s := ldr.CreateSymForUpdate("golang:buildid", 0)
 	// The \xff is invalid UTF-8, meant to make it less likely
 	// to find one of these accidentally.
-	data := "\xff Go build ID: " + strconv.Quote(*flagBuildid) + "\n \xff"
+	data := "\xff Golang build ID: " + strconv.Quote(*flagBuildid) + "\n \xff"
 	s.SetType(sym.STEXT)
 	s.SetData([]byte(data))
 	s.SetSize(int64(len(data)))
@@ -2434,7 +2434,7 @@ func (ctxt *Link) buildinfo() {
 
 	// The \xff is invalid UTF-8, meant to make it less likely
 	// to find one of these accidentally.
-	const prefix = "\xff Go buildinf:" // 14 bytes, plus 1 data byte filled in below
+	const prefix = "\xff Golang buildinf:" // 14 bytes, plus 1 data byte filled in below
 
 	// Header is always 32-bytes, a hold-over from before
 	// https://golang.dev/cl/369977.
@@ -2496,7 +2496,7 @@ func (ctxt *Link) textaddress() {
 		}
 		// Skip over C symbols, as functions in a (C object) section must stay together.
 		// TODO: maybe we can move a section as a whole.
-		// Note: we load C symbols before Go symbols, so we can scan from the start.
+		// Note: we load C symbols before Golang symbols, so we can scan from the start.
 		for i < len(textp) && (ldr.SubSym(textp[i]) != 0 || ldr.AttrSubSymbol(textp[i])) {
 			i++
 		}
@@ -2525,7 +2525,7 @@ func (ctxt *Link) textaddress() {
 		u.SetSize(8)
 	}
 
-	if (ctxt.DynlinkingGo() && ctxt.IsDarwin()) || (ctxt.IsAIX() && ctxt.IsExternal()) {
+	if (ctxt.DynlinkingGolang() && ctxt.IsDarwin()) || (ctxt.IsAIX() && ctxt.IsExternal()) {
 		ldr.SetSymSect(etext, sect)
 		ctxt.Textp = append(ctxt.Textp, etext, 0)
 		copy(ctxt.Textp[1:], ctxt.Textp)
@@ -2780,7 +2780,7 @@ func resetAddress(ctxt *Link, s loader.Sym) {
 // The same applies to Darwin/ARM64, with 2^27 byte threshold.
 //
 // Similarly for ARM, we split sections (at 2^25 bytes) to avoid
-// inconsistencies between the Go linker's reachability calculations
+// inconsistencies between the Golang linker's reachability calculations
 // (e.g. will direct call from X to Y need a trampoline) and similar
 // machinery in the external linker; see #58425 for more on the
 // history here.

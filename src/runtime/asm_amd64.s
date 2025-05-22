@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -30,7 +30,7 @@ TEXT main(SB),NOSPLIT,$-8
 // We expect argc and argv to be passed in the usual C ABI registers
 // DI and SI.
 TEXT _rt0_amd64_lib(SB),NOSPLIT|NOFRAME,$0
-	// Transition from C ABI to Go ABI.
+	// Transition from C ABI to Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	MOVQ	DI, _rt0_amd64_lib_argc<>(SB)
@@ -39,7 +39,7 @@ TEXT _rt0_amd64_lib(SB),NOSPLIT|NOFRAME,$0
 	// Synchronous initialization.
 	CALL	runtime·libpreinit(SB)
 
-	// Create a new thread to finish Go runtime initialization.
+	// Create a new thread to finish Golang runtime initialization.
 	MOVQ	_cgolang_sys_thread_create(SB), AX
 	TESTQ	AX, AX
 	JZ	nocgolang
@@ -66,7 +66,7 @@ restore:
 	POP_REGS_HOST_TO_ABI0()
 	RET
 
-// _rt0_amd64_lib_golang initializes the Go runtime.
+// _rt0_amd64_lib_golang initializes the Golang runtime.
 // This is started in a separate thread by _rt0_amd64_lib.
 TEXT _rt0_amd64_lib_golang(SB),NOSPLIT,$0
 	MOVQ	_rt0_amd64_lib_argc<>(SB), DI
@@ -400,7 +400,7 @@ TEXT runtime·mstart(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
  */
 
 // func golanggolang(buf *golangbuf)
-// restore state from Gobuf; longjmp
+// restore state from Golangbuf; longjmp
 TEXT runtime·golanggolang(SB), NOSPLIT, $0-8
 	MOVQ	buf+0(FP), BX		// golangbuf
 	MOVQ	golangbuf_g(BX), DX
@@ -759,7 +759,7 @@ TEXT NAME(SB), WRAPPER, $MAXSIZE-48;		\
 
 // callRet copies return values back at the end of call*. This is a
 // separate function so it can allocate stack space for the arguments
-// to reflectcallmove. It does not follow the Go ABI; it expects its
+// to reflectcallmove. It does not follow the Golang ABI; it expects its
 // arguments in registers.
 TEXT callRet<>(SB), NOSPLIT, $40-0
 	NO_LOCAL_POINTERS
@@ -956,7 +956,7 @@ nosave:
 // Dummy TLS that's used on Windows so that we don't crash trying
 // to restore the G register in needm. needm and its callees are
 // very careful never to actually use the G, the TLS just can't be
-// unset since we're in Go code.
+// unset since we're in Golang code.
 GLOBL zeroTLS<>(SB),RODATA,$const_tlsSize
 #endif
 
@@ -977,8 +977,8 @@ TEXT ·cgolangcallback(SB),NOSPLIT,$24-24
 	JMP	dropm
 
 loadg:
-	// If g is nil, Go did not create the current thread,
-	// or if this thread never called into Go on pthread platforms.
+	// If g is nil, Golang did not create the current thread,
+	// or if this thread never called into Golang on pthread platforms.
 	// Call needm to obtain one m for temporary use.
 	// In this case, we're running on the thread stack, so there's
 	// lots of space, but the linker doesn't know. Hide the call from
@@ -1008,7 +1008,7 @@ needm:
 	// On some platforms (Windows) we cannot call needm through
 	// an ABI wrapper because there's no TLS set up, and the ABI
 	// wrapper will try to restore the G register (R14) from TLS.
-	// Clear X15 because Go expects it and we're not calling
+	// Clear X15 because Golang expects it and we're not calling
 	// through a wrapper, but otherwise avoid setting the G
 	// register in the wrapper and call needm directly. It
 	// takes no arguments and doesn't return any values so
@@ -1111,7 +1111,7 @@ havem:
 	// 1. for the duration of the call on non-pthread platforms,
 	// 2. or the duration of the C thread alive on pthread platforms.
 	// If the m on entry wasn't nil,
-	// 1. the thread might be a Go thread,
+	// 1. the thread might be a Golang thread,
 	// 2. or it wasn't the first call from a C thread on pthread platforms,
 	//    since then we skip dropm to reuse the m in the first call.
 	MOVQ	savedm-8(SP), BX
@@ -1131,7 +1131,7 @@ dropm:
 	CALL	AX
 #ifdef GOOS_windows
 	// We need to clear the TLS pointer in case the next
-	// thread that comes into Go tries to reuse that space
+	// thread that comes into Golang tries to reuse that space
 	// but uses the same M.
 	XORQ	DI, DI
 	CALL	runtime·settls(SB)
@@ -1695,7 +1695,7 @@ TEXT runtime·golangexit(SB),NOSPLIT|TOPFRAME|NOFRAME,$0-0
 	// traceback from golangexit1 must hit code range of golangexit
 	BYTE	$0x90	// NOP
 
-// This is called from .init_array and follows the platform, not Go, ABI.
+// This is called from .init_array and follows the platform, not Golang, ABI.
 TEXT runtime·addmoduledata(SB),NOSPLIT,$0-0
 	PUSHQ	R15 // The access to global variables below implicitly uses R15, which is callee-save
 	MOVQ	runtime·lastmoduledatap(SB), AX
@@ -1718,7 +1718,7 @@ TEXT ·sigpanic0(SB),NOSPLIT,$0-0
 //
 // gcWriteBarrier returns space in a write barrier buffer which
 // should be filled in by the caller.
-// gcWriteBarrier does NOT follow the Go ABI. It accepts the
+// gcWriteBarrier does NOT follow the Golang ABI. It accepts the
 // number of bytes of buffer needed in R11, and returns a pointer
 // to the buffer space in R11.
 // It clobbers FLAGS. It does not clobber any general-purpose registers,
@@ -1865,7 +1865,7 @@ GLOBL	debugCallFrameTooLarge<>(SB), RODATA, $20	// Size duplicated below
 // a stack pointer to an escaping argument. debugCallV2 cannot check
 // this invariant.
 //
-// This is ABIInternal because Go code injects its PC directly into new
+// This is ABIInternal because Golang code injects its PC directly into new
 // golangroutine stacks.
 TEXT runtime·debugCallV2<ABIInternal>(SB),NOSPLIT,$152-0
 	// Save all registers that may contain pointers so they can be
@@ -2029,7 +2029,7 @@ TEXT runtime·debugCallPanicked(SB),NOSPLIT,$16-16
 // in the caller's stack frame. These stubs write the args into that stack space and
 // then tail call to the corresponding runtime handler.
 // The tail call makes these stubs disappear in backtraces.
-// Defined as ABIInternal since they do not use the stack-based Go ABI.
+// Defined as ABIInternal since they do not use the stack-based Golang ABI.
 TEXT runtime·panicIndex<ABIInternal>(SB),NOSPLIT,$0-16
 	MOVQ	CX, BX
 	JMP	runtime·golangPanicIndex<ABIInternal>(SB)

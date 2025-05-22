@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,14 +18,14 @@ func TestFuseEliminatesOneBranch(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("checkPtr",
 			Valu("ptr1", OpLoad, ptrType, 0, nil, "sb", "mem"),
 			Valu("nilptr", OpConstNil, ptrType, 0, nil),
 			Valu("bool1", OpNeqPtr, c.config.Types.Bool, 0, nil, "ptr1", "nilptr"),
 			If("bool1", "then", "exit")),
 		Bloc("then",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -46,16 +46,16 @@ func TestFuseEliminatesBothBranches(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("checkPtr",
 			Valu("ptr1", OpLoad, ptrType, 0, nil, "sb", "mem"),
 			Valu("nilptr", OpConstNil, ptrType, 0, nil),
 			Valu("bool1", OpNeqPtr, c.config.Types.Bool, 0, nil, "ptr1", "nilptr"),
 			If("bool1", "then", "else")),
 		Bloc("then",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("else",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem")))
 
@@ -79,16 +79,16 @@ func TestFuseHandlesPhis(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("checkPtr")),
+			Golangto("checkPtr")),
 		Bloc("checkPtr",
 			Valu("ptr1", OpLoad, ptrType, 0, nil, "sb", "mem"),
 			Valu("nilptr", OpConstNil, ptrType, 0, nil),
 			Valu("bool1", OpNeqPtr, c.config.Types.Bool, 0, nil, "ptr1", "nilptr"),
 			If("bool1", "then", "else")),
 		Bloc("then",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("else",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Valu("phi", OpPhi, ptrType, 0, nil, "ptr1", "ptr1"),
 			Exit("mem")))
@@ -124,15 +124,15 @@ func TestFuseEliminatesEmptyBlocks(t *testing.T) {
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Valu("sb", OpSB, c.config.Types.Uintptr, 0, nil),
-			Goto("z0")),
+			Golangto("z0")),
 		Bloc("z1",
-			Goto("z2")),
+			Golangto("z2")),
 		Bloc("z3",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("z2",
-			Goto("z3")),
+			Golangto("z3")),
 		Bloc("z0",
-			Goto("z1")),
+			Golangto("z1")),
 		Bloc("exit",
 			Exit("mem"),
 		))
@@ -158,9 +158,9 @@ func TestFuseEliminatesEmptyBlocks(t *testing.T) {
 			Valu("c", OpArg, c.config.Types.Bool, 0, nil),
 			If("c", "z0", "z1")),
 		Bloc("z0",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("z1",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem"),
 		))
@@ -191,9 +191,9 @@ func TestFuseEliminatesEmptyBlocks(t *testing.T) {
 			Valu("c2", OpArg, c.config.Types.Bool, 0, nil),
 			If("c2", "z1", "z0")),
 		Bloc("z0",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("z1",
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem"),
 		))
@@ -220,14 +220,14 @@ func TestFuseSideEffects(t *testing.T) {
 			If("b", "then", "else")),
 		Bloc("then",
 			Valu("call1", OpStaticCall, types.TypeMem, 0, AuxCallLSym("_"), "mem"),
-			Goto("empty")),
+			Golangto("empty")),
 		Bloc("else",
 			Valu("call2", OpStaticCall, types.TypeMem, 0, AuxCallLSym("_"), "mem"),
-			Goto("empty")),
+			Golangto("empty")),
 		Bloc("empty",
-			Goto("loop")),
+			Golangto("loop")),
 		Bloc("loop",
-			Goto("loop")))
+			Golangto("loop")))
 
 	CheckFunc(fun.f)
 	fuseLate(fun.f)
@@ -255,7 +255,7 @@ func TestFuseSideEffects(t *testing.T) {
 			If("c1", "z0", "exit")),
 		Bloc("z0",
 			Valu("nilcheck", OpNilCheck, c.config.Types.IntPtr, 0, nil, "p", "mem"),
-			Goto("exit")),
+			Golangto("exit")),
 		Bloc("exit",
 			Exit("mem"),
 		))
@@ -278,20 +278,20 @@ func BenchmarkFuse(b *testing.B) {
 					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 					Valu("cond", OpArg, c.config.Types.Bool, 0, nil),
 					Valu("x", OpArg, c.config.Types.Int64, 0, nil),
-					Goto("exit")))
+					Golangto("exit")))
 
 			phiArgs := make([]string, 0, 2*n)
 			for i := 0; i < n; i++ {
 				cname := fmt.Sprintf("c%d", i)
 				blocks = append(blocks,
 					Bloc(fmt.Sprintf("b%d", i), If("cond", cname, "merge")),
-					Bloc(cname, Goto("merge")))
+					Bloc(cname, Golangto("merge")))
 				phiArgs = append(phiArgs, "x", "x")
 			}
 			blocks = append(blocks,
 				Bloc("merge",
 					Valu("phi", OpPhi, types.TypeMem, 0, nil, phiArgs...),
-					Goto("exit")),
+					Golangto("exit")),
 				Bloc("exit",
 					Exit("mem")))
 

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -538,11 +538,11 @@ func valueOrDefault(value, def string) string {
 	return def
 }
 
-// NOTE: This is not intended to reflect the actual Go version being used.
-// It was changed at the time of Go 1.1 release because the former User-Agent
+// NOTE: This is not intended to reflect the actual Golang version being used.
+// It was changed at the time of Golang 1.1 release because the former User-Agent
 // had ended up blocked by some intrusion detection systems.
 // See https://codereview.appspot.com/7532043.
-const defaultUserAgent = "Go-http-client/1.1"
+const defaultUserAgent = "Golang-http-client/1.1"
 
 // Write writes an HTTP/1.1 request, which is the header and body, in wire format.
 // This method consults the following fields of the request:
@@ -946,7 +946,7 @@ func NewRequestWithContext(ctx context.Context, method, url string, body io.Read
 		default:
 			// This is where we'd set it to -1 (at least
 			// if body != NoBody) to mean unknown, but
-			// that broke people during the Go 1.8 testing
+			// that broke people during the Golang 1.8 testing
 			// period. People depend on it being 0 I
 			// guess. Maybe retry later. See Issue 18117.
 		}

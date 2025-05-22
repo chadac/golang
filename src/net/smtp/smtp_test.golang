@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -223,11 +223,11 @@ func TestBasic(t *testing.T) {
 	}
 	msg := `From: user@gmail.com
 To: golanglang-nuts@golangoglegroups.com
-Subject: Hooray for Go
+Subject: Hooray for Golang
 
 Line 1
 .Leading dot line .
-Goodbye.`
+Golangodbye.`
 	w, err := c.Data()
 	if err != nil {
 		t.Fatalf("DATA failed: %s", err)
@@ -246,7 +246,7 @@ Goodbye.`
 	bcmdbuf.Flush()
 	actualcmds := cmdbuf.String()
 	if client != actualcmds {
-		t.Fatalf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+		t.Fatalf("Golangt:\n%s\nExpected:\n%s", actualcmds, client)
 	}
 }
 
@@ -262,7 +262,7 @@ var basicServer = `250 mx.golangogle.com at your service
 235 Accepted
 250 Sender OK
 250 Receiver OK
-354 Go ahead
+354 Golang ahead
 250 Data OK
 221 OK
 `
@@ -279,11 +279,11 @@ RCPT TO:<golanglang-nuts@golangoglegroups.com>
 DATA
 From: user@gmail.com
 To: golanglang-nuts@golangoglegroups.com
-Subject: Hooray for Go
+Subject: Hooray for Golang
 
 Line 1
 ..Leading dot line .
-Goodbye.
+Golangodbye.
 .
 QUIT
 `
@@ -315,7 +315,7 @@ QUIT
 	bcmdbuf.Flush()
 	actual := cmdbuf.String()
 	if client != actual {
-		t.Errorf("Got:\n%s\nWant:\n%s", actual, client)
+		t.Errorf("Golangt:\n%s\nWant:\n%s", actual, client)
 	}
 }
 
@@ -336,7 +336,7 @@ func TestExtensions(t *testing.T) {
 		const (
 			basicServer = `250 mx.golangogle.com at your service
 250 Sender OK
-221 Goodbye
+221 Golangodbye
 `
 
 			basicClient = `HELO localhost
@@ -362,7 +362,7 @@ QUIT
 		actualcmds := cmdbuf.String()
 		client := strings.Join(strings.Split(basicClient, "\n"), "\r\n")
 		if client != actualcmds {
-			t.Fatalf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+			t.Fatalf("Golangt:\n%s\nExpected:\n%s", actualcmds, client)
 		}
 	})
 
@@ -371,7 +371,7 @@ QUIT
 			basicServer = `250-mx.golangogle.com at your service
 250 SIZE 35651584
 250 Sender OK
-221 Goodbye
+221 Golangodbye
 `
 
 			basicClient = `EHLO localhost
@@ -402,7 +402,7 @@ QUIT
 		actualcmds := cmdbuf.String()
 		client := strings.Join(strings.Split(basicClient, "\n"), "\r\n")
 		if client != actualcmds {
-			t.Fatalf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+			t.Fatalf("Golangt:\n%s\nExpected:\n%s", actualcmds, client)
 		}
 	})
 
@@ -412,7 +412,7 @@ QUIT
 250-SIZE 35651584
 250 8BITMIME
 250 Sender OK
-221 Goodbye
+221 Golangodbye
 `
 
 			basicClient = `EHLO localhost
@@ -443,7 +443,7 @@ QUIT
 		actualcmds := cmdbuf.String()
 		client := strings.Join(strings.Split(basicClient, "\n"), "\r\n")
 		if client != actualcmds {
-			t.Fatalf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+			t.Fatalf("Golangt:\n%s\nExpected:\n%s", actualcmds, client)
 		}
 	})
 
@@ -453,7 +453,7 @@ QUIT
 250-SIZE 35651584
 250 SMTPUTF8
 250 Sender OK
-221 Goodbye
+221 Golangodbye
 `
 
 			basicClient = `EHLO localhost
@@ -484,7 +484,7 @@ QUIT
 		actualcmds := cmdbuf.String()
 		client := strings.Join(strings.Split(basicClient, "\n"), "\r\n")
 		if client != actualcmds {
-			t.Fatalf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+			t.Fatalf("Golangt:\n%s\nExpected:\n%s", actualcmds, client)
 		}
 	})
 
@@ -495,7 +495,7 @@ QUIT
 250-8BITMIME
 250 SMTPUTF8
 250 Sender OK
-221 Goodbye
+221 Golangodbye
 	`
 
 			basicClient = `EHLO localhost
@@ -527,7 +527,7 @@ QUIT
 		actualcmds := cmdbuf.String()
 		client := strings.Join(strings.Split(basicClient, "\n"), "\r\n")
 		if client != actualcmds {
-			t.Fatalf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+			t.Fatalf("Golangt:\n%s\nExpected:\n%s", actualcmds, client)
 		}
 	})
 }
@@ -561,7 +561,7 @@ func TestNewClient(t *testing.T) {
 
 	actualcmds := out()
 	if client != actualcmds {
-		t.Fatalf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+		t.Fatalf("Golangt:\n%s\nExpected:\n%s", actualcmds, client)
 	}
 }
 
@@ -600,7 +600,7 @@ func TestNewClient2(t *testing.T) {
 	bcmdbuf.Flush()
 	actualcmds := cmdbuf.String()
 	if client != actualcmds {
-		t.Fatalf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+		t.Fatalf("Golangt:\n%s\nExpected:\n%s", actualcmds, client)
 	}
 }
 
@@ -661,7 +661,7 @@ func TestNewClientWithTLS(t *testing.T) {
 		t.Fatalf("smtp: newclient: %v", err)
 	}
 	if !client.tls {
-		t.Errorf("client.tls Got: %t Expected: %t", client.tls, true)
+		t.Errorf("client.tls Golangt: %t Expected: %t", client.tls, true)
 	}
 }
 
@@ -736,7 +736,7 @@ func TestHello(t *testing.T) {
 		bcmdbuf.Flush()
 		actualcmds := cmdbuf.String()
 		if client != actualcmds {
-			t.Errorf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+			t.Errorf("Golangt:\n%s\nExpected:\n%s", actualcmds, client)
 		}
 	}
 }
@@ -755,7 +755,7 @@ var helloServer = []string{
 	"250 Sender ok\n",
 	"",
 	"250 Reset ok\n",
-	"221 Goodbye\n",
+	"221 Golangodbye\n",
 	"250 Sender ok\n",
 	"250 ok\n",
 }
@@ -808,11 +808,11 @@ func TestSendMail(t *testing.T) {
 				i++
 				tc.PrintfLine("%s", data[i])
 			}
-			if data[i] == "221 Goodbye" {
+			if data[i] == "221 Golangodbye" {
 				return
 			}
 			read := false
-			for !read || data[i] == "354 Go ahead" {
+			for !read || data[i] == "354 Golang ahead" {
 				msg, err := tc.ReadLine()
 				bcmdbuf.Write([]byte(msg + "\r\n"))
 				read = true
@@ -820,7 +820,7 @@ func TestSendMail(t *testing.T) {
 					t.Errorf("Read error: %v", err)
 					return
 				}
-				if data[i] == "354 Go ahead" && msg == "." {
+				if data[i] == "354 Golang ahead" && msg == "." {
 					break
 				}
 			}
@@ -852,7 +852,7 @@ SendMail is working for me.
 	bcmdbuf.Flush()
 	actualcmds := cmdbuf.String()
 	if client != actualcmds {
-		t.Errorf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+		t.Errorf("Golangt:\n%s\nExpected:\n%s", actualcmds, client)
 	}
 }
 
@@ -861,9 +861,9 @@ var sendMailServer = `220 hello world
 250 mx.golangogle.com at your service
 250 Sender ok
 250 Receiver ok
-354 Go ahead
+354 Golang ahead
 250 Data ok
-221 Goodbye
+221 Golangodbye
 `
 
 var sendMailClient = `EHLO localhost
@@ -960,7 +960,7 @@ func TestAuthFailed(t *testing.T) {
 	bcmdbuf.Flush()
 	actualcmds := cmdbuf.String()
 	if client != actualcmds {
-		t.Errorf("Got:\n%s\nExpected:\n%s", actualcmds, client)
+		t.Errorf("Golangt:\n%s\nExpected:\n%s", actualcmds, client)
 	}
 }
 
@@ -969,7 +969,7 @@ var authFailedServer = `220 hello world
 250 AUTH LOGIN PLAIN
 535-Invalid credentials
 535 please see www.example.com
-221 Goodbye
+221 Golangodbye
 `
 
 var authFailedClient = `EHLO localhost
@@ -1076,7 +1076,7 @@ func serverHandle(c net.Conn, t *testing.T) error {
 			send("250-STARTTLS")
 			send("250 Ok")
 		case "STARTTLS":
-			send("220 Go ahead")
+			send("220 Golang ahead")
 			keypair, err := tls.X509KeyPair(localhostCert, localhostKey)
 			if err != nil {
 				return err

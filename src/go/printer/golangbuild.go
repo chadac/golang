@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@ import (
 	"text/tabwriter"
 )
 
-func (p *printer) fixGoBuildLines() {
+func (p *printer) fixGolangBuildLines() {
 	if len(p.golangBuild)+len(p.plusBuild) == 0 {
 		return
 	}

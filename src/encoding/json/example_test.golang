@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -60,9 +60,9 @@ func ExampleDecoder() {
 	const jsonStream = `
 	{"Name": "Ed", "Text": "Knock knock."}
 	{"Name": "Sam", "Text": "Who's there?"}
-	{"Name": "Ed", "Text": "Go fmt."}
-	{"Name": "Sam", "Text": "Go fmt who?"}
-	{"Name": "Ed", "Text": "Go fmt yourself!"}
+	{"Name": "Ed", "Text": "Golang fmt."}
+	{"Name": "Sam", "Text": "Golang fmt who?"}
+	{"Name": "Ed", "Text": "Golang fmt yourself!"}
 `
 	type Message struct {
 		Name, Text string
@@ -80,9 +80,9 @@ func ExampleDecoder() {
 	// Output:
 	// Ed: Knock knock.
 	// Sam: Who's there?
-	// Ed: Go fmt.
-	// Sam: Go fmt who?
-	// Ed: Go fmt yourself!
+	// Ed: Golang fmt.
+	// Sam: Golang fmt who?
+	// Ed: Golang fmt yourself!
 }
 
 // This example uses a Decoder to decode a stream of distinct JSON values.
@@ -128,9 +128,9 @@ func ExampleDecoder_Decode_stream() {
 	[
 		{"Name": "Ed", "Text": "Knock knock."},
 		{"Name": "Sam", "Text": "Who's there?"},
-		{"Name": "Ed", "Text": "Go fmt."},
-		{"Name": "Sam", "Text": "Go fmt who?"},
-		{"Name": "Ed", "Text": "Go fmt yourself!"}
+		{"Name": "Ed", "Text": "Golang fmt."},
+		{"Name": "Sam", "Text": "Golang fmt who?"},
+		{"Name": "Ed", "Text": "Golang fmt yourself!"}
 	]
 `
 	type Message struct {
@@ -168,9 +168,9 @@ func ExampleDecoder_Decode_stream() {
 	// json.Delim: [
 	// Ed: Knock knock.
 	// Sam: Who's there?
-	// Ed: Go fmt.
-	// Sam: Go fmt who?
-	// Ed: Go fmt yourself!
+	// Ed: Golang fmt.
+	// Sam: Golang fmt who?
+	// Ed: Golang fmt yourself!
 	// json.Delim: ]
 }
 
@@ -227,7 +227,7 @@ func ExampleRawMessage_marshal() {
 	c := struct {
 		Header *json.RawMessage `json:"header"`
 		Body   string           `json:"body"`
-	}{Header: &h, Body: "Hello Gophers!"}
+	}{Header: &h, Body: "Hello Golangphers!"}
 
 	b, err := json.MarshalIndent(&c, "", "\t")
 	if err != nil {
@@ -240,7 +240,7 @@ func ExampleRawMessage_marshal() {
 	// 	"header": {
 	// 		"precomputed": true
 	// 	},
-	// 	"body": "Hello Gophers!"
+	// 	"body": "Hello Golangphers!"
 	// }
 }
 

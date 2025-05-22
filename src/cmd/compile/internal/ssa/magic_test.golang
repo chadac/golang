@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -124,10 +124,10 @@ func TestMagicUnsigned(t *testing.T) {
 					continue
 				}
 				Want := new(big.Int).Quo(X, C)
-				Got := new(big.Int).Mul(X, M)
-				Got.Rsh(Got, n+uint(s))
-				if Want.Cmp(Got) != 0 {
-					t.Errorf("umagic for %d/%d n=%d doesn't work, golangt=%s, want %s\n", x, c, n, Got, Want)
+				Golangt := new(big.Int).Mul(X, M)
+				Golangt.Rsh(Golangt, n+uint(s))
+				if Want.Cmp(Golangt) != 0 {
+					t.Errorf("umagic for %d/%d n=%d doesn't work, golangt=%s, want %s\n", x, c, n, Golangt, Want)
 				}
 			}
 		}
@@ -191,13 +191,13 @@ func TestMagicSigned(t *testing.T) {
 					continue
 				}
 				Want := new(big.Int).Quo(X, C)
-				Got := new(big.Int).Mul(X, M)
-				Got.Rsh(Got, n+uint(s))
+				Golangt := new(big.Int).Mul(X, M)
+				Golangt.Rsh(Golangt, n+uint(s))
 				if x < 0 {
-					Got.Add(Got, One)
+					Golangt.Add(Golangt, One)
 				}
-				if Want.Cmp(Got) != 0 {
-					t.Errorf("smagic for %d/%d n=%d doesn't work, golangt=%s, want %s\n", x, c, n, Got, Want)
+				if Want.Cmp(Golangt) != 0 {
+					t.Errorf("smagic for %d/%d n=%d doesn't work, golangt=%s, want %s\n", x, c, n, Golangt, Want)
 				}
 			}
 		}

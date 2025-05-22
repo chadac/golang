@@ -1,7 +1,7 @@
 # https://golanglang.org/issue/39986: files reported as invalid by golang/build should
-# be listed in InvalidGoFiles.
+# be listed in InvalidGolangFiles.
 
-golang list -e -f '{{.Incomplete}}{{"\n"}}{{.Error}}{{"\n"}}{{.InvalidGoFiles}}{{"\n"}}' .
+golang list -e -f '{{.Incomplete}}{{"\n"}}{{.Error}}{{"\n"}}{{.InvalidGolangFiles}}{{"\n"}}' .
 stdout '^true\nfound packages m \(m\.golang\) and main \(main\.golang\) in '$PWD'\n\[main.golang\]\n'
 
 

@@ -18,7 +18,7 @@
  *
  * Copyright (c) 1996-1998 John D. Polstra.  All rights reserved.
  * Copyright (c) 2001 David E. O'Brien
- * Portions Copyright 2009 The Go Authors. All rights reserved.
+ * Portions Copyright 2009 The Golang Authors. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -78,7 +78,7 @@ var versionStrings = []intName{
 }
 
 func (i Version) String() string   { return stringName(uint32(i), versionStrings, false) }
-func (i Version) GoString() string { return stringName(uint32(i), versionStrings, true) }
+func (i Version) GolangString() string { return stringName(uint32(i), versionStrings, true) }
 
 // Class is found in Header.Ident[EI_CLASS] and Header.Class.
 type Class byte
@@ -96,7 +96,7 @@ var classStrings = []intName{
 }
 
 func (i Class) String() string   { return stringName(uint32(i), classStrings, false) }
-func (i Class) GoString() string { return stringName(uint32(i), classStrings, true) }
+func (i Class) GolangString() string { return stringName(uint32(i), classStrings, true) }
 
 // Data is found in Header.Ident[EI_DATA] and Header.Data.
 type Data byte
@@ -114,7 +114,7 @@ var dataStrings = []intName{
 }
 
 func (i Data) String() string   { return stringName(uint32(i), dataStrings, false) }
-func (i Data) GoString() string { return stringName(uint32(i), dataStrings, true) }
+func (i Data) GolangString() string { return stringName(uint32(i), dataStrings, true) }
 
 // OSABI is found in Header.Ident[EI_OSABI] and Header.OSABI.
 type OSABI byte
@@ -166,7 +166,7 @@ var osabiStrings = []intName{
 }
 
 func (i OSABI) String() string   { return stringName(uint32(i), osabiStrings, false) }
-func (i OSABI) GoString() string { return stringName(uint32(i), osabiStrings, true) }
+func (i OSABI) GolangString() string { return stringName(uint32(i), osabiStrings, true) }
 
 // Type is found in Header.Type.
 type Type uint16
@@ -196,7 +196,7 @@ var typeStrings = []intName{
 }
 
 func (i Type) String() string   { return stringName(uint32(i), typeStrings, false) }
-func (i Type) GoString() string { return stringName(uint32(i), typeStrings, true) }
+func (i Type) GolangString() string { return stringName(uint32(i), typeStrings, true) }
 
 // Machine is found in Header.Machine.
 type Machine uint16
@@ -586,7 +586,7 @@ var machineStrings = []intName{
 }
 
 func (i Machine) String() string   { return stringName(uint32(i), machineStrings, false) }
-func (i Machine) GoString() string { return stringName(uint32(i), machineStrings, true) }
+func (i Machine) GolangString() string { return stringName(uint32(i), machineStrings, true) }
 
 // Special section indices.
 type SectionIndex int
@@ -614,7 +614,7 @@ var shnStrings = []intName{
 }
 
 func (i SectionIndex) String() string   { return stringName(uint32(i), shnStrings, false) }
-func (i SectionIndex) GoString() string { return stringName(uint32(i), shnStrings, true) }
+func (i SectionIndex) GolangString() string { return stringName(uint32(i), shnStrings, true) }
 
 // Section type.
 type SectionType uint32
@@ -688,7 +688,7 @@ var shtStrings = []intName{
 }
 
 func (i SectionType) String() string   { return stringName(uint32(i), shtStrings, false) }
-func (i SectionType) GoString() string { return stringName(uint32(i), shtStrings, true) }
+func (i SectionType) GolangString() string { return stringName(uint32(i), shtStrings, true) }
 
 // Section flags.
 type SectionFlag uint32
@@ -724,7 +724,7 @@ var shfStrings = []intName{
 }
 
 func (i SectionFlag) String() string   { return flagName(uint32(i), shfStrings, false) }
-func (i SectionFlag) GoString() string { return flagName(uint32(i), shfStrings, true) }
+func (i SectionFlag) GolangString() string { return flagName(uint32(i), shfStrings, true) }
 
 // Section compression type.
 type CompressionType int
@@ -748,7 +748,7 @@ var compressionStrings = []intName{
 }
 
 func (i CompressionType) String() string   { return stringName(uint32(i), compressionStrings, false) }
-func (i CompressionType) GoString() string { return stringName(uint32(i), compressionStrings, true) }
+func (i CompressionType) GolangString() string { return stringName(uint32(i), compressionStrings, true) }
 
 // Prog.Type
 type ProgType int
@@ -831,7 +831,7 @@ var ptStrings = []intName{
 }
 
 func (i ProgType) String() string   { return stringName(uint32(i), ptStrings, false) }
-func (i ProgType) GoString() string { return stringName(uint32(i), ptStrings, true) }
+func (i ProgType) GolangString() string { return stringName(uint32(i), ptStrings, true) }
 
 // Prog.Flag
 type ProgFlag uint32
@@ -851,7 +851,7 @@ var pfStrings = []intName{
 }
 
 func (i ProgFlag) String() string   { return flagName(uint32(i), pfStrings, false) }
-func (i ProgFlag) GoString() string { return flagName(uint32(i), pfStrings, true) }
+func (i ProgFlag) GolangString() string { return flagName(uint32(i), pfStrings, true) }
 
 // Dyn.Tag
 type DynTag int
@@ -1084,7 +1084,7 @@ var dtStrings = []intName{
 }
 
 func (i DynTag) String() string   { return stringName(uint32(i), dtStrings, false) }
-func (i DynTag) GoString() string { return stringName(uint32(i), dtStrings, true) }
+func (i DynTag) GolangString() string { return stringName(uint32(i), dtStrings, true) }
 
 // DT_FLAGS values.
 type DynFlag int
@@ -1113,7 +1113,7 @@ var dflagStrings = []intName{
 }
 
 func (i DynFlag) String() string   { return flagName(uint32(i), dflagStrings, false) }
-func (i DynFlag) GoString() string { return flagName(uint32(i), dflagStrings, true) }
+func (i DynFlag) GolangString() string { return flagName(uint32(i), dflagStrings, true) }
 
 // DT_FLAGS_1 values.
 type DynFlag1 uint32
@@ -1231,7 +1231,7 @@ var dflag1Strings = []intName{
 }
 
 func (i DynFlag1) String() string   { return flagName(uint32(i), dflag1Strings, false) }
-func (i DynFlag1) GoString() string { return flagName(uint32(i), dflag1Strings, true) }
+func (i DynFlag1) GolangString() string { return flagName(uint32(i), dflag1Strings, true) }
 
 // NType values; used in core files.
 type NType int
@@ -1249,7 +1249,7 @@ var ntypeStrings = []intName{
 }
 
 func (i NType) String() string   { return stringName(uint32(i), ntypeStrings, false) }
-func (i NType) GoString() string { return stringName(uint32(i), ntypeStrings, true) }
+func (i NType) GolangString() string { return stringName(uint32(i), ntypeStrings, true) }
 
 /* Symbol Binding - ELFNN_ST_BIND - st_info */
 type SymBind int
@@ -1275,7 +1275,7 @@ var stbStrings = []intName{
 }
 
 func (i SymBind) String() string   { return stringName(uint32(i), stbStrings, false) }
-func (i SymBind) GoString() string { return stringName(uint32(i), stbStrings, true) }
+func (i SymBind) GolangString() string { return stringName(uint32(i), stbStrings, true) }
 
 /* Symbol type - ELFNN_ST_TYPE - st_info */
 type SymType int
@@ -1316,7 +1316,7 @@ var sttStrings = []intName{
 }
 
 func (i SymType) String() string   { return stringName(uint32(i), sttStrings, false) }
-func (i SymType) GoString() string { return stringName(uint32(i), sttStrings, true) }
+func (i SymType) GolangString() string { return stringName(uint32(i), sttStrings, true) }
 
 /* Symbol visibility - ELFNN_ST_VISIBILITY - st_other */
 type SymVis int
@@ -1336,7 +1336,7 @@ var stvStrings = []intName{
 }
 
 func (i SymVis) String() string   { return stringName(uint32(i), stvStrings, false) }
-func (i SymVis) GoString() string { return stringName(uint32(i), stvStrings, true) }
+func (i SymVis) GolangString() string { return stringName(uint32(i), stvStrings, true) }
 
 /*
  * Relocation types.
@@ -1438,7 +1438,7 @@ var rx86_64Strings = []intName{
 }
 
 func (i R_X86_64) String() string   { return stringName(uint32(i), rx86_64Strings, false) }
-func (i R_X86_64) GoString() string { return stringName(uint32(i), rx86_64Strings, true) }
+func (i R_X86_64) GolangString() string { return stringName(uint32(i), rx86_64Strings, true) }
 
 // Relocation types for AArch64 (aka arm64)
 type R_AARCH64 int
@@ -1710,7 +1710,7 @@ var raarch64Strings = []intName{
 }
 
 func (i R_AARCH64) String() string   { return stringName(uint32(i), raarch64Strings, false) }
-func (i R_AARCH64) GoString() string { return stringName(uint32(i), raarch64Strings, true) }
+func (i R_AARCH64) GolangString() string { return stringName(uint32(i), raarch64Strings, true) }
 
 // Relocation types for Alpha.
 type R_ALPHA int
@@ -1778,7 +1778,7 @@ var ralphaStrings = []intName{
 }
 
 func (i R_ALPHA) String() string   { return stringName(uint32(i), ralphaStrings, false) }
-func (i R_ALPHA) GoString() string { return stringName(uint32(i), ralphaStrings, true) }
+func (i R_ALPHA) GolangString() string { return stringName(uint32(i), ralphaStrings, true) }
 
 // Relocation types for ARM.
 type R_ARM int
@@ -2078,7 +2078,7 @@ var rarmStrings = []intName{
 }
 
 func (i R_ARM) String() string   { return stringName(uint32(i), rarmStrings, false) }
-func (i R_ARM) GoString() string { return stringName(uint32(i), rarmStrings, true) }
+func (i R_ARM) GolangString() string { return stringName(uint32(i), rarmStrings, true) }
 
 // Relocation types for 386.
 type R_386 int
@@ -2174,7 +2174,7 @@ var r386Strings = []intName{
 }
 
 func (i R_386) String() string   { return stringName(uint32(i), r386Strings, false) }
-func (i R_386) GoString() string { return stringName(uint32(i), r386Strings, true) }
+func (i R_386) GolangString() string { return stringName(uint32(i), r386Strings, true) }
 
 // Relocation types for MIPS.
 type R_MIPS int
@@ -2286,7 +2286,7 @@ var rmipsStrings = []intName{
 }
 
 func (i R_MIPS) String() string   { return stringName(uint32(i), rmipsStrings, false) }
-func (i R_MIPS) GoString() string { return stringName(uint32(i), rmipsStrings, true) }
+func (i R_MIPS) GolangString() string { return stringName(uint32(i), rmipsStrings, true) }
 
 // Relocation types for LoongArch.
 type R_LARCH int
@@ -2494,7 +2494,7 @@ var rlarchStrings = []intName{
 }
 
 func (i R_LARCH) String() string   { return stringName(uint32(i), rlarchStrings, false) }
-func (i R_LARCH) GoString() string { return stringName(uint32(i), rlarchStrings, true) }
+func (i R_LARCH) GolangString() string { return stringName(uint32(i), rlarchStrings, true) }
 
 // Relocation types for PowerPC.
 //
@@ -2665,7 +2665,7 @@ var rppcStrings = []intName{
 }
 
 func (i R_PPC) String() string   { return stringName(uint32(i), rppcStrings, false) }
-func (i R_PPC) GoString() string { return stringName(uint32(i), rppcStrings, true) }
+func (i R_PPC) GolangString() string { return stringName(uint32(i), rppcStrings, true) }
 
 // Relocation types for 64-bit PowerPC or Power Architecture processors.
 //
@@ -3004,7 +3004,7 @@ var rppc64Strings = []intName{
 }
 
 func (i R_PPC64) String() string   { return stringName(uint32(i), rppc64Strings, false) }
-func (i R_PPC64) GoString() string { return stringName(uint32(i), rppc64Strings, true) }
+func (i R_PPC64) GolangString() string { return stringName(uint32(i), rppc64Strings, true) }
 
 // Relocation types for RISC-V processors.
 type R_RISCV int
@@ -3124,7 +3124,7 @@ var rriscvStrings = []intName{
 }
 
 func (i R_RISCV) String() string   { return stringName(uint32(i), rriscvStrings, false) }
-func (i R_RISCV) GoString() string { return stringName(uint32(i), rriscvStrings, true) }
+func (i R_RISCV) GolangString() string { return stringName(uint32(i), rriscvStrings, true) }
 
 // Relocation types for s390x processors.
 type R_390 int
@@ -3258,7 +3258,7 @@ var r390Strings = []intName{
 }
 
 func (i R_390) String() string   { return stringName(uint32(i), r390Strings, false) }
-func (i R_390) GoString() string { return stringName(uint32(i), r390Strings, true) }
+func (i R_390) GolangString() string { return stringName(uint32(i), r390Strings, true) }
 
 // Relocation types for SPARC.
 type R_SPARC int
@@ -3382,7 +3382,7 @@ var rsparcStrings = []intName{
 }
 
 func (i R_SPARC) String() string   { return stringName(uint32(i), rsparcStrings, false) }
-func (i R_SPARC) GoString() string { return stringName(uint32(i), rsparcStrings, true) }
+func (i R_SPARC) GolangString() string { return stringName(uint32(i), rsparcStrings, true) }
 
 // Magic number for the elf trampoline, chosen wisely to be an immediate value.
 const ARM_MAGIC_TRAMP_NUMBER = 0x5c000003

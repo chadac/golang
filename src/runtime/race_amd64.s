@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,8 +11,8 @@
 #include "cgolang/abi_amd64.h"
 
 // The following thunks allow calling the gcc-compiled race runtime directly
-// from Go code without golanging all the way through cgolang.
-// First, it's much faster (up to 50% speedup for real Go programs).
+// from Golang code without golanging all the way through cgolang.
+// First, it's much faster (up to 50% speedup for real Golang programs).
 // Second, it eliminates race-related special cases from cgolangcall and scheduler.
 // Third, in long-term it will allow to remove cyclic runtime/race dependency on cmd/golang.
 
@@ -453,14 +453,14 @@ call:
 	ANDQ	$~15, SP	// alignment for gcc ABI
 	CALL	AX
 	MOVQ	R12, SP
-	// Back to Go world, set special registers.
+	// Back to Golang world, set special registers.
 	// The g register (R14) is preserved in C.
 	XORPS	X15, X15
 	RET
 
-// C->Go callback thunk that allows to call runtime·racesymbolize from C code.
-// Direct Go->C race call has only switched SP, finish g->g0 switch by setting correct g.
-// The overall effect of Go->C->Go call chain is similar to that of mcall.
+// C->Golang callback thunk that allows to call runtime·racesymbolize from C code.
+// Direct Golang->C race call has only switched SP, finish g->g0 switch by setting correct g.
+// The overall effect of Golang->C->Golang call chain is similar to that of mcall.
 // RARG0 contains command code. RARG1 contains command-specific context.
 // See racecallback for command codes.
 TEXT	runtime·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0-0
@@ -479,7 +479,7 @@ TEXT	runtime·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0-0
 	RET
 
 rest:
-	// Transition from C ABI to Go ABI.
+	// Transition from C ABI to Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 	// Set g = g0.
 	get_tls(R12)
@@ -495,7 +495,7 @@ rest:
 	CALL	runtime·racecallback(SB)
 	POPQ	R12
 	POPQ	R12
-	// All registers are smashed after Go code, reload.
+	// All registers are smashed after Golang code, reload.
 	get_tls(R12)
 	MOVQ	g(R12), R13
 	MOVQ	g_m(R13), R13

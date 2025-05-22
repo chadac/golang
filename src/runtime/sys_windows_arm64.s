@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -112,7 +112,7 @@ TEXT runtime·getlasterror(SB),NOSPLIT,$0
 // R1 is the kind of sigtramp function.
 // Return value of sigtrampgolang is stored in R0.
 TEXT sigtramp<>(SB),NOSPLIT,$176
-	// Switch from the host ABI to the Go ABI, safe args and lr.
+	// Switch from the host ABI to the Golang ABI, safe args and lr.
 	MOVD	R0, R5
 	MOVD	R1, R6
 	MOVD	LR, R7
@@ -167,7 +167,7 @@ TEXT runtime·callbackasm1(SB),NOSPLIT,$208-0
 	// We do this at the top of the frame so they're contiguous with stack arguments.
 	// The 7*8 setting up R14 looks like a bug but is not: the eighth word
 	// is the space the assembler reserved for our caller's frame pointer,
-	// but we are not called from Go so that space is ours to use,
+	// but we are not called from Golang so that space is ours to use,
 	// and we must to be contiguous with the stack arguments.
 	MOVD	$arg0-(7*8)(SP), R14
 	STP	(R0, R1), (0*8)(R14)

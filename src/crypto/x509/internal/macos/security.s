@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -7,7 +7,7 @@
 #include "textflag.h"
 
 // The trampolines are ABIInternal as they are address-taken in
-// Go code.
+// Golang code.
 
 TEXT ·x509_SecTrustCreateWithCertificates_trampoline(SB),NOSPLIT,$0-0
 	JMP x509_SecTrustCreateWithCertificates(SB)

@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,18 +15,18 @@ func init() {
 	register("TracebackAncestors", TracebackAncestors)
 }
 
-const numGoroutines = 3
+const numGolangroutines = 3
 const numFrames = 2
 
 func TracebackAncestors() {
 	w := make(chan struct{})
-	recurseThenCallGo(w, numGoroutines, numFrames, true)
+	recurseThenCallGolang(w, numGolangroutines, numFrames, true)
 	<-w
 	printStack()
 	close(w)
 }
 
-var ignoreGoroutines = make(map[string]bool)
+var ignoreGolangroutines = make(map[string]bool)
 
 func printStack() {
 	buf := make([]byte, 1024)
@@ -43,7 +43,7 @@ func printStack() {
 
 				if strings.HasPrefix(g, "golangroutine ") {
 					id, _, _ := strings.Cut(strings.TrimPrefix(g, "golangroutine "), " ")
-					if ignoreGoroutines[id] {
+					if ignoreGolangroutines[id] {
 						continue
 					}
 				}
@@ -60,7 +60,7 @@ func printStack() {
 	}
 }
 
-func recurseThenCallGo(w chan struct{}, frames int, golangroutines int, main bool) {
+func recurseThenCallGolang(w chan struct{}, frames int, golangroutines int, main bool) {
 	if frames == 0 {
 		// Signal to TracebackAncestors that we are done recursing and starting golangroutines.
 		w <- struct{}{}
@@ -72,15 +72,15 @@ func recurseThenCallGo(w chan struct{}, frames int, golangroutines int, main boo
 		// in the traceback if it hasn't finished exiting by
 		// the time we printStack.
 		if !main {
-			ignoreGoroutines[golangroutineID()] = true
+			ignoreGolangroutines[golangroutineID()] = true
 		}
 
 		// Start the next golangroutine now that there are no more recursions left
 		// for this current golangroutine.
-		golang recurseThenCallGo(w, frames-1, numFrames, false)
+		golang recurseThenCallGolang(w, frames-1, numFrames, false)
 		return
 	}
-	recurseThenCallGo(w, frames, golangroutines-1, main)
+	recurseThenCallGolang(w, frames, golangroutines-1, main)
 }
 
 func golangroutineID() string {

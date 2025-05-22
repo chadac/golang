@@ -1,9 +1,9 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements source, a buffered rune reader
-// specialized for scanning Go code: Reading
+// specialized for scanning Golang code: Reading
 // ASCII characters, maintaining current (line, col)
 // position information, and recording of the most
 // recently read source segment are highly optimized.
@@ -21,7 +21,7 @@ import (
 // r (read), and e (end):
 //
 // - If b >= 0, it points to the beginning of a segment of most
-//   recently read characters (typically a Go literal).
+//   recently read characters (typically a Golang literal).
 //
 // - r points to the byte immediately following the most recently
 //   read character ch, which starts at r-chw.

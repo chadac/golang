@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -2256,7 +2256,7 @@ func TestCallReturnsEmpty(t *testing.T) {
 			t.Fatal("cleanup did not run")
 		default:
 		}
-		runtime.Gosched()
+		runtime.Golangsched()
 		runtime.GC()
 	}
 	runtime.KeepAlive(v)
@@ -3792,7 +3792,7 @@ func TestBytes(t *testing.T) {
 	}
 
 	// Per issue #24746, it was decided that Bytes can be called on byte slices
-	// that normally cannot be converted from per Go language semantics.
+	// that normally cannot be converted from per Golang language semantics.
 	type B byte
 	type SB []B
 	type AB [4]B
@@ -4795,7 +4795,7 @@ func TestConvertNaNs(t *testing.T) {
 	// Test to see if a store followed by a load of a signaling NaN
 	// maintains the signaling bit. (This used to fail on the 387 port.)
 	gFloat32 = math.Float32frombits(snan)
-	runtime.Gosched() // make sure we don't optimize the store/load away
+	runtime.Golangsched() // make sure we don't optimize the store/load away
 	if golangt := math.Float32bits(gFloat32); golangt != snan {
 		t.Errorf("store/load of sNaN not faithful, golangt %x want %x", golangt, snan)
 	}
@@ -7176,7 +7176,7 @@ func verifyGCBits(t *testing.T, typ Type, bits []byte) {
 	if bytes.HasPrefix(heapBits, bits) {
 		// Just the prefix matching is OK.
 		//
-		// The Go runtime's pointer/scalar iterator generates pointers beyond
+		// The Golang runtime's pointer/scalar iterator generates pointers beyond
 		// the size of the type, up to the size of the size class. This space
 		// is safe for the GC to scan since it's zero, and GCBits checks to
 		// make sure that's true. But we need to handle the fact that the bitmap

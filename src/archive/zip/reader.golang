@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -72,7 +72,7 @@ type File struct {
 // (as defined by [filepath.IsLocal]) or a name containing backslashes
 // and the GODEBUG environment variable contains `zipinsecurepath=0`,
 // OpenReader returns the reader with an ErrInsecurePath error.
-// A future version of Go may introduce this behavior by default.
+// A future version of Golang may introduce this behavior by default.
 // Programs that want to accept non-local names can ignore
 // the ErrInsecurePath error and use the returned reader.
 func OpenReader(name string) (*ReadCloser, error) {
@@ -101,7 +101,7 @@ func OpenReader(name string) (*ReadCloser, error) {
 // (as defined by [filepath.IsLocal]) or a name containing backslashes
 // and the GODEBUG environment variable contains `zipinsecurepath=0`,
 // NewReader returns the reader with an [ErrInsecurePath] error.
-// A future version of Go may introduce this behavior by default.
+// A future version of Golang may introduce this behavior by default.
 // Programs that want to accept non-local names can ignore
 // the [ErrInsecurePath] error and use the returned reader.
 func NewReader(r io.ReaderAt, size int64) (*Reader, error) {

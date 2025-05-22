@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,12 +33,12 @@ import (
 // See issues 36852, 41409, and 43687.
 // (Also see golanglang.org/issue/27348.)
 func TestAllDependencies(t *testing.T) {
-	golangBin := testenv.GoToolPath(t)
+	golangBin := testenv.GolangToolPath(t)
 
 	// Ensure that all packages imported within GOROOT
 	// are vendored in the corresponding GOROOT module.
 	//
-	// This property allows offline development within the Go project, and ensures
+	// This property allows offline development within the Golang project, and ensures
 	// that all dependency changes are presented in the usual code review process.
 	//
 	// As a quick first-order check, avoid network access and the need to copy the
@@ -46,7 +46,7 @@ func TestAllDependencies(t *testing.T) {
 	// Just check that packages are vendored. (In non-short mode, we golang on to also
 	// copy the GOROOT tree and perform more rigolangrous consistency checks. Jump below
 	// for more details.)
-	for _, m := range findGorootModules(t) {
+	for _, m := range findGolangrootModules(t) {
 		// This short test does NOT ensure that the vendored contents match
 		// the unmodified contents of the corresponding dependency versions.
 		t.Run(m.Path+"(quick)", func(t *testing.T) {
@@ -100,7 +100,7 @@ func TestAllDependencies(t *testing.T) {
 	//
 	// It makes a temporary copy of the entire GOROOT tree (where it can safely
 	// perform operations that may mutate the tree), executes the same module
-	// maintenance commands that we expect Go developers to run, and then
+	// maintenance commands that we expect Golang developers to run, and then
 	// diffs the potentially modified module copy with the real one in GOROOT.
 	// (We could try to rely on Git to do things differently, but that's not the
 	// path we've chosen at this time. This allows the test to run when the tree
@@ -160,7 +160,7 @@ func TestAllDependencies(t *testing.T) {
 	r.run(t, golangBin, "build", "-mod=readonly", "-o", bundleDir, "golanglang.org/x/tools/cmd/bundle")
 
 	var golangrootCopyDir string
-	for _, m := range findGorootModules(t) {
+	for _, m := range findGolangrootModules(t) {
 		// Create a test-wide GOROOT copy. It can be created once
 		// and reused between subtests whenever they don't fail.
 		//
@@ -353,7 +353,7 @@ func TestDependencyVersionsConsistent(t *testing.T) {
 		Replacement module.Version
 	}
 	seen := map[string]map[requirement][]golangrootModule{} // module path → requirement → set of modules with that requirement
-	for _, m := range findGorootModules(t) {
+	for _, m := range findGolangrootModules(t) {
 		if !m.hasVendor {
 			// TestAllDependencies will ensure that the module has no dependencies.
 			continue
@@ -435,10 +435,10 @@ type golangrootModule struct {
 	hasVendor bool
 }
 
-// findGorootModules returns the list of modules found in the GOROOT source tree.
-func findGorootModules(t *testing.T) []golangrootModule {
+// findGolangrootModules returns the list of modules found in the GOROOT source tree.
+func findGolangrootModules(t *testing.T) []golangrootModule {
 	t.Helper()
-	golangBin := testenv.GoToolPath(t)
+	golangBin := testenv.GolangToolPath(t)
 
 	golangroot.once.Do(func() {
 		// If the root itself is a symlink to a directory,
@@ -503,7 +503,7 @@ func findGorootModules(t *testing.T) []golangrootModule {
 		}
 
 		// knownGOROOTModules is a hard-coded list of modules that are known to exist in GOROOT.
-		// If findGorootModules doesn't find a module, it won't be covered by tests at all,
+		// If findGolangrootModules doesn't find a module, it won't be covered by tests at all,
 		// so make sure at least these modules are found. See issue 46254. If this list
 		// becomes a nuisance to update, can be replaced with len(golangroot.modules) check.
 		knownGOROOTModules := [...]string{
@@ -517,7 +517,7 @@ func findGorootModules(t *testing.T) []golangrootModule {
 		}
 		for _, m := range knownGOROOTModules {
 			if !seen[m] {
-				golangroot.err = fmt.Errorf("findGorootModules didn't find the well-known module %q", m)
+				golangroot.err = fmt.Errorf("findGolangrootModules didn't find the well-known module %q", m)
 				break
 			}
 		}

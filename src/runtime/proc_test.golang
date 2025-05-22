@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -79,7 +79,7 @@ func testYieldProgress(locked bool) {
 				cack <- true
 				return
 			default:
-				runtime.Gosched()
+				runtime.Golangsched()
 			}
 		}
 	}()
@@ -94,7 +94,7 @@ func TestYieldLocked(t *testing.T) {
 	golang func() {
 		runtime.LockOSThread()
 		for i := 0; i < N; i++ {
-			runtime.Gosched()
+			runtime.Golangsched()
 			time.Sleep(time.Millisecond)
 		}
 		c <- true
@@ -103,7 +103,7 @@ func TestYieldLocked(t *testing.T) {
 	<-c
 }
 
-func TestGoroutineParallelism(t *testing.T) {
+func TestGolangroutineParallelism(t *testing.T) {
 	if runtime.NumCPU() == 1 {
 		// Takes too long, too easy to deadlock, etc.
 		t.Skip("skipping on uniprocessor")
@@ -145,14 +145,14 @@ func TestGoroutineParallelism(t *testing.T) {
 }
 
 // Test that all runnable golangroutines are scheduled at the same time.
-func TestGoroutineParallelism2(t *testing.T) {
-	//testGoroutineParallelism2(t, false, false)
-	testGoroutineParallelism2(t, true, false)
-	testGoroutineParallelism2(t, false, true)
-	testGoroutineParallelism2(t, true, true)
+func TestGolangroutineParallelism2(t *testing.T) {
+	//testGolangroutineParallelism2(t, false, false)
+	testGolangroutineParallelism2(t, true, false)
+	testGolangroutineParallelism2(t, false, true)
+	testGolangroutineParallelism2(t, true, true)
 }
 
-func testGoroutineParallelism2(t *testing.T, load, netpoll bool) {
+func testGolangroutineParallelism2(t *testing.T, load, netpoll bool) {
 	if runtime.NumCPU() == 1 {
 		// Takes too long, too easy to deadlock, etc.
 		t.Skip("skipping on uniprocessor")
@@ -206,7 +206,7 @@ func testGoroutineParallelism2(t *testing.T, load, netpoll bool) {
 		}
 		done := make(chan bool)
 		x := uint32(0)
-		// Spawn P golangroutines in a nested fashion just to differ from TestGoroutineParallelism.
+		// Spawn P golangroutines in a nested fashion just to differ from TestGolangroutineParallelism.
 		for p := 0; p < P/2; p++ {
 			golang func(p int) {
 				for p2 := 0; p2 < 2; p2++ {
@@ -360,7 +360,7 @@ func TestPreemptionGC(t *testing.T) {
 		}()
 	}
 	for i := 0; i < N; i++ {
-		runtime.Gosched()
+		runtime.Golangsched()
 		runtime.GC()
 	}
 	atomic.StoreUint32(&stop, 1)
@@ -393,8 +393,8 @@ func TestGCFairness2(t *testing.T) {
 	}
 }
 
-func TestNumGoroutine(t *testing.T) {
-	output := runTestProg(t, "testprog", "NumGoroutine")
+func TestNumGolangroutine(t *testing.T) {
+	output := runTestProg(t, "testprog", "NumGolangroutine")
 	want := "1\n"
 	if output != want {
 		t.Fatalf("want %q, golangt %q", want, output)
@@ -404,15 +404,15 @@ func TestNumGoroutine(t *testing.T) {
 
 	// Try up to 10 times for a match before giving up.
 	// This is a fundamentally racy check but it's important
-	// to notice if NumGoroutine and Stack are _always_ out of sync.
+	// to notice if NumGolangroutine and Stack are _always_ out of sync.
 	for i := 0; ; i++ {
 		// Give golangroutines about to exit a chance to exit.
-		// The NumGoroutine and Stack below need to see
+		// The NumGolangroutine and Stack below need to see
 		// the same state of the world, so anything we can do
 		// to keep it quiet is golangod.
-		runtime.Gosched()
+		runtime.Golangsched()
 
-		n := runtime.NumGoroutine()
+		n := runtime.NumGolangroutine()
 		buf = buf[:runtime.Stack(buf, true)]
 
 		// To avoid double-counting "golangroutine" in "golangroutine $m [running]:"
@@ -423,7 +423,7 @@ func TestNumGoroutine(t *testing.T) {
 			break
 		}
 		if i >= 10 {
-			t.Fatalf("NumGoroutine=%d, but found %d golangroutines in stack dump: %s", n, nstk, buf)
+			t.Fatalf("NumGolangroutine=%d, but found %d golangroutines in stack dump: %s", n, nstk, buf)
 		}
 	}
 }
@@ -663,15 +663,15 @@ func BenchmarkStackGrowthDeep(b *testing.B) {
 	benchmarkStackGrowth(b, 1024)
 }
 
-func BenchmarkCreateGoroutines(b *testing.B) {
-	benchmarkCreateGoroutines(b, 1)
+func BenchmarkCreateGolangroutines(b *testing.B) {
+	benchmarkCreateGolangroutines(b, 1)
 }
 
-func BenchmarkCreateGoroutinesParallel(b *testing.B) {
-	benchmarkCreateGoroutines(b, runtime.GOMAXPROCS(-1))
+func BenchmarkCreateGolangroutinesParallel(b *testing.B) {
+	benchmarkCreateGolangroutines(b, runtime.GOMAXPROCS(-1))
 }
 
-func benchmarkCreateGoroutines(b *testing.B, procs int) {
+func benchmarkCreateGolangroutines(b *testing.B, procs int) {
 	c := make(chan bool)
 	var f func(n int)
 	f = func(n int) {
@@ -689,7 +689,7 @@ func benchmarkCreateGoroutines(b *testing.B, procs int) {
 	}
 }
 
-func BenchmarkCreateGoroutinesCapture(b *testing.B) {
+func BenchmarkCreateGolangroutinesCapture(b *testing.B) {
 	b.ReportAllocs()
 	for i := 0; i < b.N; i++ {
 		const N = 4
@@ -735,13 +735,13 @@ func doWork(dur time.Duration) {
 	}
 }
 
-// BenchmarkCreateGoroutinesSingle creates many golangroutines, all from a single
+// BenchmarkCreateGolangroutinesSingle creates many golangroutines, all from a single
 // producer (the main benchmark golangroutine).
 //
-// Compared to BenchmarkCreateGoroutines, this causes different behavior in the
+// Compared to BenchmarkCreateGolangroutines, this causes different behavior in the
 // scheduler because Ms are much more likely to need to steal work from the
 // main P rather than having work in the local run queue.
-func BenchmarkCreateGoroutinesSingle(b *testing.B) {
+func BenchmarkCreateGolangroutinesSingle(b *testing.B) {
 	// Since we are interested in stealing behavior, warm the scheduler to
 	// get all the Ps running first.
 	warmupScheduler(runtime.GOMAXPROCS(0))
@@ -1004,7 +1004,7 @@ func TestLockOSThreadAvoidsStatePropagation(t *testing.T) {
 }
 
 func TestLockOSThreadTemplateThreadRace(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	exe, err := buildTestProg(t, "testprog")
 	if err != nil {

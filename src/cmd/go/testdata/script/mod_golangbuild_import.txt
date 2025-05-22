@@ -47,7 +47,7 @@ stdout w1.golang
 
 # golang/build's Import in FindOnly mode should find directories by invoking the golang command
 #
-# Calling build.Import in build.FindOnly mode on an import path of a Go package
+# Calling build.Import in build.FindOnly mode on an import path of a Golang package
 # that produces errors when loading (e.g., due to build constraints not matching
 # the current build context) should return the package directory and nil error.
 
@@ -109,7 +109,7 @@ func main() {
 		log.Fatalf("different packages loaded with relative and absolute paths:\n\t%s\n\t%s", p1.Dir, p2.Dir)
 	}
 
-	fmt.Printf("%s\n%s\n", p1.Dir, strings.Join(p1.GoFiles, " "))
+	fmt.Printf("%s\n%s\n", p1.Dir, strings.Join(p1.GolangFiles, " "))
 }
 
 -- testfindonly/x.golang --

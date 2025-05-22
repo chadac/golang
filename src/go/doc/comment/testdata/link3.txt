@@ -1,11 +1,11 @@
 -- input --
 Doc text.
 
-[Go home page]: https://golang.dev
+[Golang home page]: https://golang.dev
 -- golangfmt --
 Doc text.
 
-[Go home page]: https://golang.dev
+[Golang home page]: https://golang.dev
 -- text --
 Doc text.
 -- markdown --

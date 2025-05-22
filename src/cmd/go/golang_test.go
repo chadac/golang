@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -93,7 +93,7 @@ var testGOROOT string
 
 var testGOCACHE string
 
-var testGo string
+var testGolang string
 var testTmpDir string
 var testBin string
 
@@ -198,13 +198,13 @@ func TestMain(m *testing.M) {
 	}
 
 	testGOCACHE, _, _ = cache.DefaultDir()
-	if testenv.HasGoBuild() {
+	if testenv.HasGolangBuild() {
 		testBin = filepath.Join(testTmpDir, "testbin")
 		if err := os.Mkdir(testBin, 0777); err != nil {
 			log.Fatal(err)
 		}
-		testGo = filepath.Join(testBin, "golang"+exeSuffix)
-		golangtool, err := testenv.GoTool()
+		testGolang = filepath.Join(testBin, "golang"+exeSuffix)
+		golangtool, err := testenv.GolangTool()
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "locating golang tool: ", err)
 			os.Exit(2)
@@ -240,13 +240,13 @@ func TestMain(m *testing.M) {
 
 		cgolangEnabled = golangEnv("CGO_ENABLED")
 
-		// Duplicate the test executable into the path at testGo, for $PATH.
+		// Duplicate the test executable into the path at testGolang, for $PATH.
 		// If the OS supports symlinks, use them instead of copying bytes.
 		testExe, err := os.Executable()
 		if err != nil {
 			log.Fatal(err)
 		}
-		if err := os.Symlink(testExe, testGo); err != nil {
+		if err := os.Symlink(testExe, testGolang); err != nil {
 			// Otherwise, copy the bytes.
 			src, err := os.Open(testExe)
 			if err != nil {
@@ -254,7 +254,7 @@ func TestMain(m *testing.M) {
 			}
 			defer src.Close()
 
-			dst, err := os.OpenFile(testGo, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o777)
+			dst, err := os.OpenFile(testGolang, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o777)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -293,7 +293,7 @@ func TestMain(m *testing.M) {
 		// We arbitrarily split by sqrt(n) to try to balance those two golangals.
 		netTestLimit := int(math.Sqrt(float64(n)))
 		netTestSem = make(chan struct{}, netTestLimit)
-		reducedLimit := fmt.Sprintf(",%s=%d", base.NetLimitGodebug.Name(), n/netTestLimit)
+		reducedLimit := fmt.Sprintf(",%s=%d", base.NetLimitGolangdebug.Name(), n/netTestLimit)
 		os.Setenv("GODEBUG", os.Getenv("GODEBUG")+reducedLimit)
 	}
 
@@ -398,7 +398,7 @@ func skipIfGccgolang(t *testing.T, msg string) {
 // testgolang sets up for a test that runs testgolang.
 func testgolang(t *testing.T) *testgolangData {
 	t.Helper()
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.SkipIfShortAndSlow(t)
 
 	return &testgolangData{t: t}
@@ -481,7 +481,7 @@ func (tg *testgolangData) unsetenv(name string) {
 }
 
 func (tg *testgolangData) golangTool() string {
-	return testGo
+	return testGolang
 }
 
 // doRun runs the test golang command, recording stdout and stderr and
@@ -496,15 +496,15 @@ func (tg *testgolangData) doRun(args []string) error {
 		}
 	}
 
-	hasGoroot := false
+	hasGolangroot := false
 	for _, v := range tg.env {
 		if strings.HasPrefix(v, "GOROOT=") {
-			hasGoroot = true
+			hasGolangroot = true
 			break
 		}
 	}
 	prog := tg.golangTool()
-	if !hasGoroot {
+	if !hasGolangroot {
 		tg.setenv("GOROOT", testGOROOT)
 	}
 
@@ -987,7 +987,7 @@ func TestPackageMainTestCompilerFlags(t *testing.T) {
 }
 
 // Issue 4104.
-func TestGoTestWithPackageListedMultipleTimes(t *testing.T) {
+func TestGolangTestWithPackageListedMultipleTimes(t *testing.T) {
 	tooSlow(t, "links and runs a test")
 
 	tg := testgolang(t)
@@ -999,7 +999,7 @@ func TestGoTestWithPackageListedMultipleTimes(t *testing.T) {
 	}
 }
 
-func TestGoListHasAConsistentOrder(t *testing.T) {
+func TestGolangListHasAConsistentOrder(t *testing.T) {
 	tooSlow(t, "walks all of GOROOT/src twice")
 
 	tg := testgolang(t)
@@ -1013,7 +1013,7 @@ func TestGoListHasAConsistentOrder(t *testing.T) {
 	}
 }
 
-func TestGoListStdDoesNotIncludeCommands(t *testing.T) {
+func TestGolangListStdDoesNotIncludeCommands(t *testing.T) {
 	tooSlow(t, "walks all of GOROOT/src")
 
 	tg := testgolang(t)
@@ -1023,7 +1023,7 @@ func TestGoListStdDoesNotIncludeCommands(t *testing.T) {
 	tg.grepStdoutNot("cmd/", "golang list std shows commands")
 }
 
-func TestGoListCmdOnlyShowsCommands(t *testing.T) {
+func TestGolangListCmdOnlyShowsCommands(t *testing.T) {
 	skipIfGccgolang(t, "gccgolang does not have GOROOT")
 	tooSlow(t, "walks all of GOROOT/src/cmd")
 
@@ -1040,7 +1040,7 @@ func TestGoListCmdOnlyShowsCommands(t *testing.T) {
 	}
 }
 
-func TestGoListDeps(t *testing.T) {
+func TestGolangListDeps(t *testing.T) {
 	tg := testgolang(t)
 	defer tg.cleanup()
 	tg.parallel()
@@ -1071,7 +1071,7 @@ func TestGoListDeps(t *testing.T) {
 	}
 }
 
-func TestGoListTest(t *testing.T) {
+func TestGolangListTest(t *testing.T) {
 	skipIfGccgolang(t, "gccgolang does not have standard packages")
 	tg := testgolang(t)
 	defer tg.cleanup()
@@ -1108,7 +1108,7 @@ func TestGoListTest(t *testing.T) {
 	tg.grepStdoutNot(`^sort`, "unexpected sort")
 }
 
-func TestGoListCompiledCgolang(t *testing.T) {
+func TestGolangListCompiledCgolang(t *testing.T) {
 	tooSlow(t, "compiles cgolang files")
 
 	tg := testgolang(t)
@@ -1124,9 +1124,9 @@ func TestGoListCompiledCgolang(t *testing.T) {
 	if strings.Contains(tg.stdout.String(), tg.tempdir) {
 		t.Fatalf(".CgolangFiles unexpectedly mentioned cache %s", tg.tempdir)
 	}
-	tg.run("list", "-compiled", "-f", `{{.Dir}}{{"\n"}}{{join .CompiledGoFiles "\n"}}`, "net")
+	tg.run("list", "-compiled", "-f", `{{.Dir}}{{"\n"}}{{join .CompiledGolangFiles "\n"}}`, "net")
 	if !strings.Contains(tg.stdout.String(), tg.tempdir) {
-		t.Fatalf(".CompiledGoFiles with -compiled did not mention cache %s", tg.tempdir)
+		t.Fatalf(".CompiledGolangFiles with -compiled did not mention cache %s", tg.tempdir)
 	}
 	dir := ""
 	for _, file := range strings.Split(tg.stdout.String(), "\n") {
@@ -1141,12 +1141,12 @@ func TestGoListCompiledCgolang(t *testing.T) {
 			file = filepath.Join(dir, file)
 		}
 		if _, err := os.Stat(file); err != nil {
-			t.Fatalf("cannot find .CompiledGoFiles result %s: %v", file, err)
+			t.Fatalf("cannot find .CompiledGolangFiles result %s: %v", file, err)
 		}
 	}
 }
 
-func TestGoListExport(t *testing.T) {
+func TestGolangListExport(t *testing.T) {
 	tooSlow(t, "runs build for -export")
 
 	skipIfGccgolang(t, "gccgolang does not have standard packages")
@@ -1183,7 +1183,7 @@ func TestGoListExport(t *testing.T) {
 }
 
 // Issue 4096. Validate the output of unsuccessful golang install foo/quxx.
-func TestUnsuccessfulGoInstallShouldMentionMissingPackage(t *testing.T) {
+func TestUnsuccessfulGolangInstallShouldMentionMissingPackage(t *testing.T) {
 	tg := testgolang(t)
 	defer tg.cleanup()
 	tg.parallel()
@@ -1352,7 +1352,7 @@ func TestLdFlagsLongArgumentsIssue42295(t *testing.T) {
 	}
 }
 
-func TestGoTestDashCDashOControlsBinaryLocation(t *testing.T) {
+func TestGolangTestDashCDashOControlsBinaryLocation(t *testing.T) {
 	skipIfGccgolang(t, "gccgolang has no standard packages")
 	tooSlow(t, "compiles and links a test binary")
 
@@ -1364,7 +1364,7 @@ func TestGoTestDashCDashOControlsBinaryLocation(t *testing.T) {
 	tg.wantExecutable(tg.path("myerrors.test"+exeSuffix), "golang test -c -o myerrors.test did not create myerrors.test")
 }
 
-func TestGoTestDashOWritesBinary(t *testing.T) {
+func TestGolangTestDashOWritesBinary(t *testing.T) {
 	skipIfGccgolang(t, "gccgolang has no standard packages")
 	tooSlow(t, "compiles and runs a test binary")
 
@@ -1715,7 +1715,7 @@ func TestImportLocal(t *testing.T) {
 	tg.grepStderr("cannot import current directory", "did not diagnose import current directory")
 }
 
-func TestGoInstallPkgdir(t *testing.T) {
+func TestGolangInstallPkgdir(t *testing.T) {
 	skipIfGccgolang(t, "gccgolang has no standard packages")
 	tooSlow(t, "builds a package with cgolang dependencies")
 	// Only the stdlib packages that use cgolang have install
@@ -1789,7 +1789,7 @@ func TestBinaryOnlyPackages(t *testing.T) {
 		func F() { p1.F(true) }
 	`)
 	tg.runFail("install", "p2")
-	tg.grepStderr("no Go files", "did not complain about missing sources")
+	tg.grepStderr("no Golang files", "did not complain about missing sources")
 
 	tg.tempFile("src/p1/missing.golang", `//golang:binary-only-package
 
@@ -1860,7 +1860,7 @@ func TestGenerateUsesBuildContext(t *testing.T) {
 	tg.grepStdout("darwin arm64", "unexpected GOOS/GOARCH combination")
 }
 
-func TestGoEnv(t *testing.T) {
+func TestGolangEnv(t *testing.T) {
 	tg := testgolang(t)
 	tg.parallel()
 	defer tg.cleanup()

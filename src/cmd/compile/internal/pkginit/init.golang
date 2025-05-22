@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -140,7 +140,7 @@ func MakeTask() {
 	for _, d := range deps {
 		lsym.AddRel(base.Ctxt, obj.Reloc{Type: objabi.R_INITORDER, Sym: d})
 	}
-	// An initTask has pointers, but none into the Go heap.
+	// An initTask has pointers, but none into the Golang heap.
 	// It's not quite read only, the state field must be modifiable.
 	objw.Global(lsym, int32(ot), obj.NOPTR)
 }

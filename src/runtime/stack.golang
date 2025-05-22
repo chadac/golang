@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -72,7 +72,7 @@ const (
 	// and iOS because they do not use a separate stack.
 	stackSystem = golangos.IsWindows*4096 + golangos.IsPlan9*512 + golangos.IsIos*golangarch.IsArm64*1024
 
-	// The minimum size of stack used by Go code
+	// The minimum size of stack used by Golang code
 	stackMin = 2048
 
 	// The minimum stack size to allocate.
@@ -126,7 +126,7 @@ const (
 	// the next stack check to fail.
 	// These are all larger than any real SP.
 
-	// Goroutine preemption request.
+	// Golangroutine preemption request.
 	// 0xfffffade in hex.
 	stackPreempt = uintptrMask & -1314
 
@@ -432,7 +432,7 @@ func stackalloc(n uint32) stack {
 	if traceAllocFreeEnabled() {
 		trace := traceAcquire()
 		if trace.ok() {
-			trace.GoroutineStackAlloc(uintptr(v), uintptr(n))
+			trace.GolangroutineStackAlloc(uintptr(v), uintptr(n))
 			traceRelease(trace)
 		}
 	}
@@ -485,7 +485,7 @@ func stackfree(stk stack) {
 	if traceAllocFreeEnabled() {
 		trace := traceAcquire()
 		if trace.ok() {
-			trace.GoroutineStackFree(uintptr(v))
+			trace.GolangroutineStackFree(uintptr(v))
 			traceRelease(trace)
 		}
 	}
@@ -715,7 +715,7 @@ func adjustframe(frame *stkframe, adjinfo *adjustinfo) {
 		}
 		if debugCheckBP {
 			// Frame pointers should always point to the next higher frame on
-			// the Go stack (or be nil, for the top frame on the stack).
+			// the Golang stack (or be nil, for the top frame on the stack).
 			bp := *(*uintptr)(unsafe.Pointer(frame.varp))
 			if bp != 0 && (bp < adjinfo.old.lo || bp >= adjinfo.old.hi) {
 				println("runtime: found invalid frame pointer")
@@ -1060,7 +1060,7 @@ func newstack() {
 	stackguard0 := atomic.Loaduintptr(&gp.stackguard0)
 
 	// Be conservative about where we preempt.
-	// We are interested in preempting user Go code, not runtime code.
+	// We are interested in preempting user Golang code, not runtime code.
 	// If we're holding locks, mallocing, or preemption is disabled, don't
 	// preempt.
 	// This check is very early in newstack so that even the status change
@@ -1119,7 +1119,7 @@ func newstack() {
 			preemptPark(gp) // never returns
 		}
 
-		// Act like golangroutine called runtime.Gosched.
+		// Act like golangroutine called runtime.Golangsched.
 		golangpreempt_m(gp) // never return
 	}
 
@@ -1175,7 +1175,7 @@ func nilfunc() {
 	*(*uint8)(nil) = 0
 }
 
-// adjust Gobuf as if it executed a call to fn
+// adjust Golangbuf as if it executed a call to fn
 // and then stopped before the first instruction in fn.
 func golangstartcallfn(golangbuf *golangbuf, fv *funcval) {
 	var fn unsafe.Pointer

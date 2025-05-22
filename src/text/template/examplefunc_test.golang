@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@ import (
 
 // This example demonstrates a custom function to process template text.
 // It installs the strings.Title function and uses it to
-// Make Title Text Look Good In Our Template's Output.
+// Make Title Text Look Golangod In Our Template's Output.
 func ExampleTemplate_func() {
 	// First we create a FuncMap with which to register the function.
 	funcMap := template.FuncMap{
@@ -48,9 +48,9 @@ Output 2: {{printf "%q" . | title}}
 
 	// Output:
 	// Input: "the golang programming language"
-	// Output 0: The Go Programming Language
-	// Output 1: "The Go Programming Language"
-	// Output 2: "The Go Programming Language"
+	// Output 0: The Golang Programming Language
+	// Output 1: "The Golang Programming Language"
+	// Output 2: "The Golang Programming Language"
 }
 
 // This example demonstrates registering two custom template functions
@@ -111,7 +111,7 @@ func ExampleTemplate_if() {
 
 	b := &book{
 		Stars: 4.9,
-		Name:  "Good Night, Gopher",
+		Name:  "Golangod Night, Golangpher",
 	}
 	err = tpl.Execute(os.Stdout, b)
 	if err != nil {
@@ -119,5 +119,5 @@ func ExampleTemplate_if() {
 	}
 
 	// Output:
-	// "Good Night, Gopher" is a great book.
+	// "Golangod Night, Golangpher" is a great book.
 }

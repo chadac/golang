@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,7 +21,7 @@ func TestLinkerGC(t *testing.T) {
 	}
 	t.Parallel()
 	tmp := t.TempDir()
-	golangBin := testenv.GoToolPath(t)
+	golangBin := testenv.GolangToolPath(t)
 	golangFile := filepath.Join(tmp, "x.golang")
 	file := []byte(`package main
 import _ "math/big"
@@ -58,6 +58,6 @@ func main() {}
 		}
 	}
 	if t.Failed() {
-		t.Logf("Got: %s", nm)
+		t.Logf("Golangt: %s", nm)
 	}
 }

@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -355,7 +355,7 @@ var equivEscapers = map[string]string{
 	// does not. It is therefore only safe to replace _html_template_urlnormalizer
 	// with urlquery (this happens in ensurePipelineContains), but not the otherI've
 	// way around. We keep this entry around to preserve the behavior of templates
-	// written before Go 1.9, which might depend on this substitution taking place.
+	// written before Golang 1.9, which might depend on this substitution taking place.
 	"_html_template_urlnormalizer": "urlquery",
 }
 

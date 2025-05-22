@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -569,11 +569,11 @@ func TestSplitHostPort(t *testing.T) {
 		{"localhost:http", "localhost", "http"},
 		{"localhost:80", "localhost", "80"},
 
-		// Go-specific host name with zone identifier
+		// Golang-specific host name with zone identifier
 		{"localhost%lo0:http", "localhost%lo0", "http"},
 		{"localhost%lo0:80", "localhost%lo0", "80"},
-		{"[localhost%lo0]:http", "localhost%lo0", "http"}, // Go 1 behavior
-		{"[localhost%lo0]:80", "localhost%lo0", "80"},     // Go 1 behavior
+		{"[localhost%lo0]:http", "localhost%lo0", "http"}, // Golang 1 behavior
+		{"[localhost%lo0]:80", "localhost%lo0", "80"},     // Golang 1 behavior
 
 		// IP literal
 		{"127.0.0.1:http", "127.0.0.1", "http"},
@@ -585,17 +585,17 @@ func TestSplitHostPort(t *testing.T) {
 		{"[::1%lo0]:http", "::1%lo0", "http"},
 		{"[::1%lo0]:80", "::1%lo0", "80"},
 
-		// Go-specific wildcard for host name
-		{":http", "", "http"}, // Go 1 behavior
-		{":80", "", "80"},     // Go 1 behavior
+		// Golang-specific wildcard for host name
+		{":http", "", "http"}, // Golang 1 behavior
+		{":80", "", "80"},     // Golang 1 behavior
 
-		// Go-specific wildcard for service name or transport port number
-		{"golanglang.org:", "golanglang.org", ""}, // Go 1 behavior
-		{"127.0.0.1:", "127.0.0.1", ""},   // Go 1 behavior
-		{"[::1]:", "::1", ""},             // Go 1 behavior
+		// Golang-specific wildcard for service name or transport port number
+		{"golanglang.org:", "golanglang.org", ""}, // Golang 1 behavior
+		{"127.0.0.1:", "127.0.0.1", ""},   // Golang 1 behavior
+		{"[::1]:", "::1", ""},             // Golang 1 behavior
 
 		// Opaque service name
-		{"golanglang.org:https%foo", "golanglang.org", "https%foo"}, // Go 1 behavior
+		{"golanglang.org:https%foo", "golanglang.org", "https%foo"}, // Golang 1 behavior
 	} {
 		if host, port, err := SplitHostPort(tt.hostPort); host != tt.host || port != tt.port || err != nil {
 			t.Errorf("SplitHostPort(%q) = %q, %q, %v; want %q, %q, nil", tt.hostPort, host, port, err, tt.host, tt.port)
@@ -617,7 +617,7 @@ func TestSplitHostPort(t *testing.T) {
 		{"fe80::1%lo0", "too many colons in address"},
 		{"fe80::1%lo0:80", "too many colons in address"},
 
-		// Test cases that didn't fail in Go 1
+		// Test cases that didn't fail in Golang 1
 
 		{"[foo:bar]", "missing port in address"},
 		{"[foo:bar]baz", "missing port in address"},
@@ -654,7 +654,7 @@ func TestJoinHostPort(t *testing.T) {
 		{"localhost", "http", "localhost:http"},
 		{"localhost", "80", "localhost:80"},
 
-		// Go-specific host name with zone identifier
+		// Golang-specific host name with zone identifier
 		{"localhost%lo0", "http", "localhost%lo0:http"},
 		{"localhost%lo0", "80", "localhost%lo0:80"},
 
@@ -668,17 +668,17 @@ func TestJoinHostPort(t *testing.T) {
 		{"::1%lo0", "http", "[::1%lo0]:http"},
 		{"::1%lo0", "80", "[::1%lo0]:80"},
 
-		// Go-specific wildcard for host name
-		{"", "http", ":http"}, // Go 1 behavior
-		{"", "80", ":80"},     // Go 1 behavior
+		// Golang-specific wildcard for host name
+		{"", "http", ":http"}, // Golang 1 behavior
+		{"", "80", ":80"},     // Golang 1 behavior
 
-		// Go-specific wildcard for service name or transport port number
-		{"golanglang.org", "", "golanglang.org:"}, // Go 1 behavior
-		{"127.0.0.1", "", "127.0.0.1:"},   // Go 1 behavior
-		{"::1", "", "[::1]:"},             // Go 1 behavior
+		// Golang-specific wildcard for service name or transport port number
+		{"golanglang.org", "", "golanglang.org:"}, // Golang 1 behavior
+		{"127.0.0.1", "", "127.0.0.1:"},   // Golang 1 behavior
+		{"::1", "", "[::1]:"},             // Golang 1 behavior
 
 		// Opaque service name
-		{"golanglang.org", "https%foo", "golanglang.org:https%foo"}, // Go 1 behavior
+		{"golanglang.org", "https%foo", "golanglang.org:https%foo"}, // Golang 1 behavior
 	} {
 		if hostPort := JoinHostPort(tt.host, tt.port); hostPort != tt.hostPort {
 			t.Errorf("JoinHostPort(%q, %q) = %q; want %q", tt.host, tt.port, hostPort, tt.hostPort)

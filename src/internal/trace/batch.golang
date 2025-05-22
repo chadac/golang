@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,8 +40,8 @@ func (b *batch) isCPUSamplesBatch() bool {
 
 func (b *batch) isSyncBatch(ver version.Version) bool {
 	return (b.exp == tracev2.NoExperiment && len(b.data) > 0) &&
-		((tracev2.EventType(b.data[0]) == tracev2.EvFrequency && ver < version.Go125) ||
-			(tracev2.EventType(b.data[0]) == tracev2.EvSync && ver >= version.Go125))
+		((tracev2.EventType(b.data[0]) == tracev2.EvFrequency && ver < version.Golang125) ||
+			(tracev2.EventType(b.data[0]) == tracev2.EvSync && ver >= version.Golang125))
 }
 
 // readBatch reads the next full batch from r.

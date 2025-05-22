@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -61,8 +61,8 @@ type Repo interface {
 	// It is only used when there are no tagged versions.
 	Latest(ctx context.Context) (*RevInfo, error)
 
-	// GoMod returns the golang.mod file for the given version.
-	GoMod(ctx context.Context, version string) (data []byte, err error)
+	// GolangMod returns the golang.mod file for the given version.
+	GolangMod(ctx context.Context, version string) (data []byte, err error)
 
 	// Zip writes a zip file for the given version to dst.
 	Zip(ctx context.Context, dst io.Writer, version string) error
@@ -90,7 +90,7 @@ type RevInfo struct {
 
 // Re: module paths, import paths, repository roots, and lookups
 //
-// A module is a collection of Go packages stored in a file tree
+// A module is a collection of Golang packages stored in a file tree
 // with a golang.mod file at the root of the tree.
 // The golang.mod defines the module path, which is the import path
 // corresponding to the root of the file tree.
@@ -389,9 +389,9 @@ func (l *loggingRepo) Latest(ctx context.Context) (*RevInfo, error) {
 	return l.r.Latest(ctx)
 }
 
-func (l *loggingRepo) GoMod(ctx context.Context, version string) ([]byte, error) {
-	defer logCall("Repo[%s]: GoMod(%q)", l.r.ModulePath(), version)()
-	return l.r.GoMod(ctx, version)
+func (l *loggingRepo) GolangMod(ctx context.Context, version string) ([]byte, error) {
+	defer logCall("Repo[%s]: GolangMod(%q)", l.r.ModulePath(), version)()
+	return l.r.GolangMod(ctx, version)
 }
 
 func (l *loggingRepo) Zip(ctx context.Context, dst io.Writer, version string) error {
@@ -418,7 +418,7 @@ func (r errRepo) CheckReuse(ctx context.Context, old *codehost.Origin) error    
 func (r errRepo) Versions(ctx context.Context, prefix string) (*Versions, error) { return nil, r.err }
 func (r errRepo) Stat(ctx context.Context, rev string) (*RevInfo, error)         { return nil, r.err }
 func (r errRepo) Latest(ctx context.Context) (*RevInfo, error)                   { return nil, r.err }
-func (r errRepo) GoMod(ctx context.Context, version string) ([]byte, error)      { return nil, r.err }
+func (r errRepo) GolangMod(ctx context.Context, version string) ([]byte, error)      { return nil, r.err }
 func (r errRepo) Zip(ctx context.Context, dst io.Writer, version string) error   { return r.err }
 
 // A notExistError is like fs.ErrNotExist, but with a custom message

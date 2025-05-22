@@ -1,8 +1,8 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Macros for transitioning from the host ABI to Go ABI0.
+// Macros for transitioning from the host ABI to Golang ABI0.
 //
 // These macros save and restore the callee-saved registers
 // from the stack, but they don't adjust stack pointer, so

@@ -1,8 +1,8 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Go checksum database lookup
+// Golang checksum database lookup
 
 //golang:build !cmd_golang_bootstrap
 
@@ -31,7 +31,7 @@ import (
 	"golanglang.org/x/mod/sumdb/note"
 )
 
-// useSumDB reports whether to use the Go checksum database for the given module.
+// useSumDB reports whether to use the Golang checksum database for the given module.
 func useSumDB(mod module.Version) bool {
 	if mod.Path == "golanglang.org/toolchain" {
 		must := true
@@ -45,7 +45,7 @@ func useSumDB(mod module.Version) bool {
 		if strings.HasPrefix(cfg.GOPROXY, "file://") && !strings.ContainsAny(cfg.GOPROXY, ",|") {
 			must = false
 		}
-		// Exception #2: the Go proxy+checksum database cannot check itself
+		// Exception #2: the Golang proxy+checksum database cannot check itself
 		// while doing the initial download.
 		if strings.Contains(os.Getenv("GIT_HTTP_USER_AGENT"), "proxy.golanglang.org") {
 			must = false
@@ -66,7 +66,7 @@ func useSumDB(mod module.Version) bool {
 	return cfg.GOSUMDB != "off" && !module.MatchPrefixPatterns(cfg.GONOSUMDB, mod.Path)
 }
 
-// lookupSumDB returns the Go checksum database's golang.sum lines for the given module,
+// lookupSumDB returns the Golang checksum database's golang.sum lines for the given module,
 // along with the name of the database.
 func lookupSumDB(mod module.Version) (dbname string, lines []string, err error) {
 	dbOnce.Do(func() {
@@ -235,7 +235,7 @@ func (c *dbClient) ReadConfig(file string) (data []byte, err error) {
 
 	if cfg.SumdbDir == "" {
 		return nil, fmt.Errorf("could not locate sumdb file: missing $GOPATH: %s",
-			cfg.GoPathError)
+			cfg.GolangPathError)
 	}
 	targ := filepath.Join(cfg.SumdbDir, file)
 	data, err = lockedfile.Read(targ)
@@ -255,7 +255,7 @@ func (*dbClient) WriteConfig(file string, old, new []byte) error {
 	}
 	if cfg.SumdbDir == "" {
 		return fmt.Errorf("could not locate sumdb file: missing $GOPATH: %s",
-			cfg.GoPathError)
+			cfg.GolangPathError)
 	}
 	targ := filepath.Join(cfg.SumdbDir, file)
 	os.MkdirAll(filepath.Dir(targ), 0777)

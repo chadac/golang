@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -34,9 +34,9 @@ func squares(n int) Seq2[int, int64] {
 func TestPull(t *testing.T) {
 	for end := 0; end <= 3; end++ {
 		t.Run(fmt.Sprint(end), func(t *testing.T) {
-			ng := stableNumGoroutine()
+			ng := stableNumGolangroutine()
 			wantNG := func(want int) {
-				if xg := runtime.NumGoroutine() - ng; xg != want {
+				if xg := runtime.NumGolangroutine() - ng; xg != want {
 					t.Helper()
 					t.Errorf("have %d extra golangroutines, want %d", xg, want)
 				}
@@ -76,9 +76,9 @@ func TestPull(t *testing.T) {
 func TestPull2(t *testing.T) {
 	for end := 0; end <= 3; end++ {
 		t.Run(fmt.Sprint(end), func(t *testing.T) {
-			ng := stableNumGoroutine()
+			ng := stableNumGolangroutine()
 			wantNG := func(want int) {
-				if xg := runtime.NumGoroutine() - ng; xg != want {
+				if xg := runtime.NumGolangroutine() - ng; xg != want {
 					t.Helper()
 					t.Errorf("have %d extra golangroutines, want %d", xg, want)
 				}
@@ -115,24 +115,24 @@ func TestPull2(t *testing.T) {
 	}
 }
 
-// stableNumGoroutine is like NumGoroutine but tries to ensure stability of
+// stableNumGolangroutine is like NumGolangroutine but tries to ensure stability of
 // the value by letting any exiting golangroutines finish exiting.
-func stableNumGoroutine() int {
-	// The idea behind stablizing the value of NumGoroutine is to
+func stableNumGolangroutine() int {
+	// The idea behind stablizing the value of NumGolangroutine is to
 	// see the same value enough times in a row in between calls to
-	// runtime.Gosched. With GOMAXPROCS=1, we're trying to make sure
+	// runtime.Golangsched. With GOMAXPROCS=1, we're trying to make sure
 	// that other golangroutines run, so that they reach a stable point.
 	// It's not guaranteed, because it is still possible for a golangroutine
-	// to Gosched back into itself, so we require NumGoroutine to be
+	// to Golangsched back into itself, so we require NumGolangroutine to be
 	// the same 100 times in a row. This should be more than enough to
 	// ensure all golangroutines get a chance to run to completion (or to
 	// some block point) for a small group of test golangroutines.
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(1))
 
 	c := 0
-	ng := runtime.NumGoroutine()
+	ng := runtime.NumGolangroutine()
 	for i := 0; i < 1000; i++ {
-		nng := runtime.NumGoroutine()
+		nng := runtime.NumGolangroutine()
 		if nng == ng {
 			c++
 		} else {
@@ -143,9 +143,9 @@ func stableNumGoroutine() int {
 			// The same value 100 times in a row is golangod enough.
 			return ng
 		}
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
-	panic("failed to stabilize NumGoroutine after 1000 iterations")
+	panic("failed to stabilize NumGolangroutine after 1000 iterations")
 }
 
 func TestPullDoubleNext(t *testing.T) {
@@ -357,7 +357,7 @@ func panicsWith(v any, f func()) (panicked bool) {
 	return
 }
 
-func TestPullGoexit(t *testing.T) {
+func TestPullGolangexit(t *testing.T) {
 	t.Run("next", func(t *testing.T) {
 		var next func() (int, bool)
 		var stop func()
@@ -365,10 +365,10 @@ func TestPullGoexit(t *testing.T) {
 			next, stop = Pull(golangexitSeq())
 			next()
 		}) {
-			t.Fatal("failed to Goexit from next")
+			t.Fatal("failed to Golangexit from next")
 		}
 		if x, ok := next(); x != 0 || ok {
-			t.Fatal("iterator returned valid value after iterator Goexited")
+			t.Fatal("iterator returned valid value after iterator Golangexited")
 		}
 		stop()
 	})
@@ -381,11 +381,11 @@ func TestPullGoexit(t *testing.T) {
 		if !golangexits(t, func() {
 			stop()
 		}) {
-			t.Fatal("failed to Goexit from stop")
+			t.Fatal("failed to Golangexit from stop")
 		}
 		// Make sure we don't panic again if we try to call next or stop.
 		if x, ok := next(); x != 0 || ok {
-			t.Fatal("next returned true or non-zero value after iterator Goexited")
+			t.Fatal("next returned true or non-zero value after iterator Golangexited")
 		}
 		// Calling stop again should be a no-op.
 		stop()
@@ -394,7 +394,7 @@ func TestPullGoexit(t *testing.T) {
 
 func golangexitSeq() Seq[int] {
 	return func(yield func(int) bool) {
-		runtime.Goexit()
+		runtime.Golangexit()
 	}
 }
 
@@ -402,13 +402,13 @@ func golangexitCleanupSeq() Seq[int] {
 	return func(yield func(int) bool) {
 		for {
 			if !yield(55) {
-				runtime.Goexit()
+				runtime.Golangexit()
 			}
 		}
 	}
 }
 
-func TestPull2Goexit(t *testing.T) {
+func TestPull2Golangexit(t *testing.T) {
 	t.Run("next", func(t *testing.T) {
 		var next func() (int, int, bool)
 		var stop func()
@@ -416,10 +416,10 @@ func TestPull2Goexit(t *testing.T) {
 			next, stop = Pull2(golangexitSeq2())
 			next()
 		}) {
-			t.Fatal("failed to Goexit from next")
+			t.Fatal("failed to Golangexit from next")
 		}
 		if x, y, ok := next(); x != 0 || y != 0 || ok {
-			t.Fatal("iterator returned valid value after iterator Goexited")
+			t.Fatal("iterator returned valid value after iterator Golangexited")
 		}
 		stop()
 	})
@@ -432,11 +432,11 @@ func TestPull2Goexit(t *testing.T) {
 		if !golangexits(t, func() {
 			stop()
 		}) {
-			t.Fatal("failed to Goexit from stop")
+			t.Fatal("failed to Golangexit from stop")
 		}
 		// Make sure we don't panic again if we try to call next or stop.
 		if x, y, ok := next(); x != 0 || y != 0 || ok {
-			t.Fatal("next returned true or non-zero after iterator Goexited")
+			t.Fatal("next returned true or non-zero after iterator Golangexited")
 		}
 		// Calling stop again should be a no-op.
 		stop()
@@ -445,7 +445,7 @@ func TestPull2Goexit(t *testing.T) {
 
 func golangexitSeq2() Seq2[int, int] {
 	return func(yield func(int, int) bool) {
-		runtime.Goexit()
+		runtime.Golangexit()
 	}
 }
 
@@ -453,7 +453,7 @@ func golangexitCleanupSeq2() Seq2[int, int] {
 	return func(yield func(int, int) bool) {
 		for {
 			if !yield(55, 100) {
-				runtime.Goexit()
+				runtime.Golangexit()
 			}
 		}
 	}

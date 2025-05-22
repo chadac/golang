@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -537,7 +537,7 @@ func (f *peFile) addInitArray(ctxt *Link) *peSection {
 	// The size below was determined by the specification for array relocations,
 	// and by observing what GCC writes here. If the initarray section grows to
 	// contain more than one constructor entry, the size will need to be 8 * constructor_count.
-	// However, the entire Go runtime is initialized from just one function, so it is unlikely
+	// However, the entire Golang runtime is initialized from just one function, so it is unlikely
 	// that this will need to grow in the future.
 	var size int
 	var alignment uint32
@@ -1036,10 +1036,10 @@ func (f *peFile) writeOptionalHeader(ctxt *Link) {
 	// size otherwise reserve will be rounded up to a
 	// larger size, as verified with VMMap.
 
-	// On 64-bit, we always reserve 2MB stacks. "Pure" Go code is
+	// On 64-bit, we always reserve 2MB stacks. "Pure" Golang code is
 	// okay with much smaller stacks, but the syscall package
 	// makes it easy to call into arbitrary C code without cgolang,
-	// and system calls even in "pure" Go code are actually C
+	// and system calls even in "pure" Golang code are actually C
 	// calls that may need more stack than we think.
 	//
 	// The default stack reserve size directly affects only the main

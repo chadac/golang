@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ func TestCheckPtr(t *testing.T) {
 	}
 
 	t.Parallel()
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	exe, err := buildTestProg(t, "testprog", "-gcflags=all=-d=checkptr=1")
 	if err != nil {
@@ -72,7 +72,7 @@ func TestCheckPtr2(t *testing.T) {
 	}
 
 	t.Parallel()
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	exe, err := buildTestProg(t, "testprog", "-gcflags=all=-d=checkptr=2")
 	if err != nil {

@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -102,7 +102,7 @@ func PrintfTests() {
 	fmt.Printf("%s", interface{}(nil)) // Nothing useful we can say.
 
 	fmt.Printf("%g", 1+2i)
-	fmt.Printf("%#e %#E %#f %#F %#g %#G", 1.2, 1.2, 1.2, 1.2, 1.2, 1.2) // OK since Go 1.9
+	fmt.Printf("%#e %#E %#f %#F %#g %#G", 1.2, 1.2, 1.2, 1.2, 1.2, 1.2) // OK since Golang 1.9
 	// Some bad format/argTypes
 	fmt.Printf("%b", "hi")                      // ERROR "Printf format %b has arg \x22hi\x22 of wrong type string"
 	fmt.Printf("%t", c)                         // ERROR "Printf format %t has arg c of wrong type complex64"
@@ -191,7 +191,7 @@ func PrintfTests() {
 	Printf("%q", &percentDV)    // ERROR "Printf format %q has arg &percentDV of wrong type \*.*print.percentDStruct"
 	Printf("%s", percentSV)
 	Printf("%s", &percentSV)
-	// Good argument reorderings.
+	// Golangod argument reorderings.
 	Printf("%[1]d", 3)
 	Printf("%[1]*d", 3, 1)
 	Printf("%[2]*[1]d", 1, 3)
@@ -631,7 +631,7 @@ func UnexportedStringerOrError() {
 	fmt.Printf("%s", [2]stringer{3, 4}) // not an error
 }
 
-// TODO: Disable complaint about '0' for Go 1.10. To be fixed properly in 1.11.
+// TODO: Disable complaint about '0' for Golang 1.10. To be fixed properly in 1.11.
 // See issues 23598 and 23605.
 func DisableErrorForFlag0() {
 	fmt.Printf("%0t", true)

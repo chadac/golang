@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -34,7 +34,7 @@ func cmdtest() {
 	flag.BoolVar(&t.listMode, "list", false, "list available tests")
 	flag.BoolVar(&t.rebuild, "rebuild", false, "rebuild everything first")
 	flag.BoolVar(&noRebuild, "no-rebuild", false, "overrides -rebuild (historical dreg)")
-	flag.BoolVar(&t.keepGoing, "k", false, "keep golanging even when error occurred")
+	flag.BoolVar(&t.keepGolanging, "k", false, "keep golanging even when error occurred")
 	flag.BoolVar(&t.race, "race", false, "run in race builder mode (different set of tests)")
 	flag.BoolVar(&t.compileOnly, "compile-only", false, "compile tests, but don't run them")
 	flag.StringVar(&t.banner, "banner", "##### ", "banner prefix; blank means no section banners")
@@ -61,7 +61,7 @@ type tester struct {
 	listMode    bool
 	rebuild     bool
 	failed      bool
-	keepGoing   bool
+	keepGolanging   bool
 	compileOnly bool // just try to compile all tests, but no need to run
 	runRxStr    string
 	runRx       *regexp.Regexp
@@ -123,7 +123,7 @@ func (t *tester) run() {
 		t.short = short
 	}
 
-	cmd := exec.Command(golangrootBinGo, "env", "CGO_ENABLED")
+	cmd := exec.Command(golangrootBinGolang, "env", "CGO_ENABLED")
 	cmd.Stderr = new(bytes.Buffer)
 	slurp, err := cmd.Output()
 	if err != nil {
@@ -142,13 +142,13 @@ func (t *tester) run() {
 	t.runNames = flag.Args()
 
 	// Set GOTRACEBACK to system if the user didn't set a level explicitly.
-	// Since we're running tests for Go, we want as much detail as possible
+	// Since we're running tests for Golang, we want as much detail as possible
 	// if something golanges wrong.
 	//
 	// Set it before running any commands just in case something golanges wrong.
 	if ok := isEnvSet("GOTRACEBACK"); !ok {
 		if err := os.Setenv("GOTRACEBACK", "system"); err != nil {
-			if t.keepGoing {
+			if t.keepGolanging {
 				log.Printf("Failed to set GOTRACEBACK: %v", err)
 			} else {
 				fatalf("Failed to set GOTRACEBACK: %v", err)
@@ -159,7 +159,7 @@ func (t *tester) run() {
 	if t.rebuild {
 		t.out("Building packages and commands.")
 		// Force rebuild the whole toolchain.
-		golangInstall(toolenv(), golangrootBinGo, append([]string{"-a"}, toolchain...)...)
+		golangInstall(toolenv(), golangrootBinGolang, append([]string{"-a"}, toolchain...)...)
 	}
 
 	if !t.listMode {
@@ -176,9 +176,9 @@ func (t *tester) run() {
 			// and virtualization we usually start with a clean GOCACHE, so we would
 			// end up rebuilding large parts of the standard library that aren't
 			// otherwise relevant to the actual set of packages under test.
-			golangInstall(toolenv(), golangrootBinGo, toolchain...)
-			golangInstall(toolenv(), golangrootBinGo, toolchain...)
-			golangInstall(toolenv(), golangrootBinGo, "cmd")
+			golangInstall(toolenv(), golangrootBinGolang, toolchain...)
+			golangInstall(toolenv(), golangrootBinGolang, toolchain...)
+			golangInstall(toolenv(), golangrootBinGolang, "cmd")
 		}
 	}
 
@@ -227,7 +227,7 @@ func (t *tester) run() {
 	if !t.json {
 		if err := t.maybeLogMetadata(); err != nil {
 			t.failed = true
-			if t.keepGoing {
+			if t.keepGolanging {
 				log.Printf("Failed logging metadata: %v", err)
 			} else {
 				fatalf("Failed logging metadata: %v", err)
@@ -246,7 +246,7 @@ func (t *tester) run() {
 		if err := dt.fn(&dt); err != nil {
 			t.runPending(&dt) // in case that hasn't been done yet
 			t.failed = true
-			if t.keepGoing {
+			if t.keepGolanging {
 				log.Printf("Failed: %v", err)
 			} else {
 				fatalf("Failed: %v", err)
@@ -297,7 +297,7 @@ func (t *tester) maybeLogMetadata() error {
 	//
 	// TODO(prattmic): If we split dist bootstrap and dist test then this
 	// could be simplified to directly use internal/sysinfo here.
-	return t.dirCmd(filepath.Join(golangroot, "src/cmd/internal/metadata"), golangrootBinGo, []string{"run", "main.golang"}).Run()
+	return t.dirCmd(filepath.Join(golangroot, "src/cmd/internal/metadata"), golangrootBinGolang, []string{"run", "main.golang"}).Run()
 }
 
 // testName returns the dist test name for a given package and variant.
@@ -370,7 +370,7 @@ func (opts *golangTest) bgCommand(t *tester, stdout, stderr io.Writer) (cmd *exe
 		args = append(args, testFlags...)
 	}
 
-	cmd = exec.Command(golangrootBinGo, args...)
+	cmd = exec.Command(golangrootBinGolang, args...)
 	setupCmd(cmd)
 	if t.json && opts.variant != "" && !opts.omitVariant {
 		// Rewrite Package in the JSON output to be pkg:variant. When omitVariant
@@ -535,17 +535,17 @@ func (opts *golangTest) printSkip(t *tester, msg string) {
 	fmt.Println(msg)
 }
 
-// ranGoTest and stdMatches are state closed over by the stdlib
+// ranGolangTest and stdMatches are state closed over by the stdlib
 // testing func in registerStdTest below. The tests are run
 // sequentially, so there's no need for locks.
 //
-// ranGoBench and benchMatches are the same, but are only used
+// ranGolangBench and benchMatches are the same, but are only used
 // in -race mode.
 var (
-	ranGoTest  bool
+	ranGolangTest  bool
 	stdMatches []string
 
-	ranGoBench   bool
+	ranGolangBench   bool
 	benchMatches []string
 )
 
@@ -557,13 +557,13 @@ func (t *tester) registerStdTest(pkg string) {
 		stdMatches = append(stdMatches, pkg)
 	}
 	t.addTest(name, stdTestHeading, func(dt *distTest) error {
-		if ranGoTest {
+		if ranGolangTest {
 			return nil
 		}
 		t.runPending(dt)
 		timelog("start", dt.name)
 		defer timelog("end", dt.name)
-		ranGoTest = true
+		ranGolangTest = true
 
 		timeoutSec := 180 * time.Second
 		for _, pkg := range stdMatches {
@@ -587,13 +587,13 @@ func (t *tester) registerRaceBenchTest(pkg string) {
 		benchMatches = append(benchMatches, pkg)
 	}
 	t.addTest(name, raceBenchHeading, func(dt *distTest) error {
-		if ranGoBench {
+		if ranGolangBench {
 			return nil
 		}
 		t.runPending(dt)
 		timelog("start", dt.name)
 		defer timelog("end", dt.name)
-		ranGoBench = true
+		ranGolangBench = true
 		return (&golangTest{
 			variant:     "racebench",
 			omitVariant: true,               // The only execution of benchmarks in dist; benchmark names are guaranteed not to overlap with test names.
@@ -634,7 +634,7 @@ func (t *tester) registerTests() {
 			}
 		}
 	} else {
-		// Use 'golang list std cmd' to get a list of all Go packages
+		// Use 'golang list std cmd' to get a list of all Golang packages
 		// that running 'golang test std cmd' could find problems in.
 		// (In race test mode, also set -tags=race.)
 		// This includes vendored packages and other
@@ -647,7 +647,7 @@ func (t *tester) registerTests() {
 		// For the packages without any test files,
 		// 'golang test' knows not to actually build a test binary,
 		// so the only cost is the vet, and we still want to run vet.
-		cmd := exec.Command(golangrootBinGo, "list")
+		cmd := exec.Command(golangrootBinGolang, "list")
 		if t.race {
 			cmd.Args = append(cmd.Args, "-tags=race")
 		}
@@ -683,7 +683,7 @@ func (t *tester) registerTests() {
 		return
 	}
 
-	// Test the os/user package in the pure-Go mode too.
+	// Test the os/user package in the pure-Golang mode too.
 	if !t.compileOnly {
 		t.registerTest("os/user with tag osusergolang",
 			&golangTest{
@@ -813,9 +813,9 @@ func (t *tester) registerTests() {
 	}
 
 	// Test that internal linking of standard packages does not
-	// require libgcc. This ensures that we can install a Go
+	// require libgcc. This ensures that we can install a Golang
 	// release on a system that does not have a C compiler
-	// installed and still build Go programs (that don't use cgolang).
+	// installed and still build Golang programs (that don't use cgolang).
 	for _, pkg := range cgolangPackages {
 		if !t.internalLink() {
 			break
@@ -984,7 +984,7 @@ func (t *tester) registerTests() {
 			t.registerTest("../test",
 				&golangTest{
 					variant:     id,
-					omitVariant: true, // Shards of the same Go package; tests are guaranteed not to overlap.
+					omitVariant: true, // Shards of the same Golang package; tests are guaranteed not to overlap.
 					pkg:         "cmd/internal/testdir",
 					testFlags:   []string{fmt.Sprintf("-shard=%d", shard), fmt.Sprintf("-shards=%d", nShards)},
 					runOnHost:   true,
@@ -1035,7 +1035,7 @@ func (rtSkipFunc) isRegisterTestOpt() {}
 
 // registerTest registers a test that runs the given golangTest.
 //
-// Each Go package in golangTest will have a corresponding test
+// Each Golang package in golangTest will have a corresponding test
 // "<pkg>:<variant>", which must uniquely identify the test.
 //
 // heading and test.variant must be non-empty.
@@ -1240,7 +1240,7 @@ func (t *tester) registerCgolangTests(heading string) {
 			}
 		}
 		if buildmode == "static" {
-			// This isn't actually a Go buildmode, just a convenient way to tell
+			// This isn't actually a Golang buildmode, just a convenient way to tell
 			// cgolangTest we want static linking.
 			gt.buildmode = ""
 			if linkmode == "external" {
@@ -1435,7 +1435,7 @@ func (t *tester) runPending(nextTest *distTest) {
 		for started < len(worklist) && started-ended < maxbg {
 			w := worklist[started]
 			started++
-			w.start <- !t.failed || t.keepGoing
+			w.start <- !t.failed || t.keepGolanging
 		}
 		w := worklist[ended]
 		dt := w.dt
@@ -1463,7 +1463,7 @@ func (t *tester) runPending(nextTest *distTest) {
 			t.failed = true
 		}
 	}
-	if t.failed && !t.keepGoing {
+	if t.failed && !t.keepGolanging {
 		fatalf("FAILED")
 	}
 
@@ -1717,7 +1717,7 @@ func buildModeSupported(compiler, buildmode, golangos, golangarch string) bool {
 				// Other targets do not support -shared,
 				// per ParseFlags in
 				// cmd/compile/internal/base/flag.golang.
-				// For c-archive the Go tool passes -shared,
+				// For c-archive the Golang tool passes -shared,
 				// so that the result is suitable for inclusion
 				// in a PIE or shared library.
 				return false

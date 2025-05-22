@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -160,7 +160,7 @@ type Checker struct {
 	// (initialized by Files, valid only for the duration of check.Files;
 	// maps and lists are allocated on demand)
 	files         []*syntax.File             // list of package files
-	versions      map[*syntax.PosBase]string // maps files to version strings (each file has an entry); shared with Info.FileVersions if present; may be unaltered Config.GoVersion
+	versions      map[*syntax.PosBase]string // maps files to version strings (each file has an entry); shared with Info.FileVersions if present; may be unaltered Config.GolangVersion
 	imports       []*PkgName                 // list of imported packages
 	dotImportMap  map[dotImportKey]*PkgName  // maps dot-imported objects to the package they were dot-imported through
 	brokenAliases map[*TypeName]bool         // set of aliases with broken (not yet determined) types
@@ -354,23 +354,23 @@ func (check *Checker) initFiles(files []*syntax.File) {
 	}
 	check.versions = versions
 
-	pkgVersion := asGoVersion(check.conf.GoVersion)
+	pkgVersion := asGolangVersion(check.conf.GolangVersion)
 	if pkgVersion.isValid() && len(files) > 0 && pkgVersion.cmp(golang_current) > 0 {
-		check.errorf(files[0], TooNew, "package requires newer Go version %v (application built with %v)",
+		check.errorf(files[0], TooNew, "package requires newer Golang version %v (application built with %v)",
 			pkgVersion, golang_current)
 	}
 
-	// determine Go version for each file
+	// determine Golang version for each file
 	for _, file := range check.files {
-		// use unaltered Config.GoVersion by default
+		// use unaltered Config.GolangVersion by default
 		// (This version string may contain dot-release numbers as in golang1.20.1,
-		// unlike file versions which are Go language versions only, if valid.)
-		v := check.conf.GoVersion
+		// unlike file versions which are Golang language versions only, if valid.)
+		v := check.conf.GolangVersion
 
 		// If the file specifies a version, use max(fileVersion, golang1.21).
-		if fileVersion := asGoVersion(file.GoVersion); fileVersion.isValid() {
-			// Go 1.21 introduced the feature of allowing //golang:build lines
-			// to sometimes set the Go version in a given file. Versions Go 1.21 and later
+		if fileVersion := asGolangVersion(file.GolangVersion); fileVersion.isValid() {
+			// Golang 1.21 introduced the feature of allowing //golang:build lines
+			// to sometimes set the Golang version in a given file. Versions Golang 1.21 and later
 			// can be set backwards compatibly as that was the first version
 			// files with golang1.21 or later build tags could be built with.
 			//
@@ -386,7 +386,7 @@ func (check *Checker) initFiles(files []*syntax.File) {
 			if fileVersion.cmp(golang_current) > 0 {
 				// Use position of 'package [p]' for types/types2 consistency.
 				// (Ideally we would use the //build tag itself.)
-				check.errorf(file.PkgName, TooNew, "file requires newer Go version %v", fileVersion)
+				check.errorf(file.PkgName, TooNew, "file requires newer Golang version %v", fileVersion)
 			}
 		}
 		versions[file.Pos().FileBase()] = v // file.Pos().FileBase() may be nil for tests
@@ -500,7 +500,7 @@ func (check *Checker) checkFiles(files []*syntax.File) {
 		check.monomorph()
 	}
 
-	check.pkg.golangVersion = check.conf.GoVersion
+	check.pkg.golangVersion = check.conf.GolangVersion
 	check.pkg.complete = true
 
 	// no longer needed - release memory
@@ -536,7 +536,7 @@ func (check *Checker) processDelayed(top int) {
 				check.trace(nopos, "-- delayed %p", a.f)
 			}
 		}
-		check.version = a.version // reestablish the effective Go version captured earlier
+		check.version = a.version // reestablish the effective Golang version captured earlier
 		a.f()                     // may append to check.delayed
 		if check.conf.Trace {
 			fmt.Println()

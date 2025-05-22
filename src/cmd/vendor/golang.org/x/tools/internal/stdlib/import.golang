@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ import (
 // The imports of an unknown package are the empty set.
 //
 // The graph is built into the application and may differ from the
-// graph in the Go source tree being analyzed by the application.
+// graph in the Golang source tree being analyzed by the application.
 func Imports(pkgs ...string) iter.Seq[string] {
 	return func(yield func(string) bool) {
 		for _, pkg := range pkgs {
@@ -47,7 +47,7 @@ func Imports(pkgs ...string) iter.Seq[string] {
 // The dependencies of an unknown package are the empty set.
 //
 // The graph is built into the application and may differ from the
-// graph in the Go source tree being analyzed by the application.
+// graph in the Golang source tree being analyzed by the application.
 func Dependencies(pkgs ...string) iter.Seq[string] {
 	return func(yield func(string) bool) {
 		for _, pkg := range pkgs {

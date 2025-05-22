@@ -1,8 +1,8 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This package defines the Go object file format, and provide "low-level" functions
+// This package defines the Golang object file format, and provide "low-level" functions
 // for reading and writing object files.
 
 // The object file is understood by the compiler, assembler, linker, and tools. They
@@ -161,7 +161,7 @@ import (
 //
 // Each symbol may (or may not) be associated with a number of auxiliary
 // symbols. They are described in the Aux block. See Aux struct below.
-// Currently a symbol's Gotype, FuncInfo, and associated DWARF symbols
+// Currently a symbol's Golangtype, FuncInfo, and associated DWARF symbols
 // are auxiliary symbols.
 
 const stringRefSize = 8 // two uint32s
@@ -230,7 +230,7 @@ func (h *Header) Read(r *Reader) error {
 	b := r.BytesAt(0, len(Magic))
 	h.Magic = string(b)
 	if h.Magic != Magic {
-		return errors.New("wrong magic, not a Go object file")
+		return errors.New("wrong magic, not a Golang object file")
 	}
 	off := uint32(len(h.Magic))
 	copy(h.Fingerprint[:], r.BytesAt(off, len(h.Fingerprint)))
@@ -296,7 +296,7 @@ const (
 	SymFlagLeaf
 	SymFlagNoSplit
 	SymFlagReflectMethod
-	SymFlagGoType
+	SymFlagGolangType
 )
 
 // Sym.Flag2
@@ -334,7 +334,7 @@ func (s *Sym) Typelink() bool      { return s.Flag()&SymFlagTypelink != 0 }
 func (s *Sym) Leaf() bool          { return s.Flag()&SymFlagLeaf != 0 }
 func (s *Sym) NoSplit() bool       { return s.Flag()&SymFlagNoSplit != 0 }
 func (s *Sym) ReflectMethod() bool { return s.Flag()&SymFlagReflectMethod != 0 }
-func (s *Sym) IsGoType() bool      { return s.Flag()&SymFlagGoType != 0 }
+func (s *Sym) IsGolangType() bool      { return s.Flag()&SymFlagGolangType != 0 }
 func (s *Sym) UsedInIface() bool   { return s.Flag2()&SymFlagUsedInIface != 0 }
 func (s *Sym) IsItab() bool        { return s.Flag2()&SymFlagItab != 0 }
 func (s *Sym) IsDict() bool        { return s.Flag2()&SymFlagDict != 0 }
@@ -437,7 +437,7 @@ const AuxSize = 1 + 8
 
 // Aux Type
 const (
-	AuxGotype = iota
+	AuxGolangtype = iota
 	AuxFuncInfo
 	AuxFuncdata
 	AuxDwarfInfo

@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -156,7 +156,7 @@ func (r *resolver) declare(decl, data any, scope *ast.Scope, kind ast.ObjKind, i
 }
 
 func (r *resolver) shortVarDecl(decl *ast.AssignStmt) {
-	// Go spec: A short variable declaration may redeclare variables
+	// Golang spec: A short variable declaration may redeclare variables
 	// provided they were originally declared in the same block with
 	// the same type, and at least one of the non-blank variables is new.
 	n := 0 // number of new variables
@@ -465,7 +465,7 @@ func (r *resolver) Visit(node ast.Node) ast.Visitor {
 		case token.TYPE:
 			for _, spec := range n.Specs {
 				spec := spec.(*ast.TypeSpec)
-				// Go spec: The scope of a type identifier declared inside a function begins
+				// Golang spec: The scope of a type identifier declared inside a function begins
 				// at the identifier in the TypeSpec and ends at the end of the innermost
 				// containing block.
 				r.declare(spec, nil, r.topScope, ast.Typ, spec.Name)

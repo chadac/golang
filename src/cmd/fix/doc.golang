@@ -1,10 +1,10 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Fix finds Go programs that use old APIs and rewrites them to use
-newer ones.  After you update to a new Go release, fix helps make
+Fix finds Golang programs that use old APIs and rewrites them to use
+newer ones.  After you update to a new Golang release, fix helps make
 the necessary changes to your programs.
 
 Usage:

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -55,7 +55,7 @@ func recordForPanic(b []byte) {
 var debuglock mutex
 
 // The compiler emits calls to printlock and printunlock around
-// the multiple calls that implement a single Go print or println
+// the multiple calls that implement a single Golang print or println
 // statement. Some of the print helpers (printslice, for example)
 // call print recursively. There is also the problem of a crash
 // happening during the print routines and needing to acquire

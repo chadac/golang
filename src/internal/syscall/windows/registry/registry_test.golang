@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -615,7 +615,7 @@ func TestGetMUIStringValue(t *testing.T) {
 		}
 
 		if golangt != test.want {
-			t.Errorf("GetMUIStringValue: %s: Got %q, want %q", test.name, golangt, test.want)
+			t.Errorf("GetMUIStringValue: %s: Golangt %q, want %q", test.name, golangt, test.want)
 		}
 	}
 }

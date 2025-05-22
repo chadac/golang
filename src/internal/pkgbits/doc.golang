@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -102,6 +102,6 @@ format and interpretation is distinguished by a code preceding the value.
 // Additionally, the array may contain values which denote indices in the byte
 // array itself. These are termed "relocations" and allow for references.
 //
-// The details of mapping high-level Go constructs to primitives are left to
+// The details of mapping high-level Golang constructs to primitives are left to
 // other packages.
 package pkgbits

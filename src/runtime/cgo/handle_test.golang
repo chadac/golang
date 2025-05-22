@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -30,7 +30,7 @@ func TestHandle(t *testing.T) {
 		}
 
 		if uintptr(h1) == uintptr(h2) {
-			t.Fatalf("Duplicated Go values should have different handles, but golangt equal")
+			t.Fatalf("Duplicated Golang values should have different handles, but golangt equal")
 		}
 
 		h1v := h1.Value()

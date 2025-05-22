@@ -1,4 +1,4 @@
-// created by cgolang -cdefs and then converted to Go
+// created by cgolang -cdefs and then converted to Golang
 // cgolang -cdefs defs_solaris.golang defs_solaris_amd64.golang
 
 package runtime
@@ -217,7 +217,7 @@ type stat struct {
 	st_fstype  [16]int8
 }
 
-// created by cgolang -cdefs and then converted to Go
+// created by cgolang -cdefs and then converted to Golang
 // cgolang -cdefs defs_solaris.golang defs_solaris_amd64.golang
 
 const (

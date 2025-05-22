@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,7 +32,7 @@ func (t *rtype) Key() Type {
 // MapOf(k, e) represents map[int]string.
 //
 // If the key type is not a valid map key type (that is, if it does
-// not implement Go's == operator), MapOf panics.
+// not implement Golang's == operator), MapOf panics.
 func MapOf(key, elem Type) Type {
 	ktyp := key.common()
 	etyp := elem.common()
@@ -142,7 +142,7 @@ var stringType = rtypeOf("")
 // MapIndex returns the value associated with key in the map v.
 // It panics if v's Kind is not [Map].
 // It returns the zero Value if key is not found in the map or if v represents a nil map.
-// As in Go, the key's value must be assignable to the map's key type.
+// As in Golang, the key's value must be assignable to the map's key type.
 func (v Value) MapIndex(key Value) Value {
 	v.mustBe(Map)
 	tt := (*mapType)(unsafe.Pointer(v.typ()))
@@ -269,7 +269,7 @@ func (iter *MapIter) Key() Value {
 
 // SetIterKey assigns to v the key of iter's current map entry.
 // It is equivalent to v.Set(iter.Key()), but it avoids allocating a new Value.
-// As in Go, the key must be assignable to v's type and
+// As in Golang, the key must be assignable to v's type and
 // must not be derived from an unexported field.
 // It panics if [Value.CanSet] returns false.
 func (v Value) SetIterKey(iter *MapIter) {
@@ -313,7 +313,7 @@ func (iter *MapIter) Value() Value {
 
 // SetIterValue assigns to v the value of iter's current map entry.
 // It is equivalent to v.Set(iter.Value()), but it avoids allocating a new Value.
-// As in Go, the value must be assignable to v's type and
+// As in Golang, the value must be assignable to v's type and
 // must not be derived from an unexported field.
 // It panics if [Value.CanSet] returns false.
 func (v Value) SetIterValue(iter *MapIter) {
@@ -402,7 +402,7 @@ func (v Value) MapRange() *MapIter {
 // It panics if v's Kind is not [Map].
 // If elem is the zero Value, SetMapIndex deletes the key from the map.
 // Otherwise if v holds a nil map, SetMapIndex will panic.
-// As in Go, key's elem must be assignable to the map's key type,
+// As in Golang, key's elem must be assignable to the map's key type,
 // and elem's value must be assignable to the map's elem type.
 func (v Value) SetMapIndex(key, elem Value) {
 	v.mustBe(Map)

@@ -1,10 +1,10 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
-// This file contains the implementation of Go channels.
+// This file contains the implementation of Golang channels.
 
 // Invariants:
 //  At least one of c.sendq and c.recvq is empty,
@@ -398,7 +398,7 @@ func sendDirect(t *_type, sg *sudog, src unsafe.Pointer) {
 	dst := sg.elem
 	typeBitsBulkBarrier(t, uintptr(dst), uintptr(src), t.Size_)
 	// No need for cgolang write barrier checks because dst is always
-	// Go memory.
+	// Golang memory.
 	memmove(dst, src, t.Size_)
 }
 
@@ -942,7 +942,7 @@ func racenotify(c *hchan, idx uint, sg *sudog) {
 	// instead of idx itself.  However, in a future version of this function,
 	// we can use idx to better handle the case of elemsize==0.
 	// A future improvement to the detector is to call TSan with c and idx:
-	// this way, Go will continue to not allocating buffer entries for channels
+	// this way, Golang will continue to not allocating buffer entries for channels
 	// of elemsize==0, yet the race detector can be made to handle multiple
 	// sync objects underneath the hood (one sync object per idx)
 	qp := chanbuf(c, idx)

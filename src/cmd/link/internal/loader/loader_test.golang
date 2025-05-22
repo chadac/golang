@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ import (
 )
 
 // dummyAddSym adds the named symbol to the loader as if it had been
-// read from a Go object file. Note that it allocates a global
+// read from a Golang object file. Note that it allocates a global
 // index without creating an associated object reader, so one can't
 // do anything interesting with this symbol (such as look at its
 // data or relocations).

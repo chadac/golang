@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -83,7 +83,7 @@ var OverlayFile string
 
 // overlayJSON is the format for the -overlay file.
 type overlayJSON struct {
-	// Replace maps file names observed by Go tools
+	// Replace maps file names observed by Golang tools
 	// to the actual files that should be used when those are read.
 	// If the actual name is "", the file should appear to be deleted.
 	Replace map[string]string
@@ -420,8 +420,8 @@ func IsDir(path string) (bool, error) {
 	return info.IsDir(), nil
 }
 
-// errNotDir is used to communicate from ReadDir to IsGoDir
-// that the argument is not a directory, so that IsGoDir doesn't
+// errNotDir is used to communicate from ReadDir to IsGolangDir
+// that the argument is not a directory, so that IsGolangDir doesn't
 // return an error.
 var errNotDir = errors.New("not a directory")
 
@@ -585,10 +585,10 @@ func ReadFile(name string) ([]byte, error) {
 	return io.ReadAll(f)
 }
 
-// IsGoDir reports whether the named directory in the virtual file system
-// is a directory containing one or more Go source files.
-func IsGoDir(name string) (bool, error) {
-	Trace("IsGoDir", name)
+// IsGolangDir reports whether the named directory in the virtual file system
+// is a directory containing one or more Golang source files.
+func IsGolangDir(name string) (bool, error) {
+	Trace("IsGolangDir", name)
 	fis, err := ReadDir(name)
 	if os.IsNotExist(err) || errors.Is(err, errNotDir) {
 		return false, nil

@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ import (
 	"unicode/utf8"
 )
 
-// A Doc is a parsed Go doc comment.
+// A Doc is a parsed Golang doc comment.
 type Doc struct {
 	// Content is the sequence of content blocks in the comment.
 	Content []Block
@@ -156,11 +156,11 @@ type Link struct {
 
 func (*Link) text() {}
 
-// A DocLink is a link to documentation for a Go package or symbol.
+// A DocLink is a link to documentation for a Golang package or symbol.
 type DocLink struct {
 	Text []Text // text of link
 
-	// ImportPath, Recv, and Name identify the Go package or symbol
+	// ImportPath, Recv, and Name identify the Golang package or symbol
 	// that is the link target. The potential combinations of
 	// non-empty fields are:
 	//  - ImportPath: a link to another package
@@ -179,7 +179,7 @@ func (*DocLink) text() {}
 // The fields in the struct can be filled in before calling [Parser.Parse]
 // in order to customize the details of the parsing process.
 type Parser struct {
-	// Words is a map of Go identifier words that
+	// Words is a map of Golang identifier words that
 	// should be italicized and potentially linked.
 	// If Words[w] is the empty string, then the word w
 	// is only italicized. Otherwise it is linked, using
@@ -772,7 +772,7 @@ func isList(line string) bool {
 }
 
 // parseLinkedText parses text that is allowed to contain explicit links,
-// such as [math.Sin] or [Go home page], into a slice of Text items.
+// such as [math.Sin] or [Golang home page], into a slice of Text items.
 //
 // A “pkg” is only assumed to be a full import path if it starts with
 // a domain name (a path element with a dot) or is one of the packages
@@ -872,7 +872,7 @@ func (d *parseDoc) docLink(text, before, after string) (link *DocLink, ok bool) 
 	return link, true
 }
 
-// If text is of the form before.Name, where Name is a capitalized Go identifier,
+// If text is of the form before.Name, where Name is a capitalized Golang identifier,
 // then splitDocName returns before, name, true.
 // Otherwise it returns text, "", false.
 func splitDocName(text string) (before, name string, foundDot bool) {
@@ -889,7 +889,7 @@ func splitDocName(text string) (before, name string, foundDot bool) {
 
 // parseText parses s as text and returns the result of appending
 // those parsed Text elements to out.
-// parseText does not handle explicit links like [math.Sin] or [Go home page]:
+// parseText does not handle explicit links like [math.Sin] or [Golang home page]:
 // those are handled by parseLinkedText.
 // If autoLink is true, then parseText recognizes URLs and words from d.Words
 // and converts those to links as appropriate.
@@ -1146,7 +1146,7 @@ func isPath(c byte) bool {
 		(uint64(1)<<(c-64))&(mask>>64)) != 0
 }
 
-// isName reports whether s is a capitalized Go identifier (like Name).
+// isName reports whether s is a capitalized Golang identifier (like Name).
 func isName(s string) bool {
 	t, ok := ident(s)
 	if !ok || t != s {
@@ -1156,7 +1156,7 @@ func isName(s string) bool {
 	return unicode.IsUpper(r)
 }
 
-// ident checks whether s begins with a Go identifier.
+// ident checks whether s begins with a Golang identifier.
 // If so, it returns the identifier, which is a prefix of s, and ok == true.
 // Otherwise it returns "", false.
 // The caller should skip over the first len(id) bytes of s

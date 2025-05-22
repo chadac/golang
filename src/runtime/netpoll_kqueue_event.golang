@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -7,7 +7,7 @@
 package runtime
 
 // Magic number of identifier used for EVFILT_USER.
-// This number had zero Google results when it's created.
+// This number had zero Golangogle results when it's created.
 // That way, people will be directed here when this number
 // get printed somehow and they search for it.
 const kqIdent = 0xee1eb9f4
@@ -67,7 +67,7 @@ func isWakeup(ev *keventt) bool {
 
 func processWakeupEvent(kq int32, isBlocking bool) {
 	if !isBlocking {
-		// Got a wrong thread, relay
+		// Golangt a wrong thread, relay
 		wakeNetpoll(kq)
 	}
 }

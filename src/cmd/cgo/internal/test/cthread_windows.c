@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -49,7 +49,7 @@ golangDummyCallbackThread(void* p)
 }
 
 int
-callGoInCThread(int max)
+callGolangInCThread(int max)
 {
 	uintptr_t thread_id;
 	thread_id = _beginthreadex(0, 0, golangDummyCallbackThread, &max, 0, 0);

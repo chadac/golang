@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -435,7 +435,7 @@ func (check *Checker) validRecv(pos poser, recv *Var) {
 	// as the method."
 	switch T := atyp.(type) {
 	case *Named:
-		if T.obj.pkg != check.pkg || isCGoTypeObj(T.obj) {
+		if T.obj.pkg != check.pkg || isCGolangTypeObj(T.obj) {
 			check.errorf(pos, InvalidRecv, "cannot define new methods on non-local type %s", rtyp)
 			break
 		}
@@ -463,8 +463,8 @@ func (check *Checker) validRecv(pos poser, recv *Var) {
 	}
 }
 
-// isCGoTypeObj reports whether the given type name was created by cgolang.
-func isCGoTypeObj(obj *TypeName) bool {
+// isCGolangTypeObj reports whether the given type name was created by cgolang.
+func isCGolangTypeObj(obj *TypeName) bool {
 	return strings.HasPrefix(obj.name, "_Ctype_") ||
 		strings.HasPrefix(filepath.Base(obj.pos.FileBase().Filename()), "_cgolang_")
 }

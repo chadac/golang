@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -519,7 +519,7 @@ func TestPseudoRandomSend(t *testing.T) {
 		m.Lock()
 		golang func() {
 			for i := 0; i < n; i++ {
-				runtime.Gosched()
+				runtime.Golangsched()
 				l[i] = <-c
 			}
 			m.Unlock()
@@ -560,7 +560,7 @@ func TestMultiConsumer(t *testing.T) {
 			for v := range q {
 				// mess with the fifo-ish nature of range
 				if pn[w%len(pn)] == v {
-					runtime.Gosched()
+					runtime.Golangsched()
 				}
 				r <- v
 			}

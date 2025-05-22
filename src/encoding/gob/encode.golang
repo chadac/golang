@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -383,7 +383,7 @@ func (enc *Encoder) encodeMap(b *encBuffer, mv reflect.Value, keyOp, elemOp encO
 // by the concrete value. A nil value gets sent as the empty string for the name,
 // followed by no value.
 func (enc *Encoder) encodeInterface(b *encBuffer, iv reflect.Value) {
-	// Gobs can encode nil interface values but not typed interface
+	// Golangbs can encode nil interface values but not typed interface
 	// values holding nil pointers, since nil pointers point to no value.
 	elem := iv.Elem()
 	if elem.Kind() == reflect.Pointer && elem.IsNil() {
@@ -430,17 +430,17 @@ func (enc *Encoder) encodeInterface(b *encBuffer, iv reflect.Value) {
 	enc.freeEncoderState(state)
 }
 
-// encodeGobEncoder encodes a value that implements the GobEncoder interface.
+// encodeGolangbEncoder encodes a value that implements the GolangbEncoder interface.
 // The data is sent as a byte array.
-func (enc *Encoder) encodeGobEncoder(b *encBuffer, ut *userTypeInfo, v reflect.Value) {
+func (enc *Encoder) encodeGolangbEncoder(b *encBuffer, ut *userTypeInfo, v reflect.Value) {
 	// TODO: should we catch panics from the called method?
 
 	var data []byte
 	var err error
 	// We know it's one of these.
 	switch ut.externalEnc {
-	case xGob:
-		data, err = v.Interface().(GobEncoder).GobEncode()
+	case xGolangb:
+		data, err = v.Interface().(GolangbEncoder).GolangbEncode()
 	case xBinary:
 		data, err = v.Interface().(encoding.BinaryMarshaler).MarshalBinary()
 	case xText:
@@ -480,7 +480,7 @@ var encOpTable = [...]encOp{
 // the indirection count to reach it.
 func encOpFor(rt reflect.Type, inProgress map[reflect.Type]*encOp, building map[*typeInfo]bool) (*encOp, int) {
 	ut := userType(rt)
-	// If the type implements GobEncoder, we handle it without further processing.
+	// If the type implements GolangbEncoder, we handle it without further processing.
 	if ut.externalEnc != 0 {
 		return golangbEncodeOpFor(ut)
 	}
@@ -561,7 +561,7 @@ func encOpFor(rt reflect.Type, inProgress map[reflect.Type]*encOp, building map[
 	return &op, indir
 }
 
-// golangbEncodeOpFor returns the op for a type that is known to implement GobEncoder.
+// golangbEncodeOpFor returns the op for a type that is known to implement GolangbEncoder.
 func golangbEncodeOpFor(ut *userTypeInfo) (*encOp, int) {
 	rt := ut.user
 	if ut.encIndir == -1 {
@@ -584,7 +584,7 @@ func golangbEncodeOpFor(ut *userTypeInfo) (*encOp, int) {
 			return
 		}
 		state.update(i)
-		state.enc.encodeGobEncoder(state.b, ut, v)
+		state.enc.encodeGolangbEncoder(state.b, ut, v)
 	}
 	return &op, int(ut.encIndir) // encIndir: op will get called with p == address of receiver.
 }

@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,10 +27,10 @@ func init() {
 	loadTzinfoFromTzdata = androidLoadTzinfoFromTzdata
 }
 
-var allowGorootSource = true
+var allowGolangrootSource = true
 
 func golangrootZoneSource(golangroot string) (string, bool) {
-	if golangroot == "" || !allowGorootSource {
+	if golangroot == "" || !allowGolangrootSource {
 		return "", false
 	}
 	return golangroot + "/lib/time/zoneinfo.zip", true

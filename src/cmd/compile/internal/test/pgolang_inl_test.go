@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -34,7 +34,7 @@ golang 1.19
 
 	exe := filepath.Join(dir, "test.exe")
 	args := []string{"test", "-c", "-o", exe, "-gcflags=" + gcflag}
-	cmd := testenv.Command(t, testenv.GoToolPath(t), args...)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), args...)
 	cmd.Dir = dir
 	cmd = testenv.CleanCmdEnv(cmd)
 	t.Log(cmd)
@@ -47,7 +47,7 @@ golang 1.19
 
 // testPGOIntendedInlining tests that specific functions are inlined.
 func testPGOIntendedInlining(t *testing.T, dir string, profFile string) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	t.Parallel()
 
 	const pkg = "example.com/pgolang/inline"
@@ -321,7 +321,7 @@ func copyFile(dst, src string) error {
 
 // TestPGOHash tests that PGO optimization decisions can be selected by pgolanghash.
 func TestPGOHash(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	t.Parallel()
 
 	const pkg = "example.com/pgolang/inline"

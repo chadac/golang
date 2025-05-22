@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,7 +26,7 @@ const cSymbol = "BadSymbol" + magicInput + "Name"
 const cDefSource = "int " + cSymbol + " = 1;"
 const cRefSource = "extern int " + cSymbol + "; int F() { return " + cSymbol + "; }"
 
-// golangSource is the source code for the trivial Go file we use.
+// golangSource is the source code for the trivial Golang file we use.
 // We will replace TMPDIR with the temporary directory name.
 const golangSource = `
 package main
@@ -41,7 +41,7 @@ func main() {
 `
 
 func TestBadSymbol(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 
 	dir := t.TempDir()
@@ -100,7 +100,7 @@ func TestBadSymbol(t *testing.T) {
 	// introducing a symbol whose name looks like a cgolang command.
 	// The cgolang tool will use that name when it generates the
 	// _cgolang_import.golang file, thus smuggling a magic //golang:cgolang_ldflag
-	// pragma into a Go file. We used to not check the pragmas in
+	// pragma into a Golang file. We used to not check the pragmas in
 	// _cgolang_import.golang.
 
 	rewrite := func(from, to string) {
@@ -136,7 +136,7 @@ func TestBadSymbol(t *testing.T) {
 	makeFile(golangdir, "golang.mod", "module badsym")
 
 	// Try to build our little package.
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-ldflags=-v")
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-ldflags=-v")
 	cmd.Dir = golangdir
 	output, err := cmd.CombinedOutput()
 

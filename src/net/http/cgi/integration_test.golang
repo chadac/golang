@@ -1,8 +1,8 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Tests a Go CGI program running under a Go CGI host process.
+// Tests a Golang CGI program running under a Golang CGI host process.
 // Further, the two programs are the same binary, just checking
 // their environment to figure out what mode to run in.
 
@@ -202,6 +202,6 @@ func want500Test(t *testing.T, path string) {
 	}
 	replay := runCgiTest(t, h, "GET "+path+" HTTP/1.0\nHost: example.com\n\n", expectedMap)
 	if replay.Code != 500 {
-		t.Errorf("Got code %d; want 500", replay.Code)
+		t.Errorf("Golangt code %d; want 500", replay.Code)
 	}
 }

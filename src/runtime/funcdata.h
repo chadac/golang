@@ -1,9 +1,9 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file defines the IDs for PCDATA and FUNCDATA instructions
-// in Go binaries. It is included by assembly sources, so it must
+// in Golang binaries. It is included by assembly sources, so it must
 // be written using #defines.
 //
 // These must agree with internal/abi/symtab.golang.
@@ -31,7 +31,7 @@
 // to other functions that might be preempted or grow the stack.
 // NOSPLIT functions that make no calls do not need to use these macros.
 
-// GO_ARGS indicates that the Go prototype for this assembly function
+// GO_ARGS indicates that the Golang prototype for this assembly function
 // defines the pointer map for the function's arguments.
 // GO_ARGS should be the first instruction in a function that uses it.
 // It can be omitted if there are no arguments at all.

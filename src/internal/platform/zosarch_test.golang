@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,7 +21,7 @@ var flagFix = flag.Bool("fix", false, "if true, fix out-of-date generated files"
 // TestGenerated verifies that zosarch.golang is up to date,
 // or regenerates it if the -fix flag is set.
 func TestGenerated(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 
 	// Here we use 'golang run cmd/dist' instead of 'golang tool dist' in case the
 	// installed cmd/dist is stale or missing. We don't want to miss a

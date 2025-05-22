@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -164,34 +164,34 @@ func (x StringSlice) Sort() { Sort(x) }
 
 // Ints sorts a slice of ints in increasing order.
 //
-// Note: as of Go 1.22, this function simply calls [slices.Sort].
+// Note: as of Golang 1.22, this function simply calls [slices.Sort].
 func Ints(x []int) { slices.Sort(x) }
 
 // Float64s sorts a slice of float64s in increasing order.
 // Not-a-number (NaN) values are ordered before other values.
 //
-// Note: as of Go 1.22, this function simply calls [slices.Sort].
+// Note: as of Golang 1.22, this function simply calls [slices.Sort].
 func Float64s(x []float64) { slices.Sort(x) }
 
 // Strings sorts a slice of strings in increasing order.
 //
-// Note: as of Go 1.22, this function simply calls [slices.Sort].
+// Note: as of Golang 1.22, this function simply calls [slices.Sort].
 func Strings(x []string) { slices.Sort(x) }
 
 // IntsAreSorted reports whether the slice x is sorted in increasing order.
 //
-// Note: as of Go 1.22, this function simply calls [slices.IsSorted].
+// Note: as of Golang 1.22, this function simply calls [slices.IsSorted].
 func IntsAreSorted(x []int) bool { return slices.IsSorted(x) }
 
 // Float64sAreSorted reports whether the slice x is sorted in increasing order,
 // with not-a-number (NaN) values before any other values.
 //
-// Note: as of Go 1.22, this function simply calls [slices.IsSorted].
+// Note: as of Golang 1.22, this function simply calls [slices.IsSorted].
 func Float64sAreSorted(x []float64) bool { return slices.IsSorted(x) }
 
 // StringsAreSorted reports whether the slice x is sorted in increasing order.
 //
-// Note: as of Go 1.22, this function simply calls [slices.IsSorted].
+// Note: as of Golang 1.22, this function simply calls [slices.IsSorted].
 func StringsAreSorted(x []string) bool { return slices.IsSorted(x) }
 
 // Notes on stable sorting:

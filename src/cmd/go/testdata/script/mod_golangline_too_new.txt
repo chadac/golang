@@ -1,4 +1,4 @@
-# Go should refuse to build code that is too new according to golang.mod.
+# Golang should refuse to build code that is too new according to golang.mod.
 
 # golang.mod too new
 env GOTOOLCHAIN=local

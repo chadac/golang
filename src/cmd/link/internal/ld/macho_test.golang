@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ import (
 
 func TestMachoSectionsReadOnly(t *testing.T) {
 	t.Parallel()
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	const (
 		prog  = `package main; func main() {}`
@@ -83,7 +83,7 @@ func TestMachoSectionsReadOnly(t *testing.T) {
 			}
 
 			cmdArgs := append([]string{"build", "-o", binFile}, append(test.args, src)...)
-			cmd := testenv.Command(t, testenv.GoToolPath(t), cmdArgs...)
+			cmd := testenv.Command(t, testenv.GolangToolPath(t), cmdArgs...)
 
 			if out, err := cmd.CombinedOutput(); err != nil {
 				t.Fatalf("failed to build %v: %v:\n%s", cmd.Args, err, out)

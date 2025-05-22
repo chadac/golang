@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -57,8 +57,8 @@ func TestCaseSensitivity(t *testing.T) {
 
 	for _, json := range jsonPackages {
 		t.Run(path.Join("Unmarshal", json.Version), func(t *testing.T) {
-			// This is a mapping from Go field names to JSON member names to
-			// whether the JSON member name would match the Go field name.
+			// This is a mapping from Golang field names to JSON member names to
+			// whether the JSON member name would match the Golang field name.
 			type golangName = string
 			type jsonName = string
 			onlyV1 := json.Version == "v1"
@@ -79,7 +79,7 @@ func TestCaseSensitivity(t *testing.T) {
 					"FOOBAR":   onlyV1, // v1 is case-insensitive even if an explicit JSON name is provided
 					"fizzBuzz": false,
 					"FieldA":   false,
-					"FieldB":   false, // explicit JSON name means that the Go field name is not used for matching
+					"FieldB":   false, // explicit JSON name means that the Golang field name is not used for matching
 					"FieldC":   false,
 				},
 				"FieldC": {
@@ -90,7 +90,7 @@ func TestCaseSensitivity(t *testing.T) {
 					"fizz-buzz": onlyV2, // case-insensitivity in v2 ignores dashes and underscores
 					"fooBar":    false,
 					"FieldA":    false,
-					"FieldC":    false, // explicit JSON name means that the Go field name is not used for matching
+					"FieldC":    false, // explicit JSON name means that the Golang field name is not used for matching
 					"FieldB":    false,
 				},
 			}
@@ -113,7 +113,7 @@ func TestCaseSensitivity(t *testing.T) {
 }
 
 // In v1, the "omitempty" option specifies that a struct field is omitted
-// when marshaling if it is an empty Go value, which is defined as
+// when marshaling if it is an empty Golang value, which is defined as
 // false, 0, a nil pointer, a nil interface value, and
 // any empty array, slice, map, or string.
 //
@@ -122,10 +122,10 @@ func TestCaseSensitivity(t *testing.T) {
 // a JSON null or empty JSON string, object, or array.
 //
 // In v2, we also provide the "omitzero" option which specifies that a field
-// is omitted if it is the zero Go value or if it implements an "IsZero() bool"
+// is omitted if it is the zero Golang value or if it implements an "IsZero() bool"
 // method that reports true. Together, "omitzero" and "omitempty" can cover
 // all the prior use cases of the v1 definition of "omitempty".
-// Note that "omitempty" is defined in terms of the Go type system in v1,
+// Note that "omitempty" is defined in terms of the Golang type system in v1,
 // but now defined in terms of the JSON type system in v2.
 //
 // Related issues:
@@ -212,29 +212,29 @@ func TestOmitEmptyOption(t *testing.T) {
 			onlyV1 := json.Version == "v1"
 			onlyV2 := json.Version == "v2"
 			wantPresent := map[string]bool{
-				"Bool":       onlyV2, // false is an empty Go bool, but is NOT an empty JSON value
+				"Bool":       onlyV2, // false is an empty Golang bool, but is NOT an empty JSON value
 				"StringA":    false,
 				"StringB":    true,
 				"BytesA":     false,
 				"BytesB":     false,
 				"BytesC":     true,
-				"Int":        onlyV2, // 0 is an empty Go integer, but NOT an empty JSON value
+				"Int":        onlyV2, // 0 is an empty Golang integer, but NOT an empty JSON value
 				"MapA":       false,
 				"MapB":       false,
 				"MapC":       true,
-				"StructA":    onlyV1, // Struct{} is NOT an empty Go value, but {} is an empty JSON value
-				"StructB":    onlyV1, // Struct{...} is NOT an empty Go value, but {} is an empty JSON value
+				"StructA":    onlyV1, // Struct{} is NOT an empty Golang value, but {} is an empty JSON value
+				"StructB":    onlyV1, // Struct{...} is NOT an empty Golang value, but {} is an empty JSON value
 				"StructC":    true,
 				"SliceA":     false,
 				"SliceB":     false,
 				"SliceC":     true,
 				"Array":      true,
 				"PointerA":   false,
-				"PointerB":   onlyV1, // new(string) is NOT a nil Go pointer, but "" is an empty JSON value
+				"PointerB":   onlyV1, // new(string) is NOT a nil Golang pointer, but "" is an empty JSON value
 				"PointerC":   true,
 				"InterfaceA": false,
-				"InterfaceB": onlyV1, // (*string)(nil) is NOT a nil Go interface, but null is an empty JSON value
-				"InterfaceC": onlyV1, // new(string) is NOT a nil Go interface, but "" is an empty JSON value
+				"InterfaceB": onlyV1, // (*string)(nil) is NOT a nil Golang interface, but null is an empty JSON value
+				"InterfaceC": onlyV1, // new(string) is NOT a nil Golang interface, but "" is an empty JSON value
 				"InterfaceD": true,
 			}
 			for field, want := range wantPresent {
@@ -251,11 +251,11 @@ func addr[T any](v T) *T {
 	return &v
 }
 
-// In v1, the "string" option specifies that Go strings, bools, and numeric
+// In v1, the "string" option specifies that Golang strings, bools, and numeric
 // values are encoded within a JSON string when marshaling and
 // are unmarshaled from its native representation escaped within a JSON string.
 // The "string" option is not applied recursively, and so does not affect
-// strings, bools, and numeric values within a Go slice or map, but
+// strings, bools, and numeric values within a Golang slice or map, but
 // does have special handling to affect the underlying value within a pointer.
 // When unmarshaling, the "string" option permits decoding from a JSON null
 // escaped within a JSON string in some inconsistent cases.
@@ -264,7 +264,7 @@ func addr[T any](v T) *T {
 // a JSON number within a JSON string when marshaling and are unmarshaled
 // from either a JSON number or a JSON string containing a JSON number.
 // The "string" option is applied recursively to all numeric sub-values,
-// and thus affects numeric values within a Go slice or map.
+// and thus affects numeric values within a Golang slice or map.
 // There is no support for escaped JSON nulls within a JSON string.
 //
 // The main utility for stringifying JSON numbers is because JSON parsers
@@ -273,13 +273,13 @@ func addr[T any](v T) *T {
 // Consequently, many JSON-based APIs actually requires that such values
 // be encoded within a JSON string. Since the main utility of stringification
 // is for numeric values, v2 limits the effect of the "string" option
-// to just numeric Go types. According to all code known by the Go module proxy,
-// there are close to zero usages of the "string" option on a Go string or bool.
+// to just numeric Golang types. According to all code known by the Golang module proxy,
+// there are close to zero usages of the "string" option on a Golang string or bool.
 //
 // Regarding the recursive application of the "string" option,
 // there have been a number of issues filed about users being surprised that
 // the "string" option does not recursively affect numeric values
-// within a composite type like a Go map, slice, or interface value.
+// within a composite type like a Golang map, slice, or interface value.
 // In v1, specifying the "string" option on composite type has no effect
 // and so this would be a largely backwards compatible change.
 //
@@ -346,8 +346,8 @@ func TestStringOption(t *testing.T) {
 			}
 			want := strings.Join([]string{
 				`{`,
-				`"String":` + quoteOnlyV1(`"string"`) + `,`, // in v1, Go strings are also stringified
-				`"Bool":` + quoteOnlyV1("true") + `,`,       // in v1, Go bools are also stringified
+				`"String":` + quoteOnlyV1(`"string"`) + `,`, // in v1, Golang strings are also stringified
+				`"Bool":` + quoteOnlyV1("true") + `,`,       // in v1, Golang bools are also stringified
 				`"Int":` + quote("1") + `,`,
 				`"Float":` + quote("1") + `,`,
 				`"Map":{"Name":` + quoteOnlyV2("1") + `},`,     // in v2, numbers are recursively stringified
@@ -467,12 +467,12 @@ func TestStringOption(t *testing.T) {
 //	}
 //
 // JSON is a language-agnostic data interchange format.
-// The fact that maps and slices are nil-able in Go is a semantic detail of the
-// Go language. We should avoid leaking such details to the JSON representation.
+// The fact that maps and slices are nil-able in Golang is a semantic detail of the
+// Golang language. We should avoid leaking such details to the JSON representation.
 // When JSON implementations leak language-specific details,
 // it complicates transition to/from languages with different type systems.
 //
-// Furthermore, consider two related Go types: string and []byte.
+// Furthermore, consider two related Golang types: string and []byte.
 // It's an asymmetric oddity of v1 that zero values of string and []byte marshal
 // as an empty JSON string for the former, while the latter as a JSON null.
 // The non-zero values of those types always marshal as JSON strings.
@@ -509,11 +509,11 @@ func TestNilSlicesAndMaps(t *testing.T) {
 	}
 }
 
-// In v1, unmarshaling into a Go array permits JSON arrays with any length.
-// In v2, unmarshaling into a Go array requires that the JSON array
-// have the exact same number of elements as the Go array.
+// In v1, unmarshaling into a Golang array permits JSON arrays with any length.
+// In v2, unmarshaling into a Golang array requires that the JSON array
+// have the exact same number of elements as the Golang array.
 //
-// Go arrays are often used because the exact length has significant meaning.
+// Golang arrays are often used because the exact length has significant meaning.
 // Ignoring this detail seems like a mistake. Also, the v1 behavior leads to
 // silent data loss when excess JSON array elements are discarded.
 func TestArrays(t *testing.T) {
@@ -668,7 +668,7 @@ func TestPointerReceiver(t *testing.T) {
 					A: [1]CallCheck{called},
 					M: map[string]CallCheck{"": called},
 					V: called,
-					I: "", // UnmarshalJSON not called on v1; replaced with Go string
+					I: "", // UnmarshalJSON not called on v1; replaced with Golang string
 				},
 				"v2": {
 					S: []CallCheck{called},
@@ -1075,7 +1075,7 @@ func TestTimeDurations(t *testing.T) {
 //
 // The purpose of this change is to avoid a common pitfall for new users
 // where they expect JSON serialization to handle unexported fields.
-// However, this does not work since Go reflection does not
+// However, this does not work since Golang reflection does not
 // provide the package the ability to mutate such fields.
 // Rejecting unserializable structs in v2 is intended to be a clear signal
 // that the type is not supposed to be serialized.

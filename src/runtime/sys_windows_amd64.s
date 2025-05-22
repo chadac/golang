@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -104,7 +104,7 @@ TEXT runtime·getlasterror(SB),NOSPLIT,$0
 // DX is the kind of sigtramp function.
 // Return value of sigtrampgolang is stored in AX.
 TEXT sigtramp<>(SB),NOSPLIT,$0-0
-	// Switch from the host ABI to the Go ABI.
+	// Switch from the host ABI to the Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Set up ABIInternal environment: cleared X15 and R14.
@@ -116,7 +116,7 @@ TEXT sigtramp<>(SB),NOSPLIT,$0-0
 	get_tls(AX)
 	CMPQ	AX, $0
 	JE	2(PC)
-	// Exception from Go thread, set R14.
+	// Exception from Golang thread, set R14.
 	MOVQ	g(AX), R14
 
 	// Reserve space for spill slots.
@@ -161,18 +161,18 @@ TEXT runtime·sehtramp(SB),NOSPLIT,$40-0
 	// DX: ULONG64 EstablisherFrame
 	// R8: PCONTEXT ContextRecord
 	// R9: PDISPATCHER_CONTEXT DispatcherContext
-	// Switch from the host ABI to the Go ABI.
+	// Switch from the host ABI to the Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	get_tls(AX)
 	CMPQ	AX, $0
 	JNE	2(PC)
 	// This shouldn't happen, sehtramp is only attached to functions
-	// called from Go, and exception handlers are only called from
+	// called from Golang, and exception handlers are only called from
 	// the thread that threw the exception.
 	INT	$3
 
-	// Exception from Go thread, set R14.
+	// Exception from Golang thread, set R14.
 	MOVQ	g(AX), R14
 
 	ADJSP	$40
@@ -214,7 +214,7 @@ TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 	DIVL	CX
 	SUBQ	$1, AX	// subtract 1 because return PC is to the next slot
 
-	// Switch from the host ABI to the Go ABI.
+	// Switch from the host ABI to the Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Create a struct callbackArgs on our stack to be passed as
@@ -241,7 +241,7 @@ TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 
 // uint32 tstart_stdcall(M *newm);
 TEXT runtime·tstart_stdcall(SB),NOSPLIT|NOFRAME,$0
-	// Switch from the host ABI to the Go ABI.
+	// Switch from the host ABI to the Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// CX contains first arg newm

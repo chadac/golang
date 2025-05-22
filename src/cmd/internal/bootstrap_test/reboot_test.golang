@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,10 +28,10 @@ func TestRepeatBootstrap(t *testing.T) {
 		t.Skipf("skipping because the toolchain does not have to bootstrap on GOOS=%s", runtime.GOOS)
 	}
 
-	realGoroot := testenv.GOROOT(t)
+	realGolangroot := testenv.GOROOT(t)
 
 	// To ensure that bootstrapping doesn't unexpectedly depend
-	// on the Go repo's git metadata, add a fake (unreadable) git
+	// on the Golang repo's git metadata, add a fake (unreadable) git
 	// directory above the simulated GOROOT.
 	// This mimics the configuration one much have when
 	// building from distro-packaged source code
@@ -47,12 +47,12 @@ func TestRepeatBootstrap(t *testing.T) {
 	golangroot := filepath.Join(parent, "golangroot")
 
 	golangrootSrc := filepath.Join(golangroot, "src")
-	if err := overlayDir(golangrootSrc, filepath.Join(realGoroot, "src")); err != nil {
+	if err := overlayDir(golangrootSrc, filepath.Join(realGolangroot, "src")); err != nil {
 		t.Fatal(err)
 	}
 
 	golangrootLib := filepath.Join(golangroot, "lib")
-	if err := overlayDir(golangrootLib, filepath.Join(realGoroot, "lib")); err != nil {
+	if err := overlayDir(golangrootLib, filepath.Join(realGolangroot, "lib")); err != nil {
 		t.Fatal(err)
 	}
 
@@ -75,7 +75,7 @@ func TestRepeatBootstrap(t *testing.T) {
 	var stdout strings.Builder
 	cmd := exec.Command(filepath.Join(golangroot, "src", makeScript))
 	cmd.Dir = golangrootSrc
-	cmd.Env = append(cmd.Environ(), "GOROOT=", "GOROOT_BOOTSTRAP="+realGoroot)
+	cmd.Env = append(cmd.Environ(), "GOROOT=", "GOROOT_BOOTSTRAP="+realGolangroot)
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = io.MultiWriter(os.Stdout, &stdout)
 	if err := cmd.Run(); err != nil {

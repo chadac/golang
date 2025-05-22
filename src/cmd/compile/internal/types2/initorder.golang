@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -58,7 +58,7 @@ func (check *Checker) initOrder() {
 	// Determine initialization order by removing the highest priority node
 	// (the one with the fewest dependencies) and its edges from the graph,
 	// repeatedly, until there are no nodes left.
-	// In a valid Go program, those nodes always have zero dependencies (after
+	// In a valid Golang program, those nodes always have zero dependencies (after
 	// removing all incoming dependencies), otherwise there are initialization
 	// cycles.
 	emitted := make(map[*declInfo]bool)

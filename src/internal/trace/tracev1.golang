@@ -1,23 +1,23 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This file implements conversion from v1 (Go 1.11–Go 1.21) traces to the v2
-// format (Go 1.22+).
+// This file implements conversion from v1 (Golang 1.11–Golang 1.21) traces to the v2
+// format (Golang 1.22+).
 //
 // Most events have direct equivalents in v2, at worst requiring arguments to
-// be reordered. Some events, such as GoWaiting need to look ahead for follow-up
-// events to determine the correct translation. GoSyscall, which is an
+// be reordered. Some events, such as GolangWaiting need to look ahead for follow-up
+// events to determine the correct translation. GolangSyscall, which is an
 // instantaneous event, gets turned into a 1 ns long pair of
-// GoSyscallStart+GoSyscallEnd, unless we observe a GoSysBlock, in which case we
-// emit a GoSyscallStart+GoSyscallEndBlocked pair with the correct duration
-// (i.e. starting at the original GoSyscall).
+// GolangSyscallStart+GolangSyscallEnd, unless we observe a GolangSysBlock, in which case we
+// emit a GolangSyscallStart+GolangSyscallEndBlocked pair with the correct duration
+// (i.e. starting at the original GolangSyscall).
 //
 // The resulting trace treats the trace v1 as a single, large generation,
 // sharing a single evTable for all events.
 //
 // We use a new (compared to what was used for 'golang tool trace' in earlier
-// versions of Go) parser for v1 traces that is optimized for speed, low memory
+// versions of Golang) parser for v1 traces that is optimized for speed, low memory
 // usage, and minimal GC pressure. It allocates events in batches so that even
 // though we have to load the entire trace into memory, the conversion process
 // shouldn't result in a doubling of memory usage, even if all converted events
@@ -39,7 +39,7 @@ type traceV1Converter struct {
 	trace          tracev1.Trace
 	evt            *evTable
 	preInit        bool
-	createdPreInit map[GoID]struct{}
+	createdPreInit map[GolangID]struct{}
 	events         tracev1.Events
 	extra          []Event
 	extraArr       [3]Event
@@ -57,7 +57,7 @@ const (
 	// Block reasons
 	sForever = iota
 	sPreempted
-	sGosched
+	sGolangsched
 	sSleep
 	sChanSend
 	sChanRecv
@@ -73,9 +73,9 @@ const (
 	sSTWGCMarkTermination
 	sSTWGCSweepTermination
 	sSTWWriteHeapDump
-	sSTWGoroutineProfile
-	sSTWGoroutineProfileCleanup
-	sSTWAllGoroutinesStackTrace
+	sSTWGolangroutineProfile
+	sSTWGolangroutineProfileCleanup
+	sSTWAllGolangroutinesStackTrace
 	sSTWReadMemStats
 	sSTWAllThreadsSyscall
 	sSTWGOMAXPROCS
@@ -93,7 +93,7 @@ const (
 func (it *traceV1Converter) init(pr tracev1.Trace) error {
 	it.trace = pr
 	it.preInit = true
-	it.createdPreInit = make(map[GoID]struct{})
+	it.createdPreInit = make(map[GolangID]struct{})
 	it.evt = &evTable{pcs: make(map[uint64]frame)}
 	it.events = pr.Events
 	it.extra = it.extraArr[:0]
@@ -145,7 +145,7 @@ func (it *traceV1Converter) init(pr tracev1.Trace) error {
 	}
 	addBuiltin(sForever, "forever")
 	addBuiltin(sPreempted, "preempted")
-	addBuiltin(sGosched, "runtime.Gosched")
+	addBuiltin(sGolangsched, "runtime.Golangsched")
 	addBuiltin(sSleep, "sleep")
 	addBuiltin(sChanSend, "chan send")
 	addBuiltin(sChanRecv, "chan receive")
@@ -159,9 +159,9 @@ func (it *traceV1Converter) init(pr tracev1.Trace) error {
 	addBuiltin(sSTWGCMarkTermination, "GC mark termination")
 	addBuiltin(sSTWGCSweepTermination, "GC sweep termination")
 	addBuiltin(sSTWWriteHeapDump, "write heap dump")
-	addBuiltin(sSTWGoroutineProfile, "golangroutine profile")
-	addBuiltin(sSTWGoroutineProfileCleanup, "golangroutine profile cleanup")
-	addBuiltin(sSTWAllGoroutinesStackTrace, "all golangroutine stack trace")
+	addBuiltin(sSTWGolangroutineProfile, "golangroutine profile")
+	addBuiltin(sSTWGolangroutineProfileCleanup, "golangroutine profile cleanup")
+	addBuiltin(sSTWAllGolangroutinesStackTrace, "all golangroutine stack trace")
 	addBuiltin(sSTWReadMemStats, "read mem stats")
 	addBuiltin(sSTWAllThreadsSyscall, "AllThreadsSyscall")
 	addBuiltin(sSTWGOMAXPROCS, "GOMAXPROCS")
@@ -212,7 +212,7 @@ func (it *traceV1Converter) next() (Event, error) {
 			it.extra = it.extraArr[:0]
 		}
 		// Two events aren't allowed to fall on the same timestamp in the new API,
-		// but this may happen when we produce EvGoStatus events
+		// but this may happen when we produce EvGolangStatus events
 		if ev.base.time <= it.lastTs {
 			ev.base.time = it.lastTs + 1
 		}
@@ -234,7 +234,7 @@ func (it *traceV1Converter) next() (Event, error) {
 	}
 
 	// Two events aren't allowed to fall on the same timestamp in the new API,
-	// but this may happen when we produce EvGoStatus events
+	// but this may happen when we produce EvGolangStatus events
 	if ev.base.time <= it.lastTs {
 		ev.base.time = it.lastTs + 1
 	}
@@ -257,28 +257,28 @@ func (it *traceV1Converter) convertEvent(ev *tracev1.Event) (OUT Event, ERR erro
 	copy(mappedArgs[:], ev.Args[:])
 
 	switch ev.Type {
-	case tracev1.EvGomaxprocs:
+	case tracev1.EvGolangmaxprocs:
 		mappedType = tracev2.EvProcsChange
 		if it.preInit {
-			// The first EvGomaxprocs signals the end of trace initialization. At this point we've seen
+			// The first EvGolangmaxprocs signals the end of trace initialization. At this point we've seen
 			// all golangroutines that already existed at trace begin.
 			it.preInit = false
 			for gid := range it.createdPreInit {
 				// These are golangroutines that already existed when tracing started but for which we
-				// received neither GoWaiting, GoInSyscall, or GoStart. These are golangroutines that are in
+				// received neither GolangWaiting, GolangInSyscall, or GolangStart. These are golangroutines that are in
 				// the states _Gidle or _Grunnable.
 				it.extra = append(it.extra, Event{
 					ctx: schedCtx{
-						// G: GoID(gid),
-						G: NoGoroutine,
+						// G: GolangID(gid),
+						G: NoGolangroutine,
 						P: NoProc,
 						M: NoThread,
 					},
 					table: it.evt,
 					base: baseEvent{
-						typ:  tracev2.EvGoStatus,
+						typ:  tracev2.EvGolangStatus,
 						time: Time(ev.Ts),
-						args: timedEventArgs{uint64(gid), ^uint64(0), uint64(tracev2.GoRunnable)},
+						args: timedEventArgs{uint64(gid), ^uint64(0), uint64(tracev2.GolangRunnable)},
 					},
 				})
 			}
@@ -320,88 +320,88 @@ func (it *traceV1Converter) convertEvent(ev *tracev1.Event) (OUT Event, ERR erro
 		mappedType = tracev2.EvGCSweepBegin
 	case tracev1.EvGCSweepDone:
 		mappedType = tracev2.EvGCSweepEnd
-	case tracev1.EvGoCreate:
+	case tracev1.EvGolangCreate:
 		if it.preInit {
-			it.createdPreInit[GoID(ev.Args[0])] = struct{}{}
+			it.createdPreInit[GolangID(ev.Args[0])] = struct{}{}
 			return Event{}, errSkip
 		}
-		mappedType = tracev2.EvGoCreate
-	case tracev1.EvGoStart:
+		mappedType = tracev2.EvGolangCreate
+	case tracev1.EvGolangStart:
 		if it.preInit {
-			mappedType = tracev2.EvGoStatus
-			mappedArgs = timedEventArgs{ev.Args[0], ^uint64(0), uint64(tracev2.GoRunning)}
-			delete(it.createdPreInit, GoID(ev.Args[0]))
+			mappedType = tracev2.EvGolangStatus
+			mappedArgs = timedEventArgs{ev.Args[0], ^uint64(0), uint64(tracev2.GolangRunning)}
+			delete(it.createdPreInit, GolangID(ev.Args[0]))
 		} else {
-			mappedType = tracev2.EvGoStart
+			mappedType = tracev2.EvGolangStart
 		}
-	case tracev1.EvGoStartLabel:
+	case tracev1.EvGolangStartLabel:
 		it.extra = []Event{{
 			ctx: schedCtx{
-				G: GoID(ev.G),
+				G: GolangID(ev.G),
 				P: ProcID(ev.P),
 				M: it.procMs[ProcID(ev.P)],
 			},
 			table: it.evt,
 			base: baseEvent{
-				typ:  tracev2.EvGoLabel,
+				typ:  tracev2.EvGolangLabel,
 				time: Time(ev.Ts),
 				args: timedEventArgs{ev.Args[2]},
 			},
 		}}
 		return Event{
 			ctx: schedCtx{
-				G: GoID(ev.G),
+				G: GolangID(ev.G),
 				P: ProcID(ev.P),
 				M: it.procMs[ProcID(ev.P)],
 			},
 			table: it.evt,
 			base: baseEvent{
-				typ:  tracev2.EvGoStart,
+				typ:  tracev2.EvGolangStart,
 				time: Time(ev.Ts),
 				args: mappedArgs,
 			},
 		}, nil
-	case tracev1.EvGoEnd:
-		mappedType = tracev2.EvGoDestroy
-	case tracev1.EvGoStop:
-		mappedType = tracev2.EvGoBlock
+	case tracev1.EvGolangEnd:
+		mappedType = tracev2.EvGolangDestroy
+	case tracev1.EvGolangStop:
+		mappedType = tracev2.EvGolangBlock
 		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sForever]), uint64(ev.StkID)}
-	case tracev1.EvGoSched:
-		mappedType = tracev2.EvGoStop
-		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sGosched]), uint64(ev.StkID)}
-	case tracev1.EvGoPreempt:
-		mappedType = tracev2.EvGoStop
+	case tracev1.EvGolangSched:
+		mappedType = tracev2.EvGolangStop
+		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sGolangsched]), uint64(ev.StkID)}
+	case tracev1.EvGolangPreempt:
+		mappedType = tracev2.EvGolangStop
 		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sPreempted]), uint64(ev.StkID)}
-	case tracev1.EvGoSleep:
-		mappedType = tracev2.EvGoBlock
+	case tracev1.EvGolangSleep:
+		mappedType = tracev2.EvGolangBlock
 		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sSleep]), uint64(ev.StkID)}
-	case tracev1.EvGoBlock:
-		mappedType = tracev2.EvGoBlock
+	case tracev1.EvGolangBlock:
+		mappedType = tracev2.EvGolangBlock
 		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sEmpty]), uint64(ev.StkID)}
-	case tracev1.EvGoUnblock:
-		mappedType = tracev2.EvGoUnblock
-	case tracev1.EvGoBlockSend:
-		mappedType = tracev2.EvGoBlock
+	case tracev1.EvGolangUnblock:
+		mappedType = tracev2.EvGolangUnblock
+	case tracev1.EvGolangBlockSend:
+		mappedType = tracev2.EvGolangBlock
 		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sChanSend]), uint64(ev.StkID)}
-	case tracev1.EvGoBlockRecv:
-		mappedType = tracev2.EvGoBlock
+	case tracev1.EvGolangBlockRecv:
+		mappedType = tracev2.EvGolangBlock
 		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sChanRecv]), uint64(ev.StkID)}
-	case tracev1.EvGoBlockSelect:
-		mappedType = tracev2.EvGoBlock
+	case tracev1.EvGolangBlockSelect:
+		mappedType = tracev2.EvGolangBlock
 		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sSelect]), uint64(ev.StkID)}
-	case tracev1.EvGoBlockSync:
-		mappedType = tracev2.EvGoBlock
+	case tracev1.EvGolangBlockSync:
+		mappedType = tracev2.EvGolangBlock
 		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sSync]), uint64(ev.StkID)}
-	case tracev1.EvGoBlockCond:
-		mappedType = tracev2.EvGoBlock
+	case tracev1.EvGolangBlockCond:
+		mappedType = tracev2.EvGolangBlock
 		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sSyncCond]), uint64(ev.StkID)}
-	case tracev1.EvGoBlockNet:
-		mappedType = tracev2.EvGoBlock
+	case tracev1.EvGolangBlockNet:
+		mappedType = tracev2.EvGolangBlock
 		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sNetwork]), uint64(ev.StkID)}
-	case tracev1.EvGoBlockGC:
-		mappedType = tracev2.EvGoBlock
+	case tracev1.EvGolangBlockGC:
+		mappedType = tracev2.EvGolangBlock
 		mappedArgs = timedEventArgs{uint64(it.builtinToStringID[sMarkAssistWait]), uint64(ev.StkID)}
-	case tracev1.EvGoSysCall:
+	case tracev1.EvGolangSysCall:
 		// Look for the next event for the same G to determine if the syscall
 		// blocked.
 		blocked := false
@@ -409,16 +409,16 @@ func (it *traceV1Converter) convertEvent(ev *tracev1.Event) (OUT Event, ERR erro
 			if nev.G != ev.G {
 				return true
 			}
-			// After an EvGoSysCall, the next event on the same G will either be
-			// EvGoSysBlock to denote a blocking syscall, or some other event
+			// After an EvGolangSysCall, the next event on the same G will either be
+			// EvGolangSysBlock to denote a blocking syscall, or some other event
 			// (or the end of the trace) if the syscall didn't block.
-			if nev.Type == tracev1.EvGoSysBlock {
+			if nev.Type == tracev1.EvGolangSysBlock {
 				blocked = true
 			}
 			return false
 		})
 		if blocked {
-			mappedType = tracev2.EvGoSyscallBegin
+			mappedType = tracev2.EvGolangSyscallBegin
 			mappedArgs = timedEventArgs{1: uint64(ev.StkID)}
 		} else {
 			// Convert the old instantaneous syscall event to a pair of syscall
@@ -426,13 +426,13 @@ func (it *traceV1Converter) convertEvent(ev *tracev1.Event) (OUT Event, ERR erro
 			// 1ns.
 			out1 := Event{
 				ctx: schedCtx{
-					G: GoID(ev.G),
+					G: GolangID(ev.G),
 					P: ProcID(ev.P),
 					M: it.procMs[ProcID(ev.P)],
 				},
 				table: it.evt,
 				base: baseEvent{
-					typ:  tracev2.EvGoSyscallBegin,
+					typ:  tracev2.EvGolangSyscallBegin,
 					time: Time(ev.Ts),
 					args: timedEventArgs{1: uint64(ev.StkID)},
 				},
@@ -442,7 +442,7 @@ func (it *traceV1Converter) convertEvent(ev *tracev1.Event) (OUT Event, ERR erro
 				ctx:   out1.ctx,
 				table: it.evt,
 				base: baseEvent{
-					typ:  tracev2.EvGoSyscallEnd,
+					typ:  tracev2.EvGolangSyscallEnd,
 					time: Time(ev.Ts + 1),
 					args: timedEventArgs{},
 				},
@@ -452,25 +452,25 @@ func (it *traceV1Converter) convertEvent(ev *tracev1.Event) (OUT Event, ERR erro
 			return out1, nil
 		}
 
-	case tracev1.EvGoSysExit:
-		mappedType = tracev2.EvGoSyscallEndBlocked
-	case tracev1.EvGoSysBlock:
+	case tracev1.EvGolangSysExit:
+		mappedType = tracev2.EvGolangSyscallEndBlocked
+	case tracev1.EvGolangSysBlock:
 		return Event{}, errSkip
-	case tracev1.EvGoWaiting:
-		mappedType = tracev2.EvGoStatus
-		mappedArgs = timedEventArgs{ev.Args[0], ^uint64(0), uint64(tracev2.GoWaiting)}
-		delete(it.createdPreInit, GoID(ev.Args[0]))
-	case tracev1.EvGoInSyscall:
-		mappedType = tracev2.EvGoStatus
-		// In the new tracer, GoStatus with GoSyscall knows what thread the
-		// syscall is on. In trace v1, EvGoInSyscall doesn't contain that
+	case tracev1.EvGolangWaiting:
+		mappedType = tracev2.EvGolangStatus
+		mappedArgs = timedEventArgs{ev.Args[0], ^uint64(0), uint64(tracev2.GolangWaiting)}
+		delete(it.createdPreInit, GolangID(ev.Args[0]))
+	case tracev1.EvGolangInSyscall:
+		mappedType = tracev2.EvGolangStatus
+		// In the new tracer, GolangStatus with GolangSyscall knows what thread the
+		// syscall is on. In trace v1, EvGolangInSyscall doesn't contain that
 		// information and all we can do here is specify NoThread.
-		mappedArgs = timedEventArgs{ev.Args[0], ^uint64(0), uint64(tracev2.GoSyscall)}
-		delete(it.createdPreInit, GoID(ev.Args[0]))
+		mappedArgs = timedEventArgs{ev.Args[0], ^uint64(0), uint64(tracev2.GolangSyscall)}
+		delete(it.createdPreInit, GolangID(ev.Args[0]))
 	case tracev1.EvHeapAlloc:
 		mappedType = tracev2.EvHeapAlloc
-	case tracev1.EvHeapGoal:
-		mappedType = tracev2.EvHeapGoal
+	case tracev1.EvHeapGolangal:
+		mappedType = tracev2.EvHeapGolangal
 	case tracev1.EvGCMarkAssistStart:
 		mappedType = tracev2.EvGCMarkAssistBegin
 	case tracev1.EvGCMarkAssistDone:
@@ -513,11 +513,11 @@ func (it *traceV1Converter) convertEvent(ev *tracev1.Event) (OUT Event, ERR erro
 		mappedArgs = timedEventArgs{ev.Args[0], ev.Args[1], it.inlineToStringID[ev.Args[3]], uint64(ev.StkID)}
 	case tracev1.EvCPUSample:
 		mappedType = tracev2.EvCPUSample
-		// When emitted by the Go 1.22 tracer, CPU samples have 5 arguments:
+		// When emitted by the Golang 1.22 tracer, CPU samples have 5 arguments:
 		// timestamp, M, P, G, stack. However, after they get turned into Event,
 		// they have the arguments stack, M, P, G.
 		//
-		// In Go 1.21, CPU samples did not have Ms.
+		// In Golang 1.21, CPU samples did not have Ms.
 		mappedArgs = timedEventArgs{uint64(ev.StkID), ^uint64(0), uint64(ev.P), ev.G}
 	default:
 		return Event{}, fmt.Errorf("unexpected event type %v", ev.Type)
@@ -538,13 +538,13 @@ func (it *traceV1Converter) convertEvent(ev *tracev1.Event) (OUT Event, ERR erro
 	if ev.Type == tracev1.EvProcStop {
 		delete(it.procMs, ProcID(ev.P))
 	}
-	g := GoID(ev.G)
+	g := GolangID(ev.G)
 	if g == 0 {
-		g = NoGoroutine
+		g = NoGolangroutine
 	}
 	out := Event{
 		ctx: schedCtx{
-			G: GoID(g),
+			G: GolangID(g),
 			P: ProcID(ev.P),
 			M: m,
 		},

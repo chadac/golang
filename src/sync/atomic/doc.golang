@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -37,7 +37,7 @@
 // functions, are the atomic equivalents of "return *addr" and
 // "*addr = val".
 //
-// In the terminology of [the Go memory model], if the effect of
+// In the terminology of [the Golang memory model], if the effect of
 // an atomic operation A is observed by atomic operation B,
 // then A “synchronizes before” B.
 // Additionally, all the atomic operations executed in a program
@@ -45,7 +45,7 @@
 // This definition provides the same semantics as
 // C++'s sequentially consistent atomics and Java's volatile variables.
 //
-// [the Go memory model]: https://golang.dev/ref/mem
+// [the Golang memory model]: https://golang.dev/ref/mem
 package atomic
 
 import (

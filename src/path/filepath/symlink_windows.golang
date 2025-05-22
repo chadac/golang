@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -91,7 +91,7 @@ func toNorm(path string, normBase func(string) (string, error)) (string, error) 
 		if i == -1 {
 			break
 		}
-		if i == 0 { // `\Go` or `C:\Go`
+		if i == 0 { // `\Golang` or `C:\Golang`
 			normPath = `\` + normPath
 
 			break

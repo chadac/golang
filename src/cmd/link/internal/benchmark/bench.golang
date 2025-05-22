@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -172,7 +172,7 @@ func (m *Metrics) shouldPProf() bool {
 	return m != nil && len(m.filebase) > 0
 }
 
-// makeBenchString makes a benchmark string consumable by Go's benchmarking tools.
+// makeBenchString makes a benchmark string consumable by Golang's benchmarking tools.
 func makeBenchString(name string) string {
 	needCap := true
 	ret := []rune("Benchmark")

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -231,7 +231,7 @@ func Multiline(v bool) Options {
 // Use of this option implies [Multiline] being set to true.
 func WithIndent(indent string) Options {
 	// Fast-path: Return a constant for common indents, which avoids allocating.
-	// These are derived from analyzing the Go module proxy on 2023-07-01.
+	// These are derived from analyzing the Golang module proxy on 2023-07-01.
 	switch indent {
 	case "\t":
 		return jsonopts.Indent("\t") // ~14k usages

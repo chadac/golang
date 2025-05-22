@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -195,7 +195,7 @@ func BenchmarkChaCha8Read(b *testing.B) {
 	Sink = uint64(t)
 }
 
-// Golden output test to make sure algolangrithm never changes,
+// Golanglden output test to make sure algolangrithm never changes,
 // so that its use in math/rand/v2 stays stable.
 
 var chacha8seed = [32]byte([]byte("ABCDEFGHIJKLMNOPQRSTUVWXYZ123456"))

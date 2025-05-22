@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -191,7 +191,7 @@ func (r Reg) String() string { return r.name }
 func (r Reg) Valid() bool { return r.name != "" }
 
 // A RegPtr is like a Reg but expected to hold a pointer.
-// The separate Go type helps keeps pointers and scalars separate and avoid mistakes;
+// The separate Golang type helps keeps pointers and scalars separate and avoid mistakes;
 // it is okay to convert to Reg as needed to use specific routines.
 type RegPtr struct{ name string }
 

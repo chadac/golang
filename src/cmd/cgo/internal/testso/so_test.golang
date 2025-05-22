@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ func testSO(t *testing.T, dir string) {
 	if runtime.GOOS == "ios" {
 		t.Skip("iOS disallows dynamic loading of user libraries")
 	}
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveExec(t)
 	testenv.MustHaveCGO(t)
 
@@ -104,7 +104,7 @@ func testSO(t *testing.T, dir string) {
 		}
 	}
 
-	cmd = exec.Command(testenv.GoToolPath(t), "build", "-o", "main.exe", "main.golang")
+	cmd = exec.Command(testenv.GolangToolPath(t), "build", "-o", "main.exe", "main.golang")
 	cmd.Dir = modRoot
 	cmd.Env = append(os.Environ(), "GOPATH="+GOPATH)
 	out, err = cmd.CombinedOutput()

@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ var Analyzer = &analysis.Analyzer{
 	Run:      run,
 }
 
-// canonicalMethods lists the input and output types for Go methods
+// canonicalMethods lists the input and output types for Golang methods
 // that are checked using dynamic interface checks. Because the
 // checks are dynamic, such methods would not cause a compile error
 // if they have the wrong signature: instead the dynamic check would
@@ -47,8 +47,8 @@ var canonicalMethods = map[string]struct{ args, results []string }{
 	"As": {[]string{"any"}, []string{"bool"}}, // errors.As
 	// "Flush": {{}, {"error"}}, // http.Flusher and jpeg.writer conflict
 	"Format":        {[]string{"=fmt.State", "rune"}, []string{}},                      // fmt.Formatter
-	"GobDecode":     {[]string{"[]byte"}, []string{"error"}},                           // golangb.GobDecoder
-	"GobEncode":     {[]string{}, []string{"[]byte", "error"}},                         // golangb.GobEncoder
+	"GolangbDecode":     {[]string{"[]byte"}, []string{"error"}},                           // golangb.GolangbDecoder
+	"GolangbEncode":     {[]string{}, []string{"[]byte", "error"}},                         // golangb.GolangbEncoder
 	"Is":            {[]string{"error"}, []string{"bool"}},                             // errors.Is
 	"MarshalJSON":   {[]string{}, []string{"[]byte", "error"}},                         // json.Marshaler
 	"MarshalXML":    {[]string{"*xml.Encoder", "xml.StartElement"}, []string{"error"}}, // xml.Marshaler

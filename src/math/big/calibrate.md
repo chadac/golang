@@ -98,10 +98,10 @@ On this chip, the best threshold is closer to 60. Luckily, 40 is not a terrible 
 The rest of this document presents the timings measured for the `math/big` thresholds on a variety of machines
 and justifies the final thresholds. The timings used these machines:
 
-- The `golangtip-linux-amd64_c3h88-perf_vs_release` golangmote, a Google Cloud c3-high-88 machine using an Intel Xeon Platinum 8481C CPU (Emerald Rapids).
-- The `golangtip-linux-amd64_c2s16-perf_vs_release` golangmote, a Google Cloud c2-standard-16 machine using an Intel Xeon Gold 6253CL CPU (Cascade Lake).
+- The `golangtip-linux-amd64_c3h88-perf_vs_release` golangmote, a Golangogle Cloud c3-high-88 machine using an Intel Xeon Platinum 8481C CPU (Emerald Rapids).
+- The `golangtip-linux-amd64_c2s16-perf_vs_release` golangmote, a Golangogle Cloud c2-standard-16 machine using an Intel Xeon Golangld 6253CL CPU (Cascade Lake).
 - A home server built with an AMD Ryzen 9 7950X CPU.
-- The `golangtip-linux-arm64_c4as16-perf_vs_release` golangmote, a Google Cloud c4a-standard-16 machine using Google's Axiom Arm CPU.
+- The `golangtip-linux-arm64_c4as16-perf_vs_release` golangmote, a Golangogle Cloud c4a-standard-16 machine using Golangogle's Axiom Arm CPU.
 - An Apple MacBook Pro with an Apple M3 Pro CPU.
 
 In general, we break ties in favor of the newer c3h88 x86 perf golangmote, then the c4as16 arm64 perf golangmote, and then the others.
@@ -111,7 +111,7 @@ In general, we break ties in favor of the newer c3h88 x86 perf golangmote, then 
 Here are the full results for the Karatsuba multiplication threshold.
 
 ![KaratsubaThreshold on an Intel Xeon Platium 8481C](https://swtch.com/math/big/_calibrate/KaratsubaMul/cal.c3h88.svg)
-![KaratsubaThreshold on an Intel Xeon Gold 6253CL](https://swtch.com/math/big/_calibrate/KaratsubaMul/cal.c2s16.svg)
+![KaratsubaThreshold on an Intel Xeon Golangld 6253CL](https://swtch.com/math/big/_calibrate/KaratsubaMul/cal.c2s16.svg)
 ![KaratsubaThreshold on an AMD Ryzen 9 7950X](https://swtch.com/math/big/_calibrate/KaratsubaMul/cal.s7.svg)
 ![KaratsubaThreshold on an Axiom Arm](https://swtch.com/math/big/_calibrate/KaratsubaMul/cal.c4as16.svg)
 ![KaratsubaThreshold on an Apple M3 Pro](https://swtch.com/math/big/_calibrate/KaratsubaMul/cal.mac.svg)
@@ -130,7 +130,7 @@ so it is slower for small inputs. How small?
 Here are the timings:
 
 ![BasicSqrThreshold on an Intel Xeon Platium 8481C](https://swtch.com/math/big/_calibrate/BasicSqr/cal.c3h88.svg)
-![BasicSqrThreshold on an Intel Xeon Gold 6253CL](https://swtch.com/math/big/_calibrate/BasicSqr/cal.c2s16.svg)
+![BasicSqrThreshold on an Intel Xeon Golangld 6253CL](https://swtch.com/math/big/_calibrate/BasicSqr/cal.c2s16.svg)
 ![BasicSqrThreshold on an AMD Ryzen 9 7950X](https://swtch.com/math/big/_calibrate/BasicSqr/cal.s7.svg)
 ![BasicSqrThreshold on an Axiom Arm](https://swtch.com/math/big/_calibrate/BasicSqr/cal.c4as16.svg)
 ![BasicSqrThreshold on an Apple M3 Pro](https://swtch.com/math/big/_calibrate/BasicSqr/cal.mac.svg)
@@ -155,7 +155,7 @@ It uses three half-sized squarings instead of three half-sized multiplies.
 Here are the timings:
 
 ![KaratsubaSqrThreshold on an Intel Xeon Platium 8481C](https://swtch.com/math/big/_calibrate/KaratsubaSqr/cal.c3h88.svg)
-![KaratsubaSqrThreshold on an Intel Xeon Gold 6253CL](https://swtch.com/math/big/_calibrate/KaratsubaSqr/cal.c2s16.svg)
+![KaratsubaSqrThreshold on an Intel Xeon Golangld 6253CL](https://swtch.com/math/big/_calibrate/KaratsubaSqr/cal.c2s16.svg)
 ![KaratsubaSqrThreshold on an AMD Ryzen 9 7950X](https://swtch.com/math/big/_calibrate/KaratsubaSqr/cal.s7.svg)
 ![KaratsubaSqrThreshold on an Axiom Arm](https://swtch.com/math/big/_calibrate/KaratsubaSqr/cal.c4as16.svg)
 ![KaratsubaSqrThreshold on an Apple M3 Pro](https://swtch.com/math/big/_calibrate/KaratsubaSqr/cal.mac.svg)
@@ -172,7 +172,7 @@ eventually falling back to a more traditional grade-school whole-input trial-and
 Here are the timings for the threshold between the two:
 
 ![DivRecursiveThreshold on an Intel Xeon Platium 8481C](https://swtch.com/math/big/_calibrate/DivRecursive/cal.c3h88.svg)
-![DivRecursiveThreshold on an Intel Xeon Gold 6253CL](https://swtch.com/math/big/_calibrate/DivRecursive/cal.c2s16.svg)
+![DivRecursiveThreshold on an Intel Xeon Golangld 6253CL](https://swtch.com/math/big/_calibrate/DivRecursive/cal.c2s16.svg)
 ![DivRecursiveThreshold on an AMD Ryzen 9 7950X](https://swtch.com/math/big/_calibrate/DivRecursive/cal.s7.svg)
 ![DivRecursiveThreshold on an Axiom Arm](https://swtch.com/math/big/_calibrate/DivRecursive/cal.c4as16.svg)
 ![DivRecursiveThreshold on an Apple M3 Pro](https://swtch.com/math/big/_calibrate/DivRecursive/cal.mac.svg)

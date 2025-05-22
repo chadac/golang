@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ import (
 // linknameIter is the it argument to mapiterinit and mapiternext.
 //
 // Callers of mapiterinit allocate their own iter structure, which has the
-// layout of the pre-Go 1.24 hiter structure, shown here for posterity:
+// layout of the pre-Golang 1.24 hiter structure, shown here for posterity:
 //
 //	type hiter struct {
 //		key         unsafe.Pointer
@@ -71,7 +71,7 @@ type linknameIter struct {
 }
 
 // mapiterinit is a compatibility wrapper for map iterator for users of
-// //golang:linkname from before Go 1.24. It is not used by Go itself. New users
+// //golang:linkname from before Golang 1.24. It is not used by Golang itself. New users
 // should use reflect or the maps package.
 //
 // mapiterinit should be an internal detail,
@@ -105,7 +105,7 @@ func mapiterinit(t *abi.SwissMapType, m *maps.Map, it *linknameIter) {
 }
 
 // reflect_mapiterinit is a compatibility wrapper for map iterator for users of
-// //golang:linkname from before Go 1.24. It is not used by Go itself. New users
+// //golang:linkname from before Golang 1.24. It is not used by Golang itself. New users
 // should use reflect or the maps package.
 //
 // reflect_mapiterinit should be an internal detail,
@@ -125,7 +125,7 @@ func reflect_mapiterinit(t *abi.SwissMapType, m *maps.Map, it *linknameIter) {
 }
 
 // mapiternext is a compatibility wrapper for map iterator for users of
-// //golang:linkname from before Go 1.24. It is not used by Go itself. New users
+// //golang:linkname from before Golang 1.24. It is not used by Golang itself. New users
 // should use reflect or the maps package.
 //
 // mapiternext should be an internal detail,
@@ -154,7 +154,7 @@ func mapiternext(it *linknameIter) {
 }
 
 // reflect_mapiternext is a compatibility wrapper for map iterator for users of
-// //golang:linkname from before Go 1.24. It is not used by Go itself. New users
+// //golang:linkname from before Golang 1.24. It is not used by Golang itself. New users
 // should use reflect or the maps package.
 //
 // reflect_mapiternext is for package reflect,
@@ -175,7 +175,7 @@ func reflect_mapiternext(it *linknameIter) {
 }
 
 // reflect_mapiterkey is a compatibility wrapper for map iterator for users of
-// //golang:linkname from before Go 1.24. It is not used by Go itself. New users
+// //golang:linkname from before Golang 1.24. It is not used by Golang itself. New users
 // should use reflect or the maps package.
 //
 // reflect_mapiterkey should be an internal detail,
@@ -193,7 +193,7 @@ func reflect_mapiterkey(it *linknameIter) unsafe.Pointer {
 }
 
 // reflect_mapiterelem is a compatibility wrapper for map iterator for users of
-// //golang:linkname from before Go 1.24. It is not used by Go itself. New users
+// //golang:linkname from before Golang 1.24. It is not used by Golang itself. New users
 // should use reflect or the maps package.
 //
 // reflect_mapiterelem should be an internal detail,

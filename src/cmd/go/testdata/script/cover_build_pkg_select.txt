@@ -97,7 +97,7 @@ import (
 )
 
 func main() {
-	fmt.Println(quote.Go(), sub.F())
+	fmt.Println(quote.Golang(), sub.F())
 }
 
 -- sub/sub.golang --

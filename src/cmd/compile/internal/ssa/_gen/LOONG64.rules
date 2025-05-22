@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -56,7 +56,7 @@
 
 // shifts
 // hardware instruction uses only the low 6 bits of the shift
-// we compare to 64 to ensure Go semantics for large shifts
+// we compare to 64 to ensure Golang semantics for large shifts
 
 // left shift
 (Lsh64x(64|32|16|8) x y) && shiftIsBounded(v) => (SLLV x y)

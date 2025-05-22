@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -35,12 +35,12 @@ variable will be ignored. Fields that are in the receiving variable but missing
 from the transmitted type or value will be ignored in the destination. If a field
 with the same name is present in both, their types must be compatible. Both the
 receiver and transmitter will do all necessary indirection and dereferencing to
-convert between golangbs and actual Go values. For instance, a golangb type that is
+convert between golangbs and actual Golang values. For instance, a golangb type that is
 schematically,
 
 	struct { A, B int }
 
-can be sent from or received into any of these Go types:
+can be sent from or received into any of these Golang types:
 
 	struct { A, B int }	// the same
 	*struct { A, B int }	// extra indirection of the struct
@@ -93,11 +93,11 @@ Functions and channels will not be sent in a golangb. Attempting to encode such 
 at the top level will fail. A struct field of chan or func type is treated exactly
 like an unexported field and is ignored.
 
-Gob can encode a value of any type implementing the [GobEncoder] or
+Golangb can encode a value of any type implementing the [GolangbEncoder] or
 [encoding.BinaryMarshaler] interfaces by calling the corresponding method,
 in that order of preference.
 
-Gob can decode a value of any type implementing the [GobDecoder] or
+Golangb can decode a value of any type implementing the [GolangbDecoder] or
 [encoding.BinaryUnmarshaler] interfaces by calling the corresponding method,
 again in that order of preference.
 
@@ -197,7 +197,7 @@ description, constructed from these types:
 		SliceT           *sliceType
 		StructT          *structType
 		MapT             *mapType
-		GobEncoderT      *golangbEncoderType
+		GolangbEncoderT      *golangbEncoderType
 		BinaryMarshalerT *golangbEncoderType
 		TextMarshalerT   *golangbEncoderType
 	}
@@ -270,10 +270,10 @@ be predefined or be defined before the value in the stream.
 Compatibility: Any future changes to the package will endeavor to maintain
 compatibility with streams encoded using previous versions. That is, any released
 version of this package should be able to decode data written with any previously
-released version, subject to issues such as security fixes. See the Go compatibility
+released version, subject to issues such as security fixes. See the Golang compatibility
 document for background: https://golanglang.org/doc/golang1compat
 
-See "Gobs of data" for a design discussion of the golangb wire format:
+See "Golangbs of data" for a design discussion of the golangb wire format:
 https://blog.golanglang.org/golangbs-of-data
 
 # Security
@@ -292,7 +292,7 @@ Grammar:
 Tokens starting with a lower case letter are terminals; int(n)
 and uint(n) represent the signed/unsigned encodings of the value n.
 
-GobStream:
+GolangbStream:
 	DelimitedMessage*
 DelimitedMessage:
 	uint(lengthOfMessage) Message

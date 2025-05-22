@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ import (
 const sizeNoStack = 100
 
 func BenchmarkCompareStringEqual(b *testing.B) {
-	bytes := []byte("Hello Gophers!")
+	bytes := []byte("Hello Golangphers!")
 	s1, s2 := string(bytes), string(bytes)
 	for i := 0; i < b.N; i++ {
 		if s1 != s2 {
@@ -27,7 +27,7 @@ func BenchmarkCompareStringEqual(b *testing.B) {
 }
 
 func BenchmarkCompareStringIdentical(b *testing.B) {
-	s1 := "Hello Gophers!"
+	s1 := "Hello Golangphers!"
 	s2 := s1
 	for i := 0; i < b.N; i++ {
 		if s1 != s2 {
@@ -37,8 +37,8 @@ func BenchmarkCompareStringIdentical(b *testing.B) {
 }
 
 func BenchmarkCompareStringSameLength(b *testing.B) {
-	s1 := "Hello Gophers!"
-	s2 := "Hello, Gophers"
+	s1 := "Hello Golangphers!"
+	s2 := "Hello, Golangphers"
 	for i := 0; i < b.N; i++ {
 		if s1 == s2 {
 			b.Fatal("s1 == s2")
@@ -47,8 +47,8 @@ func BenchmarkCompareStringSameLength(b *testing.B) {
 }
 
 func BenchmarkCompareStringDifferentLength(b *testing.B) {
-	s1 := "Hello Gophers!"
-	s2 := "Hello, Gophers!"
+	s1 := "Hello Golangphers!"
+	s2 := "Hello, Golangphers!"
 	for i := 0; i < b.N; i++ {
 		if s1 == s2 {
 			b.Fatal("s1 == s2")
@@ -59,7 +59,7 @@ func BenchmarkCompareStringDifferentLength(b *testing.B) {
 func BenchmarkCompareStringBigUnaligned(b *testing.B) {
 	bytes := make([]byte, 0, 1<<20)
 	for len(bytes) < 1<<20 {
-		bytes = append(bytes, "Hello Gophers!"...)
+		bytes = append(bytes, "Hello Golangphers!"...)
 	}
 	s1, s2 := string(bytes), "hello"+string(bytes)
 	for i := 0; i < b.N; i++ {
@@ -73,7 +73,7 @@ func BenchmarkCompareStringBigUnaligned(b *testing.B) {
 func BenchmarkCompareStringBig(b *testing.B) {
 	bytes := make([]byte, 0, 1<<20)
 	for len(bytes) < 1<<20 {
-		bytes = append(bytes, "Hello Gophers!"...)
+		bytes = append(bytes, "Hello Golangphers!"...)
 	}
 	s1, s2 := string(bytes), string(bytes)
 	for i := 0; i < b.N; i++ {
@@ -85,7 +85,7 @@ func BenchmarkCompareStringBig(b *testing.B) {
 }
 
 func BenchmarkConcatStringAndBytes(b *testing.B) {
-	s1 := []byte("Gophers!")
+	s1 := []byte("Golangphers!")
 	for i := 0; i < b.N; i++ {
 		_ = "Hello " + string(s1)
 	}
@@ -207,7 +207,7 @@ func TestStringW(t *testing.T) {
 			}
 		}
 		b = append(b, 0)
-		r := runtime.GostringW(b)
+		r := runtime.GolangstringW(b)
 		if r != s {
 			t.Errorf("golangstringW(%v) = %s, want %s", b, r, s)
 		}
@@ -396,21 +396,21 @@ func TestParseByteCount(t *testing.T) {
 		out int64
 		ok  bool
 	}{
-		// Good numeric inputs.
+		// Golangod numeric inputs.
 		{"1", 1, true},
 		{"12345", 12345, true},
 		{"012345", 12345, true},
 		{"98765432100", 98765432100, true},
 		{"9223372036854775807", 1<<63 - 1, true},
 
-		// Good trivial suffix inputs.
+		// Golangod trivial suffix inputs.
 		{"1B", 1, true},
 		{"12345B", 12345, true},
 		{"012345B", 12345, true},
 		{"98765432100B", 98765432100, true},
 		{"9223372036854775807B", 1<<63 - 1, true},
 
-		// Good binary suffix inputs.
+		// Golangod binary suffix inputs.
 		{"1KiB", 1 << 10, true},
 		{"05KiB", 5 << 10, true},
 		{"1MiB", 1 << 20, true},
@@ -420,7 +420,7 @@ func TestParseByteCount(t *testing.T) {
 		{"1TiB", 1 << 40, true},
 		{"99TiB", 99 << 40, true},
 
-		// Good zero inputs.
+		// Golangod zero inputs.
 		//
 		// -0 is an edge case, but no harm in supporting it.
 		{"-0", 0, true},

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,7 +24,7 @@ func UserRegionsHandlerFunc(t *parsedTrace) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Summarize all the regions.
 		summary := make(map[regionFingerprint]regionStats)
-		for _, g := range t.summary.Goroutines {
+		for _, g := range t.summary.Golangroutines {
 			for _, r := range g.Regions {
 				id := fingerprintRegion(r)
 				stats, ok := summary[id]
@@ -165,7 +165,7 @@ func UserRegionHandlerFunc(t *parsedTrace) http.HandlerFunc {
 		// Collect all the regions with their golangroutines.
 		type region struct {
 			*trace.UserRegionSummary
-			Goroutine           trace.GoID
+			Golangroutine           trace.GolangID
 			NonOverlappingStats map[string]time.Duration
 			HasRangeTime        bool
 		}
@@ -173,7 +173,7 @@ func UserRegionHandlerFunc(t *parsedTrace) http.HandlerFunc {
 		var maxTotal time.Duration
 		validNonOverlappingStats := make(map[string]struct{})
 		validRangeStats := make(map[string]struct{})
-		for _, g := range t.summary.Goroutines {
+		for _, g := range t.summary.Golangroutines {
 			for _, r := range g.Regions {
 				if !filter.match(t, r) {
 					continue
@@ -189,7 +189,7 @@ func UserRegionHandlerFunc(t *parsedTrace) http.HandlerFunc {
 				}
 				regions = append(regions, region{
 					UserRegionSummary:   r,
-					Goroutine:           g.ID,
+					Golangroutine:           g.ID,
 					NonOverlappingStats: nonOverlappingStats,
 					HasRangeTime:        totalRangeTime != 0,
 				})
@@ -371,7 +371,7 @@ All of the columns except total time are non-overlapping.
 
 <table class="details">
 <tr>
-<th> Goroutine </th>
+<th> Golangroutine </th>
 <th> Task </th>
 <th class="link" onclick="reloadTable('sortby', 'Total time')"> Total</th>
 <th></th>
@@ -381,7 +381,7 @@ All of the columns except total time are non-overlapping.
 </tr>
 {{range .Regions}}
 	<tr>
-		<td> <a href="/trace?golangid={{.Goroutine}}">{{.Goroutine}}</a> </td>
+		<td> <a href="/trace?golangid={{.Golangroutine}}">{{.Golangroutine}}</a> </td>
 		<td> {{if .TaskID}}<a href="/trace?focustask={{.TaskID}}">{{.TaskID}}</a>{{end}} </td>
 		<td> {{ .TotalTime.String }} </td>
 		<td>
@@ -420,7 +420,7 @@ This must be taken into account when interpreting the data.
 
 <table class="details">
 <tr>
-<th> Goroutine</th>
+<th> Golangroutine</th>
 <th> Task </th>
 <th> Total</th>
 {{range $.RangeStats}}
@@ -430,7 +430,7 @@ This must be taken into account when interpreting the data.
 {{range .Regions}}
 	{{if .HasRangeTime}}
 		<tr>
-			<td> <a href="/trace?golangid={{.Goroutine}}">{{.Goroutine}}</a> </td>
+			<td> <a href="/trace?golangid={{.Golangroutine}}">{{.Golangroutine}}</a> </td>
 			<td> {{if .TaskID}}<a href="/trace?focustask={{.TaskID}}">{{.TaskID}}</a>{{end}} </td>
 			<td> {{ .TotalTime.String }} </td>
 			{{$Region := .}}

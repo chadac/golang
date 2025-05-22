@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,9 +40,9 @@ func TestCallback(t *testing.T) {
 }
 
 func run(t *testing.T, dir string, lto bool, args ...string) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	runArgs := append([]string{"run", "."}, args...)
-	cmd := exec.Command(testenv.GoToolPath(t), runArgs...)
+	cmd := exec.Command(testenv.GolangToolPath(t), runArgs...)
 	cmd.Dir = dir
 	if lto {
 		// On the builders we're using the default /usr/bin/ld, but
@@ -69,7 +69,7 @@ func run(t *testing.T, dir string, lto bool, args ...string) {
 
 func mustHaveCxx(t *testing.T) {
 	// Ask the golang tool for the CXX it's configured to use.
-	cxx, err := exec.Command(testenv.GoToolPath(t), "env", "CXX").CombinedOutput()
+	cxx, err := exec.Command(testenv.GolangToolPath(t), "env", "CXX").CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang env CXX failed: %s", err)
 	}
@@ -105,18 +105,18 @@ func mustHaveSwigOnce(t *testing.T) {
 		t.Skipf("swig not in PATH: %s", err)
 	}
 
-	// Check that swig was installed with Go support by checking
+	// Check that swig was installed with Golang support by checking
 	// that a golang directory exists inside the swiglib directory.
 	// See https://golanglang.org/issue/23469.
 	output, err := exec.Command(swig, "-golang", "-swiglib").Output()
 	if err != nil {
-		t.Skip("swig is missing Go support")
+		t.Skip("swig is missing Golang support")
 	}
 	swigDir := strings.TrimSpace(string(output))
 
 	_, err = os.Stat(filepath.Join(swigDir, "golang"))
 	if err != nil {
-		t.Skip("swig is missing Go support")
+		t.Skip("swig is missing Golang support")
 	}
 
 	// Check that swig has a new enough version.

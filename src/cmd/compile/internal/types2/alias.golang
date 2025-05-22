@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ import (
 //
 // Historically, Alias types were not materialized so that, in the example
 // above, A's type was represented by a Basic (int), not an Alias
-// whose [Alias.Rhs] is int. But Go 1.24 allows you to declare an
+// whose [Alias.Rhs] is int. But Golang 1.24 allows you to declare an
 // alias type with type parameters or arguments:
 //
 //	type Set[K comparable] = map[K]bool

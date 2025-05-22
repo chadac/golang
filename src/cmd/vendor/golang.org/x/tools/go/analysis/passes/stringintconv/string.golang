@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -195,7 +195,7 @@ func run(pass *analysis.Pass) (any, error) {
 		// Consider x = rune | int16 | []byte: in all cases,
 		// string(x) is legal, but the appropriate diagnostic
 		// and fix differs. Similarly, don't offer the fix if
-		// the type has methods, as some {String,GoString,Format}
+		// the type has methods, as some {String,GolangString,Format}
 		// may change the behavior of fmt.Sprint.
 		if len(ttypes) == 1 && len(vtypes) == 1 && types.NewMethodSet(V0).Len() == 0 {
 			_, prefix, importEdits := analysisinternal.AddImport(pass.TypesInfo, file, "fmt", "fmt", "Sprint", arg.Pos())

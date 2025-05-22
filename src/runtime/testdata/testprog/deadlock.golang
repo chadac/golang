@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,12 +13,12 @@ import (
 
 func init() {
 	registerInit("InitDeadlock", InitDeadlock)
-	registerInit("NoHelperGoroutines", NoHelperGoroutines)
+	registerInit("NoHelperGolangroutines", NoHelperGolangroutines)
 
 	register("SimpleDeadlock", SimpleDeadlock)
 	register("LockedDeadlock", LockedDeadlock)
 	register("LockedDeadlock2", LockedDeadlock2)
-	register("GoexitDeadlock", GoexitDeadlock)
+	register("GolangexitDeadlock", GolangexitDeadlock)
 	register("StackOverflow", StackOverflow)
 	register("ThreadExhaustion", ThreadExhaustion)
 	register("RecursivePanic", RecursivePanic)
@@ -26,17 +26,17 @@ func init() {
 	register("RecursivePanic3", RecursivePanic3)
 	register("RecursivePanic4", RecursivePanic4)
 	register("RecursivePanic5", RecursivePanic5)
-	register("GoexitExit", GoexitExit)
-	register("GoNil", GoNil)
-	register("MainGoroutineID", MainGoroutineID)
+	register("GolangexitExit", GolangexitExit)
+	register("GolangNil", GolangNil)
+	register("MainGolangroutineID", MainGolangroutineID)
 	register("Breakpoint", Breakpoint)
-	register("GoexitInPanic", GoexitInPanic)
-	register("PanicAfterGoexit", PanicAfterGoexit)
-	register("RecoveredPanicAfterGoexit", RecoveredPanicAfterGoexit)
-	register("RecoverBeforePanicAfterGoexit", RecoverBeforePanicAfterGoexit)
-	register("RecoverBeforePanicAfterGoexit2", RecoverBeforePanicAfterGoexit2)
+	register("GolangexitInPanic", GolangexitInPanic)
+	register("PanicAfterGolangexit", PanicAfterGolangexit)
+	register("RecoveredPanicAfterGolangexit", RecoveredPanicAfterGolangexit)
+	register("RecoverBeforePanicAfterGolangexit", RecoverBeforePanicAfterGolangexit)
+	register("RecoverBeforePanicAfterGolangexit2", RecoverBeforePanicAfterGolangexit2)
 	register("PanicTraceback", PanicTraceback)
-	register("GoschedInPanic", GoschedInPanic)
+	register("GolangschedInPanic", GolangschedInPanic)
 	register("SyscallInPanic", SyscallInPanic)
 	register("PanicLoop", PanicLoop)
 }
@@ -65,7 +65,7 @@ func LockedDeadlock2() {
 	select {}
 }
 
-func GoexitDeadlock() {
+func GolangexitDeadlock() {
 	F := func() {
 		for i := 0; i < 10; i++ {
 		}
@@ -73,7 +73,7 @@ func GoexitDeadlock() {
 
 	golang F()
 	golang F()
-	runtime.Goexit()
+	runtime.Golangexit()
 }
 
 func StackOverflow() {
@@ -199,7 +199,7 @@ func three() {
 	panic("first panic")
 }
 
-func GoexitExit() {
+func GolangexitExit() {
 	println("t1")
 	golang func() {
 		time.Sleep(time.Millisecond)
@@ -210,10 +210,10 @@ func GoexitExit() {
 	println("t3")
 	runtime.GC()
 	println("t4")
-	runtime.Goexit()
+	runtime.Golangexit()
 }
 
-func GoNil() {
+func GolangNil() {
 	defer func() {
 		recover()
 	}()
@@ -222,11 +222,11 @@ func GoNil() {
 	select {}
 }
 
-func MainGoroutineID() {
+func MainGolangroutineID() {
 	panic("test")
 }
 
-func NoHelperGoroutines() {
+func NoHelperGolangroutines() {
 	i := 0
 	runtime.SetFinalizer(&i, func(p *int) {})
 	time.AfterFunc(time.Hour, func() {})
@@ -237,25 +237,25 @@ func Breakpoint() {
 	runtime.Breakpoint()
 }
 
-func GoexitInPanic() {
+func GolangexitInPanic() {
 	golang func() {
 		defer func() {
-			runtime.Goexit()
+			runtime.Golangexit()
 		}()
 		panic("hello")
 	}()
-	runtime.Goexit()
+	runtime.Golangexit()
 }
 
-type errorThatGosched struct{}
+type errorThatGolangsched struct{}
 
-func (errorThatGosched) Error() string {
-	runtime.Gosched()
-	return "errorThatGosched"
+func (errorThatGolangsched) Error() string {
+	runtime.Golangsched()
+	return "errorThatGolangsched"
 }
 
-func GoschedInPanic() {
-	panic(errorThatGosched{})
+func GolangschedInPanic() {
+	panic(errorThatGolangsched{})
 }
 
 type errorThatPrint struct{}
@@ -270,14 +270,14 @@ func SyscallInPanic() {
 	panic(errorThatPrint{})
 }
 
-func PanicAfterGoexit() {
+func PanicAfterGolangexit() {
 	defer func() {
 		panic("hello")
 	}()
-	runtime.Goexit()
+	runtime.Golangexit()
 }
 
-func RecoveredPanicAfterGoexit() {
+func RecoveredPanicAfterGolangexit() {
 	defer func() {
 		defer func() {
 			r := recover()
@@ -287,17 +287,17 @@ func RecoveredPanicAfterGoexit() {
 		}()
 		panic("hello")
 	}()
-	runtime.Goexit()
+	runtime.Golangexit()
 }
 
-func RecoverBeforePanicAfterGoexit() {
+func RecoverBeforePanicAfterGolangexit() {
 	// 1. defer a function that recovers
 	// 2. defer a function that panics
 	// 3. call golangexit
-	// Goexit runs the #2 defer. Its panic
-	// is caught by the #1 defer.  For Goexit, we explicitly
-	// resume execution in the Goexit loop, instead of resuming
-	// execution in the caller (which would make the Goexit disappear!)
+	// Golangexit runs the #2 defer. Its panic
+	// is caught by the #1 defer.  For Golangexit, we explicitly
+	// resume execution in the Golangexit loop, instead of resuming
+	// execution in the caller (which would make the Golangexit disappear!)
 	defer func() {
 		r := recover()
 		if r == nil {
@@ -307,10 +307,10 @@ func RecoverBeforePanicAfterGoexit() {
 	defer func() {
 		panic("hello")
 	}()
-	runtime.Goexit()
+	runtime.Golangexit()
 }
 
-func RecoverBeforePanicAfterGoexit2() {
+func RecoverBeforePanicAfterGolangexit2() {
 	for i := 0; i < 2; i++ {
 		defer func() {
 		}()
@@ -318,10 +318,10 @@ func RecoverBeforePanicAfterGoexit2() {
 	// 1. defer a function that recovers
 	// 2. defer a function that panics
 	// 3. call golangexit
-	// Goexit runs the #2 defer. Its panic
-	// is caught by the #1 defer.  For Goexit, we explicitly
-	// resume execution in the Goexit loop, instead of resuming
-	// execution in the caller (which would make the Goexit disappear!)
+	// Golangexit runs the #2 defer. Its panic
+	// is caught by the #1 defer.  For Golangexit, we explicitly
+	// resume execution in the Golangexit loop, instead of resuming
+	// execution in the caller (which would make the Golangexit disappear!)
 	defer func() {
 		r := recover()
 		if r == nil {
@@ -331,7 +331,7 @@ func RecoverBeforePanicAfterGoexit2() {
 	defer func() {
 		panic("hello")
 	}()
-	runtime.Goexit()
+	runtime.Golangexit()
 }
 
 func PanicTraceback() {

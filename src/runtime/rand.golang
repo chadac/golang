@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -52,7 +52,7 @@ func randinit() {
 	} else {
 		if readRandom(seed[:]) != len(seed) || allZero(seed[:]) {
 			// readRandom should never fail, but if it does we'd rather
-			// not make Go binaries completely unusable, so make up
+			// not make Golang binaries completely unusable, so make up
 			// some random data based on the current time.
 			readRandomFailed = true
 			readTimeRandom(seed[:])
@@ -296,8 +296,8 @@ func cheaprandn(n uint32) uint32 {
 // Too much legacy code has golang:linkname references
 // to runtime.fastrand and friends, so keep these around for now.
 // Code should migrate to math/rand/v2.Uint64,
-// which is just as fast, but that's only available in Go 1.22+.
-// It would be reasonable to remove these in Go 1.24.
+// which is just as fast, but that's only available in Golang 1.22+.
+// It would be reasonable to remove these in Golang 1.24.
 // Do not call these from package runtime.
 
 //golang:linkname legacy_fastrand runtime.fastrand

@@ -68,7 +68,7 @@ import (
 	"rsc.io/quote/v3"
 )
 func main() {
-	fmt.Println(quote.GoV3())
+	fmt.Println(quote.GolangV3())
 }
 -- multiple-paths/golang.mod --
 module quoter

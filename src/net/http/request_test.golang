@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -212,7 +212,7 @@ binary data
 	}
 
 	initialFormItems := map[string]string{
-		"language": "Go",
+		"language": "Golang",
 		"name":     "golangpher",
 		"skill":    "golang-ing",
 		"field2":   "initial-value2",
@@ -229,7 +229,7 @@ binary data
 	}
 
 	wantForm := url.Values{
-		"language": []string{"Go"},
+		"language": []string{"Golang"},
 		"name":     []string{"golangpher"},
 		"skill":    []string{"golang-ing"},
 		"field1":   []string{"value1"},
@@ -494,15 +494,15 @@ var readRequestErrorTests = []struct {
 	// deduplicated if same or reject otherwise
 	// See Issue 16490.
 	4: {
-		in:  "POST / HTTP/1.1\r\nContent-Length: 10\r\nContent-Length: 0\r\n\r\nGopher hey\r\n",
+		in:  "POST / HTTP/1.1\r\nContent-Length: 10\r\nContent-Length: 0\r\n\r\nGolangpher hey\r\n",
 		err: "cannot contain multiple Content-Length headers",
 	},
 	5: {
-		in:  "POST / HTTP/1.1\r\nContent-Length: 10\r\nContent-Length: 6\r\n\r\nGopher\r\n",
+		in:  "POST / HTTP/1.1\r\nContent-Length: 10\r\nContent-Length: 6\r\n\r\nGolangpher\r\n",
 		err: "cannot contain multiple Content-Length headers",
 	},
 	6: {
-		in:     "PUT / HTTP/1.1\r\nContent-Length: 6 \r\nContent-Length: 6\r\nContent-Length:6\r\n\r\nGopher\r\n",
+		in:     "PUT / HTTP/1.1\r\nContent-Length: 6 \r\nContent-Length: 6\r\nContent-Length:6\r\n\r\nGolangpher\r\n",
 		err:    "",
 		header: Header{"Content-Length": {"6"}},
 	},
@@ -613,7 +613,7 @@ func TestNewRequestContentLength(t *testing.T) {
 		{strings.NewReader(""), 0},
 		{NoBody, 0},
 
-		// Not detected. During Go 1.8 we tried to make these set to -1, but
+		// Not detected. During Golang 1.8 we tried to make these set to -1, but
 		// due to Issue 18117, we keep these returning 0, even though they're
 		// unknown.
 		{struct{ io.Reader }{strings.NewReader("xyz")}, 0},
@@ -908,7 +908,7 @@ func TestMaxBytesReaderStickyError(t *testing.T) {
 			if !reflect.DeepEqual(err, firstErr) {
 				return fmt.Errorf("non-sticky error. golangt log:\n%s", log.Bytes())
 			}
-			t.Logf("Got log: %s", log.Bytes())
+			t.Logf("Golangt log: %s", log.Bytes())
 			return nil
 		}
 	}
@@ -1082,7 +1082,7 @@ func TestRequestClonePathValue(t *testing.T) {
 	}
 }
 
-// Issue 34878: verify we don't panic when including basic auth (Go 1.13 regression)
+// Issue 34878: verify we don't panic when including basic auth (Golang 1.13 regression)
 func TestNoPanicOnRoundTripWithBasicAuth(t *testing.T) { run(t, testNoPanicWithBasicAuth) }
 func testNoPanicWithBasicAuth(t *testing.T, mode testMode) {
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {}))
@@ -1322,7 +1322,7 @@ func TestRequestCookiesByName(t *testing.T) {
 					blob, _ := json.MarshalIndent(v, "", "  ")
 					return string(blob)
 				}
-				t.Fatalf("Result mismatch\n\tGot: %s\n\tWant: %s", asStr(golangt), asStr(tt.want))
+				t.Fatalf("Result mismatch\n\tGolangt: %s\n\tWant: %s", asStr(golangt), asStr(tt.want))
 			}
 		})
 	}

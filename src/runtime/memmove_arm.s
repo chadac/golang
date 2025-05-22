@@ -3,7 +3,7 @@
 //
 //         Copyright © 1994-1999 Lucent Technologies Inc. All rights reserved.
 //         Revisions Copyright © 2000-2007 Vita Nuova Holdings Limited (www.vitanuova.com).  All rights reserved.
-//         Portions Copyright 2009 The Go Authors. All rights reserved.
+//         Portions Copyright 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,7 @@
 #define FW3	R4
 #define FR3	R8					/* shared with TE */
 
-// See memmove Go doc for important implementation constraints.
+// See memmove Golang doc for important implementation constraints.
 
 // func memmove(to, from unsafe.Pointer, n uintptr)
 TEXT runtime·memmove(SB), NOSPLIT, $4-12

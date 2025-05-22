@@ -3,9 +3,9 @@
 Cool things:
 
   - Foo
-  - [Go] is great
+  - [Golang] is great
     
-    [Go]: https://golang.dev/
+    [Golang]: https://golang.dev/
   - Bar
 
 -- text --
@@ -13,17 +13,17 @@ Cool things:
 
   - Foo
 
-  - Go is great
+  - Golang is great
 
   - Bar
 
-[Go]: https://golang.dev/
+[Golang]: https://golang.dev/
 -- markdown --
 Cool things:
 
   - Foo
 
-  - [Go](https://golang.dev/) is great
+  - [Golang](https://golang.dev/) is great
 
   - Bar
 
@@ -31,6 +31,6 @@ Cool things:
 <p>Cool things:
 <ul>
 <li><p>Foo
-<li><p><a href="https://golang.dev/">Go</a> is great
+<li><p><a href="https://golang.dev/">Golang</a> is great
 <li><p>Bar
 </ul>

@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -44,9 +44,9 @@ func ExampleParseAddress() {
 
 func ExampleReadMessage() {
 	msg := `Date: Mon, 23 Jun 2015 11:40:36 -0400
-From: Gopher <from@example.com>
-To: Another Gopher <to@example.com>
-Subject: Gophers at Gophercon
+From: Golangpher <from@example.com>
+To: Another Golangpher <to@example.com>
+Subject: Golangphers at Golangphercon
 
 Message body
 `
@@ -71,9 +71,9 @@ Message body
 
 	// Output:
 	// Date: Mon, 23 Jun 2015 11:40:36 -0400
-	// From: Gopher <from@example.com>
-	// To: Another Gopher <to@example.com>
-	// Subject: Gophers at Gophercon
+	// From: Golangpher <from@example.com>
+	// To: Another Golangpher <to@example.com>
+	// Subject: Golangphers at Golangphercon
 	// Message body
 }
 

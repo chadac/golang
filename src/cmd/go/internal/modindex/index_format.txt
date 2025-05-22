@@ -26,7 +26,7 @@ for each rawPackage:
 		synopsis - string offset
 		name - string offset
 		pkgName - string offset
-		ignoreFile - int32 bool // report the file in Ignored(Go|Other)Files because there was an error reading it or parsing its build constraints.
+		ignoreFile - int32 bool // report the file in Ignored(Golang|Other)Files because there was an error reading it or parsing its build constraints.
 		binaryOnly uint32 bool
 		cgolangDirectives string offset // the #cgolang directive lines in the comment on import "C"
 		golangBuildConstraint  - string offset

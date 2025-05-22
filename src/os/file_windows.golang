@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -188,7 +188,7 @@ func Remove(name string) error {
 		return &PathError{Op: "remove", Path: name, Err: e}
 	}
 
-	// Go file interface forces us to know whether
+	// Golang file interface forces us to know whether
 	// name is a file or directory. Try both.
 	e = syscall.DeleteFile(p)
 	if e == nil {

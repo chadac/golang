@@ -1,12 +1,12 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Macros for transitioning from the host ABI to Go ABI
+// Macros for transitioning from the host ABI to Golang ABI
 //
 // On PPC64/ELFv2 targets, the following registers are callee
 // saved when called from C. They must be preserved before
-// calling into Go which does not preserve any of them.
+// calling into Golang which does not preserve any of them.
 //
 //	R14-R31
 //	CR2-4
@@ -168,7 +168,7 @@
 // To restate, R1 is assumed to be aligned when this macro is used.
 // This assumes the caller's frame is compliant with the host ABI.
 // CR and LR are saved into the caller's frame per the host ABI.
-// R0 is initialized to $0 as expected by Go.
+// R0 is initialized to $0 as expected by Golang.
 #define STACK_AND_SAVE_HOST_TO_GO_ABI(extra)                       \
 	MOVD	LR, R0                                             \
 	MOVD	R0, 16(R1)                                         \

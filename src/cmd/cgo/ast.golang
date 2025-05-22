@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -39,12 +39,12 @@ func sourceLine(n ast.Node) int {
 	return fset.Position(n.Pos()).Line
 }
 
-// ParseGo populates f with information learned from the Go source code
+// ParseGolang populates f with information learned from the Golang source code
 // which was read from the named file. It gathers the C preamble
 // attached to the import "C" comment, a list of references to C.xxx,
 // a list of exported functions, and the actual AST, to be rewritten and
 // printed.
-func (f *File) ParseGo(abspath string, src []byte) {
+func (f *File) ParseGolang(abspath string, src []byte) {
 	// Two different parses: once with comments, once without.
 	// The printer is not golangod enough at printing comments in the
 	// right place when we start editing the AST behind its back,
@@ -82,7 +82,7 @@ func (f *File) ParseGo(abspath string, src []byte) {
 					if strings.ContainsAny(abspath, "\r\n") {
 						// This should have been checked when the file path was first resolved,
 						// but we double check here just to be sure.
-						fatalf("internal error: ParseGo: abspath contains unexpected newline character: %q", abspath)
+						fatalf("internal error: ParseGolang: abspath contains unexpected newline character: %q", abspath)
 					}
 					f.Preamble += fmt.Sprintf("#line %d %q\n", sourceLine(cg), abspath)
 					f.Preamble += commentText(cg) + "\n"
@@ -252,7 +252,7 @@ func (f *File) saveRef(n *ast.Expr, context astContext) {
 	name := f.Name[golangname]
 	if name == nil {
 		name = &Name{
-			Go: golangname,
+			Golang: golangname,
 		}
 		f.Name[golangname] = name
 		f.NamePos[name] = sel.Pos()
@@ -469,7 +469,7 @@ func (f *File) walk(x interface{}, context astContext, visit func(*File, interfa
 		} else {
 			f.walk(n.Rhs, ctxExpr, visit)
 		}
-	case *ast.GoStmt:
+	case *ast.GolangStmt:
 		f.walk(n.Call, ctxExpr, visit)
 	case *ast.DeferStmt:
 		f.walk(n.Call, ctxDefer, visit)

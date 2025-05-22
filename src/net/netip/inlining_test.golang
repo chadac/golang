@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,10 +14,10 @@ import (
 )
 
 func TestInlining(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 	out, err := exec.Command(
-		testenv.GoToolPath(t),
+		testenv.GolangToolPath(t),
 		"build",
 		"--gcflags=-m",
 		"net/netip").CombinedOutput()

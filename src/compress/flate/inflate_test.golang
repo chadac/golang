@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -112,7 +112,7 @@ func TestReaderReusesReaderBuffer(t *testing.T) {
 			t.Fatalf("bufio.Reader was not reused")
 		}
 	})
-	t.Run("BufferIsNotReusedWhenGotByteReader", func(t *testing.T) {
+	t.Run("BufferIsNotReusedWhenGolangtByteReader", func(t *testing.T) {
 		f := NewReader(encodedNotByteReader).(*decompressor)
 		if _, ok := f.r.(*bufio.Reader); !ok {
 			t.Fatalf("bufio.Reader should be created")

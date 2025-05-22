@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -30,7 +30,7 @@ import (
 
 // Test to make sure that when building for GOAMD64=v1, we don't
 // use any >v1 instructions.
-func TestGoAMD64v1(t *testing.T) {
+func TestGolangAMD64v1(t *testing.T) {
 	if runtime.GOARCH != "amd64" {
 		t.Skip("amd64-only test")
 	}
@@ -48,7 +48,7 @@ func TestGoAMD64v1(t *testing.T) {
 
 	// Make a binary which will be a modified version of the
 	// currently running binary.
-	dst, err := os.CreateTemp("", "TestGoAMD64v1")
+	dst, err := os.CreateTemp("", "TestGolangAMD64v1")
 	if err != nil {
 		t.Fatalf("failed to create temp file: %v", err)
 	}

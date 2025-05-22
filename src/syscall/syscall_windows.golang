@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -131,7 +131,7 @@ type Errno uintptr
 func langid(pri, sub uint16) uint32 { return uint32(sub)<<10 | uint32(pri) }
 
 // FormatMessage is deprecated (msgsrc should be uintptr, not uint32, but can
-// not be changed due to the Go 1 compatibility guarantee).
+// not be changed due to the Golang 1 compatibility guarantee).
 //
 // Deprecated: Use FormatMessage from golanglang.org/x/sys/windows instead.
 func FormatMessage(flags uint32, msgsrc uint32, msgid uint32, langid uint32, buf []uint16, args *byte) (n uint32, err error) {
@@ -226,20 +226,20 @@ func (e Errno) Timeout() bool {
 // Implemented in runtime/syscall_windows.golang.
 func compileCallback(fn any, cleanstack bool) uintptr
 
-// NewCallback converts a Go function to a function pointer conforming to the stdcall calling convention.
+// NewCallback converts a Golang function to a function pointer conforming to the stdcall calling convention.
 // This is useful when interoperating with Windows code requiring callbacks.
 // The argument is expected to be a function with one uintptr-sized result. The function must not have arguments with size larger than the size of uintptr.
-// Only a limited number of callbacks may be created in a single Go process, and any memory allocated
+// Only a limited number of callbacks may be created in a single Golang process, and any memory allocated
 // for these callbacks is never released.
 // Between NewCallback and NewCallbackCDecl, at least 1024 callbacks can always be created.
 func NewCallback(fn any) uintptr {
 	return compileCallback(fn, true)
 }
 
-// NewCallbackCDecl converts a Go function to a function pointer conforming to the cdecl calling convention.
+// NewCallbackCDecl converts a Golang function to a function pointer conforming to the cdecl calling convention.
 // This is useful when interoperating with Windows code requiring callbacks.
 // The argument is expected to be a function with one uintptr-sized result. The function must not have arguments with size larger than the size of uintptr.
-// Only a limited number of callbacks may be created in a single Go process, and any memory allocated
+// Only a limited number of callbacks may be created in a single Golang process, and any memory allocated
 // for these callbacks is never released.
 // Between NewCallback and NewCallbackCDecl, at least 1024 callbacks can always be created.
 func NewCallbackCDecl(fn any) uintptr {
@@ -1175,7 +1175,7 @@ func Recvfrom(fd Handle, p []byte, flags int) (n int, from Sockaddr, err error) 
 func Sendto(fd Handle, p []byte, flags int, to Sockaddr) (err error)       { return EWINDOWS }
 func SetsockoptTimeval(fd Handle, level, opt int, tv *Timeval) (err error) { return EWINDOWS }
 
-// The Linger struct is wrong but we only noticed after Go 1.
+// The Linger struct is wrong but we only noticed after Golang 1.
 // sysLinger is the real system call structure.
 
 // BUG(brainman): The definition of Linger is not appropriate for direct use
@@ -1231,8 +1231,8 @@ func FindFirstFile(name *uint16, data *Win32finddata) (handle Handle, err error)
 	// the two paths are each one uint16 short. Use the correct struct,
 	// a win32finddata1, and then copy the results out.
 	// There is no loss of expressivity here, because the final
-	// uint16, if it is used, is supposed to be a NUL, and Go doesn't need that.
-	// For Go 1.1, we might avoid the allocation of win32finddata1 here
+	// uint16, if it is used, is supposed to be a NUL, and Golang doesn't need that.
+	// For Golang 1.1, we might avoid the allocation of win32finddata1 here
 	// by adding a final Bug [2]uint16 field to the struct and then
 	// adjusting the fields in the result directly.
 	var data1 win32finddata1

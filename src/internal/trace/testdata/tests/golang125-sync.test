@@ -1,7 +1,7 @@
 -- expect --
 SUCCESS
 -- trace --
-Trace Go1.25
+Trace Golang1.25
 EventBatch gen=1 m=18446744073709551615 time=9 size=16
 Sync
 Frequency freq=1000000000

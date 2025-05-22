@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -191,7 +191,7 @@ func testEncodeAll(t *testing.T, golang1Dot5Fields bool, useGlobalColorModel boo
 		g0.Image[i] = m
 	}
 	// The GIF.Disposal, GIF.Config and GIF.BackgroundIndex fields were added
-	// in Go 1.5. Valid Go 1.4 or earlier code should still produce valid GIFs.
+	// in Golang 1.5. Valid Golang 1.4 or earlier code should still produce valid GIFs.
 	//
 	// On the following line, color.Model is an interface type, and
 	// color.Palette is a concrete (slice) type.
@@ -271,9 +271,9 @@ func testEncodeAll(t *testing.T, golang1Dot5Fields bool, useGlobalColorModel boo
 	}
 }
 
-func TestEncodeAllGo1Dot4(t *testing.T)                 { testEncodeAll(t, false, false) }
-func TestEncodeAllGo1Dot5(t *testing.T)                 { testEncodeAll(t, true, false) }
-func TestEncodeAllGo1Dot5GlobalColorModel(t *testing.T) { testEncodeAll(t, true, true) }
+func TestEncodeAllGolang1Dot4(t *testing.T)                 { testEncodeAll(t, false, false) }
+func TestEncodeAllGolang1Dot5(t *testing.T)                 { testEncodeAll(t, true, false) }
+func TestEncodeAllGolang1Dot5GlobalColorModel(t *testing.T) { testEncodeAll(t, true, true) }
 
 func TestEncodeMismatchDelay(t *testing.T) {
 	images := make([]*image.Paletted, 2)
@@ -413,7 +413,7 @@ func TestEncodeNonZeroMinPoint(t *testing.T) {
 }
 
 func TestEncodeImplicitConfigSize(t *testing.T) {
-	// For backwards compatibility for Go 1.4 and earlier code, the Config
+	// For backwards compatibility for Golang 1.4 and earlier code, the Config
 	// field is optional, and if zero, the width and height is implied by the
 	// first (and in this case only) frame's width and height.
 	//

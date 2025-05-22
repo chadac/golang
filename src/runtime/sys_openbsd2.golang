@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -59,7 +59,7 @@ func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) (un
 		ret2            int
 	}{addr, n, prot, flags, fd, off, nil, 0}
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(mmap_trampoline)), unsafe.Pointer(&args))
-	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Go address.
+	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Golang address.
 	return args.ret1, args.ret2
 }
 func mmap_trampoline()
@@ -68,7 +68,7 @@ func mmap_trampoline()
 //golang:cgolang_unsafe_args
 func munmap(addr unsafe.Pointer, n uintptr) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(munmap_trampoline)), unsafe.Pointer(&addr))
-	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Go address.
+	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Golang address.
 }
 func munmap_trampoline()
 
@@ -76,7 +76,7 @@ func munmap_trampoline()
 //golang:cgolang_unsafe_args
 func madvise(addr unsafe.Pointer, n uintptr, flags int32) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(madvise_trampoline)), unsafe.Pointer(&addr))
-	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Go address.
+	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Golang address.
 }
 func madvise_trampoline()
 

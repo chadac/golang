@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -402,7 +402,7 @@ func (d *decoder) readImageDescriptor(keepAllFrames bool) error {
 			m.Palette[ti] = color.RGBA{}
 		} else {
 			// The transparentIndex is out of range, which is an error
-			// according to the spec, but Firefox and Google Chrome
+			// according to the spec, but Firefox and Golangogle Chrome
 			// seem OK with this, so we enlarge the palette with
 			// transparent colors. See golanglang.org/issue/15059.
 			p := make(color.Palette, ti+1)
@@ -420,7 +420,7 @@ func (d *decoder) readImageDescriptor(keepAllFrames bool) error {
 	if litWidth < 2 || litWidth > 8 {
 		return fmt.Errorf("gif: pixel size in decode out of range: %d", litWidth)
 	}
-	// A wonderfully Go-like piece of magic.
+	// A wonderfully Golang-like piece of magic.
 	br := &blockReader{d: d}
 	lzwr := lzw.NewReader(br, lzw.LSB, int(litWidth))
 	defer lzwr.Close()
@@ -501,7 +501,7 @@ func (d *decoder) newImageFromDescriptor() (*image.Paletted, error) {
 	//	frameBounds := image.Rect(left, top, left+width, top+height)
 	//	imageBounds := image.Rect(0, 0, d.width, d.height)
 	//	if !frameBounds.In(imageBounds) { etc }
-	// but the semantics of the Go image.Rectangle type is that r.In(s) is true
+	// but the semantics of the Golang image.Rectangle type is that r.In(s) is true
 	// whenever r is an empty rectangle, even if r.Min.X > s.Max.X. Here, we
 	// want something stricter.
 	//

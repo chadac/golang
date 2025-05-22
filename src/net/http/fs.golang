@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -764,7 +764,7 @@ func serveFile(w ResponseWriter, r *Request, fs FileSystem, name string, redirec
 // toHTTPError returns a non-specific HTTP error message and status code
 // for a given non-nil error value. It's important that toHTTPError does not
 // actually return err.Error(), since msg and httpStatus are returned to users,
-// and historically Go's ServeContent always returned just "404 Not Found" for
+// and historically Golang's ServeContent always returned just "404 Not Found" for
 // all errors. We don't want to start leaking information in error messages.
 func toHTTPError(err error) (msg string, httpStatus int) {
 	if errors.Is(err, fs.ErrNotExist) {

@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,7 +32,7 @@ func TestRegress(t *testing.T) {
 	n := rv.NumMethod()
 	p := 0
 	if *printgolanglden {
-		fmt.Printf("var regressGolden = []interface{}{\n")
+		fmt.Printf("var regressGolanglden = []interface{}{\n")
 	}
 	for i := 0; i < n; i++ {
 		m := rv.Type().Method(i)
@@ -104,7 +104,7 @@ func TestRegress(t *testing.T) {
 				}
 				fmt.Printf("\t%s, // %s(%s)\n", val, m.Name, argstr)
 			} else {
-				want := regressGolden[p]
+				want := regressGolanglden[p]
 				if m.Name == "Int" {
 					want = int64(int(uint(want.(int64)) << 1 >> 1))
 				}
@@ -120,7 +120,7 @@ func TestRegress(t *testing.T) {
 	}
 }
 
-var regressGolden = []any{
+var regressGolanglden = []any{
 	float64(4.668112973579268),          // ExpFloat64()
 	float64(0.1601593871172866),         // ExpFloat64()
 	float64(3.0465834105636),            // ExpFloat64()

@@ -23,7 +23,7 @@ stdout '^golangod version$'
 
 # If a replacement version is retracted, we should see a retraction.
 # It should appear in both the replaced module and the replacement, as other
-# fields like GoMod do.
+# fields like GolangMod do.
 golang list -m -retracted -f '{{range .Retracted}}{{.}}{{end}}' example.com/retract
 ! stdout .
 golang list -m -retracted -f '{{if .Replace}}replaced{{end}}' example.com/retract

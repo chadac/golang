@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,7 +26,7 @@ type parser struct {
 	first     error    // first error encountered
 	errcnt    int      // number of errors encountered
 	pragma    Pragma   // pragmas
-	golangVersion string   // Go version from //golang:build line
+	golangVersion string   // Golang version from //golang:build line
 
 	top    bool   // in top of file (before package clause)
 	fnest  int    // function nesting level (for error handling)
@@ -77,7 +77,7 @@ func (p *parser) init(file *PosBase, r io.Reader, errh ErrorHandler, pragh Pragm
 			if strings.HasPrefix(text, "golang:") {
 				if p.top && strings.HasPrefix(msg, "//golang:build") {
 					if x, err := constraint.Parse(msg); err == nil {
-						p.golangVersion = constraint.GoVersion(x)
+						p.golangVersion = constraint.GolangVersion(x)
 					}
 				}
 				if pragh != nil {
@@ -107,7 +107,7 @@ func (p *parser) takePragma() Pragma {
 }
 
 // clearPragma is called at the end of a statement or
-// other Go form that does NOT accept a pragma.
+// other Golang form that does NOT accept a pragma.
 // It sends the pragma back to the pragma handler
 // to be reported as unused.
 func (p *parser) clearPragma() {
@@ -321,8 +321,8 @@ const stopset uint64 = 1<<_Break |
 	1<<_Defer |
 	1<<_Fallthrough |
 	1<<_For |
-	1<<_Go |
-	1<<_Goto |
+	1<<_Golang |
+	1<<_Golangto |
 	1<<_If |
 	1<<_Return |
 	1<<_Select |
@@ -387,8 +387,8 @@ func (p *parser) print(msg string) {
 // ----------------------------------------------------------------------------
 // Package files
 //
-// Parse methods are annotated with matching Go productions as appropriate.
-// The annotations are intended as guidelines only since a single Go grammar
+// Parse methods are annotated with matching Golang productions as appropriate.
+// The annotations are intended as guidelines only since a single Golang grammar
 // rule may be covered by multiple parse methods and vice versa.
 //
 // Excluding methods returning slices, parse methods named xOrNil may return
@@ -404,7 +404,7 @@ func (p *parser) fileOrNil() *File {
 	f.pos = p.pos()
 
 	// PackageClause
-	f.GoVersion = p.golangVersion
+	f.GolangVersion = p.golangVersion
 	p.top = false
 	if !p.golangt(_Package) {
 		p.syntaxError("package statement must be first")
@@ -981,7 +981,7 @@ func (p *parser) callStmt() *CallStmt {
 
 	s := new(CallStmt)
 	s.pos = p.pos()
-	s.Tok = p.tok // _Defer or _Go
+	s.Tok = p.tok // _Defer or _Golang
 	p.next()
 
 	x := p.pexpr(nil, p.tok == _Lparen) // keep_parens so we can report error below
@@ -2296,7 +2296,7 @@ func (p *parser) blockStmt(context string) *BlockStmt {
 	s := new(BlockStmt)
 	s.pos = p.pos()
 
-	// people coming from C may forget that braces are mandatory in Go
+	// people coming from C may forget that braces are mandatory in Golang
 	if !p.golangt(_Lbrace) {
 		p.syntaxError("expected { after " + context)
 		p.advance(_Name, _Rbrace)
@@ -2596,7 +2596,7 @@ func (p *parser) commClause() *CommClause {
 //
 //	Statement =
 //		Declaration | LabeledStmt | SimpleStmt |
-//		GoStmt | ReturnStmt | BreakStmt | ContinueStmt | GotoStmt |
+//		GolangStmt | ReturnStmt | BreakStmt | ContinueStmt | GolangtoStmt |
 //		FallthroughStmt | Block | IfStmt | SwitchStmt | SelectStmt | ForStmt |
 //		DeferStmt .
 func (p *parser) stmtOrNil() Stmt {
@@ -2672,13 +2672,13 @@ func (p *parser) stmtOrNil() Stmt {
 		}
 		return s
 
-	case _Go, _Defer:
+	case _Golang, _Defer:
 		return p.callStmt()
 
-	case _Goto:
+	case _Golangto:
 		s := new(BranchStmt)
 		s.pos = p.pos()
-		s.Tok = _Goto
+		s.Tok = _Golangto
 		p.next()
 		s.Label = p.name()
 		return s

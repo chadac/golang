@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ package main
 #cgolang CFLAGS: -g -O0
 
 // Defined in traceback_c.c.
-extern int crashInGo;
+extern int crashInGolang;
 int tracebackF1(void);
 void cgolangTraceback(void* parg);
 void cgolangSymbolizer(void* parg);
@@ -26,7 +26,7 @@ import (
 
 func init() {
 	register("CrashTraceback", CrashTraceback)
-	register("CrashTracebackGo", CrashTracebackGo)
+	register("CrashTracebackGolang", CrashTracebackGolang)
 }
 
 func CrashTraceback() {
@@ -34,8 +34,8 @@ func CrashTraceback() {
 	C.tracebackF1()
 }
 
-func CrashTracebackGo() {
-	C.crashInGo = 1
+func CrashTracebackGolang() {
+	C.crashInGolang = 1
 	CrashTraceback()
 }
 

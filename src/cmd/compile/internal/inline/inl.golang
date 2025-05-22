@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
@@ -359,7 +359,7 @@ func InlineImpossible(fn *ir.Func) string {
 		return reason
 	}
 
-	// If a local function has no fn.Body (is defined outside of Go), cannot inline it.
+	// If a local function has no fn.Body (is defined outside of Golang), cannot inline it.
 	// Imported functions don't have fn.Body but might have inline body in fn.Inl.
 	if len(fn.Body) == 0 && !typecheck.HaveInlineBody(fn) {
 		reason = "no function body"
@@ -786,7 +786,7 @@ func inlineCallCheck(callerfn *ir.Func, call *ir.CallExpr) (bool, bool) {
 	if call.Op() != ir.OCALLFUNC {
 		return false, false
 	}
-	if call.GoDefer {
+	if call.GolangDefer {
 		return false, false
 	}
 

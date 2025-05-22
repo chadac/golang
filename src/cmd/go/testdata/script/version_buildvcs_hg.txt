@@ -1,4 +1,4 @@
-# This test checks that VCS information is stamped into Go binaries by default,
+# This test checks that VCS information is stamped into Golang binaries by default,
 # controlled with -buildvcs. This test focuses on Mercurial specifics.
 # The Git test covers common functionality.
 

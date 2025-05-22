@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -37,7 +37,7 @@ type ToolReplacement struct {
 func RunToolScriptTest(t *testing.T, repls []ToolReplacement, scriptsdir string, fixReadme bool) {
 	// Nearly all script tests involve doing builds, so don't
 	// bother here if we don't have "golang build".
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// Skip this path on plan9, which doesn't support symbolic
 	// links (we would have to copy too much).
@@ -45,8 +45,8 @@ func RunToolScriptTest(t *testing.T, repls []ToolReplacement, scriptsdir string,
 		t.Skipf("no symlinks on plan9")
 	}
 
-	// Locate our Go tool.
-	golangtool, err := testenv.GoTool()
+	// Locate our Golang tool.
+	golangtool, err := testenv.GolangTool()
 	if err != nil {
 		t.Fatalf("locating golang tool: %v", err)
 	}
@@ -115,11 +115,11 @@ func RunToolScriptTest(t *testing.T, repls []ToolReplacement, scriptsdir string,
 	// tools with a unit test executable.
 	golangroot := golangEnv("GOROOT")
 	tmpdir := t.TempDir()
-	tgr := SetupTestGoRoot(t, tmpdir, golangroot)
+	tgr := SetupTestGolangRoot(t, tmpdir, golangroot)
 
 	// Replace tools if appropriate
 	for _, repl := range repls {
-		ReplaceGoToolInTestGoRoot(t, tgr, repl.ToolName, repl.ReplacementPath)
+		ReplaceGolangToolInTestGolangRoot(t, tgr, repl.ToolName, repl.ReplacementPath)
 	}
 
 	// Add in commands for "golang" and "cc".

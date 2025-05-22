@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -112,7 +112,7 @@ func appendTextValue(s *handleState, v Value) error {
 			return nil
 		}
 		if bs, ok := byteSlice(v.any); ok {
-			// As of Go 1.19, this only allocates for strings longer than 32 bytes.
+			// As of Golang 1.19, this only allocates for strings longer than 32 bytes.
 			s.buf.WriteString(strconv.Quote(string(bs)))
 			return nil
 		}

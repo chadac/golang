@@ -1,8 +1,8 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This test applies golangfmt to all Go files under -root.
+// This test applies golangfmt to all Golang files under -root.
 // To test specific files provide a list of comma-separated
 // filenames via the -files flag: golang test -files=golangfmt.golang .
 
@@ -115,14 +115,14 @@ func genFilenames(t *testing.T, filenames chan<- string) {
 			return nil
 		}
 		// don't descend into testdata directories
-		if isGoFile(d) && !strings.Contains(filepath.ToSlash(filename), "/testdata/") {
+		if isGolangFile(d) && !strings.Contains(filepath.ToSlash(filename), "/testdata/") {
 			filenames <- filename
 			nfiles++
 		}
 		return nil
 	}
 
-	// test Go files provided via -files, if any
+	// test Golang files provided via -files, if any
 	if *files != "" {
 		for _, filename := range strings.Split(*files, ",") {
 			fi, err := os.Stat(filename)
@@ -131,7 +131,7 @@ func genFilenames(t *testing.T, filenames chan<- string) {
 		return // ignore files under -root
 	}
 
-	// otherwise, test all Go files under *root
+	// otherwise, test all Golang files under *root
 	golangroot := *root
 	if golangroot == "" {
 		golangroot = testenv.GOROOT(t)

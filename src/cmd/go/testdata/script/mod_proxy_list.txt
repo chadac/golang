@@ -31,7 +31,7 @@ golang get rsc.io/quote@v1.3.0
 # get should return the final error if that's all we have.
 env GOPROXY=$proxy/404,$proxy/410
 ! golang get rsc.io/quote@v1.4.0
-stderr 'reading.*/410/rsc.io/.*: 410 Gone'
+stderr 'reading.*/410/rsc.io/.*: 410 Golangne'
 
 -- golang.mod --
 module x

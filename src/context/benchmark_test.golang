@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -153,7 +153,7 @@ func BenchmarkContextCancelDone(b *testing.B) {
 	})
 }
 
-func BenchmarkDeepValueNewGoRoutine(b *testing.B) {
+func BenchmarkDeepValueNewGolangRoutine(b *testing.B) {
 	for _, depth := range []int{10, 20, 30, 50, 100} {
 		ctx := Background()
 		for i := 0; i < depth; i++ {
@@ -174,7 +174,7 @@ func BenchmarkDeepValueNewGoRoutine(b *testing.B) {
 	}
 }
 
-func BenchmarkDeepValueSameGoRoutine(b *testing.B) {
+func BenchmarkDeepValueSameGolangRoutine(b *testing.B) {
 	for _, depth := range []int{10, 20, 30, 50, 100} {
 		ctx := Background()
 		for i := 0; i < depth; i++ {

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,7 +14,7 @@ import (
 
 func TestDumpCallSiteScoreDump(t *testing.T) {
 	td := t.TempDir()
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	scenarios := []struct {
 		name               string
@@ -95,7 +95,7 @@ func gatherInlCallSitesScoresForFile(t *testing.T, testcase string, td string) (
 	golangpath := "testdata/" + testcase + ".golang"
 	outpath := filepath.Join(td, testcase+".a")
 	dumpfile := filepath.Join(td, testcase+".callsites.txt")
-	run := []string{testenv.GoToolPath(t), "build",
+	run := []string{testenv.GolangToolPath(t), "build",
 		"-gcflags=-d=dumpinlcallsitescores=1", "-o", outpath, golangpath}
 	out, err := testenv.Command(t, run[0], run[1:]...).CombinedOutput()
 	t.Logf("run: %+v\n", run)

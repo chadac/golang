@@ -1,10 +1,10 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package strings implements simple functions to manipulate UTF-8 encoded strings.
 //
-// For information about UTF-8 strings in Go, see https://blog.golanglang.org/strings.
+// For information about UTF-8 strings in Golang, see https://blog.golanglang.org/strings.
 package strings
 
 import (

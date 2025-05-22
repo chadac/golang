@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -108,7 +108,7 @@ func testServerContentTypeSniff(t *testing.T, mode testMode) {
 		}
 		// DetectContentType is defined to return
 		// text/plain; charset=utf-8 for an empty body,
-		// but as of Go 1.10 the HTTP server has been changed
+		// but as of Golang 1.10 the HTTP server has been changed
 		// to return no content-type at all for an empty body.
 		// Adjust the expectation here.
 		wantContentType := tt.contentType

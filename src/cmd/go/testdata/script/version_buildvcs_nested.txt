@@ -31,7 +31,7 @@ cd ..
 mkdir gitsub
 cd gitsub
 exec git init
-exec git config user.name 'J.R.Gopher'
+exec git config user.name 'J.R.Golangpher'
 exec git config user.email 'golangpher@golanglang.org'
 cp ../../main.golang main.golang
 ! golang build

@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,25 +15,25 @@ import (
 type Version uint32
 
 const (
-	Go111   Version = 11 // v1
-	Go119   Version = 19 // v1
-	Go121   Version = 21 // v1
-	Go122   Version = 22 // v2
-	Go123   Version = 23 // v2
-	Go125   Version = 25 // v2
-	Current         = Go125
+	Golang111   Version = 11 // v1
+	Golang119   Version = 19 // v1
+	Golang121   Version = 21 // v1
+	Golang122   Version = 22 // v2
+	Golang123   Version = 23 // v2
+	Golang125   Version = 25 // v2
+	Current         = Golang125
 )
 
 var versions = map[Version][]tracev2.EventSpec{
-	// Go 1.11–1.21 use a different parser and are only set here for the sake of
+	// Golang 1.11–1.21 use a different parser and are only set here for the sake of
 	// Version.Valid.
-	Go111: nil,
-	Go119: nil,
-	Go121: nil,
+	Golang111: nil,
+	Golang119: nil,
+	Golang121: nil,
 
-	Go122: tracev2.Specs()[:tracev2.EvUserLog+1],           // All events after are Go 1.23+.
-	Go123: tracev2.Specs()[:tracev2.EvExperimentalBatch+1], // All events after are Go 1.25+.
-	Go125: tracev2.Specs(),
+	Golang122: tracev2.Specs()[:tracev2.EvUserLog+1],           // All events after are Golang 1.23+.
+	Golang123: tracev2.Specs()[:tracev2.EvExperimentalBatch+1], // All events after are Golang 1.25+.
+	Golang125: tracev2.Specs(),
 }
 
 // Specs returns the set of event.Specs for this version.
@@ -62,7 +62,7 @@ func (v Version) Valid() bool {
 	return ok
 }
 
-// headerFmt is the format of the header of all Go execution traces.
+// headerFmt is the format of the header of all Golang execution traces.
 const headerFmt = "golang 1.%d trace\x00\x00\x00"
 
 // ReadHeader reads the version of the trace out of the trace file's
@@ -71,7 +71,7 @@ func ReadHeader(r io.Reader) (Version, error) {
 	var v Version
 	_, err := fmt.Fscanf(r, headerFmt, &v)
 	if err != nil {
-		return v, fmt.Errorf("bad file format: not a Go execution trace?")
+		return v, fmt.Errorf("bad file format: not a Golang execution trace?")
 	}
 	if !v.Valid() {
 		return v, fmt.Errorf("unknown or unsupported trace version golang 1.%d", v)

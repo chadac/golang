@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,24 +11,24 @@ import (
 	"internal/trace/tracev2"
 )
 
-// writeGoStatus emits a GoStatus event as well as any active ranges on the golangroutine.
+// writeGolangStatus emits a GolangStatus event as well as any active ranges on the golangroutine.
 //
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
 //golang:nosplit
-func (w traceWriter) writeGoStatus(golangid uint64, mid int64, status tracev2.GoStatus, markAssist bool, stackID uint64) traceWriter {
+func (w traceWriter) writeGolangStatus(golangid uint64, mid int64, status tracev2.GolangStatus, markAssist bool, stackID uint64) traceWriter {
 	// The status should never be bad. Some invariant must have been violated.
-	if status == tracev2.GoBad {
+	if status == tracev2.GolangBad {
 		print("runtime: golangid=", golangid, "\n")
 		throw("attempted to trace a bad status for a golangroutine")
 	}
 
 	// Trace the status.
 	if stackID == 0 {
-		w = w.event(tracev2.EvGoStatus, traceArg(golangid), traceArg(uint64(mid)), traceArg(status))
+		w = w.event(tracev2.EvGolangStatus, traceArg(golangid), traceArg(uint64(mid)), traceArg(status))
 	} else {
-		w = w.event(tracev2.EvGoStatusStack, traceArg(golangid), traceArg(uint64(mid)), traceArg(status), traceArg(stackID))
+		w = w.event(tracev2.EvGolangStatusStack, traceArg(golangid), traceArg(uint64(mid)), traceArg(status), traceArg(stackID))
 	}
 
 	// Trace any special ranges that are in-progress.
@@ -104,7 +104,7 @@ func (w traceWriter) writeProcStatus(pid uint64, status tracev2.ProcStatus, inSw
 	return w
 }
 
-// golangStatusToTraceGoStatus translates the internal status to tracGoStatus.
+// golangStatusToTraceGolangStatus translates the internal status to tracGolangStatus.
 //
 // status must not be _Gdead or any status whose name has the suffix "_unused."
 //
@@ -112,16 +112,16 @@ func (w traceWriter) writeProcStatus(pid uint64, status tracev2.ProcStatus, inSw
 // have any stack growth.
 //
 //golang:nosplit
-func golangStatusToTraceGoStatus(status uint32, wr waitReason) tracev2.GoStatus {
+func golangStatusToTraceGolangStatus(status uint32, wr waitReason) tracev2.GolangStatus {
 	// N.B. Ignore the _Gscan bit. We don't model it in the tracer.
-	var tgs tracev2.GoStatus
+	var tgs tracev2.GolangStatus
 	switch status &^ _Gscan {
 	case _Grunnable:
-		tgs = tracev2.GoRunnable
+		tgs = tracev2.GolangRunnable
 	case _Grunning, _Gcopystack:
-		tgs = tracev2.GoRunning
+		tgs = tracev2.GolangRunning
 	case _Gsyscall:
-		tgs = tracev2.GoSyscall
+		tgs = tracev2.GolangSyscall
 	case _Gwaiting, _Gpreempted:
 		// There are a number of cases where a G might end up in
 		// _Gwaiting but it's actually running in a non-preemptive
@@ -129,9 +129,9 @@ func golangStatusToTraceGoStatus(status uint32, wr waitReason) tracev2.GoStatus 
 		// garbage collector. In these cases, we're not golanging to
 		// emit an event, and we want these golangroutines to appear in
 		// the final trace as if they're running, not blocked.
-		tgs = tracev2.GoWaiting
+		tgs = tracev2.GolangWaiting
 		if status == _Gwaiting && wr.isWaitingForGC() {
-			tgs = tracev2.GoRunning
+			tgs = tracev2.GolangRunning
 		}
 	case _Gdead:
 		throw("tried to trace dead golangroutine")
@@ -158,7 +158,7 @@ type traceSchedResourceState struct {
 	//
 	// There are two of these so that we can reset the counter on each generation.
 	// This saves space in the resulting trace by keeping the counter small and allows
-	// GoStatus and GoCreate events to omit a sequence number (implicitly 0).
+	// GolangStatus and GolangCreate events to omit a sequence number (implicitly 0).
 	seq [2]uint64
 }
 

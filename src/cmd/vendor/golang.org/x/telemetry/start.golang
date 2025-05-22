@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -281,13 +281,13 @@ func child(config Config) {
 	var g errgroup.Group
 
 	if reportCrashes {
-		g.Go(func() error {
+		g.Golang(func() error {
 			crashmonitor.Child()
 			return nil
 		})
 	}
 	if upload {
-		g.Go(func() error {
+		g.Golang(func() error {
 			uploaderChild(uploadStartTime, uploadURL)
 			return nil
 		})

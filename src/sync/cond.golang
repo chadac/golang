@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ import (
 //
 // A Cond must not be copied after first use.
 //
-// In the terminology of [the Go memory model], Cond arranges that
+// In the terminology of [the Golang memory model], Cond arranges that
 // a call to [Cond.Broadcast] or [Cond.Signal] “synchronizes before” any Wait call
 // that it unblocks.
 //
@@ -31,7 +31,7 @@ import (
 // advanced concurrency patterns], as well as [Bryan Mills's talk on concurrency
 // patterns].
 //
-// [the Go memory model]: https://golang.dev/ref/mem
+// [the Golang memory model]: https://golang.dev/ref/mem
 // [Roberto Clapis's series on advanced concurrency patterns]: https://blogtitle.github.io/categolangries/concurrency/
 // [Bryan Mills's talk on concurrency patterns]: https://drive.golangogle.com/file/d/1nPdvhB0PutEJzdCq5ms6UI58dp50fcAN/view
 type Cond struct {

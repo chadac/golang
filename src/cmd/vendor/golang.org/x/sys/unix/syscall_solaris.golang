@@ -1,9 +1,9 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Solaris system calls.
-// This file is compiled as ordinary Go code,
+// This file is compiled as ordinary Golang code,
 // but it is also input to mksyscall,
 // which parses the //sys lines and generates system call stubs.
 // Note that sometimes we use a lowercase //sys name and wrap
@@ -383,7 +383,7 @@ func Futimesat(dirfd int, path string, tv []Timeval) error {
 }
 
 // Solaris doesn't have an futimes function because it allows NULL to be
-// specified as the path for futimesat. However, Go doesn't like
+// specified as the path for futimesat. However, Golang doesn't like
 // NULL-style string interfaces, so this simple wrapper is provided.
 func Futimes(fd int, tv []Timeval) error {
 	if tv == nil {

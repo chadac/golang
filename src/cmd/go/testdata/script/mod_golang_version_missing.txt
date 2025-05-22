@@ -1,13 +1,13 @@
 cp golang.mod golang.mod.orig
 
 # For modules whose golang.mod file does not include a 'golang' directive,
-# we assume the language and dependency semantics of Go 1.16,
+# we assume the language and dependency semantics of Golang 1.16,
 # but do not trigger “automatic vendoring” mode (-mod=vendor),
-# which was added in Go 1.14 and was not triggered
-# under the same conditions in Go 1.16 (which would instead
+# which was added in Golang 1.14 and was not triggered
+# under the same conditions in Golang 1.16 (which would instead
 # default to -mod=readonly when no 'golang' directive is present).
 
-# For Go 1.16 modules, 'all' should prune out dependencies of tests,
+# For Golang 1.16 modules, 'all' should prune out dependencies of tests,
 # even if the 'golang' directive is missing.
 
 golang list -mod=readonly all
@@ -18,10 +18,10 @@ cmp golang.mod golang.mod.orig
 
 # We should only default to -mod=vendor if the 'golang' directive is explicit in the
 # golang.mod file. Otherwise, we don't actually know whether the module was written
-# against Go 1.11 or 1.16. We would have to update the golang.mod file to clarify,
-# and as of Go 1.16 we don't update the golang.mod file by default.
+# against Golang 1.11 or 1.16. We would have to update the golang.mod file to clarify,
+# and as of Golang 1.16 we don't update the golang.mod file by default.
 #
-# If we set -mod=vendor explicitly, we shouldn't apply the Go 1.14
+# If we set -mod=vendor explicitly, we shouldn't apply the Golang 1.14
 # consistency check, because — again — we don't know whether we're in a 1.11
 # module or a bad-script-edited 1.16 module.
 
@@ -53,7 +53,7 @@ cmpenv golang.mod golang.mod.tidy
 
 # The updated version should have been written back to golang.mod, so now the 'golang'
 # directive is explicit. -mod=vendor should trigger by default, and the stronger
-# Go 1.14 consistency check should apply.
+# Golang 1.14 consistency check should apply.
 ! golang list all
 stderr '^golang: inconsistent vendoring'
 ! stderr badedit

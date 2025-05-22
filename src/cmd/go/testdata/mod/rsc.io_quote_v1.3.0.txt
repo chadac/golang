@@ -7,7 +7,7 @@ module "rsc.io/quote"
 -- golang.mod --
 module "rsc.io/quote"
 -- quote.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,8 +25,8 @@ func Glass() string {
 	return "I can eat glass and it doesn't hurt me."
 }
 
-// Go returns a Go proverb.
-func Go() string {
+// Golang returns a Golang proverb.
+func Golang() string {
 	return "Don't communicate by sharing memory, share memory by communicating."
 }
 
@@ -36,7 +36,7 @@ func Opt() string {
 	return "If a program is too slow, it must have a loop."
 }
 -- quote_test.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -58,10 +58,10 @@ func TestGlass(t *testing.T) {
 	}
 }
 
-func TestGo(t *testing.T) {
+func TestGolang(t *testing.T) {
 	golang1 := "Don't communicate by sharing memory, share memory by communicating."
-	if out := Go(); out != golang1 {
-		t.Errorf("Go() = %q, want %q", out, golang1)
+	if out := Golang(); out != golang1 {
+		t.Errorf("Golang() = %q, want %q", out, golang1)
 	}
 }
 

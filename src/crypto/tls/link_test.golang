@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,8 +19,8 @@ func TestLinkerGC(t *testing.T) {
 		t.Skip("skipping in short mode")
 	}
 	t.Parallel()
-	golangBin := testenv.GoToolPath(t)
-	testenv.MustHaveGoBuild(t)
+	golangBin := testenv.GolangToolPath(t)
+	testenv.MustHaveGolangBuild(t)
 
 	tests := []struct {
 		name    string

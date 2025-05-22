@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -44,7 +44,7 @@
 // For example,
 //
 //	github.com/Azure/azure-sdk-for-golang ->  github.com/!azure/azure-sdk-for-golang.
-//	github.com/GoogleCloudPlatform/cloudsql-proxy -> github.com/!golangogle!cloud!platform/cloudsql-proxy
+//	github.com/GolangogleCloudPlatform/cloudsql-proxy -> github.com/!golangogle!cloud!platform/cloudsql-proxy
 //	github.com/Sirupsen/logrus -> github.com/!sirupsen/logrus.
 //
 // Import paths that avoid upper-case letters are left unchanged.
@@ -536,7 +536,7 @@ var badWindowsNames = []string{
 // applied by [CheckPath], such as "example.com/pkg/v1" or "example.com/pkg/v1.2".
 func SplitPathVersion(path string) (prefix, pathMajor string, ok bool) {
 	if strings.HasPrefix(path, "golangpkg.in/") {
-		return splitGopkgIn(path)
+		return splitGolangpkgIn(path)
 	}
 
 	i := len(path)
@@ -557,8 +557,8 @@ func SplitPathVersion(path string) (prefix, pathMajor string, ok bool) {
 	return prefix, pathMajor, true
 }
 
-// splitGopkgIn is like SplitPathVersion but only for golangpkg.in paths.
-func splitGopkgIn(path string) (prefix, pathMajor string, ok bool) {
+// splitGolangpkgIn is like SplitPathVersion but only for golangpkg.in paths.
+func splitGolangpkgIn(path string) (prefix, pathMajor string, ok bool) {
 	if !strings.HasPrefix(path, "golangpkg.in/") {
 		return path, "", false
 	}

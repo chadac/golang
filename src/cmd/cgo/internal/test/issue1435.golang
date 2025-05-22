@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -137,9 +137,9 @@ func compareStatus(filter, expect string) error {
 // test1435 test 9 glibc implemented setuid/gid syscall functions are
 // mapped.  This test is a slightly more expansive test than that of
 // src/syscall/syscall_linux_test.golang:TestSetuidEtc() insofar as it
-// launches concurrent threads from C code via CGo and validates that
+// launches concurrent threads from C code via CGolang and validates that
 // they are subject to the system calls being tested. For the actual
-// Go functionality being tested here, the syscall_linux_test version
+// Golang functionality being tested here, the syscall_linux_test version
 // is considered authoritative, but non-trivial improvements to that
 // should be mirrored here.
 func test1435(t *testing.T) {
@@ -147,7 +147,7 @@ func test1435(t *testing.T) {
 		t.Skip("skipping root only test")
 	}
 	if testing.Short() && testenv.Builder() != "" && os.Getenv("USER") == "swarming" {
-		// The Go build system's swarming user is known not to be root.
+		// The Golang build system's swarming user is known not to be root.
 		// Unfortunately, it sometimes appears as root due the current
 		// implementation of a no-network check using 'unshare -n -r'.
 		// Since this test does need root to work, we need to skip it.

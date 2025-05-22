@@ -8,9 +8,9 @@
 
 # Verify correct statements percentages. We have a total of 10
 # statements in the packages matched by "./..."; package "a" (for
-# example) has two statements so we expect 20.0% stmts covered. Go
+# example) has two statements so we expect 20.0% stmts covered. Golang
 # 1.19 would print 50% here (due to force importing of all ./...
-# packages); prior to the fix for #58770 Go 1.20 would show 100%
+# packages); prior to the fix for #58770 Golang 1.20 would show 100%
 # coverage. For packages "x" and "f" (which have no tests), check for
 # 0% stmts covered (as opposed to "no test files").
 

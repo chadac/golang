@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@ package main
 
 // This program failed when run under the C/C++ ThreadSanitizer. The
 // TSAN library was not keeping track of whether signals should be
-// delivered on the alternate signal stack, and the Go signal handler
+// delivered on the alternate signal stack, and the Golang signal handler
 // was not preserving callee-saved registers from C callers.
 
 /*

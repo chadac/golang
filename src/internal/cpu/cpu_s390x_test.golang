@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -32,7 +32,7 @@ func TestS390XAgainstCPUInfo(t *testing.T) {
 		mapping[option.Name] = option.Feature
 	}
 
-	// these must be true on the machines Go supports
+	// these must be true on the machines Golang supports
 	mandatory := make(map[string]bool)
 	mandatory["zarch"] = false
 	mandatory["eimm"] = false

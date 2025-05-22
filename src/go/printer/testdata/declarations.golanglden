@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -297,9 +297,9 @@ type _ struct {
 	}
 
 	Stktop	struct {
-		Stackguard, Stackbase, Gobuf int
+		Stackguard, Stackbase, Golangbuf int
 	}
-	Gobuf	struct {
+	Golangbuf	struct {
 		Sp, Pc, G int
 	}
 	G	struct {
@@ -455,8 +455,8 @@ const (
 
 // excerpt from golangdoc.golang
 var (
-	golangroot		= flag.String("golangroot", runtime.GOROOT(), "Go root directory")
-	testDir		= flag.String("testdir", "", "Go root subdirectory - for testing only (faster startups)")
+	golangroot		= flag.String("golangroot", runtime.GOROOT(), "Golang root directory")
+	testDir		= flag.String("testdir", "", "Golang root subdirectory - for testing only (faster startups)")
 	pkgPath		= flag.String("path", "", "additional package directories (colon-separated)")
 	filter		= flag.String("filter", "", "filter file containing permitted package directory paths")
 	filterMin	= flag.Int("filter_minutes", 0, "filter file update interval in minutes; disabled if <= 0")

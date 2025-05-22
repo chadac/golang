@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -53,8 +53,8 @@ const (
 	_Fallthrough // fallthrough
 	_For         // for
 	_Func        // func
-	_Go          // golang
-	_Goto        // golangto
+	_Golang          // golang
+	_Golangto        // golangto
 	_If          // if
 	_Import      // import
 	_Interface   // interface
@@ -77,10 +77,10 @@ const (
 	Break       = _Break
 	Continue    = _Continue
 	Fallthrough = _Fallthrough
-	Goto        = _Goto
+	Golangto        = _Golangto
 
 	// for CallStmt
-	Go    = _Go
+	Golang    = _Golang
 	Defer = _Defer
 )
 

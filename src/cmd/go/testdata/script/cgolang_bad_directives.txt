@@ -11,16 +11,16 @@ cp x.golang.txt x.golang
 # Ignore _* files
 rm x.golang
 ! golang build .
-stderr 'no Go files'
+stderr 'no Golang files'
 cp cgolang_yy.golang.txt _cgolang_yy.golang
 ! golang build .
-stderr 'no Go files' #_* files are ignored...
+stderr 'no Golang files' #_* files are ignored...
 
 [compiler:gc] ! golang build _cgolang_yy.golang # ... but if forced, the comment is rejected
 # Actually, today there is a separate issue that _ files named
 # on the command line are ignored. Once that is fixed,
 # we want to see the cgolang_ldflag error.
-[compiler:gc] stderr '//golang:cgolang_ldflag only allowed in cgolang-generated code|no Go files'
+[compiler:gc] stderr '//golang:cgolang_ldflag only allowed in cgolang-generated code|no Golang files'
 
 rm _cgolang_yy.golang
 

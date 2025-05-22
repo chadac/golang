@@ -16,8 +16,8 @@ grep example.com/m golang.alt.mod
 golang env GOMOD
 stdout '^'$WORK${/}golangpath${/}src${/}'golang\.mod$'
 
-# 'golang list -m' should print the effective golang.mod file as GoMod though.
-golang list -m -f '{{.GoMod}}'
+# 'golang list -m' should print the effective golang.mod file as GolangMod though.
+golang list -m -f '{{.GolangMod}}'
 stdout '^golang.alt.mod$'
 
 # golang mod edit should operate on the alternate file

@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -21,7 +21,7 @@ func setVMAName(start unsafe.Pointer, length uintptr, name string) {
 	}
 
 	var sysName [80]byte
-	n := copy(sysName[:], " Go: ")
+	n := copy(sysName[:], " Golang: ")
 	copy(sysName[n:79], name) // leave final byte zero
 
 	_, _, err := syscall.Syscall6(syscall.SYS_PRCTL, syscall.PR_SET_VMA, syscall.PR_SET_VMA_ANON_NAME, uintptr(start), length, uintptr(unsafe.Pointer(&sysName[0])), 0)

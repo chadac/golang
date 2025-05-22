@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -70,7 +70,7 @@ func main() {
 	// compile it
 	exe := name + ".exe"
 	defer os.Remove(exe)
-	o, err := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, src).CombinedOutput()
+	o, err := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", exe, src).CombinedOutput()
 	if err != nil {
 		t.Fatalf("Failed to compile: %v\n%v", err, string(o))
 	}

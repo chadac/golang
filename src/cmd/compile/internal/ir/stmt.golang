@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -236,25 +236,25 @@ func NewForStmt(pos src.XPos, init Node, cond, post Node, body []Node, distinctV
 	return n
 }
 
-// A GoDeferStmt is a golang or defer statement: golang Call / defer Call.
+// A GolangDeferStmt is a golang or defer statement: golang Call / defer Call.
 //
 // The two opcodes use a single syntax because the implementations
 // are very similar: both are concerned with saving Call and running it
 // in a different context (a separate golangroutine or a later time).
-type GoDeferStmt struct {
+type GolangDeferStmt struct {
 	miniStmt
 	Call    Node
 	DeferAt Expr
 }
 
-func NewGoDeferStmt(pos src.XPos, op Op, call Node) *GoDeferStmt {
-	n := &GoDeferStmt{Call: call}
+func NewGolangDeferStmt(pos src.XPos, op Op, call Node) *GolangDeferStmt {
+	n := &GolangDeferStmt{Call: call}
 	n.pos = pos
 	switch op {
 	case ODEFER, OGO:
 		n.op = op
 	default:
-		panic("NewGoDeferStmt " + op.String())
+		panic("NewGolangDeferStmt " + op.String())
 	}
 	return n
 }

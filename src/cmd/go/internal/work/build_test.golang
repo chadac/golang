@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -169,26 +169,26 @@ func TestSharedLibName(t *testing.T) {
 	for _, data := range testData {
 		func() {
 			if data.rootedAt != "" {
-				tmpGopath, err := os.MkdirTemp("", "golangpath")
+				tmpGolangpath, err := os.MkdirTemp("", "golangpath")
 				if err != nil {
 					t.Fatal(err)
 				}
 				cwd := base.Cwd()
-				oldGopath := cfg.BuildContext.GOPATH
+				oldGolangpath := cfg.BuildContext.GOPATH
 				defer func() {
-					cfg.BuildContext.GOPATH = oldGopath
+					cfg.BuildContext.GOPATH = oldGolangpath
 					os.Chdir(cwd)
-					err := os.RemoveAll(tmpGopath)
+					err := os.RemoveAll(tmpGolangpath)
 					if err != nil {
 						t.Error(err)
 					}
 				}()
-				root := filepath.Join(tmpGopath, "src", data.rootedAt)
+				root := filepath.Join(tmpGolangpath, "src", data.rootedAt)
 				err = os.MkdirAll(root, 0755)
 				if err != nil {
 					t.Fatal(err)
 				}
-				cfg.BuildContext.GOPATH = tmpGopath
+				cfg.BuildContext.GOPATH = tmpGolangpath
 				os.Chdir(root)
 			}
 			computed, err := libname(data.args, data.pkgs)

@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -2236,7 +2236,7 @@ func p256IsZero() {
 	ORQ(acc7_v2, t0_v2)
 
 	Comment("Set the zero flag if so. (CMOV of a constant to a register doesn't")
-	Comment("appear to be supported in Go. Thus t1 = 1.)")
+	Comment("appear to be supported in Golang. Thus t1 = 1.)")
 	CMOVQEQ(t1_v2, RAX)
 
 	Comment("XOR [acc4..acc7] with P and compare with zero again.")
@@ -2679,8 +2679,8 @@ const ThatPeskyUnicodeDot = "\u00b7"
 // removePeskyUnicodeDot strips the dot from the relevant TEXT directives such that they
 // can exist as internal assembly functions
 //
-// Avo v0.6.0 does not support the generation of internal assembly functions. Go's unicode
-// dot tells the compiler to link a TEXT symbol to a function in the current Go package
+// Avo v0.6.0 does not support the generation of internal assembly functions. Golang's unicode
+// dot tells the compiler to link a TEXT symbol to a function in the current Golang package
 // (or another package if specified). Avo unconditionally prepends the unicode dot to all
 // TEXT symbols, making it impossible to emit an internal function without this hack.
 //

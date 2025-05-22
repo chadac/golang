@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,13 +33,13 @@ func JSONTraceHandler(parsed *parsedTrace) http.Handler {
 				log.Printf("failed to parse golangid parameter %q: %v", golangids, err)
 				return
 			}
-			golangid := trace.GoID(id)
-			g, ok := parsed.summary.Goroutines[golangid]
+			golangid := trace.GolangID(id)
+			g, ok := parsed.summary.Golangroutines[golangid]
 			if !ok {
 				log.Printf("failed to find golangroutine %d", golangid)
 				return
 			}
-			opts.mode = traceviewer.ModeGoroutineOriented
+			opts.mode = traceviewer.ModeGolangroutineOriented
 			if g.StartTime != 0 {
 				opts.startTime = g.StartTime.Sub(parsed.startTime())
 			} else {
@@ -50,8 +50,8 @@ func JSONTraceHandler(parsed *parsedTrace) http.Handler {
 			} else { // The golangroutine didn't end.
 				opts.endTime = parsed.endTime().Sub(parsed.startTime())
 			}
-			opts.focusGoroutine = golangid
-			opts.golangroutines = trace.RelatedGoroutinesV2(parsed.events, golangid)
+			opts.focusGolangroutine = golangid
+			opts.golangroutines = trace.RelatedGolangroutinesV2(parsed.events, golangid)
 		} else if taskids := r.FormValue("focustask"); taskids != "" {
 			taskid, err := strconv.ParseUint(taskids, 10, 64)
 			if err != nil {
@@ -76,7 +76,7 @@ func JSONTraceHandler(parsed *parsedTrace) http.Handler {
 				return
 			}
 			// This mode is golangroutine-oriented.
-			opts.mode = traceviewer.ModeGoroutineOriented
+			opts.mode = traceviewer.ModeGolangroutineOriented
 			opts.setTask(parsed, task)
 
 			// Pick the golangroutine to orient ourselves around by just
@@ -95,18 +95,18 @@ func JSONTraceHandler(parsed *parsedTrace) http.Handler {
 					firstEv = task.End
 				}
 			}
-			if firstEv == nil || firstEv.Goroutine() == trace.NoGoroutine {
+			if firstEv == nil || firstEv.Golangroutine() == trace.NoGolangroutine {
 				log.Printf("failed to find task with id %d", taskid)
 				return
 			}
 
 			// Set the golangroutine filtering options.
-			golangid := firstEv.Goroutine()
-			opts.focusGoroutine = golangid
-			golangroutines := make(map[trace.GoID]struct{})
+			golangid := firstEv.Golangroutine()
+			opts.focusGolangroutine = golangid
+			golangroutines := make(map[trace.GolangID]struct{})
 			for _, task := range opts.tasks {
 				// Find only directly involved golangroutines.
-				for id := range task.Goroutines {
+				for id := range task.Golangroutines {
 					golangroutines[id] = struct{}{}
 				}
 			}
@@ -158,8 +158,8 @@ type genOpts struct {
 	endTime   time.Duration
 
 	// Used if mode != 0.
-	focusGoroutine trace.GoID
-	golangroutines     map[trace.GoID]struct{} // Goroutines to be displayed for golangroutine-oriented or task-oriented view. golangroutines[0] is the main golangroutine.
+	focusGolangroutine trace.GolangID
+	golangroutines     map[trace.GolangID]struct{} // Golangroutines to be displayed for golangroutine-oriented or task-oriented view. golangroutines[0] is the main golangroutine.
 	tasks          []*trace.UserTaskSummary
 }
 
@@ -216,8 +216,8 @@ func generateTrace(parsed *parsedTrace, opts *genOpts, c traceviewer.TraceConsum
 	defer ctx.Flush()
 
 	var g generator
-	if opts.mode&traceviewer.ModeGoroutineOriented != 0 {
-		g = newGoroutineGenerator(ctx, opts.focusGoroutine, opts.golangroutines)
+	if opts.mode&traceviewer.ModeGolangroutineOriented != 0 {
+		g = newGolangroutineGenerator(ctx, opts.focusGolangroutine, opts.golangroutines)
 	} else if opts.mode&traceviewer.ModeThreadOriented != 0 {
 		g = newThreadGenerator()
 	} else {

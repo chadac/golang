@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -205,7 +205,7 @@ func (rd *reparseData) pathBuffeLen() uint16 {
 }
 
 // Windows REPARSE_DATA_BUFFER contains union member, and cannot be
-// translated into Go directly. _REPARSE_DATA_BUFFER type is to help
+// translated into Golang directly. _REPARSE_DATA_BUFFER type is to help
 // construct alternative versions of Windows REPARSE_DATA_BUFFER with
 // union part of SymbolicLinkReparseBuffer or MountPointReparseBuffer type.
 type _REPARSE_DATA_BUFFER struct {
@@ -446,7 +446,7 @@ func TestNetworkSymbolicLink(t *testing.T) {
 	t.Chdir(dir)
 
 	pid := os.Getpid()
-	shareName := fmt.Sprintf("GoSymbolicLinkTestShare%d", pid)
+	shareName := fmt.Sprintf("GolangSymbolicLinkTestShare%d", pid)
 	sharePath := filepath.Join(dir, shareName)
 	testDir := "TestDir"
 
@@ -846,7 +846,7 @@ func main() {
 	}
 
 	exe := filepath.Join(tmpdir, "main.exe")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", exe, src)
 	cmd.Dir = tmpdir
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -1436,7 +1436,7 @@ func TestIllformedUTF16FileName(t *testing.T) {
 
 	// Create a file whose name contains unpaired surrogates.
 	// Use syscall.CreateFile instead of os.Create to simulate a file that is created by
-	// a non-Go program so the file name hasn't golangne through syscall.UTF16FromString.
+	// a non-Golang program so the file name hasn't golangne through syscall.UTF16FromString.
 	dirw := utf16.Encode([]rune(dir))
 	pathw := append(dirw, namew...)
 	fd, err := syscall.CreateFile(&pathw[0], syscall.GENERIC_ALL, 0, nil, syscall.CREATE_NEW, 0, 0)

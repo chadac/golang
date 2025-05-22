@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,8 +18,8 @@ import (
 	"testing"
 )
 
-func TestGoroutineProfile(t *testing.T) {
-	// GoroutineProfile used to use the wrong starting sp for
+func TestGolangroutineProfile(t *testing.T) {
+	// GolangroutineProfile used to use the wrong starting sp for
 	// golangroutines coming out of system calls, causing possible
 	// crashes.
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(100))
@@ -44,9 +44,9 @@ func TestGoroutineProfile(t *testing.T) {
 	}
 	stk := make([]runtime.StackRecord, 128)
 	for n := 0; n < max; n++ {
-		_, ok := runtime.GoroutineProfile(stk)
+		_, ok := runtime.GolangroutineProfile(stk)
 		if !ok {
-			t.Fatalf("GoroutineProfile failed")
+			t.Fatalf("GolangroutineProfile failed")
 		}
 	}
 

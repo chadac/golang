@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ import (
 )
 
 func TestFindProcessViaPidfd(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	if err := os.CheckPidfdOnce(); err != nil {
@@ -23,7 +23,7 @@ func TestFindProcessViaPidfd(t *testing.T) {
 		t.Skipf("skipping: pidfd not available: %v", err)
 	}
 
-	p, err := os.StartProcess(testenv.GoToolPath(t), []string{"golang"}, &os.ProcAttr{})
+	p, err := os.StartProcess(testenv.GolangToolPath(t), []string{"golang"}, &os.ProcAttr{})
 	if err != nil {
 		t.Fatalf("starting test process: %v", err)
 	}
@@ -61,7 +61,7 @@ func TestFindProcessViaPidfd(t *testing.T) {
 }
 
 func TestStartProcessWithPidfd(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
 	if err := os.CheckPidfdOnce(); err != nil {
@@ -70,7 +70,7 @@ func TestStartProcessWithPidfd(t *testing.T) {
 	}
 
 	var pidfd int
-	p, err := os.StartProcess(testenv.GoToolPath(t), []string{"golang"}, &os.ProcAttr{
+	p, err := os.StartProcess(testenv.GolangToolPath(t), []string{"golang"}, &os.ProcAttr{
 		Sys: &syscall.SysProcAttr{
 			PidFD: &pidfd,
 		},

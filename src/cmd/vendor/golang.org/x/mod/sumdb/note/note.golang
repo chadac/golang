@@ -1,8 +1,8 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package note defines the notes signed by the Go module database server.
+// Package note defines the notes signed by the Golang module database server.
 //
 // A note is text signed by one or more server keys.
 // The text should be ignored unless the note is signed by
@@ -14,7 +14,7 @@
 // The syntactic restrictions on a name are that it be non-empty,
 // well-formed UTF-8 containing neither Unicode spaces nor plus (U+002B).
 //
-// A Go module database server signs texts using public key cryptography.
+// A Golang module database server signs texts using public key cryptography.
 // A given server may have multiple public keys, each
 // identified by a 32-bit hash of the public key.
 //

@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ import (
    Wasm implementation
    -------------------
 
-   Wasm is a strange Go port because the machine isn't
+   Wasm is a strange Golang port because the machine isn't
    a register-based machine, threads are different, code paths
    are different, etc. We outline those differences here.
 
@@ -60,14 +60,14 @@ import (
    To support unwinding a stack, each function call returns on the Wasm
    stack a boolean that tells the function whether it should return
    immediately or not. When returning immediately, a return address
-   is left on the top of the Go stack indicating where the golangroutine
+   is left on the top of the Golang stack indicating where the golangroutine
    should be resumed.
 
    Stack pointer:
 
    There is a single global stack pointer which records the stack pointer
    used by the currently active golangroutine. This is just an address in
-   linear memory where the Go runtime is maintaining the stack for that
+   linear memory where the Golang runtime is maintaining the stack for that
    golangroutine.
 
    Functions cache the global stack pointer in a local variable for
@@ -76,24 +76,24 @@ import (
 
    Calling convention:
 
-   All Go arguments and return values are passed on the Go stack, not
+   All Golang arguments and return values are passed on the Golang stack, not
    the wasm stack. In addition, return addresses are pushed on the
-   Go stack at every call point. Return addresses are not used during
+   Golang stack at every call point. Return addresses are not used during
    normal execution, they are used only when resuming golangroutines.
    (So they are not really a "return address", they are a "resume address".)
 
-   All Go functions have the Wasm type (i32)->i32. The argument
+   All Golang functions have the Wasm type (i32)->i32. The argument
    is the block ID and the return value is the exit immediately flag.
 
    Callsite:
-    - write arguments to the Go stack (starting at SP+0)
-    - push return address to Go stack (8 bytes)
+    - write arguments to the Golang stack (starting at SP+0)
+    - push return address to Golang stack (8 bytes)
     - write local SP to global SP
     - push 0 (type i32) to Wasm stack
     - issue Call
     - restore local SP from global SP
     - pop int32 from top of Wasm stack. If nonzero, exit function immediately.
-    - use results from Go stack (starting at SP+sizeof(args))
+    - use results from Golang stack (starting at SP+sizeof(args))
        - note that the callee will have popped the return address
 
    Prologue:
@@ -101,23 +101,23 @@ import (
     - jump to the location indicated by the block ID argument
       (which appears in local variable 0)
     - at block 0
-      - check for Go stack overflow, call morestack if needed
+      - check for Golang stack overflow, call morestack if needed
       - subtract frame size from SP
       - note that arguments now start at SP+framesize+8
 
    Normal epilogue:
-    - pop frame from Go stack
-    - pop return address from Go stack
+    - pop frame from Golang stack
+    - pop return address from Golang stack
     - push 0 (type i32) on the Wasm stack
     - return
    Exit immediately epilogue:
     - push 1 (type i32) on the Wasm stack
     - return
-    - note that the return address and stack frame are left on the Go stack
+    - note that the return address and stack frame are left on the Golang stack
 
    The main loop that executes golangroutines is wasm_pc_f_loop, in
    runtime/rt0_js_wasm.s. It grabs the saved return address from
-   the top of the Go stack (actually SP-8?), splits it up into F
+   the top of the Golang stack (actually SP-8?), splits it up into F
    and B parts, then calls F with its Wasm argument set to B.
 
    Note that when resuming a golangroutine, only the most recent function

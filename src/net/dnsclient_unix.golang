@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -599,7 +599,7 @@ func golangLookupIPFiles(name string) (addrs []IPAddr, canonical string) {
 	return addrs, canonical
 }
 
-// golangLookupIP is the native Go implementation of LookupIP.
+// golangLookupIP is the native Golang implementation of LookupIP.
 // The libc versions are in cgolang_*.golang.
 func (r *Resolver) golangLookupIP(ctx context.Context, network, host string, order hostLookupOrder, conf *dnsConfig) (addrs []IPAddr, err error) {
 	addrs, _, err = r.golangLookupIPCNAMEOrder(ctx, network, host, order, conf)
@@ -817,13 +817,13 @@ func (r *Resolver) golangLookupIPCNAMEOrder(ctx context.Context, network, name s
 	return addrs, cname, nil
 }
 
-// golangLookupCNAME is the native Go (non-cgolang) implementation of LookupCNAME.
+// golangLookupCNAME is the native Golang (non-cgolang) implementation of LookupCNAME.
 func (r *Resolver) golangLookupCNAME(ctx context.Context, host string, order hostLookupOrder, conf *dnsConfig) (string, error) {
 	_, cname, err := r.golangLookupIPCNAMEOrder(ctx, "CNAME", host, order, conf)
 	return cname.String(), err
 }
 
-// golangLookupPTR is the native Go implementation of LookupAddr.
+// golangLookupPTR is the native Golang implementation of LookupAddr.
 func (r *Resolver) golangLookupPTR(ctx context.Context, addr string, order hostLookupOrder, conf *dnsConfig) ([]string, error) {
 	if order == hostLookupFiles || order == hostLookupFilesDNS {
 		names := lookupStaticAddr(addr)

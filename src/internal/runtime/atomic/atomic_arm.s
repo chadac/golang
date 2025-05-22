@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -129,7 +129,7 @@ TEXT ·Xchgint64(SB),NOSPLIT,$-4-20
 // 64-bit atomics
 // The native ARM implementations use LDREXD/STREXD, which are
 // available on ARMv6k or later. We use them only on ARMv7.
-// On older ARM, we use Go implementations which simulate 64-bit
+// On older ARM, we use Golang implementations which simulate 64-bit
 // atomics with locks.
 TEXT armCas64<>(SB),NOSPLIT,$0-21
 	// addr is already in R1
@@ -283,7 +283,7 @@ xchg8loop:
 	RET
 
 // The following functions all panic if their address argument isn't
-// 8-byte aligned. Since we're calling back into Go code to do this,
+// 8-byte aligned. Since we're calling back into Golang code to do this,
 // we have to cooperate with stack unwinding. In the normal case, the
 // functions tail-call into the appropriate implementation, which
 // means they must not open a frame. Hence, when they golang down the

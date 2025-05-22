@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@
 // git, hg, and svn), a "handle" command that informs the script which protocol
 // or handler to use to serve the request, and utilities "at" (which sets
 // environment variables for Git timestamps) and "unquote" (which unquotes its
-// argument as if it were a Go string literal).
+// argument as if it were a Golang string literal).
 //
 // The server's "/" endpoint provides a summary of the available scripts,
 // and "/help" provides documentation for the script environment.
@@ -172,7 +172,7 @@ func (s *Server) Close() error {
 // deterministic, platform-agnostic behavior for the 'git' command.
 var gitConfig = `
 [user]
-	name = Go Gopher
+	name = Golang Golangpher
 	email = golangpher@golanglang.org
 [init]
 	defaultBranch = main
@@ -186,7 +186,7 @@ var gitConfig = `
 // deterministic, platform-agnostic behavior for the 'hg' command.
 var hgrc = `
 [ui]
-username=Go Gopher <golangpher@golanglang.org>
+username=Golang Golangpher <golangpher@golanglang.org>
 [phases]
 new-commit=public
 [extensions]

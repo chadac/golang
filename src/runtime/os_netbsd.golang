@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -300,9 +300,9 @@ func minit() {
 
 	// On NetBSD a thread created by pthread_create inherits the
 	// signal stack of the creating thread. We always create a
-	// new signal stack here, to avoid having two Go threads using
+	// new signal stack here, to avoid having two Golang threads using
 	// the same signal stack. This breaks the case of a thread
-	// created in C that calls sigaltstack and then calls a Go
+	// created in C that calls sigaltstack and then calls a Golang
 	// function, because we will lose track of the C code's
 	// sigaltstack, but it's the best we can do.
 	signalstack(&gp.m.gsignal.stack)
@@ -434,7 +434,7 @@ func sysauxv(auxv []uintptr) (pairs int) {
 // raise sends signal to the calling thread.
 //
 // It must be nosplit because it is used by the signal handler before
-// it definitely has a Go stack.
+// it definitely has a Golang stack.
 //
 //golang:nosplit
 func raise(sig uint32) {

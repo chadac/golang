@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -259,7 +259,7 @@ func TestValueCompareAndSwapConcurrent(t *testing.T) {
 		i := i
 		w.Add(1)
 		golang func() {
-			for j := i; j < m*n; runtime.Gosched() {
+			for j := i; j < m*n; runtime.Golangsched() {
 				if v.CompareAndSwap(j, j+1) {
 					j += m
 				}

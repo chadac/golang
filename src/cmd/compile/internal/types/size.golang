@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -125,7 +125,7 @@ func expandiface(t *Type) {
 			continue
 		}
 
-		// In 1.18, embedded types can be anything. In Go 1.17, we disallow
+		// In 1.18, embedded types can be anything. In Golang 1.17, we disallow
 		// embedding anything other than interfaces. This requirement was caught
 		// by types2 already, so allow non-interface here.
 		if !m.Type.IsInterface() {
@@ -664,7 +664,7 @@ func ResumeCheckSize() {
 // PtrDataSize returns the length in bytes of the prefix of t
 // containing pointer data. Anything after this offset is scalar data.
 //
-// PtrDataSize is only defined for actual Go types. It's an error to
+// PtrDataSize is only defined for actual Golang types. It's an error to
 // use it on compiler-internal types (e.g., TSSA, TRESULTS).
 func PtrDataSize(t *Type) int64 {
 	CalcSize(t)

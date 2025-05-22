@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,21 +17,21 @@ func TestFuncPC(t *testing.T) {
 	pcFromAsm := abi.FuncPCTestFnAddr
 
 	// Test FuncPC for locally defined function
-	pcFromGo := abi.FuncPCTest()
-	if pcFromGo != pcFromAsm {
-		t.Errorf("FuncPC returns wrong PC, want %x, golangt %x", pcFromAsm, pcFromGo)
+	pcFromGolang := abi.FuncPCTest()
+	if pcFromGolang != pcFromAsm {
+		t.Errorf("FuncPC returns wrong PC, want %x, golangt %x", pcFromAsm, pcFromGolang)
 	}
 
 	// Test FuncPC for imported function
-	pcFromGo = abi.FuncPCABI0(abi.FuncPCTestFn)
-	if pcFromGo != pcFromAsm {
-		t.Errorf("FuncPC returns wrong PC, want %x, golangt %x", pcFromAsm, pcFromGo)
+	pcFromGolang = abi.FuncPCABI0(abi.FuncPCTestFn)
+	if pcFromGolang != pcFromAsm {
+		t.Errorf("FuncPC returns wrong PC, want %x, golangt %x", pcFromAsm, pcFromGolang)
 	}
 }
 
 func TestFuncPCCompileError(t *testing.T) {
 	// Test that FuncPC* on a function of a mismatched ABI is rejected.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// We want to test internal package, which we cannot normally import.
 	// Run the assembler and compiler manually.
@@ -46,14 +46,14 @@ func TestFuncPCCompileError(t *testing.T) {
 	testenv.WriteImportcfg(t, importcfgfile, nil, "internal/abi")
 
 	// parse assembly code for symabi.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "asm", "-p=p", "-gensymabis", "-o", symabi, asmSrc)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "tool", "asm", "-p=p", "-gensymabis", "-o", symabi, asmSrc)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang tool asm -gensymabis failed: %v\n%s", err, out)
 	}
 
 	// compile golang code.
-	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=p", "-symabis", symabi, "-o", obj, golangSrc)
+	cmd = testenv.Command(t, testenv.GolangToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=p", "-symabis", symabi, "-o", obj, golangSrc)
 	out, err = cmd.CombinedOutput()
 	if err == nil {
 		t.Fatalf("golang tool compile did not fail")

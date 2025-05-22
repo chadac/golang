@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,7 +24,7 @@ var (
 )
 
 func dotest(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	// For now, only works on amd64 platforms.
 	if runtime.GOARCH != "amd64" {
 		t.Skipf("skipping on non-AMD64 system %s", runtime.GOARCH)
@@ -39,7 +39,7 @@ func dotest(t *testing.T) {
 		t.Fatal(err)
 	}
 	pclinetestBinary = filepath.Join(pclineTempDir, "pclinetest")
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", pclinetestBinary)
+	cmd := exec.Command(testenv.GolangToolPath(t), "build", "-o", pclinetestBinary)
 	cmd.Dir = "testdata"
 	cmd.Env = append(os.Environ(), "GOOS=linux")
 	cmd.Stdout = os.Stdout
@@ -114,8 +114,8 @@ func TestLineFromAline(t *testing.T) {
 
 	tab := getTable(t)
 	if tab.golang12line != nil {
-		// aline's don't exist in the Go 1.2 table.
-		t.Skip("not relevant to Go 1.2 symbol table")
+		// aline's don't exist in the Golang 1.2 table.
+		t.Skip("not relevant to Golang 1.2 symbol table")
 	}
 
 	// Find the sym package
@@ -163,8 +163,8 @@ func TestLineAline(t *testing.T) {
 
 	tab := getTable(t)
 	if tab.golang12line != nil {
-		// aline's don't exist in the Go 1.2 table.
-		t.Skip("not relevant to Go 1.2 symbol table")
+		// aline's don't exist in the Golang 1.2 table.
+		t.Skip("not relevant to Golang 1.2 symbol table")
 	}
 
 	for _, o := range tab.Files {
@@ -273,7 +273,7 @@ func TestSymVersion(t *testing.T) {
 
 	table := getTable(t)
 	if table.golang12line == nil {
-		t.Skip("not relevant to Go 1.2+ symbol table")
+		t.Skip("not relevant to Golang 1.2+ symbol table")
 	}
 	for _, fn := range table.Funcs {
 		if fn.golangVersion == verUnknown {
@@ -282,7 +282,7 @@ func TestSymVersion(t *testing.T) {
 	}
 }
 
-// read115Executable returns a hello world executable compiled by Go 1.15.
+// read115Executable returns a hello world executable compiled by Golang 1.15.
 //
 // The file was compiled in /tmp/hello.golang:
 //

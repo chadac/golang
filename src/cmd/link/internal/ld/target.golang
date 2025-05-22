@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -52,7 +52,7 @@ func (t *Target) IsPIE() bool {
 	return t.BuildMode == BuildModePIE
 }
 
-func (t *Target) IsSharedGoLink() bool {
+func (t *Target) IsSharedGolangLink() bool {
 	return t.linkShared
 }
 
@@ -65,8 +65,8 @@ func (t *Target) IsElf() bool {
 	return t.IsELF
 }
 
-func (t *Target) IsDynlinkingGo() bool {
-	return t.IsShared() || t.IsSharedGoLink() || t.IsPlugin() || t.CanUsePlugins()
+func (t *Target) IsDynlinkingGolang() bool {
+	return t.IsShared() || t.IsSharedGolangLink() || t.IsPlugin() || t.CanUsePlugins()
 }
 
 // UseRelro reports whether to make use of "read only relocations" aka

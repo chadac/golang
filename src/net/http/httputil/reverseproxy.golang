@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -101,7 +101,7 @@ func (r *ProxyRequest) SetXForwarded() {
 // client.
 //
 // 1xx responses are forwarded to the client if the underlying
-// transport supports ClientTrace.Got1xxResponse.
+// transport supports ClientTrace.Golangt1xxResponse.
 //
 // Hop-by-hop headers (see RFC 9110, section 7.6.1), including
 // Connection, Proxy-Connection, Keep-Alive, Proxy-Authenticate,
@@ -463,7 +463,7 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 	if _, ok := outreq.Header["User-Agent"]; !ok {
 		// If the outbound request doesn't have a User-Agent header set,
-		// don't send the default Go HTTP client User-Agent.
+		// don't send the default Golang HTTP client User-Agent.
 		outreq.Header.Set("User-Agent", "")
 	}
 
@@ -472,7 +472,7 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		roundTripDone  bool
 	)
 	trace := &httptrace.ClientTrace{
-		Got1xxResponse: func(code int, header textproto.MIMEHeader) error {
+		Golangt1xxResponse: func(code int, header textproto.MIMEHeader) error {
 			roundTripMutex.Lock()
 			defer roundTripMutex.Unlock()
 			if roundTripDone {
@@ -568,7 +568,7 @@ var inOurTests bool // whether we're in our own tests
 
 // shouldPanicOnCopyError reports whether the reverse proxy should
 // panic with http.ErrAbortHandler. This is the right thing to do by
-// default, but Go 1.10 and earlier did not, so existing unit tests
+// default, but Golang 1.10 and earlier did not, so existing unit tests
 // weren't expecting panics. Only panic in our own tests, or when
 // running under the HTTP server.
 func shouldPanicOnCopyError(req *http.Request) bool {
@@ -581,7 +581,7 @@ func shouldPanicOnCopyError(req *http.Request) bool {
 		// it'll recover the panic.
 		return true
 	}
-	// Otherwise act like Go 1.10 and earlier to not break
+	// Otherwise act like Golang 1.10 and earlier to not break
 	// existing tests.
 	return false
 }

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -598,7 +598,7 @@ retry:
 		// If this is because we were preempted, reschedule
 		// and try some more.
 		if gp.preempt {
-			Gosched()
+			Golangsched()
 			golangto retry
 		}
 
@@ -1513,7 +1513,7 @@ func scanobject(b uintptr, gcw *gcWork) {
 		// At this point we have extracted the next potential pointer.
 		// Quickly filter out nil and pointers back to the current object.
 		if obj != 0 && obj-b >= n {
-			// Test if obj points into the Go heap and, if so,
+			// Test if obj points into the Golang heap and, if so,
 			// mark the object.
 			//
 			// Note that it's possible for findObject to

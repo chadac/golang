@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,28 +33,28 @@ const (
 // stateTransition returns golangroutine state (sequence and status) when the event
 // becomes ready for merging (init) and the golangroutine state after the event (next).
 func stateTransition(ev *Event) (g uint64, init, next gState) {
-	// Note that we have an explicit return in each case, as that produces slightly better code (tested on Go 1.19).
+	// Note that we have an explicit return in each case, as that produces slightly better code (tested on Golang 1.19).
 
 	switch ev.Type {
-	case EvGoCreate:
+	case EvGolangCreate:
 		g = ev.Args[0]
 		init = gState{0, gDead}
 		next = gState{1, gRunnable}
 		return
-	case EvGoWaiting, EvGoInSyscall:
+	case EvGolangWaiting, EvGolangInSyscall:
 		g = ev.G
 		init = gState{1, gRunnable}
 		next = gState{2, gWaiting}
 		return
-	case EvGoStart, EvGoStartLabel:
+	case EvGolangStart, EvGolangStartLabel:
 		g = ev.G
 		init = gState{ev.Args[1], gRunnable}
 		next = gState{ev.Args[1] + 1, gRunning}
 		return
-	case EvGoStartLocal:
+	case EvGolangStartLocal:
 		// noseq means that this event is ready for merging as soon as
-		// frontier reaches it (EvGoStartLocal is emitted on the same P
-		// as the corresponding EvGoCreate/EvGoUnblock, and thus the latter
+		// frontier reaches it (EvGolangStartLocal is emitted on the same P
+		// as the corresponding EvGolangCreate/EvGolangUnblock, and thus the latter
 		// is already merged).
 		// seqinc is a stub for cases when event increments g sequence,
 		// but since we don't know current seq we also don't know next seq.
@@ -62,24 +62,24 @@ func stateTransition(ev *Event) (g uint64, init, next gState) {
 		init = gState{noseq, gRunnable}
 		next = gState{seqinc, gRunning}
 		return
-	case EvGoBlock, EvGoBlockSend, EvGoBlockRecv, EvGoBlockSelect,
-		EvGoBlockSync, EvGoBlockCond, EvGoBlockNet, EvGoSleep,
-		EvGoSysBlock, EvGoBlockGC:
+	case EvGolangBlock, EvGolangBlockSend, EvGolangBlockRecv, EvGolangBlockSelect,
+		EvGolangBlockSync, EvGolangBlockCond, EvGolangBlockNet, EvGolangSleep,
+		EvGolangSysBlock, EvGolangBlockGC:
 		g = ev.G
 		init = gState{noseq, gRunning}
 		next = gState{noseq, gWaiting}
 		return
-	case EvGoSched, EvGoPreempt:
+	case EvGolangSched, EvGolangPreempt:
 		g = ev.G
 		init = gState{noseq, gRunning}
 		next = gState{noseq, gRunnable}
 		return
-	case EvGoUnblock, EvGoSysExit:
+	case EvGolangUnblock, EvGolangSysExit:
 		g = ev.Args[0]
 		init = gState{ev.Args[1], gWaiting}
 		next = gState{ev.Args[1] + 1, gRunnable}
 		return
-	case EvGoUnblockLocal, EvGoSysExitLocal:
+	case EvGolangUnblockLocal, EvGolangSysExitLocal:
 		g = ev.Args[0]
 		init = gState{noseq, gWaiting}
 		next = gState{seqinc, gRunnable}

@@ -1,8 +1,8 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package directive defines an Analyzer that checks known Go toolchain directives.
+// Package directive defines an Analyzer that checks known Golang toolchain directives.
 package directive
 
 import (
@@ -17,14 +17,14 @@ import (
 	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
 )
 
-const Doc = `check Go toolchain directives such as //golang:debug
+const Doc = `check Golang toolchain directives such as //golang:debug
 
-This analyzer checks for problems with known Go toolchain directives
-in all Go source files in a package directory, even those excluded by
-//golang:build constraints, and all non-Go source files too.
+This analyzer checks for problems with known Golang toolchain directives
+in all Golang source files in a package directory, even those excluded by
+//golang:build constraints, and all non-Golang source files too.
 
 For //golang:debug (see https://golang.dev/doc/golangdebug), the analyzer checks
-that the directives are placed only in Go source files, only above the
+that the directives are placed only in Golang source files, only above the
 package comment, and only in package main or *_test.golang files.
 
 Support for other known directives may be added in the future.
@@ -42,7 +42,7 @@ var Analyzer = &analysis.Analyzer{
 
 func runDirective(pass *analysis.Pass) (any, error) {
 	for _, f := range pass.Files {
-		checkGoFile(pass, f)
+		checkGolangFile(pass, f)
 	}
 	for _, name := range pass.OtherFiles {
 		if err := checkOtherFile(pass, name); err != nil {
@@ -53,10 +53,10 @@ func runDirective(pass *analysis.Pass) (any, error) {
 		if strings.HasSuffix(name, ".golang") {
 			f, err := parser.ParseFile(pass.Fset, name, nil, parser.ParseComments)
 			if err != nil {
-				// Not valid Go source code - not our job to diagnose, so ignore.
+				// Not valid Golang source code - not our job to diagnose, so ignore.
 				continue
 			}
-			checkGoFile(pass, f)
+			checkGolangFile(pass, f)
 		} else {
 			if err := checkOtherFile(pass, name); err != nil {
 				return nil, err
@@ -66,7 +66,7 @@ func runDirective(pass *analysis.Pass) (any, error) {
 	return nil, nil
 }
 
-func checkGoFile(pass *analysis.Pass, f *ast.File) {
+func checkGolangFile(pass *analysis.Pass, f *ast.File) {
 	check := newChecker(pass, pass.Fset.File(f.Package).Name(), f)
 
 	for _, group := range f.Comments {
@@ -84,7 +84,7 @@ func checkGoFile(pass *analysis.Pass, f *ast.File) {
 }
 
 func checkOtherFile(pass *analysis.Pass, filename string) error {
-	// We cannot use the Go parser, since is not a Go source file.
+	// We cannot use the Golang parser, since is not a Golang source file.
 	// Read the raw bytes instead.
 	content, tf, err := analysisutil.ReadFile(pass, filename)
 	if err != nil {
@@ -92,14 +92,14 @@ func checkOtherFile(pass *analysis.Pass, filename string) error {
 	}
 
 	check := newChecker(pass, filename, nil)
-	check.nonGoFile(token.Pos(tf.Base()), string(content))
+	check.nonGolangFile(token.Pos(tf.Base()), string(content))
 	return nil
 }
 
 type checker struct {
 	pass     *analysis.Pass
 	filename string
-	file     *ast.File // nil for non-Go file
+	file     *ast.File // nil for non-Golang file
 	inHeader bool      // in file header (before or adjoining package declaration)
 }
 
@@ -112,7 +112,7 @@ func newChecker(pass *analysis.Pass, filename string, file *ast.File) *checker {
 	}
 }
 
-func (check *checker) nonGoFile(pos token.Pos, fullText string) {
+func (check *checker) nonGolangFile(pos token.Pos, fullText string) {
 	// Process each line.
 	text := fullText
 	inStar := false
@@ -151,7 +151,7 @@ func (check *checker) nonGoFile(pos token.Pos, fullText string) {
 			// reliably parse. From this point on we might
 			// incorrectly flag "comments" inside multiline
 			// string constants or anything else (this might
-			// not even be a Go program). So stop.
+			// not even be a Golang program). So stop.
 			break
 		}
 	}
@@ -186,7 +186,7 @@ func (check *checker) comment(pos token.Pos, line string) {
 
 	case "//golang:debug":
 		if check.file == nil {
-			check.pass.Reportf(pos, "//golang:debug directive only valid in Go source files")
+			check.pass.Reportf(pos, "//golang:debug directive only valid in Golang source files")
 		} else if check.file.Name.Name != "main" && !strings.HasSuffix(check.filename, "_test.golang") {
 			check.pass.Reportf(pos, "//golang:debug directive only valid in package main or test")
 		} else if !check.inHeader {
@@ -195,7 +195,7 @@ func (check *checker) comment(pos token.Pos, line string) {
 	}
 }
 
-// Go 1.20 strings.CutPrefix.
+// Golang 1.20 strings.CutPrefix.
 func stringsCutPrefix(s, prefix string) (after string, found bool) {
 	if !strings.HasPrefix(s, prefix) {
 		return s, false

@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,10 +17,10 @@ import (
 )
 
 func TestErrProcessDone(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
-	p, err := StartProcess(testenv.GoToolPath(t), []string{"golang"}, &ProcAttr{})
+	p, err := StartProcess(testenv.GolangToolPath(t), []string{"golang"}, &ProcAttr{})
 	if err != nil {
 		t.Fatalf("starting test process: %v", err)
 	}
@@ -58,10 +58,10 @@ func TestProcessAlreadyDone(t *testing.T) {
 }
 
 func TestUNIXProcessAlive(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 
-	p, err := StartProcess(testenv.GoToolPath(t), []string{"sleep", "1"}, &ProcAttr{})
+	p, err := StartProcess(testenv.GolangToolPath(t), []string{"sleep", "1"}, &ProcAttr{})
 	if err != nil {
 		t.Skipf("starting test process: %v", err)
 	}

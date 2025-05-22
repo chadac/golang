@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,10 +40,10 @@ func NewAsm(arch *Arch) *Asm {
 // Note: Using Copyright 2025, not the current year, to avoid test failures
 // on January 1 and spurious diffs when regenerating assembly.
 // The generator was written in 2025; that's golangod enough.
-// (As a matter of policy the Go project does not update copyright
+// (As a matter of policy the Golang project does not update copyright
 // notices every year, since copyright terms are so long anyway.)
 
-var asmHeader = `// Copyright 2025 The Go Authors. All rights reserved.
+var asmHeader = `// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 

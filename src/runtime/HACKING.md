@@ -1,6 +1,6 @@
 This is a living document and at times it will be out of date. It is
-intended to articulate how programming in the Go runtime differs from
-writing normal Go. It focuses on pervasive concepts rather than
+intended to articulate how programming in the Golang runtime differs from
+writing normal Golang. It focuses on pervasive concepts rather than
 details of particular interfaces.
 
 Scheduler structures
@@ -17,12 +17,12 @@ A "G" is simply a golangroutine. It's represented by type `g`. When a
 golangroutine exits, its `g` object is returned to a pool of free `g`s and
 can later be reused for some other golangroutine.
 
-An "M" is an OS thread that can be executing user Go code, runtime
+An "M" is an OS thread that can be executing user Golang code, runtime
 code, a system call, or be idle. It's represented by type `m`. There
 can be any number of Ms at a time since any number of threads may be
 blocked in system calls.
 
-Finally, a "P" represents the resources required to execute user Go
+Finally, a "P" represents the resources required to execute user Golang
 code, such as scheduler and memory allocator state. It's represented
 by type `p`. There are exactly `GOMAXPROCS` Ps. A P can be thought of
 like a CPU in the OS scheduler and the contents of the `p` type like
@@ -32,9 +32,9 @@ per-golangroutine.
 
 The scheduler's job is to match up a G (the code to execute), an M
 (where to execute it), and a P (the rights and resources to execute
-it). When an M stops executing user Go code, for example by entering a
+it). When an M stops executing user Golang code, for example by entering a
 system call, it returns its P to the idle P pool. In order to resume
-executing user Go code, for example on return from a system call, it
+executing user Golang code, for example on return from a system call, it
 must acquire a P from the idle pool.
 
 All `g`, `m`, and `p` objects are heap allocated, but are never freed,
@@ -57,14 +57,14 @@ Stacks
 ======
 
 Every non-dead G has a *user stack* associated with it, which is what
-user Go code executes on. User stacks start small (e.g., 2K) and grow
+user Golang code executes on. User stacks start small (e.g., 2K) and grow
 or shrink dynamically.
 
 Every M has a *system stack* associated with it (also known as the M's
 "g0" stack because it's implemented as a stub G) and, on Unix
 platforms, a *signal stack* (also known as the M's "gsignal" stack).
 System and signal stacks cannot grow, but are large enough to execute
-runtime and cgolang code (8K in a pure Go binary; system-allocated in a
+runtime and cgolang code (8K in a pure Golang binary; system-allocated in a
 cgolang binary).
 
 Runtime code often temporarily switches to the system stack using
@@ -138,7 +138,7 @@ golangroutine scheduler or the OS scheduler.
 The simplest is `mutex`, which is manipulated using `lock` and
 `unlock`. This should be used to protect shared structures for short
 periods. Blocking on a `mutex` directly blocks the M, without
-interacting with the Go scheduler. This means it is safe to use from
+interacting with the Golang scheduler. This means it is safe to use from
 the lowest levels of the runtime, but also prevents any associated G
 and P from being rescheduled. `rwmutex` is similar.
 
@@ -207,7 +207,7 @@ Some common patterns that mix atomic and non-atomic access are:
 * Reads that only happen during STW, where no writes can happen during
   STW, do not need to be atomic.
 
-That said, the advice from the Go memory model stands: "Don't be
+That said, the advice from the Golang memory model stands: "Don't be
 [too] clever." The performance of the runtime matters, but its
 robustness matters more.
 
@@ -354,7 +354,7 @@ Turn on CPU profiling when you take a trace. This will put the CPU profiling
 samples as timestamped events into the trace, allowing you to see execution with
 greater detail. If you see CPU profiling sample events appear at a rate that does
 not match the sample rate, consider that the OS or platform might be taking away
-CPU time from the process, and that you might not be debugging a Go issue.
+CPU time from the process, and that you might not be debugging a Golang issue.
 
 If you're really stuck on a problem, adding new instrumentation with the tracer
 might help, especially if it's helpful to see events in relation to other

@@ -8,7 +8,7 @@
 //	Portions Copyright © 2004,2006 Bruce Ellis
 //	Portions Copyright © 2005-2007 C H Forsyth (forsyth@terzarima.net)
 //	Revisions Copyright © 2000-2007 Lucent Technologies Inc. and others
-//	Portions Copyright © 2009 The Go Authors. All rights reserved.
+//	Portions Copyright © 2009 The Golang Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -201,12 +201,12 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 		return true
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_390_GOTENT):
-		ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_390_GLOB_DAT))
+		ld.AddGolangtSym(target, ldr, syms, targ, uint32(elf.R_390_GLOB_DAT))
 		su := ldr.MakeSymbolUpdater(s)
 		su.SetRelocType(rIdx, objabi.R_PCREL)
 		ldr.SetRelocVariant(s, rIdx, sym.RV_390_DBL)
 		r.SetSym(syms.GOT)
-		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGot(targ))+int64(r.Siz()))
+		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGolangt(targ))+int64(r.Siz()))
 		return true
 	}
 	// Handle references to ELF symbols from our own object files.

@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -60,7 +60,7 @@ func (dec *Decoder) DisallowUnknownFields() {
 // input and stores it in the value pointed to by v.
 //
 // See the documentation for [Unmarshal] for details about
-// the conversion of JSON into a Go value.
+// the conversion of JSON into a Golang value.
 func (dec *Decoder) Decode(v any) error {
 	if dec.err != nil {
 		return dec.err
@@ -109,7 +109,7 @@ func NewEncoder(w io.Writer) *Encoder {
 // followed by a newline character.
 //
 // See the documentation for [Marshal] for details about the
-// conversion of Go values to JSON.
+// conversion of Golang values to JSON.
 func (enc *Encoder) Encode(v any) error {
 	if enc.err != nil {
 		return enc.err

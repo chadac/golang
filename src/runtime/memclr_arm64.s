@@ -1,13 +1,13 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
 
-// See memclrNoHeapPointers Go doc for important implementation constraints.
+// See memclrNoHeapPointers Golang doc for important implementation constraints.
 
 // func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)
-// Also called from assembly in sys_windows_arm64.s without g (but using Go stack convention).
+// Also called from assembly in sys_windows_arm64.s without g (but using Golang stack convention).
 TEXT runtime·memclrNoHeapPointers<ABIInternal>(SB),NOSPLIT,$0-16
 	CMP	$16, R1
 	// If n is equal to 16 bytes, use zero_exact_16 to zero

@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	MOVQ 8(SP), M0 // 0f6f442408
 	MOVQ M0, (AX)  // 0f7f00
 	MOVQ M0, (BX)  // 0f7f03
-	// On non-64bit arch, Go asm allowed uint32 offsets instead of int32.
+	// On non-64bit arch, Golang asm allowed uint32 offsets instead of int32.
 	// These tests check that property for backwards-compatibility.
 	MOVL 2147483648(AX), AX  // 8b8000000080
 	MOVL -2147483648(AX), AX // 8b8000000080

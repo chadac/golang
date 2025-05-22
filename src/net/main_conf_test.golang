@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,10 +13,10 @@ import (
 func allResolvers(t *testing.T, f func(t *testing.T)) {
 	t.Run("default resolver", f)
 	t.Run("forced golang resolver", func(t *testing.T) {
-		// On plan9 the forceGoDNS might not force the golang resolver, currently
+		// On plan9 the forceGolangDNS might not force the golang resolver, currently
 		// it is only forced when the Resolver.Dial field is populated.
-		// See conf.golang mustUseGoResolver.
-		defer forceGoDNS()()
+		// See conf.golang mustUseGolangResolver.
+		defer forceGolangDNS()()
 		f(t)
 	})
 	t.Run("forced cgolang resolver", func(t *testing.T) {
@@ -25,17 +25,17 @@ func allResolvers(t *testing.T, f func(t *testing.T)) {
 	})
 }
 
-// forceGoDNS forces the resolver configuration to use the pure Go resolver
+// forceGolangDNS forces the resolver configuration to use the pure Golang resolver
 // and returns a fixup function to restore the old settings.
-func forceGoDNS() func() {
+func forceGolangDNS() func() {
 	c := systemConf()
-	oldGo := c.netGo
+	oldGolang := c.netGolang
 	oldCgolang := c.netCgolang
 	fixup := func() {
-		c.netGo = oldGo
+		c.netGolang = oldGolang
 		c.netCgolang = oldCgolang
 	}
-	c.netGo = true
+	c.netGolang = true
 	c.netCgolang = false
 	return fixup
 }
@@ -44,13 +44,13 @@ func forceGoDNS() func() {
 // and returns a fixup function to restore the old settings.
 func forceCgolangDNS() func() {
 	c := systemConf()
-	oldGo := c.netGo
+	oldGolang := c.netGolang
 	oldCgolang := c.netCgolang
 	fixup := func() {
-		c.netGo = oldGo
+		c.netGolang = oldGolang
 		c.netCgolang = oldCgolang
 	}
-	c.netGo = false
+	c.netGolang = false
 	c.netCgolang = true
 	return fixup
 }
@@ -68,12 +68,12 @@ func TestForceCgolangDNS(t *testing.T) {
 	if order != hostLookupCgolang {
 		t.Fatalf("addrLookupOrder returned: %v, want cgolang", order)
 	}
-	if systemConf().mustUseGoResolver(nil) {
-		t.Fatal("mustUseGoResolver = true, want false")
+	if systemConf().mustUseGolangResolver(nil) {
+		t.Fatal("mustUseGolangResolver = true, want false")
 	}
 }
 
-func TestForceGoDNS(t *testing.T) {
+func TestForceGolangDNS(t *testing.T) {
 	var resolver *Resolver
 	if runtime.GOOS == "plan9" {
 		resolver = &Resolver{
@@ -82,7 +82,7 @@ func TestForceGoDNS(t *testing.T) {
 			},
 		}
 	}
-	defer forceGoDNS()()
+	defer forceGolangDNS()()
 	order, _ := systemConf().hostLookupOrder(resolver, "golang.dev")
 	if order == hostLookupCgolang {
 		t.Fatalf("hostLookupOrder returned: %v, want golang resolver order", order)
@@ -91,7 +91,7 @@ func TestForceGoDNS(t *testing.T) {
 	if order == hostLookupCgolang {
 		t.Fatalf("addrLookupOrder returned: %v, want golang resolver order", order)
 	}
-	if !systemConf().mustUseGoResolver(resolver) {
-		t.Fatal("mustUseGoResolver = false, want true")
+	if !systemConf().mustUseGolangResolver(resolver) {
+		t.Fatal("mustUseGolangResolver = false, want true")
 	}
 }

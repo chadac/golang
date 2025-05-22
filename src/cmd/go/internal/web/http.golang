@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -63,7 +63,7 @@ func securityPreservingHTTPClient(original *http.Client) *http.Client {
 }
 
 func checkRedirect(req *http.Request, via []*http.Request) error {
-	// Go's http.DefaultClient allows 10 redirects before returning an error.
+	// Golang's http.DefaultClient allows 10 redirects before returning an error.
 	// Mimic that behavior here.
 	if len(via) >= 10 {
 		return errors.New("stopped after 10 redirects")

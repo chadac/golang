@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -237,7 +237,7 @@ func (a *object) cmp(b *object) int {
 	return 0
 }
 
-// A PkgName represents an imported Go package.
+// A PkgName represents an imported Golang package.
 // PkgNames don't have a type.
 type PkgName struct {
 	object

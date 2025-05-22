@@ -1,8 +1,8 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Parsing of Go intermediate object files and archives.
+// Parsing of Golang intermediate object files and archives.
 
 package objfile
 
@@ -20,13 +20,13 @@ import (
 )
 
 type golangobjFile struct {
-	golangobj *archive.GoObj
+	golangobj *archive.GolangObj
 	r     *golangobj.Reader
 	f     *os.File
 	arch  *sys.Arch
 }
 
-func openGoFile(f *os.File) (*File, error) {
+func openGolangFile(f *os.File) (*File, error) {
 	a, err := archive.Parse(f, false)
 	if err != nil {
 		return nil, err
@@ -37,7 +37,7 @@ L:
 		switch e.Type {
 		case archive.EntryPkgDef, archive.EntrySentinelNonObj:
 			continue
-		case archive.EntryGoObj:
+		case archive.EntryGolangObj:
 			o := e.Obj
 			b := make([]byte, o.Size)
 			_, err := f.ReadAt(b, o.Offset)

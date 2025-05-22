@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -150,7 +150,7 @@ func TestUnshare(t *testing.T) {
 	if len(lines) >= len(origLines) {
 		t.Logf("%s before unshare:\n%s", path, orig)
 		t.Logf("%s after unshare:\n%s", path, sout)
-		t.Fatalf("Got %d lines of output, want < %d", len(lines), len(origLines))
+		t.Fatalf("Golangt %d lines of output, want < %d", len(lines), len(origLines))
 	}
 }
 
@@ -286,7 +286,7 @@ func TestUnshareMountNameSpaceChroot(t *testing.T) {
 
 	// Since we are doing a chroot, we need the binary there,
 	// and it must be statically linked.
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	if platform.MustLinkExternal(runtime.GOOS, runtime.GOARCH, false) {
 		t.Skipf("skipping: can't build static binary because %s/%s requires external linking", runtime.GOOS, runtime.GOARCH)
 	}
@@ -299,7 +299,7 @@ func TestUnshareMountNameSpaceChroot(t *testing.T) {
 		}
 	})
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "test", "-c", "-o", x, "syscall")
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "test", "-c", "-o", x, "syscall")
 	cmd.Env = append(cmd.Environ(), "CGO_ENABLED=0")
 	if o, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("%v: %v\n%s", cmd, err, o)

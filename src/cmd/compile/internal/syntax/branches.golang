@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,12 +20,12 @@ func checkBranches(body *BlockStmt, errh ErrorHandler) {
 
 	// scope of all labels in this body
 	ls := &labelScope{errh: errh}
-	fwdGotos := ls.blockBranches(nil, targets{}, nil, body.Pos(), body.List)
+	fwdGolangtos := ls.blockBranches(nil, targets{}, nil, body.Pos(), body.List)
 
 	// If there are any forward golangtos left, no matching label was
 	// found for them. Either those labels were never defined, or
 	// they are inside blocks and not reachable from the golangtos.
-	for _, fwd := range fwdGotos {
+	for _, fwd := range fwdGolangtos {
 		name := fwd.Label.Value
 		if l := ls.labels[name]; l != nil {
 			l.used = true // avoid "defined and not used" error
@@ -133,7 +133,7 @@ func (ls *labelScope) blockBranches(parent *block, ctxt targets, lstmt *LabeledS
 
 	var varPos Pos
 	var varName Expr
-	var fwdGotos, badGotos []*BranchStmt
+	var fwdGolangtos, badGolangtos []*BranchStmt
 
 	recordVarDecl := func(pos Pos, name Expr) {
 		varPos = pos
@@ -142,12 +142,12 @@ func (ls *labelScope) blockBranches(parent *block, ctxt targets, lstmt *LabeledS
 		// declaration is invalid. The golangto may still jump out
 		// of the block and be ok, but we don't know that yet.
 		// Remember all forward golangtos as potential bad golangtos.
-		badGotos = append(badGotos[:0], fwdGotos...)
+		badGolangtos = append(badGolangtos[:0], fwdGolangtos...)
 	}
 
 	jumpsOverVarDecl := func(fwd *BranchStmt) bool {
 		if varPos.IsKnown() {
-			for _, bad := range badGotos {
+			for _, bad := range badGolangtos {
 				if fwd == bad {
 					return true
 				}
@@ -159,7 +159,7 @@ func (ls *labelScope) blockBranches(parent *block, ctxt targets, lstmt *LabeledS
 	innerBlock := func(ctxt targets, start Pos, body []Stmt) {
 		// Unresolved forward golangtos from the inner block
 		// become forward golangtos for the current block.
-		fwdGotos = append(fwdGotos, ls.blockBranches(b, ctxt, lstmt, start, body)...)
+		fwdGolangtos = append(fwdGolangtos, ls.blockBranches(b, ctxt, lstmt, start, body)...)
 	}
 
 	// A fallthrough statement counts as last statement in a statement
@@ -183,7 +183,7 @@ func (ls *labelScope) blockBranches(parent *block, ctxt targets, lstmt *LabeledS
 				l := ls.declare(b, s)
 				// resolve matching forward golangtos
 				i := 0
-				for _, fwd := range fwdGotos {
+				for _, fwd := range fwdGolangtos {
 					if fwd.Label.Value == name {
 						fwd.Target = s
 						l.used = true
@@ -196,11 +196,11 @@ func (ls *labelScope) blockBranches(parent *block, ctxt targets, lstmt *LabeledS
 						}
 					} else {
 						// no match - keep forward golangto
-						fwdGotos[i] = fwd
+						fwdGolangtos[i] = fwd
 						i++
 					}
 				}
-				fwdGotos = fwdGotos[:i]
+				fwdGolangtos = fwdGolangtos[:i]
 				lstmt = s
 			}
 			// process labeled statement
@@ -238,7 +238,7 @@ func (ls *labelScope) blockBranches(parent *block, ctxt targets, lstmt *LabeledS
 						}
 					}
 					ls.errf(s.Pos(), "%s", msg)
-				case _Goto:
+				case _Golangto:
 					fallthrough // should always have a label
 				default:
 					panic("invalid BranchStmt")
@@ -277,12 +277,12 @@ func (ls *labelScope) blockBranches(parent *block, ctxt targets, lstmt *LabeledS
 					ls.errf(s.Label.Pos(), "continue label not defined: %s", name)
 				}
 
-			case _Goto:
+			case _Golangto:
 				if t := ls.golangtoTarget(b, name); t != nil {
 					s.Target = t
 				} else {
 					// label may be declared later - add golangto to forward golangtos
-					fwdGotos = append(fwdGotos, s)
+					fwdGolangtos = append(fwdGolangtos, s)
 				}
 
 			case _Fallthrough:
@@ -326,7 +326,7 @@ func (ls *labelScope) blockBranches(parent *block, ctxt targets, lstmt *LabeledS
 		}
 	}
 
-	return fwdGotos
+	return fwdGolangtos
 }
 
 func trimTrailingEmptyStmts(list []Stmt) []Stmt {

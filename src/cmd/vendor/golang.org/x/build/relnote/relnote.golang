@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -130,7 +130,7 @@ func Merge(fsys fs.FS) (*md.Document, error) {
 			continue
 		}
 		pkg := stdlibPackage(filename)
-		// Autolink Go symbols.
+		// Autolink Golang symbols.
 		addSymbolLinks(newdoc, pkg)
 		if len(doc.Blocks) > 0 {
 			// If this is the first file of a new stdlib package under the "Minor changes

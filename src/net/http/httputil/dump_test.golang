@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -84,7 +84,7 @@ var dumpTests = []dumpTest{
 
 		WantDumpOut: "GET /foo HTTP/1.1\r\n" +
 			"Host: example.com\r\n" +
-			"User-Agent: Go-http-client/1.1\r\n" +
+			"User-Agent: Golang-http-client/1.1\r\n" +
 			"Accept-Encoding: gzip\r\n\r\n",
 	},
 
@@ -95,7 +95,7 @@ var dumpTests = []dumpTest{
 		Req: mustNewRequest("GET", "https://example.com/foo", nil),
 		WantDumpOut: "GET /foo HTTP/1.1\r\n" +
 			"Host: example.com\r\n" +
-			"User-Agent: Go-http-client/1.1\r\n" +
+			"User-Agent: Golang-http-client/1.1\r\n" +
 			"Accept-Encoding: gzip\r\n\r\n",
 	},
 
@@ -117,7 +117,7 @@ var dumpTests = []dumpTest{
 
 		WantDumpOut: "POST / HTTP/1.1\r\n" +
 			"Host: post.tld\r\n" +
-			"User-Agent: Go-http-client/1.1\r\n" +
+			"User-Agent: Golang-http-client/1.1\r\n" +
 			"Content-Length: 6\r\n" +
 			"Accept-Encoding: gzip\r\n\r\n",
 
@@ -146,7 +146,7 @@ var dumpTests = []dumpTest{
 
 		WantDumpOut: "POST / HTTP/1.1\r\n" +
 			"Host: post.tld\r\n" +
-			"User-Agent: Go-http-client/1.1\r\n" +
+			"User-Agent: Golang-http-client/1.1\r\n" +
 			"Content-Length: 8193\r\n" +
 			"Accept-Encoding: gzip\r\n\r\n" +
 			strings.Repeat("a", 8193),
@@ -209,7 +209,7 @@ var dumpTests = []dumpTest{
 		Req: mustNewRequest("POST", "http://example.com/foo", http.NoBody),
 		WantDumpOut: "POST /foo HTTP/1.1\r\n" +
 			"Host: example.com\r\n" +
-			"User-Agent: Go-http-client/1.1\r\n" +
+			"User-Agent: Golang-http-client/1.1\r\n" +
 			"Content-Length: 0\r\n" +
 			"Accept-Encoding: gzip\r\n\r\n",
 	},
@@ -232,7 +232,7 @@ var dumpTests = []dumpTest{
 		NoBody: true,
 		WantDumpOut: "PUT /test HTTP/1.1\r\n" +
 			"Host: post.tld\r\n" +
-			"User-Agent: Go-http-client/1.1\r\n" +
+			"User-Agent: Golang-http-client/1.1\r\n" +
 			"Transfer-Encoding: chunked\r\n" +
 			"Accept-Encoding: gzip\r\n\r\n",
 	},
@@ -262,7 +262,7 @@ func TestDumpRequest(t *testing.T) {
 			MustError: true,
 		})
 	}
-	numg0 := runtime.NumGoroutine()
+	numg0 := runtime.NumGolangroutine()
 	for i, tt := range dumpTests {
 		if tt.Req != nil && tt.GetReq != nil || tt.Req == nil && tt.GetReq == nil {
 			t.Errorf("#%d: either .Req(%p) or .GetReq(%p) can be set/nil but not both", i, tt.Req, tt.GetReq)
@@ -301,7 +301,7 @@ func TestDumpRequest(t *testing.T) {
 				continue
 			}
 			if string(dump) != tt.WantDump {
-				t.Errorf("DumpRequest %d, expecting:\n%s\nGot:\n%s\n", i, tt.WantDump, string(dump))
+				t.Errorf("DumpRequest %d, expecting:\n%s\nGolangt:\n%s\n", i, tt.WantDump, string(dump))
 				continue
 			}
 		}
@@ -323,7 +323,7 @@ func TestDumpRequest(t *testing.T) {
 				continue
 			}
 			if string(dump) != tt.WantDumpOut {
-				t.Errorf("DumpRequestOut %d, expecting:\n%s\nGot:\n%s\n", i, tt.WantDumpOut, string(dump))
+				t.Errorf("DumpRequestOut %d, expecting:\n%s\nGolangt:\n%s\n", i, tt.WantDumpOut, string(dump))
 				continue
 			}
 		}
@@ -333,13 +333,13 @@ func TestDumpRequest(t *testing.T) {
 	var dg int
 	dl := deadline(t, 5*time.Second, time.Second)
 	for time.Now().Before(dl) {
-		if dg = runtime.NumGoroutine() - numg0; dg <= 4 {
+		if dg = runtime.NumGolangroutine() - numg0; dg <= 4 {
 			// No unexpected golangroutines.
 			return
 		}
 
 		// Allow golangroutines to schedule and die off.
-		runtime.Gosched()
+		runtime.Golangsched()
 	}
 
 	buf := make([]byte, 4096)

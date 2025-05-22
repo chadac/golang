@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,14 +13,14 @@ import (
 
 // Summary is the analysis result produced by the summarizer.
 type Summary struct {
-	Goroutines map[GoID]*GoroutineSummary
+	Golangroutines map[GolangID]*GolangroutineSummary
 	Tasks      map[TaskID]*UserTaskSummary
 }
 
-// GoroutineSummary contains statistics and execution details of a single golangroutine.
+// GolangroutineSummary contains statistics and execution details of a single golangroutine.
 // (For v2 traces.)
-type GoroutineSummary struct {
-	ID           GoID
+type GolangroutineSummary struct {
+	ID           GolangID
 	Name         string // A non-unique human-friendly identifier for the golangroutine.
 	PC           uint64 // The first PC we saw for the entry function of the golangroutine
 	CreationTime Time   // Timestamp of the first appearance in the trace.
@@ -31,7 +31,7 @@ type GoroutineSummary struct {
 	Regions []*UserRegionSummary
 
 	// Statistics of execution time during the golangroutine execution.
-	GoroutineExecStats
+	GolangroutineExecStats
 
 	// golangroutineSummary is state used just for computing this structure.
 	// It's dropped before being returned to the caller.
@@ -60,8 +60,8 @@ type UserTaskSummary struct {
 	// List of regions in the task, sorted based on the start time.
 	Regions []*UserRegionSummary
 
-	// Goroutines is the set of golangroutines associated with this task.
-	Goroutines map[GoID]*GoroutineSummary
+	// Golangroutines is the set of golangroutines associated with this task.
+	Golangroutines map[GolangID]*GolangroutineSummary
 }
 
 // Complete returns true if we have complete information about the task
@@ -97,12 +97,12 @@ type UserRegionSummary struct {
 	// terminated without explicitly ending the region.
 	End *Event
 
-	GoroutineExecStats
+	GolangroutineExecStats
 }
 
-// GoroutineExecStats contains statistics about a golangroutine's execution
+// GolangroutineExecStats contains statistics about a golangroutine's execution
 // during a period of time.
-type GoroutineExecStats struct {
+type GolangroutineExecStats struct {
 	// These stats are all non-overlapping.
 	ExecTime          time.Duration
 	SchedWaitTime     time.Duration
@@ -119,7 +119,7 @@ type GoroutineExecStats struct {
 	RangeTime map[string]time.Duration
 }
 
-func (s GoroutineExecStats) NonOverlappingStats() map[string]time.Duration {
+func (s GolangroutineExecStats) NonOverlappingStats() map[string]time.Duration {
 	stats := map[string]time.Duration{
 		"Execution time":         s.ExecTime,
 		"Sched wait time":        s.SchedWaitTime,
@@ -136,7 +136,7 @@ func (s GoroutineExecStats) NonOverlappingStats() map[string]time.Duration {
 }
 
 // UnknownTime returns whatever isn't accounted for in TotalTime.
-func (s GoroutineExecStats) UnknownTime() time.Duration {
+func (s GolangroutineExecStats) UnknownTime() time.Duration {
 	sum := s.ExecTime + s.SchedWaitTime + s.SyscallTime +
 		s.SyscallBlockTime
 	for _, dt := range s.BlockTimeByReason {
@@ -151,7 +151,7 @@ func (s GoroutineExecStats) UnknownTime() time.Duration {
 }
 
 // sub returns the stats v-s.
-func (s GoroutineExecStats) sub(v GoroutineExecStats) (r GoroutineExecStats) {
+func (s GolangroutineExecStats) sub(v GolangroutineExecStats) (r GolangroutineExecStats) {
 	r = s.clone()
 	r.ExecTime -= v.ExecTime
 	r.SchedWaitTime -= v.SchedWaitTime
@@ -167,7 +167,7 @@ func (s GoroutineExecStats) sub(v GoroutineExecStats) (r GoroutineExecStats) {
 	return r
 }
 
-func (s GoroutineExecStats) clone() (r GoroutineExecStats) {
+func (s GolangroutineExecStats) clone() (r GolangroutineExecStats) {
 	r = s
 	r.BlockTimeByReason = make(map[string]time.Duration)
 	for reason, dt := range s.BlockTimeByReason {
@@ -183,8 +183,8 @@ func (s GoroutineExecStats) clone() (r GoroutineExecStats) {
 // snapshotStat returns the snapshot of the golangroutine execution statistics.
 // This is called as we process the ordered trace event stream. lastTs is used
 // to process pending statistics if this is called before any golangroutine end event.
-func (g *GoroutineSummary) snapshotStat(lastTs Time) (ret GoroutineExecStats) {
-	ret = g.GoroutineExecStats.clone()
+func (g *GolangroutineSummary) snapshotStat(lastTs Time) (ret GolangroutineExecStats) {
+	ret = g.GolangroutineExecStats.clone()
 
 	if g.golangroutineSummary == nil {
 		return ret // Already finalized; no pending state.
@@ -220,29 +220,29 @@ func (g *GoroutineSummary) snapshotStat(lastTs Time) (ret GoroutineExecStats) {
 // finalize is called when processing a golangroutine end event or at
 // the end of trace processing. This finalizes the execution stat
 // and any active regions in the golangroutine, in which case trigger is nil.
-func (g *GoroutineSummary) finalize(lastTs Time, trigger *Event) {
+func (g *GolangroutineSummary) finalize(lastTs Time, trigger *Event) {
 	if trigger != nil {
 		g.EndTime = trigger.Time()
 	}
 	finalStat := g.snapshotStat(lastTs)
 
-	g.GoroutineExecStats = finalStat
+	g.GolangroutineExecStats = finalStat
 
 	// System golangroutines are never part of regions, even though they
-	// "inherit" a task due to creation (EvGoCreate) from within a region.
+	// "inherit" a task due to creation (EvGolangCreate) from within a region.
 	// This may happen e.g. if the first GC is triggered within a region,
 	// starting the GC worker golangroutines.
-	if !IsSystemGoroutine(g.Name) {
+	if !IsSystemGolangroutine(g.Name) {
 		for _, s := range g.activeRegions {
 			s.End = trigger
-			s.GoroutineExecStats = finalStat.sub(s.GoroutineExecStats)
+			s.GolangroutineExecStats = finalStat.sub(s.GolangroutineExecStats)
 			g.Regions = append(g.Regions, s)
 		}
 	}
 	*(g.golangroutineSummary) = golangroutineSummary{}
 }
 
-// golangroutineSummary is a private part of GoroutineSummary that is required only during analysis.
+// golangroutineSummary is a private part of GolangroutineSummary that is required only during analysis.
 type golangroutineSummary struct {
 	lastStartTime        Time
 	lastRunnableTime     Time
@@ -257,21 +257,21 @@ type golangroutineSummary struct {
 // Summarizer constructs per-golangroutine time statistics for v2 traces.
 type Summarizer struct {
 	// gs contains the map of golangroutine summaries we're building up to return to the caller.
-	gs map[GoID]*GoroutineSummary
+	gs map[GolangID]*GolangroutineSummary
 
 	// tasks contains the map of task summaries we're building up to return to the caller.
 	tasks map[TaskID]*UserTaskSummary
 
 	// syscallingP and syscallingG represent a binding between a P and G in a syscall.
 	// Used to correctly identify and clean up after syscalls (blocking or otherwise).
-	syscallingP map[ProcID]GoID
-	syscallingG map[GoID]ProcID
+	syscallingP map[ProcID]GolangID
+	syscallingG map[GolangID]ProcID
 
 	// rangesP is used for optimistic tracking of P-based ranges for golangroutines.
 	//
 	// It's a best-effort mapping of an active range on a P to the golangroutine we think
 	// is associated with it.
-	rangesP map[rangeP]GoID
+	rangesP map[rangeP]GolangID
 
 	lastTs Time // timestamp of the last event processed.
 	syncTs Time // timestamp of the last sync event processed (or the first timestamp in the trace).
@@ -280,11 +280,11 @@ type Summarizer struct {
 // NewSummarizer creates a new struct to build golangroutine stats from a trace.
 func NewSummarizer() *Summarizer {
 	return &Summarizer{
-		gs:          make(map[GoID]*GoroutineSummary),
+		gs:          make(map[GolangID]*GolangroutineSummary),
 		tasks:       make(map[TaskID]*UserTaskSummary),
-		syscallingP: make(map[ProcID]GoID),
-		syscallingG: make(map[GoID]ProcID),
-		rangesP:     make(map[rangeP]GoID),
+		syscallingP: make(map[ProcID]GolangID),
+		syscallingG: make(map[GolangID]ProcID),
+		rangesP:     make(map[rangeP]GolangID),
 	}
 }
 
@@ -310,9 +310,9 @@ func (s *Summarizer) Event(ev *Event) {
 		st := ev.StateTransition()
 		switch st.Resource.Kind {
 		// Handle golangroutine transitions, which are the meat of this computation.
-		case ResourceGoroutine:
-			id := st.Resource.Goroutine()
-			old, new := st.Goroutine()
+		case ResourceGolangroutine:
+			id := st.Resource.Golangroutine()
+			old, new := st.Golangroutine()
 			if old == new {
 				// Skip these events; they're not telling us anything new.
 				break
@@ -321,11 +321,11 @@ func (s *Summarizer) Event(ev *Event) {
 			// Handle transition out.
 			g := s.gs[id]
 			switch old {
-			case GoUndetermined, GoNotExist:
-				g = &GoroutineSummary{ID: id, golangroutineSummary: &golangroutineSummary{}}
-				// If we're coming out of GoUndetermined, then the creation time is the
+			case GolangUndetermined, GolangNotExist:
+				g = &GolangroutineSummary{ID: id, golangroutineSummary: &golangroutineSummary{}}
+				// If we're coming out of GolangUndetermined, then the creation time is the
 				// time of the last sync.
-				if old == GoUndetermined {
+				if old == GolangUndetermined {
 					g.CreationTime = s.syncTs
 				} else {
 					g.CreationTime = ev.Time()
@@ -343,31 +343,31 @@ func (s *Summarizer) Event(ev *Event) {
 				// it can be convenient to see all children created
 				// during a region.
 				//
-				// N.B. ev.Goroutine() will always be NoGoroutine for the
+				// N.B. ev.Golangroutine() will always be NoGolangroutine for the
 				// Undetermined case, so this is will simply not fire.
-				if creatorG := s.gs[ev.Goroutine()]; creatorG != nil && len(creatorG.activeRegions) > 0 {
+				if creatorG := s.gs[ev.Golangroutine()]; creatorG != nil && len(creatorG.activeRegions) > 0 {
 					regions := creatorG.activeRegions
 					s := regions[len(regions)-1]
 					g.activeRegions = []*UserRegionSummary{{TaskID: s.TaskID, Start: ev}}
 				}
 				s.gs[g.ID] = g
-			case GoRunning:
+			case GolangRunning:
 				// Record execution time as we transition out of running
 				g.ExecTime += ev.Time().Sub(g.lastStartTime)
 				g.lastStartTime = 0
-			case GoWaiting:
+			case GolangWaiting:
 				// Record block time as we transition out of waiting.
 				if g.lastBlockTime != 0 {
 					g.BlockTimeByReason[g.lastBlockReason] += ev.Time().Sub(g.lastBlockTime)
 					g.lastBlockTime = 0
 				}
-			case GoRunnable:
+			case GolangRunnable:
 				// Record sched latency time as we transition out of runnable.
 				if g.lastRunnableTime != 0 {
 					g.SchedWaitTime += ev.Time().Sub(g.lastRunnableTime)
 					g.lastRunnableTime = 0
 				}
-			case GoSyscall:
+			case GolangSyscall:
 				// Record syscall execution time and syscall block time as we transition out of syscall.
 				if g.lastSyscallTime != 0 {
 					if g.lastSyscallBlockTime != 0 {
@@ -403,15 +403,15 @@ func (s *Summarizer) Event(ev *Event) {
 
 			// Handle transition in.
 			switch new {
-			case GoRunning:
+			case GolangRunning:
 				// We started running. Record it.
 				g.lastStartTime = ev.Time()
 				if g.StartTime == 0 {
 					g.StartTime = ev.Time()
 				}
-			case GoRunnable:
+			case GolangRunnable:
 				g.lastRunnableTime = ev.Time()
-			case GoWaiting:
+			case GolangWaiting:
 				if st.Reason != "forever" {
 					g.lastBlockTime = ev.Time()
 					g.lastBlockReason = st.Reason
@@ -419,9 +419,9 @@ func (s *Summarizer) Event(ev *Event) {
 				}
 				// "Forever" is like golangroutine death.
 				fallthrough
-			case GoNotExist:
+			case GolangNotExist:
 				g.finalize(ev.Time(), ev)
-			case GoSyscall:
+			case GolangSyscall:
 				s.syscallingP[ev.Proc()] = id
 				s.syscallingG[id] = ev.Proc()
 				g.lastSyscallTime = ev.Time()
@@ -444,22 +444,22 @@ func (s *Summarizer) Event(ev *Event) {
 	// Handle ranges of all kinds.
 	case EventRangeBegin, EventRangeActive:
 		r := ev.Range()
-		var g *GoroutineSummary
+		var g *GolangroutineSummary
 		switch r.Scope.Kind {
-		case ResourceGoroutine:
+		case ResourceGolangroutine:
 			// Simple golangroutine range. We attribute the entire range regardless of
 			// golangroutine stats. Lots of situations are still identifiable, e.g. a
 			// golangroutine blocked often in mark assist will have both high mark assist
 			// and high block times. Those interested in a deeper view can look at the
 			// trace viewer.
-			g = s.gs[r.Scope.Goroutine()]
+			g = s.gs[r.Scope.Golangroutine()]
 		case ResourceProc:
 			// N.B. These ranges are not actually bound to the golangroutine, they're
 			// bound to the P. But if we happen to be on the P the whole time, let's
 			// try to attribute it to the golangroutine. (e.g. GC sweeps are here.)
-			g = s.gs[ev.Goroutine()]
+			g = s.gs[ev.Golangroutine()]
 			if g != nil {
-				s.rangesP[rangeP{id: r.Scope.Proc(), name: r.Name}] = ev.Goroutine()
+				s.rangesP[rangeP{id: r.Scope.Proc(), name: r.Name}] = ev.Golangroutine()
 			}
 		}
 		if g == nil {
@@ -475,14 +475,14 @@ func (s *Summarizer) Event(ev *Event) {
 		}
 	case EventRangeEnd:
 		r := ev.Range()
-		var g *GoroutineSummary
+		var g *GolangroutineSummary
 		switch r.Scope.Kind {
-		case ResourceGoroutine:
-			g = s.gs[r.Scope.Goroutine()]
+		case ResourceGolangroutine:
+			g = s.gs[r.Scope.Golangroutine()]
 		case ResourceProc:
 			rp := rangeP{id: r.Scope.Proc(), name: r.Name}
 			if golangid, ok := s.rangesP[rp]; ok {
-				if golangid == ev.Goroutine() {
+				if golangid == ev.Golangroutine() {
 					// As the comment in the RangeBegin case states, this is only OK
 					// if we finish on the same golangroutine we started on.
 					g = s.gs[golangid]
@@ -502,21 +502,21 @@ func (s *Summarizer) Event(ev *Event) {
 
 	// Handle user-defined regions.
 	case EventRegionBegin:
-		g := s.gs[ev.Goroutine()]
+		g := s.gs[ev.Golangroutine()]
 		r := ev.Region()
 		region := &UserRegionSummary{
 			Name:               r.Type,
 			TaskID:             r.Task,
 			Start:              ev,
-			GoroutineExecStats: g.snapshotStat(ev.Time()),
+			GolangroutineExecStats: g.snapshotStat(ev.Time()),
 		}
 		g.activeRegions = append(g.activeRegions, region)
 		// Associate the region and current golangroutine to the task.
 		task := s.getOrAddTask(r.Task)
 		task.Regions = append(task.Regions, region)
-		task.Goroutines[g.ID] = g
+		task.Golangroutines[g.ID] = g
 	case EventRegionEnd:
-		g := s.gs[ev.Goroutine()]
+		g := s.gs[ev.Golangroutine()]
 		r := ev.Region()
 		var sd *UserRegionSummary
 		if regionStk := g.activeRegions; len(regionStk) > 0 {
@@ -531,10 +531,10 @@ func (s *Summarizer) Event(ev *Event) {
 			sd = &UserRegionSummary{Name: r.Type, TaskID: r.Task}
 			// Associate the region and current golangroutine to the task.
 			task := s.getOrAddTask(r.Task)
-			task.Goroutines[g.ID] = g
+			task.Golangroutines[g.ID] = g
 			task.Regions = append(task.Regions, sd)
 		}
-		sd.GoroutineExecStats = g.snapshotStat(ev.Time()).sub(sd.GoroutineExecStats)
+		sd.GolangroutineExecStats = g.snapshotStat(ev.Time()).sub(sd.GolangroutineExecStats)
 		sd.End = ev
 		g.Regions = append(g.Regions, sd)
 
@@ -544,7 +544,7 @@ func (s *Summarizer) Event(ev *Event) {
 		t := ev.Task()
 		task := s.getOrAddTask(t.ID)
 		task.Name = t.Type
-		task.Goroutines[ev.Goroutine()] = s.gs[ev.Goroutine()]
+		task.Golangroutines[ev.Golangroutine()] = s.gs[ev.Golangroutine()]
 		if ev.Kind() == EventTaskBegin {
 			task.Start = ev
 		} else {
@@ -563,7 +563,7 @@ func (s *Summarizer) Event(ev *Event) {
 		// Just add the log to the task. We'll create the task if it
 		// doesn't exist (it's just been mentioned now).
 		task := s.getOrAddTask(log.Task)
-		task.Goroutines[ev.Goroutine()] = s.gs[ev.Goroutine()]
+		task.Golangroutines[ev.Golangroutine()] = s.gs[ev.Golangroutine()]
 		task.Logs = append(task.Logs, ev)
 	}
 }
@@ -571,7 +571,7 @@ func (s *Summarizer) Event(ev *Event) {
 func (s *Summarizer) getOrAddTask(id TaskID) *UserTaskSummary {
 	task := s.tasks[id]
 	if task == nil {
-		task = &UserTaskSummary{ID: id, Goroutines: make(map[GoID]*GoroutineSummary)}
+		task = &UserTaskSummary{ID: id, Golangroutines: make(map[GolangID]*GolangroutineSummary)}
 		s.tasks[id] = task
 	}
 	return task
@@ -601,52 +601,52 @@ func (s *Summarizer) Finalize() *Summary {
 		g.golangroutineSummary = nil
 	}
 	return &Summary{
-		Goroutines: s.gs,
+		Golangroutines: s.gs,
 		Tasks:      s.tasks,
 	}
 }
 
-// RelatedGoroutinesV2 finds a set of golangroutines related to golangroutine golangid for v2 traces.
-// The association is based on whether they have synchronized with each other in the Go
+// RelatedGolangroutinesV2 finds a set of golangroutines related to golangroutine golangid for v2 traces.
+// The association is based on whether they have synchronized with each other in the Golang
 // scheduler (one has unblocked another).
-func RelatedGoroutinesV2(events []Event, golangid GoID) map[GoID]struct{} {
+func RelatedGolangroutinesV2(events []Event, golangid GolangID) map[GolangID]struct{} {
 	// Process all the events, looking for transitions of golangroutines
-	// out of GoWaiting. If there was an active golangroutine when this
+	// out of GolangWaiting. If there was an active golangroutine when this
 	// happened, then we know that active golangroutine unblocked another.
 	// Scribble all these down so we can process them.
 	type unblockEdge struct {
-		operator GoID
-		operand  GoID
+		operator GolangID
+		operand  GolangID
 	}
 	var unblockEdges []unblockEdge
 	for _, ev := range events {
-		if ev.Goroutine() == NoGoroutine {
+		if ev.Golangroutine() == NoGolangroutine {
 			continue
 		}
 		if ev.Kind() != EventStateTransition {
 			continue
 		}
 		st := ev.StateTransition()
-		if st.Resource.Kind != ResourceGoroutine {
+		if st.Resource.Kind != ResourceGolangroutine {
 			continue
 		}
-		id := st.Resource.Goroutine()
-		old, new := st.Goroutine()
-		if old == new || old != GoWaiting {
+		id := st.Resource.Golangroutine()
+		old, new := st.Golangroutine()
+		if old == new || old != GolangWaiting {
 			continue
 		}
 		unblockEdges = append(unblockEdges, unblockEdge{
-			operator: ev.Goroutine(),
+			operator: ev.Golangroutine(),
 			operand:  id,
 		})
 	}
 	// Compute the transitive closure of depth 2 of golangroutines that have unblocked each other
 	// (starting from golangid).
-	gmap := make(map[GoID]struct{})
+	gmap := make(map[GolangID]struct{})
 	gmap[golangid] = struct{}{}
 	for i := 0; i < 2; i++ {
 		// Copy the map.
-		gmap1 := make(map[GoID]struct{})
+		gmap1 := make(map[GolangID]struct{})
 		for g := range gmap {
 			gmap1[g] = struct{}{}
 		}
@@ -660,8 +660,8 @@ func RelatedGoroutinesV2(events []Event, golangid GoID) map[GoID]struct{} {
 	return gmap
 }
 
-func IsSystemGoroutine(entryFn string) bool {
-	// This mimics runtime.isSystemGoroutine as closely as
+func IsSystemGolangroutine(entryFn string) bool {
+	// This mimics runtime.isSystemGolangroutine as closely as
 	// possible.
 	// Also, locked g in extra M (with empty entryFn) is system golangroutine.
 	return entryFn == "" || entryFn != "runtime.main" && strings.HasPrefix(entryFn, "runtime.")

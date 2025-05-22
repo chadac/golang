@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -50,7 +50,7 @@ var urlTests = []struct {
 	},
 
 	// The blog post discourages the use of non-ASCII characters because they
-	// depend on the user's current codepage. However, when we are working with Go
+	// depend on the user's current codepage. However, when we are working with Golang
 	// strings we assume UTF-8 encoding, and our url package refuses to encode
 	// URLs to non-ASCII strings.
 	{

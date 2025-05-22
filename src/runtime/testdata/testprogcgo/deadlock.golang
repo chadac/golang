@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ type cgolangError struct{}
 
 func (cgolangError) Error() string {
 	fmt.Print("") // necessary to trigger the deadlock
-	return C.GoString(C.geterror())
+	return C.GolangString(C.geterror())
 }
 
 func CgolangPanicDeadlock() {

@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -77,7 +77,7 @@ func traceSnapshotMemory(gen uintptr) {
 
 	// Write out all the golangroutine stacks.
 	forEachGRace(func(gp *g) {
-		trace.GoroutineStackExists(gp.stack.lo, gp.stack.hi-gp.stack.lo)
+		trace.GolangroutineStackExists(gp.stack.lo, gp.stack.hi-gp.stack.lo)
 	})
 	traceRelease(trace)
 }
@@ -91,17 +91,17 @@ func traceSpanTypeAndClass(s *mspan) traceArg {
 
 // SpanExists records an event indicating that the span exists.
 func (tl traceLocker) SpanExists(s *mspan) {
-	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvSpan, traceSpanID(s), traceArg(s.npages), traceSpanTypeAndClass(s))
+	tl.eventWriter(tracev2.GolangRunning, tracev2.ProcRunning).event(tracev2.EvSpan, traceSpanID(s), traceArg(s.npages), traceSpanTypeAndClass(s))
 }
 
 // SpanAlloc records an event indicating that the span has just been allocated.
 func (tl traceLocker) SpanAlloc(s *mspan) {
-	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvSpanAlloc, traceSpanID(s), traceArg(s.npages), traceSpanTypeAndClass(s))
+	tl.eventWriter(tracev2.GolangRunning, tracev2.ProcRunning).event(tracev2.EvSpanAlloc, traceSpanID(s), traceArg(s.npages), traceSpanTypeAndClass(s))
 }
 
 // SpanFree records an event indicating that the span is about to be freed.
 func (tl traceLocker) SpanFree(s *mspan) {
-	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvSpanFree, traceSpanID(s))
+	tl.eventWriter(tracev2.GolangRunning, tracev2.ProcRunning).event(tracev2.EvSpanFree, traceSpanID(s))
 }
 
 // traceSpanID creates a trace ID for the span s for the trace.
@@ -113,19 +113,19 @@ func traceSpanID(s *mspan) traceArg {
 // The type is optional, and the size of the slot occupied the object is inferred from the
 // span containing it.
 func (tl traceLocker) HeapObjectExists(addr uintptr, typ *abi.Type) {
-	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvHeapObject, traceHeapObjectID(addr), tl.rtype(typ))
+	tl.eventWriter(tracev2.GolangRunning, tracev2.ProcRunning).event(tracev2.EvHeapObject, traceHeapObjectID(addr), tl.rtype(typ))
 }
 
 // HeapObjectAlloc records that an object was newly allocated at addr with the provided type.
 // The type is optional, and the size of the slot occupied the object is inferred from the
 // span containing it.
 func (tl traceLocker) HeapObjectAlloc(addr uintptr, typ *abi.Type) {
-	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvHeapObjectAlloc, traceHeapObjectID(addr), tl.rtype(typ))
+	tl.eventWriter(tracev2.GolangRunning, tracev2.ProcRunning).event(tracev2.EvHeapObjectAlloc, traceHeapObjectID(addr), tl.rtype(typ))
 }
 
 // HeapObjectFree records that an object at addr is about to be freed.
 func (tl traceLocker) HeapObjectFree(addr uintptr) {
-	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvHeapObjectFree, traceHeapObjectID(addr))
+	tl.eventWriter(tracev2.GolangRunning, tracev2.ProcRunning).event(tracev2.EvHeapObjectFree, traceHeapObjectID(addr))
 }
 
 // traceHeapObjectID creates a trace ID for a heap object at address addr.
@@ -133,25 +133,25 @@ func traceHeapObjectID(addr uintptr) traceArg {
 	return traceArg(uint64(addr)-trace.minPageHeapAddr) / gc.MinHeapAlign
 }
 
-// GoroutineStackExists records that a golangroutine stack already exists at address base with the provided size.
-func (tl traceLocker) GoroutineStackExists(base, size uintptr) {
+// GolangroutineStackExists records that a golangroutine stack already exists at address base with the provided size.
+func (tl traceLocker) GolangroutineStackExists(base, size uintptr) {
 	order := traceCompressStackSize(size)
-	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvGoroutineStack, traceGoroutineStackID(base), order)
+	tl.eventWriter(tracev2.GolangRunning, tracev2.ProcRunning).event(tracev2.EvGolangroutineStack, traceGolangroutineStackID(base), order)
 }
 
-// GoroutineStackAlloc records that a golangroutine stack was newly allocated at address base with the provided size..
-func (tl traceLocker) GoroutineStackAlloc(base, size uintptr) {
+// GolangroutineStackAlloc records that a golangroutine stack was newly allocated at address base with the provided size..
+func (tl traceLocker) GolangroutineStackAlloc(base, size uintptr) {
 	order := traceCompressStackSize(size)
-	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvGoroutineStackAlloc, traceGoroutineStackID(base), order)
+	tl.eventWriter(tracev2.GolangRunning, tracev2.ProcRunning).event(tracev2.EvGolangroutineStackAlloc, traceGolangroutineStackID(base), order)
 }
 
-// GoroutineStackFree records that a golangroutine stack at address base is about to be freed.
-func (tl traceLocker) GoroutineStackFree(base uintptr) {
-	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvGoroutineStackFree, traceGoroutineStackID(base))
+// GolangroutineStackFree records that a golangroutine stack at address base is about to be freed.
+func (tl traceLocker) GolangroutineStackFree(base uintptr) {
+	tl.eventWriter(tracev2.GolangRunning, tracev2.ProcRunning).event(tracev2.EvGolangroutineStackFree, traceGolangroutineStackID(base))
 }
 
-// traceGoroutineStackID creates a trace ID for the golangroutine stack from its base address.
-func traceGoroutineStackID(base uintptr) traceArg {
+// traceGolangroutineStackID creates a trace ID for the golangroutine stack from its base address.
+func traceGolangroutineStackID(base uintptr) traceArg {
 	return traceArg(uint64(base)-trace.minPageHeapAddr) / fixedStack
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -190,7 +190,7 @@ type CallExpr struct {
 	RType     Node    `mknode:"-"` // see reflectdata/helpers.golang
 	KeepAlive []*Name // vars to be kept alive until call returns
 	IsDDD     bool
-	GoDefer   bool // whether this call is part of a golang or defer statement
+	GolangDefer   bool // whether this call is part of a golang or defer statement
 }
 
 func NewCallExpr(pos src.XPos, op Op, fun Node, args []Node) *CallExpr {
@@ -222,7 +222,7 @@ type ClosureExpr struct {
 	miniExpr
 	Func     *Func `mknode:"-"`
 	Prealloc *Name
-	IsGoWrap bool // whether this is wrapper closure of a golang statement
+	IsGolangWrap bool // whether this is wrapper closure of a golang statement
 }
 
 // A CompLitExpr is a composite literal Type{Vals}.
@@ -1168,7 +1168,7 @@ func MethodSymSuffix(recv *types.Type, msym *types.Sym, suffix string) *types.Sy
 	// Find the package the receiver type appeared in. For
 	// anonymous receiver types (i.e., anonymous structs with
 	// embedded fields), use the "golang" pseudo-package instead.
-	rpkg := Pkgs.Go
+	rpkg := Pkgs.Golang
 	if rsym != nil {
 		rpkg = rsym.Pkg
 	}

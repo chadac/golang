@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1245,7 +1245,7 @@ func (p *Parser) registerNumber(name string) uint16 {
 // see in assembly code are simple, but for the record:
 //
 // 1) Evaluation uses uint64; the old one used int64.
-// 2) Precedence uses Go rules not C rules.
+// 2) Precedence uses Golang rules not C rules.
 
 // expr = term | term ('+' | '-' | '|' | '^') term.
 func (p *Parser) expr() uint64 {

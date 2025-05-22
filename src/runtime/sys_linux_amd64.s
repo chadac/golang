@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -333,7 +333,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 
 // Called using C ABI.
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
-	// Transition from C ABI to Go ABI.
+	// Transition from C ABI to Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Set up ABIInternal environment: g in R14, cleared X15.
@@ -345,7 +345,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	NOP	SP		// disable vet stack checking
 	ADJSP   $24
 
-	// Call into the Go signal handler
+	// Call into the Golang signal handler
 	MOVQ	DI, AX	// sig
 	MOVQ	SI, BX	// info
 	MOVQ	DX, CX	// ctx
@@ -357,8 +357,8 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	RET
 
 // Called using C ABI.
-TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
-	// Transition from C ABI to Go ABI.
+TEXT runtime·sigprofNonGolangWrapper<>(SB),NOSPLIT|NOFRAME,$0
+	// Transition from C ABI to Golang ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Set up ABIInternal environment: g in R14, cleared X15.
@@ -370,11 +370,11 @@ TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
 	NOP	SP		// disable vet stack checking
 	ADJSP   $24
 
-	// Call into the Go signal handler
+	// Call into the Golang signal handler
 	MOVQ	DI, AX	// sig
 	MOVQ	SI, BX	// info
 	MOVQ	DX, CX	// ctx
-	CALL	·sigprofNonGo<ABIInternal>(SB)
+	CALL	·sigprofNonGolang<ABIInternal>(SB)
 
 	ADJSP	$-24
 
@@ -434,7 +434,7 @@ sigtramp:
 	JMP	runtime·sigtramp(SB)
 
 sigtrampnog:
-	// Signal arrived on a non-Go thread. If this is SIGPROF, get a
+	// Signal arrived on a non-Golang thread. If this is SIGPROF, get a
 	// stack trace.
 	CMPL	DI, $27 // 27 == SIGPROF
 	JNZ	sigtramp
@@ -448,12 +448,12 @@ sigtrampnog:
 	JNZ	sigtramp  // Skip stack trace if already locked.
 
 	// Jump to the traceback function in runtime/cgolang.
-	// It will call back to sigprofNonGo, via sigprofNonGoWrapper, to convert
-	// the arguments to the Go calling convention.
+	// It will call back to sigprofNonGolang, via sigprofNonGolangWrapper, to convert
+	// the arguments to the Golang calling convention.
 	// First three arguments to traceback function are in registers already.
 	MOVQ	runtime·cgolangTraceback(SB), CX
 	MOVQ	$runtime·sigprofCallers(SB), R8
-	MOVQ	$runtime·sigprofNonGoWrapper<>(SB), R9
+	MOVQ	$runtime·sigprofNonGolangWrapper<>(SB), R9
 	MOVQ	_cgolang_callers(SB), AX
 	JMP	AX
 
@@ -595,7 +595,7 @@ nog1:
 	// In child, on new stack.
 	MOVQ	SI, SP
 
-	// If g or m are nil, skip Go-related setup.
+	// If g or m are nil, skip Golang-related setup.
 	CMPQ	R13, $0    // m
 	JEQ	nog2
 	CMPQ	R9, $0    // g

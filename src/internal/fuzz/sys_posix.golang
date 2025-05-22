@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -109,7 +109,7 @@ func terminationSignal(err error) (os.Signal, bool) {
 // another process, and we shouldn't record a crasher if the worker process
 // receives one of these.
 //
-// Note that Go installs its own signal handlers on startup, so some of these
+// Note that Golang installs its own signal handlers on startup, so some of these
 // signals may only be received if signal handlers are changed. For example,
 // SIGSEGV is normally transformed into a panic that causes the process to exit
 // with status 2 if not recovered, which we handle as a crash.

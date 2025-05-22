@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -34,7 +34,7 @@ func Deprecation(doc *ast.CommentGroup) string {
 // Beware of our local mods to handle analysistest
 // "want" comments on the same line.
 
-// A directive is a comment line with special meaning to the Go
+// A directive is a comment line with special meaning to the Golang
 // toolchain or another tool. It has the form:
 //
 //	//tool:name args
@@ -42,9 +42,9 @@ func Deprecation(doc *ast.CommentGroup) string {
 // The "tool:" portion is missing for the three directives named
 // line, extern, and export.
 //
-// See https://golang.dev/doc/comment#Syntax for details of Go comment
+// See https://golang.dev/doc/comment#Syntax for details of Golang comment
 // syntax and https://pkg.golang.dev/cmd/compile#hdr-Compiler_Directives
-// for details of directives used by the Go compiler.
+// for details of directives used by the Golang compiler.
 type Directive struct {
 	Pos  token.Pos // of preceding "//"
 	Tool string

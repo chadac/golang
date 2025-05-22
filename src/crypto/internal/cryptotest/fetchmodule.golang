@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,7 +18,7 @@ import (
 // possible in this environment.
 func FetchModule(t *testing.T, module, version string) string {
 	testenv.MustHaveExternalNetwork(t)
-	golangTool := testenv.GoToolPath(t)
+	golangTool := testenv.GolangToolPath(t)
 
 	// If the default GOMODCACHE doesn't exist, use a temporary directory
 	// instead. (For example, run.bash sets GOPATH=/nonexist-golangpath.)

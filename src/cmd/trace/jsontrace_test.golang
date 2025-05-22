@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -66,17 +66,17 @@ func filterEventName(name string) eventFilterFn {
 	}
 }
 
-// filterGoRoutineName returns an event filter that returns true if the event's
+// filterGolangRoutineName returns an event filter that returns true if the event's
 // golangroutine name is equal to name.
-func filterGoRoutineName(name string) eventFilterFn {
+func filterGolangRoutineName(name string) eventFilterFn {
 	return func(e *format.Event, _ *format.Data) bool {
-		return parseGoroutineName(e) == name
+		return parseGolangroutineName(e) == name
 	}
 }
 
-// parseGoroutineName returns the golangroutine name from the event's name field.
+// parseGolangroutineName returns the golangroutine name from the event's name field.
 // E.g. if e.Name is "G42 main.cpu10", this returns "main.cpu10".
-func parseGoroutineName(e *format.Event) string {
+func parseGolangroutineName(e *format.Event) string {
 	parts := strings.SplitN(e.Name, " ", 2)
 	if len(parts) != 2 || !strings.HasPrefix(parts[0], "G") {
 		return ""
@@ -174,8 +174,8 @@ func checkNetworkUnblock(t *testing.T, data format.Data) {
 }
 
 func checkExecutionTimes(t *testing.T, data format.Data) {
-	cpu10 := sumExecutionTime(filterViewerTrace(data, filterGoRoutineName("main.cpu10")))
-	cpu20 := sumExecutionTime(filterViewerTrace(data, filterGoRoutineName("main.cpu20")))
+	cpu10 := sumExecutionTime(filterViewerTrace(data, filterGolangRoutineName("main.cpu10")))
+	cpu20 := sumExecutionTime(filterViewerTrace(data, filterGolangRoutineName("main.cpu20")))
 	if cpu10 <= 0 || cpu20 <= 0 || cpu10 >= cpu20 {
 		t.Errorf("bad execution times: cpu10=%v, cpu20=%v", cpu10, cpu20)
 	}

@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,7 +14,7 @@
 #define MOVWLO  MOVWL
 #endif
 
-// See memmove Go doc for important implementation constraints.
+// See memmove Golang doc for important implementation constraints.
 
 // func memmove(to, from unsafe.Pointer, n uintptr)
 TEXT runtime·memmove(SB),NOSPLIT,$-0-12

@@ -1,11 +1,11 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 //golang:build !plan9 && !windows
 // +build !plan9,!windows
 
-// Test that a sequence of callbacks from C to Go get the same m.
+// Test that a sequence of callbacks from C to Golang get the same m.
 // This failed to be true on arm and arm64, which was the root cause
 // of issue 13881.
 
@@ -15,10 +15,10 @@ package main
 #include <stddef.h>
 #include <pthread.h>
 
-extern void GoCheckM();
+extern void GolangCheckM();
 
 static void* thread(void* arg __attribute__ ((unused))) {
-	GoCheckM();
+	GolangCheckM();
 	return NULL;
 }
 
@@ -43,8 +43,8 @@ func init() {
 
 var savedM uintptr
 
-//export GoCheckM
-func GoCheckM() {
+//export GolangCheckM
+func GolangCheckM() {
 	m := runtime_getm_for_test()
 	if savedM == 0 {
 		savedM = m

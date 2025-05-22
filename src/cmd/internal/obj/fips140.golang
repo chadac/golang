@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -98,7 +98,7 @@ data. In general we accomplish that by putting all symbols from
 crypto/internal/fips140/... packages into the hash-verified data.
 But not all.
 
-Note that wrapper code that layers a Go API atop the cryptographic
+Note that wrapper code that layers a Golang API atop the cryptographic
 core is unverified. For example, crypto/internal/fips140/sha256 is part of
 the FIPS module and verified but the crypto/sha256 package that wraps
 it is outside the module and unverified. Also, runtime support like
@@ -249,7 +249,7 @@ func (s *LSym) setFIPSType(ctxt *Link) {
 		// but some data symbols are not.
 		if s.Type != objabi.STEXT && s.Type != objabi.STEXTFIPS {
 			// Even in the crypto/internal/fips140 packages,
-			// we exclude various Go runtime metadata,
+			// we exclude various Golang runtime metadata,
 			// so that it can be allowed to contain data relocations.
 			if strings.Contains(name, ".inittask") ||
 				strings.Contains(name, ".dict") ||

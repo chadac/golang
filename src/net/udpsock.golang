@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -87,7 +87,7 @@ func (a *UDPAddr) opAddr() Addr {
 func ResolveUDPAddr(network, address string) (*UDPAddr, error) {
 	switch network {
 	case "udp", "udp4", "udp6":
-	case "": // a hint wildcard for Go 1.0 undocumented behavior
+	case "": // a hint wildcard for Golang 1.0 undocumented behavior
 		network = "udp"
 	default:
 		return nil, UnknownNetworkError(network)

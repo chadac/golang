@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ import (
 // each input and output parameter we capture whether the param was
 // register-assigned (and to which register(s)) or the stack offset
 // for the param if is not golanging to be passed in registers according
-// to the rules in the Go internal ABI specification (1.17).
+// to the rules in the Golang internal ABI specification (1.17).
 type ABIParamResultInfo struct {
 	inparams          []ABIParamAssignment // Includes receiver for method calls.  Does NOT include hidden closure pointer.
 	outparams         []ABIParamAssignment

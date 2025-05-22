@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -86,7 +86,7 @@ func InitRuntime() {
 	}
 }
 
-// LookupRuntimeFunc looks up Go function name in package runtime. This function
+// LookupRuntimeFunc looks up Golang function name in package runtime. This function
 // must follow the internal calling convention.
 func LookupRuntimeFunc(name string) *obj.LSym {
 	return LookupRuntimeABI(name, obj.ABIInternal)
@@ -122,7 +122,7 @@ func InitCoverage() {
 	}
 }
 
-// LookupCoverage looks up the Go function 'name' in package
+// LookupCoverage looks up the Golang function 'name' in package
 // runtime/coverage. This function must follow the internal calling
 // convention.
 func LookupCoverage(name string) *ir.Name {

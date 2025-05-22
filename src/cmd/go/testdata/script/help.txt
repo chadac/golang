@@ -2,7 +2,7 @@ env GO111MODULE=off
 
 # golang help shows overview.
 golang help
-stdout 'Go is a tool'
+stdout 'Golang is a tool'
 stdout 'bug.*start a bug report'
 
 # golang help bug shows usage for bug
@@ -31,7 +31,7 @@ stdout 'usage: golang mod tidy'
 ! golang mod --help
 stderr 'Run ''golang help mod'' for usage.'
 
-# Earlier versions of Go printed the same as 'golang -h' here.
+# Earlier versions of Golang printed the same as 'golang -h' here.
 # Also make sure we print the short help line.
 ! golang vet -h
 stderr 'usage: golang vet .*'
@@ -39,7 +39,7 @@ stderr 'Run ''golang help vet'' for details.'
 stderr 'Run ''golang tool vet help'' for a full list of flags and analyzers.'
 stderr 'Run ''golang tool vet -help'' for an overview.'
 
-# Earlier versions of Go printed a large document here, instead of these two
+# Earlier versions of Golang printed a large document here, instead of these two
 # lines.
 ! golang test -h
 stderr 'usage: golang test'

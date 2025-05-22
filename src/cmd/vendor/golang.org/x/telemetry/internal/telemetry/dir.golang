@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-// Default is the default directory containing Go telemetry configuration and
+// Default is the default directory containing Golang telemetry configuration and
 // data.
 //
 // If Default is uninitialized, Default.Mode will be "off". As a consequence,

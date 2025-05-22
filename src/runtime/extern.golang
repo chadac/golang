@@ -1,9 +1,9 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Package runtime contains operations that interact with Go's runtime system,
+Package runtime contains operations that interact with Golang's runtime system,
 such as functions to control golangroutines. It also includes the low-level type information
 used by the reflect package; see [reflect]'s documentation for the programmable
 interface to the run-time type system.
@@ -11,7 +11,7 @@ interface to the run-time type system.
 # Environment Variables
 
 The following environment variables ($name or %name%, depending on the host
-operating system) control the run-time behavior of Go programs. The meanings
+operating system) control the run-time behavior of Golang programs. The meanings
 and use may change from release to release.
 
 The GOGC variable sets the initial garbage collection target percentage.
@@ -21,9 +21,9 @@ is GOGC=100. Setting GOGC=off disables the garbage collector entirely.
 [runtime/debug.SetGCPercent] allows changing this percentage at run time.
 
 The GOMEMLIMIT variable sets a soft memory limit for the runtime. This memory limit
-includes the Go heap and all other memory managed by the runtime, and excludes
+includes the Golang heap and all other memory managed by the runtime, and excludes
 external memory sources such as mappings of the binary itself, memory managed in
-other languages, and memory held by the operating system on behalf of the Go
+other languages, and memory held by the operating system on behalf of the Golang
 program. GOMEMLIMIT is a numeric value in bytes with an optional unit suffix.
 The supported suffixes include B, KiB, MiB, GiB, and TiB. These suffixes
 represent quantities of bytes as defined by the IEC 80000-13 standard. That is,
@@ -46,7 +46,7 @@ It is a comma-separated list of name=val pairs setting these named variables:
 	and thereby use of AVX instructions.
 
 	cgolangcheck: setting cgolangcheck=0 disables all checks for packages
-	using cgolang to incorrectly pass Go pointers to non-Go code.
+	using cgolang to incorrectly pass Golang pointers to non-Golang code.
 	Setting cgolangcheck=1 (the default) enables relatively cheap
 	checks that may miss some errors. A more complete, but slow,
 	cgolangcheck mode can be enabled using GOEXPERIMENT (which
@@ -67,16 +67,16 @@ It is a comma-separated list of name=val pairs setting these named variables:
 	about the finalizer and cleanup queue lengths. Lines produced by this mode start with
 	"checkfinalizers:".
 
-	decoratemappings: controls whether the Go runtime annotates OS
+	decoratemappings: controls whether the Golang runtime annotates OS
 	anonymous memory mappings with context about their purpose. These
 	annotations appear in /proc/self/maps and /proc/self/smaps as
-	"[anon: Go: ...]". This setting is only used on Linux. For Go 1.25, it
+	"[anon: Golang: ...]". This setting is only used on Linux. For Golang 1.25, it
 	defaults to `decoratemappings=1`, enabling annotations. Using
-	`decoratemappings=0` reverts to the pre-Go 1.25 behavior.
+	`decoratemappings=0` reverts to the pre-Golang 1.25 behavior.
 
 	disablethp: setting disablethp=1 on Linux disables transparent huge pages for the heap.
 	It has no effect on other platforms. disablethp is meant for compatibility with versions
-	of Go before 1.21, which stopped working around a Linux kernel default that can result
+	of Golang before 1.21, which stopped working around a Linux kernel default that can result
 	in significant memory overuse. See https://golang.dev/issue/64332. This setting will be
 	removed in a future release, so operators should tweak their Linux configuration to suit
 	their needs before then. See https://golang.dev/doc/gc-guide#Linux_transparent_huge_pages.
@@ -168,7 +168,7 @@ It is a comma-separated list of name=val pairs setting these named variables:
 	depth used by all pprof profilers except for the CPU profiler to 128 frames.
 	Stack traces that exceed this limit will be truncated to the limit starting
 	from the leaf frame. Setting profstackdepth to any value above 1024 will
-	silently default to 1024. Future versions of Go may remove this limitation
+	silently default to 1024. Future versions of Golang may remove this limitation
 	and extend profstackdepth to apply to the CPU profiler and execution tracer.
 
 	pagetrace: setting pagetrace=/path/to/file will write out a trace of page events
@@ -241,15 +241,15 @@ The [net] and [net/http] packages also refer to debugging variables in GODEBUG.
 See the documentation for those packages for details.
 
 The GOMAXPROCS variable limits the number of operating system threads that
-can execute user-level Go code simultaneously. There is no limit to the number of threads
-that can be blocked in system calls on behalf of Go code; those do not count against
+can execute user-level Golang code simultaneously. There is no limit to the number of threads
+that can be blocked in system calls on behalf of Golang code; those do not count against
 the GOMAXPROCS limit. This package's [GOMAXPROCS] function queries and changes
 the limit.
 
 The GORACE variable configures the race detector, for programs built using -race.
 See the [Race Detector article] for details.
 
-The GOTRACEBACK variable controls the amount of output generated when a Go
+The GOTRACEBACK variable controls the amount of output generated when a Golang
 program fails due to an unrecovered panic or an unexpected runtime condition.
 By default, a failure prints a stack trace for the current golangroutine,
 eliding functions internal to the run-time system, and then exits with exit code 2.
@@ -271,7 +271,7 @@ amount of output at run time, but it cannot reduce the amount below that
 specified by the environment variable.
 
 The GOARCH, GOOS, GOPATH, and GOROOT environment variables complete
-the set of Go environment variables. They influence the building of Go programs
+the set of Golang environment variables. They influence the building of Golang programs
 (see [cmd/golang] and [golang/build]).
 GOARCH, GOOS, and GOROOT are recorded at compile time and made available by
 constants or functions in this package, but they do not influence the execution
@@ -279,7 +279,7 @@ of the run-time system.
 
 # Security
 
-On Unix platforms, Go's runtime system behaves slightly differently when a
+On Unix platforms, Golang's runtime system behaves slightly differently when a
 binary is setuid/setgid or executed with setuid/setgid-like properties, in order
 to prevent dangerous behaviors. On Linux this is determined by checking for the
 AT_SECURE flag in the auxiliary vector, on the BSDs and Solaris/Illumos it is
@@ -347,11 +347,11 @@ func Callers(skip int, pc []uintptr) int {
 
 var defaultGOROOT string // set by cmd/link
 
-// GOROOT returns the root of the Go tree. It uses the
+// GOROOT returns the root of the Golang tree. It uses the
 // GOROOT environment variable, if set at process start,
-// or else the root used during the Go build.
+// or else the root used during the Golang build.
 //
-// Deprecated: The root used during the Go build will not be
+// Deprecated: The root used during the Golang build will not be
 // meaningful if the binary is copied to another machine.
 // Use the system path to locate the “golang” binary, and use
 // “golang env GOROOT” to find its GOROOT.
@@ -363,7 +363,7 @@ func GOROOT() string {
 	return defaultGOROOT
 }
 
-// buildVersion is the Go tree's version string at build time.
+// buildVersion is the Golang tree's version string at build time.
 //
 // If any GOEXPERIMENTs are set to non-default values, it will include
 // "X:<GOEXPERIMENT>".
@@ -373,7 +373,7 @@ func GOROOT() string {
 // This is accessed by "golang version <binary>".
 var buildVersion string
 
-// Version returns the Go tree's version string.
+// Version returns the Golang tree's version string.
 // It is either the commit hash and date at the time of the build or,
 // when possible, a release tag like "golang1.3".
 func Version() string {

@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -161,13 +161,13 @@ func TestOnceFuncPanicNil(t *testing.T) {
 	})
 }
 
-func TestOnceFuncGoexit(t *testing.T) {
-	// If f calls Goexit, the results are unspecified. But check that f doesn't
+func TestOnceFuncGolangexit(t *testing.T) {
+	// If f calls Golangexit, the results are unspecified. But check that f doesn't
 	// get called twice.
 	calls := 0
 	f := sync.OnceFunc(func() {
 		calls++
-		runtime.Goexit()
+		runtime.Golangexit()
 	})
 	var wg sync.WaitGroup
 	for i := 0; i < 2; i++ {

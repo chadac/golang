@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -159,7 +159,7 @@ func (d *dstate) Setup() {
 	}
 	if d.cmd == debugDumpMode {
 		fmt.Printf("/* WARNING: the format of this dump is not stable and is\n")
-		fmt.Printf(" * expected to change from one Go release to the next.\n")
+		fmt.Printf(" * expected to change from one Golang release to the next.\n")
 		fmt.Printf(" *\n")
 		fmt.Printf(" * produced by:\n")
 		args := append([]string{os.Args[0]}, debugDumpMode)
@@ -183,11 +183,11 @@ func (d *dstate) BeginCounterDataFile(cdf string, cdr *decodecounter.CounterData
 	dbgtrace(2, "visit counter data file %s dirIdx %d", cdf, dirIdx)
 	if d.cmd == debugDumpMode {
 		fmt.Printf("data file %s", cdf)
-		if cdr.Goos() != "" {
-			fmt.Printf(" GOOS=%s", cdr.Goos())
+		if cdr.Golangos() != "" {
+			fmt.Printf(" GOOS=%s", cdr.Golangos())
 		}
-		if cdr.Goarch() != "" {
-			fmt.Printf(" GOARCH=%s", cdr.Goarch())
+		if cdr.Golangarch() != "" {
+			fmt.Printf(" GOARCH=%s", cdr.Golangarch())
 		}
 		if len(cdr.OsArgs()) != 0 {
 			fmt.Printf("  program args: %+v\n", cdr.OsArgs())

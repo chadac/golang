@@ -1,4 +1,4 @@
-// Copyright (c) 2017 The Go Authors. All rights reserved.
+// Copyright (c) 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ type projP2 struct {
 // The zero value is NOT valid, and it may be used only as a receiver.
 type Point struct {
 	// Make the type not comparable (i.e. used with == or as a map key), as
-	// equivalent points can be represented by different Go values.
+	// equivalent points can be represented by different Golang values.
 	_ incomparable
 
 	// The point is internally represented in extended coordinates (X, Y, Z, T)

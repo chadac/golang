@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -445,7 +445,7 @@ func soleComponent(init *ir.Nodes, n ir.Node) ir.Node {
 		switch {
 		case n.Type().IsStruct():
 			if n.Type().Field(0).Sym.IsBlank() {
-				// Treat blank fields as the zero value as the Go language requires.
+				// Treat blank fields as the zero value as the Golang language requires.
 				n = typecheck.TempAt(base.Pos, ir.CurFunc, n.Type().Field(0).Type)
 				appendWalkStmt(init, ir.NewAssignStmt(base.Pos, n, nil))
 				continue

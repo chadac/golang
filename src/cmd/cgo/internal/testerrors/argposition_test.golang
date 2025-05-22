@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -81,7 +81,7 @@ func TestArgumentsPositions(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cmd := exec.Command(testenv.GoToolPath(t), "tool", "cgolang",
+	cmd := exec.Command(testenv.GolangToolPath(t), "tool", "cgolang",
 		"-srcdir", testdata,
 		"-objdir", dir,
 		"issue42580.golang")

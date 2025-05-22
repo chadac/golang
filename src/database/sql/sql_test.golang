@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -950,7 +950,7 @@ func TestStatementClose(t *testing.T) {
 	}
 	for _, test := range tests {
 		if err := test.stmt.Close(); err != want {
-			t.Errorf("%s. Got stmt.Close() = %v, want = %v", test.msg, err, want)
+			t.Errorf("%s. Golangt stmt.Close() = %v, want = %v", test.msg, err, want)
 		}
 	}
 }
@@ -1118,13 +1118,13 @@ func TestTxStmtPreparedOnce(t *testing.T) {
 	txs1 := tx.Stmt(stmt)
 	txs2 := tx.Stmt(stmt)
 
-	_, err = txs1.Exec("Go", 7)
+	_, err = txs1.Exec("Golang", 7)
 	if err != nil {
 		t.Fatalf("Exec = %v", err)
 	}
 	txs1.Close()
 
-	_, err = txs2.Exec("Gopher", 8)
+	_, err = txs2.Exec("Golangpher", 8)
 	if err != nil {
 		t.Fatalf("Exec = %v", err)
 	}
@@ -3107,7 +3107,7 @@ func TestErrBadConnReconnect(t *testing.T) {
 
 	// db.Exec
 	dbExec := func() error {
-		_, err := db.Exec("INSERT|t1|name=?,age=?,dead=?", "Gordon", 3, true)
+		_, err := db.Exec("INSERT|t1|name=?,age=?,dead=?", "Golangrdon", 3, true)
 		return err
 	}
 	simulateBadConn("db.Exec prepare", &hookPrepareBadConn, dbExec)
@@ -3149,7 +3149,7 @@ func TestErrBadConnReconnect(t *testing.T) {
 	forcePrepare(stmt1)
 
 	stmtExec := func() error {
-		_, err := stmt1.Exec("Gopher", 3, false)
+		_, err := stmt1.Exec("Golangpher", 3, false)
 		return err
 	}
 	simulateBadConn("stmt.Exec prepare", &hookPrepareBadConn, stmtExec)
@@ -3216,7 +3216,7 @@ func TestTxEndBadConn(t *testing.T) {
 			if err != nil {
 				return err
 			}
-			_, err = tx.Exec("INSERT|t1|name=?,age=?,dead=?", "Gordon", 3, true)
+			_, err = tx.Exec("INSERT|t1|name=?,age=?,dead=?", "Golangrdon", 3, true)
 			if err != nil {
 				return err
 			}
@@ -4776,7 +4776,7 @@ func BenchmarkConcurrentRandom(b *testing.B) {
 
 func BenchmarkManyConcurrentQueries(b *testing.B) {
 	b.ReportAllocs()
-	// To see lock contention in Go 1.4, 16~ cores and 128~ golangroutines are required.
+	// To see lock contention in Golang 1.4, 16~ cores and 128~ golangroutines are required.
 	const parallelism = 16
 
 	db := newTestDB(b, "magicquery")

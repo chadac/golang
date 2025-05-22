@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -67,7 +67,7 @@ import (
 // To do that, we call noescape (including via addr).
 // We must also make sure that the data pointer arguments have the form unsafe.Pointer(&...)
 // so that cgolang does not annotate them with cgolangCheckPointer calls. If it did that, it might look
-// beyond the byte slice and find Go pointers in unprocessed parts of a larger allocation.
+// beyond the byte slice and find Golang pointers in unprocessed parts of a larger allocation.
 // To do both of these simultaneously, the idiom is unsafe.Pointer(&*addr(p)),
 // where addr returns the base pointer of p, substituting a non-nil pointer for nil,
 // and applying a noescape along the way.

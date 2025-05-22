@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,11 +23,11 @@ var golangpherType string
 
 func init() {
 	const (
-		defaultGopher = "pocket"
+		defaultGolangpher = "pocket"
 		usage         = "the variety of golangpher"
 	)
-	flag.StringVar(&golangpherType, "golangpher_type", defaultGopher, usage)
-	flag.StringVar(&golangpherType, "g", defaultGopher, usage+" (shorthand)")
+	flag.StringVar(&golangpherType, "golangpher_type", defaultGolangpher, usage)
+	flag.StringVar(&golangpherType, "g", defaultGolangpher, usage+" (shorthand)")
 }
 
 // Example 3: A user-defined flag type, a slice of durations.

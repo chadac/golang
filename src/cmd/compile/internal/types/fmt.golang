@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -34,14 +34,14 @@ var BlankSym *Sym
 var NumImport = make(map[string]int)
 
 // fmtMode represents the kind of printing being done.
-// The default is regular Go syntax (fmtGo).
-// fmtDebug is like fmtGo but for debugging dumps and prints the type kind too.
+// The default is regular Golang syntax (fmtGolang).
+// fmtDebug is like fmtGolang but for debugging dumps and prints the type kind too.
 // fmtTypeID and fmtTypeIDName are for generating various unique representations
 // of types used in hashes, the linker, and function/method instantiations.
 type fmtMode int
 
 const (
-	fmtGo fmtMode = iota
+	fmtGolang fmtMode = iota
 	fmtDebug
 	fmtTypeID
 	fmtTypeIDName
@@ -52,11 +52,11 @@ const (
 // Format implements formatting for a Sym.
 // The valid formats are:
 //
-//	%v	Go syntax: Name for symbols in the local package, PkgName.Name for imported symbols.
+//	%v	Golang syntax: Name for symbols in the local package, PkgName.Name for imported symbols.
 //	%+v	Debug syntax: always include PkgName. prefix even for local names.
 //	%S	Short syntax: Name only, no matter what.
 func (s *Sym) Format(f fmt.State, verb rune) {
-	mode := fmtGo
+	mode := fmtGolang
 	switch verb {
 	case 'v', 'S':
 		if verb == 'v' && f.Flag('+') {
@@ -70,7 +70,7 @@ func (s *Sym) Format(f fmt.State, verb rune) {
 }
 
 func (s *Sym) String() string {
-	return sconv(s, 0, fmtGo)
+	return sconv(s, 0, fmtGolang)
 }
 
 // See #16897 for details about performance implications
@@ -129,7 +129,7 @@ func pkgqual(pkg *Pkg, verb rune, mode fmtMode) string {
 	}
 	if verb != 'S' {
 		switch mode {
-		case fmtGo: // This is for the user
+		case fmtGolang: // This is for the user
 			if pkg == BuiltinPkg || pkg == LocalPkg {
 				return ""
 			}
@@ -191,13 +191,13 @@ var fmtBufferPool = sync.Pool{
 // Format implements formatting for a Type.
 // The valid formats are:
 //
-//	%v	Go syntax
-//	%+v	Debug syntax: Go syntax with a KIND- prefix for all but builtins.
-//	%L	Go syntax for underlying type if t is named
-//	%S	short Go syntax: drop leading "func" in function type
+//	%v	Golang syntax
+//	%+v	Debug syntax: Golang syntax with a KIND- prefix for all but builtins.
+//	%L	Golang syntax for underlying type if t is named
+//	%S	short Golang syntax: drop leading "func" in function type
 //	%-S	special case for method receiver symbol
 func (t *Type) Format(s fmt.State, verb rune) {
-	mode := fmtGo
+	mode := fmtGolang
 	switch verb {
 	case 'v', 'S', 'L':
 		if verb == 'v' && s.Flag('+') { // %+v is debug format
@@ -212,9 +212,9 @@ func (t *Type) Format(s fmt.State, verb rune) {
 	}
 }
 
-// String returns the Go syntax for the type t.
+// String returns the Golang syntax for the type t.
 func (t *Type) String() string {
-	return tconv(t, 0, fmtGo)
+	return tconv(t, 0, fmtGolang)
 }
 
 // LinkString returns a string description of t, suitable for use in
@@ -347,7 +347,7 @@ func tconv2(b *bytes.Buffer, t *Type, verb rune, mode fmtMode, visited map[*Type
 	if mode == fmtDebug {
 		b.WriteString(t.Kind().String())
 		b.WriteByte('-')
-		tconv2(b, t, 'v', fmtGo, visited)
+		tconv2(b, t, 'v', fmtGolang, visited)
 		return
 	}
 
@@ -527,7 +527,7 @@ func formatParams(b *bytes.Buffer, params []*Field, mode fmtMode, visited map[*T
 	b.WriteByte('(')
 	fieldVerb := 'v'
 	switch mode {
-	case fmtTypeID, fmtTypeIDName, fmtGo:
+	case fmtTypeID, fmtTypeIDName, fmtGolang:
 		// no argument names on function signature, and no "noescape"/"nosplit" tags
 		fieldVerb = 'S'
 	}

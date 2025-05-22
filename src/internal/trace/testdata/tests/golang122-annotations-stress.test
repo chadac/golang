@@ -1,112 +1,112 @@
 -- expect --
 SUCCESS
 -- trace --
-Trace Go1.22
+Trace Golang1.22
 EventBatch gen=1 m=18446744073709551615 time=2753926854385 size=5
 Frequency freq=15625000
 EventBatch gen=1 m=1986497 time=2753925247434 size=1430
 ProcStart dt=336 p=2 p_seq=1
-GoStart dt=191 g=19 g_seq=1
+GolangStart dt=191 g=19 g_seq=1
 HeapAlloc dt=389 heapalloc_value=1622016
 HeapAlloc dt=4453 heapalloc_value=1662976
-GoBlock dt=572 reason_string=12 stack=29
+GolangBlock dt=572 reason_string=12 stack=29
 ProcStop dt=26
 ProcStart dt=160734 p=2 p_seq=2
 ProcStop dt=21
 ProcStart dt=159292 p=0 p_seq=7
-GoStart dt=299 g=49 g_seq=1
+GolangStart dt=299 g=49 g_seq=1
 UserRegionBegin dt=183 task=8 name_string=33 stack=26
 UserLog dt=26 task=8 key_string=24 value_string=49 stack=27
 UserRegionEnd dt=8 task=8 name_string=33 stack=28
-GoDestroy dt=3
-GoStart dt=20 g=50 g_seq=1
+GolangDestroy dt=3
+GolangStart dt=20 g=50 g_seq=1
 UserRegionBegin dt=40 task=8 name_string=35 stack=26
 UserLog dt=9 task=8 key_string=24 value_string=50 stack=27
 UserRegionEnd dt=2 task=8 name_string=35 stack=28
-GoDestroy dt=1
+GolangDestroy dt=1
 ProcStop dt=18
 ProcStart dt=141801 p=4 p_seq=5
 ProcStop dt=18
 ProcStart dt=16860 p=4 p_seq=6
-GoUnblock dt=53 g=1 g_seq=5 stack=0
-GoUnblock dt=9 g=51 g_seq=3 stack=0
-GoStart dt=162 g=51 g_seq=4
+GolangUnblock dt=53 g=1 g_seq=5 stack=0
+GolangUnblock dt=9 g=51 g_seq=3 stack=0
+GolangStart dt=162 g=51 g_seq=4
 UserTaskEnd dt=35 task=9 stack=36
 UserRegionEnd dt=16 task=8 name_string=31 stack=28
-GoDestroy dt=2
-GoStart dt=20 g=1 g_seq=6
+GolangDestroy dt=2
+GolangStart dt=20 g=1 g_seq=6
 UserTaskEnd dt=14 task=8 stack=54
 UserLog dt=26 task=3 key_string=24 value_string=51 stack=55
 UserTaskBegin dt=14 task=10 parent_task=3 name_string=26 stack=56
 UserLog dt=42 task=10 key_string=27 value_string=52 stack=57
 UserRegionBegin dt=12 task=10 name_string=29 stack=58
-GoCreate dt=36 new_g=35 new_stack=17 stack=59
-GoCreate dt=11 new_g=36 new_stack=17 stack=59
-GoCreate dt=18 new_g=37 new_stack=17 stack=59
-GoCreate dt=10 new_g=38 new_stack=17 stack=59
-GoCreate dt=6 new_g=39 new_stack=17 stack=59
-GoCreate dt=8 new_g=40 new_stack=17 stack=59
+GolangCreate dt=36 new_g=35 new_stack=17 stack=59
+GolangCreate dt=11 new_g=36 new_stack=17 stack=59
+GolangCreate dt=18 new_g=37 new_stack=17 stack=59
+GolangCreate dt=10 new_g=38 new_stack=17 stack=59
+GolangCreate dt=6 new_g=39 new_stack=17 stack=59
+GolangCreate dt=8 new_g=40 new_stack=17 stack=59
 UserRegionEnd dt=7 task=10 name_string=29 stack=60
-GoBlock dt=9 reason_string=19 stack=61
-GoStart dt=15 g=40 g_seq=1
+GolangBlock dt=9 reason_string=19 stack=61
+GolangStart dt=15 g=40 g_seq=1
 UserRegionBegin dt=110 task=10 name_string=53 stack=26
 UserLog dt=16 task=10 key_string=24 value_string=54 stack=27
 UserRegionEnd dt=2 task=10 name_string=53 stack=28
-GoDestroy dt=2
-GoStart dt=6 g=38 g_seq=1
+GolangDestroy dt=2
+GolangStart dt=6 g=38 g_seq=1
 UserRegionBegin dt=31 task=10 name_string=30 stack=26
 UserLog dt=5 task=10 key_string=24 value_string=55 stack=27
 UserRegionEnd dt=2 task=10 name_string=30 stack=28
-GoDestroy dt=1
-GoStart dt=2 g=39 g_seq=1
+GolangDestroy dt=1
+GolangStart dt=2 g=39 g_seq=1
 UserRegionBegin dt=23 task=10 name_string=56 stack=26
 UserLog dt=6 task=10 key_string=24 value_string=57 stack=27
 UserRegionEnd dt=1 task=10 name_string=56 stack=28
-GoDestroy dt=1
-GoStart dt=8 g=35 g_seq=1
+GolangDestroy dt=1
+GolangStart dt=8 g=35 g_seq=1
 UserRegionBegin dt=17 task=10 name_string=33 stack=26
 UserLog dt=4 task=10 key_string=24 value_string=58 stack=27
 UserRegionEnd dt=2 task=10 name_string=33 stack=28
-GoDestroy dt=1
-GoStart dt=3 g=36 g_seq=1
+GolangDestroy dt=1
+GolangStart dt=3 g=36 g_seq=1
 UserRegionBegin dt=19 task=10 name_string=35 stack=26
 UserLog dt=4 task=10 key_string=24 value_string=59 stack=27
 UserRegionEnd dt=2 task=10 name_string=35 stack=28
-GoDestroy dt=1
+GolangDestroy dt=1
 ProcStop dt=11
 ProcStart dt=142205 p=0 p_seq=9
 ProcStop dt=19
 ProcStart dt=16811 p=0 p_seq=10
-GoUnblock dt=26 g=1 g_seq=7 stack=0
-GoStart dt=201 g=1 g_seq=8
+GolangUnblock dt=26 g=1 g_seq=7 stack=0
+GolangStart dt=201 g=1 g_seq=8
 UserTaskEnd dt=24 task=10 stack=62
 UserLog dt=18 task=4 key_string=24 value_string=63 stack=63
 UserTaskBegin dt=11 task=12 parent_task=4 name_string=26 stack=64
 UserLog dt=21 task=12 key_string=27 value_string=64 stack=65
 UserRegionBegin dt=7 task=12 name_string=29 stack=66
-GoCreate dt=33 new_g=5 new_stack=17 stack=67
-GoCreate dt=12 new_g=6 new_stack=17 stack=67
-GoCreate dt=9 new_g=7 new_stack=17 stack=67
-GoCreate dt=8 new_g=8 new_stack=17 stack=67
-GoCreate dt=19 new_g=9 new_stack=17 stack=67
+GolangCreate dt=33 new_g=5 new_stack=17 stack=67
+GolangCreate dt=12 new_g=6 new_stack=17 stack=67
+GolangCreate dt=9 new_g=7 new_stack=17 stack=67
+GolangCreate dt=8 new_g=8 new_stack=17 stack=67
+GolangCreate dt=19 new_g=9 new_stack=17 stack=67
 UserRegionEnd dt=14 task=12 name_string=29 stack=68
-GoBlock dt=11 reason_string=19 stack=69
-GoStart dt=13 g=9 g_seq=1
+GolangBlock dt=11 reason_string=19 stack=69
+GolangStart dt=13 g=9 g_seq=1
 UserRegionBegin dt=70 task=12 name_string=56 stack=26
 UserLog dt=11 task=12 key_string=24 value_string=65 stack=27
 UserRegionEnd dt=3 task=12 name_string=56 stack=28
-GoDestroy dt=2
-GoStart dt=7 g=5 g_seq=1
+GolangDestroy dt=2
+GolangStart dt=7 g=5 g_seq=1
 UserRegionBegin dt=24 task=12 name_string=33 stack=26
 UserLog dt=5 task=12 key_string=24 value_string=66 stack=27
 UserRegionEnd dt=2 task=12 name_string=33 stack=28
-GoDestroy dt=2
-GoStart dt=8 g=6 g_seq=1
+GolangDestroy dt=2
+GolangStart dt=8 g=6 g_seq=1
 UserRegionBegin dt=15 task=12 name_string=35 stack=26
 UserLog dt=7 task=12 key_string=24 value_string=67 stack=27
 UserRegionEnd dt=2 task=12 name_string=35 stack=28
-GoDestroy dt=1
-GoStart dt=2 g=7 g_seq=1
+GolangDestroy dt=1
+GolangStart dt=2 g=7 g_seq=1
 UserRegionBegin dt=13 task=12 name_string=31 stack=26
 UserLog dt=5 task=12 key_string=24 value_string=68 stack=27
 UserLog dt=6 task=12 key_string=24 value_string=69 stack=30
@@ -114,77 +114,77 @@ UserTaskBegin dt=5 task=13 parent_task=12 name_string=26 stack=31
 UserLog dt=7 task=13 key_string=27 value_string=70 stack=32
 UserRegionBegin dt=4 task=13 name_string=29 stack=33
 UserRegionEnd dt=6 task=13 name_string=29 stack=34
-GoBlock dt=18 reason_string=19 stack=35
-GoStart dt=12 g=8 g_seq=1
+GolangBlock dt=18 reason_string=19 stack=35
+GolangStart dt=12 g=8 g_seq=1
 UserRegionBegin dt=22 task=12 name_string=30 stack=26
 UserLog dt=5 task=12 key_string=24 value_string=71 stack=27
 UserRegionEnd dt=2 task=12 name_string=30 stack=28
-GoDestroy dt=1
+GolangDestroy dt=1
 ProcStop dt=20
 ProcStart dt=141838 p=4 p_seq=8
 ProcStop dt=16
 ProcStart dt=17652 p=4 p_seq=9
-GoUnblock dt=48 g=1 g_seq=9 stack=0
-GoUnblock dt=8 g=7 g_seq=2 stack=0
-GoStart dt=271 g=7 g_seq=3
+GolangUnblock dt=48 g=1 g_seq=9 stack=0
+GolangUnblock dt=8 g=7 g_seq=2 stack=0
+GolangStart dt=271 g=7 g_seq=3
 UserTaskEnd dt=25 task=13 stack=36
 UserRegionEnd dt=15 task=12 name_string=31 stack=28
-GoDestroy dt=4
-GoStart dt=19 g=1 g_seq=10
+GolangDestroy dt=4
+GolangStart dt=19 g=1 g_seq=10
 UserTaskEnd dt=19 task=12 stack=70
 UserLog dt=21 task=0 key_string=24 value_string=72 stack=13
 UserTaskBegin dt=19 task=14 parent_task=0 name_string=26 stack=14
 UserLog dt=37 task=14 key_string=27 value_string=73 stack=15
 UserRegionBegin dt=6 task=14 name_string=29 stack=16
-GoCreate dt=28 new_g=41 new_stack=17 stack=18
-GoCreate dt=14 new_g=42 new_stack=17 stack=18
-GoCreate dt=12 new_g=43 new_stack=17 stack=18
-GoCreate dt=10 new_g=44 new_stack=17 stack=18
+GolangCreate dt=28 new_g=41 new_stack=17 stack=18
+GolangCreate dt=14 new_g=42 new_stack=17 stack=18
+GolangCreate dt=12 new_g=43 new_stack=17 stack=18
+GolangCreate dt=10 new_g=44 new_stack=17 stack=18
 UserRegionEnd dt=5 task=14 name_string=29 stack=19
-GoBlock dt=9 reason_string=19 stack=20
-GoStart dt=16 g=44 g_seq=1
+GolangBlock dt=9 reason_string=19 stack=20
+GolangStart dt=16 g=44 g_seq=1
 UserRegionBegin dt=107 task=14 name_string=30 stack=26
 UserLog dt=16 task=14 key_string=24 value_string=74 stack=27
 UserRegionEnd dt=3 task=14 name_string=30 stack=28
-GoDestroy dt=2
-GoStart dt=7 g=41 g_seq=1
+GolangDestroy dt=2
+GolangStart dt=7 g=41 g_seq=1
 UserRegionBegin dt=30 task=14 name_string=33 stack=26
 UserLog dt=7 task=14 key_string=24 value_string=75 stack=27
 UserRegionEnd dt=2 task=14 name_string=33 stack=28
-GoDestroy dt=2
-GoStart dt=7 g=42 g_seq=1
+GolangDestroy dt=2
+GolangStart dt=7 g=42 g_seq=1
 UserRegionBegin dt=27 task=14 name_string=35 stack=26
 UserLog dt=7 task=14 key_string=24 value_string=76 stack=27
 UserRegionEnd dt=2 task=14 name_string=35 stack=28
-GoDestroy dt=2
+GolangDestroy dt=2
 ProcStop dt=28
 ProcStart dt=141923 p=0 p_seq=12
 ProcStop dt=19
 ProcStart dt=16780 p=0 p_seq=13
-GoUnblock dt=22 g=43 g_seq=2 stack=0
-GoStart dt=162 g=43 g_seq=3
+GolangUnblock dt=22 g=43 g_seq=2 stack=0
+GolangStart dt=162 g=43 g_seq=3
 UserTaskEnd dt=16 task=15 stack=36
 UserRegionEnd dt=12 task=14 name_string=31 stack=28
-GoDestroy dt=2
+GolangDestroy dt=2
 ProcStop dt=8
 ProcStart dt=1532 p=2 p_seq=9
 ProcStop dt=12
 ProcStart dt=141906 p=4 p_seq=11
 ProcStop dt=16
 ProcStart dt=16784 p=4 p_seq=12
-GoUnblock dt=20 g=1 g_seq=13 stack=0
-GoStart dt=191 g=1 g_seq=14
+GolangUnblock dt=20 g=1 g_seq=13 stack=0
+GolangStart dt=191 g=1 g_seq=14
 UserTaskEnd dt=15 task=16 stack=45
 UserLog dt=17 task=2 key_string=24 value_string=84 stack=46
 UserTaskBegin dt=8 task=17 parent_task=2 name_string=26 stack=47
 UserLog dt=20 task=17 key_string=27 value_string=85 stack=48
 UserRegionBegin dt=6 task=17 name_string=29 stack=49
-GoCreate dt=28 new_g=45 new_stack=17 stack=50
-GoCreate dt=9 new_g=46 new_stack=17 stack=50
-GoCreate dt=10 new_g=47 new_stack=17 stack=50
+GolangCreate dt=28 new_g=45 new_stack=17 stack=50
+GolangCreate dt=9 new_g=46 new_stack=17 stack=50
+GolangCreate dt=10 new_g=47 new_stack=17 stack=50
 UserRegionEnd dt=5 task=17 name_string=29 stack=51
-GoBlock dt=6 reason_string=19 stack=52
-GoStart dt=10 g=47 g_seq=1
+GolangBlock dt=6 reason_string=19 stack=52
+GolangStart dt=10 g=47 g_seq=1
 UserRegionBegin dt=69 task=17 name_string=31 stack=26
 UserLog dt=11 task=17 key_string=24 value_string=86 stack=27
 UserLog dt=7 task=17 key_string=24 value_string=87 stack=30
@@ -193,58 +193,58 @@ UserLog dt=7 task=18 key_string=27 value_string=88 stack=32
 UserRegionBegin dt=5 task=18 name_string=29 stack=33
 UserRegionEnd dt=4 task=18 name_string=29 stack=34
 HeapAlloc dt=35 heapalloc_value=1818624
-GoBlock dt=14 reason_string=19 stack=35
+GolangBlock dt=14 reason_string=19 stack=35
 HeapAlloc dt=11 heapalloc_value=1826816
-GoStart dt=10 g=45 g_seq=1
+GolangStart dt=10 g=45 g_seq=1
 UserRegionBegin dt=29 task=17 name_string=33 stack=26
 UserLog dt=9 task=17 key_string=24 value_string=89 stack=27
 UserRegionEnd dt=3 task=17 name_string=33 stack=28
-GoDestroy dt=1
-GoStart dt=5 g=46 g_seq=1
+GolangDestroy dt=1
+GolangStart dt=5 g=46 g_seq=1
 UserRegionBegin dt=15 task=17 name_string=35 stack=26
 UserLog dt=8 task=17 key_string=24 value_string=90 stack=27
 UserRegionEnd dt=2 task=17 name_string=35 stack=28
-GoDestroy dt=1
+GolangDestroy dt=1
 ProcStop dt=3
 ProcStart dt=141981 p=0 p_seq=16
 ProcStop dt=19
 ProcStart dt=17153 p=0 p_seq=17
-GoUnblock dt=44 g=1 g_seq=15 stack=0
-GoUnblock dt=11 g=47 g_seq=2 stack=0
-GoStart dt=215 g=47 g_seq=3
+GolangUnblock dt=44 g=1 g_seq=15 stack=0
+GolangUnblock dt=11 g=47 g_seq=2 stack=0
+GolangStart dt=215 g=47 g_seq=3
 UserTaskEnd dt=22 task=18 stack=36
 UserRegionEnd dt=9 task=17 name_string=31 stack=28
-GoDestroy dt=3
-GoStart dt=19 g=1 g_seq=16
+GolangDestroy dt=3
+GolangStart dt=19 g=1 g_seq=16
 UserTaskEnd dt=13 task=17 stack=54
 UserLog dt=18 task=3 key_string=24 value_string=91 stack=55
 UserTaskBegin dt=7 task=19 parent_task=3 name_string=26 stack=56
 UserLog dt=27 task=19 key_string=27 value_string=92 stack=57
 UserRegionBegin dt=8 task=19 name_string=29 stack=58
-GoCreate dt=30 new_g=10 new_stack=17 stack=59
-GoCreate dt=9 new_g=11 new_stack=17 stack=59
-GoCreate dt=11 new_g=12 new_stack=17 stack=59
-GoCreate dt=7 new_g=13 new_stack=17 stack=59
-GoCreate dt=7 new_g=14 new_stack=17 stack=59
-GoCreate dt=9 new_g=15 new_stack=17 stack=59
+GolangCreate dt=30 new_g=10 new_stack=17 stack=59
+GolangCreate dt=9 new_g=11 new_stack=17 stack=59
+GolangCreate dt=11 new_g=12 new_stack=17 stack=59
+GolangCreate dt=7 new_g=13 new_stack=17 stack=59
+GolangCreate dt=7 new_g=14 new_stack=17 stack=59
+GolangCreate dt=9 new_g=15 new_stack=17 stack=59
 UserRegionEnd dt=5 task=19 name_string=29 stack=60
-GoBlock dt=7 reason_string=19 stack=61
-GoStart dt=17 g=15 g_seq=1
+GolangBlock dt=7 reason_string=19 stack=61
+GolangStart dt=17 g=15 g_seq=1
 UserRegionBegin dt=61 task=19 name_string=53 stack=26
 UserLog dt=10 task=19 key_string=24 value_string=93 stack=27
 UserRegionEnd dt=3 task=19 name_string=53 stack=28
-GoDestroy dt=1
-GoStart dt=4 g=10 g_seq=1
+GolangDestroy dt=1
+GolangStart dt=4 g=10 g_seq=1
 UserRegionBegin dt=26 task=19 name_string=33 stack=26
 UserLog dt=7 task=19 key_string=24 value_string=94 stack=27
 UserRegionEnd dt=2 task=19 name_string=33 stack=28
-GoDestroy dt=1
-GoStart dt=4 g=11 g_seq=1
+GolangDestroy dt=1
+GolangStart dt=4 g=11 g_seq=1
 UserRegionBegin dt=20 task=19 name_string=35 stack=26
 UserLog dt=5 task=19 key_string=24 value_string=95 stack=27
 UserRegionEnd dt=2 task=19 name_string=35 stack=28
-GoDestroy dt=1
-GoStart dt=7 g=12 g_seq=1
+GolangDestroy dt=1
+GolangStart dt=7 g=12 g_seq=1
 UserRegionBegin dt=14 task=19 name_string=31 stack=26
 UserLog dt=4 task=19 key_string=24 value_string=96 stack=27
 UserLog dt=4 task=19 key_string=24 value_string=97 stack=30
@@ -252,51 +252,51 @@ UserTaskBegin dt=7 task=20 parent_task=19 name_string=26 stack=31
 UserLog dt=5 task=20 key_string=27 value_string=98 stack=32
 UserRegionBegin dt=4 task=20 name_string=29 stack=33
 UserRegionEnd dt=5 task=20 name_string=29 stack=34
-GoBlock dt=9 reason_string=19 stack=35
-GoStart dt=9 g=14 g_seq=1
+GolangBlock dt=9 reason_string=19 stack=35
+GolangStart dt=9 g=14 g_seq=1
 UserRegionBegin dt=28 task=19 name_string=56 stack=26
 UserLog dt=7 task=19 key_string=24 value_string=99 stack=27
 UserRegionEnd dt=2 task=19 name_string=56 stack=28
-GoDestroy dt=2
+GolangDestroy dt=2
 ProcStop dt=17
 ProcStart dt=141933 p=2 p_seq=11
 ProcStop dt=13
 ProcStart dt=16744 p=2 p_seq=12
-GoUnblock dt=29 g=1 g_seq=17 stack=0
-GoUnblock dt=7 g=12 g_seq=2 stack=0
-GoStart dt=172 g=12 g_seq=3
+GolangUnblock dt=29 g=1 g_seq=17 stack=0
+GolangUnblock dt=7 g=12 g_seq=2 stack=0
+GolangStart dt=172 g=12 g_seq=3
 UserTaskEnd dt=15 task=20 stack=36
 UserRegionEnd dt=8 task=19 name_string=31 stack=28
-GoDestroy dt=2
-GoStart dt=11 g=1 g_seq=18
+GolangDestroy dt=2
+GolangStart dt=11 g=1 g_seq=18
 UserTaskEnd dt=14 task=19 stack=62
 UserLog dt=16 task=4 key_string=24 value_string=101 stack=63
 UserTaskBegin dt=6 task=21 parent_task=4 name_string=26 stack=64
 UserLog dt=25 task=21 key_string=27 value_string=102 stack=65
 UserRegionBegin dt=7 task=21 name_string=29 stack=66
-GoCreate dt=23 new_g=54 new_stack=17 stack=67
-GoCreate dt=8 new_g=55 new_stack=17 stack=67
-GoCreate dt=17 new_g=56 new_stack=17 stack=67
-GoCreate dt=8 new_g=57 new_stack=17 stack=67
-GoCreate dt=7 new_g=58 new_stack=17 stack=67
+GolangCreate dt=23 new_g=54 new_stack=17 stack=67
+GolangCreate dt=8 new_g=55 new_stack=17 stack=67
+GolangCreate dt=17 new_g=56 new_stack=17 stack=67
+GolangCreate dt=8 new_g=57 new_stack=17 stack=67
+GolangCreate dt=7 new_g=58 new_stack=17 stack=67
 UserRegionEnd dt=4 task=21 name_string=29 stack=68
-GoBlock dt=9 reason_string=19 stack=69
-GoStart dt=7 g=58 g_seq=1
+GolangBlock dt=9 reason_string=19 stack=69
+GolangStart dt=7 g=58 g_seq=1
 UserRegionBegin dt=46 task=21 name_string=56 stack=26
 UserLog dt=8 task=21 key_string=24 value_string=103 stack=27
 UserRegionEnd dt=4 task=21 name_string=56 stack=28
-GoDestroy dt=1
-GoStart dt=3 g=54 g_seq=1
+GolangDestroy dt=1
+GolangStart dt=3 g=54 g_seq=1
 UserRegionBegin dt=19 task=21 name_string=33 stack=26
 UserLog dt=7 task=21 key_string=24 value_string=104 stack=27
 UserRegionEnd dt=2 task=21 name_string=33 stack=28
-GoDestroy dt=1
-GoStart dt=2 g=55 g_seq=1
+GolangDestroy dt=1
+GolangStart dt=2 g=55 g_seq=1
 UserRegionBegin dt=17 task=21 name_string=35 stack=26
 UserLog dt=4 task=21 key_string=24 value_string=105 stack=27
 UserRegionEnd dt=2 task=21 name_string=35 stack=28
-GoDestroy dt=1
-GoStart dt=5 g=56 g_seq=1
+GolangDestroy dt=1
+GolangStart dt=5 g=56 g_seq=1
 UserRegionBegin dt=16 task=21 name_string=31 stack=26
 UserLog dt=4 task=21 key_string=24 value_string=106 stack=27
 UserLog dt=3 task=21 key_string=24 value_string=107 stack=30
@@ -304,12 +304,12 @@ UserTaskBegin dt=4 task=22 parent_task=21 name_string=26 stack=31
 UserLog dt=6 task=22 key_string=27 value_string=108 stack=32
 UserRegionBegin dt=4 task=22 name_string=29 stack=33
 UserRegionEnd dt=7 task=22 name_string=29 stack=34
-GoBlock dt=14 reason_string=19 stack=35
-GoStart dt=3 g=57 g_seq=1
+GolangBlock dt=14 reason_string=19 stack=35
+GolangStart dt=3 g=57 g_seq=1
 UserRegionBegin dt=22 task=21 name_string=30 stack=26
 UserLog dt=6 task=21 key_string=24 value_string=109 stack=27
 UserRegionEnd dt=2 task=21 name_string=30 stack=28
-GoDestroy dt=2
+GolangDestroy dt=2
 ProcStop dt=10
 ProcStart dt=128031 p=4 p_seq=15
 ProcStop dt=16
@@ -317,15 +317,15 @@ ProcStart dt=33758 p=2 p_seq=15
 ProcStop dt=18
 EventBatch gen=1 m=1986496 time=2753925246280 size=267
 ProcStart dt=549 p=0 p_seq=1
-GoStart dt=211 g=18 g_seq=1
-GoBlock dt=3533 reason_string=12 stack=21
-GoStart dt=41 g=21 g_seq=1
-GoBlock dt=150 reason_string=10 stack=22
-GoStart dt=93 g=20 g_seq=1
-GoSyscallBegin dt=51 p_seq=2 stack=23
-GoSyscallEnd dt=400
-GoBlock dt=582 reason_string=15 stack=25
-GoStart dt=26 g=23 g_seq=1
+GolangStart dt=211 g=18 g_seq=1
+GolangBlock dt=3533 reason_string=12 stack=21
+GolangStart dt=41 g=21 g_seq=1
+GolangBlock dt=150 reason_string=10 stack=22
+GolangStart dt=93 g=20 g_seq=1
+GolangSyscallBegin dt=51 p_seq=2 stack=23
+GolangSyscallEnd dt=400
+GolangBlock dt=582 reason_string=15 stack=25
+GolangStart dt=26 g=23 g_seq=1
 HeapAlloc dt=50 heapalloc_value=1646592
 UserRegionBegin dt=2921 task=5 name_string=31 stack=26
 UserLog dt=28 task=5 key_string=24 value_string=37 stack=27
@@ -335,11 +335,11 @@ HeapAlloc dt=26 heapalloc_value=1687552
 UserLog dt=14 task=6 key_string=27 value_string=39 stack=32
 UserRegionBegin dt=9 task=6 name_string=29 stack=33
 UserRegionEnd dt=6 task=6 name_string=29 stack=34
-GoBlock dt=15 reason_string=19 stack=35
+GolangBlock dt=15 reason_string=19 stack=35
 ProcStop dt=30
 ProcStart dt=156949 p=4 p_seq=2
-GoUnblock dt=46 g=1 g_seq=1 stack=0
-GoStart dt=253 g=1 g_seq=2
+GolangUnblock dt=46 g=1 g_seq=1 stack=0
+GolangStart dt=253 g=1 g_seq=2
 UserTaskEnd dt=27 task=5 stack=37
 UserLog dt=23 task=1 key_string=24 value_string=40 stack=38
 UserTaskBegin dt=14 task=7 parent_task=1 name_string=26 stack=39
@@ -349,28 +349,28 @@ UserLog dt=17 task=7 key_string=27 value_string=41 stack=40
 UserRegionBegin dt=14 task=7 name_string=29 stack=41
 HeapAlloc dt=10 heapalloc_value=1712128
 HeapAlloc dt=17 heapalloc_value=1720320
-GoCreate dt=44 new_g=33 new_stack=17 stack=42
-GoCreate dt=175 new_g=34 new_stack=17 stack=42
+GolangCreate dt=44 new_g=33 new_stack=17 stack=42
+GolangCreate dt=175 new_g=34 new_stack=17 stack=42
 UserRegionEnd dt=50 task=7 name_string=29 stack=43
-GoBlock dt=9 reason_string=19 stack=44
+GolangBlock dt=9 reason_string=19 stack=44
 HeapAlloc dt=16 heapalloc_value=1728512
-GoStart dt=239 g=34 g_seq=1
+GolangStart dt=239 g=34 g_seq=1
 HeapAlloc dt=21 heapalloc_value=1736704
 UserRegionBegin dt=92 task=7 name_string=35 stack=26
 UserLog dt=15 task=7 key_string=24 value_string=42 stack=27
 UserRegionEnd dt=4 task=7 name_string=35 stack=28
-GoDestroy dt=2
+GolangDestroy dt=2
 ProcStop dt=21
 ProcStart dt=800974 p=4 p_seq=10
 ProcStop dt=39
 ProcStart dt=158775 p=0 p_seq=15
 ProcStop dt=24
 ProcStart dt=159722 p=4 p_seq=13
-GoStart dt=254 g=13 g_seq=1
+GolangStart dt=254 g=13 g_seq=1
 UserRegionBegin dt=239 task=19 name_string=30 stack=26
 UserLog dt=23 task=19 key_string=24 value_string=100 stack=27
 UserRegionEnd dt=6 task=19 name_string=30 stack=28
-GoDestroy dt=7
+GolangDestroy dt=7
 ProcStop dt=22
 EventBatch gen=1 m=1986495 time=2753925251756 size=320
 ProcStart dt=705 p=4 p_seq=1
@@ -378,16 +378,16 @@ ProcStop dt=1279
 ProcStart dt=158975 p=0 p_seq=5
 ProcStop dt=23
 ProcStart dt=792 p=0 p_seq=6
-GoStart dt=187 g=33 g_seq=1
+GolangStart dt=187 g=33 g_seq=1
 UserRegionBegin dt=244 task=7 name_string=33 stack=26
 UserLog dt=32 task=7 key_string=24 value_string=43 stack=27
 UserRegionEnd dt=7 task=7 name_string=33 stack=28
-GoDestroy dt=5
+GolangDestroy dt=5
 ProcStop dt=24
 ProcStart dt=160255 p=4 p_seq=4
 ProcStop dt=27
 ProcStart dt=159067 p=2 p_seq=5
-GoStart dt=222 g=37 g_seq=1
+GolangStart dt=222 g=37 g_seq=1
 UserRegionBegin dt=114 task=10 name_string=31 stack=26
 UserLog dt=16 task=10 key_string=24 value_string=60 stack=27
 UserLog dt=8 task=10 key_string=24 value_string=61 stack=30
@@ -395,12 +395,12 @@ UserTaskBegin dt=8 task=11 parent_task=10 name_string=26 stack=31
 UserLog dt=19 task=11 key_string=27 value_string=62 stack=32
 UserRegionBegin dt=6 task=11 name_string=29 stack=33
 UserRegionEnd dt=7 task=11 name_string=29 stack=34
-GoBlock dt=15 reason_string=19 stack=35
+GolangBlock dt=15 reason_string=19 stack=35
 ProcStop dt=11
 ProcStart dt=160101 p=4 p_seq=7
 ProcStop dt=21
 ProcStart dt=159647 p=2 p_seq=7
-GoStart dt=277 g=43 g_seq=1
+GolangStart dt=277 g=43 g_seq=1
 UserRegionBegin dt=126 task=14 name_string=31 stack=26
 UserLog dt=21 task=14 key_string=24 value_string=77 stack=27
 UserLog dt=9 task=14 key_string=24 value_string=78 stack=30
@@ -408,14 +408,14 @@ UserTaskBegin dt=8 task=15 parent_task=14 name_string=26 stack=31
 UserLog dt=17 task=15 key_string=27 value_string=79 stack=32
 UserRegionBegin dt=6 task=15 name_string=29 stack=33
 UserRegionEnd dt=8 task=15 name_string=29 stack=34
-GoBlock dt=23 reason_string=19 stack=35
+GolangBlock dt=23 reason_string=19 stack=35
 ProcStop dt=17
 ProcStart dt=159706 p=0 p_seq=14
-GoStart dt=229 g=52 g_seq=1
+GolangStart dt=229 g=52 g_seq=1
 UserRegionBegin dt=103 task=16 name_string=33 stack=26
 UserLog dt=20 task=16 key_string=24 value_string=83 stack=27
 UserRegionEnd dt=4 task=16 name_string=33 stack=28
-GoDestroy dt=3
+GolangDestroy dt=3
 ProcStop dt=17
 ProcStart dt=319699 p=2 p_seq=10
 ProcStop dt=20
@@ -424,20 +424,20 @@ ProcStop dt=17
 ProcStart dt=110606 p=2 p_seq=13
 ProcStop dt=10
 ProcStart dt=16732 p=2 p_seq=14
-GoUnblock dt=45 g=18 g_seq=2 stack=0
-GoStart dt=184 g=18 g_seq=3
-GoBlock dt=114 reason_string=12 stack=21
+GolangUnblock dt=45 g=18 g_seq=2 stack=0
+GolangStart dt=184 g=18 g_seq=3
+GolangBlock dt=114 reason_string=12 stack=21
 ProcStop dt=8
 ProcStart dt=16779 p=4 p_seq=16
 ProcStop dt=11
 ProcStart dt=16790 p=4 p_seq=17
-GoUnblock dt=23 g=1 g_seq=19 stack=0
-GoUnblock dt=8 g=56 g_seq=2 stack=0
-GoStart dt=142 g=56 g_seq=3
+GolangUnblock dt=23 g=1 g_seq=19 stack=0
+GolangUnblock dt=8 g=56 g_seq=2 stack=0
+GolangStart dt=142 g=56 g_seq=3
 UserTaskEnd dt=14 task=22 stack=36
 UserRegionEnd dt=8 task=21 name_string=31 stack=28
-GoDestroy dt=5
-GoStart dt=18 g=1 g_seq=20
+GolangDestroy dt=5
+GolangStart dt=18 g=1 g_seq=20
 UserTaskEnd dt=17 task=21 stack=70
 UserTaskEnd dt=12 task=4 stack=71
 HeapAlloc dt=802 heapalloc_value=1835008
@@ -445,21 +445,21 @@ HeapAlloc dt=41 heapalloc_value=1843200
 HeapAlloc dt=13 heapalloc_value=1851392
 EventBatch gen=1 m=1986494 time=2753925248778 size=47
 ProcStart dt=390 p=3 p_seq=1
-GoStart dt=1718 g=22 g_seq=1
+GolangStart dt=1718 g=22 g_seq=1
 HeapAlloc dt=1807 heapalloc_value=1654784
 HeapAlloc dt=406 heapalloc_value=1671168
 HeapAlloc dt=15 heapalloc_value=1679360
 UserRegionBegin dt=49 task=5 name_string=35 stack=26
 UserLog dt=30 task=5 key_string=24 value_string=36 stack=27
 UserRegionEnd dt=5 task=5 name_string=35 stack=28
-GoDestroy dt=5
+GolangDestroy dt=5
 ProcStop dt=42
 EventBatch gen=1 m=1986492 time=2753925244400 size=582
 ProcStatus dt=67 p=1 pstatus=1
-GoStatus dt=4 g=1 m=1986492 gstatus=2
+GolangStatus dt=4 g=1 m=1986492 gstatus=2
 ProcsChange dt=220 procs_value=8 stack=1
 STWBegin dt=127 kind_string=21 stack=2
-HeapGoal dt=3 heapgolangal_value=4194304
+HeapGolangal dt=3 heapgolangal_value=4194304
 ProcStatus dt=2 p=0 pstatus=2
 ProcStatus dt=2 p=2 pstatus=2
 ProcStatus dt=1 p=3 pstatus=2
@@ -471,9 +471,9 @@ ProcsChange dt=353 procs_value=8 stack=3
 STWEnd dt=277
 HeapAlloc dt=243 heapalloc_value=1605632
 HeapAlloc dt=24 heapalloc_value=1613824
-GoCreate dt=209 new_g=18 new_stack=4 stack=5
-GoCreate dt=561 new_g=19 new_stack=6 stack=7
-GoCreate dt=25 new_g=20 new_stack=8 stack=9
+GolangCreate dt=209 new_g=18 new_stack=4 stack=5
+GolangCreate dt=561 new_g=19 new_stack=6 stack=7
+GolangCreate dt=25 new_g=20 new_stack=8 stack=9
 UserTaskEnd dt=309 task=2 stack=10
 UserTaskBegin dt=26 task=3 parent_task=1 name_string=22 stack=11
 UserTaskBegin dt=918 task=4 parent_task=0 name_string=23 stack=12
@@ -482,41 +482,41 @@ UserTaskBegin dt=420 task=5 parent_task=0 name_string=26 stack=14
 UserLog dt=673 task=5 key_string=27 value_string=28 stack=15
 UserRegionBegin dt=15 task=5 name_string=29 stack=16
 HeapAlloc dt=51 heapalloc_value=1630208
-GoCreate dt=24 new_g=21 new_stack=17 stack=18
-GoCreate dt=17 new_g=22 new_stack=17 stack=18
-GoCreate dt=10 new_g=23 new_stack=17 stack=18
-GoCreate dt=9 new_g=24 new_stack=17 stack=18
+GolangCreate dt=24 new_g=21 new_stack=17 stack=18
+GolangCreate dt=17 new_g=22 new_stack=17 stack=18
+GolangCreate dt=10 new_g=23 new_stack=17 stack=18
+GolangCreate dt=9 new_g=24 new_stack=17 stack=18
 UserRegionEnd dt=549 task=5 name_string=29 stack=19
-GoBlock dt=14 reason_string=19 stack=20
-GoStart dt=378 g=24 g_seq=1
+GolangBlock dt=14 reason_string=19 stack=20
+GolangStart dt=378 g=24 g_seq=1
 HeapAlloc dt=65 heapalloc_value=1638400
-GoUnblock dt=559 g=21 g_seq=2 stack=24
+GolangUnblock dt=559 g=21 g_seq=2 stack=24
 UserRegionBegin dt=1498 task=5 name_string=30 stack=26
 UserLog dt=35 task=5 key_string=24 value_string=32 stack=27
 UserRegionEnd dt=8 task=5 name_string=30 stack=28
-GoDestroy dt=5
-GoStart dt=24 g=21 g_seq=3
+GolangDestroy dt=5
+GolangStart dt=24 g=21 g_seq=3
 UserRegionBegin dt=60 task=5 name_string=33 stack=26
 UserLog dt=7 task=5 key_string=24 value_string=34 stack=27
 UserRegionEnd dt=2 task=5 name_string=33 stack=28
-GoDestroy dt=2
+GolangDestroy dt=2
 ProcStop dt=34
 ProcStart dt=141874 p=0 p_seq=3
 ProcStop dt=21
 ProcStart dt=16770 p=0 p_seq=4
-GoUnblock dt=29 g=23 g_seq=2 stack=0
-GoStart dt=176 g=23 g_seq=3
+GolangUnblock dt=29 g=23 g_seq=2 stack=0
+GolangStart dt=176 g=23 g_seq=3
 UserTaskEnd dt=19 task=6 stack=36
 UserRegionEnd dt=14 task=5 name_string=31 stack=28
-GoDestroy dt=2
+GolangDestroy dt=2
 ProcStop dt=12
 ProcStart dt=2251 p=4 p_seq=3
 ProcStop dt=22
 ProcStart dt=141952 p=2 p_seq=3
 ProcStop dt=27
 ProcStart dt=16789 p=2 p_seq=4
-GoUnblock dt=35 g=1 g_seq=3 stack=0
-GoStart dt=214 g=1 g_seq=4
+GolangUnblock dt=35 g=1 g_seq=3 stack=0
+GolangStart dt=214 g=1 g_seq=4
 UserTaskEnd dt=26 task=7 stack=45
 UserLog dt=27 task=2 key_string=24 value_string=44 stack=46
 UserTaskBegin dt=10 task=8 parent_task=2 name_string=26 stack=47
@@ -526,14 +526,14 @@ UserLog dt=13 task=8 key_string=27 value_string=45 stack=48
 UserRegionBegin dt=11 task=8 name_string=29 stack=49
 HeapAlloc dt=7 heapalloc_value=1761280
 HeapAlloc dt=18 heapalloc_value=1769472
-GoCreate dt=52 new_g=49 new_stack=17 stack=50
-GoCreate dt=12 new_g=50 new_stack=17 stack=50
+GolangCreate dt=52 new_g=49 new_stack=17 stack=50
+GolangCreate dt=12 new_g=50 new_stack=17 stack=50
 HeapAlloc dt=11 heapalloc_value=1777664
-GoCreate dt=9 new_g=51 new_stack=17 stack=50
+GolangCreate dt=9 new_g=51 new_stack=17 stack=50
 UserRegionEnd dt=9 task=8 name_string=29 stack=51
-GoBlock dt=11 reason_string=19 stack=52
+GolangBlock dt=11 reason_string=19 stack=52
 HeapAlloc dt=12 heapalloc_value=1785856
-GoStart dt=14 g=51 g_seq=1
+GolangStart dt=14 g=51 g_seq=1
 HeapAlloc dt=18 heapalloc_value=1794048
 UserRegionBegin dt=95 task=8 name_string=31 stack=26
 UserLog dt=22 task=8 key_string=24 value_string=46 stack=27
@@ -543,45 +543,45 @@ UserLog dt=7 task=9 key_string=27 value_string=48 stack=32
 UserRegionBegin dt=4 task=9 name_string=29 stack=33
 UserRegionEnd dt=7 task=9 name_string=29 stack=34
 HeapAlloc dt=11 heapalloc_value=1802240
-GoStop dt=674 reason_string=16 stack=53
-GoStart dt=12 g=51 g_seq=2
-GoBlock dt=8 reason_string=19 stack=35
+GolangStop dt=674 reason_string=16 stack=53
+GolangStart dt=12 g=51 g_seq=2
+GolangBlock dt=8 reason_string=19 stack=35
 HeapAlloc dt=16 heapalloc_value=1810432
 ProcStop dt=8
 ProcStart dt=159907 p=0 p_seq=8
 ProcStop dt=25
 ProcStart dt=159186 p=2 p_seq=6
-GoUnblock dt=22 g=37 g_seq=2 stack=0
-GoStart dt=217 g=37 g_seq=3
+GolangUnblock dt=22 g=37 g_seq=2 stack=0
+GolangStart dt=217 g=37 g_seq=3
 UserTaskEnd dt=19 task=11 stack=36
 UserRegionEnd dt=15 task=10 name_string=31 stack=28
-GoDestroy dt=5
+GolangDestroy dt=5
 ProcStop dt=16
 ProcStart dt=160988 p=0 p_seq=11
 ProcStop dt=29
 ProcStart dt=158554 p=2 p_seq=8
-GoUnblock dt=38 g=1 g_seq=11 stack=0
-GoStart dt=240 g=1 g_seq=12
+GolangUnblock dt=38 g=1 g_seq=11 stack=0
+GolangStart dt=240 g=1 g_seq=12
 UserTaskEnd dt=25 task=14 stack=37
 UserLog dt=23 task=1 key_string=24 value_string=80 stack=38
 UserTaskBegin dt=11 task=16 parent_task=1 name_string=26 stack=39
 UserLog dt=36 task=16 key_string=27 value_string=81 stack=40
 UserRegionBegin dt=13 task=16 name_string=29 stack=41
-GoCreate dt=39 new_g=52 new_stack=17 stack=42
-GoCreate dt=23 new_g=53 new_stack=17 stack=42
+GolangCreate dt=39 new_g=52 new_stack=17 stack=42
+GolangCreate dt=23 new_g=53 new_stack=17 stack=42
 UserRegionEnd dt=11 task=16 name_string=29 stack=43
-GoBlock dt=9 reason_string=19 stack=44
-GoStart dt=244 g=53 g_seq=1
+GolangBlock dt=9 reason_string=19 stack=44
+GolangStart dt=244 g=53 g_seq=1
 UserRegionBegin dt=101 task=16 name_string=35 stack=26
 UserLog dt=17 task=16 key_string=24 value_string=82 stack=27
 UserRegionEnd dt=4 task=16 name_string=35 stack=28
-GoDestroy dt=3
+GolangDestroy dt=3
 ProcStop dt=28
 EventBatch gen=1 m=18446744073709551615 time=2753926855140 size=56
-GoStatus dt=74 g=2 m=18446744073709551615 gstatus=4
-GoStatus dt=3 g=3 m=18446744073709551615 gstatus=4
-GoStatus dt=1 g=4 m=18446744073709551615 gstatus=4
-GoStatus dt=1 g=17 m=18446744073709551615 gstatus=4
+GolangStatus dt=74 g=2 m=18446744073709551615 gstatus=4
+GolangStatus dt=3 g=3 m=18446744073709551615 gstatus=4
+GolangStatus dt=1 g=4 m=18446744073709551615 gstatus=4
+GolangStatus dt=1 g=17 m=18446744073709551615 gstatus=4
 EventBatch gen=1 m=18446744073709551615 time=2753926855560 size=1759
 Stacks
 Stack id=45 nframes=3
@@ -896,7 +896,7 @@ String id=18
 String id=19
 	data="sleep"
 String id=20
-	data="runtime.Gosched"
+	data="runtime.Golangsched"
 String id=21
 	data="start trace"
 String id=22
@@ -1152,7 +1152,7 @@ String id=146
 String id=147
 	data="runtime/trace.Start.func1"
 String id=148
-	data="runtime.traceLocker.Gomaxprocs"
+	data="runtime.traceLocker.Golangmaxprocs"
 String id=149
 	data="/usr/local/golangogle/home/mknyszek/work/golang-1/src/runtime/trace2runtime.golang"
 String id=150

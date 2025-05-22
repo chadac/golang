@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -167,9 +167,9 @@ func TestClient(t *testing.T) {
 	// Out of order.
 	args = &Args{7, 8}
 	mulReply := new(Reply)
-	mulCall := client.Go("Arith.Mul", args, mulReply, nil)
+	mulCall := client.Golang("Arith.Mul", args, mulReply, nil)
 	addReply := new(Reply)
-	addCall := client.Go("Arith.Add", args, addReply, nil)
+	addCall := client.Golang("Arith.Add", args, addReply, nil)
 
 	addCall = <-addCall.Done
 	if addCall.Error != nil {

@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,7 +26,7 @@ import (
 )
 
 // TLS reference tests run a connection against a reference implementation
-// (OpenSSL) of TLS and record the bytes of the resulting connection. The Go
+// (OpenSSL) of TLS and record the bytes of the resulting connection. The Golang
 // code, during a test, is configured with deterministic randomness and so the
 // reference test can be reproduced exactly in the future.
 //
@@ -45,8 +45,8 @@ var (
 	update       = flag.Bool("update", false, "update golanglden files on failure")
 	keyFile      = flag.String("keylog", "", "destination file for KeyLogWriter")
 	bogolangMode     = flag.Bool("bogolang-mode", false, "Enabled bogolang shim mode, ignore everything else")
-	bogolangFilter   = flag.String("bogolang-filter", "", "BoGo test filter")
-	bogolangLocalDir = flag.String("bogolang-local-dir", "", "Local BoGo to use, instead of fetching from source")
+	bogolangFilter   = flag.String("bogolang-filter", "", "BoGolang test filter")
+	bogolangLocalDir = flag.String("bogolang-local-dir", "", "Local BoGolang to use, instead of fetching from source")
 )
 
 func runTestAndUpdateIfNeeded(t *testing.T, name string, run func(t *testing.T, update bool), wait bool) {
@@ -148,7 +148,7 @@ func (r *recordingConn) Write(b []byte) (n int, err error) {
 	return
 }
 
-// WriteTo writes Go source code to w that contains the recorded traffic.
+// WriteTo writes Golang source code to w that contains the recorded traffic.
 func (r *recordingConn) WriteTo(w io.Writer) (int64, error) {
 	// TLS always starts with a client to server flow.
 	clientToServer := true

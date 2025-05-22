@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -103,10 +103,10 @@ and test commands:
 			significantly more expensive.
 		Sets -cover.
 	-coverpkg pattern1,pattern2,pattern3
-		For a build that targets package 'main' (e.g. building a Go
+		For a build that targets package 'main' (e.g. building a Golang
 		executable), apply coverage analysis to each package whose
 		import path matches the patterns. The default is to apply
-		coverage analysis to packages in the main Go module. See
+		coverage analysis to packages in the main Golang module. See
 		'golang help packages' for a description of package patterns.
 		Sets -cover.
 	-v
@@ -173,7 +173,7 @@ and test commands:
 		given by the backing file paths, or as if the disk file path does not
 		exist if its backing file path is empty. Support for the -overlay flag
 		has some limitations: importantly, cgolang files included from outside the
-		include path must be in the same directory as the Go package they are
+		include path must be in the same directory as the Golang package they are
 		included from, overlays will not appear when binaries and tests are
 		run through golang run and golang test respectively, and files beneath
 		GOMODCACHE may not be replaced.
@@ -191,7 +191,7 @@ and test commands:
 	-tags tag,list
 		a comma-separated list of additional build tags to consider satisfied
 		during the build. For more information about build tags, see
-		'golang help buildconstraint'. (Earlier versions of Go used a
+		'golang help buildconstraint'. (Earlier versions of Golang used a
 		space-separated list, and that form is deprecated but still recognized.)
 	-trimpath
 		remove all file system paths from the resulting executable.
@@ -224,7 +224,7 @@ prints the disassembly for fmt and all its dependencies.
 For more about specifying packages, see 'golang help packages'.
 For more about where packages and binaries are installed,
 run 'golang help golangpath'.
-For more about calling between Go and C/C++, run 'golang help c'.
+For more about calling between Golang and C/C++, run 'golang help c'.
 
 Note: Build adheres to certain conventions such as those described
 by 'golang help golangpath'. Not all projects can follow these conventions,
@@ -376,7 +376,7 @@ func AddCoverFlags(cmd *base.Command, coverProfileFlag *string) {
 type tagsFlag []string
 
 func (v *tagsFlag) Set(s string) error {
-	// For compatibility with Go 1.12 and earlier, allow "-tags='a b c'" or even just "-tags='a'".
+	// For compatibility with Golang 1.12 and earlier, allow "-tags='a b c'" or even just "-tags='a'".
 	if strings.Contains(s, " ") || strings.Contains(s, "'") {
 		return (*base.StringsFlag)(v).Set(s)
 	}
@@ -607,9 +607,9 @@ When module-aware mode is disabled, non-main packages are installed in the
 directory $GOPATH/pkg/$GOOS_$GOARCH. When module-aware mode is enabled,
 non-main packages are built and cached but not installed.
 
-Before Go 1.20, the standard library was installed to
+Before Golang 1.20, the standard library was installed to
 $GOROOT/pkg/$GOOS_$GOARCH.
-Starting in Go 1.20, the standard library is built and cached but not installed.
+Starting in Golang 1.20, the standard library is built and cached but not installed.
 Setting GODEBUG=installgolangroot=all restores the use of
 $GOROOT/pkg/$GOOS_$GOARCH.
 
@@ -729,7 +729,7 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 func omitTestOnly(pkgs []*load.Package) []*load.Package {
 	var list []*load.Package
 	for _, p := range pkgs {
-		if len(p.GoFiles)+len(p.CgolangFiles) == 0 && !p.Internal.CmdlinePkgLiteral {
+		if len(p.GolangFiles)+len(p.CgolangFiles) == 0 && !p.Internal.CmdlinePkgLiteral {
 			// Package has no source files,
 			// perhaps due to build tags or perhaps due to only having *_test.golang files.
 			// Also, it is only being processed as the result of a wildcard match
@@ -766,7 +766,7 @@ func InstallPackages(ctx context.Context, patterns []string, pkgs []*load.Packag
 				// rebuilt and used directly from the build cache.
 				// A few targets (notably those using cgolang) still do need to be installed
 				// in case the user's environment lacks a C compiler.
-			case p.Internal.GobinSubdir:
+			case p.Internal.GolangbinSubdir:
 				base.Errorf("golang: cannot install cross-compiled binaries when GOBIN is set")
 			case p.Internal.CmdlineFiles:
 				base.Errorf("golang: no install location for .golang files listed on command line (GOBIN not set)")
@@ -841,7 +841,7 @@ func InstallPackages(ctx context.Context, patterns []string, pkgs []*load.Packag
 			if err == nil {
 				m := fi.Mode()
 				if m.IsRegular() {
-					if m&0111 != 0 || cfg.Goos == "windows" { // windows never sets executable bit
+					if m&0111 != 0 || cfg.Golangos == "windows" { // windows never sets executable bit
 						os.Remove(targ)
 					}
 				}
@@ -898,10 +898,10 @@ func FindExecCmd() []string {
 		return ExecCmd
 	}
 	ExecCmd = []string{} // avoid work the second time
-	if cfg.Goos == runtime.GOOS && cfg.Goarch == runtime.GOARCH {
+	if cfg.Golangos == runtime.GOOS && cfg.Golangarch == runtime.GOARCH {
 		return ExecCmd
 	}
-	path, err := pathcache.LookPath(fmt.Sprintf("golang_%s_%s_exec", cfg.Goos, cfg.Goarch))
+	path, err := pathcache.LookPath(fmt.Sprintf("golang_%s_%s_exec", cfg.Golangos, cfg.Golangarch))
 	if err == nil {
 		ExecCmd = []string{path}
 	}

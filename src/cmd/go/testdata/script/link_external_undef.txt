@@ -42,7 +42,7 @@ func InAsm()
 -- main.s --
 
 // Add an assembly function so as to leave open the possibility
-// that body-less functions in Go might be defined in assembly.
+// that body-less functions in Golang might be defined in assembly.
 
 // Currently we just need an empty file here.
 

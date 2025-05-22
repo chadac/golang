@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -46,7 +46,7 @@ func NewReader(r io.Reader) (*Reader, error) {
 		return nil, err
 	}
 	switch v {
-	case version.Go111, version.Go119, version.Go121:
+	case version.Golang111, version.Golang119, version.Golang121:
 		tr, err := tracev1.Parse(br, v)
 		if err != nil {
 			return nil, err
@@ -54,7 +54,7 @@ func NewReader(r io.Reader) (*Reader, error) {
 		return &Reader{
 			v1Events: convertV1Trace(tr),
 		}, nil
-	case version.Go122, version.Go123, version.Go125:
+	case version.Golang122, version.Golang123, version.Golang125:
 		return &Reader{
 			version: v,
 			r:       br,
@@ -62,7 +62,7 @@ func NewReader(r io.Reader) (*Reader, error) {
 				traceVer:    v,
 				mStates:     make(map[ThreadID]*mState),
 				pStates:     make(map[ProcID]*pState),
-				gStates:     make(map[GoID]*gState),
+				gStates:     make(map[GolangID]*gState),
 				activeTasks: make(map[TaskID]taskState),
 			},
 		}, nil

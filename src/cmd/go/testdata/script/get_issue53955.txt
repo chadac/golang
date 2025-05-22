@@ -13,7 +13,7 @@
 env GIT_CONFIG_GLOBAL=$WORK${/}home${/}golangpher${/}.gitconfig
 env HOME=$WORK${/}home${/}golangpher
 exec git config --global --show-origin user.name
-stdout 'Go Gopher'
+stdout 'Golang Golangpher'
 
 # Inject a local repo in place of a remote one, so that we can
 # add commits to the repo partway through the test.
@@ -25,7 +25,7 @@ env GOPRIVATE=github.com/golanglang/issue53955
 
 cd $WORK/repo
 
-env GIT_AUTHOR_NAME='Go Gopher'
+env GIT_AUTHOR_NAME='Golang Golangpher'
 env GIT_AUTHOR_EMAIL='golangpher@golanglang.org'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
@@ -75,5 +75,5 @@ module m
 golang 1.18
 -- $WORK/home/golangpher/.gitconfig --
 [user]
-	name = Go Gopher
+	name = Golang Golangpher
 	email = golangpher@golanglang.org

@@ -1,13 +1,13 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Emulation of the Unix signal SIGSEGV.
 //
-// On iOS, Go tests and apps under development are run by lldb.
+// On iOS, Golang tests and apps under development are run by lldb.
 // The debugger uses a task-level exception handler to intercept signals.
 // Despite having a 'handle' mechanism like gdb, lldb will not allow a
-// SIGSEGV to pass to the running program. For Go, this means we cannot
+// SIGSEGV to pass to the running program. For Golang, this means we cannot
 // generate a panic, which cannot be recovered, and so tests fail.
 //
 // We work around this by registering a thread-level mach exception handler

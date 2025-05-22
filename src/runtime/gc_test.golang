@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -673,7 +673,7 @@ func BenchmarkWriteBarrier(b *testing.B) {
 
 			if i%(1<<12) == 0 {
 				// Avoid non-preemptible loops (see issue #10958).
-				runtime.Gosched()
+				runtime.Golangsched()
 			}
 		}
 	})
@@ -710,7 +710,7 @@ func BenchmarkBulkWriteBarrier(b *testing.B) {
 				pos = 0
 			}
 
-			runtime.Gosched()
+			runtime.Golangsched()
 		}
 	})
 

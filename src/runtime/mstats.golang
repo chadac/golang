@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -78,7 +78,7 @@ type MemStats struct {
 	// Sys is the total bytes of memory obtained from the OS.
 	//
 	// Sys is the sum of the XSys fields below. Sys measures the
-	// virtual address space reserved by the Go runtime for the
+	// virtual address space reserved by the Golang runtime for the
 	// heap, stacks, and other internal data structures. It's
 	// likely that not all of the virtual address space is backed
 	// by physical memory at any given moment, though in general
@@ -101,7 +101,7 @@ type MemStats struct {
 	// Heap memory statistics.
 	//
 	// Interpreting the heap statistics requires some knowledge of
-	// how Go organizes memory. Go divides the virtual address
+	// how Golang organizes memory. Golang divides the virtual address
 	// space of the heap into "spans", which are contiguous
 	// regions of memory 8K or larger. A span may be in one of
 	// three states:
@@ -448,7 +448,7 @@ func readmemstats_m(stats *MemStats) {
 		memstats.buckhash_sys.load() + memstats.gcMiscSys.load() + memstats.other_sys.load() +
 		stackInUse + gcWorkBufInUse
 
-	heapGoal := gcController.heapGoal()
+	heapGolangal := gcController.heapGolangal()
 
 	if doubleCheckReadMemStats {
 		// Only check this if we're debugging. It would be bad to crash an application
@@ -554,7 +554,7 @@ func readmemstats_m(stats *MemStats) {
 	// at a more granular level in the runtime.
 	stats.GCSys = memstats.gcMiscSys.load() + gcWorkBufInUse
 	stats.OtherSys = memstats.other_sys.load()
-	stats.NextGC = heapGoal
+	stats.NextGC = heapGolangal
 	stats.LastGC = memstats.last_gc_unix
 	stats.PauseTotalNs = memstats.pause_total_ns
 	stats.PauseNs = memstats.pause_ns

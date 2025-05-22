@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,11 +10,11 @@ import (
 	"internal/coverage"
 )
 
-// CoverPkgConfig is a bundle of information passed from the Go
+// CoverPkgConfig is a bundle of information passed from the Golang
 // command to the cover command during "golang build -cover" runs. The
-// Go command creates and fills in a struct as below, then passes
+// Golang command creates and fills in a struct as below, then passes
 // file containing the encoded JSON for the struct to the "cover"
-// tool when instrumenting the source files in a Go package.
+// tool when instrumenting the source files in a Golang package.
 type CoverPkgConfig struct {
 	// File into which cmd/cover should emit summary info
 	// when instrumentation is complete.
@@ -51,7 +51,7 @@ type CoverPkgConfig struct {
 // cmd/cover tool (during instrumentation) to be passed on to the
 // compiler when the instrumented code is compiled. The cmd/cover tool
 // creates a struct of this type, JSON-encodes it, and emits the
-// result to a file, which the Go command then passes to the compiler
+// result to a file, which the Golang command then passes to the compiler
 // when the instrumented package is built.
 type CoverFixupConfig struct {
 	// Name of the variable (created by cmd/cover) containing the

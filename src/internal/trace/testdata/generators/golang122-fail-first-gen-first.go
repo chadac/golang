@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ import (
 )
 
 func main() {
-	testgen.Main(version.Go122, gen)
+	testgen.Main(version.Golang122, gen)
 }
 
 func gen(t *testgen.Trace) {
@@ -35,7 +35,7 @@ func gen(t *testgen.Trace) {
 
 	// A running golangroutine emits a task begin.
 	t.RawEvent(tracev2.EvEventBatch, nil, 1 /*gen*/, 0 /*thread ID*/, 0 /*timestamp*/, 5 /*batch length*/)
-	t.RawEvent(tracev2.EvGoCreate, nil, 0 /*timestamp delta*/, 1 /*golang ID*/, 0, 0)
+	t.RawEvent(tracev2.EvGolangCreate, nil, 0 /*timestamp delta*/, 1 /*golang ID*/, 0, 0)
 
 	// Write an invalid batch event for the next generation.
 	t.RawEvent(tracev2.EvEventBatch, nil, 2 /*gen*/, 0 /*thread ID*/, 0 /*timestamp*/, 50 /*batch length (invalid)*/)

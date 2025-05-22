@@ -7,7 +7,7 @@ require "golanglang.org/x/text" v0.0.0-20170915032832-14c0d48ead0c
 -- .info --
 {"Version":"v1.3.0","Name":"0cc034b51e57ed7832d4c67d526f75a900996e5c","Short":"0cc034b51e57","Time":"2018-02-13T19:05:03Z"}
 -- glass.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -26,7 +26,7 @@ Spanish: es: Puedo comer vidrio, no me hace daño.
 
 `)
 -- glass_test.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -66,11 +66,11 @@ module "rsc.io/sampler"
 
 require "golanglang.org/x/text" v0.0.0-20170915032832-14c0d48ead0c
 -- hello.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Translations by Google Translate.
+// Translations by Golangogle Translate.
 
 package sampler
 
@@ -82,7 +82,7 @@ Spanish: es: Hola Mundo.
 
 `)
 -- hello_test.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -117,7 +117,7 @@ func TestHello(t *testing.T) {
 	}
 }
 -- sampler.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 

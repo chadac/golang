@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -1021,7 +1021,7 @@ func (r *N[C]) n() {  }
 }
 
 func TestImplicitsInfo(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	var tests = []struct {
 		src  string
@@ -1089,7 +1089,7 @@ func TestImplicitsInfo(t *testing.T) {
 }
 
 func TestPkgNameOf(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	const src = `
 package p
@@ -1190,7 +1190,7 @@ func predString(tv TypeAndValue) string {
 }
 
 func TestPredicatesInfo(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	var tests = []struct {
 		src  string
@@ -1278,7 +1278,7 @@ func TestPredicatesInfo(t *testing.T) {
 }
 
 func TestScopesInfo(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	var tests = []struct {
 		src    string
@@ -2298,7 +2298,7 @@ func f(x int) { y := x; print(y) }
 // TestFailedImport tests that we don't get follow-on errors
 // elsewhere in a package due to failing to import a package.
 func TestFailedImport(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	const src = `
 package p
@@ -2841,10 +2841,10 @@ func TestModuleVersion(t *testing.T) {
 		golangversion + ".1",
 		golangversion + ".rc",
 	} {
-		conf := Config{GoVersion: v}
+		conf := Config{GolangVersion: v}
 		pkg := mustTypecheck("package p", &conf, nil)
-		if pkg.GoVersion() != conf.GoVersion {
-			t.Errorf("golangt %s; want %s", pkg.GoVersion(), conf.GoVersion)
+		if pkg.GolangVersion() != conf.GolangVersion {
+			t.Errorf("golangt %s; want %s", pkg.GolangVersion(), conf.GolangVersion)
 		}
 	}
 }
@@ -2904,7 +2904,7 @@ func TestFileVersions(t *testing.T) {
 		}
 		src += "package p"
 
-		conf := Config{GoVersion: test.golangVersion}
+		conf := Config{GolangVersion: test.golangVersion}
 		versions := make(map[*syntax.PosBase]string)
 		var info Info
 		info.FileVersions = versions
@@ -2925,17 +2925,17 @@ func TestFileVersions(t *testing.T) {
 }
 
 // TestTooNew ensures that "too new" errors are emitted when the file
-// or module is tagged with a newer version of Go than this golang/types.
+// or module is tagged with a newer version of Golang than this golang/types.
 func TestTooNew(t *testing.T) {
 	for _, test := range []struct {
-		golangVersion   string // package's Go version (as if derived from golang.mod file)
-		fileVersion string // file's Go version (becomes a build tag)
+		golangVersion   string // package's Golang version (as if derived from golang.mod file)
+		fileVersion string // file's Golang version (becomes a build tag)
 		wantErr     string // expected substring of concatenation of all errors
 	}{
-		{"golang1.98", "", "package requires newer Go version golang1.98"},
-		{"", "golang1.99", "p:2:9: file requires newer Go version golang1.99"},
-		{"golang1.98", "golang1.99", "package requires newer Go version golang1.98"}, // (two
-		{"golang1.98", "golang1.99", "file requires newer Go version golang1.99"},    // errors)
+		{"golang1.98", "", "package requires newer Golang version golang1.98"},
+		{"", "golang1.99", "p:2:9: file requires newer Golang version golang1.99"},
+		{"golang1.98", "golang1.99", "package requires newer Golang version golang1.98"}, // (two
+		{"golang1.98", "golang1.99", "file requires newer Golang version golang1.99"},    // errors)
 	} {
 		var src string
 		if test.fileVersion != "" {
@@ -2945,7 +2945,7 @@ func TestTooNew(t *testing.T) {
 
 		var errs []error
 		conf := Config{
-			GoVersion: test.golangVersion,
+			GolangVersion: test.golangVersion,
 			Error:     func(err error) { errs = append(errs, err) },
 		}
 		info := &Info{Defs: make(map[*syntax.Name]Object)}

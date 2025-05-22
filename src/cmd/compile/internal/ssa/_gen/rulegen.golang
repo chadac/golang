@@ -1,8 +1,8 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This program generates Go code that applies rewrite rules to a Value.
+// This program generates Golang code that applies rewrite rules to a Value.
 // The generated code implements a function of type func (v *Value) bool
 // which reports whether if did something.
 // Ideas stolen from the Swift Java compiler:
@@ -52,7 +52,7 @@ import (
 //                   extra ignored args that need not appear in the replacement
 //                if the right-hand side is in {}, then it is code used to generate the result.
 
-// extra conditions is just a chunk of Go that evaluates to a boolean. It may use
+// extra conditions is just a chunk of Golang that evaluates to a boolean. It may use
 // variables declared in the matching tsexpr. The variable "v" is predefined to be
 // the value matched by the entire rule.
 
@@ -804,7 +804,7 @@ type (
 	}
 )
 
-// exprf parses a Go expression generated from fmt.Sprintf, panicking if an
+// exprf parses a Golang expression generated from fmt.Sprintf, panicking if an
 // error occurs.
 func exprf(format string, a ...interface{}) ast.Expr {
 	src := fmt.Sprintf(format, a...)
@@ -815,7 +815,7 @@ func exprf(format string, a ...interface{}) ast.Expr {
 	return expr
 }
 
-// stmtf parses a Go statement generated from fmt.Sprintf. This function is only
+// stmtf parses a Golang statement generated from fmt.Sprintf. This function is only
 // meant for simple statements that don't have a custom Statement node declared
 // in this package, such as ast.ReturnStmt or ast.ExprStmt.
 func stmtf(format string, a ...interface{}) Statement {
@@ -1585,7 +1585,7 @@ func expandOr(r string) []string {
 }
 
 // varCount returns a map which counts the number of occurrences of
-// Value variables in the s-expression rr.Match and the Go expression rr.Cond.
+// Value variables in the s-expression rr.Match and the Golang expression rr.Cond.
 func varCount(rr *RuleRewrite) map[string]int {
 	cnt := map[string]int{}
 	varCount1(rr.Loc, rr.Match, cnt)
@@ -1771,7 +1771,7 @@ func opByName(arch arch, name string) opData {
 	panic("unreachable")
 }
 
-// auxType returns the Go type that this operation should store in its aux field.
+// auxType returns the Golang type that this operation should store in its aux field.
 func (op opData) auxType() string {
 	switch op.aux {
 	case "String":
@@ -1800,7 +1800,7 @@ func (op opData) auxType() string {
 	}
 }
 
-// auxIntType returns the Go type that this operation should store in its auxInt field.
+// auxIntType returns the Golang type that this operation should store in its auxInt field.
 func (op opData) auxIntType() string {
 	switch op.aux {
 	case "Bool":
@@ -1840,7 +1840,7 @@ func (op opData) auxIntType() string {
 	}
 }
 
-// auxType returns the Go type that this block should store in its aux field.
+// auxType returns the Golang type that this block should store in its aux field.
 func (b blockData) auxType() string {
 	switch b.aux {
 	case "Sym":
@@ -1854,7 +1854,7 @@ func (b blockData) auxType() string {
 	}
 }
 
-// auxIntType returns the Go type that this block should store in its auxInt field.
+// auxIntType returns the Golang type that this block should store in its auxInt field.
 func (b blockData) auxIntType() string {
 	switch b.aux {
 	case "S390XCCMaskInt8":

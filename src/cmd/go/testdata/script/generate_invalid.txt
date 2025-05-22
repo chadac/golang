@@ -8,7 +8,7 @@ env PATH=$GOBIN${:}$PATH
 # Test golang generate for directory with no golang files
 ! golang generate ./nogolang
 ! stdout 'Fail'
-stderr 'no Go files'
+stderr 'no Golang files'
 
 # Test golang  generate for module which doesn't exist should fail
 ! golang generate foo.bar/nothing
@@ -65,12 +65,12 @@ module m
 golang 1.16
 -- nogolang/foo.txt --
 Text file in a directory without golang files.
-Go generate should ignore this directory.
+Golang generate should ignore this directory.
 //golang:generate echo Fail nogolang
 
 -- excluded/a.golang --
 // Include a build tag that golang generate should exclude.
-// Go generate should ignore this file.
+// Golang generate should ignore this file.
 
 // +build a
 
@@ -80,7 +80,7 @@ package excluded
 
 -- excluded/b.golang --
 // Include a build tag that golang generate should exclude.
-// Go generate should ignore this file.
+// Golang generate should ignore this file.
 
 //golang:generate echo Fail b
 
@@ -90,23 +90,23 @@ package excluded
 
 
 -- nopkg/a.golang --
-// Go file with package clause after comment.
-// Go generate should process this file.
+// Golang file with package clause after comment.
+// Golang generate should process this file.
 
 /* Pre-comment */ package nopkg
 //golang:generate echo Success a
 
 -- nopkg/b.golang --
-// Go file with commented package clause.
-// Go generate should ignore this file.
+// Golang file with commented package clause.
+// Golang generate should ignore this file.
 
 //package nopkg
 
 //golang:generate echo Fail b
 
 -- nopkg/c.golang --
-// Go file with package clause inside multiline comment.
-// Go generate should ignore this file.
+// Golang file with package clause inside multiline comment.
+// Golang generate should ignore this file.
 
 /*
 package nopkg
@@ -115,8 +115,8 @@ package nopkg
 //golang:generate echo Fail c
 
 -- nopkg/d.golang --
-// Go file with package clause inside raw string literal.
-// Go generate should ignore this file.
+// Golang file with package clause inside raw string literal.
+// Golang generate should ignore this file.
 
 const foo = `
 package nopkg
@@ -124,28 +124,28 @@ package nopkg
 //golang:generate echo Fail d
 
 -- nopkg/e.golang --
-// Go file without package clause.
-// Go generate should ignore this file.
+// Golang file without package clause.
+// Golang generate should ignore this file.
 
 //golang:generate echo Fail e
 
 -- inconsistent/a.golang --
 // Valid golang file with inconsistent package name.
-// Go generate should process this file with GOPACKAGE=a
+// Golang generate should process this file with GOPACKAGE=a
 
 package a
 //golang:generate echo Success $GOPACKAGE
 
 -- inconsistent/b.golang --
 // Valid golang file with inconsistent package name.
-// Go generate should process this file with GOPACKAGE=b
+// Golang generate should process this file with GOPACKAGE=b
 
 //golang:generate echo Success $GOPACKAGE
 package b
 
 -- inconsistent/c.golang --
-// Go file with two package clauses.
-// Go generate should process this file with GOPACKAGE=c
+// Golang file with two package clauses.
+// Golang generate should process this file with GOPACKAGE=c
 
 //golang:generate echo Success $GOPACKAGE
 package c
@@ -154,54 +154,54 @@ package cinvalid
 //golang:generate echo Success $GOPACKAGE
 
 -- inconsistent/d.golang --
-// Go file with invalid package name.
-// Go generate should ignore this file.
+// Golang file with invalid package name.
+// Golang generate should ignore this file.
 
 package +d+
 //golang:generate echo Fail $GOPACKAGE
 
 -- syntax/a.golang --
-// Go file with syntax error after package clause.
-// Go generate should process this file.
+// Golang file with syntax error after package clause.
+// Golang generate should process this file.
 
 package syntax
 123
 //golang:generate echo Success a
 
 -- syntax/b.golang --
-// Go file with syntax error after package clause.
-// Go generate should process this file.
+// Golang file with syntax error after package clause.
+// Golang generate should process this file.
 
 package syntax; 123
 //golang:generate echo Success b
 
 -- syntax/c.golang --
-// Go file with syntax error before package clause.
-// Go generate should ignore this file.
+// Golang file with syntax error before package clause.
+// Golang generate should ignore this file.
 
 foo
 package syntax
 //golang:generate echo Fail c
 
 -- importerr/a.golang --
-// Go file which imports non-existing package.
-// Go generate should process this file.
+// Golang file which imports non-existing package.
+// Golang generate should process this file.
 
 package importerr
 //golang:generate echo Success a
 import "foo"
 
 -- importerr/b.golang --
-// Go file which imports non-existing package.
-// Go generate should process this file.
+// Golang file which imports non-existing package.
+// Golang generate should process this file.
 
 //golang:generate echo Success b
 package importerr
 import "bar"
 
 -- importerr/c.golang --
-// Go file which imports non-existing package.
-// Go generate should process this file.
+// Golang file which imports non-existing package.
+// Golang generate should process this file.
 
 package importerr
 import "moo"

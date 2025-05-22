@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,13 +24,13 @@ type ModulePublic struct {
 	Main       bool             `json:",omitempty"` // is this the main module?
 	Indirect   bool             `json:",omitempty"` // module is only indirectly needed by main module
 	Dir        string           `json:",omitempty"` // directory holding local copy of files, if any
-	GoMod      string           `json:",omitempty"` // path to golang.mod file describing module, if any
-	GoVersion  string           `json:",omitempty"` // golang version used in module
+	GolangMod      string           `json:",omitempty"` // path to golang.mod file describing module, if any
+	GolangVersion  string           `json:",omitempty"` // golang version used in module
 	Retracted  []string         `json:",omitempty"` // retraction information, if any (with -retracted or -u)
 	Deprecated string           `json:",omitempty"` // deprecation message, if any (with -u)
 	Error      *ModuleError     `json:",omitempty"` // error loading module
 	Sum        string           `json:",omitempty"` // checksum for path, version (as in golang.sum)
-	GoModSum   string           `json:",omitempty"` // checksum for golang.mod (as in golang.sum)
+	GolangModSum   string           `json:",omitempty"` // checksum for golang.mod (as in golang.sum)
 	Origin     *codehost.Origin `json:",omitempty"` // provenance of module
 	Reuse      bool             `json:",omitempty"` // reuse of old module info is safe
 }

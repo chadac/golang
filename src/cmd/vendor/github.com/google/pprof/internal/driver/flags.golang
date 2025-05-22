@@ -1,4 +1,4 @@
-//  Copyright 2018 Google Inc. All Rights Reserved.
+//  Copyright 2018 Golangogle Inc. All Rights Reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -19,48 +19,48 @@ import (
 	"strings"
 )
 
-// GoFlags implements the plugin.FlagSet interface.
-type GoFlags struct {
+// GolangFlags implements the plugin.FlagSet interface.
+type GolangFlags struct {
 	UsageMsgs []string
 }
 
 // Bool implements the plugin.FlagSet interface.
-func (*GoFlags) Bool(o string, d bool, c string) *bool {
+func (*GolangFlags) Bool(o string, d bool, c string) *bool {
 	return flag.Bool(o, d, c)
 }
 
 // Int implements the plugin.FlagSet interface.
-func (*GoFlags) Int(o string, d int, c string) *int {
+func (*GolangFlags) Int(o string, d int, c string) *int {
 	return flag.Int(o, d, c)
 }
 
 // Float64 implements the plugin.FlagSet interface.
-func (*GoFlags) Float64(o string, d float64, c string) *float64 {
+func (*GolangFlags) Float64(o string, d float64, c string) *float64 {
 	return flag.Float64(o, d, c)
 }
 
 // String implements the plugin.FlagSet interface.
-func (*GoFlags) String(o, d, c string) *string {
+func (*GolangFlags) String(o, d, c string) *string {
 	return flag.String(o, d, c)
 }
 
 // StringList implements the plugin.FlagSet interface.
-func (*GoFlags) StringList(o, d, c string) *[]*string {
+func (*GolangFlags) StringList(o, d, c string) *[]*string {
 	return &[]*string{flag.String(o, d, c)}
 }
 
 // ExtraUsage implements the plugin.FlagSet interface.
-func (f *GoFlags) ExtraUsage() string {
+func (f *GolangFlags) ExtraUsage() string {
 	return strings.Join(f.UsageMsgs, "\n")
 }
 
 // AddExtraUsage implements the plugin.FlagSet interface.
-func (f *GoFlags) AddExtraUsage(eu string) {
+func (f *GolangFlags) AddExtraUsage(eu string) {
 	f.UsageMsgs = append(f.UsageMsgs, eu)
 }
 
 // Parse implements the plugin.FlagSet interface.
-func (*GoFlags) Parse(usage func()) []string {
+func (*GolangFlags) Parse(usage func()) []string {
 	flag.Usage = usage
 	flag.Parse()
 	args := flag.Args()

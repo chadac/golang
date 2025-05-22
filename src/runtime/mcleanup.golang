@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -108,7 +108,7 @@ func AddCleanup[T, S any](ptr *T, cleanup func(S), arg S) Cleanup {
 	// Find the containing object.
 	base, _, _ := findObject(usptr, 0, 0)
 	if base == 0 {
-		if isGoPointerWithoutSpan(unsafe.Pointer(ptr)) {
+		if isGolangPointerWithoutSpan(unsafe.Pointer(ptr)) {
 			// Cleanup is a noop.
 			return Cleanup{}
 		}
@@ -300,7 +300,7 @@ type cleanupQueue struct {
 	all atomic.UnsafePointer // *cleanupBlock
 	_   [cpu.CacheLinePadSize - unsafe.Sizeof(atomic.UnsafePointer{})]byte
 
-	// Goroutine block state.
+	// Golangroutine block state.
 	lock mutex
 
 	// sleeping is the list of sleeping cleanup golangroutines.
@@ -436,7 +436,7 @@ func (q *cleanupQueue) dequeue() *cleanupBlock {
 			continue
 		}
 		q.sleeping.push(getg())
-		golangparkunlock(&q.lock, waitReasonCleanupWait, traceBlockSystemGoroutine, 1)
+		golangparkunlock(&q.lock, waitReasonCleanupWait, traceBlockSystemGolangroutine, 1)
 	}
 }
 
@@ -686,7 +686,7 @@ func (q *cleanupQueue) blockUntilEmpty(timeout int64) bool {
 			return true
 		}
 		unlock(&q.lock)
-		Gosched()
+		Golangsched()
 	}
 	return false
 }

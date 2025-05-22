@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
@@ -251,7 +251,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	MOVQ	BX, SP
 	RET
 
-// Called from runtime·usleep (Go). Can be called on Go stack, on OS stack,
+// Called from runtime·usleep (Golang). Can be called on Golang stack, on OS stack,
 // can also be called in cgolang callback path without a g->m.
 TEXT runtime·usleep1(SB),NOSPLIT,$0
 	MOVL	usec+0(FP), DI
@@ -287,7 +287,7 @@ switch:
 	RET
 
 noswitch:
-	// Not a Go-managed thread. Do not switch stack.
+	// Not a Golang-managed thread. Do not switch stack.
 	CALL	AX
 	RET
 

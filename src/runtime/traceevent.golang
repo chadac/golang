@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -33,16 +33,16 @@ type traceEventWriter struct {
 // golangroutine or P.
 //
 // Callers can elect to pass a constant value here if the status is clear (e.g. a golangroutine must have
-// been Runnable before a GoStart). Otherwise, callers can query the status of either the golangroutine
+// been Runnable before a GolangStart). Otherwise, callers can query the status of either the golangroutine
 // or P and pass the appropriate status.
 //
-// In this case, the default status should be tracev2.GoBad or tracev2.ProcBad to help identify bugs sooner.
-func (tl traceLocker) eventWriter(golangStatus tracev2.GoStatus, procStatus tracev2.ProcStatus) traceEventWriter {
+// In this case, the default status should be tracev2.GolangBad or tracev2.ProcBad to help identify bugs sooner.
+func (tl traceLocker) eventWriter(golangStatus tracev2.GolangStatus, procStatus tracev2.ProcStatus) traceEventWriter {
 	if pp := tl.mp.p.ptr(); pp != nil && !pp.trace.statusWasTraced(tl.gen) && pp.trace.acquireStatus(tl.gen) {
 		tl.writer().writeProcStatus(uint64(pp.id), procStatus, pp.trace.inSweep).end()
 	}
 	if gp := tl.mp.curg; gp != nil && !gp.trace.statusWasTraced(tl.gen) && gp.trace.acquireStatus(tl.gen) {
-		tl.writer().writeGoStatus(uint64(gp.golangid), int64(tl.mp.procid), golangStatus, gp.inMarkAssist, 0 /* no stack */).end()
+		tl.writer().writeGolangStatus(uint64(gp.golangid), int64(tl.mp.procid), golangStatus, gp.inMarkAssist, 0 /* no stack */).end()
 	}
 	return traceEventWriter{tl}
 }

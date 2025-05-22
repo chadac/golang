@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -393,7 +393,7 @@ var decoderErrorTestdata = []struct {
 	},
 	wantOffset: len(` { "fizz"`),
 }, {
-	name: jsontest.Name("InvalidObject/MissingColon/GotComma"),
+	name: jsontest.Name("InvalidObject/MissingColon/GolangtComma"),
 	in:   ` { "fizz" , "buzz" } `,
 	calls: []decoderMethodCall{
 		{'{', zeroValue, newInvalidCharacterError(",", "after object name (expecting ':')").withPos(` { "fizz" `, "/fizz"), ""},
@@ -404,7 +404,7 @@ var decoderErrorTestdata = []struct {
 	},
 	wantOffset: len(` { "fizz"`),
 }, {
-	name: jsontest.Name("InvalidObject/MissingColon/GotHash"),
+	name: jsontest.Name("InvalidObject/MissingColon/GolangtHash"),
 	in:   ` { "fizz" # "buzz" } `,
 	calls: []decoderMethodCall{
 		{'{', zeroValue, newInvalidCharacterError("#", "after object name (expecting ':')").withPos(` { "fizz" `, "/fizz"), ""},
@@ -427,7 +427,7 @@ var decoderErrorTestdata = []struct {
 	},
 	wantOffset: len(` { "fizz" : "buzz"`),
 }, {
-	name: jsontest.Name("InvalidObject/MissingComma/GotColon"),
+	name: jsontest.Name("InvalidObject/MissingComma/GolangtColon"),
 	in:   ` { "fizz" : "buzz" : "gazz" } `,
 	calls: []decoderMethodCall{
 		{'{', zeroValue, newInvalidCharacterError(":", "after object value (expecting ',' or '}')").withPos(` { "fizz" : "buzz" `, ""), ""},
@@ -439,7 +439,7 @@ var decoderErrorTestdata = []struct {
 	},
 	wantOffset: len(` { "fizz" : "buzz"`),
 }, {
-	name: jsontest.Name("InvalidObject/MissingComma/GotHash"),
+	name: jsontest.Name("InvalidObject/MissingComma/GolangtHash"),
 	in:   ` { "fizz" : "buzz" # "gazz" } `,
 	calls: []decoderMethodCall{
 		{'{', zeroValue, newInvalidCharacterError("#", "after object value (expecting ',' or '}')").withPos(` { "fizz" : "buzz" `, ""), ""},
@@ -473,7 +473,7 @@ var decoderErrorTestdata = []struct {
 	},
 	wantOffset: len(` { "fizz" : "buzz"`),
 }, {
-	name: jsontest.Name("InvalidObject/InvalidName/GotNull"),
+	name: jsontest.Name("InvalidObject/InvalidName/GolangtNull"),
 	in:   ` { null : null } `,
 	calls: []decoderMethodCall{
 		{'{', zeroValue, newInvalidCharacterError("n", "at start of string (expecting '\"')").withPos(` { `, ""), ""},
@@ -483,7 +483,7 @@ var decoderErrorTestdata = []struct {
 	},
 	wantOffset: len(` {`),
 }, {
-	name: jsontest.Name("InvalidObject/InvalidName/GotFalse"),
+	name: jsontest.Name("InvalidObject/InvalidName/GolangtFalse"),
 	in:   ` { false : false } `,
 	calls: []decoderMethodCall{
 		{'{', zeroValue, newInvalidCharacterError("f", "at start of string (expecting '\"')").withPos(` { `, ""), ""},
@@ -493,7 +493,7 @@ var decoderErrorTestdata = []struct {
 	},
 	wantOffset: len(` {`),
 }, {
-	name: jsontest.Name("InvalidObject/InvalidName/GotTrue"),
+	name: jsontest.Name("InvalidObject/InvalidName/GolangtTrue"),
 	in:   ` { true : true } `,
 	calls: []decoderMethodCall{
 		{'{', zeroValue, newInvalidCharacterError("t", "at start of string (expecting '\"')").withPos(` { `, ""), ""},
@@ -503,7 +503,7 @@ var decoderErrorTestdata = []struct {
 	},
 	wantOffset: len(` {`),
 }, {
-	name: jsontest.Name("InvalidObject/InvalidName/GotNumber"),
+	name: jsontest.Name("InvalidObject/InvalidName/GolangtNumber"),
 	in:   ` { 0 : 0 } `,
 	calls: []decoderMethodCall{
 		{'{', zeroValue, newInvalidCharacterError("0", "at start of string (expecting '\"')").withPos(` { `, ""), ""},
@@ -513,7 +513,7 @@ var decoderErrorTestdata = []struct {
 	},
 	wantOffset: len(` {`),
 }, {
-	name: jsontest.Name("InvalidObject/InvalidName/GotObject"),
+	name: jsontest.Name("InvalidObject/InvalidName/GolangtObject"),
 	in:   ` { {} : {} } `,
 	calls: []decoderMethodCall{
 		{'{', zeroValue, newInvalidCharacterError("{", "at start of string (expecting '\"')").withPos(` { `, ""), ""},
@@ -523,7 +523,7 @@ var decoderErrorTestdata = []struct {
 	},
 	wantOffset: len(` {`),
 }, {
-	name: jsontest.Name("InvalidObject/InvalidName/GotArray"),
+	name: jsontest.Name("InvalidObject/InvalidName/GolangtArray"),
 	in:   ` { [] : [] } `,
 	calls: []decoderMethodCall{
 		{'{', zeroValue, newInvalidCharacterError("[", "at start of string (expecting '\"')").withPos(` { `, ""), ""},

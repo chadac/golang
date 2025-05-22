@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@ package decodemeta
 // meta-data output files emitted by the runtime when a
 // coverage-instrumented binary executes. A meta-data file contains
 // top-level info (counter mode, number of packages) and then a
-// separate self-contained meta-data section for each Go package.
+// separate self-contained meta-data section for each Golang package.
 
 import (
 	"bufio"

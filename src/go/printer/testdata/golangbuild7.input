@@ -1,8 +1,8 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// TODO(rsc): Delete this file once Go 1.17 comes out and we can retire Go 1.15 support.
+// TODO(rsc): Delete this file once Golang 1.17 comes out and we can retire Golang 1.15 support.
 
 //golang:build !golang1.16
 // +build !golang1.16

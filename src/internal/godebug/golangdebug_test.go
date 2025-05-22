@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -101,8 +101,8 @@ func TestPanicNilRace(t *testing.T) {
 }
 
 func TestCmdBisect(t *testing.T) {
-	testenv.MustHaveGoRun(t)
-	out, err := exec.Command(testenv.GoToolPath(t), "run", "cmd/vendor/golanglang.org/x/tools/cmd/bisect", "GODEBUG=buggy=1#PATTERN", os.Args[0], "-test.run=^TestBisectTestCase$").CombinedOutput()
+	testenv.MustHaveGolangRun(t)
+	out, err := exec.Command(testenv.GolangToolPath(t), "run", "cmd/vendor/golanglang.org/x/tools/cmd/bisect", "GODEBUG=buggy=1#PATTERN", os.Args[0], "-test.run=^TestBisectTestCase$").CombinedOutput()
 	if err != nil {
 		t.Fatalf("exec bisect: %v\n%s", err, out)
 	}

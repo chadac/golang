@@ -1,4 +1,4 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -62,25 +62,25 @@ a version on the left side is dropped.
 The -use, -dropuse, -replace, and -dropreplace,
 editing flags may be repeated, and the changes are applied in the order given.
 
-The -golang=version flag sets the expected Go language version.
+The -golang=version flag sets the expected Golang language version.
 
-The -toolchain=name flag sets the Go toolchain to use.
+The -toolchain=name flag sets the Golang toolchain to use.
 
 The -print flag prints the final golang.work in its text format instead of
 writing it back to golang.mod.
 
 The -json flag prints the final golang.work file in JSON format instead of
-writing it back to golang.mod. The JSON output corresponds to these Go types:
+writing it back to golang.mod. The JSON output corresponds to these Golang types:
 
-	type GoWork struct {
-		Go        string
+	type GolangWork struct {
+		Golang        string
 		Toolchain string
-		Godebug   []Godebug
+		Golangdebug   []Golangdebug
 		Use       []Use
 		Replace   []Replace
 	}
 
-	type Godebug struct {
+	type Golangdebug struct {
 		Key   string
 		Value string
 	}
@@ -107,7 +107,7 @@ for more information.
 
 var (
 	editFmt       = cmdEdit.Flag.Bool("fmt", false, "")
-	editGo        = cmdEdit.Flag.String("golang", "", "")
+	editGolang        = cmdEdit.Flag.String("golang", "", "")
 	editToolchain = cmdEdit.Flag.String("toolchain", "", "")
 	editJSON      = cmdEdit.Flag.Bool("json", false, "")
 	editPrint     = cmdEdit.Flag.Bool("print", false, "")
@@ -122,8 +122,8 @@ func (f flagFunc) Set(s string) error { f(s); return nil }
 func init() {
 	cmdEdit.Run = runEditwork // break init cycle
 
-	cmdEdit.Flag.Var(flagFunc(flagEditworkGodebug), "golangdebug", "")
-	cmdEdit.Flag.Var(flagFunc(flagEditworkDropGodebug), "dropgolangdebug", "")
+	cmdEdit.Flag.Var(flagFunc(flagEditworkGolangdebug), "golangdebug", "")
+	cmdEdit.Flag.Var(flagFunc(flagEditworkDropGolangdebug), "dropgolangdebug", "")
 	cmdEdit.Flag.Var(flagFunc(flagEditworkUse), "use", "")
 	cmdEdit.Flag.Var(flagFunc(flagEditworkDropUse), "dropuse", "")
 	cmdEdit.Flag.Var(flagFunc(flagEditworkReplace), "replace", "")
@@ -150,8 +150,8 @@ func runEditwork(ctx context.Context, cmd *base.Command, args []string) {
 		base.Fatalf("golang: no golang.work file found\n\t(run 'golang work init' first or specify path using GOWORK environment variable)")
 	}
 
-	if *editGo != "" && *editGo != "none" {
-		if !modfile.GoVersionRE.MatchString(*editGo) {
+	if *editGolang != "" && *editGolang != "none" {
+		if !modfile.GolangVersionRE.MatchString(*editGolang) {
 			base.Fatalf(`golang work: invalid -golang option; expecting something like "-golang %s"`, golangver.Local())
 		}
 	}
@@ -161,7 +161,7 @@ func runEditwork(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	anyFlags := *editGo != "" ||
+	anyFlags := *editGolang != "" ||
 		*editToolchain != "" ||
 		*editJSON ||
 		*editPrint ||
@@ -177,10 +177,10 @@ func runEditwork(ctx context.Context, cmd *base.Command, args []string) {
 		base.Fatalf("golang: errors parsing %s:\n%s", base.ShortPath(golangwork), err)
 	}
 
-	if *editGo == "none" {
-		workFile.DropGoStmt()
-	} else if *editGo != "" {
-		if err := workFile.AddGoStmt(*editGo); err != nil {
+	if *editGolang == "none" {
+		workFile.DropGolangStmt()
+	} else if *editGolang != "" {
+		if err := workFile.AddGolangStmt(*editGolang); err != nil {
 			base.Fatalf("golang: internal error: %v", err)
 		}
 	}
@@ -220,23 +220,23 @@ func runEditwork(ctx context.Context, cmd *base.Command, args []string) {
 	modload.WriteWorkFile(golangwork, workFile)
 }
 
-// flagEditworkGodebug implements the -golangdebug flag.
-func flagEditworkGodebug(arg string) {
+// flagEditworkGolangdebug implements the -golangdebug flag.
+func flagEditworkGolangdebug(arg string) {
 	key, value, ok := strings.Cut(arg, "=")
 	if !ok || strings.ContainsAny(arg, "\"`',") {
 		base.Fatalf("golang: -golangdebug=%s: need key=value", arg)
 	}
 	workedits = append(workedits, func(f *modfile.WorkFile) {
-		if err := f.AddGodebug(key, value); err != nil {
+		if err := f.AddGolangdebug(key, value); err != nil {
 			base.Fatalf("golang: -golangdebug=%s: %v", arg, err)
 		}
 	})
 }
 
-// flagEditworkDropGodebug implements the -dropgolangdebug flag.
-func flagEditworkDropGodebug(arg string) {
+// flagEditworkDropGolangdebug implements the -dropgolangdebug flag.
+func flagEditworkDropGolangdebug(arg string) {
 	workedits = append(workedits, func(f *modfile.WorkFile) {
-		if err := f.DropGodebug(arg); err != nil {
+		if err := f.DropGolangdebug(arg); err != nil {
 			base.Fatalf("golang: -dropgolangdebug=%s: %v", arg, err)
 		}
 	})
@@ -345,8 +345,8 @@ type replaceJSON struct {
 // editPrintJSON prints the -json output.
 func editPrintJSON(workFile *modfile.WorkFile) {
 	var f workfileJSON
-	if workFile.Go != nil {
-		f.Go = workFile.Go.Version
+	if workFile.Golang != nil {
+		f.Golang = workFile.Golang.Version
 	}
 	for _, d := range workFile.Use {
 		f.Use = append(f.Use, useJSON{DiskPath: d.Path, ModPath: d.ModulePath})
@@ -365,7 +365,7 @@ func editPrintJSON(workFile *modfile.WorkFile) {
 
 // workfileJSON is the -json output data structure.
 type workfileJSON struct {
-	Go      string `json:",omitempty"`
+	Golang      string `json:",omitempty"`
 	Use     []useJSON
 	Replace []replaceJSON
 }

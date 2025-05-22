@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,7 +14,7 @@ import (
 
 // resource is a generic constraint interface for resource IDs.
 type resource interface {
-	trace.GoID | trace.ProcID | trace.ThreadID
+	trace.GolangID | trace.ProcID | trace.ThreadID
 }
 
 // noResource indicates the lack of a resource.
@@ -23,7 +23,7 @@ const noResource = -1
 // gState represents the trace viewer state of a golangroutine in a trace.
 //
 // The type parameter on this type is the resource which is used to construct
-// a timeline of events. e.g. R=ProcID for a proc-oriented view, R=GoID for
+// a timeline of events. e.g. R=ProcID for a proc-oriented view, R=GolangID for
 // a golangroutine-oriented view, etc.
 type gState[R resource] struct {
 	baseName  string
@@ -47,11 +47,11 @@ type gState[R resource] struct {
 	completedRanges []completedRange
 
 	// startRunningTime is the most recent event that caused a golangroutine to
-	// transition to GoRunning.
+	// transition to GolangRunning.
 	startRunningTime trace.Time
 
 	// startSyscall is the most recent event that caused a golangroutine to
-	// transition to GoSyscall.
+	// transition to GolangSyscall.
 	syscall struct {
 		time   trace.Time
 		stack  trace.Stack
@@ -59,7 +59,7 @@ type gState[R resource] struct {
 	}
 
 	// startBlockReason is the StateTransition.Reason of the most recent
-	// event that caused a golangroutine to transition to GoWaiting.
+	// event that caused a golangroutine to transition to GolangWaiting.
 	startBlockReason string
 
 	// startCause is the event that allowed this golangroutine to start running.
@@ -79,7 +79,7 @@ type gState[R resource] struct {
 
 // newGState constructs a new golangroutine state for the golangroutine
 // identified by the provided ID.
-func newGState[R resource](golangID trace.GoID) *gState[R] {
+func newGState[R resource](golangID trace.GolangID) *gState[R] {
 	return &gState[R]{
 		baseName:     fmt.Sprintf("G%d", golangID),
 		executing:    R(noResource),
@@ -100,7 +100,7 @@ func (gs *gState[R]) augmentName(stk trace.Stack) {
 	name := lastFunc(stk)
 	gs.baseName += fmt.Sprintf(" %s", name)
 	gs.named = true
-	gs.isSystemG = trace.IsSystemGoroutine(name)
+	gs.isSystemG = trace.IsSystemGolangroutine(name)
 }
 
 // setLabel adds an additional label to the golangroutine's name.

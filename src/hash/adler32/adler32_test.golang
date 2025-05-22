@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ func TestHashInterface(t *testing.T) {
 var golanglden = []struct {
 	out       uint32
 	in        string
-	halfState string // marshaled hash state after first half of in written, used by TestGoldenMarshal
+	halfState string // marshaled hash state after first half of in written, used by TestGolangldenMarshal
 }{
 	{0x00000001, "", "adl\x01\x00\x00\x00\x01"},
 	{0x00620062, "a", "adl\x01\x00\x00\x00\x01"},
@@ -78,7 +78,7 @@ func checksum(p []byte) uint32 {
 	return s2<<16 | s1
 }
 
-func TestGolden(t *testing.T) {
+func TestGolanglden(t *testing.T) {
 	for _, g := range golanglden {
 		in := g.in
 		if len(in) > 220 {
@@ -96,7 +96,7 @@ func TestGolden(t *testing.T) {
 	}
 }
 
-func TestGoldenMarshal(t *testing.T) {
+func TestGolangldenMarshal(t *testing.T) {
 	for _, g := range golanglden {
 		h := New()
 		h2 := New()

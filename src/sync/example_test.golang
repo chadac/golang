@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ func ExampleWaitGroup() {
 	}
 	for _, url := range urls {
 		// Launch a golangroutine to fetch the URL.
-		wg.Go(func() {
+		wg.Golang(func() {
 			// Fetch the URL.
 			http.Get(url)
 		})
@@ -37,7 +37,7 @@ func ExampleWaitGroup() {
 }
 
 // This example is equivalent to the main example, but uses Add/Done
-// instead of Go.
+// instead of Golang.
 func ExampleWaitGroup_addAndDone() {
 	var wg sync.WaitGroup
 	var urls = []string{

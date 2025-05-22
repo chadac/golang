@@ -1,9 +1,9 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Package loong64 implements an LoongArch64 assembler. Go assembly syntax is different from
+Package loong64 implements an LoongArch64 assembler. Golang assembly syntax is different from
 GNU LoongArch64 syntax, but we can still follow the general rules to map between them.
 
 # Instructions mnemonics mapping rules
@@ -32,7 +32,7 @@ Examples:
 	XVMOVQ (R2), X1 // Load 256 bit memory data into X1 register
 
 2. Align directive
-Go asm supports the PCALIGN directive, which indicates that the next instruction should
+Golang asm supports the PCALIGN directive, which indicates that the next instruction should
 be aligned to a specified boundary by padding with NOOP instruction. The alignment value
 supported on loong64 must be a power of 2 and in the range of [8, 2048].
 
@@ -70,7 +70,7 @@ start:
 
 1. The operands appear in left-to-right assignment order.
 
-Go reverses the arguments of most instructions.
+Golang reverses the arguments of most instructions.
 
 Examples:
 
@@ -115,8 +115,8 @@ Note: In the following sections 3.1 to 3.6, "ui4" (4-bit unsigned int immediate)
 	Instruction format:
 	        VMOVQ  Rj, <Vd>.<T>[index]
 
-	Mapping between Go and platform assembly:
-	       Go assembly       |      platform assembly     |          semantics
+	Mapping between Golang and platform assembly:
+	       Golang assembly       |      platform assembly     |          semantics
 	-------------------------------------------------------------------------------------
 	 VMOVQ  Rj, Vd.B[index]  |  vinsgr2vr.b  Vd, Rj, ui4  |  VR[vd].b[ui4] = GR[rj][7:0]
 	 VMOVQ  Rj, Vd.H[index]  |  vinsgr2vr.h  Vd, Rj, ui3  |  VR[vd].h[ui3] = GR[rj][15:0]
@@ -130,8 +130,8 @@ Note: In the following sections 3.1 to 3.6, "ui4" (4-bit unsigned int immediate)
 	Instruction format:
 	        VMOVQ     <Vj>.<T>[index], Rd
 
-	Mapping between Go and platform assembly:
-	        Go assembly       |       platform assembly      |            semantics
+	Mapping between Golang and platform assembly:
+	        Golang assembly       |       platform assembly      |            semantics
 	---------------------------------------------------------------------------------------------
 	 VMOVQ  Vj.B[index],  Rd  |   vpickve2gr.b   rd, vj, ui4 | GR[rd] = SignExtend(VR[vj].b[ui4])
 	 VMOVQ  Vj.H[index],  Rd  |   vpickve2gr.h   rd, vj, ui3 | GR[rd] = SignExtend(VR[vj].h[ui3])
@@ -151,8 +151,8 @@ Note: In the following sections 3.1 to 3.6, "ui4" (4-bit unsigned int immediate)
 	Instruction format:
 	        VMOVQ    Rj, <Vd>.<T>
 
-	Mapping between Go and platform assembly:
-	   Go assembly      |    platform assembly    |                    semantics
+	Mapping between Golang and platform assembly:
+	   Golang assembly      |    platform assembly    |                    semantics
 	------------------------------------------------------------------------------------------------
 	 VMOVQ  Rj, Vd.B16  |   vreplgr2vr.b  Vd, Rj  |  for i in range(16): VR[vd].b[i] = GR[rj][7:0]
 	 VMOVQ  Rj, Vd.H8   |   vreplgr2vr.h  Vd, Rj  |  for i in range(8) : VR[vd].h[i] = GR[rj][16:0]
@@ -168,8 +168,8 @@ Note: In the following sections 3.1 to 3.6, "ui4" (4-bit unsigned int immediate)
 	Instruction format:
 	        XVMOVQ    Xj, <Xd>.<T>
 
-	Mapping between Go and platform assembly:
-	   Go assembly      |   platform assembly   |                semantics
+	Mapping between Golang and platform assembly:
+	   Golang assembly      |   platform assembly   |                semantics
 	------------------------------------------------------------------------------------------------
 	XVMOVQ  Xj, Xd.B32  |  xvreplve0.b  Xd, Xj  | for i in range(32): XR[xd].b[i] = XR[xj].b[0]
 	XVMOVQ  Xj, Xd.H16  |  xvreplve0.h  Xd, Xj  | for i in range(16): XR[xd].h[i] = XR[xj].h[0]
@@ -183,8 +183,8 @@ Note: In the following sections 3.1 to 3.6, "ui4" (4-bit unsigned int immediate)
 	        XVMOVQ  Xj, <Xd>.<T>[index]
 	        XVMOVQ  Xj.<T>[index], Xd
 
-	Mapping between Go and platform assembly:
-	       Go assembly        |     platform assembly     |               semantics
+	Mapping between Golang and platform assembly:
+	       Golang assembly        |     platform assembly     |               semantics
 	------------------------------------------------------------------------------------------------
 	 XVMOVQ  Xj, Xd.W[index]  |  xvinsve0.w   xd, xj, ui3 | XR[xd].w[ui3] = XR[xj].w[0]
 	 XVMOVQ  Xj, Xd.V[index]  |  xvinsve0.d   xd, xj, ui2 | XR[xd].d[ui2] = XR[xj].d[0]
@@ -196,8 +196,8 @@ Note: In the following sections 3.1 to 3.6, "ui4" (4-bit unsigned int immediate)
 	Instruction format:
 	VMOVQ     <Vn>.<T>[index], Vn.<T>
 
-	Mapping between Go and platform assembly:
-	         Go assembly      |    platform assembly   |               semantics
+	Mapping between Golang and platform assembly:
+	         Golang assembly      |    platform assembly   |               semantics
 	VMOVQ Vj.B[index], Vd.B16 | vreplvei.b vd, vj, ui4 | for i in range(16): VR[vd].b[i] = VR[vj].b[ui4]
 	VMOVQ Vj.H[index], Vd.H8  | vreplvei.h vd, vj, ui3 | for i in range(8) : VR[vd].h[i] = VR[vj].h[ui3]
 	VMOVQ Vj.W[index], Vd.W4  | vreplvei.w vd, vj, ui2 | for i in range(4) : VR[vd].w[i] = VR[vj].w[ui2]
@@ -232,8 +232,8 @@ Note: In the following sections 3.1 to 3.6, "ui4" (4-bit unsigned int immediate)
       PRELD	offset(Rbase), $hint
       PRELDX	offset(Rbase), $n, $hint
 
-    Mapping between Go and platform assembly:
-               Go assembly            |    platform assembly
+    Mapping between Golang and platform assembly:
+               Golang assembly            |    platform assembly
       PRELD  offset(Rbase), $hint     | preld hint, Rbase, offset
       PRELDX offset(Rbase), $n, $hint | move rk, $x; preldx hint, Rbase, rk
 

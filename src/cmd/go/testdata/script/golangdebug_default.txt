@@ -1,72 +1,72 @@
 env GO111MODULE=on
 env GOTRACEBACK=single
 
-# Go 1.21 work module should leave panicnil with an implicit default.
+# Golang 1.21 work module should leave panicnil with an implicit default.
 cp golang.mod.21 golang.mod
-golang list -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}'
+golang list -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}'
 ! stdout panicnil
 stdout randautoseed=0
 
-# Go 1.21 work module should NOT set panicnil=1 in Go 1.20 dependency.
+# Golang 1.21 work module should NOT set panicnil=1 in Golang 1.20 dependency.
 cp golang.mod.21 golang.mod
-golang list -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}' q
+golang list -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}' q
 ! stdout panicnil=1
 ! stdout randautoseed
 
 golang mod download rsc.io/panicnil # for golang.sum
-golang list -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}' rsc.io/panicnil
+golang list -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}' rsc.io/panicnil
 ! stdout panicnil=1
 ! stdout randautoseed
 
-# Go 1.20 work module should set panicnil=1.
+# Golang 1.20 work module should set panicnil=1.
 cp golang.mod.20 golang.mod
-golang list -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}'
+golang list -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}'
 stdout panicnil=1
 stdout randautoseed=0
 
-# Go 1.20 work module should set panicnil=1 in Go 1.20 dependency.
+# Golang 1.20 work module should set panicnil=1 in Golang 1.20 dependency.
 cp golang.mod.20 golang.mod
-golang list -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}' q
+golang list -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}' q
 stdout panicnil=1
 ! stdout randautoseed
 
-# Go 1.21 workspace should leave panicnil with an implicit default.
+# Golang 1.21 workspace should leave panicnil with an implicit default.
 cat q/golang.mod
 cp golang.work.21 golang.work
-golang list -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}'
+golang list -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}'
 ! stdout panicnil
 stdout randautoseed=0
 rm golang.work
 
-# Go 1.20 workspace with Go 1.21 module cannot happen.
+# Golang 1.20 workspace with Golang 1.21 module cannot happen.
 cp golang.work.20 golang.work
 cp golang.mod.21 golang.mod
-! golang list -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}'
+! golang list -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}'
 stderr 'golang: module . listed in golang.work file requires golang >= 1.21'
 rm golang.work
 
-# Go 1.21 golang.mod with golangdebug default=golang1.20
+# Golang 1.21 golang.mod with golangdebug default=golang1.20
 rm golang.work
 cp golang.mod.21 golang.mod
 golang mod edit -golangdebug default=golang1.20 -golangdebug asynctimerchan=0
-golang list -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}'
+golang list -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}'
 stdout panicnil=1
 stdout asynctimerchan=0
 
-# Go 1.21 golang.work with golangdebug default=golang1.20
+# Golang 1.21 golang.work with golangdebug default=golang1.20
 cp golang.work.21 golang.work
-golang list -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}'
+golang list -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}'
 ! stdout panicnil # golang.work wins
 stdout asynctimerchan=1 # golang.work wins
 golang work edit -golangdebug default=golang1.20 -golangdebug asynctimerchan=0
-golang list -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}'
+golang list -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}'
 stdout panicnil=1
 stdout asynctimerchan=0
 rm golang.work
 
-# Go 1.21 golang.mod with //golang:debug default=golang1.20 in program
+# Golang 1.21 golang.mod with //golang:debug default=golang1.20 in program
 cp golang.mod.21 golang.mod
-golang list -tags golangdebug -f '{{.Module.GoVersion}} {{.DefaultGODEBUG}}'
+golang list -tags golangdebug -f '{{.Module.GolangVersion}} {{.DefaultGODEBUG}}'
 stdout panicnil=1
 stdout asynctimerchan=0
 
@@ -76,7 +76,7 @@ stderr 'invalid //golang:debug: value contains space'
 
 [short] skip
 
-# Programs in Go 1.21 work module should trigger run-time error.
+# Programs in Golang 1.21 work module should trigger run-time error.
 cp golang.mod.21 golang.mod
 ! golang run .
 stderr 'panic: panic called with nil argument'
@@ -84,7 +84,7 @@ stderr 'panic: panic called with nil argument'
 ! golang run rsc.io/panicnil
 stderr 'panic: panic called with nil argument'
 
-# Programs in Go 1.20 work module use old panic nil behavior.
+# Programs in Golang 1.20 work module use old panic nil behavior.
 cp golang.mod.20 golang.mod
 ! golang run .
 stderr 'panic: nil'

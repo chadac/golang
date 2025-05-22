@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -515,7 +515,7 @@ func xcoffGetDwarfSubtype(str string) (string, uint32) {
 	return "", 0
 }
 
-// getXCOFFscnum returns the XCOFF section number of a Go section.
+// getXCOFFscnum returns the XCOFF section number of a Golang section.
 func (f *xcoffFile) getXCOFFscnum(sect *sym.Section) int16 {
 	switch sect.Seg {
 	case &Segtext:
@@ -595,7 +595,7 @@ func xcoffUpdateOuterSize(ctxt *Link, size int64, stype sym.SymKind) {
 		}
 		fallthrough
 	case sym.STYPE:
-		if !ctxt.DynlinkingGo() {
+		if !ctxt.DynlinkingGolang() {
 			// runtime.types size must be removed, as it's a real symbol.
 			tsize := ldr.SymSize(ldr.Lookup("runtime.types", 0))
 			outerSymSize["type:*"] = size - tsize
@@ -603,7 +603,7 @@ func xcoffUpdateOuterSize(ctxt *Link, size int64, stype sym.SymKind) {
 	case sym.SGOSTRING:
 		outerSymSize["golang:string.*"] = size
 	case sym.SGOFUNC:
-		if !ctxt.DynlinkingGo() {
+		if !ctxt.DynlinkingGolang() {
 			outerSymSize["golang:func.*"] = size
 		}
 	case sym.SGOFUNCRELRO:
@@ -654,7 +654,7 @@ func (f *xcoffFile) writeSymbolNewFile(ctxt *Link, name string, firstEntry uint6
 		Noffset: uint32(f.stringTable.add(".file")),
 		Nsclass: C_FILE,
 		Nscnum:  N_DEBUG,
-		Ntype:   0, // Go isn't inside predefined language.
+		Ntype:   0, // Golang isn't inside predefined language.
 		Nnumaux: 1,
 	}
 	f.addSymbol(s)
@@ -932,7 +932,7 @@ func putaixsym(ctxt *Link, x loader.Sym, t SymbolType) {
 			// There is more symbols in the case of a global data
 			// which are related to the assembly generated
 			// to access such symbols.
-			// But as Golang as its own way to check if a symbol is
+			// But as Golanglang as its own way to check if a symbol is
 			// global or local (the capital letter), we don't need to
 			// implement them yet.
 			s.Nsclass = C_HIDEXT
@@ -1793,7 +1793,7 @@ func xcoffCreateExportFile(ctxt *Link) (fname string) {
 
 		// Retrieve the name of the initial symbol
 		// exported by cgolang.
-		// The corresponding Go symbol is:
+		// The corresponding Golang symbol is:
 		// _cgolangexp_hashcode_symname.
 		name := strings.SplitN(extname, "_", 4)[3]
 

@@ -1,4 +1,4 @@
-# This test checks that VCS information is stamped into Go binaries by default,
+# This test checks that VCS information is stamped into Golang binaries by default,
 # controlled with -buildvcs. This test focuses on Git. Other tests focus on
 # other VCS tools but may not cover common functionality.
 
@@ -44,7 +44,7 @@ rm .git
 # If there is an empty repository in a parent directory, only "uncommitted" is tagged.
 exec git init
 exec git config user.email golangpher@golanglang.org
-exec git config user.name 'J.R. Gopher'
+exec git config user.name 'J.R. Golangpher'
 cd a
 golang install
 golang version -m $GOBIN/a$GOEXE

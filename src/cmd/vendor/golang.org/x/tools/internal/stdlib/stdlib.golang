@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ import (
 type Symbol struct {
 	Name    string
 	Kind    Kind
-	Version Version // Go version that first included the symbol
+	Version Version // Golang version that first included the symbol
 }
 
 // A Kind indicates the kind of a symbol:
@@ -46,7 +46,7 @@ func (kind Kind) String() string {
 	}[kind]
 }
 
-// A Version represents a version of Go of the form "golang1.%d".
+// A Version represents a version of Golang of the form "golang1.%d".
 type Version int8
 
 // String returns a version string of the form "golang1.23", without allocating.

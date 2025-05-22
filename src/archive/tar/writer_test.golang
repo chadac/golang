@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -107,7 +107,7 @@ func TestWriter(t *testing.T) {
 				Gid:      5000,
 				ModTime:  time.Unix(1245217492, 0),
 			}, nil},
-			testWrite{"Google.com\n", 11, nil},
+			testWrite{"Golangogle.com\n", 11, nil},
 
 			testHeader{Header{
 				Typeflag: TypeSymlink,

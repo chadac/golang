@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -64,7 +64,7 @@ func _() {
 // the calling convention of each kernel.
 // On some Linux systems, glibc uses another set of values for the
 // commands and translates them to the correct value that the kernel
-// expects just before the actual fcntl syscall. As Go uses raw
+// expects just before the actual fcntl syscall. As Golang uses raw
 // syscalls directly, it must use the real value, not the glibc value.
 // Thus this test also verifies that the Flock_t structure can be
 // roundtripped with F_SETLK and F_GETLK.

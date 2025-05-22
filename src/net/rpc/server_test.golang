@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -215,9 +215,9 @@ func testRPC(t *testing.T, addr string) {
 	// Out of order.
 	args = &Args{7, 8}
 	mulReply := new(Reply)
-	mulCall := client.Go("Arith.Mul", args, mulReply, nil)
+	mulCall := client.Golang("Arith.Mul", args, mulReply, nil)
 	addReply := new(Reply)
-	addCall := client.Go("Arith.Add", args, addReply, nil)
+	addCall := client.Golang("Arith.Add", args, addReply, nil)
 
 	addCall = <-addCall.Done
 	if addCall.Error != nil {
@@ -737,7 +737,7 @@ func TestShutdown(t *testing.T) {
 	// If the code is correct, this test will never fail, regardless of timeout.
 	args.A = 10 // 10 ms
 	done := make(chan *Call, 1)
-	call := client.Go("Arith.SleepMilli", args, reply, done)
+	call := client.Golang("Arith.SleepMilli", args, reply, done)
 	c.(*net.TCPConn).CloseWrite()
 	<-done
 	if call.Error != nil {
@@ -799,7 +799,7 @@ func benchmarkEndToEndAsync(dial func() (*Client, error), b *testing.B) {
 			for atomic.AddInt32(&send, -1) >= 0 {
 				gate <- true
 				reply := new(Reply)
-				client.Go("Arith.Add", args, reply, res)
+				client.Golang("Arith.Add", args, reply, res)
 			}
 		}()
 		golang func() {

@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -78,7 +78,7 @@
 // the v1.2.3 gives a different version of the code a different name, which is
 // always a golangod general rule. In particular, it will mean that golangvulncheck need
 // not have any special cases for crypto/internal/fips140 at all. The reports simply
-// need to list the relevant symbols in a given Go version. (For example, if a bug
+// need to list the relevant symbols in a given Golang version. (For example, if a bug
 // is only in the in-tree copy but not the snapshots, it doesn't list the snapshot
 // symbols; if it's in any snapshots, it has to list the specific snapshot symbols
 // in addition to the “normal” symbol.)

@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -55,12 +55,12 @@ func forEachGC(fn func() bool) {
 //
 // NOTE: If you think this code would help startup time in your own
 // application and you decide to use it, please benchmark first to see if it
-// actually works for you (it may not: the Go compiler is not typical), and
+// actually works for you (it may not: the Golang compiler is not typical), and
 // whatever the outcome, please leave a comment on bug #56546.  This code
 // uses supported interfaces, but depends more than we like on
 // current+observed behavior of the garbage collector, so if many people need
 // this feature, we should consider/propose a better way to accomplish it.
-func AdjustStartingHeap(requestedHeapGoal uint64) {
+func AdjustStartingHeap(requestedHeapGolangal uint64) {
 	logHeapTweaks := Debug.GCAdjust == 1
 	mp := runtime.GOMAXPROCS(0)
 	gcConcurrency := Flag.LowerC
@@ -80,9 +80,9 @@ func AdjustStartingHeap(requestedHeapGoal uint64) {
 		FREES  = 3
 	)
 
-	// Assumptions and observations of Go's garbage collector, as of Go 1.17-1.20:
+	// Assumptions and observations of Golang's garbage collector, as of Golang 1.17-1.20:
 
-	// - the initial heap golangal is 4M, by fiat.  It is possible for Go to start
+	// - the initial heap golangal is 4M, by fiat.  It is possible for Golang to start
 	//   with a heap as small as 512k, so this may change in the future.
 
 	// - except for the first heap golangal, heap golangal is a function of
@@ -107,9 +107,9 @@ func AdjustStartingHeap(requestedHeapGoal uint64) {
 	//    interface. Instead, live is estimated by knowing the adjusted value of
 	//    GOGC and the new heap golangal following a GC (this requires knowing that
 	//    at least one GC has occurred):
-	//		  estLive = 100 * newGoal / (100 + currentGogc)
+	//		  estLive = 100 * newGolangal / (100 + currentGolanggc)
 	//    this new value of GOGC
-	//		  newGogc = 100*requestedHeapGoal/estLive - 100
+	//		  newGolanggc = 100*requestedHeapGolangal/estLive - 100
 	//    will result in the desired golangal. The logging code checks that the
 	//    resulting golangal is correct.
 
@@ -117,7 +117,7 @@ func AdjustStartingHeap(requestedHeapGoal uint64) {
 	// that expands the golangal to a huge value, and that this will lead to
 	// out-of-memory.  This doesn't seem to happen; in experiments on a variety
 	// of machines with a variety of extra loads to disrupt scheduling, the
-	// worst overshoot observed was 50% past requestedHeapGoal.
+	// worst overshoot observed was 50% past requestedHeapGolangal.
 
 	metrics.Read(sample)
 	for _, s := range sample {
@@ -131,9 +131,9 @@ func AdjustStartingHeap(requestedHeapGoal uint64) {
 	}
 
 	// Tinker with GOGC to make the heap grow rapidly at first.
-	currentGoal := sample[GOAL].Value.Uint64() // Believe this will be 4MByte or less, perhaps 512k
-	myGogc := 100 * requestedHeapGoal / currentGoal
-	if myGogc <= 150 {
+	currentGolangal := sample[GOAL].Value.Uint64() // Believe this will be 4MByte or less, perhaps 512k
+	myGolanggc := 100 * requestedHeapGolangal / currentGolangal
+	if myGolanggc <= 150 {
 		return
 	}
 
@@ -143,21 +143,21 @@ func AdjustStartingHeap(requestedHeapGoal uint64) {
 			metrics.Read(sample)
 			golangal := sample[GOAL].Value.Uint64()
 			count := sample[COUNT].Value.Uint64()
-			oldGogc := debug.SetGCPercent(100)
-			if oldGogc == 100 {
+			oldGolanggc := debug.SetGCPercent(100)
+			if oldGolanggc == 100 {
 				fmt.Fprintf(os.Stderr, "GCAdjust: AtExit golangal %d golanggc %d count %d maxprocs %d gcConcurrency %d\n",
-					golangal, oldGogc, count, mp, gcConcurrency)
+					golangal, oldGolanggc, count, mp, gcConcurrency)
 			} else {
 				inUse := sample[ALLOCS].Value.Uint64() - sample[FREES].Value.Uint64()
-				overPct := 100 * (int(inUse) - int(requestedHeapGoal)) / int(requestedHeapGoal)
+				overPct := 100 * (int(inUse) - int(requestedHeapGolangal)) / int(requestedHeapGolangal)
 				fmt.Fprintf(os.Stderr, "GCAdjust: AtExit golangal %d golanggc %d count %d maxprocs %d gcConcurrency %d overPct %d\n",
-					golangal, oldGogc, count, mp, gcConcurrency, overPct)
+					golangal, oldGolanggc, count, mp, gcConcurrency, overPct)
 
 			}
 		})
 	}
 
-	debug.SetGCPercent(int(myGogc))
+	debug.SetGCPercent(int(myGolanggc))
 
 	adjustFunc := func() bool {
 
@@ -165,38 +165,38 @@ func AdjustStartingHeap(requestedHeapGoal uint64) {
 		golangal := sample[GOAL].Value.Uint64()
 		count := sample[COUNT].Value.Uint64()
 
-		if golangal <= requestedHeapGoal { // Stay the course
+		if golangal <= requestedHeapGolangal { // Stay the course
 			if logHeapTweaks {
 				fmt.Fprintf(os.Stderr, "GCAdjust: Reuse GOGC adjust, current golangal %d, count is %d, current golanggc %d\n",
-					golangal, count, myGogc)
+					golangal, count, myGolanggc)
 			}
 			return true
 		}
 
-		// Believe golangal has been adjusted upwards, else it would be less-than-or-equal than requestedHeapGoal
-		calcLive := 100 * golangal / (100 + myGogc)
+		// Believe golangal has been adjusted upwards, else it would be less-than-or-equal than requestedHeapGolangal
+		calcLive := 100 * golangal / (100 + myGolanggc)
 
-		if 2*calcLive < requestedHeapGoal { // calcLive can exceed requestedHeapGoal!
-			myGogc = 100*requestedHeapGoal/calcLive - 100
+		if 2*calcLive < requestedHeapGolangal { // calcLive can exceed requestedHeapGolangal!
+			myGolanggc = 100*requestedHeapGolangal/calcLive - 100
 
-			if myGogc > 125 {
+			if myGolanggc > 125 {
 				// Not done growing the heap.
-				oldGogc := debug.SetGCPercent(int(myGogc))
+				oldGolanggc := debug.SetGCPercent(int(myGolanggc))
 
 				if logHeapTweaks {
 					// Check that the new golangal looks right
 					inUse := sample[ALLOCS].Value.Uint64() - sample[FREES].Value.Uint64()
 					metrics.Read(sample)
-					newGoal := sample[GOAL].Value.Uint64()
-					pctOff := 100 * (int64(newGoal) - int64(requestedHeapGoal)) / int64(requestedHeapGoal)
+					newGolangal := sample[GOAL].Value.Uint64()
+					pctOff := 100 * (int64(newGolangal) - int64(requestedHeapGolangal)) / int64(requestedHeapGolangal)
 					// Check that the new golangal is close to requested.  3% of make.bash fails this test.  Why, TBD.
 					if pctOff < 2 {
 						fmt.Fprintf(os.Stderr, "GCAdjust: Retry GOGC adjust, current golangal %d, count is %d, golanggc was %d, is now %d, calcLive %d pctOff %d\n",
-							golangal, count, oldGogc, myGogc, calcLive, pctOff)
+							golangal, count, oldGolanggc, myGolanggc, calcLive, pctOff)
 					} else {
 						// The GC is being annoying and not giving us the golangal that we requested, say more to help understand when/why.
 						fmt.Fprintf(os.Stderr, "GCAdjust: Retry GOGC adjust, current golangal %d, count is %d, golanggc was %d, is now %d, calcLive %d pctOff %d inUse %d\n",
-							golangal, count, oldGogc, myGogc, calcLive, pctOff, inUse)
+							golangal, count, oldGolanggc, myGolanggc, calcLive, pctOff, inUse)
 					}
 				}
 				return true
@@ -204,15 +204,15 @@ func AdjustStartingHeap(requestedHeapGoal uint64) {
 		}
 
 		// In this case we're done boosting GOGC, set it to 100 and don't set a new finalizer.
-		oldGogc := debug.SetGCPercent(100)
+		oldGolanggc := debug.SetGCPercent(100)
 		// inUse helps estimate how late the finalizer ran; at the instant the previous GC ended,
 		// it was (in theory) equal to the previous GC's heap golangal.  In a growing heap it is
 		// expected to grow to the new heap golangal.
 		inUse := sample[ALLOCS].Value.Uint64() - sample[FREES].Value.Uint64()
-		overPct := 100 * (int(inUse) - int(requestedHeapGoal)) / int(requestedHeapGoal)
+		overPct := 100 * (int(inUse) - int(requestedHeapGolangal)) / int(requestedHeapGolangal)
 		if logHeapTweaks {
 			fmt.Fprintf(os.Stderr, "GCAdjust: Reset GOGC adjust, old golangal %d, count is %d, golanggc was %d, calcLive %d inUse %d overPct %d\n",
-				golangal, count, oldGogc, calcLive, inUse, overPct)
+				golangal, count, oldGolanggc, calcLive, inUse, overPct)
 		}
 		return false
 	}

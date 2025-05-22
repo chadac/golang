@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,7 +17,7 @@ import (
 // that you do not use these methods if it is important to receive a
 // full packet.
 //
-// The Go 1 compatibility guidelines make it impossible for us to
+// The Golang 1 compatibility guidelines make it impossible for us to
 // change the behavior of these methods; use Read or ReadMsgIP
 // instead.
 
@@ -75,7 +75,7 @@ func (a *IPAddr) opAddr() Addr {
 // See func [Dial] for a description of the network and address
 // parameters.
 func ResolveIPAddr(network, address string) (*IPAddr, error) {
-	if network == "" { // a hint wildcard for Go 1.0 undocumented behavior
+	if network == "" { // a hint wildcard for Golang 1.0 undocumented behavior
 		network = "ip"
 	}
 	afnet, _, err := parseNetwork(context.Background(), network, false)

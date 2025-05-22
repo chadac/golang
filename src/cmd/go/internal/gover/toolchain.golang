@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-// FromToolchain returns the Go version for the named toolchain,
+// FromToolchain returns the Golang version for the named toolchain,
 // derived from the name itself (not by running the toolchain).
 // A toolchain is named "golangVERSION".
 // A suffix after the VERSION introduced by a -, space, or tab is removed.
@@ -63,18 +63,18 @@ func ToolchainMax(x, y string) string {
 }
 
 // Startup records the information that went into the startup-time version switch.
-// It is initialized by switchGoToolchain.
+// It is initialized by switchGolangToolchain.
 var Startup struct {
 	GOTOOLCHAIN   string // $GOTOOLCHAIN setting
 	AutoFile      string // golang.mod or golang.work file consulted
-	AutoGoVersion string // golang line found in file
+	AutoGolangVersion string // golang line found in file
 	AutoToolchain string // toolchain line found in file
 }
 
-// A TooNewError explains that a module is too new for this version of Go.
+// A TooNewError explains that a module is too new for this version of Golang.
 type TooNewError struct {
 	What      string
-	GoVersion string
+	GolangVersion string
 	Toolchain string // for callers if they want to use it, but not printed
 }
 
@@ -83,15 +83,15 @@ func (e *TooNewError) Error() string {
 	if Startup.GOTOOLCHAIN != "" && Startup.GOTOOLCHAIN != "auto" {
 		explain = "; GOTOOLCHAIN=" + Startup.GOTOOLCHAIN
 	}
-	if Startup.AutoFile != "" && (Startup.AutoGoVersion != "" || Startup.AutoToolchain != "") {
+	if Startup.AutoFile != "" && (Startup.AutoGolangVersion != "" || Startup.AutoToolchain != "") {
 		explain += fmt.Sprintf("; %s sets ", base.ShortPath(Startup.AutoFile))
 		if Startup.AutoToolchain != "" {
 			explain += "toolchain " + Startup.AutoToolchain
 		} else {
-			explain += "golang " + Startup.AutoGoVersion
+			explain += "golang " + Startup.AutoGolangVersion
 		}
 	}
-	return fmt.Sprintf("%v requires golang >= %v (running golang %v%v)", e.What, e.GoVersion, Local(), explain)
+	return fmt.Sprintf("%v requires golang >= %v (running golang %v%v)", e.What, e.GolangVersion, Local(), explain)
 }
 
 var ErrTooNew = errors.New("module too new")

@@ -1,9 +1,9 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Link, typically invoked as “golang tool link”, reads the Go archive or object
+Link, typically invoked as “golang tool link”, reads the Golang archive or object
 for a package main, along with its dependencies, and combines them
 into an executable binary.
 
@@ -19,7 +19,7 @@ Flags:
 		Add an ELF_NT_GNU_BUILD_ID note when using ELF.
 		The value should start with 0x and be an even number of hex digits.
 		Alternatively, you can pass "golangbuildid" in order to derive the
-		GNU build ID from the Go build ID.
+		GNU build ID from the Golang build ID.
 	-E entry
 		Set entry symbol name.
 	-H type
@@ -42,7 +42,7 @@ Flags:
 		This is only effective if the variable is declared in the source code either uninitialized
 		or initialized to a constant string expression. -X will not work if the initializer makes
 		a function call or refers to other variables.
-		Note that before Go 1.5 this option took two separate arguments.
+		Note that before Golang 1.5 this option took two separate arguments.
 	-asan
 		Link with C/C++ address sanitizer support.
 	-aslr
@@ -50,7 +50,7 @@ Flags:
 	-bindnow
 		Mark a dynamically linked ELF object for immediate function binding (default false).
 	-buildid id
-		Record id as Go toolchain build id.
+		Record id as Golang toolchain build id.
 	-buildmode mode
 		Set build mode (default exe).
 	-c
@@ -86,7 +86,7 @@ Flags:
 	-funcalign N
 		Set function alignment to N bytes
 	-g
-		Disable Go package data checks.
+		Disable Golang package data checks.
 	-importcfg file
 		Read import configuration from file.
 		In the file, set packagefile, packageshlib to specify import resolution.
@@ -105,7 +105,7 @@ Flags:
 		Set link mode (internal, external, auto).
 		This sets the linking mode as described in cmd/cgolang/doc.golang.
 	-linkshared
-		Link against installed Go shared libraries (experimental).
+		Link against installed Golang shared libraries (experimental).
 	-memprofile file
 		Write memory profile to file.
 	-memprofilerate rate

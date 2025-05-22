@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -35,6 +35,6 @@ func TestMOVK(t *testing.T) {
 	x := testmovk()
 	want := uint64(40000 << 48)
 	if x != want {
-		t.Errorf("Got %x want %x\n", x, want)
+		t.Errorf("Golangt %x want %x\n", x, want)
 	}
 }

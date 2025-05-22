@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -31,7 +31,7 @@ type Builder struct {
 // discriminate the zero and nonzero cases.
 func (b *Builder) copyCheck() {
 	if b.addr == nil {
-		// This hack works around a failing of Go's escape analysis
+		// This hack works around a failing of Golang's escape analysis
 		// that was causing b to escape and be heap allocated.
 		// See issue 23382.
 		// TODO: once issue 7921 is fixed, this should be reverted to

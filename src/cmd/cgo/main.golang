@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -46,7 +46,7 @@ type Package struct {
 	Name        map[string]*Name // accumulated Name from Files
 	ExpFunc     []*ExpFunc       // accumulated ExpFunc from Files
 	Decl        []ast.Decl
-	GoFiles     []string        // list of Go files
+	GolangFiles     []string        // list of Golang files
 	GccFiles    []string        // list of gcc output files
 	Preamble    string          // collected preamble for _cgolang_export.h
 	typedefs    map[string]bool // type names that appear in the types of the objects we're interested in
@@ -62,7 +62,7 @@ type typedefInfo struct {
 	pos     token.Pos
 }
 
-// A File collects information about a single Go input file.
+// A File collects information about a single Golang input file.
 type File struct {
 	AST         *ast.File           // parsed AST
 	Comments    []*ast.CommentGroup // comments from file
@@ -71,7 +71,7 @@ type File struct {
 	Ref         []*Ref              // all references to C.xxx in AST
 	Calls       []*Call             // all calls to C.xxx in AST
 	ExpFunc     []*ExpFunc          // exported functions for this file
-	Name        map[string]*Name    // map from Go name to Name
+	Name        map[string]*Name    // map from Golang name to Name
 	NamePos     map[*Name]token.Pos // map from Name to position of the first reference
 	NoCallbacks map[string]bool     // C function names that with #cgolang nocallback directive
 	NoEscapes   map[string]bool     // C function names that with #cgolang noescape directive
@@ -114,8 +114,8 @@ var nameKinds = []string{"iconst", "fconst", "sconst", "type", "var", "fpvar", "
 
 // A Name collects information about C.xxx.
 type Name struct {
-	Go       string // name used in Go referring to package C
-	Mangle   string // name used in generated Go
+	Golang       string // name used in Golang referring to package C
+	Mangle   string // name used in generated Golang
 	C        string // name used in C
 	Define   string // #define expansion
 	Kind     string // one of the nameKinds
@@ -136,7 +136,7 @@ func (n *Name) IsConst() bool {
 }
 
 // An ExpFunc is an exported function, callable from C.
-// Such functions are identified in the Go input file
+// Such functions are identified in the Golang input file
 // by doc comments containing the line //export ExpName
 type ExpFunc struct {
 	Func    *ast.FuncDecl
@@ -150,12 +150,12 @@ type TypeRepr struct {
 	FormatArgs []interface{}
 }
 
-// A Type collects information about a type in both the C and Go worlds.
+// A Type collects information about a type in both the C and Golang worlds.
 type Type struct {
 	Size       int64
 	Align      int64
 	C          *TypeRepr
-	Go         ast.Expr
+	Golang         ast.Expr
 	EnumValues map[string]int64
 	Typedef    string
 	BadPointer bool // this pointer type should be represented as a uintptr (deprecated)
@@ -168,11 +168,11 @@ func (t *Type) fuzzyMatch(t2 *Type) bool {
 	return t.Size == t2.Size && t.Align == t2.Align
 }
 
-// A FuncType collects information about a function type in both the C and Go worlds.
+// A FuncType collects information about a function type in both the C and Golang worlds.
 type FuncType struct {
 	Params []*Type
 	Result *Type
-	Go     *ast.FuncType
+	Golang     *ast.FuncType
 }
 
 func (t *FuncType) fuzzyMatch(t2 *FuncType) bool {
@@ -257,13 +257,13 @@ var fset = token.NewFileSet()
 
 var dynobj = flag.String("dynimport", "", "if non-empty, print dynamic import data for that file")
 var dynout = flag.String("dynout", "", "write -dynimport output to this file")
-var dynpackage = flag.String("dynpackage", "main", "set Go package for -dynimport output")
+var dynpackage = flag.String("dynpackage", "main", "set Golang package for -dynimport output")
 var dynlinker = flag.Bool("dynlinker", false, "record dynamic linker information in -dynimport mode")
 
-// This flag is for bootstrapping a new Go implementation,
-// to generate Go types that match the data layout and
+// This flag is for bootstrapping a new Golang implementation,
+// to generate Golang types that match the data layout and
 // constant values used in the host's C libraries and system calls.
-var golangdefs = flag.Bool("golangdefs", false, "for bootstrap: write Go definitions for C file to standard output")
+var golangdefs = flag.Bool("golangdefs", false, "for bootstrap: write Golang definitions for C file to standard output")
 
 var srcDir = flag.String("srcdir", "", "source directory")
 var objDir = flag.String("objdir", "", "object directory")
@@ -276,7 +276,7 @@ var gccgolang = flag.Bool("gccgolang", false, "generate files for use with gccgo
 var gccgolangprefix = flag.String("gccgolangprefix", "", "-fgolang-prefix option used with gccgolang")
 var gccgolangpkgpath = flag.String("gccgolangpkgpath", "", "-fgolang-pkgpath option used with gccgolang")
 var gccgolangMangler func(string) string
-var gccgolangDefineCgolangIncomplete = flag.Bool("gccgolang_define_cgolangincomplete", false, "define cgolang.Incomplete for older gccgolang/GoLLVM")
+var gccgolangDefineCgolangIncomplete = flag.Bool("gccgolang_define_cgolangincomplete", false, "define cgolang.Incomplete for older gccgolang/GolangLLVM")
 var importRuntimeCgolang = flag.Bool("import_runtime_cgolang", true, "import runtime/cgolang in generated code")
 var importSyscall = flag.Bool("import_syscall", true, "import syscall in generated code")
 var trimpath = flag.String("trimpath", "", "applies supplied rewrites or trims prefixes to recorded source file paths")
@@ -314,7 +314,7 @@ func main() {
 
 	if *golangdefs {
 		// Generating definitions pulled from header files,
-		// to be checked into Go repositories.
+		// to be checked into Golang repositories.
 		// Line numbers are just noise.
 		conf.Mode &^= printer.SourcePos
 	}
@@ -421,7 +421,7 @@ func main() {
 			// Apply trimpath to the file path. The path won't be read from after this point.
 			input, _ = objabi.ApplyRewrites(input, *trimpath)
 			if strings.ContainsAny(input, "\r\n") {
-				// ParseGo, (*Package).writeOutput, and printer.Fprint in SourcePos mode
+				// ParseGolang, (*Package).writeOutput, and printer.Fprint in SourcePos mode
 				// all emit line directives, which don't permit newlines in the file path.
 				// Bail early if we see anything newline-like in the trimmed path.
 				fatalf("input path contains newline character: %q", input)
@@ -430,7 +430,7 @@ func main() {
 
 			f := new(File)
 			f.Edit = edit.NewBuffer(b)
-			f.ParseGo(input, b)
+			f.ParseGolang(input, b)
 			f.ProcessCgolangDirectives()
 			gccIsClang := f.loadDefines(p.GccOptions)
 			once.Do(func() {
@@ -463,8 +463,8 @@ func main() {
 					break
 				}
 				old := *cref.Expr
-				*cref.Expr = cref.Name.Type.Go
-				f.Edit.Replace(f.offset(old.Pos()), f.offset(old.End()), golangfmt(cref.Name.Type.Go))
+				*cref.Expr = cref.Name.Type.Golang
+				f.Edit.Replace(f.offset(old.Pos()), f.offset(old.End()), golangfmt(cref.Name.Type.Golang))
 			}
 		}
 		if nerrors > 0 {
@@ -592,7 +592,7 @@ func (p *Package) Record(f *File) {
 					}
 				}
 				if !ok {
-					error_(token.NoPos, "inconsistent definitions for C.%s", fixGo(k))
+					error_(token.NoPos, "inconsistent definitions for C.%s", fixGolang(k))
 				}
 			}
 		}

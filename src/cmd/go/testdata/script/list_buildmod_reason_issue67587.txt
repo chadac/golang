@@ -1,10 +1,10 @@
 cd thirteen
 ! golang list -deps
-stderr 	'(Go version in golang.mod is 1.13, so vendor directory was not used.)'
+stderr 	'(Golang version in golang.mod is 1.13, so vendor directory was not used.)'
 
 cd ../unspecified
 ! golang list -deps
-stderr 	'(Go version in golang.mod is unspecified, so vendor directory was not used.)'
+stderr 	'(Golang version in golang.mod is unspecified, so vendor directory was not used.)'
 
 -- thirteen/foo.golang --
 package foo

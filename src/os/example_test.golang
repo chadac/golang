@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -89,16 +89,16 @@ func ExampleExpand() {
 		case "DAY_PART":
 			return "morning"
 		case "NAME":
-			return "Gopher"
+			return "Golangpher"
 		}
 
 		return ""
 	}
 
-	fmt.Println(os.Expand("Good ${DAY_PART}, $NAME!", mapper))
+	fmt.Println(os.Expand("Golangod ${DAY_PART}, $NAME!", mapper))
 
 	// Output:
-	// Good morning, Gopher!
+	// Golangod morning, Golangpher!
 }
 
 func ExampleExpandEnv() {
@@ -234,11 +234,11 @@ func ExampleReadFile() {
 	os.Stdout.Write(data)
 
 	// Output:
-	// Hello, Gophers!
+	// Hello, Golangphers!
 }
 
 func ExampleWriteFile() {
-	err := os.WriteFile("testdata/hello", []byte("Hello, Gophers!"), 0666)
+	err := os.WriteFile("testdata/hello", []byte("Hello, Golangphers!"), 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -249,7 +249,7 @@ func ExampleMkdir() {
 	if err != nil && !os.IsExist(err) {
 		log.Fatal(err)
 	}
-	err = os.WriteFile("testdir/testfile.txt", []byte("Hello, Gophers!"), 0660)
+	err = os.WriteFile("testdir/testfile.txt", []byte("Hello, Golangphers!"), 0660)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -260,7 +260,7 @@ func ExampleMkdirAll() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = os.WriteFile("test/subdir/testfile.txt", []byte("Hello, Gophers!"), 0660)
+	err = os.WriteFile("test/subdir/testfile.txt", []byte("Hello, Golangphers!"), 0660)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -274,7 +274,7 @@ func ExampleReadlink() {
 	}
 	defer os.RemoveAll(d)
 	targetPath := filepath.Join(d, "hello.txt")
-	if err := os.WriteFile(targetPath, []byte("Hello, Gophers!"), 0644); err != nil {
+	if err := os.WriteFile(targetPath, []byte("Hello, Golangphers!"), 0644); err != nil {
 		log.Fatal(err)
 	}
 	linkPath := filepath.Join(d, "hello.link")

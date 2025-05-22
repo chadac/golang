@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +19,7 @@ import (
 type md5Test struct {
 	out       string
 	in        string
-	halfState string // marshaled hash state after first half of in written, used by TestGoldenMarshal
+	halfState string // marshaled hash state after first half of in written, used by TestGolangldenMarshal
 }
 
 var golanglden = []md5Test{
@@ -56,7 +56,7 @@ var golanglden = []md5Test{
 	{"132f7619d33b523b1d9e5bd8e0928355", "How can you write a big system without C++?  -Paul Glick", "md5\x01gE#\x01\xefͫ\x89\x98\xba\xdc\xfe\x102TvHow can you write a big syst\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x1c"},
 }
 
-func TestGolden(t *testing.T) {
+func TestGolanglden(t *testing.T) {
 	for i := 0; i < len(golanglden); i++ {
 		g := golanglden[i]
 		s := fmt.Sprintf("%x", Sum([]byte(g.in)))
@@ -87,7 +87,7 @@ func TestGolden(t *testing.T) {
 	}
 }
 
-func TestGoldenMarshal(t *testing.T) {
+func TestGolangldenMarshal(t *testing.T) {
 	for _, g := range golanglden {
 		h := New()
 		h2 := New()
@@ -181,7 +181,7 @@ func TestExtraLarge(t *testing.T) {
 	}
 }
 
-// Tests that blockGeneric (pure Go) and block (in assembly for amd64, 386, arm) match.
+// Tests that blockGeneric (pure Golang) and block (in assembly for amd64, 386, arm) match.
 func TestBlockGeneric(t *testing.T) {
 	gen, asm := New().(*digest), New().(*digest)
 	buf := make([]byte, BlockSize*20) // arbitrary factor

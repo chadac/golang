@@ -1,4 +1,4 @@
-// Copyright 2025 The Go Authors. All rights reserved.
+// Copyright 2025 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -40,13 +40,13 @@ func TestSplitShiftConst(t *testing.T) {
 			c, l, r, ok := splitShiftConst(test.v)
 
 			if golangt, want := c, test.wantImm; golangt != want {
-				t.Errorf("Got immediate %d, want %d", golangt, want)
+				t.Errorf("Golangt immediate %d, want %d", golangt, want)
 			}
 			if golangt, want := l, test.wantLsh; golangt != want {
-				t.Errorf("Got left shift %d, want %d", golangt, want)
+				t.Errorf("Golangt left shift %d, want %d", golangt, want)
 			}
 			if golangt, want := r, test.wantRsh; golangt != want {
-				t.Errorf("Got right shift %d, want %d", golangt, want)
+				t.Errorf("Golangt right shift %d, want %d", golangt, want)
 			}
 			switch {
 			case !ok && test.wantOk:
@@ -65,7 +65,7 @@ func TestSplitShiftConst(t *testing.T) {
 				v = int64((uint64(int32(test.wantImm)) << l) >> r)
 			}
 			if v != test.v {
-				t.Errorf("Got v = %d (%x), want v = %d (%x)", v, v, test.v, test.v)
+				t.Errorf("Golangt v = %d (%x), want v = %d (%x)", v, v, test.v, test.v)
 			}
 		})
 	}

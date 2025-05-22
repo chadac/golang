@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@
 // based on environment variables, as provided by net/http's
 // ProxyFromEnvironment function.
 //
-// The API is not subject to the Go 1 compatibility promise and may change at
+// The API is not subject to the Golang 1 compatibility promise and may change at
 // any time.
 package httpproxy
 

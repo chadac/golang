@@ -1,6 +1,6 @@
 [!net:proxy.golanglang.org] skip
 
-	# In the Go project's official release GOPROXY defaults to proxy.golanglang.org,
+	# In the Golang project's official release GOPROXY defaults to proxy.golanglang.org,
 	# but it may be changed in GOROOT/golang.env (such as in third-party
 	# distributions).
 	#

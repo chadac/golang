@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -42,7 +42,7 @@ nocgolang:
 //
 // This is never called directly from C code (it doesn't have to
 // follow the C ABI), but it may be called from a C context, where the
-// usual Go registers aren't set up.
+// usual Golang registers aren't set up.
 //
 // NOTE: _cgolang_topofstack assumes this only clobbers g (R30), and R31.
 TEXT runtime·load_g(SB),NOSPLIT|NOFRAME,$0-0

@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -47,7 +47,7 @@ func newFoo() *Foo {
 						entries: map[int]interface{}{
 							61:	&Foo{},
 							71:	&Bar{},
-							11:	&Baz{whatever: "no, it's Go"}}}},
+							11:	&Baz{whatever: "no, it's Golang"}}}},
 						bang: &Bar{foo: []*Foo{
 							&Foo{bar: &Bar{baz: &Baz{
 								entries: map[int]interface{}{

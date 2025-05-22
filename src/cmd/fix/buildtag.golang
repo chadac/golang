@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -14,17 +14,17 @@ func init() {
 	register(buildtagFix)
 }
 
-const buildtagGoVersionCutoff = "golang1.18"
+const buildtagGolangVersionCutoff = "golang1.18"
 
 var buildtagFix = fix{
 	name: "buildtag",
 	date: "2021-08-25",
 	f:    buildtag,
-	desc: `Remove +build comments from modules using Go 1.18 or later`,
+	desc: `Remove +build comments from modules using Golang 1.18 or later`,
 }
 
 func buildtag(f *ast.File) bool {
-	if version.Compare(*golangVersion, buildtagGoVersionCutoff) < 0 {
+	if version.Compare(*golangVersion, buildtagGolangVersionCutoff) < 0 {
 		return false
 	}
 
@@ -35,12 +35,12 @@ func buildtag(f *ast.File) bool {
 	// some lines from a comment block - does format correctly.
 	fixed := false
 	for _, g := range f.Comments {
-		sawGoBuild := false
+		sawGolangBuild := false
 		for i, c := range g.List {
 			if strings.HasPrefix(c.Text, "//golang:build ") {
-				sawGoBuild = true
+				sawGolangBuild = true
 			}
-			if sawGoBuild && strings.HasPrefix(c.Text, "// +build ") {
+			if sawGolangBuild && strings.HasPrefix(c.Text, "// +build ") {
 				g.List = g.List[:i]
 				fixed = true
 				break

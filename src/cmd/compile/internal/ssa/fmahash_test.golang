@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,8 +28,8 @@ func TestFmaHash(t *testing.T) {
 		t.Skipf("Slow test, usually avoid it, arch=%s not amd64 or arm64", runtime.GOARCH)
 	}
 
-	testenv.MustHaveGoBuild(t)
-	golangcmd := testenv.GoToolPath(t)
+	testenv.MustHaveGolangBuild(t)
+	golangcmd := testenv.GolangToolPath(t)
 	tmpdir := t.TempDir()
 	source := filepath.Join("testdata", "fma.golang")
 	output := filepath.Join(tmpdir, "fma.exe")

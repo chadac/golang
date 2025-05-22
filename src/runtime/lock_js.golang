@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -160,7 +160,7 @@ func checkTimeouts() {
 	}
 }
 
-// events is a stack of calls from JavaScript into Go.
+// events is a stack of calls from JavaScript into Golang.
 var events []*event
 
 type event struct {
@@ -271,7 +271,7 @@ func scheduleTimeoutEvent(ms int64) int32
 //golang:wasmimport golangjs runtime.clearTimeoutEvent
 func clearTimeoutEvent(id int32)
 
-// handleEvent gets invoked on a call from JavaScript into Go. It calls the event handler of the syscall/js package
+// handleEvent gets invoked on a call from JavaScript into Golang. It calls the event handler of the syscall/js package
 // and then parks the handler golangroutine to allow other golangroutines to run before giving execution back to JavaScript.
 // When no other golangroutine is awake any more, beforeIdle resumes the handler golangroutine. Now that the same golangroutine
 // is running as was running when the call came in from JavaScript, execution can be safely passed back to JavaScript.

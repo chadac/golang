@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -627,7 +627,7 @@ const (
 var printVerbs = []printVerb{
 	// '-' is a width modifier, always valid.
 	// '.' is a precision for float, max width for strings.
-	// '+' is required sign for numbers, Go format for %v.
+	// '+' is required sign for numbers, Golang format for %v.
 	// '#' is alternate format for several verbs.
 	// ' ' is spacer for numbers
 	{'%', noFlag, 0},
@@ -684,7 +684,7 @@ func okPrintfArg(pass *analysis.Pass, call *ast.CallExpr, maxArgIndex *int, firs
 			return false
 		}
 		for _, flag := range operation.Flags {
-			// TODO: Disable complaint about '0' for Go 1.10. To be fixed properly in 1.11.
+			// TODO: Disable complaint about '0' for Golang 1.10. To be fixed properly in 1.11.
 			// See issues 23598 and 23605.
 			if flag == '0' {
 				continue

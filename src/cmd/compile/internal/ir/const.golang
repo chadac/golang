@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -143,11 +143,11 @@ func ConstOverflow(v constant.Value, t *types.Type) bool {
 	panic("unreachable")
 }
 
-// IsConstNode reports whether n is a Go language constant (as opposed to a
+// IsConstNode reports whether n is a Golang language constant (as opposed to a
 // compile-time constant).
 //
 // Expressions derived from nil, like string([]byte(nil)), while they
-// may be known at compile time, are not Go language constants.
+// may be known at compile time, are not Golang language constants.
 func IsConstNode(n Node) bool {
 	return n.Op() == OLITERAL
 }

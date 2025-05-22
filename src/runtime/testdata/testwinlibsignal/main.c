@@ -38,7 +38,7 @@ int main(void)
         return 1;
     }
 
-    // Call the Dummy function so that Go initialization completes, since
+    // Call the Dummy function so that Golang initialization completes, since
     // all cgolang entry points call out to _cgolang_wait_runtime_init_done.
     if (((int(*)(void))GetProcAddress(dummyDll, "Dummy"))() != 42) {
         fprintf(stderr, "ERROR: Dummy function did not return 42\n");

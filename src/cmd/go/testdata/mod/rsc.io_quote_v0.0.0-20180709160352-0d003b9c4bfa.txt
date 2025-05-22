@@ -7,7 +7,7 @@ require rsc.io/sampler v1.3.0
 -- .info --
 {"Version":"v0.0.0-20180709160352-0d003b9c4bfa","Name":"0d003b9c4bfac881641be8eb1598b782a467a97f","Short":"0d003b9c4bfa","Time":"2018-07-09T16:03:52Z"}
 -- buggy/buggy_test.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,7 +23,7 @@ module rsc.io/quote
 
 require rsc.io/sampler v1.3.0
 -- quote.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -43,9 +43,9 @@ func Glass() string {
 	return quote.GlassV2()
 }
 
-// Go returns a Go proverb.
-func Go() string {
-	return quote.GoV2()
+// Golang returns a Golang proverb.
+func Golang() string {
+	return quote.GolangV2()
 }
 
 // Opt returns an optimization truth.
@@ -54,7 +54,7 @@ func Opt() string {
 	return quote.OptV2()
 }
 -- quote_test.golang --
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -83,10 +83,10 @@ func TestGlass(t *testing.T) {
 	}
 }
 
-func TestGo(t *testing.T) {
+func TestGolang(t *testing.T) {
 	golang1 := "Don't communicate by sharing memory, share memory by communicating."
-	if out := Go(); out != golang1 {
-		t.Errorf("Go() = %q, want %q", out, golang1)
+	if out := Golang(); out != golang1 {
+		t.Errorf("Golang() = %q, want %q", out, golang1)
 	}
 }
 

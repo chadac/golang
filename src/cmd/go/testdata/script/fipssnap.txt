@@ -3,7 +3,7 @@ env alias=inprocess
 
 env GOFIPS140=$snap
 
-# Go+BoringCrypto conflicts with GOFIPS140.
+# Golang+BoringCrypto conflicts with GOFIPS140.
 [GOEXPERIMENT:boringcrypto] skip
 
 # default GODEBUG includes fips140=on

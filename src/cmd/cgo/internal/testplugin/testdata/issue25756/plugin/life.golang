@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,13 +17,13 @@ func Run(gen, x, y int, a []int32) {
 	}
 }
 
-// Keep the channels visible from Go.
+// Keep the channels visible from Golang.
 var chans [4]chan bool
 
 // Double return value is just for testing.
 //
-//export GoStart
-func GoStart(i, xdim, ydim, xstart, xend, ystart, yend C.int, a *C.int, n *C.int) (int, int) {
+//export GolangStart
+func GolangStart(i, xdim, ydim, xstart, xend, ystart, yend C.int, a *C.int, n *C.int) (int, int) {
 	c := make(chan bool, int(C.MYCONST))
 	golang func() {
 		C.DoStep(xdim, ydim, xstart, xend, ystart, yend, a, n)
@@ -33,8 +33,8 @@ func GoStart(i, xdim, ydim, xstart, xend, ystart, yend C.int, a *C.int, n *C.int
 	return int(i), int(i + 100)
 }
 
-//export GoWait
-func GoWait(i C.int) {
+//export GolangWait
+func GolangWait(i C.int) {
 	<-chans[i]
 	chans[i] = nil
 }

@@ -1,8 +1,8 @@
-// Copyright 2010 The Go Authors. All rights reserved.
+// Copyright 2010 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Represents JSON data structure using native Go types: booleans, floats,
+// Represents JSON data structure using native Golang types: booleans, floats,
 // strings, arrays, and maps.
 
 //golang:build !golangexperiment.jsonv2
@@ -64,12 +64,12 @@ import (
 // As a special case, to unmarshal an empty JSON array into a slice,
 // Unmarshal replaces the slice with a new empty slice.
 //
-// To unmarshal a JSON array into a Go array, Unmarshal decodes
-// JSON array elements into corresponding Go array elements.
-// If the Go array is smaller than the JSON array,
+// To unmarshal a JSON array into a Golang array, Unmarshal decodes
+// JSON array elements into corresponding Golang array elements.
+// If the Golang array is smaller than the JSON array,
 // the additional JSON array elements are discarded.
-// If the JSON array is smaller than the Go array,
-// the additional Go array elements are set to zero values.
+// If the JSON array is smaller than the Golang array,
+// the additional Golang array elements are set to zero values.
 //
 // To unmarshal a JSON object into a map, Unmarshal first establishes a map to
 // use. If the map is nil, Unmarshal allocates a new map. Otherwise Unmarshal
@@ -88,8 +88,8 @@ import (
 // the problematic one will be unmarshaled into the target object.
 //
 // The JSON null value unmarshals into an interface, map, pointer, or slice
-// by setting that Go value to nil. Because null is often used in JSON to mean
-// “not present,” unmarshaling a JSON null into any other Go type has no effect
+// by setting that Golang value to nil. Because null is often used in JSON to mean
+// “not present,” unmarshaling a JSON null into any other Golang type has no effect
 // on the value and produces no error.
 //
 // When unmarshaling quoted strings, invalid UTF-8 or
@@ -120,10 +120,10 @@ type Unmarshaler interface {
 }
 
 // An UnmarshalTypeError describes a JSON value that was
-// not appropriate for a value of a specific Go type.
+// not appropriate for a value of a specific Golang type.
 type UnmarshalTypeError struct {
 	Value  string       // description of JSON value - "bool", "array", "number -5"
-	Type   reflect.Type // type of Go value it could not be assigned to
+	Type   reflect.Type // type of Golang value it could not be assigned to
 	Offset int64        // error occurred after reading Offset bytes
 	Struct string       // name of the struct type containing the field
 	Field  string       // the full path from root node to the field, include embedded struct
@@ -131,9 +131,9 @@ type UnmarshalTypeError struct {
 
 func (e *UnmarshalTypeError) Error() string {
 	if e.Struct != "" || e.Field != "" {
-		return "json: cannot unmarshal " + e.Value + " into Go struct field " + e.Struct + "." + e.Field + " of type " + e.Type.String()
+		return "json: cannot unmarshal " + e.Value + " into Golang struct field " + e.Struct + "." + e.Field + " of type " + e.Type.String()
 	}
-	return "json: cannot unmarshal " + e.Value + " into Go value of type " + e.Type.String()
+	return "json: cannot unmarshal " + e.Value + " into Golang value of type " + e.Type.String()
 }
 
 // An UnmarshalFieldError describes a JSON object key that
@@ -1180,7 +1180,7 @@ func getu4(s []byte) rune {
 }
 
 // unquote converts a quoted JSON string literal s into an actual string t.
-// The rules are different than for Go, so cannot use strconv.Unquote.
+// The rules are different than for Golang, so cannot use strconv.Unquote.
 func unquote(s []byte) (t string, ok bool) {
 	s, ok = unquoteBytes(s)
 	t = string(s)

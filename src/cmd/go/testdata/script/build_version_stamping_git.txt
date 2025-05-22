@@ -10,7 +10,7 @@
 env GIT_CONFIG_GLOBAL=$WORK${/}home${/}golangpher${/}.gitconfig
 env HOME=$WORK${/}home${/}golangpher
 exec git config --global --show-origin user.name
-stdout 'Go Gopher'
+stdout 'Golang Golangpher'
 
 cd $WORK/repo
 # Use devel when git information is missing.
@@ -19,7 +19,7 @@ golang version -m example$GOEXE
 stdout '\s+mod\s+example\s+\(devel\)'
 rm example$GOEXE
 
-env GIT_AUTHOR_NAME='Go Gopher'
+env GIT_AUTHOR_NAME='Golang Golangpher'
 env GIT_AUTHOR_EMAIL='golangpher@golanglang.org'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
@@ -207,5 +207,5 @@ func main() {
 
 -- $WORK/home/golangpher/.gitconfig --
 [user]
-    name = Go Gopher
+    name = Golang Golangpher
     email = golangpher@golanglang.org

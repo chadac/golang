@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -585,7 +585,7 @@ func archRISCV64(shared bool) *Arch {
 	// Standard register names.
 	for i := riscv.REG_X0; i <= riscv.REG_X31; i++ {
 		// Disallow X3 in shared mode, as this will likely be used as the
-		// GP register, which could result in problems in non-Go code,
+		// GP register, which could result in problems in non-Golang code,
 		// including signal handlers.
 		if shared && i == riscv.REG_GP {
 			continue
@@ -639,7 +639,7 @@ func archRISCV64(shared bool) *Arch {
 	register["T5"] = riscv.REG_T5
 	register["T6"] = riscv.REG_T6
 
-	// Go runtime register names.
+	// Golang runtime register names.
 	register["g"] = riscv.REG_G
 	register["CTXT"] = riscv.REG_CTXT
 	register["TMP"] = riscv.REG_TMP

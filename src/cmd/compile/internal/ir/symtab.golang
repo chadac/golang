@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ type symsStruct struct {
 	Duffcopy          *obj.LSym
 	Duffzero          *obj.LSym
 	GCWriteBarrier    [8]*obj.LSym
-	Goschedguarded    *obj.LSym
+	Golangschedguarded    *obj.LSym
 	Growslice         *obj.LSym
 	InterfaceSwitch   *obj.LSym
 	MallocGC          *obj.LSym
@@ -79,7 +79,7 @@ type symsStruct struct {
 
 // Pkgs holds known packages.
 var Pkgs struct {
-	Go           *types.Pkg
+	Golang           *types.Pkg
 	Itab         *types.Pkg
 	Runtime      *types.Pkg
 	InternalMaps *types.Pkg

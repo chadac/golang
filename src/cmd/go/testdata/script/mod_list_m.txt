@@ -1,7 +1,7 @@
 golang mod tidy
 
 golang list -m -json all
-stdout '"GoModSum":\s+"h1:.+"'
+stdout '"GolangModSum":\s+"h1:.+"'
 stdout '"Sum":\s+"h1:.+"'
 
 -- golang.mod --

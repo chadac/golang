@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -46,7 +46,7 @@ func newAsyncIO(fn func([]byte) (int, error), b []byte) *asyncIO {
 		// and store the pid in io so that Cancel can
 		// interrupt it. We ignore the "hangup" signal,
 		// so the signal does not take down the entire
-		// Go runtime.
+		// Golang runtime.
 		runtime.LockOSThread()
 		runtime_ignoreHangup()
 		aio.pid = syscall.Getpid()

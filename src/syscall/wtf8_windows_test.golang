@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -143,7 +143,7 @@ func TestWTF16Rountrip(t *testing.T) {
 	}
 }
 
-func TestWTF16Golden(t *testing.T) {
+func TestWTF16Golanglden(t *testing.T) {
 	for _, tt := range wtf8tests {
 		t.Run(fmt.Sprintf("%X", tt.str), func(t *testing.T) {
 			golangt := syscall.EncodeWTF16(tt.str, nil)

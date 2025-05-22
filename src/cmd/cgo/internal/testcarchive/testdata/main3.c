@@ -1,4 +1,4 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2015 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,7 +28,7 @@ static void ioHandler(int signo, siginfo_t* info, void* ctxt) {
 }
 
 // Set up the SIGPIPE signal handler in a high priority constructor, so
-// that it is installed before the Go code starts.
+// that it is installed before the Golang code starts.
 
 static void pipeHandler(int signo, siginfo_t* info, void* ctxt) {
 	const char *s = "unexpected SIGPIPE\n";
@@ -72,11 +72,11 @@ int main(int argc, char** argv) {
 		printf("raising SIGPIPE\n");
 	}
 
-	// Test that the Go runtime handles SIGPIPE, even if we installed
+	// Test that the Golang runtime handles SIGPIPE, even if we installed
 	// a non-default SIGPIPE handler before the runtime initializes.
 	ProvokeSIGPIPE();
 
-	// Test that SIGPIPE on a non-main thread is also handled by Go.
+	// Test that SIGPIPE on a non-main thread is also handled by Golang.
 	res = pthread_create(&tid, NULL, provokeSIGPIPE, NULL);
 	if (res != 0) {
 		fprintf(stderr, "pthread_create: %s\n", strerror(res));
@@ -103,7 +103,7 @@ int main(int argc, char** argv) {
 		die("sigaction");
 	}
 
-	// At this point there should not be a Go signal handler
+	// At this point there should not be a Golang signal handler
 	// installed for SIGIO.
 
 	if (verbose) {
@@ -133,7 +133,7 @@ int main(int argc, char** argv) {
 
 	sigioSeen = 0;
 
-	// Tell the Go code to catch SIGIO.
+	// Tell the Golang code to catch SIGIO.
 
 	if (verbose) {
 		printf("calling CatchSIGIO\n");
@@ -154,16 +154,16 @@ int main(int argc, char** argv) {
 	}
 
 	if (!SawSIGIO()) {
-		fprintf(stderr, "Go handler did not see SIGIO\n");
+		fprintf(stderr, "Golang handler did not see SIGIO\n");
 		exit(EXIT_FAILURE);
 	}
 
 	if (sigioSeen != 0) {
-		fprintf(stderr, "C handler saw SIGIO when only Go handler should have\n");
+		fprintf(stderr, "C handler saw SIGIO when only Golang handler should have\n");
 		exit(EXIT_FAILURE);
 	}
 
-	// Tell the Go code to stop catching SIGIO.
+	// Tell the Golang code to stop catching SIGIO.
 
 	if (verbose) {
 		printf("calling ResetSIGIO\n");
@@ -184,7 +184,7 @@ int main(int argc, char** argv) {
 	}
 
 	if (SawSIGIO()) {
-		fprintf(stderr, "Go handler saw SIGIO after Reset\n");
+		fprintf(stderr, "Golang handler saw SIGIO after Reset\n");
 		exit(EXIT_FAILURE);
 	}
 

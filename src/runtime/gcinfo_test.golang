@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -94,7 +94,7 @@ func verifyGCInfo(t *testing.T, name string, p any, mask0 []byte) {
 	if bytes.HasPrefix(mask, mask0) {
 		// Just the prefix matching is OK.
 		//
-		// The Go runtime's pointer/scalar iterator generates pointers beyond
+		// The Golang runtime's pointer/scalar iterator generates pointers beyond
 		// the size of the type, up to the size of the size class. This space
 		// is safe for the GC to scan since it's zero, and GCBits checks to
 		// make sure that's true. But we need to handle the fact that the bitmap

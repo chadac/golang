@@ -1,8 +1,8 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2021 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Macros for transitioning from the host ABI to Go ABI0.
+// Macros for transitioning from the host ABI to Golang ABI0.
 //
 // These save the frame pointer, so in general, functions that use
 // these should have zero frame size to suppress the automatic frame
@@ -15,14 +15,14 @@
 #define REGS_HOST_TO_ABI0_STACK (28*8 + 8)
 
 // PUSH_REGS_HOST_TO_ABI0 prepares for transitioning from
-// the host ABI to Go ABI0 code. It saves all registers that are
-// callee-save in the host ABI and caller-save in Go ABI0 and prepares
-// for entry to Go.
+// the host ABI to Golang ABI0 code. It saves all registers that are
+// callee-save in the host ABI and caller-save in Golang ABI0 and prepares
+// for entry to Golang.
 //
 // Save DI SI BP BX R12 R13 R14 R15 X6-X15 registers and the DF flag.
-// Clear the DF flag for the Go ABI.
-// MXCSR matches the Go ABI, so we don't have to set that,
-// and Go doesn't modify it, so we don't have to save it.
+// Clear the DF flag for the Golang ABI.
+// MXCSR matches the Golang ABI, so we don't have to set that,
+// and Golang doesn't modify it, so we don't have to save it.
 #define PUSH_REGS_HOST_TO_ABI0()	\
 	PUSHFQ			\
 	CLD			\
@@ -73,10 +73,10 @@
 
 #define REGS_HOST_TO_ABI0_STACK (6*8)
 
-// SysV MXCSR matches the Go ABI, so we don't have to set that,
-// and Go doesn't modify it, so we don't have to save it.
-// Both SysV and Go require DF to be cleared, so that's already clear.
-// The SysV and Go frame pointer conventions are compatible.
+// SysV MXCSR matches the Golang ABI, so we don't have to set that,
+// and Golang doesn't modify it, so we don't have to save it.
+// Both SysV and Golang require DF to be cleared, so that's already clear.
+// The SysV and Golang frame pointer conventions are compatible.
 #define PUSH_REGS_HOST_TO_ABI0()	\
 	ADJSP	$(REGS_HOST_TO_ABI0_STACK)	\
 	MOVQ	BP, (5*8)(SP)	\

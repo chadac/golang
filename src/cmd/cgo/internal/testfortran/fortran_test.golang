@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ import (
 )
 
 func TestFortran(t *testing.T) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	testenv.MustHaveCGO(t)
 
 	// Find the FORTRAN compiler.
@@ -65,7 +65,7 @@ func TestFortran(t *testing.T) {
 
 	}
 
-	// Do a test build that doesn't involve Go FORTRAN support.
+	// Do a test build that doesn't involve Golang FORTRAN support.
 	fcArgs := append([]string{"testdata/helloworld/helloworld.f90", "-o", "/dev/null"}, fcExtra...)
 	t.Logf("%s %s", fc, fcArgs)
 	if err := exec.Command(fc, fcArgs...).Run(); err != nil {
@@ -75,7 +75,7 @@ func TestFortran(t *testing.T) {
 	// Finally, run the actual test.
 	t.Log("golang", "run", "./testdata/testprog")
 	var stdout, stderr strings.Builder
-	cmd := exec.Command(testenv.GoToolPath(t), "run", "./testdata/testprog")
+	cmd := exec.Command(testenv.GolangToolPath(t), "run", "./testdata/testprog")
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	err := cmd.Run()

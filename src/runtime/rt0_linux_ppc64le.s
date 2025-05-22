@@ -1,4 +1,4 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2016 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ TEXT _rt0_ppc64le_linux(SB),NOSPLIT,$0
 	BR _main<>(SB)
 
 TEXT _rt0_ppc64le_linux_lib(SB),NOSPLIT|NOFRAME,$0
-	// This is called with ELFv2 calling conventions. Convert to Go.
+	// This is called with ELFv2 calling conventions. Convert to Golang.
 	// Allocate argument storage for call to newosproc0.
 	STACK_AND_SAVE_HOST_TO_GO_ABI(16)
 

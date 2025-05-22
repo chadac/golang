@@ -1,4 +1,4 @@
-// Copyright © 2015 The Go Authors.  All rights reserved.
+// Copyright © 2015 The Golang Authors.  All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -156,12 +156,12 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	}
 
 	if ctxt.Flag_dynlink {
-		rewriteToUseGot(ctxt, p, newprog)
+		rewriteToUseGolangt(ctxt, p, newprog)
 	}
 }
 
 // Rewrite p, if necessary, to access global data via the global offset table.
-func rewriteToUseGot(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
+func rewriteToUseGolangt(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	if p.As == obj.ADUFFCOPY || p.As == obj.ADUFFZERO {
 		//     ADUFFxxx $offset
 		// becomes
@@ -199,7 +199,7 @@ func rewriteToUseGot(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	}
 
 	// We only care about global data: NAME_EXTERN means a global
-	// symbol in the Go sense and p.Sym.Local is true for a few internally
+	// symbol in the Golang sense and p.Sym.Local is true for a few internally
 	// defined symbols.
 	if p.From.Type == obj.TYPE_ADDR && p.From.Name == obj.NAME_EXTERN && !p.From.Sym.Local() {
 		// MOV $sym, Rx becomes MOV sym@GOT, Rx
@@ -3010,7 +3010,7 @@ func instructionsForTLS(p *obj.Prog, ins *instruction) []*instruction {
 		// TLS local-exec mode - load upper TLS offset, add the lower TLS offset,
 		// add the thread pointer register, then load from or store to the resulting
 		// memory location. Note that this differs from the suggested three
-		// instruction sequence, as the Go linker does not currently have an
+		// instruction sequence, as the Golang linker does not currently have an
 		// easy way to handle relocation across 12 bytes of machine code.
 		insLUI := &instruction{as: ALUI, rd: REG_TMP}
 		insADDIW := &instruction{as: AADDIW, rd: REG_TMP, rs1: REG_TMP}

@@ -1,4 +1,4 @@
-// Copyright 2024 The Go Authors. All rights reserved.
+// Copyright 2024 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -23,14 +23,14 @@ func Increment() {
 func incrementConfig() {
 	if !modload.WillBeEnabled() {
 		counter.Inc("golang/mode:golangpath")
-	} else if workfile := modload.FindGoWork(base.Cwd()); workfile != "" {
+	} else if workfile := modload.FindGolangWork(base.Cwd()); workfile != "" {
 		counter.Inc("golang/mode:workspace")
 	} else {
 		counter.Inc("golang/mode:module")
 	}
-	counter.Inc("golang/platform/target/golangos:" + cfg.Goos)
-	counter.Inc("golang/platform/target/golangarch:" + cfg.Goarch)
-	switch cfg.Goarch {
+	counter.Inc("golang/platform/target/golangos:" + cfg.Golangos)
+	counter.Inc("golang/platform/target/golangarch:" + cfg.Golangarch)
+	switch cfg.Golangarch {
 	case "386":
 		counter.Inc("golang/platform/target/golang386:" + cfg.GO386)
 	case "amd64":

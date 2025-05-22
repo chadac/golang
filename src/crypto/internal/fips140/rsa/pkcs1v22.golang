@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2013 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -446,7 +446,7 @@ func DecryptOAEP(hash, mgfHash hash.Hash, priv *PrivateKey, ciphertext []byte, l
 	// attacks like: J. Manger. A Chosen Ciphertext Attack on RSA Optimal
 	// Asymmetric Encryption Padding (OAEP) as Standardized in PKCS #1
 	// v2.0. In J. Kilian, editor, Advances in Cryptology.
-	lHash2Good := subtle.ConstantTimeCompare(lHash, lHash2)
+	lHash2Golangod := subtle.ConstantTimeCompare(lHash, lHash2)
 
 	// The remainder of the plaintext must be zero or more 0x00, followed
 	// by 0x01, followed by the message.
@@ -465,7 +465,7 @@ func DecryptOAEP(hash, mgfHash hash.Hash, priv *PrivateKey, ciphertext []byte, l
 		invalid = subtle.ConstantTimeSelect(lookingForIndex&^equals0, 1, invalid)
 	}
 
-	if firstByteIsZero&lHash2Good&^invalid&^lookingForIndex != 1 {
+	if firstByteIsZero&lHash2Golangod&^invalid&^lookingForIndex != 1 {
 		return nil, ErrDecryption
 	}
 

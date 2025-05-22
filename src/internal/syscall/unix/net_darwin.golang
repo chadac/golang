@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+// Copyright 2022 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -95,13 +95,13 @@ func GaiStrerror(ecode int) string {
 	r1, _, _ := syscall_syscall(abi.FuncPCABI0(libc_gai_strerror_trampoline),
 		uintptr(ecode),
 		0, 0)
-	return GoString((*byte)(unsafe.Pointer(r1)))
+	return GolangString((*byte)(unsafe.Pointer(r1)))
 }
 
 // Implemented in the runtime package.
 func golangstring(*byte) string
 
-func GoString(p *byte) string {
+func GolangString(p *byte) string {
 	return golangstring(p)
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -54,7 +54,7 @@ func testMain(m *testing.M) int {
 			return m.Run()
 		}
 	}
-	if !testenv.HasGoBuild() {
+	if !testenv.HasGolangBuild() {
 		// Checking for "golang build" is a proxy for whether or not we can run "golang env".
 		globalSkip = func(t *testing.T) { t.Skip("no golang build") }
 		return m.Run()
@@ -339,7 +339,7 @@ var (
 )
 
 func createHeadersOnce(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	testenv.MustHaveBuildMode(t, "c-shared")
 
@@ -381,13 +381,13 @@ package main
 
 import "C"
 
-//export GoFunc
-func GoFunc() {
+//export GolangFunc
+func GolangFunc() {
 	println(42)
 }
 
-//export GoFunc2
-func GoFunc2() {
+//export GolangFunc2
+func GolangFunc2() {
 	println(24)
 }
 
@@ -407,7 +407,7 @@ func main() {
 		argv = append(argv, "-ldflags", "-extldflags=-Wl,--export-all-symbols")
 	}
 	argv = append(argv, "-o", objfile, srcfile)
-	out, err := exec.Command(testenv.GoToolPath(t), argv...).CombinedOutput()
+	out, err := exec.Command(testenv.GolangToolPath(t), argv...).CombinedOutput()
 	if err != nil {
 		t.Fatalf("build failure: %s\n%s\n", err, string(out))
 	}
@@ -461,7 +461,7 @@ func TestNumberOfExportedFunctions(t *testing.T) {
 		t.Skip("skipping windows only test")
 	}
 	globalSkip(t)
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	testenv.MustHaveBuildMode(t, "c-shared")
 
@@ -511,7 +511,7 @@ func TestUnexportedSymbols(t *testing.T) {
 		t.Skipf("Skipping on %s", GOOS)
 	}
 	globalSkip(t)
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	testenv.MustHaveBuildMode(t, "c-shared")
 
@@ -582,7 +582,7 @@ func testSignalHandlers(t *testing.T, pkgname, cfile, cmd string) {
 		t.Skipf("Skipping on %s", GOOS)
 	}
 	globalSkip(t)
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	testenv.MustHaveBuildMode(t, "c-shared")
 
@@ -674,7 +674,7 @@ func TestPIE(t *testing.T) {
 // Test that installing a second time recreates the header file.
 func TestCachedInstall(t *testing.T) {
 	globalSkip(t)
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	testenv.MustHaveBuildMode(t, "c-shared")
 
@@ -769,23 +769,23 @@ func copyFile(t *testing.T, dst, src string) {
 	}
 }
 
-func TestGo2C2Go(t *testing.T) {
+func TestGolang2C2Golang(t *testing.T) {
 	switch GOOS {
 	case "darwin", "ios", "windows":
 		// Non-ELF shared libraries don't support the multiple
 		// copies of the runtime package implied by this test.
-		t.Skipf("linking c-shared into Go programs not supported on %s; issue 29061, 49457", GOOS)
+		t.Skipf("linking c-shared into Golang programs not supported on %s; issue 29061, 49457", GOOS)
 	case "android":
 		t.Skip("test fails on android; issue 29087")
 	}
 	globalSkip(t)
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	testenv.MustHaveBuildMode(t, "c-shared")
 
 	t.Parallel()
 
-	tmpdir, err := os.MkdirTemp("", "cshared-TestGo2C2Go")
+	tmpdir, err := os.MkdirTemp("", "cshared-TestGolang2C2Golang")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -836,7 +836,7 @@ func TestIssue36233(t *testing.T) {
 
 	t.Parallel()
 
-	// Test that the export header uses GoComplex64 and GoComplex128
+	// Test that the export header uses GolangComplex64 and GolangComplex128
 	// for complex types.
 
 	tmpdir, err := os.MkdirTemp("", "cshared-TestIssue36233")
@@ -854,10 +854,10 @@ func TestIssue36233(t *testing.T) {
 	}
 
 	funcs := []struct{ name, signature string }{
-		{"exportComplex64", "GoComplex64 exportComplex64(GoComplex64 v)"},
-		{"exportComplex128", "GoComplex128 exportComplex128(GoComplex128 v)"},
-		{"exportComplexfloat", "GoComplex64 exportComplexfloat(GoComplex64 v)"},
-		{"exportComplexdouble", "GoComplex128 exportComplexdouble(GoComplex128 v)"},
+		{"exportComplex64", "GolangComplex64 exportComplex64(GolangComplex64 v)"},
+		{"exportComplex128", "GolangComplex128 exportComplex128(GolangComplex128 v)"},
+		{"exportComplexfloat", "GolangComplex64 exportComplexfloat(GolangComplex64 v)"},
+		{"exportComplexdouble", "GolangComplex128 exportComplexdouble(GolangComplex128 v)"},
 	}
 
 	scanner := bufio.NewScanner(bytes.NewReader(data))
@@ -888,7 +888,7 @@ func TestIssue68411(t *testing.T) {
 	t.Parallel()
 
 	// Test that the export header uses a void function parameter for
-	// exported Go functions with no parameters.
+	// exported Golang functions with no parameters.
 
 	tmpdir := t.TempDir()
 
@@ -902,7 +902,7 @@ func TestIssue68411(t *testing.T) {
 
 	funcs := []struct{ name, signature string }{
 		{"exportFuncWithNoParams", "void exportFuncWithNoParams(void)"},
-		{"exportFuncWithParams", "exportFuncWithParams(GoInt a, GoInt b)"},
+		{"exportFuncWithParams", "exportFuncWithParams(GolangInt a, GolangInt b)"},
 	}
 
 	var found int

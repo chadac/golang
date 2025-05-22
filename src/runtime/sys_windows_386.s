@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -136,7 +136,7 @@ TEXT runtime·callbackasm1(SB),NOSPLIT,$0
 	PUSHL	BP
 	PUSHL	BX
 
-	// Go ABI requires DF flag to be cleared.
+	// Golang ABI requires DF flag to be cleared.
 	CLD
 
 	// determine index into runtime·cbs table

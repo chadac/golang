@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	testgen.Main(version.Go122, gen)
+	testgen.Main(version.Golang122, gen)
 }
 
 func gen(t *testgen.Trace) {
@@ -29,5 +29,5 @@ func gen(t *testgen.Trace) {
 
 	// Status event for a golangroutine blocked in a syscall for the entire generation.
 	bz := g.Batch(trace.NoThread, 0)
-	bz.Event("GoStatus", trace.GoID(1), trace.ThreadID(1), tracev2.GoSyscall)
+	bz.Event("GolangStatus", trace.GolangID(1), trace.ThreadID(1), tracev2.GolangSyscall)
 }

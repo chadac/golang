@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors. All rights reserved.
+// Copyright 2011 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -52,7 +52,7 @@ type PublicKey struct {
 	// use [crypto/ecdh]. For lower-level elliptic curve operations, use a
 	// third-party module like filippo.io/nistec.
 	//
-	// These fields will be deprecated in Go 1.26.
+	// These fields will be deprecated in Golang 1.26.
 	X, Y *big.Int
 }
 
@@ -178,7 +178,7 @@ type PrivateKey struct {
 	// or [x509.MarshalPKCS8PrivateKey] and [x509.ParsePKCS8PrivateKey].
 	// For ECDH, use [crypto/ecdh].
 	//
-	// This field will be deprecated in Go 1.26.
+	// This field will be deprecated in Golang 1.26.
 	D *big.Int
 }
 

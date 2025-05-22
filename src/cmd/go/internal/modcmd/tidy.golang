@@ -1,4 +1,4 @@
-// Copyright 2018 The Go Authors. All rights reserved.
+// Copyright 2018 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -42,11 +42,11 @@ with a non-zero code if the diff is not empty.
 The -golang flag causes tidy to update the 'golang' directive in the golang.mod
 file to the given version, which may change which module dependencies
 are retained as explicit requirements in the golang.mod file.
-(Go versions 1.17 and higher retain more requirements in order to
+(Golang versions 1.17 and higher retain more requirements in order to
 support lazy module loading.)
 
 The -compat flag preserves any additional checksums needed for the
-'golang' command from the indicated major Go release to successfully load
+'golang' command from the indicated major Golang release to successfully load
 the module graph, and causes tidy to error out if that version of the
 'golang' command would load any imported package from a different module
 version. By default, tidy acts as if the -compat flag were set to the
@@ -63,7 +63,7 @@ See https://golanglang.org/ref/mod#golang-mod-tidy for more about 'golang mod ti
 var (
 	tidyE      bool          // if true, report errors but proceed anyway.
 	tidyDiff   bool          // if true, do not update golang.mod or golang.sum and show changes. Return corresponding exit code.
-	tidyGo     golangVersionFlag // golang version to write to the tidied golang.mod file (toggles lazy loading)
+	tidyGolang     golangVersionFlag // golang version to write to the tidied golang.mod file (toggles lazy loading)
 	tidyCompat golangVersionFlag // golang version for which the tidied golang.mod and golang.sum files should be “compatible”
 )
 
@@ -72,13 +72,13 @@ func init() {
 	cmdTidy.Flag.BoolVar(&cfg.BuildX, "x", false, "")
 	cmdTidy.Flag.BoolVar(&tidyE, "e", false, "")
 	cmdTidy.Flag.BoolVar(&tidyDiff, "diff", false, "")
-	cmdTidy.Flag.Var(&tidyGo, "golang", "")
+	cmdTidy.Flag.Var(&tidyGolang, "golang", "")
 	cmdTidy.Flag.Var(&tidyCompat, "compat", "")
 	base.AddChdirFlag(&cmdTidy.Flag)
 	base.AddModCommonFlags(&cmdTidy.Flag)
 }
 
-// A golangVersionFlag is a flag.Value representing a supported Go version.
+// A golangVersionFlag is a flag.Value representing a supported Golang version.
 //
 // (Note that the -golang argument to 'golang mod edit' is *not* a golangVersionFlag.
 // It intentionally allows newer-than-supported versions as arguments.)
@@ -92,11 +92,11 @@ func (f *golangVersionFlag) Get() any       { return f.v }
 func (f *golangVersionFlag) Set(s string) error {
 	if s != "" {
 		latest := golangver.Local()
-		if !modfile.GoVersionRE.MatchString(s) {
-			return fmt.Errorf("expecting a Go version like %q", latest)
+		if !modfile.GolangVersionRE.MatchString(s) {
+			return fmt.Errorf("expecting a Golang version like %q", latest)
 		}
 		if golangver.Compare(s, latest) > 0 {
-			return fmt.Errorf("maximum supported Go version is %s", latest)
+			return fmt.Errorf("maximum supported Golang version is %s", latest)
 		}
 	}
 
@@ -122,16 +122,16 @@ func runTidy(ctx context.Context, cmd *base.Command, args []string) {
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
 
-	golangVersion := tidyGo.String()
+	golangVersion := tidyGolang.String()
 	if golangVersion != "" && golangver.Compare(golangver.Local(), golangVersion) < 0 {
 		toolchain.SwitchOrFatal(ctx, &golangver.TooNewError{
 			What:      "-golang flag",
-			GoVersion: golangVersion,
+			GolangVersion: golangVersion,
 		})
 	}
 
 	modload.LoadPackages(ctx, modload.PackageOpts{
-		TidyGoVersion:            tidyGo.String(),
+		TidyGolangVersion:            tidyGolang.String(),
 		Tags:                     imports.AnyTags(),
 		Tidy:                     true,
 		TidyDiff:                 tidyDiff,

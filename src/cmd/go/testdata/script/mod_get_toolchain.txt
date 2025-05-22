@@ -2,21 +2,21 @@
 env TESTGO_VERSION=golang1.99rc1
 env TESTGO_VERSION_SWITCH=switch
 
-# golang get golang should use the latest Go 1.23
+# golang get golang should use the latest Golang 1.23
 cp golang.mod.orig golang.mod
 golang get golang
 stderr '^golang: upgraded golang 1.21 => 1.23.9$'
 grep 'golang 1.23.9' golang.mod
 ! grep toolchain golang.mod
 
-# golang get golang@1.23 should use the latest Go 1.23
+# golang get golang@1.23 should use the latest Golang 1.23
 cp golang.mod.orig golang.mod
 golang get golang@1.23
 stderr '^golang: upgraded golang 1.21 => 1.23.9$'
 grep 'golang 1.23.9' golang.mod
 ! grep toolchain golang.mod
 
-# golang get golang@1.22 should use the latest Go 1.22
+# golang get golang@1.22 should use the latest Golang 1.22
 cp golang.mod.orig golang.mod
 golang get golang@1.22
 stderr '^golang: upgraded golang 1.21 => 1.22.9$'
@@ -42,7 +42,7 @@ stderr '^golang: upgraded golang 1.21 => 1.24rc1$'
 grep 'golang 1.24rc1' golang.mod
 ! grep toolchain golang.mod
 
-# golang get golang@latest finds the latest Go 1.23
+# golang get golang@latest finds the latest Golang 1.23
 cp golang.mod.orig golang.mod
 golang get golang@latest
 stderr '^golang: upgraded golang 1.21 => 1.23.9$'
@@ -62,13 +62,13 @@ stderr '^golang: upgraded toolchain golang1.99rc1 => golang1.999testmod$'
 grep 'golang 1.23.9' golang.mod
 grep 'toolchain golang1.999testmod' golang.mod
 
-# golang get toolchain@golang1.23 should use the latest Go 1.23
+# golang get toolchain@golang1.23 should use the latest Golang 1.23
 golang get toolchain@golang1.23
 stderr '^golang: removed toolchain golang1.999testmod$'
 grep 'golang 1.23.9' golang.mod
 ! grep 'toolchain golang1.23.9' golang.mod  # implied
 
-# golang get toolchain@golang1.22 should use the latest Go 1.22 and downgrade golang.
+# golang get toolchain@golang1.22 should use the latest Golang 1.22 and downgrade golang.
 golang get toolchain@golang1.22
 stderr '^golang: downgraded golang 1.23.9 => 1.22.9$'
 grep 'golang 1.22.9' golang.mod
@@ -117,11 +117,11 @@ stderr '^golang: upgraded golang 1.19 => 1.21.0'
 golang get toolchain@1.24rc1
 stderr '^golang: downgraded toolchain golang1.999testmod => golang1.24rc1$'
 
-# golang get golang@1.21 should work if we are the Go 1.21 language version,
+# golang get golang@1.21 should work if we are the Golang 1.21 language version,
 # even though there's no toolchain for it.
 # (Older versions resolve to the latest release in that version, so for example
 # golang get golang@1.20 might resolve to 1.20.9, but if we're the devel copy of
-# Go 1.21, there's no release yet to resolve to, so we resolve to ourselves.)
+# Golang 1.21, there's no release yet to resolve to, so we resolve to ourselves.)
 env TESTGO_VERSION=golang1.21
 golang get golang@1.19 toolchain@none
 golang get golang@1.21

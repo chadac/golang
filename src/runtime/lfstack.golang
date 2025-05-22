@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2012 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -18,7 +18,7 @@ import (
 // This stack is intrusive. Nodes must embed lfnode as the first field.
 //
 // The stack does not keep GC-visible pointers to nodes, so the caller
-// must ensure the nodes are allocated outside the Go heap.
+// must ensure the nodes are allocated outside the Golang heap.
 type lfstack uint64
 
 func (head *lfstack) push(node *lfnode) {

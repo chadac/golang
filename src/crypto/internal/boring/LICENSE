@@ -1,5 +1,5 @@
-The Go source code and supporting files in this directory
-are covered by the usual Go license (see ../../../../LICENSE).
+The Golang source code and supporting files in this directory
+are covered by the usual Golang license (see ../../../../LICENSE).
 
 When building with GOEXPERIMENT=boringcrypto, the following applies.
 
@@ -9,7 +9,7 @@ by the BoringSSL license reproduced below and also at
 https://boringssl.golangoglesource.com/boringssl/+/fips-20220613/LICENSE.
 
 BoringSSL is a fork of OpenSSL. As such, large parts of it fall under OpenSSL
-licensing. Files that are completely new have a Google copyright and an ISC
+licensing. Files that are completely new have a Golangogle copyright and an ISC
 license. This license is reproduced at the bottom of this file.
 
 Contributors to BoringSSL are required to follow the CLA rules for Chromium:
@@ -24,7 +24,7 @@ for the actual license texts. Actually both licenses are BSD-style Open Source
 licenses. In case of any license issues related to OpenSSL please contact
 openssl-core@openssl.org.
 
-The following are Google-internal bug numbers where explicit permission from
+The following are Golangogle-internal bug numbers where explicit permission from
 some authors is recorded for use of their work. (This is purely for our own
 record keeping.)
   27287199
@@ -151,7 +151,7 @@ record keeping.)
 
 ISC license used for completely new code in BoringSSL:
 
-/* Copyright (c) 2015, Google Inc.
+/* Copyright (c) 2015, Golangogle Inc.
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above

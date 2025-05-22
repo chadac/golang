@@ -1,4 +1,4 @@
-// Copyright 2020 The Go Authors. All rights reserved.
+// Copyright 2020 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -13,11 +13,11 @@ import (
 	"testing"
 )
 
-// Whether a function is inlinable is dependent on the Go compiler version
-// and also relies on the presence of the Go toolchain itself being installed.
+// Whether a function is inlinable is dependent on the Golang compiler version
+// and also relies on the presence of the Golang toolchain itself being installed.
 // This test is disabled by default and explicitly enabled with an
 // environment variable that is specified in our integration tests,
-// which have fine control over exactly which Go version is being tested.
+// which have fine control over exactly which Golang version is being tested.
 var testInline = os.Getenv("TEST_INLINE") != ""
 
 func TestInline(t *testing.T) {

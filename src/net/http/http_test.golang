@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors. All rights reserved.
+// Copyright 2014 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -51,9 +51,9 @@ func TestForeachHeaderElement(t *testing.T) {
 //
 // This catches accidental dependencies between the HTTP transport and
 // server code.
-func TestCmdGoNoHTTPServer(t *testing.T) {
+func TestCmdGolangNoHTTPServer(t *testing.T) {
 	t.Parallel()
-	golangBin := testenv.GoToolPath(t)
+	golangBin := testenv.GolangToolPath(t)
 	out, err := testenv.Command(t, golangBin, "tool", "nm", golangBin).CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang tool nm: %v: %s", err, out)
@@ -87,7 +87,7 @@ func TestOmitHTTP2(t *testing.T) {
 		t.Skip("skipping in short mode")
 	}
 	t.Parallel()
-	golangTool := testenv.GoToolPath(t)
+	golangTool := testenv.GolangToolPath(t)
 	out, err := testenv.Command(t, golangTool, "test", "-short", "-tags=nethttpomithttp2", "net/http").CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang test -short failed: %v, %s", err, out)
@@ -99,7 +99,7 @@ func TestOmitHTTP2(t *testing.T) {
 // The TestOmitHTTP2 test above actually runs tests (in long mode).
 func TestOmitHTTP2Vet(t *testing.T) {
 	t.Parallel()
-	golangTool := testenv.GoToolPath(t)
+	golangTool := testenv.GolangToolPath(t)
 	out, err := testenv.Command(t, golangTool, "vet", "-tags=nethttpomithttp2", "net/http").CombinedOutput()
 	if err != nil {
 		t.Fatalf("golang vet failed: %v, %s", err, out)

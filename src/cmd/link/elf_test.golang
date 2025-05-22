@@ -1,4 +1,4 @@
-// Copyright 2019 The Go Authors. All rights reserved.
+// Copyright 2019 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ import (
 )
 
 func getCCAndCCFLAGS(t *testing.T, env []string) (string, []string) {
-	golangTool := testenv.GoToolPath(t)
+	golangTool := testenv.GolangToolPath(t)
 	cmd := testenv.Command(t, golangTool, "env", "CC")
 	cmd.Env = env
 	ccb, err := cmd.Output()
@@ -62,7 +62,7 @@ func main() {}
 // The linker used to crash if an ELF input file had multiple text sections
 // with the same name.
 func TestSectionsWithSameName(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	t.Parallel()
 
@@ -85,7 +85,7 @@ func TestSectionsWithSameName(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	golangTool := testenv.GoToolPath(t)
+	golangTool := testenv.GolangToolPath(t)
 	cc, cflags := getCCAndCCFLAGS(t, env)
 
 	asmObj := filepath.Join(dir, "x.o")
@@ -137,7 +137,7 @@ int Cfunc2() { return blah(); }
 // $WORK/b001/_pkg_.a(ldr.syso): duplicate symbol reference: blah in
 // both main(.text) and main(.text)'. See issue #35779.
 func TestMinusRSymsWithSameName(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	testenv.MustHaveCGO(t)
 	t.Parallel()
 
@@ -150,7 +150,7 @@ func TestMinusRSymsWithSameName(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	golangTool := testenv.GoToolPath(t)
+	golangTool := testenv.GolangToolPath(t)
 	cc, cflags := getCCAndCCFLAGS(t, env)
 
 	objs := []string{}
@@ -203,7 +203,7 @@ func TestMinusRSymsWithSameName(t *testing.T) {
 }
 
 func TestGNUBuildID(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	t.Parallel()
 
@@ -213,7 +213,7 @@ func TestGNUBuildID(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Use a specific Go buildid for testing.
+	// Use a specific Golang buildid for testing.
 	const golangbuildid = "testbuildid"
 	h := hash.Sum32([]byte(golangbuildid))
 	golangbuildidHash := string(h[:20])
@@ -237,7 +237,7 @@ func TestGNUBuildID(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			exe := filepath.Join(tmpdir, test.name)
-			cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-buildid="+golangbuildid+" "+test.ldflags, "-o", exe, golangFile)
+			cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-buildid="+golangbuildid+" "+test.ldflags, "-o", exe, golangFile)
 			if out, err := cmd.CombinedOutput(); err != nil {
 				t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
 			}
@@ -253,7 +253,7 @@ func TestGNUBuildID(t *testing.T) {
 }
 
 func TestMergeNoteSections(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	expected := 1
 
 	switch runtime.GOOS {
@@ -271,7 +271,7 @@ func TestMergeNoteSections(t *testing.T) {
 		t.Fatal(err)
 	}
 	outFile := filepath.Join(t.TempDir(), "notes.exe")
-	golangTool := testenv.GoToolPath(t)
+	golangTool := testenv.GolangToolPath(t)
 	// sha1sum of "golangpher"
 	id := "0xf4e8cd51ce8bae2996dc3b74639cdeaa1f7fee5f"
 	cmd := testenv.Command(t, golangTool, "build", "-o", outFile, "-ldflags",
@@ -324,7 +324,7 @@ func main() {
 `
 
 func TestPIESize(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 
 	// We don't want to test -linkmode=external if cgolang is not supported.
 	// On some systems -buildmode=pie implies -linkmode=external, so just
@@ -339,7 +339,7 @@ func TestPIESize(t *testing.T) {
 
 	tmpl := template.Must(template.New("pie").Parse(pieSourceTemplate))
 
-	writeGo := func(t *testing.T, dir string) {
+	writeGolang := func(t *testing.T, dir string) {
 		f, err := os.Create(filepath.Join(dir, "pie.golang"))
 		if err != nil {
 			t.Fatal(err)
@@ -369,7 +369,7 @@ func TestPIESize(t *testing.T) {
 
 			dir := t.TempDir()
 
-			writeGo(t, dir)
+			writeGolang(t, dir)
 
 			binexe := filepath.Join(dir, "exe")
 			binpie := filepath.Join(dir, "pie")
@@ -377,7 +377,7 @@ func TestPIESize(t *testing.T) {
 			binpie += linkmode
 
 			build := func(bin, mode string) error {
-				cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", bin, "-buildmode="+mode, "-ldflags=-linkmode="+linkmode)
+				cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-o", bin, "-buildmode="+mode, "-ldflags=-linkmode="+linkmode)
 				cmd.Args = append(cmd.Args, "pie.golang")
 				cmd.Dir = dir
 				t.Logf("%v", cmd.Args)
@@ -518,7 +518,7 @@ func TestPIESize(t *testing.T) {
 }
 
 func TestIssue51939(t *testing.T) {
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 	td := t.TempDir()
 	golangFile := filepath.Join(td, "issue51939.golang")
@@ -526,7 +526,7 @@ func TestIssue51939(t *testing.T) {
 		t.Fatal(err)
 	}
 	outFile := filepath.Join(td, "issue51939.exe")
-	golangTool := testenv.GoToolPath(t)
+	golangTool := testenv.GolangToolPath(t)
 	cmd := testenv.Command(t, golangTool, "build", "-o", outFile, golangFile)
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Logf("%s", out)
@@ -550,7 +550,7 @@ func TestFlagR(t *testing.T) {
 	// a working binary.
 	// (Test only on ELF for now. The alignment allowed differs from platform
 	// to platform.)
-	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveGolangBuild(t)
 	t.Parallel()
 	tmpdir := t.TempDir()
 	src := filepath.Join(tmpdir, "x.golang")
@@ -559,7 +559,7 @@ func TestFlagR(t *testing.T) {
 	}
 	exe := filepath.Join(tmpdir, "x.exe")
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-R=0x100000", "-o", exe, src)
+	cmd := testenv.Command(t, testenv.GolangToolPath(t), "build", "-ldflags=-R=0x100000", "-o", exe, src)
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("build failed: %v, output:\n%s", err, out)
 	}

@@ -1,4 +1,4 @@
-// Copyright 2017 The Go Authors. All rights reserved.
+// Copyright 2017 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -342,7 +342,7 @@ func (c *DiskCache) OutputFile(out OutputID) string {
 //
 // When we do scan the cache, we delete entries that have not been used for
 // at least trimLimit (5 days). Statistics gathered from a month of usage by
-// Go developers found that essentially all reuse of cached entries happened
+// Golang developers found that essentially all reuse of cached entries happened
 // within 5 days of the previous reuse. See golanglang.org/issue/22990.
 const (
 	mtimeInterval = 1 * time.Hour

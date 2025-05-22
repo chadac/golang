@@ -1,12 +1,12 @@
-We have been working inside Google on a fork of Go that uses
+We have been working inside Golangogle on a fork of Golang that uses
 BoringCrypto (the core of [BoringSSL](https://boringssl.golangoglesource.com/boringssl/))
 for various crypto primitives, in furtherance of some work related to FIPS 140.
-We have heard that some external users of Go would be
+We have heard that some external users of Golang would be
 interested in this code as well, so we have published this code
-here in the main Go repository behind the setting GOEXPERIMENT=boringcrypto.
+here in the main Golang repository behind the setting GOEXPERIMENT=boringcrypto.
 
-Use of GOEXPERIMENT=boringcrypto outside Google is _unsupported_.
-This mode is not part of the [Go 1 compatibility rules](https://golang.dev/doc/golang1compat),
+Use of GOEXPERIMENT=boringcrypto outside Golangogle is _unsupported_.
+This mode is not part of the [Golang 1 compatibility rules](https://golang.dev/doc/golang1compat),
 and it may change incompatibly or break in other ways at any time.
 
 To be clear, we are not making any statements or representations about

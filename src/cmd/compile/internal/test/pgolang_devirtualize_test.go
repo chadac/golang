@@ -1,4 +1,4 @@
-// Copyright 2023 The Go Authors. All rights reserved.
+// Copyright 2023 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -24,7 +24,7 @@ const preProfFileName = "devirt.pprof.node_map"
 
 // testPGODevirtualize tests that specific PGO devirtualize rewrites are performed.
 func testPGODevirtualize(t *testing.T, dir string, want, nowant []devirtualization, pgolangProfileName string) {
-	testenv.MustHaveGoRun(t)
+	testenv.MustHaveGolangRun(t)
 	t.Parallel()
 
 	const pkg = "example.com/pgolang/devirtualize"
@@ -39,7 +39,7 @@ golang 1.21
 
 	// Run the test without PGO to ensure that the test assertions are
 	// correct even in the non-optimized version.
-	cmd := testenv.CleanCmdEnv(testenv.Command(t, testenv.GoToolPath(t), "test", "."))
+	cmd := testenv.CleanCmdEnv(testenv.Command(t, testenv.GolangToolPath(t), "test", "."))
 	cmd.Dir = dir
 	b, err := cmd.CombinedOutput()
 	t.Logf("Test without PGO:\n%s", b)
@@ -51,7 +51,7 @@ golang 1.21
 	pprof := filepath.Join(dir, pgolangProfileName)
 	gcflag := fmt.Sprintf("-gcflags=-m=2 -pgolangprofile=%s -d=pgolangdebug=3", pprof)
 	out := filepath.Join(dir, "test.exe")
-	cmd = testenv.CleanCmdEnv(testenv.Command(t, testenv.GoToolPath(t), "test", "-o", out, gcflag, "."))
+	cmd = testenv.CleanCmdEnv(testenv.Command(t, testenv.GolangToolPath(t), "test", "-o", out, gcflag, "."))
 	cmd.Dir = dir
 
 	pr, pw, err := os.Pipe()

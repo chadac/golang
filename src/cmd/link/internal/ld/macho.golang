@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors. All rights reserved.
+// Copyright 2009 The Golang Authors. All rights reserved.
 // Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -431,7 +431,7 @@ func (ctxt *Link) domacho() {
 				// Having too old a version here was also implicated in some problems
 				// calling into macOS libraries (golang.dev/issue/56784).
 				// CL 460476 noted that in general this can be the most recent supported
-				// macOS version, but we haven't tested if golanging higher than Go's oldest
+				// macOS version, but we haven't tested if golanging higher than Golang's oldest
 				// supported macOS version could cause new problems.
 				version = 12<<16 | 0<<8 | 0<<0 // 12.0.0
 			}
@@ -513,7 +513,7 @@ func (ctxt *Link) domacho() {
 			// Most of these are data symbols or C
 			// symbols, so they have symbol version 0.
 			ver := 0
-			// _cgolang_panic is a Go function, so it uses ABIInternal.
+			// _cgolang_panic is a Golang function, so it uses ABIInternal.
 			if name == "_cgolang_panic" {
 				ver = abiInternalVer
 			}
@@ -600,9 +600,9 @@ func machoshbits(ctxt *Link, mseg *MachoSeg, sect *sym.Section, segname string) 
 	}
 
 	// Some platforms such as watchOS and tvOS require binaries with
-	// bitcode enabled. The Go toolchain can't output bitcode, so use
+	// bitcode enabled. The Golang toolchain can't output bitcode, so use
 	// a marker section in the __LLVM segment, "__asm", to tell the Apple
-	// toolchain that the Go text came from assembler and thus has no
+	// toolchain that the Golang text came from assembler and thus has no
 	// bitcode. This is not true, but Kotlin/Native, Rust and Flutter
 	// are also using this trick.
 	if sect.Name == ".llvmasm" {
@@ -809,7 +809,7 @@ func asmbMacho(ctxt *Link) {
 				buildinfo = append(buildinfo, make([]byte, 16)...)
 			}
 			// By default, buildinfo is already in UUIDv3 format
-			// (see uuidFromGoBuildId).
+			// (see uuidFromGolangBuildId).
 			ml.data[0] = ctxt.Arch.ByteOrder.Uint32(buildinfo)
 			ml.data[1] = ctxt.Arch.ByteOrder.Uint32(buildinfo[4:])
 			ml.data[2] = ctxt.Arch.ByteOrder.Uint32(buildinfo[8:])
@@ -865,12 +865,12 @@ func collectmachosyms(ctxt *Link) {
 	// So *FlagS is applied based on symbol type.
 
 	// Add special runtime.text and runtime.etext symbols (which are local).
-	// We've already included this symbol in Textp on darwin if ctxt.DynlinkingGo().
+	// We've already included this symbol in Textp on darwin if ctxt.DynlinkingGolang().
 	// See data.golang:/textaddress
 	// NOTE: runtime.text.N symbols (if we split text sections) are not added, though,
 	// so we handle them here.
 	if !*FlagS {
-		if !ctxt.DynlinkingGo() {
+		if !ctxt.DynlinkingGolang() {
 			s := ldr.Lookup("runtime.text", 0)
 			if ldr.SymType(s).IsText() {
 				addsym(s)
@@ -884,7 +884,7 @@ func collectmachosyms(ctxt *Link) {
 				break
 			}
 		}
-		if !ctxt.DynlinkingGo() {
+		if !ctxt.DynlinkingGolang() {
 			s := ldr.Lookup("runtime.etext", 0)
 			if ldr.SymType(s).IsText() {
 				addsym(s)
@@ -1002,7 +1002,7 @@ func AddMachoSym(ldr *loader.Loader, s loader.Sym) {
 // When dynamically linking, all non-local variables and plugin-exported
 // symbols need to be exported.
 func machoShouldExport(ctxt *Link, ldr *loader.Loader, s loader.Sym) bool {
-	if !ctxt.DynlinkingGo() || ldr.AttrLocal(s) {
+	if !ctxt.DynlinkingGolang() || ldr.AttrLocal(s) {
 		return false
 	}
 	if ctxt.BuildMode == BuildModePlugin && strings.HasPrefix(ldr.SymExtname(s), objabi.PathToPrefix(*flagPluginPath)) {
@@ -1036,7 +1036,7 @@ func machosymtab(ctxt *Link) {
 
 		// Prefix symbol names with "_" to match the system toolchain.
 		// (We used to only prefix C symbols, which is all required for the build.
-		// But some tools don't recognize Go symbols as symbols, so we prefix them
+		// But some tools don't recognize Golang symbols as symbols, so we prefix them
 		// as well.)
 		symstr.AddUint8('_')
 
@@ -1130,13 +1130,13 @@ func doMachoLink(ctxt *Link) int64 {
 	size := ldr.SymSize(s1) + ldr.SymSize(s2) + ldr.SymSize(s3) + ldr.SymSize(s4) + ldr.SymSize(s5) + ldr.SymSize(s6)
 
 	// Force the linkedit section to end on a 16-byte
-	// boundary. This allows pure (non-cgolang) Go binaries
+	// boundary. This allows pure (non-cgolang) Golang binaries
 	// to be code signed correctly.
 	//
 	// Apple's codesign_allocate (a helper utility for
 	// the codesign utility) can do this fine itself if
 	// it is run on a dynamic Mach-O binary. However,
-	// when it is run on a pure (non-cgolang) Go binary, where
+	// when it is run on a pure (non-cgolang) Golang binary, where
 	// the linkedit section is mostly empty, it fails to
 	// account for the extra padding that it itself adds
 	// when adding the LC_CODE_SIGNATURE load command
